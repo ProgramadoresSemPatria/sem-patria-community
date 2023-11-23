@@ -1,14 +1,15 @@
 import Link from "next/link";
 import * as React from "react";
 
-import { Icons } from "@/components/icons";
-import { MainNavItemProps } from "@/components/main-nav/types";
+import appLogo from "@/assets/logo.svg";
 import { useLockBody } from "@/hooks/use-lock-body";
 import { appConfig } from "@/lib/constants";
+import { RouteProps } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 type MobileNavProps = {
-  items: MainNavItemProps[];
+  items: RouteProps[];
   children?: React.ReactNode;
 };
 
@@ -23,7 +24,7 @@ const MobileNav = ({ items, children }: MobileNavProps) => {
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
         <Link href="/" className="flex items-center space-x-2">
-          <Icons.darkMode />
+          <Image src={appLogo} alt="Logo" height={40} width={40} />
           <span className="font-bold">{appConfig.name}</span>
         </Link>
         <nav className="grid grid-flow-row auto-rows-max text-sm">
@@ -36,7 +37,7 @@ const MobileNav = ({ items, children }: MobileNavProps) => {
                 item.disabled && "cursor-not-allowed opacity-60"
               )}
             >
-              {item.title}
+              {item.label}
             </Link>
           ))}
         </nav>

@@ -1,62 +1,77 @@
 "use client";
 
 import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
+import { usePathname } from "next/navigation";
 import * as React from "react";
 
 import appLogo from "@/assets/logo.svg";
 import { Icons } from "@/components/icons";
 import MobileNav from "@/components/mobile-nav";
+import { RouteProps } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { MainNavItemProps } from "./types";
 
 type MainNavProps = {
-  items?: MainNavItemProps[];
   children?: React.ReactNode;
 };
 
-const MainNav = ({ items, children }: MainNavProps) => {
-  const segment = useSelectedLayoutSegment();
+const MainNav = ({ children }: MainNavProps) => {
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
+  const pathname = usePathname();
+
+  const routes: RouteProps[] = [
+    {
+      href: `/`,
+      label: "Dashboard",
+      active: pathname === `/`,
+    },
+    {
+      href: `/notes`,
+      label: "Notes",
+      active: pathname === `/notes`,
+    },
+    {
+      href: `/settings/appearance`,
+      label: "Settings",
+      active: pathname === `/settings`,
+    },
+  ];
+
   return (
-    <div className="flex gap-6 md:gap-10">
-      <Link href="/" className="hidden items-center space-x-2 md:flex">
+    <div className="flex gap-6 md:gap-8 items-center">
+      <Link href="/" className="hidden items-center space-x-2 md:flex mr-4">
         <Image src={appLogo} alt="Logo" height={40} width={40} />
         <span className="hidden font-bold sm:inline-block text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-cyan-400">
           Comunidade Sem Pátria
         </span>
       </Link>
-      {items?.length ? (
-        <nav className="hidden gap-6 md:flex">
-          {items?.map((item, index) => (
-            <Link
-              key={index}
-              href={item.disabled ? "#" : item.href}
-              className={cn(
-                "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
-                item.href.startsWith(`/${segment}`)
-                  ? "text-foreground"
-                  : "text-foreground/60",
-                item.disabled && "cursor-not-allowed opacity-80"
-              )}
-            >
-              {item.title}
-            </Link>
-          ))}
-        </nav>
-      ) : null}
+      {routes.map((route) => (
+        <Link
+          key={route.href}
+          href={route.href}
+          className={cn(
+            "hidden md:flex text-sm font-medium transition-colors hover:text-primary",
+            route.active
+              ? "text-black dark:text-primary"
+              : "text-muted-foreground"
+          )}
+        >
+          {route.label}
+        </Link>
+      ))}
       <button
         className="flex items-center space-x-2 md:hidden"
         onClick={() => setShowMobileMenu(!showMobileMenu)}
       >
-        {showMobileMenu ? <Icons.close /> : <Icons.darkMode />}
+        {showMobileMenu ? (
+          <Icons.close className="h-5 w-5" />
+        ) : (
+          <Icons.menu className="h-5 w-5" />
+        )}
         <span className="font-bold">Menu</span>
       </button>
-      {showMobileMenu && items && (
-        <MobileNav items={items}>{children}</MobileNav>
-      )}
+      {showMobileMenu && <MobileNav items={routes}>{children}</MobileNav>}
     </div>
   );
 };

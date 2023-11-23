@@ -1,4 +1,16 @@
-import { ArrowRight, Home, LucideIcon, Moon, Sun, X } from "lucide-react";
+import {
+  ArrowRight,
+  ChevronDown,
+  ChevronRight,
+  File,
+  Home,
+  LucideIcon,
+  Menu,
+  Moon,
+  Sun,
+  User,
+  X,
+} from "lucide-react";
 
 export type IconType = LucideIcon;
 
@@ -6,6 +18,10 @@ export const Icons = {
   lightMode: Sun,
   darkMode: Moon,
   close: X,
-  arrowRight: ArrowRight,
+  arrowRight: ChevronRight,
+  arrowDown: ChevronDown,
   home: Home,
+  file: File,
+  user: User,
+  menu: Menu
 };

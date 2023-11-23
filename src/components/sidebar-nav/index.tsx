@@ -21,6 +21,7 @@ const SidebarNav = ({ items }: SidebarNavProps) => {
   return (
     <nav className="grid items-start gap-2">
       {items.map((item, index) => {
+        const Icon = Icons[item.icon || "arrowRight"];
         return (
           item.href && (
             <Link key={index} href={item.disabled ? "/" : item.href}>
@@ -31,11 +32,7 @@ const SidebarNav = ({ items }: SidebarNavProps) => {
                   item.disabled && "cursor-not-allowed opacity-80"
                 )}
               >
-                {item.icon ? (
-                  item.icon
-                ) : (
-                  <Icons.arrowRight className="mr-2 h-4 w-4" />
-                )}
+                <Icon className="mr-2 h-4 w-4" />
                 <span>{item.title}</span>
               </span>
             </Link>

@@ -7,7 +7,6 @@ import * as React from "react";
 import appLogo from "@/assets/logo.svg";
 import { Icons } from "@/components/icons";
 import MobileNav from "@/components/mobile-nav";
-import { appConfig } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { MainNavItemProps } from "./types";
@@ -25,8 +24,8 @@ const MainNav = ({ items, children }: MainNavProps) => {
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="hidden items-center space-x-2 md:flex">
         <Image src={appLogo} alt="Logo" height={40} width={40} />
-        <span className="hidden font-bold sm:inline-block">
-          {appConfig.name}
+        <span className="hidden font-bold sm:inline-block text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-cyan-400">
+          Comunidade Sem Pátria
         </span>
       </Link>
       {items?.length ? (

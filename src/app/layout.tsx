@@ -1,11 +1,11 @@
 import { appConfig } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/providers/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
+import { AppProviders } from "@/providers/app-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,14 +40,7 @@ export default function RootLayout({
             inter.className
           )}
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
+          <AppProviders>{children}</AppProviders>
         </body>
       </html>
     </ClerkProvider>

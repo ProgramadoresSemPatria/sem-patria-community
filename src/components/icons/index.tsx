@@ -1,12 +1,15 @@
 import {
-  ArrowRight,
+  Bot,
   ChevronDown,
   ChevronRight,
+  Code,
   File,
   Home,
+  Loader2,
   LucideIcon,
   Menu,
   Moon,
+  SlidersHorizontal,
   Sun,
   User,
   X
@@ -23,5 +26,9 @@ export const Icons = {
   home: Home,
   file: File,
   user: User,
-  menu: Menu
+  menu: Menu,
+  settings: SlidersHorizontal,
+  bot: Bot,
+  loader: Loader2,
+  resources: Code
 }

@@ -3,18 +3,28 @@ import * as React from 'react'
 
 import appLogo from '@/assets/logo.svg'
 import { useLockBody } from '@/hooks/use-lock-body'
-import { appConfig } from '@/lib/constants'
+import { appConfig, appRoutes } from '@/lib/constants'
 import { RouteProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 
 type MobileNavProps = {
-  items: RouteProps[]
   children?: React.ReactNode
 }
 
-const MobileNav = ({ items, children }: MobileNavProps) => {
+const MobileNav = ({ children }: MobileNavProps) => {
   useLockBody()
+
+  const items: RouteProps[] = [
+    {
+      href: appRoutes.dashboard,
+      label: 'Dashboard'
+    },
+    {
+      href: appRoutes.settings,
+      label: 'Settings'
+    }
+  ]
 
   return (
     <div

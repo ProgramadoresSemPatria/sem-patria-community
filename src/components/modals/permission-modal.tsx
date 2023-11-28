@@ -2,6 +2,7 @@
 
 import { Modal } from '@/components/ui/modal'
 import { usePermissionModal } from '@/hooks/use-modal'
+import { appRoutes } from '@/lib/constants'
 import { useClerk } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
@@ -25,7 +26,7 @@ export const PermissionModal = () => {
         <div className="flex flex-col gap-y-2 mt-6">
           <Button
             variant="secondary"
-            onClick={() => signOut(() => router.push('/sign-in'))}
+            onClick={() => signOut(() => router.push(appRoutes.signIn))}
           >
             Ok, I get it
           </Button>

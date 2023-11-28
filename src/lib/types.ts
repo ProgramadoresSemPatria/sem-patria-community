@@ -3,4 +3,5 @@ export type RouteProps = {
   label: string
   active?: boolean
   disabled?: boolean
+  icon?: React.ReactNode
 }

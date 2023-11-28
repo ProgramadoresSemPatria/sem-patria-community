@@ -1,6 +1,8 @@
 import { getCheckMembership } from '@/actions/get-check-membership'
 import MainNav from '@/components/main-nav'
-import { UserButton, currentUser } from '@clerk/nextjs'
+import TopBar from '@/components/top-bar'
+import { appRoutes } from '@/lib/constants'
+import { currentUser } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
 
 export default async function PrivateLayout({
@@ -9,21 +11,22 @@ export default async function PrivateLayout({
   children: React.ReactNode
 }) {
   const user = await currentUser()
-  if (!user || !user.username) return redirect('/sign-in')
+  if (!user || !user.username) return redirect(appRoutes.signIn)
 
   const isMemberOfOrg = await getCheckMembership(user.username)
 
   if (!isMemberOfOrg) return redirect('/')
 
   return (
-    <div className="flex min-h-screen flex-col space-y-6">
-      <header className="sticky top-0 z-40 border-b bg-background">
-        <div className="container flex h-16 items-center justify-between py-4">
-          <MainNav />
-          <UserButton afterSignOutUrl="/sign-in" />
+    <div className="flex min-h-screen">
+      <MainNav />
+
+      <main className="w-full">
+        <TopBar />
+        <div className="container h-[calc(100vh-60px)] overflow-auto pb-10">
+          {children}
         </div>
-      </header>
-      {children}
+      </main>
     </div>
   )
 }

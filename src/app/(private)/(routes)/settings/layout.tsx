@@ -1,6 +1,7 @@
 import Header from '@/components/header'
+import NavOptions from '@/components/nav-options'
 import { Separator } from '@/components/ui/separator'
-import { SettingsOptions } from './components/settings-options'
+import { settingOptions } from '@/lib/constants'
 
 type SettingsLayoutProps = {
   children?: React.ReactNode
@@ -12,12 +13,9 @@ export default async function SettingsLayout({
   return (
     <>
       <div className="container">
-        <Header
-          title="Settings"
-          description="Manage your account settings."
-        />
+        <Header title="Settings" description="Manage your account settings." />
         <Separator className="my-6" />
-        <SettingsOptions />
+        <NavOptions options={settingOptions} />
         <div className="mt-8">{children}</div>
       </div>
     </>

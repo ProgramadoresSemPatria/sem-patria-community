@@ -4,8 +4,10 @@ import {
   ChevronRight,
   Code,
   File,
+  Globe,
   Home,
   Loader2,
+  LogOut,
   LucideIcon,
   Menu,
   Moon,
@@ -30,5 +32,7 @@ export const Icons = {
   settings: SlidersHorizontal,
   bot: Bot,
   loader: Loader2,
-  resources: Code
+  resources: Code,
+  signOut: LogOut,
+  globe: Globe
 }

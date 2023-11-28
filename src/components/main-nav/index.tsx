@@ -28,7 +28,7 @@ const MainNav = ({ children }: MainNavProps) => {
       icon: <Icons.home className="h-4 w-4" />
     },
     {
-      href: appRoutes.resources,
+      href: `${appRoutes.resources}?filter=all`,
       label: 'Resources',
       active: pathname === appRoutes.resources,
       icon: <Icons.resources className="h-4 w-4" />
@@ -52,7 +52,9 @@ const MainNav = ({ children }: MainNavProps) => {
           <span className="hidden text-sm font-bold sm:inline-block text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-cyan-400">
             Sem Pátria
           </span>
-          <span className='font-light tracking-widest text-muted-foreground opacity-75'>COMM</span>
+          <span className="font-light tracking-widest text-muted-foreground opacity-75">
+            COMM
+          </span>
         </Link>
       </div>
       <nav className="mt-6 flex-1">

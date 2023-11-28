@@ -1,32 +1,32 @@
-"use client";
+'use client'
 
-import React from "react";
+import React from 'react'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
+  DialogDescription
+} from '@/components/ui/dialog'
 
 type ModalProps = {
-  title: string;
-  description: string;
-  isOpen: boolean;
-  children: React.ReactNode;
-  onClose: () => void;
-};
+  title: string
+  description: string
+  isOpen: boolean
+  children: React.ReactNode
+  onClose: () => void
+}
 
 export const Modal = ({
   title,
   description,
   isOpen,
   onClose,
-  children,
+  children
 }: ModalProps) => {
   const onChange = (open: boolean) => {
-    if (!open) onClose();
-  };
+    if (!open) onClose()
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>
@@ -38,5 +38,5 @@ export const Modal = ({
         <div>{children}</div>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}

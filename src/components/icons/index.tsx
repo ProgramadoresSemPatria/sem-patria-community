@@ -9,10 +9,10 @@ import {
   Moon,
   Sun,
   User,
-  X,
-} from "lucide-react";
+  X
+} from 'lucide-react'
 
-export type IconType = LucideIcon;
+export type IconType = LucideIcon
 
 export const Icons = {
   lightMode: Sun,
@@ -24,4 +24,4 @@ export const Icons = {
   file: File,
   user: User,
   menu: Menu
-};
+}

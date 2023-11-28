@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -12,41 +12,41 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { toast } from "@/components/ui/use-toast";
-import { useTheme } from "next-themes";
+  FormMessage
+} from '@/components/ui/form'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { toast } from '@/components/ui/use-toast'
+import { useTheme } from 'next-themes'
 
 const appearanceFormSchema = z.object({
-  theme: z.enum(["light", "dark", "system"], {
-    required_error: "Please select a theme.",
-  }),
-});
+  theme: z.enum(['light', 'dark', 'system'], {
+    required_error: 'Please select a theme.'
+  })
+})
 
-type AppearanceFormValues = z.infer<typeof appearanceFormSchema>;
+type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
 
 const defaultValues: Partial<AppearanceFormValues> = {
-  theme: "system",
-};
+  theme: 'system'
+}
 
 export const AppearanceForm = () => {
-  const { setTheme } = useTheme();
+  const { setTheme } = useTheme()
   const form = useForm<AppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
-    defaultValues,
-  });
+    defaultValues
+  })
 
   function onSubmit(data: AppearanceFormValues) {
-    setTheme(data.theme);
+    setTheme(data.theme)
     toast({
-      title: "You submitted the following values:",
+      title: 'You submitted the following values:',
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
-      ),
-    });
+      )
+    })
   }
 
   return (
@@ -153,5 +153,5 @@ export const AppearanceForm = () => {
         <Button type="submit">Update preferences</Button>
       </form>
     </Form>
-  );
-};
+  )
+}

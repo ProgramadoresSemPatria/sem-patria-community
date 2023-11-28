@@ -1,42 +1,42 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import * as React from "react";
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import * as React from 'react'
 
-import appLogo from "@/assets/logo.svg";
-import { Icons } from "@/components/icons";
-import MobileNav from "@/components/mobile-nav";
-import { RouteProps } from "@/lib/types";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
+import appLogo from '@/assets/logo.svg'
+import { Icons } from '@/components/icons'
+import MobileNav from '@/components/mobile-nav'
+import { RouteProps } from '@/lib/types'
+import { cn } from '@/lib/utils'
+import Image from 'next/image'
 
 type MainNavProps = {
-  children?: React.ReactNode;
-};
+  children?: React.ReactNode
+}
 
 const MainNav = ({ children }: MainNavProps) => {
-  const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
+  const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false)
 
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   const routes: RouteProps[] = [
     {
       href: `/`,
-      label: "Dashboard",
-      active: pathname === `/`,
+      label: 'Dashboard',
+      active: pathname === `/`
     },
     {
       href: `/notes`,
-      label: "Notes",
-      active: pathname === `/notes`,
+      label: 'Notes',
+      active: pathname === `/notes`
     },
     {
       href: `/settings/appearance`,
-      label: "Settings",
-      active: pathname === `/settings`,
-    },
-  ];
+      label: 'Settings',
+      active: pathname === `/settings`
+    }
+  ]
 
   return (
     <div className="flex gap-6 md:gap-8 items-center">
@@ -46,15 +46,15 @@ const MainNav = ({ children }: MainNavProps) => {
           Comunidade Sem Pátria
         </span>
       </Link>
-      {routes.map((route) => (
+      {routes.map(route => (
         <Link
           key={route.href}
           href={route.href}
           className={cn(
-            "hidden md:flex text-sm font-medium transition-colors hover:text-primary",
+            'hidden md:flex text-sm font-medium transition-colors hover:text-primary',
             route.active
-              ? "text-black dark:text-primary"
-              : "text-muted-foreground"
+              ? 'text-black dark:text-primary'
+              : 'text-muted-foreground'
           )}
         >
           {route.label}
@@ -73,7 +73,7 @@ const MainNav = ({ children }: MainNavProps) => {
       </button>
       {showMobileMenu && <MobileNav items={routes}>{children}</MobileNav>}
     </div>
-  );
-};
+  )
+}
 
-export default MainNav;
+export default MainNav

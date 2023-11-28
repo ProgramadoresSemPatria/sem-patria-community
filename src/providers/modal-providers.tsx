@@ -1,20 +1,20 @@
-"use client";
+'use client'
 
-import { PermissionModal } from "@/components/modals/permission-modal";
-import { useEffect, useState } from "react";
+import { PermissionModal } from '@/components/modals/permission-modal'
+import { useEffect, useState } from 'react'
 
 export const ModalProvider = () => {
-  const [isMounted, setIsMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    setIsMounted(true)
+  }, [])
 
-  if (!isMounted) return null;
+  if (!isMounted) return null
 
   return (
     <>
       <PermissionModal />
     </>
-  );
-};
+  )
+}

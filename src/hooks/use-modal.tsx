@@ -1,13 +1,13 @@
-import { create } from "zustand";
+import { create } from 'zustand'
 
 type usePermissionModalProps = {
-  isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-};
+  isOpen: boolean
+  onOpen: () => void
+  onClose: () => void
+}
 
-export const usePermissionModal = create<usePermissionModalProps>((set) => ({
+export const usePermissionModal = create<usePermissionModalProps>(set => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
-  onClose: () => set({ isOpen: false }),
-}));
+  onClose: () => set({ isOpen: false })
+}))

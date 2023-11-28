@@ -1,15 +1,15 @@
-"use client";
+'use client'
 
-import { Modal } from "@/components/ui/modal";
-import { usePermissionModal } from "@/hooks/use-modal";
-import { useClerk } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import { Button } from "../ui/button";
+import { Modal } from '@/components/ui/modal'
+import { usePermissionModal } from '@/hooks/use-modal'
+import { useClerk } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
+import { Button } from '../ui/button'
 
 export const PermissionModal = () => {
-  const router = useRouter();
-  const { signOut } = useClerk();
-  const { isOpen, onClose } = usePermissionModal();
+  const router = useRouter()
+  const { signOut } = useClerk()
+  const { isOpen, onClose } = usePermissionModal()
 
   return (
     <Modal title="" description="" isOpen={isOpen} onClose={onClose}>
@@ -25,12 +25,12 @@ export const PermissionModal = () => {
         <div className="flex flex-col gap-y-2 mt-6">
           <Button
             variant="secondary"
-            onClick={() => signOut(() => router.push("/sign-in"))}
+            onClick={() => signOut(() => router.push('/sign-in'))}
           >
             Ok, I get it
           </Button>
         </div>
       </div>
     </Modal>
-  );
-};
+  )
+}

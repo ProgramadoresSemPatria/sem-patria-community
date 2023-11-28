@@ -1,9 +1,9 @@
-import MainNav from "@/components/main-nav";
-import { UserButton } from "@clerk/nextjs";
+import MainNav from '@/components/main-nav'
+import { UserButton } from '@clerk/nextjs'
 
 type DefaultLayoutProps = {
-  children?: React.ReactNode;
-};
+  children?: React.ReactNode
+}
 
 const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
@@ -16,7 +16,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
       </header>
       {children}
     </div>
-  );
-};
+  )
+}
 
-export default DefaultLayout;
+export default DefaultLayout

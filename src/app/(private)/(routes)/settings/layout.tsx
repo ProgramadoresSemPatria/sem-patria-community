@@ -1,19 +1,19 @@
-import { SidebarNav } from "@/components/sidebar-nav";
-import { Separator } from "@/components/ui/separator";
+import { SidebarNav } from '@/components/sidebar-nav'
+import { Separator } from '@/components/ui/separator'
 
 type SettingsLayoutProps = {
-  children?: React.ReactNode;
-};
+  children?: React.ReactNode
+}
 
 const sidebarNavItems = [
   {
-    title: "Appearance",
-    href: "/settings/appearance",
-  },
-];
+    title: 'Appearance',
+    href: '/settings/appearance'
+  }
+]
 
 export default async function SettingsLayout({
-  children,
+  children
 }: SettingsLayoutProps) {
   return (
     <>
@@ -33,5 +33,5 @@ export default async function SettingsLayout({
         </div>
       </div>
     </>
-  );
+  )
 }

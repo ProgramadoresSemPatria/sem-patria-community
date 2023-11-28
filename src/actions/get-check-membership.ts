@@ -1,15 +1,16 @@
-import { api } from "@/lib/api";
+import { api } from '@/lib/api'
 
 export const getCheckMembership = async (username: string) => {
-  const url = `https://api.github.com/orgs/ProgramadoresSemPatria/members/${username}`;
+  const url = `https://api.github.com/orgs/ProgramadoresSemPatria/members/${username}`
 
-  const { status } = await api.get(url, {
+  const { status, data } = await api.get(url, {
     headers: {
-      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-    },
-  });
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
+    }
+  })
+  console.log(data)
 
-  if (status === 204) return true;
+  if (status === 204) return true
 
-  return false;
-};
+  return false
+}

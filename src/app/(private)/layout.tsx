@@ -1,6 +1,6 @@
 import { getCheckMembership } from '@/actions/get-check-membership'
 import MainNav from '@/components/main-nav'
-import { UserButton, auth, currentUser } from '@clerk/nextjs'
+import { UserButton, currentUser } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
 
 export default async function PrivateLayout({
@@ -8,11 +8,8 @@ export default async function PrivateLayout({
 }: {
   children: React.ReactNode
 }) {
-  const { userId } = auth()
-  if (!userId) redirect('/sign-in')
-
   const user = await currentUser()
-  if (!user?.username) redirect('/sign-in')
+  if (!user || !user.username) return redirect('/sign-in')
 
   const isMemberOfOrg = await getCheckMembership(user.username)
 

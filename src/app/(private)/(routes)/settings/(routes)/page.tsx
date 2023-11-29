@@ -1,13 +1,18 @@
 import Header from '@/components/header'
-import { Icons } from '@/components/icons'
-import { Suspense } from 'react'
+import { Separator } from '@/components/ui/separator'
+import { PersonalInfo } from './components/personal-info'
+import { MembersList } from './components/members-list'
 
 const SettingsPage = () => {
   return (
     <>
-      <Suspense fallback={<Icons.loader className="h-6 w-6 animate-spin" />}>
-        <Header title="User" />
-      </Suspense>
+      <PersonalInfo />
+      <Separator className="my-6" />
+      <Header
+        title="Members of community"
+        description="All members of this community and their levels."
+      />
+      <MembersList />
     </>
   )
 }

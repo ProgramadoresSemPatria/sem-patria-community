@@ -6,11 +6,11 @@ import * as React from 'react'
 
 import appLogo from '@/assets/logo.svg'
 import { Icons } from '@/components/icons'
+import { appRoutes } from '@/lib/constants'
 import { RouteProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { UserButton, useUser } from '@clerk/nextjs'
 import Image from 'next/image'
-import { appRoutes } from '@/lib/constants'
 
 type MainNavProps = {
   children?: React.ReactNode
@@ -24,19 +24,19 @@ const MainNav = ({ children }: MainNavProps) => {
     {
       href: appRoutes.dashboard,
       label: 'Dashboard',
-      active: pathname === appRoutes.dashboard,
+      active: pathname.includes(appRoutes.dashboard),
       icon: <Icons.home className="h-4 w-4" />
     },
     {
       href: `${appRoutes.resources}?filter=all`,
       label: 'Resources',
-      active: pathname === appRoutes.resources,
+      active: pathname.includes(appRoutes.resources),
       icon: <Icons.resources className="h-4 w-4" />
     },
     {
       href: appRoutes.settings,
       label: 'Settings',
-      active: pathname === appRoutes.settings,
+      active: pathname.includes(appRoutes.settings),
       icon: <Icons.settings className="h-4 w-4" />
     }
   ]

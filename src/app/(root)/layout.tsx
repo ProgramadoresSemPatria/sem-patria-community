@@ -1,4 +1,4 @@
-import { getCheckMembership } from '@/actions/get-check-membership'
+import { getCheckMembership } from '@/actions/auth/get-check-membership'
 import { appRoutes } from '@/lib/constants'
 import { currentUser } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'

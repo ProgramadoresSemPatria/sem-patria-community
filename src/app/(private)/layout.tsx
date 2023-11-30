@@ -1,4 +1,4 @@
-import { getCheckMembership } from '@/actions/get-check-membership'
+import { getCheckMembership } from '@/actions/auth/get-check-membership'
 import MainNav from '@/components/main-nav'
 import TopBar from '@/components/top-bar'
 import { appRoutes } from '@/lib/constants'

@@ -28,10 +28,10 @@ const MainNav = ({ children }: MainNavProps) => {
       icon: <Icons.home className="h-4 w-4" />
     },
     {
-      href: `${appRoutes.resources}?filter=all`,
-      label: 'Resources',
-      active: pathname.includes(appRoutes.resources),
-      icon: <Icons.resources className="h-4 w-4" />
+      href: `${appRoutes.courses}?filter=all`,
+      label: 'Courses',
+      active: pathname.includes(appRoutes.courses),
+      icon: <Icons.code className="h-4 w-4" />
     },
     {
       href: appRoutes.settings,

@@ -20,10 +20,19 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { useToast } from '@/components/ui/use-toast'
+import { api } from '@/lib/api'
 import { useUser } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { User } from '@prisma/client'
+import { useMutation } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
+
+type PersonalInfoProps = {
+  userProps: User
+}
 
 const formSchema = z.object({
   level: z.string().min(1)
@@ -31,15 +40,40 @@ const formSchema = z.object({
 
 type PersonalInfoFormValues = z.infer<typeof formSchema>
 
-export const PersonalInfo = () => {
+export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
+  const router = useRouter()
   const { isLoaded, user } = useUser()
+  const { toast } = useToast()
 
   const form = useForm<PersonalInfoFormValues>({
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      level: userProps.level || undefined
+    }
   })
 
-  const onSubmit = (values: PersonalInfoFormValues) => {
-    console.log(values)
+  const { mutateAsync: updateUserLevel, isPending: isUpdating } = useMutation({
+    mutationFn: (data: z.infer<typeof formSchema>) => {
+      return api.patch(`/api/user`, data)
+    },
+    onSuccess: () => {
+      router.refresh()
+      toast({
+        title: 'Success',
+        description: 'Level updated successfully.'
+      })
+    },
+    onError: () => {
+      toast({
+        title: 'Error',
+        description: 'Something went wrong while updating your level.',
+        variant: 'destructive'
+      })
+    }
+  })
+
+  const onSubmit = async (values: PersonalInfoFormValues) => {
+    await updateUserLevel(values)
   }
 
   return (
@@ -122,7 +156,10 @@ export const PersonalInfo = () => {
                 />
               </div>
               <Button type="submit" className="w-fit">
-                Save changes
+                {isUpdating && (
+                  <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                {isUpdating ? 'Updating' : 'Save changes'}
               </Button>
             </div>
           </form>

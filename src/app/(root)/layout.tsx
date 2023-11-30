@@ -1,3 +1,4 @@
+import { createUserInDB } from '@/actions/auth/create-user'
 import { getCheckMembership } from '@/actions/auth/get-check-membership'
 import { appRoutes } from '@/lib/constants'
 import { currentUser } from '@clerk/nextjs'
@@ -12,7 +13,10 @@ export default async function SetupLayout({
   if (!user || !user.username) return redirect(appRoutes.signIn)
 
   const isMemberOfOrg = await getCheckMembership(user.username)
-  if (isMemberOfOrg) return redirect(appRoutes.dashboard)
+  if (isMemberOfOrg) {
+    await createUserInDB(user)
+    return redirect(appRoutes.dashboard)
+  }
 
   return <>{children}</>
 }

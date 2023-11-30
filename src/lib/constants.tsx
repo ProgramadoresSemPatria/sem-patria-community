@@ -5,8 +5,9 @@ export const appConfig = {
 
 export enum appRoutes {
   signIn = '/sign-in',
+  root = '/',
   dashboard = '/dashboard',
-  resources = '/resources',
+  courses = '/courses',
   settings = '/settings',
   appearance = '/settings/appearance'
 }

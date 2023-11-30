@@ -32,7 +32,7 @@ export const Icons = {
   settings: SlidersHorizontal,
   bot: Bot,
   loader: Loader2,
-  resources: Code,
+  code: Code,
   signOut: LogOut,
   globe: Globe
 }

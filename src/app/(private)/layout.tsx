@@ -15,7 +15,7 @@ export default async function PrivateLayout({
 
   const isMemberOfOrg = await getCheckMembership(user.username)
 
-  if (!isMemberOfOrg) return redirect('/')
+  if (!isMemberOfOrg) return redirect(appRoutes.root)
 
   return (
     <div className="flex min-h-screen">

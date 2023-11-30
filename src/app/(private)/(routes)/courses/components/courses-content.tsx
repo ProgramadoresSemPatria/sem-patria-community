@@ -7,13 +7,13 @@ import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
-import { SkeletonResourceCards } from './skeleton-resource-cards'
+import { SkeletonCourseCards } from './skeleton-course-cards'
 
-type ResourcesContentProps = {
+type CoursesContentProps = {
   categories: Category[]
 }
 
-const ResourcesContent = ({ categories }: ResourcesContentProps) => {
+const CoursesContent = ({ categories }: CoursesContentProps) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -58,7 +58,7 @@ const ResourcesContent = ({ categories }: ResourcesContentProps) => {
       </div>
 
       <div className="grid grid-cols-5 gap-x-6 gap-y-9 mt-6">
-        {isLoading && <SkeletonResourceCards />}
+        {isLoading && <SkeletonCourseCards />}
         {coursesList &&
           coursesList.length &&
           coursesList.map(course => (
@@ -95,4 +95,4 @@ const ResourcesContent = ({ categories }: ResourcesContentProps) => {
   )
 }
 
-export default ResourcesContent
+export default CoursesContent

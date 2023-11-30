@@ -7,9 +7,7 @@ type SettingsLayoutProps = {
   children?: React.ReactNode
 }
 
-export default async function SettingsLayout({
-  children
-}: SettingsLayoutProps) {
+export default function SettingsLayout({ children }: SettingsLayoutProps) {
   return (
     <>
       <div className="container">

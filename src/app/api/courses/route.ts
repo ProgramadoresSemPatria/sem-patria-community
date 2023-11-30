@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
     const category = await req.nextUrl.searchParams.get('category')
     const user = await currentUser()
 
-    if (!user) return new NextResponse('Unauthorized', { status: 401 })
+    if (!user) return new NextResponse('Unauthenticated', { status: 401 })
 
     const findedCategory =
       category &&

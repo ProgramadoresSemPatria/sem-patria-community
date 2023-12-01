@@ -1,4 +1,4 @@
-import { getCheckMembership } from '@/actions/get-check-membership'
+import { getCheckMembership } from '@/actions/auth/get-check-membership'
 import MainNav from '@/components/main-nav'
 import TopBar from '@/components/top-bar'
 import { appRoutes } from '@/lib/constants'
@@ -15,7 +15,7 @@ export default async function PrivateLayout({
 
   const isMemberOfOrg = await getCheckMembership(user.username)
 
-  if (!isMemberOfOrg) return redirect('/')
+  if (!isMemberOfOrg) return redirect(appRoutes.root)
 
   return (
     <div className="flex min-h-screen">

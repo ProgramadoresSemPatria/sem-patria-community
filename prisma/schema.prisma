@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String
+  name      String
+  username  String
+  level     String?
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Course {
+  id         String   @id @default(uuid())
+  name       String
+  courseUrl  String
+  level      String
+  categoryId String
+  category   Category @relation("CourseToCategory", fields: [categoryId], references: [id])
+  isPaid     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  courses   Course[] @relation("CourseToCategory")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

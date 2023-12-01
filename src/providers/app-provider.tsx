@@ -1,5 +1,6 @@
 'use client'
 
+import { Toaster } from '@/components/ui/toaster'
 import { ModalProvider } from '@/providers/modal-providers'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
@@ -28,6 +29,7 @@ const AppProviders = ({ children }: Props) => {
         disableTransitionOnChange
       >
         <ModalProvider />
+        <Toaster />
         {children}
       </ThemeProvider>
     </QueryClientProvider>

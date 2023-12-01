@@ -5,8 +5,24 @@ export const appConfig = {
 
 export enum appRoutes {
   signIn = '/sign-in',
+  root = '/',
   dashboard = '/dashboard',
-  resources = '/resources',
+  courses = '/courses',
   settings = '/settings',
-  appearance = '/settings/appearance'
+  appearance = '/settings/appearance',
+  admin_courses = '/admin/courses',
+  admin_courses_new = '/admin/courses/new',
+  admin_categories = '/admin/categories',
+  admin_categories_new = '/admin/categories/new'
 }
+
+export const settingOptions = [
+  {
+    title: 'User',
+    href: appRoutes.settings
+  },
+  {
+    title: 'Appearance',
+    href: appRoutes.appearance
+  }
+]

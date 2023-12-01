@@ -1,11 +1,13 @@
 import Header from '@/components/header'
 import { Separator } from '@/components/ui/separator'
-import { PersonalInfo } from './components/personal-info'
-import { MembersList } from './components/members-list'
 import { appRoutes } from '@/lib/constants'
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
+import { MembersList } from './components/members-list'
+import { PersonalInfo } from './components/personal-info'
+import { SkeletonMembersList } from '@/components/skeletons/skeleton-members-list'
 
 const SettingsPage = async () => {
   const { userId } = auth()
@@ -19,6 +21,8 @@ const SettingsPage = async () => {
 
   if (!user) return redirect(appRoutes.root)
 
+  const allUsers = await prismadb.user.findMany()
+
   return (
     <>
       <PersonalInfo userProps={user} />
@@ -27,7 +31,9 @@ const SettingsPage = async () => {
         title="Members of community"
         description="All members of this community and their levels."
       />
-      <MembersList />
+      <Suspense fallback={<SkeletonMembersList />}>
+        <MembersList userProps={user} allUsers={allUsers} />
+      </Suspense>
     </>
   )
 }

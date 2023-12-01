@@ -2,6 +2,8 @@ import prismadb from '@/lib/prismadb'
 import { User } from '@clerk/nextjs/server'
 
 export const createUserInDB = async (user: User) => {
+  const whiteList = process.env.USERS_WHITELIST?.split(',')
+
   try {
     const existsUser = await prismadb.user.findUnique({
       where: {
@@ -16,7 +18,8 @@ export const createUserInDB = async (user: User) => {
         id: user.id,
         email: user.emailAddresses[0].emailAddress,
         name: user.firstName + ' ' + user.lastName,
-        username: user.username || ''
+        username: user.username || '',
+        isAdmin: (user.username && whiteList?.includes(user.username)) || false
       }
     })
 

@@ -2,10 +2,17 @@
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { useAppStore } from '@/hooks/use-app-store'
-import React from 'react'
+import { useEffect, useState } from 'react'
 
 export const CMSButton = () => {
+  const [isMounted, setIsMounted] = useState(false)
   const { isCmsMode, setCmsMode } = useAppStore()
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return null
 
   return (
     <Button

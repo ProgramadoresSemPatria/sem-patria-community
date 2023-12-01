@@ -6,31 +6,36 @@ import * as React from 'react'
 
 import appLogo from '@/assets/logo.svg'
 import { Icons } from '@/components/icons'
+import { useAppStore } from '@/hooks/use-app-store'
 import { appRoutes } from '@/lib/constants'
 import { RouteProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { UserButton, useUser } from '@clerk/nextjs'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { SkeletonMainNav } from './components/skeleton-main-nav'
 
 type MainNavProps = {
   children?: React.ReactNode
 }
 
 const MainNav = ({ children }: MainNavProps) => {
+  const [isMounted, setIsMounted] = useState(false)
   const { user } = useUser()
   const pathname = usePathname()
+  const { isCmsMode } = useAppStore()
 
-  const routes: RouteProps[] = [
+  const memberRoutes: RouteProps[] = [
     {
       href: appRoutes.dashboard,
       label: 'Dashboard',
       active: pathname.includes(appRoutes.dashboard),
-      icon: <Icons.home className="h-4 w-4" />
+      icon: <Icons.dashboard className="h-4 w-4" />
     },
     {
       href: `${appRoutes.courses}?filter=all`,
       label: 'Courses',
-      active: pathname.includes(appRoutes.courses),
+      active: pathname === appRoutes.courses,
       icon: <Icons.code className="h-4 w-4" />
     },
     {
@@ -40,6 +45,27 @@ const MainNav = ({ children }: MainNavProps) => {
       icon: <Icons.settings className="h-4 w-4" />
     }
   ]
+
+  const adminRoutes: RouteProps[] = [
+    {
+      href: appRoutes.admin_courses,
+      label: 'Courses',
+      active: pathname.includes(appRoutes.admin_courses),
+      icon: <Icons.alignVertSA className="h-4 w-4" />
+    },
+    {
+      href: appRoutes.admin_categories,
+      label: 'Categories',
+      active: pathname.includes(appRoutes.admin_categories),
+      icon: <Icons.layers className="h-4 w-4" />
+    }
+  ]
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return <SkeletonMainNav />
 
   return (
     <div className="hidden h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6 md:flex">
@@ -59,12 +85,12 @@ const MainNav = ({ children }: MainNavProps) => {
       </div>
       <nav className="mt-6 flex-1">
         <ul className="flex flex-col gap-2">
-          {routes.map(route => (
+          {memberRoutes.map(route => (
             <Link
               key={route.href}
               href={route.href}
               className={cn(
-                'h-8 rounded-md ',
+                'h-8 rounded-md',
                 route.active ? 'text-primary' : 'text-muted-foreground'
               )}
             >
@@ -74,6 +100,28 @@ const MainNav = ({ children }: MainNavProps) => {
               </span>
             </Link>
           ))}
+          {isCmsMode && (
+            <div className="mt-6">
+              <p className="font-medium text-sm text-foreground pb-2">CMS</p>
+              <ul className="flex flex-col gap-2">
+                {adminRoutes.map(route => (
+                  <Link
+                    key={route.href}
+                    href={route.href}
+                    className={cn(
+                      'h-8 rounded-md',
+                      route.active ? 'text-primary' : 'text-muted-foreground'
+                    )}
+                  >
+                    <span className="font-medium transition-colors hover:text-primary flex h-8 items-center gap-2 rounded-md px-2 text-sm hover:dark:bg-slate-800 hover:bg-slate-100">
+                      {route.icon}
+                      {route.label}
+                    </span>
+                  </Link>
+                ))}
+              </ul>
+            </div>
+          )}
         </ul>
       </nav>
       <div className="flex items-center gap-x-2">

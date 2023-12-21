@@ -1,23 +1,11 @@
 # Comunidade Sem Pátria
 
-### The objective of this project is to professionalize and make the use of materials from the countryless programmers community more dynamic. Also, this is an open-source project made by the community itself.
+## How run the project
+1. Generate a personal key in your github;
+  1.1 Click in your user -> Settings -> Developer Settings -> Personal access tokens -> Generate a classic token;
+2. Create a variable in your .env with the following name: "GITHUB_TOKEN";
+3. Insert the value of the token created;
+4. Change the value of variable "USERS_WHITELIST" to your github username in .env file;
+5. Run the project;
 
-<br/>
-
-## What we are working on:
-
-| Feature     | Description                                       | Status  |
-| ----------- | ------------------------------------------------- | ------- |
-| Github auth | allow only users of community access the platform | `Done`  |
-| Home Page   | Build the home page                               | `To Do` |
-| Notes Page  | Build the notes page                              | `To Do` |
-
-<br/>
-
-## Principal Technologies
-
-1. Nextjs
-2. Tailwindcss
-3. Prisma
-4. Clerk auth
-5. Zustand
+<strong>OBS: REMEMBER DO NOT COMMIT YOUR PERSONAL TOKEN!</strong>

@@ -12,9 +12,9 @@ import { api } from '@/lib/api'
 import { validateUserLevelColor } from '@/lib/utils'
 import { User } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import Image from 'next/image'
 
 type MembersListProps = {
   userProps: User
@@ -69,7 +69,7 @@ export const MembersList = ({ userProps, allUsers }: MembersListProps) => {
         onClose={() => setIsAlertModalOpen(false)}
         onConfirm={() => onDeleteUser()}
       />
-      <div className="mt-6 w-full max-w-3xl flex flex-col gap-y-6">
+      <div className="mt-6 grid-cols-2 grid 2xl:grid-cols-3 w-full flex-col justify-between gap-y-8 gap-x-12">
         {allUsers.map(user => (
           <div
             key={user.id}

@@ -1,6 +1,7 @@
 import {
   AlignVerticalSpaceAround,
   Bot,
+  CalendarCheck2,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -9,6 +10,7 @@ import {
   Edit,
   File,
   Globe,
+  GraduationCap,
   Home,
   Layers,
   LayoutDashboard,
@@ -52,5 +54,7 @@ export const Icons = {
   spread: MoreHorizontal,
   edit: Edit,
   trash: Trash,
-  layers: Layers
+  layers: Layers,
+  calendar: CalendarCheck2,
+  mentorship: GraduationCap
 }

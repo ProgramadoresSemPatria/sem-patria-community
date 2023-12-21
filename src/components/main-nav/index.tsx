@@ -39,6 +39,18 @@ const MainNav = ({ children }: MainNavProps) => {
       icon: <Icons.code className="h-4 w-4" />
     },
     {
+      href: `${appRoutes.codeUp}`,
+      label: 'Code Up',
+      active: pathname === appRoutes.codeUp,
+      icon: <Icons.calendar className="h-4 w-4" />
+    },
+    {
+      href: `${appRoutes.mentorship}`,
+      label: 'Mentorship',
+      active: pathname === appRoutes.mentorship,
+      icon: <Icons.mentorship className="h-4 w-4" />
+    },
+    {
       href: appRoutes.settings,
       label: 'Settings',
       active: pathname.includes(appRoutes.settings),

@@ -8,6 +8,8 @@ export enum appRoutes {
   root = '/',
   dashboard = '/dashboard',
   courses = '/courses',
+  codeUp = '/code-up',
+  mentorship = '/mentorship',
   settings = '/settings',
   appearance = '/settings/appearance',
   admin_courses = '/admin/courses',

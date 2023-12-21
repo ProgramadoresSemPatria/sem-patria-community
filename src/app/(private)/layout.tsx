@@ -23,7 +23,7 @@ export default async function PrivateLayout({
 
       <main className="w-full">
         <TopBar />
-        <div className="container h-[calc(100vh-60px)] overflow-auto pb-10">
+        <div className="h-[calc(100vh-60px)] overflow-auto pb-10">
           {children}
         </div>
       </main>

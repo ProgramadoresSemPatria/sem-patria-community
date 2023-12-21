@@ -1,24 +1,19 @@
 'use client'
+
 import { SkeletonCourseCards } from '@/components/skeletons/skeleton-course-cards'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Button } from '@/components/ui/button'
-import { api } from '@/lib/api'
+import { useCourseContent } from '@/hooks/courses/use-course-content'
 import { validateCourseLevelColor } from '@/lib/utils'
-import { Category, Course } from '@prisma/client'
-import { useQuery } from '@tanstack/react-query'
-import { AxiosResponse } from 'axios'
+import { Category } from '@prisma/client'
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
 
 type CoursesContentProps = {
   categories: Category[]
 }
 
 const CoursesContent = ({ categories }: CoursesContentProps) => {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const router = useRouter()
+  const { pathname, searchParams, isLoading, coursesList } = useCourseContent()
 
   const categoryOptions =
     categories.length > 0
@@ -30,18 +25,6 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
           ...categories
         ]
       : []
-
-  const { data: coursesList, isLoading } = useQuery<AxiosResponse<Course[]>>({
-    queryKey: ['courses', { filter: searchParams.get('filter') }],
-    queryFn: () => api.get(`/api/courses?filter=${searchParams.get('filter')}`),
-    enabled: !!searchParams.get('filter')
-  })
-
-  useEffect(() => {
-    if (!searchParams.get('filter')) {
-      router.push(`${pathname}?filter=all`)
-    }
-  }, [])
 
   return (
     <div className="mt-6">
@@ -62,7 +45,7 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
         ))}
       </div>
 
-      <div className="grid grid-cols-5 gap-x-6 gap-y-9 mt-6">
+      <div className="grid grid-cols-4 2xl:grid-cols-5 gap-x-6 gap-y-9 mt-6">
         {isLoading && <SkeletonCourseCards />}
         {coursesList &&
           coursesList.data.length > 0 &&
@@ -72,7 +55,7 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
               key={course.id}
               className="flex flex-col gap-2 p-3 h-full overflow-hidden rounded-lg hover:bg-muted cursor-pointer transition-all ease-in"
             >
-              <div className="aspect-video w-64 h-36 rounded-md">
+              <div className="aspect-video w-full rounded-md">
                 <AspectRatio ratio={16 / 9}>
                   <div className="bg-gradient bg-gradient-to-r dark:from-[#ECE9E6] dark:to-[#FFFFFF] from-[#141E30] to-[#243B55] w-full h-full rounded-md object-cover" />
                 </AspectRatio>

@@ -18,7 +18,7 @@ const AdminCategoriesPage = async () => {
   }))
 
   return (
-    <div className="flex-col pt-6">
+    <div className="container flex-col pt-6">
       <Suspense fallback={<SkeletonCmsPage />}>
         <CategoriesClient categories={formattedCategories} />
       </Suspense>

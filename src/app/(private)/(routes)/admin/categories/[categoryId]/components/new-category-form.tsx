@@ -135,7 +135,7 @@ export const NewCategoryForm = ({ initialData }: NewCategoryFormProps) => {
         <Button
           size="icon"
           variant="link"
-          onClick={() => router.push(appRoutes.admin_courses)}
+          onClick={() => router.push(appRoutes.admin_categories)}
           className="font-medium w-fit"
         >
           <Icons.arrowBack className="mr-2 h-4 w-4" />

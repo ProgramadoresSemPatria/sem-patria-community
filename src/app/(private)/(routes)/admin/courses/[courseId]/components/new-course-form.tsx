@@ -37,6 +37,7 @@ import * as z from 'zod'
 type NewCourseFormProps = {
   initialData: Course | null
   categories: Category[]
+  feedback: boolean
 }
 
 const formSchema = z.object({
@@ -57,14 +58,16 @@ const formSchema = z.object({
   }),
   categoryId: z.string().min(1, {
     message: 'Category is required'
-  })
+  }),
+  isPending: z.boolean()
 })
 
 type NewCourseFormValues = z.infer<typeof formSchema>
 
 export const NewCourseForm = ({
   initialData,
-  categories
+  categories,
+  feedback
 }: NewCourseFormProps) => {
   const params = useParams()
   const router = useRouter()
@@ -92,7 +95,8 @@ export const NewCourseForm = ({
           courseUrl: '',
           categoryId: '',
           level: '',
-          isPaid: false
+          isPaid: false,
+          isPending: feedback ? true : false
         }
   })
 
@@ -119,6 +123,7 @@ export const NewCourseForm = ({
 
   const { mutateAsync: createOrUpdateCourse, isPending } = useMutation({
     mutationFn: (data: z.infer<typeof formSchema>) => {
+      console.log(data)
       if (initialData) {
         return api.patch(`/api/courses/${params.courseId}`, data)
       }

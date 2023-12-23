@@ -13,6 +13,7 @@ export type CourseColumn = {
   level: string
   category: string
   isPaid: boolean
+  isPending: boolean
 }
 
 export const columns: ColumnDef<CourseColumn>[] = [
@@ -43,11 +44,15 @@ export const columns: ColumnDef<CourseColumn>[] = [
       </Badge>
     )
   },
-
   {
     accessorKey: 'isPaid',
     header: 'Paid',
     cell: ({ row }) => <span>{row.original.isPaid ? 'Paid' : 'Free'}</span>
+  },
+  {
+    accessorKey: 'isPending',
+    header: 'Pending',
+    cell: ({ row }) => <span>{row.original.isPending ? 'Yes' : 'No'}</span>
   },
   {
     id: 'actions',

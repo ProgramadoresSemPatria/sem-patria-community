@@ -173,29 +173,33 @@ export const NewCourseForm = ({
         onConfirm={() => onDeleteCourse()}
       />
       <div className="flex flex-col">
-        <Button
-          size="icon"
-          variant="link"
-          onClick={() => router.push(appRoutes.admin_courses)}
-          className="font-medium w-fit"
-        >
-          <Icons.arrowBack className="mr-2 h-4 w-4" />
-          Voltar
-        </Button>
-
-        <div className="flex items-center justify-between">
-          <Header title={title} description={description} />
-          {initialData && (
+        {!feedback && (
+          <>
             <Button
-              disabled={isPending}
-              variant="destructive"
               size="icon"
-              onClick={() => setIsAlertModalOpen(true)}
+              variant="link"
+              onClick={() => router.push(appRoutes.admin_courses)}
+              className="font-medium w-fit"
             >
-              <Icons.trash className="h-4 w-4" />
+              <Icons.arrowBack className="mr-2 h-4 w-4" />
+              Voltar
             </Button>
-          )}
-        </div>
+
+            <div className="flex items-center justify-between">
+              <Header title={title} description={description} />
+              {initialData && (
+                <Button
+                  disabled={isPending}
+                  variant="destructive"
+                  size="icon"
+                  onClick={() => setIsAlertModalOpen(true)}
+                >
+                  <Icons.trash className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
+          </>
+        )}
         <Separator className="my-6" />
         <Form {...form}>
           <form

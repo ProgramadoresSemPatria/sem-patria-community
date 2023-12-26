@@ -14,7 +14,7 @@ const FeedbackModal = () => {
   })
   return (
     <>
-      {!isLoading && (
+      {!isLoading && categories && (
         <Modal
           title="Create New Course"
           description="Add a new course to the community."

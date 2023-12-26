@@ -47,6 +47,29 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
       })
     }
   })
+  const { mutateAsync: updateCourse } = useMutation({
+    mutationFn: () => {
+      return api.patch(`/api/courses/${data.id}`, {
+        ...data,
+        isPending: false
+      })
+    },
+
+    onSuccess: () => {
+      router.refresh()
+      toast({
+        title: 'Success',
+        description: 'Course updated successfully.'
+      })
+    },
+    onError: () => {
+      toast({
+        title: 'Error',
+        description: 'Something went wrong.',
+        variant: 'destructive'
+      })
+    }
+  })
 
   const onCopy = (url: string) => {
     navigator.clipboard.writeText(url)
@@ -67,6 +90,18 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
       })
     } finally {
       setIsAlertModalOpen(false)
+    }
+  }
+
+  const onApproveCourse = async () => {
+    try {
+      await updateCourse()
+    } catch (err) {
+      toast({
+        title: 'Error',
+        description: 'Something went wrong while approving the course.',
+        variant: 'destructive'
+      })
     }
   }
   return (
@@ -100,6 +135,12 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
             <Icons.trash className="mr-2 h-4 w-4" />
             Delete
           </DropdownMenuItem>
+          {data.isPending && (
+            <DropdownMenuItem onClick={() => onApproveCourse()}>
+              <Icons.check className="mr-2 h-4 w-4" />
+              Approve
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </>

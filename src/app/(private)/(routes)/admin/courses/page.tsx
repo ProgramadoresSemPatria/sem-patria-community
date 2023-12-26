@@ -17,6 +17,7 @@ const AdminCoursesPage = async () => {
     courseUrl: item.courseUrl,
     isPaid: item.isPaid,
     level: item.level,
+    categoryId: item.categoryId,
     category: item.category.name,
     isPending: item.isPending
   }))

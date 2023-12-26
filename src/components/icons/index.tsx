@@ -1,5 +1,6 @@
 import {
   AlignVerticalSpaceAround,
+  BadgeCheck,
   Bot,
   CalendarCheck2,
   ChevronDown,
@@ -34,6 +35,7 @@ export const Icons = {
   lightMode: Sun,
   darkMode: Moon,
   close: X,
+  check: BadgeCheck,
   arrowRight: ChevronRight,
   arrowBack: ChevronLeft,
   arrowDown: ChevronDown,

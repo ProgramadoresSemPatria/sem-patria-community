@@ -37,7 +37,7 @@ import * as z from 'zod'
 type NewCourseFormProps = {
   initialData: Course | null
   categories: Category[]
-  feedback: boolean
+  hasFeedback: boolean
 }
 
 const formSchema = z.object({
@@ -67,7 +67,7 @@ type NewCourseFormValues = z.infer<typeof formSchema>
 export const NewCourseForm = ({
   initialData,
   categories,
-  feedback
+  hasFeedback
 }: NewCourseFormProps) => {
   const params = useParams()
   const router = useRouter()
@@ -96,7 +96,7 @@ export const NewCourseForm = ({
           categoryId: '',
           level: '',
           isPaid: false,
-          isPending: feedback ? true : false
+          isPending: hasFeedback
         }
   })
 
@@ -173,7 +173,7 @@ export const NewCourseForm = ({
         onConfirm={() => onDeleteCourse()}
       />
       <div className="flex flex-col">
-        {!feedback && (
+        {!hasFeedback && (
           <>
             <Button
               size="icon"

@@ -14,7 +14,7 @@ const NewCoursePage = async ({ params }: { params: { courseId: string } }) => {
         <NewCourseForm
           initialData={course}
           categories={categories}
-          feedback={false}
+          hasFeedback={false}
         />
       </div>
     </div>

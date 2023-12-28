@@ -25,3 +25,20 @@ export const validateCourseLevelColor = (level: string): string => {
 
   return color[level]
 }
+
+export const validateCourseIsPendingColor = (
+  isPending: boolean
+): { background: string; text: string } => {
+  const styles = {
+    pending: {
+      background: 'bg-orange-500 hover:bg-orange-600 text-gray-100',
+      text: 'Pending'
+    },
+    approved: {
+      background: 'bg-green-500 hover:bg-green-600 text-gray-100',
+      text: 'Approved'
+    }
+  }
+
+  return isPending ? styles.pending : styles.approved
+}

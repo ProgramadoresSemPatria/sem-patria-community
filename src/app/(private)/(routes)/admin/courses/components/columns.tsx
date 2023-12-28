@@ -4,7 +4,10 @@ import { Category } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { CourseCellAction } from './course-cell-action'
 import { Badge } from '@/components/ui/badge'
-import { validateCourseLevelColor } from '@/lib/utils'
+import {
+  validateCourseIsPendingColor,
+  validateCourseLevelColor
+} from '@/lib/utils'
 import { ArrowUpDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -65,7 +68,13 @@ export const columns: ColumnDef<CourseColumn>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => <span>{row.original.isPending ? 'Yes' : 'No'}</span>
+    cell: ({ row }) => {
+      const { background, text } = validateCourseIsPendingColor(
+        row.original.isPending
+      )
+
+      return <Badge className={`${background}`}>{text}</Badge>
+    }
   },
   {
     id: 'actions',

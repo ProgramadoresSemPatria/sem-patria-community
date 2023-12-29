@@ -1,16 +1,12 @@
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { validateCourseLevelColor } from '@/lib/utils'
 import { type Course } from '@prisma/client'
 import { format } from 'date-fns'
 import React from 'react'
 
 interface DetailsModalContentProps {
   course: Course | null
-}
-const courseLevelMap: Record<string, string> = {
-  beginner: 'bg-green-500 text-green-800',
-  intermediate: 'bg-yellow-500 text-yellow-800',
-  advanced: 'bg-red-500 text-red-800'
 }
 
 const DetailsModalContent: React.FC<DetailsModalContentProps> = ({
@@ -30,9 +26,9 @@ const DetailsModalContent: React.FC<DetailsModalContentProps> = ({
         <div className="space-y-0.5 mt-6">
           <h2 className=" font-bold tracking-tight">Course level</h2>
           <div
-            className={`flex items-center w-fit text-sm px-3 py-1 rounded-full ${
-              courseLevelMap[course?.level ?? 'beginner']
-            }`}
+            className={`flex items-center w-fit text-sm px-3 py-1 rounded-full ${validateCourseLevelColor(
+              course?.level ?? ''
+            )}`}
           >
             {course?.level}
           </div>

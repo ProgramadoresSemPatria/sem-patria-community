@@ -17,9 +17,16 @@ const NotificationsListContent: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col gap-4 p-2">
-        <Skeleton className="w-full h-[20px] rounded-full" />
-      </div>
+      <Card className="shadow-none border-none">
+        <CardHeader>
+          <CardTitle className="text-lg">Pending approval courses</CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-4">
+          <Skeleton className="w-full h-[20px] rounded-full" />
+          <Skeleton className="w-full h-[20px] rounded-full" />
+          <Skeleton className="w-full h-[20px] rounded-full" />
+        </CardContent>
+      </Card>
     )
   }
 

@@ -21,7 +21,7 @@ const DetailsModalContent: React.FC<DetailsModalContentProps> = ({
       <div className="grid grid-cols-2 gap-x-4">
         <div className="space-y-0.5">
           <h2 className=" font-bold tracking-tight">Course name</h2>
-          <p className="text-muted-foreground">{course?.name}</p>
+          <p className="text-muted-foreground max-w-[150px]">{course?.name}</p>
         </div>
         <div className="flex items-center gap-2 space-y-0.5">
           <h2 className="font-bold tracking-tight">Is paid</h2>
@@ -30,7 +30,7 @@ const DetailsModalContent: React.FC<DetailsModalContentProps> = ({
         <div className="space-y-0.5 mt-6">
           <h2 className=" font-bold tracking-tight">Course level</h2>
           <div
-            className={`flex items-center text-muted-foreground w-fit text-sm px-3 py-1 rounded-full ${
+            className={`flex items-center w-fit text-sm px-3 py-1 rounded-full ${
               courseLevelMap[course?.level ?? 'beginner']
             }`}
           >

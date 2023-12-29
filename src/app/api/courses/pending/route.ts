@@ -11,6 +11,9 @@ export async function GET(req: NextRequest) {
     const pendingApprovalCourses = await prismadb.course.findMany({
       where: {
         isPending: true
+      },
+      include: {
+        category: true
       }
     })
 

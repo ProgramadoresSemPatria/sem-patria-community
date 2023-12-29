@@ -21,7 +21,7 @@ const ControlButton: React.FC<ControlButtonProps> = ({
   const variants = {
     approve: {
       variant: null,
-      style: 'bg-green-600 text-primary hover:bg-green-700',
+      style: 'bg-green-600 text-white hover:bg-green-700',
       title: 'Approve'
     },
     decline: {

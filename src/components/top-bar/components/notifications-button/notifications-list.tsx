@@ -18,6 +18,7 @@ const NotificationsList: React.FC<NotificationsListProps> = ({
       <PopoverTrigger>{children}</PopoverTrigger>
       <PopoverContent>
         <h1 className="font-semibold underline">Pending approval courses:</h1>
+      <PopoverContent className="p-0">
         <NotificationsListContent />
       </PopoverContent>
     </Popover>

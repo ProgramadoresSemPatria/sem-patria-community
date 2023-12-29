@@ -1,6 +1,7 @@
 'use client'
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle
@@ -23,24 +24,31 @@ const NotificationsListContent: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-2">
-      {data?.map((notification: Course) => (
-        <Card
-          key={notification.id}
-          className="flex flex-col gap-2 border border-black rounded-md p-2"
-        >
-          <CardHeader>
-            <CardTitle>{notification.name}</CardTitle>
-            <CardDescription className="flex gap-1">
-              <span>Request date:</span>
-              <span>
+    <Card className="shadow-none border-none">
+      <CardHeader>
+        <CardTitle className="text-lg">Pending approval courses</CardTitle>
+        <CardDescription>{data?.length ?? 0} pending</CardDescription>
+      </CardHeader>
+      <CardContent className="grid">
+        {data?.map((notification: Course) => (
+          <div
+            key={notification.id}
+            className="mb-4 grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0 cursor-pointer hover:bg-zinc-100 dark:hover:bg-slate-900 p-4 rounded-md"
+          >
+            <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+            <div className="space-y-1">
+              <p className="text-sm font-medium leading-none">
+                {notification.name}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Request date:{' '}
                 {format(new Date(notification.createdAt), 'dd/MM/yyyy')}
-              </span>
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      ))}
-    </div>
+              </p>
+            </div>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
   )
 }
 

@@ -9,15 +9,31 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { useNotifications } from '@/hooks/use-notifications'
 import { type Course } from '@prisma/client'
+import { useMutationState } from '@tanstack/react-query'
 import { format } from 'date-fns'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DetailsModal from './details-modal/details-modal'
 import DetailsModalContent from './details-modal/details-modal-content'
 
 const NotificationsListContent: React.FC = () => {
-  const { data, isLoading } = useNotifications()
+  const { data, isLoading, refetch } = useNotifications()
   const [isOpen, setIsOpen] = useState(false)
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
+  const requestStatus = useMutationState({
+    filters: {
+      mutationKey: ['approveCourse']
+    },
+    select: mutation => mutation.state.status
+  })
+
+  useEffect(() => {
+    if (requestStatus[0] === 'success') {
+      setTimeout(() => {
+        setIsOpen(false)
+        refetch()
+      }, 500)
+    }
+  }, [refetch, requestStatus])
 
   if (isLoading) {
     return (

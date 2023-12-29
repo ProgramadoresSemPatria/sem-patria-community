@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { validateCourseLevelColor } from '@/lib/utils'
 import { type Course } from '@prisma/client'
 import { format } from 'date-fns'
 import React from 'react'
+import ControlButton from './control-button'
 
 interface DetailsModalContentProps {
   course: Course | null
@@ -56,10 +56,8 @@ const DetailsModalContent: React.FC<DetailsModalContentProps> = ({
         </div>
       </div>
       <div className="mt-6 flex w-full justify-between">
-        <Button variant="destructive">Decline</Button>
-        <Button className="bg-green-600 text-primary hover:bg-green-700">
-          Approve
-        </Button>
+        <ControlButton type="decline" courseId={course?.id ?? ''} />
+        <ControlButton type="approve" courseId={course?.id ?? ''} />
       </div>
     </div>
   )

@@ -9,7 +9,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { useNotifications } from '@/hooks/use-notifications'
 import { type Course } from '@prisma/client'
-import { useMutationState } from '@tanstack/react-query'
+import { useMutationState, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import DetailsModal from './details-modal/details-modal'
@@ -25,15 +25,19 @@ const NotificationsListContent: React.FC = () => {
     },
     select: mutation => mutation.state.status
   })
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     if (requestStatus[0] === 'success') {
       setTimeout(() => {
         setIsOpen(false)
         refetch()
+        queryClient.refetchQueries({
+          queryKey: ['courses']
+        })
       }, 500)
     }
-  }, [refetch, requestStatus])
+  }, [queryClient, refetch, requestStatus])
 
   if (isLoading) {
     return (

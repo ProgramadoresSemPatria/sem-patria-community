@@ -6,7 +6,13 @@ import React from 'react'
 import ControlButton from './control-button'
 
 interface DetailsModalContentProps {
-  course: Course | null
+  course:
+    | (Course & {
+        category: {
+          name: string
+        }
+      })
+    | null
 }
 
 const DetailsModalContent: React.FC<DetailsModalContentProps> = ({

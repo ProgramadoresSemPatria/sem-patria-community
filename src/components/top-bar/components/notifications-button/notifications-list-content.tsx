@@ -18,7 +18,12 @@ import DetailsModalContent from './details-modal/details-modal-content'
 const NotificationsListContent: React.FC = () => {
   const { data, isLoading, refetch } = useNotifications()
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
+  const [selectedCourse, setSelectedCourse] = useState<
+    | (Course & {
+        category: { name: string }
+      })
+    | null
+  >(null)
   const requestStatus = useMutationState({
     filters: {
       mutationKey: ['approveCourse']
@@ -69,27 +74,29 @@ const NotificationsListContent: React.FC = () => {
           <CardDescription>{data?.length ?? 0} pending</CardDescription>
         </CardHeader>
         <CardContent className="grid">
-          {data?.map((notification: Course) => (
-            <div
-              key={notification.id}
-              className="mb-4 grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0 cursor-pointer hover:bg-zinc-100 dark:hover:bg-slate-900 p-4 rounded-md"
-              onClick={() => {
-                setSelectedCourse(notification)
-                setIsOpen(true)
-              }}
-            >
-              <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-              <div className="space-y-1">
-                <p className="text-sm font-medium leading-none">
-                  {notification.name}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Request date:{' '}
-                  {format(new Date(notification.createdAt), 'dd/MM/yyyy')}
-                </p>
+          {data?.map(
+            (notification: Course & { category: { name: string } }) => (
+              <div
+                key={notification.id}
+                className="mb-4 grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0 cursor-pointer hover:bg-zinc-100 dark:hover:bg-slate-900 p-4 rounded-md"
+                onClick={() => {
+                  setSelectedCourse(notification)
+                  setIsOpen(true)
+                }}
+              >
+                <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                <div className="space-y-1">
+                  <p className="text-sm font-medium leading-none">
+                    {notification.name}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Request date:{' '}
+                    {format(new Date(notification.createdAt), 'dd/MM/yyyy')}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          )}
         </CardContent>
       </Card>
     </>

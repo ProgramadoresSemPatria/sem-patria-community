@@ -45,7 +45,7 @@ const ControlButton: React.FC<ControlButtonProps> = ({
 
   return (
     <Button
-      variant={variants[type].variant}
+      variant={variants[type].variant as any}
       className={`${variants[type].style} gap-2`}
       onClick={handleApproveOrDecline}
     >

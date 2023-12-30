@@ -24,7 +24,7 @@ const FeedbackModal = () => {
           <NewCourseForm
             categories={categories!.data}
             initialData={null}
-            feedback={true}
+            hasFeedback={true}
           />
         </Modal>
       )}

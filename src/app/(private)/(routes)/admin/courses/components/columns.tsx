@@ -4,7 +4,12 @@ import { Category } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { CourseCellAction } from './course-cell-action'
 import { Badge } from '@/components/ui/badge'
-import { validateCourseLevelColor } from '@/lib/utils'
+import {
+  validateCourseIsPendingColor,
+  validateCourseLevelColor
+} from '@/lib/utils'
+import { ArrowUpDown } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 export type CourseColumn = {
   id: string
@@ -13,6 +18,8 @@ export type CourseColumn = {
   level: string
   category: string
   isPaid: boolean
+  isPending: boolean
+  categoryId?: string
 }
 
 export const columns: ColumnDef<CourseColumn>[] = [
@@ -43,11 +50,31 @@ export const columns: ColumnDef<CourseColumn>[] = [
       </Badge>
     )
   },
-
   {
     accessorKey: 'isPaid',
     header: 'Paid',
     cell: ({ row }) => <span>{row.original.isPaid ? 'Paid' : 'Free'}</span>
+  },
+  {
+    accessorKey: 'isPending',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Pending
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const { background, text } = validateCourseIsPendingColor(
+        row.original.isPending
+      )
+
+      return <Badge className={`${background}`}>{text}</Badge>
+    }
   },
   {
     id: 'actions',

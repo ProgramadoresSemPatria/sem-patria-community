@@ -1,5 +1,7 @@
 import {
   AlignVerticalSpaceAround,
+  BadgeCheck,
+  Bell,
   Bot,
   CalendarCheck2,
   ChevronDown,
@@ -16,7 +18,6 @@ import {
   LayoutDashboard,
   Loader2,
   LogOut,
-  LucideIcon,
   Menu,
   Moon,
   MoreHorizontal,
@@ -25,7 +26,8 @@ import {
   Sun,
   Trash,
   User,
-  X
+  X,
+  type LucideIcon
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -34,6 +36,7 @@ export const Icons = {
   lightMode: Sun,
   darkMode: Moon,
   close: X,
+  check: BadgeCheck,
   arrowRight: ChevronRight,
   arrowBack: ChevronLeft,
   arrowDown: ChevronDown,
@@ -56,5 +59,6 @@ export const Icons = {
   trash: Trash,
   layers: Layers,
   calendar: CalendarCheck2,
-  mentorship: GraduationCap
+  mentorship: GraduationCap,
+  notifications: Bell
 }

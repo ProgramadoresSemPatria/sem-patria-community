@@ -6,10 +6,12 @@ import { Input } from '@/components/ui/input'
 import {
   ColumnDef,
   ColumnFiltersState,
+  SortingState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable
 } from '@tanstack/react-table'
 
@@ -35,6 +37,7 @@ export function DataTable<TData, TValue>({
   searchKey
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [sorting, setSorting] = useState<SortingState>([])
 
   const table = useReactTable({
     data,
@@ -43,8 +46,11 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     state: {
-      columnFilters
+      columnFilters,
+      sorting
     }
   })
 

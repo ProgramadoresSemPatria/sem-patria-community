@@ -20,10 +20,15 @@ export async function GET(req: NextRequest) {
     const courses = findedCategory
       ? await prismadb.course.findMany({
           where: {
-            category: findedCategory
+            category: findedCategory,
+            isPending: false
           }
         })
-      : await prismadb.course.findMany()
+      : await prismadb.course.findMany({
+          where: {
+            isPending: false
+          }
+        })
 
     return NextResponse.json(courses)
   } catch (error) {
@@ -35,7 +40,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const { userId } = auth()
-    const { name, categoryId, courseUrl, isPaid, level } = await req.json()
+    const { name, categoryId, courseUrl, isPaid, level, isPending } =
+      await req.json()
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
@@ -55,7 +61,8 @@ export async function POST(req: NextRequest) {
         courseUrl,
         level,
         isPaid,
-        categoryId
+        categoryId,
+        isPending
       }
     })
 

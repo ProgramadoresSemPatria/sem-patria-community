@@ -16,7 +16,7 @@ import { appRoutes } from '@/lib/constants'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { CourseColumn } from './columns'
+import { type CourseColumn } from './columns'
 
 type CourseCellActionProps = {
   data: CourseColumn
@@ -29,8 +29,8 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
 
   const { mutateAsync: deleteCourse, isPending: isDeleting } = useMutation({
-    mutationFn: () => {
-      return api.delete(`/api/courses/${data.id}`)
+    mutationFn: async () => {
+      return await api.delete(`/api/courses/${data.id}`)
     },
     onSuccess: () => {
       router.refresh()
@@ -48,8 +48,8 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
     }
   })
   const { mutateAsync: updateCourse } = useMutation({
-    mutationFn: () => {
-      return api.patch(`/api/courses/${data.id}`, {
+    mutationFn: async () => {
+      return await api.patch(`/api/courses/${data.id}`, {
         ...data,
         isPending: false
       })
@@ -71,8 +71,8 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
     }
   })
 
-  const onCopy = (url: string) => {
-    navigator.clipboard.writeText(url)
+  const onCopy = async (url: string) => {
+    await navigator.clipboard.writeText(url)
     toast({
       title: 'Copy',
       description: 'Course Url copied to the clipboard.'
@@ -108,7 +108,9 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
     <>
       <AlertModal
         isOpen={isAlertModalOpen}
-        onClose={() => setIsAlertModalOpen(false)}
+        onClose={() => {
+          setIsAlertModalOpen(false)
+        }}
         onConfirm={onDeleteCourse}
         loading={isDeleting}
       />
@@ -121,22 +123,36 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => onCopy(data.courseUrl)}>
+          <DropdownMenuItem
+            onClick={async () => {
+              await onCopy(data.courseUrl)
+            }}
+          >
             <Icons.copy className="mr-2 h-4 w-4" />
             Copy Url
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`${appRoutes.admin_courses}/${data.id}`)}
+            onClick={() => {
+              router.push(`${appRoutes.admin_courses}/${data.id}`)
+            }}
           >
             <Icons.edit className="mr-2 h-4 w-4" />
             Update
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setIsAlertModalOpen(true)}>
+          <DropdownMenuItem
+            onClick={() => {
+              setIsAlertModalOpen(true)
+            }}
+          >
             <Icons.trash className="mr-2 h-4 w-4" />
             Delete
           </DropdownMenuItem>
           {data.isPending && (
-            <DropdownMenuItem onClick={() => onApproveCourse()}>
+            <DropdownMenuItem
+              onClick={async () => {
+                await onApproveCourse()
+              }}
+            >
               <Icons.check className="mr-2 h-4 w-4" />
               Approve
             </DropdownMenuItem>

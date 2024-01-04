@@ -3,7 +3,7 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Suspense } from 'react'
 import CategoriesClient from './components/categories-client'
-import { CategoryColumn } from './components/columns'
+import { type CategoryColumn } from './components/columns'
 import { SkeletonCmsPage } from '@/components/skeletons/skeleton-cms-page'
 
 const AdminCategoriesPage = async () => {

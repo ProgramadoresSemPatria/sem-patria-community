@@ -26,7 +26,11 @@ export const PermissionModal = () => {
         <div className="flex flex-col gap-y-2 mt-6">
           <Button
             variant="secondary"
-            onClick={() => signOut(() => router.push(appRoutes.signIn))}
+            onClick={async () => {
+              await signOut(() => {
+                router.push(appRoutes.signIn)
+              })
+            }}
           >
             Ok, I get it
           </Button>

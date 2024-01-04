@@ -14,8 +14,10 @@ export default function AdminLayout({
   const router = useRouter()
 
   useEffect(() => {
-    if (!isCmsMode) return router.push(appRoutes.dashboard)
-  }, [isCmsMode])
+    if (!isCmsMode) {
+      router.push(appRoutes.dashboard)
+    }
+  }, [isCmsMode, router])
 
   return <>{children}</>
 }

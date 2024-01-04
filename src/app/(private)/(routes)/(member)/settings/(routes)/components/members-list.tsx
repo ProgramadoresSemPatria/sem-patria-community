@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { useToast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { validateUserLevelColor } from '@/lib/utils'
-import { User } from '@prisma/client'
+import { type User } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -28,8 +28,8 @@ export const MembersList = ({ userProps, allUsers }: MembersListProps) => {
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
 
   const { mutateAsync: deleteUser, isPending: isDeleting } = useMutation({
-    mutationFn: () => {
-      return api.delete(`/api/user/${userProps.id}`)
+    mutationFn: async () => {
+      return await api.delete(`/api/user/${userProps.id}`)
     },
     onSuccess: () => {
       router.refresh()
@@ -66,8 +66,12 @@ export const MembersList = ({ userProps, allUsers }: MembersListProps) => {
       <AlertModal
         isOpen={isAlertModalOpen}
         loading={isDeleting}
-        onClose={() => setIsAlertModalOpen(false)}
-        onConfirm={() => onDeleteUser()}
+        onClose={() => {
+          setIsAlertModalOpen(false)
+        }}
+        onConfirm={async () => {
+          await onDeleteUser()
+        }}
       />
       <div className="mt-6 grid-cols-2 grid 2xl:grid-cols-3 w-full flex-col justify-between gap-y-8 gap-x-12">
         {allUsers.map(user => (
@@ -97,7 +101,7 @@ export const MembersList = ({ userProps, allUsers }: MembersListProps) => {
             <div className="ml-auto flex items-center gap-x-4">
               <Badge
                 className={`text-gray-200 ${validateUserLevelColor(
-                  user.level || 'unknown'
+                  user.level ?? 'unknown'
                 )}  transition-colors ease-in`}
               >
                 {user.level
@@ -112,7 +116,9 @@ export const MembersList = ({ userProps, allUsers }: MembersListProps) => {
                   disabled={isDeleting}
                   variant="destructive"
                   size="icon"
-                  onClick={() => setIsAlertModalOpen(true)}
+                  onClick={() => {
+                    setIsAlertModalOpen(true)
+                  }}
                 >
                   <Icons.trash className="h-4 w-4" />
                 </Button>

@@ -24,7 +24,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { useUser } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { User } from '@prisma/client'
+import { type User } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -48,13 +48,13 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
   const form = useForm<PersonalInfoFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      level: userProps.level || undefined
+      level: userProps.level ?? undefined
     }
   })
 
   const { mutateAsync: updateUserLevel, isPending: isUpdating } = useMutation({
-    mutationFn: (data: z.infer<typeof formSchema>) => {
-      return api.patch(`/api/user`, data)
+    mutationFn: async (data: z.infer<typeof formSchema>) => {
+      return await api.patch(`/api/user`, data)
     },
     onSuccess: () => {
       router.refresh()
@@ -109,7 +109,7 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                     id="name"
                     placeholder="Name"
                     disabled
-                    value={user.fullName || ''}
+                    value={user.fullName ?? ''}
                   />
                 </div>
               </div>

@@ -18,8 +18,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { appRoutes } from '@/lib/constants'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Category } from '@prisma/client'
-import { Icon } from '@radix-ui/react-select'
+import { type Category } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import { useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -60,8 +59,8 @@ export const NewCategoryForm = ({ initialData }: NewCategoryFormProps) => {
   })
 
   const { mutateAsync: deleteCategory, isPending: isDeleting } = useMutation({
-    mutationFn: () => {
-      return api.delete(`/api/categories/${params.categoryId}`)
+    mutationFn: async () => {
+      return await api.delete(`/api/categories/${params.categoryId}`)
     },
     onSuccess: () => {
       router.push(appRoutes.admin_categories)
@@ -81,12 +80,12 @@ export const NewCategoryForm = ({ initialData }: NewCategoryFormProps) => {
   })
 
   const { mutateAsync: createOrUpdateCategory, isPending } = useMutation({
-    mutationFn: (data: z.infer<typeof formSchema>) => {
+    mutationFn: async (data: z.infer<typeof formSchema>) => {
       if (initialData) {
-        return api.patch(`/api/categories/${params.categoryId}`, data)
+        return await api.patch(`/api/categories/${params.categoryId}`, data)
       }
 
-      return api.post(`/api/categories`, data)
+      return await api.post(`/api/categories`, data)
     },
     onSuccess: () => {
       router.push(appRoutes.admin_categories)
@@ -128,14 +127,20 @@ export const NewCategoryForm = ({ initialData }: NewCategoryFormProps) => {
       <AlertModal
         isOpen={isAlertModalOpen}
         loading={isDeleting}
-        onClose={() => setIsAlertModalOpen(false)}
-        onConfirm={() => onDeleteCategory()}
+        onClose={() => {
+          setIsAlertModalOpen(false)
+        }}
+        onConfirm={async () => {
+          await onDeleteCategory()
+        }}
       />
       <div className="flex flex-col">
         <Button
           size="icon"
           variant="link"
-          onClick={() => router.push(appRoutes.admin_categories)}
+          onClick={() => {
+            router.push(appRoutes.admin_categories)
+          }}
           className="font-medium w-fit"
         >
           <Icons.arrowBack className="mr-2 h-4 w-4" />
@@ -149,7 +154,9 @@ export const NewCategoryForm = ({ initialData }: NewCategoryFormProps) => {
               disabled={isPending}
               variant="destructive"
               size="icon"
-              onClick={() => setIsAlertModalOpen(true)}
+              onClick={() => {
+                setIsAlertModalOpen(true)
+              }}
             >
               <Icons.trash className="h-4 w-4" />
             </Button>

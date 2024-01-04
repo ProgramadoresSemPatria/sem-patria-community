@@ -18,7 +18,7 @@ export const EmptyNotes = () => {
         width={300}
         height={300}
       />
-      <p className="font-bold">There aren't notes created yet.</p>
+      <p className="font-bold">There aren&apos;t notes created yet.</p>
       <Button>
         <Icons.plus className="w-4 h-4 mr-2" />
         Create a note

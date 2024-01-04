@@ -16,7 +16,9 @@ export const CMSButton = () => {
 
   return (
     <Button
-      onClick={() => setCmsMode(!isCmsMode)}
+      onClick={() => {
+        setCmsMode(!isCmsMode)
+      }}
       variant="outline"
       className="gap-x-2 items-center"
     >

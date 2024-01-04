@@ -7,14 +7,16 @@ type MobileButtonProps = {
   children?: React.ReactNode
 }
 
-export const MobileButton = ({children}: MobileButtonProps) => {
+export const MobileButton = ({ children }: MobileButtonProps) => {
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false)
 
   return (
     <>
       <button
         className="flex items-center space-x-2 md:hidden"
-        onClick={() => setShowMobileMenu(!showMobileMenu)}
+        onClick={() => {
+          setShowMobileMenu(!showMobileMenu)
+        }}
       >
         {showMobileMenu ? (
           <Icons.close className="h-5 w-5" />

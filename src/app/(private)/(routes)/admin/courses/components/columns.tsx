@@ -1,15 +1,14 @@
 'use client'
 
-import { Category } from '@prisma/client'
-import { ColumnDef } from '@tanstack/react-table'
-import { CourseCellAction } from './course-cell-action'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   validateCourseIsPendingColor,
   validateCourseLevelColor
 } from '@/lib/utils'
+import { type ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { CourseCellAction } from './course-cell-action'
 
 export type CourseColumn = {
   id: string
@@ -22,7 +21,7 @@ export type CourseColumn = {
   categoryId?: string
 }
 
-export const columns: ColumnDef<CourseColumn>[] = [
+export const columns: Array<ColumnDef<CourseColumn>> = [
   {
     accessorKey: 'name',
     header: 'Name'
@@ -61,7 +60,9 @@ export const columns: ColumnDef<CourseColumn>[] = [
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === 'asc')
+          }}
         >
           Pending
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -78,6 +79,7 @@ export const columns: ColumnDef<CourseColumn>[] = [
   },
   {
     id: 'actions',
+    header: 'Actions',
     cell: ({ row }) => <CourseCellAction data={row.original} />
   }
 ]

@@ -4,7 +4,7 @@ import * as React from 'react'
 import appLogo from '@/assets/logo.svg'
 import { useLockBody } from '@/hooks/use-lock-body'
 import { appConfig, appRoutes } from '@/lib/constants'
-import { RouteProps } from '@/lib/types'
+import { type RouteProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 

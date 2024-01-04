@@ -1,5 +1,5 @@
 import prismadb from '@/lib/prismadb'
-import { User } from '@clerk/nextjs/server'
+import { type User } from '@clerk/nextjs/server'
 
 export const createUserInDB = async (user: User) => {
   const whiteList = process.env.USERS_WHITELIST?.split(',')
@@ -18,15 +18,13 @@ export const createUserInDB = async (user: User) => {
         id: user.id,
         email: user.emailAddresses[0].emailAddress,
         name: user.firstName + ' ' + user.lastName,
-        username: user.username || '',
-        isAdmin: (user.username && whiteList?.includes(user.username)) || false
+        username: user.username ?? '',
+        isAdmin: !!(user.username && whiteList?.includes(user.username))
       }
     })
 
     if (!newUser)
       throw new Error('Something went wrong while creating the user')
-
-    return
   } catch (error) {
     console.error(error)
     throw new Error('Something went wrong ')

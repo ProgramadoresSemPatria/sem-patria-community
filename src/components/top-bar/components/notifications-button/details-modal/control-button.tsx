@@ -1,5 +1,5 @@
 'use client'
-import { Button } from '@/components/ui/button'
+import { Button, type ButtonVariantProps } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
 import { useApproveOrDeclineCourseMutation } from '@/hooks/use-notifications'
 import React, { useCallback } from 'react'
@@ -45,7 +45,7 @@ const ControlButton: React.FC<ControlButtonProps> = ({
 
   return (
     <Button
-      variant={variants[type].variant as any}
+      variant={variants[type].variant as ButtonVariantProps}
       className={`${variants[type].style} gap-2`}
       onClick={handleApproveOrDecline}
     >

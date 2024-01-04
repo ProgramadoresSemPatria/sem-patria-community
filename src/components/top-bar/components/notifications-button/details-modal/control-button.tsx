@@ -2,17 +2,14 @@
 import { Button, type ButtonVariantProps } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
 import { useApproveOrDeclineCourseMutation } from '@/hooks/use-notifications'
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 
 interface ControlButtonProps {
   type: 'approve' | 'decline'
   courseId: string
 }
 
-const ControlButton: React.FC<ControlButtonProps> = ({
-  type,
-  courseId
-}: ControlButtonProps) => {
+const ControlButton = ({ type, courseId }: ControlButtonProps) => {
   const { mutateAsync, isPending } = useApproveOrDeclineCourseMutation({
     courseId,
     type

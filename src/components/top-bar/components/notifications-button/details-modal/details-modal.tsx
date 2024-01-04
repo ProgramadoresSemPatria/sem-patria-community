@@ -9,7 +9,7 @@ interface DetailsModalProps {
   courseName: string
 }
 
-const DetailsModal: React.FC<DetailsModalProps> = ({
+const DetailsModal = ({
   children,
   isOpen,
   setIsOpen,

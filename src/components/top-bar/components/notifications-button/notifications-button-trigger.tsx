@@ -6,7 +6,7 @@ interface NotificationsButtonTriggerProps {
   children: React.ReactNode
 }
 
-const NotificationsButtonTrigger: React.FC<NotificationsButtonTriggerProps> = ({
+const NotificationsButtonTrigger = ({
   children
 }: NotificationsButtonTriggerProps) => {
   const { data } = useNotifications()

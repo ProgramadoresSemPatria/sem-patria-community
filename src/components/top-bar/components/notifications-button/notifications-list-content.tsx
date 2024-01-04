@@ -11,11 +11,11 @@ import { useNotifications } from '@/hooks/use-notifications'
 import { type Course } from '@prisma/client'
 import { useMutationState, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import DetailsModal from './details-modal/details-modal'
 import DetailsModalContent from './details-modal/details-modal-content'
 
-const NotificationsListContent: React.FC = () => {
+const NotificationsListContent = () => {
   const { data, isLoading, refetch } = useNotifications()
   const [isOpen, setIsOpen] = useState(false)
   const [selectedCourse, setSelectedCourse] = useState<

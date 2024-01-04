@@ -4,11 +4,10 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
-import React from 'react'
 import NotificationsButtonTrigger from './notifications-button-trigger'
 import NotificationsListContent from './notifications-list-content'
 
-const NotificationsButton: React.FC = () => {
+const NotificationsButton = () => {
   return (
     <Popover>
       <PopoverTrigger className="hover:bg-accent p-2 rounded-md">

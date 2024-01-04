@@ -2,7 +2,6 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { validateCourseLevelColor } from '@/lib/utils'
 import { type Course } from '@prisma/client'
 import { format } from 'date-fns'
-import React from 'react'
 import ControlButton from './control-button'
 
 interface DetailsModalContentProps {
@@ -15,9 +14,7 @@ interface DetailsModalContentProps {
     | null
 }
 
-const DetailsModalContent: React.FC<DetailsModalContentProps> = ({
-  course
-}: DetailsModalContentProps) => {
+const DetailsModalContent = ({ course }: DetailsModalContentProps) => {
   return (
     <div className="flex flex-col gap-4 items-center">
       <div className="grid grid-cols-2 gap-x-4">

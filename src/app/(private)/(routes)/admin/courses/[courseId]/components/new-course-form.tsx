@@ -37,7 +37,6 @@ import * as z from 'zod'
 type NewCourseFormProps = {
   initialData: Course | null
   categories: Category[]
-  hasFeedback: boolean
 }
 
 const formSchema = z.object({
@@ -58,16 +57,14 @@ const formSchema = z.object({
   }),
   categoryId: z.string().min(1, {
     message: 'Category is required'
-  }),
-  isPending: z.boolean().default(true)
+  })
 })
 
 type NewCourseFormValues = z.infer<typeof formSchema>
 
 export const NewCourseForm = ({
   initialData,
-  categories,
-  hasFeedback
+  categories
 }: NewCourseFormProps) => {
   const params = useParams()
   const router = useRouter()
@@ -95,8 +92,7 @@ export const NewCourseForm = ({
           courseUrl: '',
           categoryId: '',
           level: '',
-          isPaid: false,
-          isPending: hasFeedback
+          isPaid: false
         }
   })
 
@@ -177,37 +173,33 @@ export const NewCourseForm = ({
         }}
       />
       <div className="flex flex-col">
-        {!hasFeedback && (
-          <>
-            <Button
-              size="icon"
-              variant="link"
-              onClick={() => {
-                router.push(appRoutes.admin_courses)
-              }}
-              className="font-medium w-fit"
-            >
-              <Icons.arrowBack className="mr-2 h-4 w-4" />
-              Voltar
-            </Button>
+        <Button
+          size="icon"
+          variant="link"
+          onClick={() => {
+            router.push(appRoutes.admin_courses)
+          }}
+          className="font-medium w-fit"
+        >
+          <Icons.arrowBack className="mr-2 h-4 w-4" />
+          Voltar
+        </Button>
 
-            <div className="flex items-center justify-between">
-              <Header title={title} description={description} />
-              {initialData && (
-                <Button
-                  disabled={isPending}
-                  variant="destructive"
-                  size="icon"
-                  onClick={() => {
-                    setIsAlertModalOpen(true)
-                  }}
-                >
-                  <Icons.trash className="h-4 w-4" />
-                </Button>
-              )}
-            </div>
-          </>
-        )}
+        <div className="flex items-center justify-between">
+          <Header title={title} description={description} />
+          {initialData && (
+            <Button
+              disabled={isPending}
+              variant="destructive"
+              size="icon"
+              onClick={() => {
+                setIsAlertModalOpen(true)
+              }}
+            >
+              <Icons.trash className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
         <Separator className="my-6" />
         <Form {...form}>
           <form

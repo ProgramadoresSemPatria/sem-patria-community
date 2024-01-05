@@ -1,33 +1,73 @@
 import { Modal } from '@/components/ui/modal'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import { Separator } from '@/components/ui/separator'
 import { useFeedbackModal } from '@/hooks/use-feedback-modal'
-import { NewCourseForm } from '@/app/(private)/(routes)/admin/courses/[courseId]/components/new-course-form'
-import { useQuery } from '@tanstack/react-query'
-import { type AxiosResponse } from 'axios'
-import { type Category } from '@prisma/client'
-import { api } from '@/lib/api'
+import { useCallback, useState, type ReactNode } from 'react'
+import { Label } from '../ui/label'
+import { FeedbackModalCategoryContent } from './components/feedback-modal-category-content'
+import { FeedbackModalCourseContent } from './components/feedback-modal-course-content'
 
 const FeedbackModal = () => {
   const { isOpen, onClose } = useFeedbackModal()
-  const { data: categories, isLoading } = useQuery<AxiosResponse<Category[]>>({
-    queryKey: ['categories'],
-    queryFn: async () => await api.get(`/api/categories`)
-  })
+  const [selectValue, setSelectValue] = useState<string>()
+
+  const handleSetSelectValue = useCallback((value: string) => {
+    setSelectValue(value)
+  }, [])
+
+  const feedbackContent = useCallback(() => {
+    if (!selectValue) return
+
+    const content: Record<string, ReactNode> = {
+      course: (
+        <FeedbackModalCourseContent
+          onClose={onClose}
+          handleSetSelectValue={handleSetSelectValue}
+        />
+      ),
+      category: <FeedbackModalCategoryContent onClose={onClose} />
+    }
+
+    return content[selectValue]
+  }, [handleSetSelectValue, onClose, selectValue])
+
   return (
     <>
-      {!isLoading && categories && (
-        <Modal
-          title="Create New Course"
-          description="Add a new course to the community."
-          isOpen={isOpen}
-          onClose={onClose}
-        >
-          <NewCourseForm
-            categories={categories.data}
-            initialData={null}
-            hasFeedback={true}
-          />
-        </Modal>
-      )}
+      <Modal
+        title="Recommend a Content"
+        description="Insert a recommendation for feed the content of the platform."
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <Separator />
+        <div className="flex flex-col gap-2 mt-4">
+          <Label>Recommendation</Label>
+          <Select
+            disabled={false}
+            onValueChange={value => {
+              setSelectValue(value)
+            }}
+            value={selectValue}
+            defaultValue={selectValue}
+          >
+            <SelectTrigger className="w-48">
+              <SelectValue placeholder="Select a Content" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="course">Course</SelectItem>
+              <SelectItem value="category">Category</SelectItem>
+            </SelectContent>
+          </Select>
+          <Separator className="my-2" />
+          {feedbackContent()}
+        </div>
+      </Modal>
     </>
   )
 }

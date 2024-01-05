@@ -3,8 +3,7 @@
 import { api } from '@/lib/api'
 import { type Course } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
-import { type AxiosResponse } from 'axios'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
 export const useCourseContent = () => {
@@ -12,10 +11,10 @@ export const useCourseContent = () => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const { data: coursesList, isLoading } = useQuery<AxiosResponse<Course[]>>({
+  const { data: coursesList, isLoading } = useQuery<Course[]>({
     queryKey: ['courses', { filter: searchParams.get('filter') }],
     queryFn: async () =>
-      await api.get(`/api/courses?filter=${searchParams.get('filter')}`),
+      (await api.get(`/api/courses?filter=${searchParams.get('filter')}`)).data,
     enabled: !!searchParams.get('filter')
   })
 

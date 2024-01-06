@@ -2,13 +2,10 @@
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import {
-  validateCourseIsPendingColor,
-  validateCourseLevelColor
-} from '@/lib/utils'
+import { validateCourseLevelColor, validateIsPendingColor } from '@/lib/utils'
 import { type ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown } from 'lucide-react'
 import { CourseCellAction } from './course-cell-action'
+import { Icons } from '@/components/icons'
 
 export type CourseColumn = {
   id: string
@@ -65,12 +62,12 @@ export const columns: Array<ColumnDef<CourseColumn>> = [
           }}
         >
           Pending
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <Icons.arrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
     },
     cell: ({ row }) => {
-      const { background, text } = validateCourseIsPendingColor(
+      const { background, text } = validateIsPendingColor(
         row.original.isPending
       )
 

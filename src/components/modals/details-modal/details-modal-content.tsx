@@ -1,39 +1,33 @@
+import { type NotificationProps } from '@/components/top-bar/notifications-button/notifications-list-content'
 import { Checkbox } from '@/components/ui/checkbox'
 import { validateCourseLevelColor } from '@/lib/utils'
-import { type Course } from '@prisma/client'
 import { format } from 'date-fns'
 import ControlButton from './control-button'
 
-interface DetailsModalContentProps {
-  course:
-    | (Course & {
-        category: {
-          name: string
-        }
-      })
-    | null
+type DetailsModalContentProps = {
+  content?: NotificationProps
 }
 
-const DetailsModalContent = ({ course }: DetailsModalContentProps) => {
+const DetailsModalContent = ({ content }: DetailsModalContentProps) => {
   return (
     <div className="flex flex-col gap-4 items-center">
       <div className="grid grid-cols-2 gap-x-4">
         <div className="space-y-0.5">
           <h2 className=" font-bold tracking-tight">Course name</h2>
-          <p className="text-muted-foreground max-w-[150px]">{course?.name}</p>
+          <p className="text-muted-foreground max-w-[150px]">{content?.name}</p>
         </div>
         <div className="flex items-center gap-2 space-y-0.5">
           <h2 className="font-bold tracking-tight">Is paid</h2>
-          <Checkbox checked={course?.isPaid} className="cursor-default" />
+          <Checkbox checked={content?.} className="cursor-default" />
         </div>
         <div className="space-y-0.5 mt-6">
           <h2 className=" font-bold tracking-tight">Course level</h2>
           <div
             className={`flex items-center w-fit text-sm px-3 py-1 rounded-full ${validateCourseLevelColor(
-              course?.level ?? ''
+              content?.level ?? ''
             )}`}
           >
-            {course?.level}
+            {content?.level}
           </div>
         </div>
         <div className="space-y-0.5 mt-6">

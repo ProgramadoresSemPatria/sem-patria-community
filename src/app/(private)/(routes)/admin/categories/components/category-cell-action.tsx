@@ -28,6 +28,30 @@ export const CategoryCellAction = ({ data }: CategoryCellActionProps) => {
 
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
 
+  const { mutateAsync: updateCategory } = useMutation({
+    mutationFn: async () => {
+      return await api.patch(`/api/categories/${data.id}`, {
+        ...data,
+        isPending: false
+      })
+    },
+
+    onSuccess: () => {
+      router.refresh()
+      toast({
+        title: 'Success',
+        description: 'Category approved successfully.'
+      })
+    },
+    onError: () => {
+      toast({
+        title: 'Error',
+        description: 'Something went wrong.',
+        variant: 'destructive'
+      })
+    }
+  })
+
   const { mutateAsync: deleteCategory, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
       return await api.delete(`/api/categories/${data.id}`)
@@ -61,6 +85,19 @@ export const CategoryCellAction = ({ data }: CategoryCellActionProps) => {
       setIsAlertModalOpen(false)
     }
   }
+
+  const onApproveCategory = async () => {
+    try {
+      await updateCategory()
+    } catch (err) {
+      toast({
+        title: 'Error',
+        description: 'Something went wrong while approving the category.',
+        variant: 'destructive'
+      })
+    }
+  }
+
   return (
     <>
       <AlertModal
@@ -96,6 +133,16 @@ export const CategoryCellAction = ({ data }: CategoryCellActionProps) => {
             <Icons.trash className="mr-2 h-4 w-4" />
             Delete
           </DropdownMenuItem>
+          {data.isPending && (
+            <DropdownMenuItem
+              onClick={async () => {
+                await onApproveCategory()
+              }}
+            >
+              <Icons.check className="mr-2 h-4 w-4" />
+              Approve
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </>

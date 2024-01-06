@@ -27,7 +27,9 @@ import {
   Trash,
   User,
   X,
-  type LucideIcon
+  type LucideIcon,
+  ArrowUpDown,
+  BellDot
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -40,6 +42,7 @@ export const Icons = {
   arrowRight: ChevronRight,
   arrowBack: ChevronLeft,
   arrowDown: ChevronDown,
+  arrowUpDown: ArrowUpDown,
   home: Home,
   dashboard: LayoutDashboard,
   file: File,
@@ -60,5 +63,6 @@ export const Icons = {
   layers: Layers,
   calendar: CalendarCheck2,
   mentorship: GraduationCap,
-  notifications: Bell
+  bell: Bell,
+  bellDot: BellDot
 }

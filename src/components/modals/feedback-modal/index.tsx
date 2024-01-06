@@ -1,3 +1,4 @@
+import { Label } from '@/components/ui/label'
 import { Modal } from '@/components/ui/modal'
 import {
   Select,
@@ -9,9 +10,8 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { useFeedbackModal } from '@/hooks/use-feedback-modal'
 import { useCallback, useState, type ReactNode } from 'react'
-import { Label } from '../ui/label'
-import { FeedbackModalCategoryContent } from './components/feedback-modal-category-content'
-import { FeedbackModalCourseContent } from './components/feedback-modal-course-content'
+import { FeedbackModalCategoryContent } from './feedback-modal-category-content'
+import { FeedbackModalCourseContent } from './feedback-modal-course-content'
 
 const FeedbackModal = () => {
   const { isOpen, onClose } = useFeedbackModal()

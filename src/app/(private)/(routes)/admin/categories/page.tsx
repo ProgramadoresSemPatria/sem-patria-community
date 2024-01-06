@@ -1,10 +1,10 @@
+import { SkeletonCmsPage } from '@/components/skeletons/skeleton-cms-page'
 import prismadb from '@/lib/prismadb'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Suspense } from 'react'
 import CategoriesClient from './components/categories-client'
 import { type CategoryColumn } from './components/columns'
-import { SkeletonCmsPage } from '@/components/skeletons/skeleton-cms-page'
 
 const AdminCategoriesPage = async () => {
   const categories = await prismadb.category.findMany()
@@ -12,6 +12,7 @@ const AdminCategoriesPage = async () => {
   const formattedCategories: CategoryColumn[] = categories.map(item => ({
     id: item.id,
     name: item.name,
+    isPending: item.isPending,
     createdAt: format(item.createdAt, 'dd-LL-yyyy', {
       locale: ptBR
     })

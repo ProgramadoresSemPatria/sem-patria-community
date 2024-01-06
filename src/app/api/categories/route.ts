@@ -1,11 +1,11 @@
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs'
-import { type NextRequest, NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 
 export async function POST(req: NextRequest) {
   try {
     const { userId } = auth()
-    const { name } = await req.json()
+    const { name, isPending } = await req.json()
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
@@ -13,7 +13,8 @@ export async function POST(req: NextRequest) {
 
     const category = await prismadb.category.create({
       data: {
-        name
+        name,
+        isPending
       }
     })
 
@@ -30,7 +31,11 @@ export async function GET(req: NextRequest) {
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
-    const categories = await prismadb.category.findMany()
+    const categories = await prismadb.category.findMany({
+      where: {
+        isPending: false
+      }
+    })
 
     return NextResponse.json(categories)
   } catch (error) {

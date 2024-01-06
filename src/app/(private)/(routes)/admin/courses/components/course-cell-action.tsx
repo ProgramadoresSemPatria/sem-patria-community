@@ -47,6 +47,7 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
       })
     }
   })
+
   const { mutateAsync: updateCourse } = useMutation({
     mutationFn: async () => {
       return await api.patch(`/api/courses/${data.id}`, {
@@ -59,7 +60,7 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
       router.refresh()
       toast({
         title: 'Success',
-        description: 'Course updated successfully.'
+        description: 'Course approved successfully.'
       })
     },
     onError: () => {

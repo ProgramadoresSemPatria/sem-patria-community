@@ -19,7 +19,8 @@ import * as z from 'zod'
 const formSchema = z.object({
   name: z.string().min(1, {
     message: 'Name is required'
-  })
+  }),
+  isPending: z.boolean().default(true)
 })
 
 type FeedbackModalCategoryContentFormValues = z.infer<typeof formSchema>

@@ -1,5 +1,5 @@
 import { auth } from '@clerk/nextjs'
-import { type NextRequest, NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 
 import prismadb from '@/lib/prismadb'
 
@@ -9,7 +9,7 @@ export async function PATCH(
 ) {
   try {
     const { userId } = auth()
-    const { name } = await req.json()
+    const { name, isPending } = await req.json()
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
@@ -23,7 +23,8 @@ export async function PATCH(
         id: params.categoryId
       },
       data: {
-        name
+        name,
+        isPending
       }
     })
 

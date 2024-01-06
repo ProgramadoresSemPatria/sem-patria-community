@@ -1,4 +1,3 @@
-import { Icons } from '@/components/icons'
 import {
   Popover,
   PopoverContent,
@@ -11,9 +10,7 @@ const NotificationsButton = () => {
   return (
     <Popover>
       <PopoverTrigger className="hover:bg-accent p-2 rounded-md">
-        <NotificationsButtonTrigger>
-          <Icons.notifications />
-        </NotificationsButtonTrigger>
+        <NotificationsButtonTrigger />
       </PopoverTrigger>
       <PopoverContent className="p-0">
         <NotificationsListContent />

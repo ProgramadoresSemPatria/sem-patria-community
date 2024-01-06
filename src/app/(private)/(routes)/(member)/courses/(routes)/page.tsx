@@ -5,7 +5,12 @@ import { Suspense } from 'react'
 import CoursesContent from '../components/courses-content'
 
 const CoursesPage = async () => {
-  const categories = await prismadb.category.findMany()
+  const categories = await prismadb.category.findMany({
+    where: {
+      isPending: false
+    }
+  })
+
   return (
     <>
       <Suspense fallback={<SkeletonCoursePage />}>

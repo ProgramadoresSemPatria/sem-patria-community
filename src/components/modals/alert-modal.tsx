@@ -29,7 +29,7 @@ export const AlertModal = ({
   return (
     <Modal
       title="Are you sure?"
-      description="This action cannot be undone."
+      description="This action will delete the category and all courses vinculated to it."
       isOpen={isOpen}
       onClose={onClose}
     >

@@ -94,7 +94,7 @@ export const FeedbackModalCategoryContent = ({
             {isPending && (
               <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Create category
+            Create recommendation
           </Button>
         </div>
       </form>

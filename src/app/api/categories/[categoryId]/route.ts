@@ -9,7 +9,7 @@ export async function PATCH(
 ) {
   try {
     const { userId } = auth()
-    const { name, isPending } = await req.json()
+    const { name } = await req.json()
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
@@ -23,8 +23,7 @@ export async function PATCH(
         id: params.categoryId
       },
       data: {
-        name,
-        isPending
+        name
       }
     })
 
@@ -46,6 +45,19 @@ export async function DELETE(
 
     if (!params.categoryId)
       return new NextResponse('Category id is required', { status: 400 })
+
+    const isCoursesVinculated = await prismadb.course.findMany({
+      where: {
+        categoryId: params.categoryId
+      }
+    })
+
+    if (isCoursesVinculated)
+      await prismadb.course.deleteMany({
+        where: {
+          categoryId: params.categoryId
+        }
+      })
 
     const category = await prismadb.category.deleteMany({
       where: {

@@ -11,6 +11,7 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -18,12 +19,14 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
 import { toast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { type Category } from '@prisma/client'
 
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -43,23 +46,22 @@ const formSchema = z.object({
   level: z.string().min(1, {
     message: 'Level is required'
   }),
-  categoryId: z.string().min(1, {
-    message: 'Category is required'
-  }),
+  categoryId: z.string().optional(),
+  categoryName: z.string().optional(),
   isPending: z.boolean().default(true)
 })
 
 type FeedbackModalCourseContentFormValues = z.infer<typeof formSchema>
 
 type FeedbackModalCourseContentProps = {
-  handleSetSelectValue: (value: string) => void
   onClose: () => void
 }
 
 export const FeedbackModalCourseContent = ({
-  handleSetSelectValue,
   onClose
 }: FeedbackModalCourseContentProps) => {
+  const [isNewCategory, setIsNewCategory] = useState(false)
+
   const { data: categories, isLoading: isLoadingCategories } = useQuery<
     Category[]
   >({
@@ -91,39 +93,136 @@ export const FeedbackModalCourseContent = ({
     }
   })
 
-  const onSubmit = async (values: FeedbackModalCourseContentFormValues) =>
-    await createCourse(values)
+  const onSubmit = async (values: FeedbackModalCourseContentFormValues) => {
+    const categoriesList = categories ?? []
+    if (categoriesList.length < 1 && !values.categoryName) {
+      toast({
+        title: 'Attention',
+        description: 'You need to create a category to create a course.',
+        variant: 'default'
+      })
+      return
+    }
 
-  const checkIfCategoryExists = () => {
+    if (categoriesList.length > 0 && !values.categoryId && !isNewCategory) {
+      toast({
+        title: 'Attention',
+        description: 'You need to select a category to create a course.',
+        variant: 'default'
+      })
+      return
+    }
+
+    await createCourse(values)
+  }
+  const handleCategoryInput = () => {
     if (isLoadingCategories)
       return <Icons.loader className="w-6 h-6 animate-spin" />
 
     if (!categories || categories.length < 1)
       return (
-        <div className="flex flex-col gap-y-2">
-          <span className="text-muted-foreground font-medium text-sm">
-            You must create a category before create a course.
-          </span>
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-1/3"
-            onClick={() => {
-              handleSetSelectValue('category')
-            }}
-          >
-            Create category
-          </Button>
-        </div>
+        <FormField
+          control={form.control}
+          name="categoryName"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Category</FormLabel>
+              <FormControl>
+                <Input
+                  disabled={isPending}
+                  placeholder="New category name"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       )
 
-    return null
+    return (
+      <>
+        <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+          <div className="space-y-0.5">
+            <Label>Create a new category</Label>
+            <span className="flex flex-wrap font-medium text-muted-foreground text-sm">
+              Allow this option if there is no category for this course.
+            </span>
+            <span className="flex flex-wrap pt-1 text-slate-300 font-normal text-xs">
+              The category will only appear when the course has been approved.
+            </span>
+          </div>
+          <Switch
+            checked={isNewCategory}
+            onCheckedChange={() => {
+              setIsNewCategory(prev => !prev)
+            }}
+          />
+        </div>
+
+        {isNewCategory ? (
+          <FormField
+            control={form.control}
+            name="categoryName"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Category</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isPending}
+                    placeholder="New category name"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ) : (
+          <FormField
+            control={form.control}
+            name="categoryId"
+            render={({ field }) => (
+              <>
+                <FormItem className="w-full">
+                  <FormLabel>Category</FormLabel>
+                  <Select
+                    disabled={isPending}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select a category"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {categories &&
+                        categories.length > 0 &&
+                        categories.map(category => (
+                          <SelectItem key={category.id} value={category.id}>
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              </>
+            )}
+          />
+        )}
+      </>
+    )
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-y-4">
+        <div className="flex flex-col gap-y-6 mt-4">
           <FormField
             control={form.control}
             name="name"
@@ -141,76 +240,6 @@ export const FeedbackModalCourseContent = ({
               </FormItem>
             )}
           />
-
-          <div className="flex items-center justify-between gap-x-8">
-            <FormField
-              control={form.control}
-              name="level"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Levels</FormLabel>
-                  <Select
-                    disabled={isPending}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a level"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="beginner">Beginner</SelectItem>
-                      <SelectItem value="intermediate">Intermediate</SelectItem>
-                      <SelectItem value="advanced">Advanced</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="categoryId"
-              render={({ field }) => (
-                <>
-                  <FormItem className="w-full">
-                    <FormLabel>Category</FormLabel>
-                    {checkIfCategoryExists() ?? (
-                      <Select
-                        disabled={isPending}
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue
-                              defaultValue={field.value}
-                              placeholder="Select a category"
-                            />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {categories &&
-                            categories.length > 0 &&
-                            categories.map(category => (
-                              <SelectItem key={category.id} value={category.id}>
-                                {category.name}
-                              </SelectItem>
-                            ))}
-                        </SelectContent>
-                      </Select>
-                    )}
-                  </FormItem>
-                </>
-              )}
-            />
-          </div>
           <FormField
             control={form.control}
             name="courseUrl"
@@ -230,9 +259,39 @@ export const FeedbackModalCourseContent = ({
           />
           <FormField
             control={form.control}
+            name="level"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Levels</FormLabel>
+                <Select
+                  disabled={isPending}
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue
+                        defaultValue={field.value}
+                        placeholder="Select a level"
+                      />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="beginner">Beginner</SelectItem>
+                    <SelectItem value="intermediate">Intermediate</SelectItem>
+                    <SelectItem value="advanced">Advanced</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="isPaid"
             render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 w-full">
                 <FormControl>
                   <Checkbox
                     checked={field.value}
@@ -248,6 +307,8 @@ export const FeedbackModalCourseContent = ({
               </FormItem>
             )}
           />
+
+          {handleCategoryInput()}
         </div>
         <div className="flex items-center w-full mt-8 gap-x-4">
           <Button
@@ -265,7 +326,7 @@ export const FeedbackModalCourseContent = ({
             {isPending && (
               <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Create course
+            Create recommendation
           </Button>
         </div>
       </form>

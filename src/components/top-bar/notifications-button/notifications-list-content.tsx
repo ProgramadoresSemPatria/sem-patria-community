@@ -15,13 +15,13 @@ import { type Category, type Course } from '@prisma/client'
 import { formatDistance, subDays } from 'date-fns'
 import { useMemo, useState } from 'react'
 
-export type NotificationProps =
-  | ({
-      type: string
-    } & Category)
-  | (Course & {
-      type: string
-    })
+type NotificationTypes = 'course' | 'category'
+
+export type NotificationProps = {
+  type: NotificationTypes
+  courseProps?: Course
+  categoryProps?: Category
+}
 
 const NotificationsListContent = () => {
   const { notifications, isLoadingNotifications } = useNotifications()
@@ -29,26 +29,6 @@ const NotificationsListContent = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedNotification, setSelectedNotification] =
     useState<NotificationProps>()
-
-  // const requestStatus = useMutationState({
-  //   filters: {
-  //     mutationKey: ['approveCourse']
-  //   },
-  //   select: mutation => mutation.state.status
-  // })
-  // const queryClient = useQueryClient()
-
-  // useEffect(() => {
-  //   if (requestStatus[0] === 'success') {
-  //     setTimeout(() => {
-  //       setIsOpen(false)
-  //       refetch()
-  //       queryClient.refetchQueries({
-  //         queryKey: ['courses']
-  //       })
-  //     }, 500)
-  //   }
-  // }, [queryClient, refetch, requestStatus])
 
   const formattedCourses = useMemo(() => {
     if (!notifications) return []
@@ -72,17 +52,26 @@ const NotificationsListContent = () => {
     return [...formattedCourses, ...formattedCategories]
   }, [formattedCategories, formattedCourses, notifications])
 
-  const onSelectNotification = (id: string, type: string) => {
+  const onSelectNotification = (id: string, type: NotificationTypes) => {
     if (type === 'course') {
       const selectedCourse = formattedCourses.find(course => course.id === id)
-      setSelectedNotification(selectedCourse)
+      const props = {
+        type,
+        courseProps: selectedCourse
+      }
+
+      setSelectedNotification(props)
     }
 
-    if (type === 'Category') {
+    if (type === 'category') {
       const selectedCategory = formattedCategories.find(
         category => category.id === id
       )
-      setSelectedNotification(selectedCategory)
+      const props = {
+        type,
+        categoryProps: selectedCategory
+      }
+      setSelectedNotification(props)
     }
 
     setIsOpen(true)
@@ -105,11 +94,7 @@ const NotificationsListContent = () => {
 
   return (
     <>
-      <DetailsModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        courseName={selectedNotification?.name ?? ''}
-      >
+      <DetailsModal isOpen={isOpen} setIsOpen={setIsOpen}>
         <DetailsModalContent content={selectedNotification} />
       </DetailsModal>
       <Card className="shadow-none border-none">
@@ -119,11 +104,11 @@ const NotificationsListContent = () => {
             {allNotifications.length} Content Pending Approval
           </CardDescription>
         </CardHeader>
-        <CardContent className="grid">
+        <CardContent className="flex flex-col gap-y-6">
           {allNotifications.map(notification => (
             <div
               key={notification.id}
-              className="mb-4 grid grid-cols-[25px_1fr_0.5fr] items-start last:mb-0 last:pb-0"
+              className="grid grid-cols-[25px_1fr_0.5fr] items-start last:mb-0 last:pb-0"
             >
               <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
               <div className="space-y-1">
@@ -143,7 +128,10 @@ const NotificationsListContent = () => {
                 size="sm"
                 variant="secondary"
                 onClick={() => {
-                  onSelectNotification(notification.id, notification.type)
+                  onSelectNotification(
+                    notification.id,
+                    notification.type as NotificationTypes
+                  )
                 }}
               >
                 Review

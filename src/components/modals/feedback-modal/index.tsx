@@ -1,41 +1,22 @@
-import { Label } from '@/components/ui/label'
 import { Modal } from '@/components/ui/modal'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useFeedbackModal } from '@/hooks/use-feedback-modal'
-import { useCallback, useState, type ReactNode } from 'react'
-import { FeedbackModalCategoryContent } from './feedback-modal-category-content'
 import { FeedbackModalCourseContent } from './feedback-modal-course-content'
 
 const FeedbackModal = () => {
   const { isOpen, onClose } = useFeedbackModal()
-  const [selectValue, setSelectValue] = useState<string>()
 
-  const handleSetSelectValue = useCallback((value: string) => {
-    setSelectValue(value)
-  }, [])
-
-  const feedbackContent = useCallback(() => {
-    if (!selectValue) return
-
-    const content: Record<string, ReactNode> = {
-      course: (
-        <FeedbackModalCourseContent
-          onClose={onClose}
-          handleSetSelectValue={handleSetSelectValue}
-        />
-      ),
-      category: <FeedbackModalCategoryContent onClose={onClose} />
+  const tabsOptions = [
+    {
+      id: 'course',
+      content: <FeedbackModalCourseContent onClose={onClose} />
+    },
+    {
+      id: 'soon',
+      content: <div>Coming Soon</div>
     }
-
-    return content[selectValue]
-  }, [handleSetSelectValue, onClose, selectValue])
+  ]
 
   return (
     <>
@@ -47,25 +28,19 @@ const FeedbackModal = () => {
       >
         <Separator />
         <div className="flex flex-col gap-2 mt-4">
-          <Label>Recommendation</Label>
-          <Select
-            disabled={false}
-            onValueChange={value => {
-              setSelectValue(value)
-            }}
-            value={selectValue}
-            defaultValue={selectValue}
-          >
-            <SelectTrigger className="w-48">
-              <SelectValue placeholder="Select a Content" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="course">Course</SelectItem>
-              <SelectItem value="category">Category</SelectItem>
-            </SelectContent>
-          </Select>
-          <Separator className="my-2" />
-          {feedbackContent()}
+          <Tabs defaultValue={tabsOptions[0].id} className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="course">Course</TabsTrigger>
+              <TabsTrigger value="soon" disabled>
+                Coming Soon
+              </TabsTrigger>
+            </TabsList>
+            {tabsOptions.map(value => (
+              <TabsContent key={value.id} value={value.id}>
+                {value.content}
+              </TabsContent>
+            ))}
+          </Tabs>
         </div>
       </Modal>
     </>

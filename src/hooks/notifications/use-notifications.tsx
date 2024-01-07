@@ -11,9 +11,9 @@ type ApproveOrDeclineContentBody = {
   type: 'approve' | 'reject'
 }
 
-export const useApproveOrDeclineContentMutation = () => {
-  return useMutation({
-    mutationKey: ['approveContent'],
+export const useNotifications = () => {
+  const { mutateAsync: approveOrDeclineContent, isPending } = useMutation({
+    mutationKey: ['approveOrDeclineContent'],
     mutationFn: async (body: ApproveOrDeclineContentBody) => {
       await api.put(`/api/notification`, body)
     },
@@ -31,9 +31,7 @@ export const useApproveOrDeclineContentMutation = () => {
       })
     }
   })
-}
 
-export const useNotifications = () => {
   const { data: notifications, isLoading: isLoadingNotifications } =
     useQuery<NoficationsApiProps>({
       queryKey: ['notifications'],
@@ -42,5 +40,11 @@ export const useNotifications = () => {
         return data
       }
     })
-  return { notifications, isLoadingNotifications }
+
+  return {
+    notifications,
+    isLoadingNotifications,
+    approveOrDeclineContent,
+    isPending
+  }
 }

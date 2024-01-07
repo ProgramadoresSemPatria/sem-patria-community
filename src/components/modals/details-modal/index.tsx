@@ -6,23 +6,17 @@ interface DetailsModalProps {
   children: React.ReactNode
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
-  courseName: string
 }
 
-const DetailsModal = ({
-  children,
-  isOpen,
-  setIsOpen,
-  courseName
-}: DetailsModalProps) => {
+const DetailsModal = ({ children, isOpen, setIsOpen }: DetailsModalProps) => {
   const onClose = () => {
     setIsOpen(false)
   }
 
   return (
     <Modal
-      title={`Manage "${courseName}"`}
-      description="Approve or decline this course to the community."
+      title={`Manage the content`}
+      description="Approve or decline this content to the community."
       isOpen={isOpen}
       onClose={onClose}
     >

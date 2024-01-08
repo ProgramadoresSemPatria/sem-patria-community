@@ -1,4 +1,5 @@
 'use client'
+import { getCategory } from '@/actions/category/get-category'
 import DetailsModal from '@/components/modals/details-modal'
 import DetailsModalContent from '@/components/modals/details-modal/details-modal-content'
 import { Button } from '@/components/ui/button'
@@ -9,8 +10,9 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useNotifications } from '@/hooks/notifications/use-notifications'
+import { useNotification } from '@/hooks/notification/use-notification'
 import { type Category, type Course } from '@prisma/client'
 import { formatDistance, subDays } from 'date-fns'
 import { useMemo, useState } from 'react'
@@ -19,60 +21,36 @@ type NotificationTypes = 'course' | 'category'
 
 export type NotificationProps = {
   type: NotificationTypes
-  courseProps?: Course
+  courseProps: Course
   categoryProps?: Category
 }
 
 const NotificationsListContent = () => {
-  const { notifications, isLoadingNotifications } = useNotifications()
+  const { notifications, isLoadingNotifications } = useNotification()
 
   const [isOpen, setIsOpen] = useState(false)
   const [selectedNotification, setSelectedNotification] =
     useState<NotificationProps>()
 
-  const formattedCourses = useMemo(() => {
+  const formattedNotifications = useMemo(() => {
     if (!notifications) return []
-    return notifications?.courses.map(course => ({
+    return notifications?.map(course => ({
       ...course,
       type: 'course'
     }))
   }, [notifications])
 
-  const formattedCategories = useMemo(() => {
-    if (!notifications) return []
-    return notifications?.categories.map(category => ({
-      ...category,
-      type: 'category'
-    }))
-  }, [notifications])
-
-  const allNotifications = useMemo(() => {
-    if (!notifications) return []
-
-    return [...formattedCourses, ...formattedCategories]
-  }, [formattedCategories, formattedCourses, notifications])
-
-  const onSelectNotification = (id: string, type: NotificationTypes) => {
-    if (type === 'course') {
-      const selectedCourse = formattedCourses.find(course => course.id === id)
-      const props = {
-        type,
-        courseProps: selectedCourse
-      }
-
-      setSelectedNotification(props)
+  const onSelectNotification = async (
+    type: NotificationTypes,
+    notification: Course
+  ) => {
+    const category = await getCategory(notification.categoryId)
+    const props: NotificationProps = {
+      courseProps: notification,
+      categoryProps: category ?? undefined,
+      type
     }
-
-    if (type === 'category') {
-      const selectedCategory = formattedCategories.find(
-        category => category.id === id
-      )
-      const props = {
-        type,
-        categoryProps: selectedCategory
-      }
-      setSelectedNotification(props)
-    }
+    setSelectedNotification(props)
 
     setIsOpen(true)
   }
@@ -101,43 +79,46 @@ const NotificationsListContent = () => {
         <CardHeader>
           <CardTitle>Notifications</CardTitle>
           <CardDescription>
-            {allNotifications.length} Content Pending Approval
+            {formattedNotifications.length} Content Pending Approval
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-y-6">
-          {allNotifications.map(notification => (
-            <div
-              key={notification.id}
-              className="grid grid-cols-[25px_1fr_0.5fr] items-start last:mb-0 last:pb-0"
-            >
-              <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-              <div className="space-y-1">
-                <p className="text-sm font-medium leading-none">
-                  {notification.name.charAt(0).toUpperCase() +
-                    notification.name.slice(1)}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {formatDistance(
-                    subDays(new Date(notification.createdAt), 0),
-                    new Date(),
-                    { addSuffix: true }
-                  )}
-                </p>
-              </div>
-              <Button
-                size="sm"
-                variant="secondary"
-                onClick={() => {
-                  onSelectNotification(
-                    notification.id,
-                    notification.type as NotificationTypes
-                  )
-                }}
+        <CardContent className="max-h-48 flex flex-col gap-y-8">
+          <ScrollArea className="overflow-auto">
+            {formattedNotifications.map(notification => (
+              <div
+                key={notification.id}
+                className="py-3 grid grid-cols-[25px_1fr_0.5fr] items-start last:mb-0 last:pb-0"
               >
-                Review
-              </Button>
-            </div>
-          ))}
+                <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                <div className="space-y-1">
+                  <p className="text-sm font-medium leading-none">
+                    {notification.name.charAt(0).toUpperCase() +
+                      notification.name.slice(1)}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {formatDistance(
+                      subDays(new Date(notification.createdAt), 0),
+                      new Date(),
+                      { addSuffix: true }
+                    )}
+                  </p>
+                </div>
+                <Button
+                  className="mr-4"
+                  size="sm"
+                  variant="secondary"
+                  onClick={async () => {
+                    await onSelectNotification(
+                      notification.type as NotificationTypes,
+                      notification
+                    )
+                  }}
+                >
+                  Review
+                </Button>
+              </div>
+            ))}
+          </ScrollArea>
         </CardContent>
       </Card>
     </>

@@ -21,11 +21,9 @@ import {
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { toast } from '@/components/ui/use-toast'
-import { api } from '@/lib/api'
+import { useCategory } from '@/hooks/category/use-category'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { type Category } from '@prisma/client'
 
-import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -60,23 +58,14 @@ type FeedbackModalCourseContentProps = {
 export const FeedbackModalCourseContent = ({
   onClose
 }: FeedbackModalCourseContentProps) => {
+  const { categories, isLoadingCategories, useCreateCourse } = useCategory()
   const [isNewCategory, setIsNewCategory] = useState(false)
-
-  const { data: categories, isLoading: isLoadingCategories } = useQuery<
-    Category[]
-  >({
-    queryKey: ['categories'],
-    queryFn: async () => (await api.get(`/api/categories`)).data
-  })
 
   const form = useForm<FeedbackModalCourseContentFormValues>({
     resolver: zodResolver(formSchema)
   })
 
-  const { mutateAsync: createCourse, isPending } = useMutation({
-    mutationFn: async (data: z.infer<typeof formSchema>) => {
-      return await api.post(`/api/courses`, data)
-    },
+  const { mutateAsync: createCourse, isPending } = useCreateCourse({
     onSuccess: () => {
       toast({
         title: 'Success',
@@ -291,19 +280,19 @@ export const FeedbackModalCourseContent = ({
             control={form.control}
             name="isPaid"
             render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 w-full">
+              <FormItem className="flex flex-row items-center justify-between space-x-3 space-y-0 rounded-md border p-4 w-full">
+                <div className="space-y-1 leading-none">
+                  <FormLabel>Course Paid</FormLabel>
+                  <FormDescription>
+                    Inform if this course is paid or not.
+                  </FormDescription>
+                </div>
                 <FormControl>
                   <Checkbox
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel>Paid</FormLabel>
-                  <FormDescription>
-                    Inform if this course is paid or not.
-                  </FormDescription>
-                </div>
               </FormItem>
             )}
           />

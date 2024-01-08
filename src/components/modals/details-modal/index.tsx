@@ -1,5 +1,6 @@
 'use client'
 import { Modal } from '@/components/ui/modal'
+import { Separator } from '@/components/ui/separator'
 import React from 'react'
 
 interface DetailsModalProps {
@@ -20,6 +21,7 @@ const DetailsModal = ({ children, isOpen, setIsOpen }: DetailsModalProps) => {
       isOpen={isOpen}
       onClose={onClose}
     >
+      <Separator className="mb-2" />
       {children}
     </Modal>
   )

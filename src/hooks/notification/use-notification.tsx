@@ -3,15 +3,12 @@
 import { toast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { type NoficationsApiProps } from './types'
+import {
+  type ApproveOrDeclineContentBody,
+  type NoficationApiProps
+} from './types'
 
-type ApproveOrDeclineContentBody = {
-  courseId?: string
-  categoryId?: string
-  type: 'approve' | 'reject'
-}
-
-export const useNotifications = () => {
+export const useNotification = () => {
   const { mutateAsync: approveOrDeclineContent, isPending } = useMutation({
     mutationKey: ['approveOrDeclineContent'],
     mutationFn: async (body: ApproveOrDeclineContentBody) => {
@@ -33,10 +30,10 @@ export const useNotifications = () => {
   })
 
   const { data: notifications, isLoading: isLoadingNotifications } =
-    useQuery<NoficationsApiProps>({
+    useQuery<NoficationApiProps>({
       queryKey: ['notifications'],
       queryFn: async () => {
-        const { data } = await api.get<NoficationsApiProps>('/api/notification')
+        const { data } = await api.get<NoficationApiProps>('/api/notification')
         return data
       }
     })

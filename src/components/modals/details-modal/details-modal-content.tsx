@@ -1,93 +1,144 @@
+import { Icons } from '@/components/icons'
 import { type NotificationProps } from '@/components/top-bar/notifications-button/notifications-list-content'
-import { Checkbox } from '@/components/ui/checkbox'
-import { validateCourseLevelColor } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
+import { toast } from '@/components/ui/use-toast'
+import { useNotification } from '@/hooks/notification/use-notification'
 import { format } from 'date-fns'
-import ControlButton from './control-button'
+import { useCallback } from 'react'
 
 type DetailsModalContentProps = {
   content?: NotificationProps
 }
 
 const DetailsModalContent = ({ content }: DetailsModalContentProps) => {
-  const type = content?.type
+  const { approveOrDeclineContent, isPending } = useNotification()
 
-  if (type === 'course') {
-    return (
-      <div className="flex flex-col gap-4 items-center">
-        <div className="grid grid-cols-2 gap-x-4">
-          <div className="space-y-0.5">
-            <h2 className=" font-bold tracking-tight">Course name</h2>
-            <p className="text-muted-foreground max-w-[150px]">
-              {content?.courseProps?.name}
-            </p>
-          </div>
-          <div className="flex items-center gap-2 space-y-0.5">
-            <h2 className="font-bold tracking-tight">Is paid</h2>
-            <Checkbox
-              checked={content?.courseProps?.isPaid}
-              className="cursor-default"
-            />
-          </div>
-          <div className="space-y-0.5 mt-6">
-            <h2 className=" font-bold tracking-tight">Course level</h2>
-            <div
-              className={`flex items-center w-fit text-sm px-3 py-1 rounded-full ${validateCourseLevelColor(
-                content?.courseProps?.level ?? ''
-              )}`}
-            >
-              {content?.courseProps?.level}
-            </div>
-          </div>
-          <div className="space-y-0.5 mt-6">
-            <h2 className=" font-bold tracking-tight">Course URL</h2>
-            <a
-              href={content?.courseProps?.courseUrl}
-              target="_blank"
-              className="text-muted-foreground underline"
-              rel="noreferrer"
-            >
-              Access course here
-            </a>
-          </div>
-          <div className="space-y-0.5 mt-6">
-            <h2 className=" font-bold tracking-tight">Course category</h2>
-            <p className="text-muted-foreground">category name</p>
-          </div>
-          <div className="space-y-0.5 mt-6">
-            <h2 className=" font-bold tracking-tight">Requested at</h2>
-            <p className="text-muted-foreground">
-              {format(
-                new Date(content?.courseProps?.createdAt ?? new Date()),
-                'dd/MM/yyyy'
-              )}
-            </p>
-          </div>
-        </div>
-        <div className="mt-6 flex w-full justify-between">
-          <ControlButton
-            type="reject"
-            courseId={content?.courseProps?.id ?? ''}
-            categoryId={content?.courseProps?.categoryId ?? ''}
+  const handleApproveOrDecline = useCallback(
+    async (type: 'approve' | 'reject') => {
+      const courseId = content?.courseProps.id
+
+      if (!courseId) return
+
+      try {
+        await approveOrDeclineContent({ courseId, type })
+      } catch (error) {
+        toast({
+          title: 'Error',
+          description: 'Something went wrong.',
+          variant: 'destructive'
+        })
+      }
+    },
+    [approveOrDeclineContent, content]
+  )
+
+  return (
+    <div className="flex flex-col gap-y-6">
+      <div className="flex items-center space-x-8 w-full">
+        <div className="space-y-0.5 w-full">
+          <Label>Course Name</Label>
+          <Input
+            readOnly
+            className="h-8 cursor-default"
+            value={
+              (content?.courseProps?.name ?? '').charAt(0).toUpperCase() +
+              content?.courseProps?.name.slice(1)
+            }
           />
-          <ControlButton
-            type="approve"
-            courseId={content?.courseProps?.categoryId ?? ''}
-            categoryId={content?.courseProps?.categoryId ?? ''}
+        </div>
+        <div className="space-y-0.5 w-full">
+          <Label>Course Level</Label>
+          <Input
+            readOnly
+            className="h-8 cursor-default"
+            value={
+              (content?.courseProps?.level ?? '').charAt(0).toUpperCase() +
+              content?.courseProps?.level.slice(1)
+            }
           />
         </div>
       </div>
-    )
-  }
-
-  return (
-    <div className="flex flex-col gap-4 items-center">
-      <div className="grid grid-cols-2 gap-x-4">
+      <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
         <div className="space-y-0.5">
-          <h2 className=" font-bold tracking-tight">Category name</h2>
-          <p className="text-muted-foreground max-w-[150px]">
-            {content?.categoryProps?.name}
-          </p>
+          <Label>Course Paid</Label>
+          <span className="flex flex-wrap font-medium text-muted-foreground text-xs">
+            Option showing if the course is paid or not.
+          </span>
         </div>
+        <Switch
+          checked={content?.courseProps?.isPaid}
+          onCheckedChange={() => {}}
+          disabled
+        />
+      </div>
+
+      <div className="space-y-0.5">
+        <Label>Course URL</Label>
+        <div className="flex items-center gap-x-4">
+          <Input
+            readOnly
+            className="h-8 cursor-default"
+            value={content?.courseProps?.courseUrl}
+          />
+          <Button variant="outline">
+            <a
+              href={content?.courseProps?.courseUrl}
+              target="_blank"
+              className="font-medium"
+              rel="noreferrer"
+            >
+              See course
+            </a>
+          </Button>
+        </div>
+      </div>
+      <div className="flex items-center justify-between gap-x-8">
+        <div className="space-y-0.5 w-full">
+          <Label>Course Category</Label>
+          <Input
+            readOnly
+            className="h-8 cursor-default"
+            value={
+              (content?.categoryProps?.name ?? '').charAt(0).toUpperCase() +
+              content?.categoryProps?.name.slice(1)
+            }
+          />
+        </div>
+        <div className="space-y-0.5 w-full">
+          <Label>Requested At</Label>
+          <Input
+            readOnly
+            className="h-8 cursor-default"
+            value={format(
+              new Date(content?.courseProps?.createdAt ?? new Date()),
+              'dd/MM/yyyy'
+            )}
+          />
+        </div>
+      </div>
+      <div className="mt-4 flex items-center w-full gap-x-4">
+        <Button
+          disabled={isPending}
+          variant="destructive"
+          className="ml-auto"
+          onClick={async () => {
+            await handleApproveOrDecline('reject')
+          }}
+        >
+          Decline
+        </Button>
+        <Button
+          disabled={isPending}
+          onClick={async () => {
+            await handleApproveOrDecline('approve')
+          }}
+        >
+          {isPending && <Icons.loader className="animate-spin w-4 h-4 " />}
+          Approve
+        </Button>
       </div>
     </div>
   )

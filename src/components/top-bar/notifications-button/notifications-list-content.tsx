@@ -15,7 +15,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useNotification } from '@/hooks/notification/use-notification'
 import { type Category, type Course } from '@prisma/client'
 import { formatDistance, subDays } from 'date-fns'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 type NotificationTypes = 'course' | 'category'
 
@@ -55,6 +55,10 @@ const NotificationsListContent = () => {
     setIsOpen(true)
   }
 
+  const onCloseModal = useCallback(() => {
+    setIsOpen(false)
+  }, [])
+
   if (isLoadingNotifications) {
     return (
       <Card className="shadow-none border-none">
@@ -73,7 +77,10 @@ const NotificationsListContent = () => {
   return (
     <>
       <DetailsModal isOpen={isOpen} setIsOpen={setIsOpen}>
-        <DetailsModalContent content={selectedNotification} />
+        <DetailsModalContent
+          content={selectedNotification}
+          onClose={onCloseModal}
+        />
       </DetailsModal>
       <Card className="shadow-none border-none">
         <CardHeader>

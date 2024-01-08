@@ -1,4 +1,3 @@
-import { Icons } from '@/components/icons'
 import { type NotificationProps } from '@/components/top-bar/notifications-button/notifications-list-content'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -7,13 +6,19 @@ import { Switch } from '@/components/ui/switch'
 import { toast } from '@/components/ui/use-toast'
 import { useNotification } from '@/hooks/notification/use-notification'
 import { format } from 'date-fns'
+import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 
 type DetailsModalContentProps = {
   content?: NotificationProps
+  onClose: () => void
 }
 
-const DetailsModalContent = ({ content }: DetailsModalContentProps) => {
+const DetailsModalContent = ({
+  content,
+  onClose
+}: DetailsModalContentProps) => {
+  const router = useRouter()
   const { approveOrDeclineContent, isPending } = useNotification()
 
   const handleApproveOrDecline = useCallback(
@@ -24,6 +29,8 @@ const DetailsModalContent = ({ content }: DetailsModalContentProps) => {
 
       try {
         await approveOrDeclineContent({ courseId, type })
+        onClose()
+        router.refresh()
       } catch (error) {
         toast({
           title: 'Error',
@@ -32,7 +39,7 @@ const DetailsModalContent = ({ content }: DetailsModalContentProps) => {
         })
       }
     },
-    [approveOrDeclineContent, content]
+    [approveOrDeclineContent, content, onClose, router]
   )
 
   return (
@@ -136,7 +143,6 @@ const DetailsModalContent = ({ content }: DetailsModalContentProps) => {
             await handleApproveOrDecline('approve')
           }}
         >
-          {isPending && <Icons.loader className="animate-spin w-4 h-4 " />}
           Approve
         </Button>
       </div>

@@ -14,12 +14,6 @@ export const useNotification = () => {
     mutationFn: async (body: ApproveOrDeclineContentBody) => {
       await api.put(`/api/notification`, body)
     },
-    onSuccess: () => {
-      toast({
-        title: 'Content was approved with success',
-        description: 'It can now be seen by the community.'
-      })
-    },
     onError: () => {
       toast({
         title: 'Something went wrong on course approval',

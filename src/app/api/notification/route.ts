@@ -30,17 +30,13 @@ export async function PUT(req: NextRequest) {
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
-    const { searchParams } = req.nextUrl
+    const { courseId, type } = await req.json()
 
-    const courseId = searchParams.get('courseId')
-    const updateType = searchParams.get('type')
+    const updateType = type
 
-    const isValidRequest = updateType !== null && courseId !== null
+    const isInvalidRequest = courseId == null || updateType == null
 
-    if (!isValidRequest) {
-      return new NextResponse('Bad Request', { status: 400 })
-    }
-    if (courseId == null || updateType == null) {
+    if (isInvalidRequest) {
       return new NextResponse('Bad Request', { status: 400 })
     }
 
@@ -74,7 +70,7 @@ export async function PUT(req: NextRequest) {
 
     if (updateType === 'reject') {
       await deleteCourse()
-      return new NextResponse('Rejected', { status: 204 })
+      return new NextResponse('Rejected', { status: 200 })
     }
   } catch (error) {
     console.log('[PENDING_NOTIFICATIONS_PUT_ERROR]', error)

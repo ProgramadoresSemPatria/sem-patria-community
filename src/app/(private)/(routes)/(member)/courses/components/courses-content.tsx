@@ -3,7 +3,7 @@
 import { SkeletonCourseCards } from '@/components/skeletons/skeleton-course-cards'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Button } from '@/components/ui/button'
-import { useCourseContent } from '@/hooks/courses/use-course-content'
+import { useCourseContent } from '@/hooks/course/use-course-content'
 import { validateCourseLevelColor } from '@/lib/utils'
 import { type Category } from '@prisma/client'
 import Link from 'next/link'

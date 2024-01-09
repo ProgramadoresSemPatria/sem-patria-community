@@ -65,6 +65,7 @@ export const MembersList = ({ userProps, allUsers }: MembersListProps) => {
     <>
       <AlertModal
         isOpen={isAlertModalOpen}
+        description="Are you sure you want to delete this user?"
         loading={isDeleting}
         onClose={() => {
           setIsAlertModalOpen(false)

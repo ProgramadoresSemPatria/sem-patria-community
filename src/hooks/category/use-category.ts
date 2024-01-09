@@ -6,29 +6,25 @@ import {
   type UseMutationOptions
 } from '@tanstack/react-query'
 import { type AxiosError, type AxiosResponse } from 'axios'
-import { type CreateCourseBody } from './types'
 
 export const useCategory = () => {
   const { data: categories, isLoading: isLoadingCategories } = useQuery<
     Category[]
   >({
     queryKey: ['categories'],
-    queryFn: async () => (await api.get(`/api/categories`)).data
+    queryFn: async () => (await api.get(`/api/category`)).data
   })
 
-  const useCreateCourse = (
-    options?: UseMutationOptions<
-      AxiosResponse<void>,
-      AxiosError,
-      CreateCourseBody
-    >
+  const useDeleteCategory = (
+    categoryId: string,
+    options?: UseMutationOptions<AxiosResponse<void>, AxiosError>
   ) =>
     useMutation({
-      mutationFn: async (body: CreateCourseBody) => {
-        return await api.post(`/api/courses`, body)
+      mutationFn: async () => {
+        return await api.delete(`/api/category/${categoryId}`)
       },
       ...options
     })
 
-  return { categories, isLoadingCategories, useCreateCourse }
+  return { categories, isLoadingCategories, useDeleteCategory }
 }

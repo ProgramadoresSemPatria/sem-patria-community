@@ -1,7 +1,10 @@
 import {
   AlignVerticalSpaceAround,
+  ArrowUpDown,
+  ArrowUpRightFromCircle,
   BadgeCheck,
   Bell,
+  BellDot,
   Bot,
   CalendarCheck2,
   ChevronDown,
@@ -21,15 +24,14 @@ import {
   Menu,
   Moon,
   MoreHorizontal,
+  MoreVertical,
   Plus,
   SlidersHorizontal,
   Sun,
   Trash,
   User,
   X,
-  type LucideIcon,
-  ArrowUpDown,
-  BellDot
+  type LucideIcon
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -43,6 +45,7 @@ export const Icons = {
   arrowBack: ChevronLeft,
   arrowDown: ChevronDown,
   arrowUpDown: ArrowUpDown,
+  arrowUpRighCircle: ArrowUpRightFromCircle,
   home: Home,
   dashboard: LayoutDashboard,
   file: File,
@@ -58,6 +61,7 @@ export const Icons = {
   plus: Plus,
   copy: Copy,
   spread: MoreHorizontal,
+  spreadVertical: MoreVertical,
   edit: Edit,
   trash: Trash,
   layers: Layers,

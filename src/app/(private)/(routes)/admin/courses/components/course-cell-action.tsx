@@ -30,7 +30,7 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
 
   const { mutateAsync: deleteCourse, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
-      return await api.delete(`/api/courses/${data.id}`)
+      return await api.delete(`/api/course/${data.id}`)
     },
     onSuccess: () => {
       router.refresh()
@@ -50,7 +50,7 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
 
   const { mutateAsync: updateCourse } = useMutation({
     mutationFn: async () => {
-      return await api.patch(`/api/courses/${data.id}`, {
+      return await api.patch(`/api/course/${data.id}`, {
         ...data,
         isPending: false
       })
@@ -109,6 +109,7 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
     <>
       <AlertModal
         isOpen={isAlertModalOpen}
+        description="Are you sure you want to delete this course?"
         onClose={() => {
           setIsAlertModalOpen(false)
         }}

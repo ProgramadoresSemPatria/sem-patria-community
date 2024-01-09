@@ -60,7 +60,7 @@ export const NewCategoryForm = ({ initialData }: NewCategoryFormProps) => {
 
   const { mutateAsync: deleteCategory, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
-      return await api.delete(`/api/categories/${params.categoryId}`)
+      return await api.delete(`/api/category/${params.categoryId}`)
     },
     onSuccess: () => {
       router.push(appRoutes.admin_categories)
@@ -82,10 +82,10 @@ export const NewCategoryForm = ({ initialData }: NewCategoryFormProps) => {
   const { mutateAsync: createOrUpdateCategory, isPending } = useMutation({
     mutationFn: async (data: z.infer<typeof formSchema>) => {
       if (initialData) {
-        return await api.patch(`/api/categories/${params.categoryId}`, data)
+        return await api.patch(`/api/category/${params.categoryId}`, data)
       }
 
-      return await api.post(`/api/categories`, data)
+      return await api.post(`/api/category`, data)
     },
     onSuccess: () => {
       router.push(appRoutes.admin_categories)
@@ -126,6 +126,7 @@ export const NewCategoryForm = ({ initialData }: NewCategoryFormProps) => {
     <>
       <AlertModal
         isOpen={isAlertModalOpen}
+        description="This action will delete the category and all courses vinculated to it."
         loading={isDeleting}
         onClose={() => {
           setIsAlertModalOpen(false)

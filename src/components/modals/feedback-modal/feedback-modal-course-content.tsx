@@ -22,6 +22,7 @@ import {
 import { Switch } from '@/components/ui/switch'
 import { toast } from '@/components/ui/use-toast'
 import { useCategory } from '@/hooks/category/use-category'
+import { useCourse } from '@/hooks/course/use-course'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useState } from 'react'
@@ -58,7 +59,8 @@ type FeedbackModalCourseContentProps = {
 export const FeedbackModalCourseContent = ({
   onClose
 }: FeedbackModalCourseContentProps) => {
-  const { categories, isLoadingCategories, useCreateCourse } = useCategory()
+  const { categories, isLoadingCategories } = useCategory()
+  const { useCreateCourse } = useCourse()
   const [isNewCategory, setIsNewCategory] = useState(false)
 
   const form = useForm<FeedbackModalCourseContentFormValues>({

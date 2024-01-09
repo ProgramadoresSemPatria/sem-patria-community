@@ -12,6 +12,8 @@
     "check-types": "tsc --noEmit --pretty"
   },
   "dependencies": {
+    "@blocknote/core": "^0.10.1",
+    "@blocknote/react": "^0.10.1",
     "@clerk/clerk-react": "^4.28.1",
     "@clerk/nextjs": "^4.27.2",
     "@clerk/themes": "^1.7.9",
@@ -46,6 +48,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
+    "react-textarea-autosize": "^8.5.3",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^9.0.1",

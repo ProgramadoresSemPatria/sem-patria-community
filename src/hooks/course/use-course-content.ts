@@ -14,7 +14,7 @@ export const useCourseContent = () => {
   const { data: coursesList, isLoading } = useQuery<Course[]>({
     queryKey: ['courses', { filter: searchParams.get('filter') }],
     queryFn: async () =>
-      (await api.get(`/api/courses?filter=${searchParams.get('filter')}`)).data,
+      (await api.get(`/api/course?filter=${searchParams.get('filter')}`)).data,
     enabled: !!searchParams.get('filter')
   })
 

@@ -18,7 +18,7 @@ const NotificationsButtonTrigger = () => {
   return (
     <>
       {!hasNotifications && <Icons.bell className="h-5 w-5" />}
-      {hasNotifications && <Icons.bellDot className="h-5 w-5" />}
+      {hasNotifications && <Icons.bellDot className="h-5 w-5 animate-bounce" />}
     </>
   )
 }

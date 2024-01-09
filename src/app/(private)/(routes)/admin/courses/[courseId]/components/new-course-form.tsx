@@ -98,7 +98,7 @@ export const NewCourseForm = ({
 
   const { mutateAsync: deleteCourse, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
-      return await api.delete(`/api/courses/${params.courseId}`)
+      return await api.delete(`/api/course/${params.courseId}`)
     },
     onSuccess: () => {
       router.push(appRoutes.admin_courses)
@@ -120,10 +120,10 @@ export const NewCourseForm = ({
   const { mutateAsync: createOrUpdateCourse, isPending } = useMutation({
     mutationFn: async (data: z.infer<typeof formSchema>) => {
       if (initialData) {
-        return await api.patch(`/api/courses/${params.courseId}`, data)
+        return await api.patch(`/api/course/${params.courseId}`, data)
       }
 
-      return await api.post(`/api/courses`, data)
+      return await api.post(`/api/course`, data)
     },
     onSuccess: () => {
       router.push(appRoutes.admin_courses)
@@ -164,6 +164,7 @@ export const NewCourseForm = ({
     <>
       <AlertModal
         isOpen={isAlertModalOpen}
+        description="Are you sure you want to delete this course?"
         loading={isDeleting}
         onClose={() => {
           setIsAlertModalOpen(false)

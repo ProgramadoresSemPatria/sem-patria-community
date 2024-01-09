@@ -27,7 +27,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { appRoutes } from '@/lib/constants'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Category, Course } from '@prisma/client'
+import { type Category, type Course } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import { useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -37,7 +37,6 @@ import * as z from 'zod'
 type NewCourseFormProps = {
   initialData: Course | null
   categories: Category[]
-  hasFeedback: boolean
 }
 
 const formSchema = z.object({
@@ -58,16 +57,14 @@ const formSchema = z.object({
   }),
   categoryId: z.string().min(1, {
     message: 'Category is required'
-  }),
-  isPending: z.boolean().default(true)
+  })
 })
 
 type NewCourseFormValues = z.infer<typeof formSchema>
 
 export const NewCourseForm = ({
   initialData,
-  categories,
-  hasFeedback
+  categories
 }: NewCourseFormProps) => {
   const params = useParams()
   const router = useRouter()
@@ -95,14 +92,13 @@ export const NewCourseForm = ({
           courseUrl: '',
           categoryId: '',
           level: '',
-          isPaid: false,
-          isPending: hasFeedback
+          isPaid: false
         }
   })
 
   const { mutateAsync: deleteCourse, isPending: isDeleting } = useMutation({
-    mutationFn: () => {
-      return api.delete(`/api/courses/${params.courseId}`)
+    mutationFn: async () => {
+      return await api.delete(`/api/course/${params.courseId}`)
     },
     onSuccess: () => {
       router.push(appRoutes.admin_courses)
@@ -122,12 +118,12 @@ export const NewCourseForm = ({
   })
 
   const { mutateAsync: createOrUpdateCourse, isPending } = useMutation({
-    mutationFn: (data: z.infer<typeof formSchema>) => {
+    mutationFn: async (data: z.infer<typeof formSchema>) => {
       if (initialData) {
-        return api.patch(`/api/courses/${params.courseId}`, data)
+        return await api.patch(`/api/course/${params.courseId}`, data)
       }
 
-      return api.post(`/api/courses`, data)
+      return await api.post(`/api/course`, data)
     },
     onSuccess: () => {
       router.push(appRoutes.admin_courses)
@@ -168,38 +164,43 @@ export const NewCourseForm = ({
     <>
       <AlertModal
         isOpen={isAlertModalOpen}
+        description="Are you sure you want to delete this course?"
         loading={isDeleting}
-        onClose={() => setIsAlertModalOpen(false)}
-        onConfirm={() => onDeleteCourse()}
+        onClose={() => {
+          setIsAlertModalOpen(false)
+        }}
+        onConfirm={async () => {
+          await onDeleteCourse()
+        }}
       />
       <div className="flex flex-col">
-        {!hasFeedback && (
-          <>
-            <Button
-              size="icon"
-              variant="link"
-              onClick={() => router.push(appRoutes.admin_courses)}
-              className="font-medium w-fit"
-            >
-              <Icons.arrowBack className="mr-2 h-4 w-4" />
-              Voltar
-            </Button>
+        <Button
+          size="icon"
+          variant="link"
+          onClick={() => {
+            router.push(appRoutes.admin_courses)
+          }}
+          className="font-medium w-fit"
+        >
+          <Icons.arrowBack className="mr-2 h-4 w-4" />
+          Voltar
+        </Button>
 
-            <div className="flex items-center justify-between">
-              <Header title={title} description={description} />
-              {initialData && (
-                <Button
-                  disabled={isPending}
-                  variant="destructive"
-                  size="icon"
-                  onClick={() => setIsAlertModalOpen(true)}
-                >
-                  <Icons.trash className="h-4 w-4" />
-                </Button>
-              )}
-            </div>
-          </>
-        )}
+        <div className="flex items-center justify-between">
+          <Header title={title} description={description} />
+          {initialData && (
+            <Button
+              disabled={isPending}
+              variant="destructive"
+              size="icon"
+              onClick={() => {
+                setIsAlertModalOpen(true)
+              }}
+            >
+              <Icons.trash className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
         <Separator className="my-6" />
         <Form {...form}>
           <form
@@ -282,9 +283,9 @@ export const NewCourseForm = ({
                           variant="secondary"
                           size="sm"
                           className="w-1/3"
-                          onClick={() =>
+                          onClick={() => {
                             router.push(appRoutes.admin_categories_new)
-                          }
+                          }}
                         >
                           Create category
                         </Button>
@@ -336,7 +337,6 @@ export const NewCourseForm = ({
                     <FormControl>
                       <Checkbox
                         checked={field.value}
-                        // @ts-ignore
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>

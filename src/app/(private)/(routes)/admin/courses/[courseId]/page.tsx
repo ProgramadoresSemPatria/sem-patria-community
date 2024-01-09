@@ -11,11 +11,7 @@ const NewCoursePage = async ({ params }: { params: { courseId: string } }) => {
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <NewCourseForm
-          initialData={course}
-          categories={categories}
-          hasFeedback={false}
-        />
+        <NewCourseForm initialData={course} categories={categories} />
       </div>
     </div>
   )

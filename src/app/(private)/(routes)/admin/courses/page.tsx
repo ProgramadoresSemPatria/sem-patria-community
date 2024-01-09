@@ -1,7 +1,7 @@
 import { SkeletonCmsPage } from '@/components/skeletons/skeleton-cms-page'
 import prismadb from '@/lib/prismadb'
 import { Suspense } from 'react'
-import { CourseColumn } from './components/columns'
+import { type CourseColumn } from './components/columns'
 import CoursesClient from './components/courses-client'
 
 const AdminCoursesPage = async () => {

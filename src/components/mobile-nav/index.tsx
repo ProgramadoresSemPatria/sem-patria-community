@@ -4,7 +4,7 @@ import * as React from 'react'
 import appLogo from '@/assets/logo.svg'
 import { useLockBody } from '@/hooks/use-lock-body'
 import { appConfig, appRoutes } from '@/lib/constants'
-import { RouteProps } from '@/lib/types'
+import { type RouteProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 
@@ -21,8 +21,31 @@ const MobileNav = ({ children }: MobileNavProps) => {
       label: 'Dashboard'
     },
     {
+      href: `${appRoutes.courses}?filter=all`,
+      label: 'Courses'
+    },
+    {
+      href: `${appRoutes.codeUp}`,
+      label: 'Code Up'
+    },
+    {
+      href: `${appRoutes.mentorship}`,
+      label: 'Mentorship'
+    },
+    {
       href: appRoutes.settings,
       label: 'Settings'
+    }
+  ]
+
+  const adminRoutes: RouteProps[] = [
+    {
+      href: appRoutes.admin_courses,
+      label: 'Courses'
+    },
+    {
+      href: appRoutes.admin_categories,
+      label: 'Categories'
     }
   ]
 
@@ -37,20 +60,42 @@ const MobileNav = ({ children }: MobileNavProps) => {
           <Image src={appLogo} alt="Logo" height={40} width={40} />
           <span className="font-bold">{appConfig.name}</span>
         </Link>
-        <nav className="grid grid-flow-row auto-rows-max text-sm">
-          {items.map((item, index) => (
-            <Link
-              key={index}
-              href={item.disabled ? '#' : item.href}
-              className={cn(
-                'flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline',
-                item.disabled && 'cursor-not-allowed opacity-60'
-              )}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        <div className="grid grid-cols-2 w-full">
+          <div>
+            <span className="font-semibold pb-1">Member</span>
+            <nav className="grid grid-flow-row auto-rows-max text-sm text-muted-foreground font-medium">
+              {items.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.disabled ? '#' : item.href}
+                  className={cn(
+                    'flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline',
+                    item.disabled && 'cursor-not-allowed opacity-60'
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+          <div>
+            <span className="font-semibold pb-1">Admin</span>
+            <nav className="grid grid-flow-row auto-rows-max text-sm text-muted-foreground font-medium">
+              {adminRoutes.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.disabled ? '#' : item.href}
+                  className={cn(
+                    'flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline',
+                    item.disabled && 'cursor-not-allowed opacity-60'
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </div>
         {children}
       </div>
     </div>

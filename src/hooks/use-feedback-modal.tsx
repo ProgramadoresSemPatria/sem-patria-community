@@ -8,6 +8,10 @@ type useFeedbackModalProps = {
 
 export const useFeedbackModal = create<useFeedbackModalProps>(set => ({
   isOpen: false,
-  onOpen: () => set({ isOpen: true }),
-  onClose: () => set({ isOpen: false })
+  onOpen: () => {
+    set({ isOpen: true })
+  },
+  onClose: () => {
+    set({ isOpen: false })
+  }
 }))

@@ -6,7 +6,7 @@ import { DataTable } from '@/components/ui/data-table'
 import { Separator } from '@/components/ui/separator'
 import { appRoutes } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
-import { CategoryColumn, columns } from './columns'
+import { type CategoryColumn, columns } from './columns'
 
 type CategoriesClientProps = {
   categories: CategoryColumn[]
@@ -22,7 +22,11 @@ const CategoriesClient = ({ categories }: CategoriesClientProps) => {
           title="Categories"
           description="Manage the categories of courses."
         />
-        <Button onClick={() => router.push(appRoutes.admin_categories_new)}>
+        <Button
+          onClick={() => {
+            router.push(appRoutes.admin_categories_new)
+          }}
+        >
           <Icons.plus className="w-4 h-4 mr-2" />
           Add New
         </Button>

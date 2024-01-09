@@ -8,7 +8,7 @@ import appLogo from '@/assets/logo.svg'
 import { Icons } from '@/components/icons'
 import { useAppStore } from '@/hooks/use-app-store'
 import { appRoutes } from '@/lib/constants'
-import { RouteProps } from '@/lib/types'
+import { type RouteProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { UserButton, useUser } from '@clerk/nextjs'
 import Image from 'next/image'
@@ -139,7 +139,7 @@ const MainNav = ({ children }: MainNavProps) => {
       <div className="flex items-center gap-x-2">
         <UserButton afterSignOutUrl={appRoutes.signIn} />
         <span className="truncate font-bold text-muted-foreground text-sm">
-          {user?.fullName || ''}
+          {user?.fullName ?? ''}
         </span>
       </div>
     </div>

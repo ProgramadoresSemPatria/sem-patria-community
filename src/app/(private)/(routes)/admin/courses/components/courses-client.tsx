@@ -6,7 +6,7 @@ import { DataTable } from '@/components/ui/data-table'
 import { Separator } from '@/components/ui/separator'
 import { appRoutes } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
-import { CourseColumn, columns } from './columns'
+import { type CourseColumn, columns } from './columns'
 
 type CoursesClientProps = {
   courses: CourseColumn[]
@@ -22,7 +22,11 @@ const CoursesClient = ({ courses }: CoursesClientProps) => {
           title="Courses"
           description="Manage the indications of courses of community."
         />
-        <Button onClick={() => router.push(appRoutes.admin_courses_new)}>
+        <Button
+          onClick={() => {
+            router.push(appRoutes.admin_courses_new)
+          }}
+        >
           <Icons.plus className="w-4 h-4 mr-2" />
           Add New
         </Button>

@@ -1,7 +1,10 @@
 import {
   AlignVerticalSpaceAround,
+  ArrowUpDown,
+  ArrowUpRightFromCircle,
   BadgeCheck,
   Bell,
+  BellDot,
   Bot,
   CalendarCheck2,
   ChevronDown,
@@ -21,6 +24,7 @@ import {
   Menu,
   Moon,
   MoreHorizontal,
+  MoreVertical,
   Plus,
   SlidersHorizontal,
   Sun,
@@ -40,6 +44,8 @@ export const Icons = {
   arrowRight: ChevronRight,
   arrowBack: ChevronLeft,
   arrowDown: ChevronDown,
+  arrowUpDown: ArrowUpDown,
+  arrowUpRighCircle: ArrowUpRightFromCircle,
   home: Home,
   dashboard: LayoutDashboard,
   file: File,
@@ -55,10 +61,12 @@ export const Icons = {
   plus: Plus,
   copy: Copy,
   spread: MoreHorizontal,
+  spreadVertical: MoreVertical,
   edit: Edit,
   trash: Trash,
   layers: Layers,
   calendar: CalendarCheck2,
   mentorship: GraduationCap,
-  notifications: Bell
+  bell: Bell,
+  bellDot: BellDot
 }

@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react'
 type AlertModalProps = {
   isOpen: boolean
   loading: boolean
+  title?: string
+  description: string
   onConfirm: () => void
   onClose: () => void
 }
@@ -15,6 +17,8 @@ type AlertModalProps = {
 export const AlertModal = ({
   isOpen,
   loading,
+  title,
+  description,
   onClose,
   onConfirm
 }: AlertModalProps) => {
@@ -28,8 +32,8 @@ export const AlertModal = ({
 
   return (
     <Modal
-      title="Are you sure?"
-      description="This action cannot be undone."
+      title={title ?? 'Are you sure?'}
+      description={description}
       isOpen={isOpen}
       onClose={onClose}
     >

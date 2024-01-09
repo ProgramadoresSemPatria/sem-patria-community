@@ -3,9 +3,9 @@
 import { SkeletonCourseCards } from '@/components/skeletons/skeleton-course-cards'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Button } from '@/components/ui/button'
-import { useCourseContent } from '@/hooks/courses/use-course-content'
+import { useCourseContent } from '@/hooks/course/use-course-content'
 import { validateCourseLevelColor } from '@/lib/utils'
-import { Category } from '@prisma/client'
+import { type Category } from '@prisma/client'
 import Link from 'next/link'
 
 type CoursesContentProps = {
@@ -48,8 +48,8 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
       <div className="grid grid-cols-4 2xl:grid-cols-5 gap-x-6 gap-y-9 mt-6">
         {isLoading && <SkeletonCourseCards />}
         {coursesList &&
-          coursesList.data.length > 0 &&
-          coursesList.data.map(course => (
+          coursesList.length > 0 &&
+          coursesList.map(course => (
             <Link
               href={course.courseUrl}
               key={course.id}
@@ -77,7 +77,7 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
               </p>
             </Link>
           ))}
-        {!isLoading && !coursesList?.data.length && (
+        {!isLoading && !coursesList?.length && (
           <div className="col-span-full text-muted-foreground font-medium">
             There are no course recommendations at this time.
           </div>

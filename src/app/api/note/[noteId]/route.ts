@@ -34,3 +34,29 @@ export async function PUT(
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { noteId: string } }
+) {
+  try {
+    const { userId } = auth()
+
+    if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
+
+    if (!params.noteId)
+      return new NextResponse('Note id is required', { status: 400 })
+
+    const note = await prismadb.note.delete({
+      where: {
+        id: params.noteId,
+        userId
+      }
+    })
+
+    return NextResponse.json(note)
+  } catch (error) {
+    console.log('[CATEGORY_ID_DELETE_ERROR]', error)
+    return new NextResponse('Internal Server Error', { status: 500 })
+  }
+}

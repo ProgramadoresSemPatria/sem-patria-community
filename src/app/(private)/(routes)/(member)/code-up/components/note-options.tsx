@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { toast } from '@/components/ui/use-toast'
 import { useNote } from '@/hooks/note/use-note'
+import { useNoteStore } from '@/hooks/note/use-note-store'
 import { appRoutes } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -24,12 +25,14 @@ export const NoteOptions = ({ noteId }: NoteOptionsProps) => {
   const { useDeleteNote } = useNote()
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const { onChangeTitle } = useNoteStore()
 
   const { mutateAsync: deleteNote, isPending: isDeleting } = useDeleteNote(
     noteId,
     {
       onSuccess: () => {
         router.refresh()
+        onChangeTitle('')
       }
     }
   )

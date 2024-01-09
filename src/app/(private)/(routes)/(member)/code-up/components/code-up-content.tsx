@@ -22,7 +22,7 @@ export const CodeUpContent = async () => {
 
   return (
     <Suspense fallback={<SkeletonNoteList />}>
-      <div>
+      <div className="max-h-[calc(100%-5rem)] h-full">
         {notes.length > 0 ? <NotesList notes={notes} /> : <EmptyNotes />}
       </div>
     </Suspense>

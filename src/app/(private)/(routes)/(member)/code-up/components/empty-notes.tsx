@@ -37,7 +37,7 @@ export const EmptyNotes = () => {
   const handleCreateNewNote = async () => await createNewNote()
 
   return (
-    <Card className="mt-4 gap-y-4 w-full h-[calc(100%-5rem)] flex flex-col justify-center items-center">
+    <Card className="mt-4 gap-y-4 w-full h-full flex flex-col justify-center items-center">
       <Image
         src={theme === 'dark' ? EmptyNotesDarkImg : EmptyNotesImg}
         alt="Empty Note"

@@ -7,6 +7,9 @@ import { appConfig, appRoutes } from '@/lib/constants'
 import { type RouteProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
+import ClerkUserButton from '../clerk-user-button'
+import { LogoutButton } from '../top-bar/logout-button'
+import { useAppStore } from '@/hooks/use-app-store'
 
 type MobileNavProps = {
   children?: React.ReactNode
@@ -14,6 +17,7 @@ type MobileNavProps = {
 
 const MobileNav = ({ children }: MobileNavProps) => {
   useLockBody()
+  const { isCmsMode } = useAppStore()
 
   const items: RouteProps[] = [
     {
@@ -78,25 +82,31 @@ const MobileNav = ({ children }: MobileNavProps) => {
               ))}
             </nav>
           </div>
-          <div>
-            <span className="font-semibold pb-1">Admin</span>
-            <nav className="grid grid-flow-row auto-rows-max text-sm text-muted-foreground font-medium">
-              {adminRoutes.map((item, index) => (
-                <Link
-                  key={index}
-                  href={item.disabled ? '#' : item.href}
-                  className={cn(
-                    'flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline',
-                    item.disabled && 'cursor-not-allowed opacity-60'
-                  )}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
+          {isCmsMode && (
+            <div>
+              <span className="font-semibold pb-1">Admin</span>
+              <nav className="grid grid-flow-row auto-rows-max text-sm text-muted-foreground font-medium">
+                {adminRoutes.map((item, index) => (
+                  <Link
+                    key={index}
+                    href={item.disabled ? '#' : item.href}
+                    className={cn(
+                      'flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline',
+                      item.disabled && 'cursor-not-allowed opacity-60'
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          )}
         </div>
         {children}
+        <div className="flex">
+          <ClerkUserButton />
+          <LogoutButton />
+        </div>
       </div>
     </div>
   )

@@ -41,7 +41,7 @@ export const TimelineNotes = async ({
         </div>
         <div className="ml-auto">
           <span className="text-muted-foreground font-medium text-sm">
-            {format(note.createdAt, 'MMMM dd, yyy')}
+            {format(note.updatedAt, 'MMMM dd, yyy')}
           </span>
         </div>
       </div>

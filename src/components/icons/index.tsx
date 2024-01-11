@@ -31,7 +31,9 @@ import {
   Trash,
   User,
   X,
-  type LucideIcon
+  type LucideIcon,
+  PlusCircle,
+  Rocket
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -59,6 +61,7 @@ export const Icons = {
   globe: Globe,
   alignVertSA: AlignVerticalSpaceAround,
   plus: Plus,
+  plusCircle: PlusCircle,
   copy: Copy,
   spread: MoreHorizontal,
   spreadVertical: MoreVertical,
@@ -68,5 +71,6 @@ export const Icons = {
   calendar: CalendarCheck2,
   mentorship: GraduationCap,
   bell: Bell,
-  bellDot: BellDot
+  bellDot: BellDot,
+  rocket: Rocket
 }

@@ -1,3 +1,5 @@
+'use client'
+import { useNoteStore } from '@/hooks/note/use-note-store'
 import { appRoutes } from '@/lib/constants'
 import { type Note } from '@prisma/client'
 import { format } from 'date-fns'
@@ -9,6 +11,8 @@ type NotesListProps = {
 }
 
 export const NotesList = ({ notes }: NotesListProps) => {
+  const { onChangeTitle } = useNoteStore()
+
   return (
     <div className="divide-y divide-border rounded-md border">
       {notes.map(note => (
@@ -16,6 +20,9 @@ export const NotesList = ({ notes }: NotesListProps) => {
           <div className="grid gap-1">
             <Link
               href={`${appRoutes.codeUp}/${note.id}`}
+              onClick={() => {
+                onChangeTitle(note.title)
+              }}
               className="font-semibold hover:underline"
             >
               {note.title}
@@ -26,7 +33,7 @@ export const NotesList = ({ notes }: NotesListProps) => {
               </p>
             </div>
           </div>
-          <NoteOptions noteId={note.id} />
+          <NoteOptions note={note} />
         </div>
       ))}
     </div>

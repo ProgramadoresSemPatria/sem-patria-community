@@ -13,14 +13,15 @@ import { toast } from '@/components/ui/use-toast'
 import { useNote } from '@/hooks/note/use-note'
 import { useNoteStore } from '@/hooks/note/use-note-store'
 import { appRoutes } from '@/lib/constants'
+import { type Note } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 type NoteOptionsProps = {
-  noteId: string
+  note: Note
 }
 
-export const NoteOptions = ({ noteId }: NoteOptionsProps) => {
+export const NoteOptions = ({ note }: NoteOptionsProps) => {
   const router = useRouter()
   const { useDeleteNote } = useNote()
 
@@ -28,7 +29,7 @@ export const NoteOptions = ({ noteId }: NoteOptionsProps) => {
   const { onChangeTitle } = useNoteStore()
 
   const { mutateAsync: deleteNote, isPending: isDeleting } = useDeleteNote(
-    noteId,
+    note.id,
     {
       onSuccess: () => {
         router.refresh()
@@ -73,11 +74,12 @@ export const NoteOptions = ({ noteId }: NoteOptionsProps) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
             onClick={() => {
-              router.push(`${appRoutes.codeUp}/${noteId}`)
+              onChangeTitle(note.title)
+              router.push(`${appRoutes.codeUp}/${note.id}`)
             }}
           >
             <Icons.arrowUpRighCircle className="mr-2 h-4 w-4" />
-            See Note
+            View Note
           </DropdownMenuItem>
           <DropdownMenuItem
             disabled={isDeleting}

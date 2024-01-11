@@ -103,7 +103,7 @@ const MobileNav = ({ children }: MobileNavProps) => {
           )}
         </div>
         {children}
-        <div className="flex">
+        <div className="flex justify-between">
           <ClerkUserButton />
           <LogoutButton />
         </div>

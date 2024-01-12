@@ -36,7 +36,7 @@ export const TimelineNotes = async ({
         <div className="flex flex-col gap-y-1 ml-2">
           <span className="font-semibold text-sm">{note.title}</span>
           <span className="font-semibold text-sm text-muted-foreground">
-            {userProps?.username ?? '@unknown'}
+            @{userProps?.username ?? 'unknown'}
           </span>
         </div>
         <div className="ml-auto">

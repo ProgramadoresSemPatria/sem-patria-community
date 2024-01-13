@@ -1,15 +1,14 @@
 import Header from '@/components/header'
 import { ChallengeCommitCard } from './components/challenge-commit-card'
+import MentorshipList from './components/mentorship-list'
 
 export default function Dashboard() {
   return (
     <div className="container pt-6">
       <Header title="Dashboard" />
       <div className="flex flex-col">
-        <div>
-          <h1 className="text-3xl font-bold">Mentorship list</h1>
-        </div>
-        <div className="grid grid-cols-2 gap-x-8">
+        <MentorshipList />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-8">
           <ChallengeCommitCard />
           <ChallengeCommitCard />
         </div>

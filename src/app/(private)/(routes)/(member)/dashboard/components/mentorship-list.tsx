@@ -127,8 +127,8 @@ const MentorshipList = () => {
             </Link>
           </CarouselItem>
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="xl:hidden" />
+        <CarouselNext className="xl:hidden" />
       </Carousel>
     </div>
   )

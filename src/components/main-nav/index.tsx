@@ -3,17 +3,16 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import * as React from 'react'
-
 import appLogo from '@/assets/logo.svg'
 import { Icons } from '@/components/icons'
 import { useAppStore } from '@/hooks/use-app-store'
 import { appRoutes } from '@/lib/constants'
 import { type RouteProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
-import { UserButton, useUser } from '@clerk/nextjs'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { SkeletonMainNav } from './components/skeleton-main-nav'
+import ClerkUserButton from '../clerk-user-button'
 
 type MainNavProps = {
   children?: React.ReactNode
@@ -21,7 +20,6 @@ type MainNavProps = {
 
 const MainNav = ({ children }: MainNavProps) => {
   const [isMounted, setIsMounted] = useState(false)
-  const { user } = useUser()
   const pathname = usePathname()
   const { isCmsMode } = useAppStore()
 
@@ -136,12 +134,7 @@ const MainNav = ({ children }: MainNavProps) => {
           )}
         </ul>
       </nav>
-      <div className="flex items-center gap-x-2">
-        <UserButton afterSignOutUrl={appRoutes.signIn} />
-        <span className="truncate font-bold text-muted-foreground text-sm">
-          {user?.fullName ?? ''}
-        </span>
-      </div>
+      <ClerkUserButton />
     </div>
   )
 }

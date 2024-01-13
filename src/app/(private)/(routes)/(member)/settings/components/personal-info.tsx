@@ -85,13 +85,13 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="w-full max-w-xl"
           >
-            <div className="flex flex-col gap-y-6">
+            <div className="flex flex-col gap-y-2 sm:gap-y-6">
               <Avatar>
                 <AvatarImage src={`https://github.com/${user.username}.png`} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
 
-              <div className="grid grid-cols-2 items-center gap-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-2 sm:gap-1.5">
                 <div className="flex flex-col gap-y-2">
                   <Label htmlFor="username">Username</Label>
                   <Input
@@ -113,8 +113,8 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-2 items-center gap-1.5">
-                <div className="grid items-center gap-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-2 sm:gap-1.5">
+                <div className="flex flex-col  gap-y-2 ">
                   <Label htmlFor="email">Email</Label>
                   <Input
                     type="email"
@@ -128,7 +128,7 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                   control={form.control}
                   name="level"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex flex-col gap-y-2 space-y-0">
                       <FormLabel>Level</FormLabel>
                       <Select
                         disabled={false}

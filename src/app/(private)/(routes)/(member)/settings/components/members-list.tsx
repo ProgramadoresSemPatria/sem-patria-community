@@ -74,7 +74,7 @@ export const MembersList = ({ userProps, allUsers }: MembersListProps) => {
           await onDeleteUser()
         }}
       />
-      <div className="mt-6 grid-cols-2 grid 2xl:grid-cols-3 w-full flex-col justify-between gap-y-8 gap-x-12">
+      <div className="mt-6  grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 w-full flex-col justify-between gap-y-8 gap-x-12">
         {allUsers.map(user => (
           <div
             key={user.id}

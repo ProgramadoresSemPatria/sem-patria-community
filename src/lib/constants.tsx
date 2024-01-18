@@ -1,3 +1,5 @@
+import { type CarouselItemsMentorshipListProps } from './types'
+
 export const appConfig = {
   name: 'Sem pátria - Community',
   description: 'Comunidade programadores sem pátria'
@@ -29,7 +31,7 @@ export const settingOptions = [
   }
 ]
 
-export const CarouselItemsMentorshipList = [
+export const CarouselItemsMentorshipList: CarouselItemsMentorshipListProps[] = [
   {
     href: '/',
     src: '/assets/genesis.PNG',

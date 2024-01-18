@@ -5,3 +5,9 @@ export type RouteProps = {
   disabled?: boolean
   icon?: React.ReactNode
 }
+export type CarouselItemsMentorshipListProps = {
+  href: string
+  src: string
+  phase: string
+  title: string
+}

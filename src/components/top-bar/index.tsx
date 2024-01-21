@@ -1,3 +1,4 @@
+import React from 'react'
 import { appRoutes } from '@/lib/constants'
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs'
@@ -23,7 +24,7 @@ const TopBar = async () => {
   return (
     <div className="flex h-[60px] items-center justify-end border-b border-slate-6 px-6">
       <div className="hidden items-center gap-4 md:flex">
-        {user.isAdmin && <CMSButton />}
+        {user.isAdmin && <CMSButton data-testid="cms" />}
         <FeedbackButton />
         {user.isAdmin && <NotificationsButton />}
         <LogoutButton />

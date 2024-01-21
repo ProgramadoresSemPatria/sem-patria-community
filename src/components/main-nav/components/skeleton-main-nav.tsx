@@ -1,7 +1,8 @@
-import appLogo from '@/assets/logo.svg'
+import appLogo from '@/../public/logo.svg'
 import { Skeleton } from '@/components/ui/skeleton'
 import Image from 'next/image'
 import { v4 as uuid } from 'uuid'
+import React from 'react'
 
 export const SkeletonMainNav = () => {
   return (

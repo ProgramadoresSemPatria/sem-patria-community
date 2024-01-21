@@ -1,4 +1,5 @@
 'use client'
+import React, { useCallback, useMemo, useState } from 'react'
 import { getCategory } from '@/actions/category/get-category'
 import DetailsModal from '@/components/modals/details-modal'
 import DetailsModalContent from '@/components/modals/details-modal/details-modal-content'
@@ -15,7 +16,6 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useNotification } from '@/hooks/notification/use-notification'
 import { type Category, type Course } from '@prisma/client'
 import { formatDistance, subDays } from 'date-fns'
-import { useCallback, useMemo, useState } from 'react'
 
 type NotificationTypes = 'course' | 'category'
 

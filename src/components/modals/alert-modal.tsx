@@ -3,7 +3,7 @@
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 type AlertModalProps = {
   isOpen: boolean

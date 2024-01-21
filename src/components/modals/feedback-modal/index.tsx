@@ -1,3 +1,4 @@
+import React from 'react'
 import { Modal } from '@/components/ui/modal'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'

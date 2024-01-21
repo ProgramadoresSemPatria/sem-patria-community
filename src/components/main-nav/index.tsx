@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import * as React from 'react'
 
-import appLogo from '@/assets/logo.svg'
+import appLogo from '@/../public/logo.svg'
 import { Icons } from '@/components/icons'
 import { useAppStore } from '@/hooks/use-app-store'
 import { appRoutes } from '@/lib/constants'
@@ -113,7 +113,7 @@ const MainNav = ({ children }: MainNavProps) => {
             </Link>
           ))}
           {isCmsMode && (
-            <div className="mt-6">
+            <div data-testid="cms" className="mt-6">
               <p className="font-medium text-sm text-foreground pb-2">CMS</p>
               <ul className="flex flex-col gap-2">
                 {adminRoutes.map(route => (

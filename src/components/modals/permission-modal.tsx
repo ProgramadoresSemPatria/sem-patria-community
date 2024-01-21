@@ -1,5 +1,5 @@
 'use client'
-
+import React from 'react'
 import { Modal } from '@/components/ui/modal'
 import { usePermissionModal } from '@/hooks/use-modal'
 import { appRoutes } from '@/lib/constants'

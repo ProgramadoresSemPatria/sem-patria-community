@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import * as React from 'react'
 
-import appLogo from '@/assets/logo.svg'
+import appLogo from '@/../public/logo.svg'
 import { useLockBody } from '@/hooks/use-lock-body'
 import { appConfig, appRoutes } from '@/lib/constants'
 import { type RouteProps } from '@/lib/types'

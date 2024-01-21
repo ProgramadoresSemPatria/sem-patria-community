@@ -1,8 +1,8 @@
 'use client'
 
+import React, { useMemo } from 'react'
 import { Icons } from '@/components/icons'
 import { useNotification } from '@/hooks/notification/use-notification'
-import { useMemo } from 'react'
 
 const NotificationsButtonTrigger = () => {
   const { notifications, isLoadingNotifications } = useNotification()

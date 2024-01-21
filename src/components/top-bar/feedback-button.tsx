@@ -2,7 +2,7 @@
 
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFeedbackModal } from '@/hooks/use-feedback-modal'
 
 export const FeedbackButton = () => {

@@ -1,3 +1,4 @@
+import React, { useCallback } from 'react'
 import { type NotificationProps } from '@/components/top-bar/notifications-button/notifications-list-content'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -7,7 +8,6 @@ import { toast } from '@/components/ui/use-toast'
 import { useNotification } from '@/hooks/notification/use-notification'
 import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
-import { useCallback } from 'react'
 
 type DetailsModalContentProps = {
   content?: NotificationProps

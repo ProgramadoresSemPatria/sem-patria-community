@@ -1,4 +1,4 @@
-import avatarImg from '@/assets/avatar.png'
+import avatarImg from '@/../public/assets/avatar.png'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import prismadb from '@/lib/prismadb'
 import { cn } from '@/lib/utils'

@@ -7,6 +7,8 @@ import {
   BellDot,
   Bot,
   CalendarCheck2,
+  CalendarClock,
+  CalendarDays,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -26,14 +28,14 @@ import {
   MoreHorizontal,
   MoreVertical,
   Plus,
+  PlusCircle,
+  Rocket,
   SlidersHorizontal,
   Sun,
   Trash,
   User,
   X,
-  type LucideIcon,
-  PlusCircle,
-  Rocket
+  type LucideIcon
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -72,5 +74,7 @@ export const Icons = {
   mentorship: GraduationCap,
   bell: Bell,
   bellDot: BellDot,
-  rocket: Rocket
+  rocket: Rocket,
+  calendarDays: CalendarDays,
+  calendarClock: CalendarClock
 }

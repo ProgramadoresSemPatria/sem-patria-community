@@ -24,7 +24,8 @@ export enum appRoutes {
   admin_courses = '/admin/courses',
   admin_courses_new = '/admin/courses/new',
   admin_categories = '/admin/categories',
-  admin_categories_new = '/admin/categories/new'
+  admin_categories_new = '/admin/categories/new',
+  admin_events = '/admin/events'
 }
 
 export const settingOptions = [

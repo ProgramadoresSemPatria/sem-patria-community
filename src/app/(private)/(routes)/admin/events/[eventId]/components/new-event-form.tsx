@@ -89,10 +89,18 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
 
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
 
-  const [hasExternalUrl, setHasExternalUrl] = useState(false)
-  const [hasSpecialGuest, setHasSpecialGuest] = useState(false)
-  const [hour, setHour] = useState('18')
-  const [minute, setMinute] = useState('00')
+  const [hasExternalUrl, setHasExternalUrl] = useState(
+    !!initialData?.externalUrl ?? false
+  )
+  const [hasSpecialGuest, setHasSpecialGuest] = useState(
+    !!initialData?.specialGuest ?? false
+  )
+  const [hour, setHour] = useState(
+    initialData ? new Date(initialData.date).getUTCHours() : '18'
+  )
+  const [minute, setMinute] = useState(
+    initialData ? new Date(initialData.date).getUTCMinutes() : '00'
+  )
 
   const title = initialData ? 'Edit event' : 'Create event'
   const description = initialData

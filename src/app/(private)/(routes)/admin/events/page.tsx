@@ -13,8 +13,8 @@ const AdminEventsPage = async () => {
     description: item.description,
     date: item.date,
     location: item.location,
-    externalUrl: item.externalUrl || '',
-    specialGuest: item.specialGuest || ''
+    externalUrl: item.externalUrl ?? '',
+    specialGuest: item.specialGuest ?? ''
   }))
 
   return (

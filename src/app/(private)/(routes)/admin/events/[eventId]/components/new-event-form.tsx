@@ -21,6 +21,14 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
@@ -58,6 +66,22 @@ const formSchema = z.object({
 
 type NewEventFormValues = z.infer<typeof formSchema>
 
+const hours = Array.from(Array(24).keys()).map(item => item.toString())
+const minutes = [
+  '00',
+  '5',
+  '10',
+  '15',
+  '20',
+  '25',
+  '30',
+  '35',
+  '40',
+  '45',
+  '50',
+  '55'
+]
+
 export const NewEventForm = ({ initialData }: NewEventFormProps) => {
   const params = useParams()
   const router = useRouter()
@@ -67,6 +91,8 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
 
   const [hasExternalUrl, setHasExternalUrl] = useState(false)
   const [hasSpecialGuest, setHasSpecialGuest] = useState(false)
+  const [hour, setHour] = useState('18')
+  const [minute, setMinute] = useState('00')
 
   const title = initialData ? 'Edit event' : 'Create event'
   const description = initialData
@@ -142,6 +168,10 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
   })
 
   const onSubmit = async (values: NewEventFormValues) => {
+    // set the hour and minute of the date
+    values.date.setHours(parseInt(hour))
+    values.date.setMinutes(parseInt(minute))
+
     await createOrUpdateEvent(values)
   }
 
@@ -297,6 +327,61 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
                         />
                       </PopoverContent>
                     </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="datetime"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Time</FormLabel>
+                    <FormDescription>
+                      Select the hour and minute of the event.
+                    </FormDescription>
+                    <div className="flex gap-2 items-center">
+                      <Select>
+                        <SelectTrigger className="w-fit">
+                          <SelectValue placeholder={`${hour}h`} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {hours.map(hour => (
+                              <SelectItem
+                                key={hour}
+                                value={hour}
+                                onClick={() => {
+                                  setHour(hour)
+                                }}
+                              >
+                                {hour}h
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                      :
+                      <Select>
+                        <SelectTrigger className="w-fit">
+                          <SelectValue placeholder={`${minute}min`} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {minutes.map(minute => (
+                              <SelectItem
+                                key={minute}
+                                value={minute}
+                                onClick={() => {
+                                  setMinute(minute)
+                                }}
+                              >
+                                {minute}min
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}

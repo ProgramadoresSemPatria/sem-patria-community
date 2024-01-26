@@ -1,11 +1,11 @@
-import { type CarouselItemsMentorshipListProps } from './types'
+import Apollo from '@/assets/apollo.png'
 import Genesis from '@/assets/genesis.png'
+import Hades from '@/assets/hades.png'
 import Hefesto from '@/assets/hefesto.png'
 import Hermes from '@/assets/hermes.png'
-import Apollo from '@/assets/apollo.png'
 import Prometeu from '@/assets/prometeu.png'
 import Zeus from '@/assets/zeus.png'
-import Hades from '@/assets/hades.png'
+import { type CarouselItemsMentorshipListProps } from './types'
 
 export const appConfig = {
   name: 'Sem pátria - Community',
@@ -25,7 +25,8 @@ export enum appRoutes {
   admin_courses_new = '/admin/courses/new',
   admin_categories = '/admin/categories',
   admin_categories_new = '/admin/categories/new',
-  admin_events = '/admin/events'
+  admin_events = '/admin/events',
+  admin_events_new = '/admin/events/new'
 }
 
 export const settingOptions = [

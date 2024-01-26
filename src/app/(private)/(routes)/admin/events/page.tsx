@@ -2,7 +2,7 @@ import { SkeletonCmsPage } from '@/components/skeletons/skeleton-cms-page'
 import prismadb from '@/lib/prismadb'
 import { Suspense } from 'react'
 import { type EventColumn } from './components/columns'
-import EventsClient from './components/courses-client'
+import EventsClient from './components/event-client'
 
 const AdminEventsPage = async () => {
   const events = await prismadb.event.findMany({})

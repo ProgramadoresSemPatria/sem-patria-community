@@ -131,7 +131,7 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
 
   const { mutateAsync: deleteEvent, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
-      return await api.delete(`/api/event/${params.courseId}`)
+      return await api.delete(`/api/event/${params.eventId}`)
     },
     onSuccess: () => {
       router.push(appRoutes.admin_events)
@@ -153,7 +153,7 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
   const { mutateAsync: createOrUpdateEvent, isPending } = useMutation({
     mutationFn: async (data: z.infer<typeof formSchema>) => {
       if (initialData) {
-        return await api.patch(`/api/event/${params.courseId}`, data)
+        return await api.patch(`/api/event/${params.eventId}`, data)
       }
 
       return await api.post(`/api/event`, data)
@@ -177,8 +177,8 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
 
   const onSubmit = async (values: NewEventFormValues) => {
     // set the hour and minute of the date
-    values.date.setHours(parseInt(hour))
-    values.date.setMinutes(parseInt(minute))
+    values.date.setUTCHours(parseInt(hour))
+    values.date.setUTCMinutes(parseInt(minute))
 
     await createOrUpdateEvent(values)
   }
@@ -339,61 +339,53 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
                   </FormItem>
                 )}
               />
-              <FormField
-                name="datetime"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>Time</FormLabel>
-                    <FormDescription>
-                      Select the hour and minute of the event.
-                    </FormDescription>
-                    <div className="flex gap-2 items-center">
-                      <Select>
-                        <SelectTrigger className="w-fit">
-                          <SelectValue placeholder={`${hour}h`} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {hours.map(hour => (
-                              <SelectItem
-                                key={hour}
-                                value={hour}
-                                onClick={() => {
-                                  setHour(hour)
-                                }}
-                              >
-                                {hour}h
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                      :
-                      <Select>
-                        <SelectTrigger className="w-fit">
-                          <SelectValue placeholder={`${minute}min`} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {minutes.map(minute => (
-                              <SelectItem
-                                key={minute}
-                                value={minute}
-                                onClick={() => {
-                                  setMinute(minute)
-                                }}
-                              >
-                                {minute}min
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
+              <FormItem>
+                <FormLabel>Time</FormLabel>
+                <FormDescription>
+                  Select the hour and minute of the event.
+                </FormDescription>
+                <div className="flex gap-2 items-center">
+                  <Select
+                    onValueChange={value => {
+                      setHour(value)
+                    }}
+                  >
+                    <SelectTrigger className="w-fit">
+                      <SelectValue placeholder={`${hour}h`} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {hours.map(hour => (
+                          <SelectItem key={hour} value={hour}>
+                            {hour}h
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  :
+                  <Select
+                    onValueChange={value => {
+                      setMinute(value)
+                    }}
+                  >
+                    <SelectTrigger className="w-fit">
+                      <SelectValue placeholder={`${minute}min`} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {minutes.map(minute => (
+                          <SelectItem key={minute} value={minute}>
+                            {minute}min
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <FormMessage />
+              </FormItem>
 
               <FormField
                 control={form.control}

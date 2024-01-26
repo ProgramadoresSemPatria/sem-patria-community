@@ -1,6 +1,7 @@
 'use client'
 
 import { type ColumnDef } from '@tanstack/react-table'
+import { format } from 'date-fns'
 import { EventCellAction } from './course-cell-action'
 
 export type EventColumn = {
@@ -24,7 +25,8 @@ export const eventColumns: Array<ColumnDef<EventColumn>> = [
   {
     accessorKey: 'date',
     header: 'Event Date',
-    cell: cell => new Date(cell.getValue() as string).toLocaleDateString()
+    cell: cell =>
+      format(new Date(cell.getValue() as string), 'dd/MM/yyyy - HH:mm')
   },
   {
     accessorKey: 'location',

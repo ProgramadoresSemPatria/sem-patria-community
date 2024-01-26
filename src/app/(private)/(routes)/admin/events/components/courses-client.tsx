@@ -24,7 +24,7 @@ const EventsClient = ({ events }: EventsClientProps) => {
         />
         <Button
           onClick={() => {
-            router.push(appRoutes.dashboard)
+            router.push(appRoutes.admin_events_new)
           }}
         >
           <Icons.plus className="w-4 h-4 mr-2" />

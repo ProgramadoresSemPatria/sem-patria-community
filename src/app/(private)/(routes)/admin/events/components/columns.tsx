@@ -2,7 +2,8 @@
 
 import { type ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
-import { EventCellAction } from './course-cell-action'
+import { ptBR } from 'date-fns/locale'
+import { EventCellAction } from './event-cell-action'
 
 export type EventColumn = {
   id: string
@@ -25,8 +26,15 @@ export const eventColumns: Array<ColumnDef<EventColumn>> = [
   {
     accessorKey: 'date',
     header: 'Event Date',
-    cell: cell =>
-      format(new Date(cell.getValue() as string), 'dd/MM/yyyy - HH:mm')
+    cell: cell => {
+      // ! This is a workaround to fix the timezone issue
+      const date = new Date(cell.getValue() as string)
+      const offset = date.getTimezoneOffset()
+      const adjustedDate = new Date(date.getTime() + offset * 60 * 1000)
+      return format(adjustedDate, 'dd/MM/yyyy - HH:mm', {
+        locale: ptBR
+      })
+    }
   },
   {
     accessorKey: 'location',

@@ -10,10 +10,22 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { useEvent } from '@/hooks/event/use-event'
+import { useMemo } from 'react'
 
 export const EventsCalendar = () => {
   const { data, isLoading } = useEvent()
 
+  const eventsTitle = useMemo(() => {
+    if (isLoading) {
+      return 'Loading events...'
+    }
+
+    if (data && data?.length > 0) {
+      return `You have ${data?.length} events this week.`
+    }
+
+    return 'No events this week.'
+  }, [data, isLoading])
   return (
     <Card>
       <CardHeader>
@@ -34,11 +46,7 @@ export const EventsCalendar = () => {
         <section className="flex flex-col gap-4 mx-auto">
           <div className="flex gap-1 items-center ">
             <Icons.calendarClock className="h-4 w-4" />{' '}
-            <span className="font-semibold">
-              {isLoading
-                ? 'Loading events...'
-                : `You have ${data?.length} events this week.`}
-            </span>
+            <span className="font-semibold">{eventsTitle}</span>
           </div>
 
           {isLoading ? (

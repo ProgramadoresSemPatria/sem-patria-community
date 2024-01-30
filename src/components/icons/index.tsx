@@ -35,7 +35,8 @@ import {
   Trash,
   User,
   X,
-  type LucideIcon
+  type LucideIcon,
+  Sparkles
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -76,5 +77,6 @@ export const Icons = {
   bellDot: BellDot,
   rocket: Rocket,
   calendarDays: CalendarDays,
-  calendarClock: CalendarClock
+  calendarClock: CalendarClock,
+  sparkles: Sparkles
 }

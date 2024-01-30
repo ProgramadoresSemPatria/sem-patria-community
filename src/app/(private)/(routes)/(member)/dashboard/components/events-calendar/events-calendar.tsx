@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/card'
 import { useEvent } from '@/hooks/event/use-event'
 import { useMemo } from 'react'
+import { EventComponent } from './event-component'
 
 export const EventsCalendar = () => {
   const { data, isLoading } = useEvent()
@@ -52,18 +53,8 @@ export const EventsCalendar = () => {
           {isLoading ? (
             <SkeletonDefault />
           ) : (
-            data?.map((date, i) => (
-              <div key={i} className="flex items-center text-sm gap-3">
-                <div className="rounded-full w-2 h-2 bg-blue-700" />
-                <div className="flex flex-col">
-                  <span className="font-semibold truncate">{date.title}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {new Date(date.date).toLocaleDateString()} -{' '}
-                    {new Date(date.date).getHours()}:
-                    {new Date(date.date).getMinutes()}
-                  </span>
-                </div>
-              </div>
+            data?.map((event, i) => (
+              <EventComponent key={event.id} event={event} />
             ))
           )}
         </section>

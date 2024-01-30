@@ -35,3 +35,29 @@ export async function POST(req: NextRequest) {
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }
+
+export async function GET(req: NextRequest) {
+  try {
+    const { userId } = auth()
+
+    if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
+
+    const { searchParams } = req.nextUrl
+    const startDate = new Date(searchParams.get('startDate') ?? '')
+    const endDate = new Date(searchParams.get('endDate') ?? '')
+
+    const events = await prismadb.event.findMany({
+      where: {
+        date: {
+          gte: startDate,
+          lte: endDate
+        }
+      }
+    })
+
+    return NextResponse.json(events)
+  } catch (error) {
+    console.log('[EVENT_GET_ERROR]', error)
+    return new NextResponse('Internal Server Error', { status: 500 })
+  }
+}

@@ -43,15 +43,22 @@ export async function GET(req: NextRequest) {
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
     const { searchParams } = req.nextUrl
-    const startDate = new Date(searchParams.get('startDate') ?? '')
-    const endDate = new Date(searchParams.get('endDate') ?? '')
+    const startDate = searchParams.get('startDate')
+    const endDate = searchParams.get('endDate')
+
+    const filter =
+      startDate && endDate
+        ? {
+            date: {
+              gte: new Date(startDate),
+              lte: new Date(endDate)
+            }
+          }
+        : {}
 
     const events = await prismadb.event.findMany({
       where: {
-        date: {
-          gte: startDate,
-          lte: endDate
-        }
+        ...filter
       }
     })
 

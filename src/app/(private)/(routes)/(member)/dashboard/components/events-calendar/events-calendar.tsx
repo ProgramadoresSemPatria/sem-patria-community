@@ -1,5 +1,6 @@
 'use client'
 import { Icons } from '@/components/icons'
+import { SkeletonDefault } from '@/components/skeletons/skeleton-default'
 import { Calendar } from '@/components/ui/calendar'
 import {
   Card,
@@ -8,15 +9,10 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import React from 'react'
+import { useEvent } from '@/hooks/event/use-event'
 
 export const EventsCalendar = () => {
-  const [date] = React.useState<Array<{ date: Date; hour: string }>>([
-    // fill with dummy dates
-    { date: new Date(2024, 0, 22), hour: '16h' },
-    { date: new Date(2024, 0, 26), hour: '18h' },
-    { date: new Date(2024, 0, 29), hour: '20h' }
-  ])
+  const { data, isLoading } = useEvent()
 
   return (
     <Card>
@@ -32,27 +28,36 @@ export const EventsCalendar = () => {
       <CardContent className="flex justify-start items-start">
         <Calendar
           mode="multiple"
-          selected={date.map(d => d.date)}
+          selected={data?.map(d => new Date(d.date))}
           className="rounded-md border w-fit"
         />
         <section className="flex flex-col gap-4 mx-auto">
           <div className="flex gap-1 items-center ">
             <Icons.calendarClock className="h-4 w-4" />{' '}
             <span className="font-semibold">
-              You have {date?.length} events this week.
+              {isLoading
+                ? 'Loading events...'
+                : `You have ${data?.length} events this week.`}
             </span>
           </div>
-          {date?.map((date, i) => (
-            <div key={i} className="flex items-center text-sm gap-3">
-              <div className="rounded-full w-2 h-2 bg-blue-700" />
-              <div className="flex flex-col">
-                <span className="font-semibold">Event #{i + 1}</span>
-                <span className="text-xs text-muted-foreground">
-                  {date.date.toLocaleDateString()} - {date.hour}
-                </span>
+
+          {isLoading ? (
+            <SkeletonDefault />
+          ) : (
+            data?.map((date, i) => (
+              <div key={i} className="flex items-center text-sm gap-3">
+                <div className="rounded-full w-2 h-2 bg-blue-700" />
+                <div className="flex flex-col">
+                  <span className="font-semibold truncate">{date.title}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {new Date(date.date).toLocaleDateString()} -{' '}
+                    {new Date(date.date).getHours()}:
+                    {new Date(date.date).getMinutes()}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </section>
       </CardContent>
     </Card>

@@ -4,7 +4,7 @@ import { api } from '@/lib/api'
 import { useQuery } from '@tanstack/react-query'
 import { type EventApiProps } from './types'
 
-export const useEvent = () => {
+export const useWeekEvents = () => {
   return useQuery<EventApiProps>({
     queryKey: ['events'],
     queryFn: async () => {
@@ -14,10 +14,21 @@ export const useEvent = () => {
         currentWeekStartDate.getDate() - currentWeekStartDate.getDay()
       )
       const currentWeekEndDate = new Date()
+
       currentWeekEndDate.setDate(currentWeekStartDate.getDate() + 6)
       const { data } = await api.get<EventApiProps>(
         `/api/event?startDate=${currentWeekStartDate}&endDate=${currentWeekEndDate}`
       )
+      return data
+    }
+  })
+}
+
+export const useAllEvents = () => {
+  return useQuery<EventApiProps>({
+    queryKey: ['allEvents'],
+    queryFn: async () => {
+      const { data } = await api.get<EventApiProps>(`/api/event`)
       return data
     }
   })

@@ -9,24 +9,61 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import { useEvent } from '@/hooks/event/use-event'
-import { useMemo } from 'react'
+import { type EventApiProps } from '@/hooks/event/types'
+import { useAllEvents, useWeekEvents } from '@/hooks/event/use-event'
+import { format } from 'date-fns'
+import { useCallback, useMemo, useState } from 'react'
 import { EventComponent } from './event-component'
+import { EventsTitle } from './events-title'
 
 export const EventsCalendar = () => {
-  const { data, isLoading } = useEvent()
+  const { data, isLoading } = useWeekEvents()
+  const { data: allEvents } = useAllEvents()
 
-  const eventsTitle = useMemo(() => {
+  const [selectedDayEvents, setSelectedDayEvents] = useState<EventApiProps>()
+  const [selectedDay, setSelectedDay] = useState<Date>()
+
+  const eventsTitle: string = useMemo(() => {
     if (isLoading) {
       return 'Loading events...'
     }
 
+    if (selectedDayEvents) {
+      const selectedDay = format(new Date(selectedDayEvents[0].date), 'dd/MM')
+
+      if (selectedDayEvents.length === 0)
+        return `You have no events on ${selectedDay}`
+
+      return `You have ${selectedDayEvents?.length} events on ${selectedDay}`
+    }
+
     if (data && data?.length > 0) {
-      return `You have ${data?.length} events this week.`
+      return `You have ${data?.length} events this week`
     }
 
     return 'No events this week.'
-  }, [data, isLoading])
+  }, [data, isLoading, selectedDayEvents])
+
+  const eventsDisplay = useMemo(() => {
+    if (selectedDayEvents) {
+      return selectedDayEvents
+    }
+
+    return data
+  }, [data, selectedDayEvents])
+
+  const handleClickDay = useCallback(
+    (selectedDate: Date) => {
+      const filteredEvents = allEvents?.filter(
+        event =>
+          new Date(event.date).toDateString() === selectedDate.toDateString()
+      )
+      setSelectedDayEvents(filteredEvents)
+      setSelectedDay(selectedDate)
+    },
+    [allEvents]
+  )
+
   return (
     <Card>
       <CardHeader>
@@ -41,19 +78,23 @@ export const EventsCalendar = () => {
       <CardContent className="flex justify-start items-start">
         <Calendar
           mode="multiple"
-          selected={data?.map(d => new Date(d.date))}
+          selected={allEvents?.map(d => new Date(d.date))}
           className="rounded-md border w-fit"
+          onDayClick={handleClickDay}
         />
         <section className="flex flex-col gap-4 mx-auto">
-          <div className="flex gap-1 items-center ">
-            <Icons.calendarClock className="h-4 w-4" />{' '}
-            <span className="font-semibold">{eventsTitle}</span>
-          </div>
-
+          <EventsTitle
+            title={eventsTitle}
+            hasSelectedDay={selectedDay !== undefined}
+            onClick={() => {
+              setSelectedDayEvents(undefined)
+              setSelectedDay(undefined)
+            }}
+          />
           {isLoading ? (
             <SkeletonDefault />
           ) : (
-            data?.map((event, i) => (
+            eventsDisplay?.map((event, i) => (
               <EventComponent key={event.id} event={event} />
             ))
           )}

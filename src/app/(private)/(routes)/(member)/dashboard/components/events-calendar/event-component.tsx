@@ -11,6 +11,10 @@ interface EventComponentProps {
 }
 
 export const EventComponent = ({ event }: EventComponentProps) => {
+  // ! This is a workaround to fix the timezone issue
+  const date = new Date(event.date)
+  const offset = date.getTimezoneOffset()
+  const adjustedDate = new Date(date.getTime() + offset * 60 * 1000)
   return (
     <Popover>
       <PopoverTrigger>
@@ -19,9 +23,8 @@ export const EventComponent = ({ event }: EventComponentProps) => {
           <div className="flex flex-col">
             <span className="font-semibold truncate">{event.title}</span>
             <span className="text-xs text-muted-foreground">
-              {new Date(event.date).toLocaleDateString()} -{' '}
-              {new Date(event.date).getHours()}:
-              {new Date(event.date).getMinutes()}
+              {adjustedDate.toLocaleDateString()} - {adjustedDate.getHours()}:
+              {adjustedDate.getMinutes()}
             </span>
           </div>
         </div>
@@ -31,9 +34,8 @@ export const EventComponent = ({ event }: EventComponentProps) => {
           <div className="flex flex-col">
             <span className="font-semibold text-lg">{event.title}</span>
             <span className="text-muted-foreground text-sm">
-              {new Date(event.date).toLocaleDateString()} -{' '}
-              {new Date(event.date).getHours()}:
-              {new Date(event.date).getMinutes()}
+              {adjustedDate.toLocaleDateString()} - {adjustedDate.getHours()}:
+              {adjustedDate.getMinutes()}
             </span>
           </div>
           <span className="italic">{event.description}</span>

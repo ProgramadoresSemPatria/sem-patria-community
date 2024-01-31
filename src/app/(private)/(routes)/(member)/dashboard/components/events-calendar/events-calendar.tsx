@@ -32,13 +32,13 @@ export const EventsCalendar = () => {
       const selectedDay = format(new Date(selectedDayEvents[0].date), 'dd/MM')
 
       if (selectedDayEvents.length === 0)
-        return `You have no events on ${selectedDay}`
+        return `We have no events on ${selectedDay}`
 
-      return `You have ${selectedDayEvents?.length} events on ${selectedDay}`
+      return `We have ${selectedDayEvents?.length} events on ${selectedDay}`
     }
 
     if (data && data?.length > 0) {
-      return `You have ${data?.length} events this week`
+      return `We have ${data?.length} events this week`
     }
 
     return 'No events this week.'
@@ -82,7 +82,7 @@ export const EventsCalendar = () => {
           className="rounded-md border w-fit"
           onDayClick={handleClickDay}
         />
-        <section className="flex flex-col gap-4 mx-auto">
+        <section className="flex flex-col gap-4 2xl:ml-10 mx-auto">
           <EventsTitle
             title={eventsTitle}
             hasSelectedDay={selectedDay !== undefined}

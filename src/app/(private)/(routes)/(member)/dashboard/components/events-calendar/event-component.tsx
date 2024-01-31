@@ -4,6 +4,7 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
+import { formatExternalUrl } from '@/lib/utils'
 import { type Event } from '@prisma/client'
 
 interface EventComponentProps {
@@ -49,7 +50,7 @@ export const EventComponent = ({ event }: EventComponentProps) => {
             <div className="mt-2">
               <span className="font-semibold">Link: </span>
               <a
-                href={event.externalUrl ?? '#'}
+                href={formatExternalUrl(event.externalUrl) ?? '#'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"

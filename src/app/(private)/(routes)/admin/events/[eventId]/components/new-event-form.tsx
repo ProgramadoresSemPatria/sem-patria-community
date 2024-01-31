@@ -177,8 +177,8 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
 
   const onSubmit = async (values: NewEventFormValues) => {
     // set the hour and minute of the date
-    values.date.setUTCHours(parseInt(hour))
-    values.date.setUTCMinutes(parseInt(minute))
+    values.date.setUTCHours(Number(hour))
+    values.date.setUTCMinutes(Number(minute))
 
     await createOrUpdateEvent(values)
   }

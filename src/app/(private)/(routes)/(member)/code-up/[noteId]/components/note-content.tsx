@@ -66,6 +66,13 @@ export const NoteContent = ({ note }: NoteContentProps) => {
         onChange={onChangeContent}
         initialContent={note.content ?? undefined}
       />
+      <p className="text-sm text-gray-500 mt-2">
+        Insert the hashtag{' '}
+        <kbd className="rounded-md border bg-muted px-1 text-xs">
+          #100DaysOfCommit
+        </kbd>{' '}
+        in title of the note if it refers to the challenge.
+      </p>
     </div>
   )
 }

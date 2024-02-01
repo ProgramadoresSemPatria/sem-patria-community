@@ -61,6 +61,7 @@ export const NoteHeader = ({ note }: NoteHeaderProps) => {
         disabled={isPending}
         onClick={() => {
           router.back()
+          router.refresh()
         }}
       >
         <Icons.arrowBack className="h-4 w-4 mr-1" /> Back

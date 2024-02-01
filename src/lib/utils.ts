@@ -42,3 +42,10 @@ export const validateIsPendingColor = (
 
   return isPending ? styles.pending : styles.approved
 }
+
+export const formatExternalUrl = (url: string): string => {
+  const hasHttps = url.includes('https://')
+  if (hasHttps) return url
+
+  return `https://${url}`
+}

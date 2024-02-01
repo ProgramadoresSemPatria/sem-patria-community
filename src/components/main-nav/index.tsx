@@ -68,6 +68,12 @@ const MainNav = ({ children }: MainNavProps) => {
       label: 'Categories',
       active: pathname.includes(appRoutes.admin_categories),
       icon: <Icons.layers className="h-4 w-4" />
+    },
+    {
+      href: appRoutes.admin_events,
+      label: 'Events',
+      active: pathname.includes(appRoutes.admin_events),
+      icon: <Icons.calendarDays className="h-4 w-4" />
     }
   ]
 

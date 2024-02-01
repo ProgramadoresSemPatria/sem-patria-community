@@ -1,11 +1,15 @@
 'use client'
 
+import AdvancedImg from '@/assets/advanced.png'
+import BeginnerImg from '@/assets/beginner.png'
+import IntermediateImg from '@/assets/intermediate.png'
 import { SkeletonCourseCards } from '@/components/skeletons/skeleton-course-cards'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Button } from '@/components/ui/button'
 import { useCourseContent } from '@/hooks/course/use-course-content'
 import { validateCourseLevelColor } from '@/lib/utils'
 import { type Category } from '@prisma/client'
+import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
 
 type CoursesContentProps = {
@@ -25,6 +29,15 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
           ...categories
         ]
       : []
+
+  const renderLevelImage = (level: string) => {
+    const levelImage: Record<string, StaticImageData> = {
+      beginner: BeginnerImg,
+      intermediate: IntermediateImg,
+      advanced: AdvancedImg
+    }
+    return levelImage[level]
+  }
 
   return (
     <div className="mt-6">
@@ -57,7 +70,11 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
             >
               <div className="aspect-video w-full rounded-md">
                 <AspectRatio ratio={16 / 9}>
-                  <div className="bg-gradient bg-gradient-to-r dark:from-[#ECE9E6] dark:to-[#FFFFFF] from-[#141E30] to-[#243B55] w-full h-full rounded-md object-cover" />
+                  <Image
+                    src={renderLevelImage(course.level)}
+                    alt={course.name}
+                    className="w-full h-full rounded-md object-cover"
+                  />
                 </AspectRatio>
               </div>
               <div className="text-lg md:text-base font-medium group-hover:text-muted-foreground transition line-clamp-2">

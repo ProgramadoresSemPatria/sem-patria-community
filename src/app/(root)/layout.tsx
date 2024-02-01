@@ -10,7 +10,7 @@ export default async function SetupLayout({
   children: React.ReactNode
 }) {
   const user = await currentUser()
-  if (!user || !user.username) return redirect(appRoutes.signIn)
+  if (!user?.username) return redirect(appRoutes.signIn)
 
   const isMemberOfOrg = await getCheckMembership(user.username)
   if (isMemberOfOrg) {

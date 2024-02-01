@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -20,6 +17,7 @@ model User {
   isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Notes     Note[]
 }
 
 model Course {
@@ -28,16 +26,39 @@ model Course {
   courseUrl  String
   level      String
   categoryId String
-  category   Category @relation("CourseToCategory", fields: [categoryId], references: [id])
   isPaid     Boolean  @default(false)
+  isPending  Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  category   Category @relation("CourseToCategory", fields: [categoryId], references: [id])
 }
 
 model Category {
   id        String   @id @default(uuid())
   name      String
-  courses   Course[] @relation("CourseToCategory")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  courses   Course[] @relation("CourseToCategory")
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  title     String
+  content   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+model Event {
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  specialGuest String?
+  date         DateTime
+  location     String
+  externalUrl  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

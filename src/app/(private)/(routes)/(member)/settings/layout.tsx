@@ -10,7 +10,7 @@ type SettingsLayoutProps = {
 export default function SettingsLayout({ children }: SettingsLayoutProps) {
   return (
     <>
-      <div className="pt-6">
+      <div className="container pt-6">
         <Header title="Settings" description="Manage your account settings." />
         <Separator className="my-6" />
         <NavOptions options={settingOptions} />

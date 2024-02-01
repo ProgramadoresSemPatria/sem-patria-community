@@ -11,7 +11,7 @@ export default async function PrivateLayout({
   children: React.ReactNode
 }) {
   const user = await currentUser()
-  if (!user || !user.username) return redirect(appRoutes.signIn)
+  if (!user?.username) return redirect(appRoutes.signIn)
 
   const isMemberOfOrg = await getCheckMembership(user.username)
 
@@ -23,7 +23,7 @@ export default async function PrivateLayout({
 
       <main className="w-full">
         <TopBar />
-        <div className="container h-[calc(100vh-60px)] overflow-auto pb-10">
+        <div className="h-[calc(100vh-60px)] overflow-auto pb-10">
           {children}
         </div>
       </main>

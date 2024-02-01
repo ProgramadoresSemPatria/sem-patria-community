@@ -1,5 +1,3 @@
-import { Separator } from '@/components/ui/separator'
-
 type HeaderProps = {
   title: string
   description?: string

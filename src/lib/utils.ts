@@ -25,3 +25,27 @@ export const validateCourseLevelColor = (level: string): string => {
 
   return color[level]
 }
+
+export const validateIsPendingColor = (
+  isPending: boolean
+): { background: string; text: string } => {
+  const styles = {
+    pending: {
+      background: 'bg-rose-600 hover:bg-rose-600 text-gray-100',
+      text: 'Pending'
+    },
+    approved: {
+      background: 'bg-teal-600 hover:bg-teal-600 text-gray-100',
+      text: 'Approved'
+    }
+  }
+
+  return isPending ? styles.pending : styles.approved
+}
+
+export const formatExternalUrl = (url: string): string => {
+  const hasHttps = url.includes('https://')
+  if (hasHttps) return url
+
+  return `https://${url}`
+}

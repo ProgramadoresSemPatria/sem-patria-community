@@ -1,24 +1,23 @@
 'use client'
+
+import AdvancedImg from '@/assets/advanced.png'
+import BeginnerImg from '@/assets/beginner.png'
+import IntermediateImg from '@/assets/intermediate.png'
 import { SkeletonCourseCards } from '@/components/skeletons/skeleton-course-cards'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Button } from '@/components/ui/button'
-import { api } from '@/lib/api'
+import { useCourseContent } from '@/hooks/course/use-course-content'
 import { validateCourseLevelColor } from '@/lib/utils'
-import { Category, Course } from '@prisma/client'
-import { useQuery } from '@tanstack/react-query'
-import { AxiosResponse } from 'axios'
+import { type Category } from '@prisma/client'
+import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
 
 type CoursesContentProps = {
   categories: Category[]
 }
 
 const CoursesContent = ({ categories }: CoursesContentProps) => {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const router = useRouter()
+  const { pathname, searchParams, isLoading, coursesList } = useCourseContent()
 
   const categoryOptions =
     categories.length > 0
@@ -31,17 +30,14 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
         ]
       : []
 
-  const { data: coursesList, isLoading } = useQuery<AxiosResponse<Course[]>>({
-    queryKey: ['courses', { filter: searchParams.get('filter') }],
-    queryFn: () => api.get(`/api/courses?filter=${searchParams.get('filter')}`),
-    enabled: !!searchParams.get('filter')
-  })
-
-  useEffect(() => {
-    if (!searchParams.get('filter')) {
-      router.push(`${pathname}?filter=all`)
+  const renderLevelImage = (level: string) => {
+    const levelImage: Record<string, StaticImageData> = {
+      beginner: BeginnerImg,
+      intermediate: IntermediateImg,
+      advanced: AdvancedImg
     }
-  }, [])
+    return levelImage[level]
+  }
 
   return (
     <div className="mt-6">
@@ -62,19 +58,23 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
         ))}
       </div>
 
-      <div className="grid grid-cols-5 gap-x-6 gap-y-9 mt-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-x-6 gap-y-9 mt-6">
         {isLoading && <SkeletonCourseCards />}
         {coursesList &&
-          coursesList.data.length > 0 &&
-          coursesList.data.map(course => (
+          coursesList.length > 0 &&
+          coursesList.map(course => (
             <Link
               href={course.courseUrl}
               key={course.id}
               className="flex flex-col gap-2 p-3 h-full overflow-hidden rounded-lg hover:bg-muted cursor-pointer transition-all ease-in"
             >
-              <div className="aspect-video w-64 h-36 rounded-md">
+              <div className="aspect-video w-full rounded-md">
                 <AspectRatio ratio={16 / 9}>
-                  <div className="bg-gradient bg-gradient-to-r dark:from-[#ECE9E6] dark:to-[#FFFFFF] from-[#141E30] to-[#243B55] w-full h-full rounded-md object-cover" />
+                  <Image
+                    src={renderLevelImage(course.level)}
+                    alt={course.name}
+                    className="w-full h-full rounded-md object-cover"
+                  />
                 </AspectRatio>
               </div>
               <div className="text-lg md:text-base font-medium group-hover:text-muted-foreground transition line-clamp-2">
@@ -94,7 +94,7 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
               </p>
             </Link>
           ))}
-        {!isLoading && !coursesList?.data.length && (
+        {!isLoading && !coursesList?.length && (
           <div className="col-span-full text-muted-foreground font-medium">
             There are no course recommendations at this time.
           </div>

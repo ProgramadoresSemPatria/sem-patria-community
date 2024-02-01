@@ -5,14 +5,14 @@ import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 
 export type NavOptionsProps = {
-  options: {
+  options: Array<{
     title: string
     href: string
     param?: {
       key: string
       value: string
     }
-  }[]
+  }>
 }
 
 const NavOptions = ({ options }: NavOptionsProps) => {

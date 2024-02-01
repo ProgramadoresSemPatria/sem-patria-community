@@ -1,10 +1,10 @@
+import { SkeletonCmsPage } from '@/components/skeletons/skeleton-cms-page'
 import prismadb from '@/lib/prismadb'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Suspense } from 'react'
 import CategoriesClient from './components/categories-client'
-import { CategoryColumn } from './components/columns'
-import { SkeletonCmsPage } from '@/components/skeletons/skeleton-cms-page'
+import { type CategoryColumn } from './components/columns'
 
 const AdminCategoriesPage = async () => {
   const categories = await prismadb.category.findMany()
@@ -18,7 +18,7 @@ const AdminCategoriesPage = async () => {
   }))
 
   return (
-    <div className="flex-col pt-6">
+    <div className="container flex-col pt-6">
       <Suspense fallback={<SkeletonCmsPage />}>
         <CategoriesClient categories={formattedCategories} />
       </Suspense>

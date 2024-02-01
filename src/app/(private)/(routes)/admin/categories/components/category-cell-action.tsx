@@ -11,42 +11,41 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { useToast } from '@/components/ui/use-toast'
-import { api } from '@/lib/api'
+import { useCategory } from '@/hooks/category/use-category'
 import { appRoutes } from '@/lib/constants'
-import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { CategoryColumn } from './columns'
+import { type CategoryColumn } from './columns'
 
-type CategoryCellAction = {
+type CategoryCellActionProps = {
   data: CategoryColumn
 }
 
-export const CategoryCellAction = ({ data }: CategoryCellAction) => {
+export const CategoryCellAction = ({ data }: CategoryCellActionProps) => {
   const { toast } = useToast()
   const router = useRouter()
 
+  const { useDeleteCategory } = useCategory()
+
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
 
-  const { mutateAsync: deleteCategory, isPending: isDeleting } = useMutation({
-    mutationFn: () => {
-      return api.delete(`/api/categories/${data.id}`)
-    },
-    onSuccess: () => {
-      router.refresh()
-      toast({
-        title: 'Success',
-        description: 'Category deleted successfully.'
-      })
-    },
-    onError: () => {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong.',
-        variant: 'destructive'
-      })
-    }
-  })
+  const { mutateAsync: deleteCategory, isPending: isDeleting } =
+    useDeleteCategory(data.id, {
+      onSuccess: () => {
+        router.refresh()
+        toast({
+          title: 'Success',
+          description: 'Category deleted successfully.'
+        })
+      },
+      onError: () => {
+        toast({
+          title: 'Error',
+          description: 'Something went wrong.',
+          variant: 'destructive'
+        })
+      }
+    })
 
   const onDeleteCategory = async () => {
     try {
@@ -61,11 +60,15 @@ export const CategoryCellAction = ({ data }: CategoryCellAction) => {
       setIsAlertModalOpen(false)
     }
   }
+
   return (
     <>
       <AlertModal
         isOpen={isAlertModalOpen}
-        onClose={() => setIsAlertModalOpen(false)}
+        description="This action will delete the category and all courses vinculated to it."
+        onClose={() => {
+          setIsAlertModalOpen(false)
+        }}
         onConfirm={onDeleteCategory}
         loading={isDeleting}
       />
@@ -79,14 +82,18 @@ export const CategoryCellAction = ({ data }: CategoryCellAction) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() =>
+            onClick={() => {
               router.push(`${appRoutes.admin_categories}/${data.id}`)
-            }
+            }}
           >
             <Icons.edit className="mr-2 h-4 w-4" />
             Update
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setIsAlertModalOpen(true)}>
+          <DropdownMenuItem
+            onClick={() => {
+              setIsAlertModalOpen(true)
+            }}
+          >
             <Icons.trash className="mr-2 h-4 w-4" />
             Delete
           </DropdownMenuItem>

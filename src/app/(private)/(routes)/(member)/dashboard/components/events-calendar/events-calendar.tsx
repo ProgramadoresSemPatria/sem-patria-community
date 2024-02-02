@@ -28,13 +28,13 @@ export const EventsCalendar = () => {
       return 'Loading events...'
     }
 
-    if (selectedDayEvents) {
-      const selectedDay = format(new Date(selectedDayEvents[0].date), 'dd/MM')
+    if (selectedDayEvents && selectedDay) {
+      const parsedSelectedDay = format(new Date(selectedDay), 'dd/MM')
 
       if (selectedDayEvents.length === 0)
-        return `We have no events on ${selectedDay}`
+        return `We have no events on ${parsedSelectedDay}`
 
-      return `We have ${selectedDayEvents?.length} events on ${selectedDay}`
+      return `We have ${selectedDayEvents?.length} events on ${parsedSelectedDay}`
     }
 
     if (data && data?.length > 0) {
@@ -42,7 +42,7 @@ export const EventsCalendar = () => {
     }
 
     return 'No events this week.'
-  }, [data, isLoading, selectedDayEvents])
+  }, [data, isLoading, selectedDay, selectedDayEvents])
 
   const eventsDisplay = useMemo(() => {
     if (selectedDayEvents) {

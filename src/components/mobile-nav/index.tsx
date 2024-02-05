@@ -50,6 +50,10 @@ const MobileNav = ({ children }: MobileNavProps) => {
     {
       href: appRoutes.admin_categories,
       label: 'Categories'
+    },
+    {
+      href: appRoutes.admin_events,
+      label: 'Events'
     }
   ]
 

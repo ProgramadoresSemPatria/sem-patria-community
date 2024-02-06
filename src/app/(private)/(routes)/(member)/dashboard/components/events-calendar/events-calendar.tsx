@@ -75,7 +75,7 @@ export const EventsCalendar = () => {
           Plan your time and don&apos;t miss any event
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex justify-start items-start">
+      <CardContent className="flex flex-col gap-2 md:gap-0 md:flex-row justify-start items-start w-fit">
         <Calendar
           mode="multiple"
           selected={allEvents?.map(d => new Date(d.date))}

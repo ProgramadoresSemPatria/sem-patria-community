@@ -1,15 +1,14 @@
 import Link from 'next/link'
 import * as React from 'react'
 
-import appLogo from '@/assets/logo.svg'
 import { useLockBody } from '@/hooks/use-lock-body'
-import { appConfig, appRoutes } from '@/lib/constants'
+import { appRoutes } from '@/lib/constants'
 import { type RouteProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
 import ClerkUserButton from '../clerk-user-button'
 import { LogoutButton } from '../top-bar/logout-button'
 import { useAppStore } from '@/hooks/use-app-store'
+import MainLogo from '../main-logo'
 
 type MobileNavProps = {
   children?: React.ReactNode
@@ -60,10 +59,11 @@ const MobileNav = ({ children }: MobileNavProps) => {
       )}
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
-        <Link href="/" className="flex items-center space-x-2">
+        {/* <Link href="/" className="flex items-center space-x-2">
           <Image src={appLogo} alt="Logo" height={40} width={40} />
           <span className="font-bold">{appConfig.name}</span>
-        </Link>
+        </Link> */}
+        <MainLogo />
         <div className="grid grid-cols-2 w-full">
           <div>
             <span className="font-semibold pb-1">Member</span>

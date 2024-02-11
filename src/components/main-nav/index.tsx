@@ -3,16 +3,15 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import * as React from 'react'
-import appLogo from '@/assets/logo.svg'
 import { Icons } from '@/components/icons'
 import { useAppStore } from '@/hooks/use-app-store'
 import { appRoutes } from '@/lib/constants'
 import { type RouteProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { SkeletonMainNav } from './components/skeleton-main-nav'
 import ClerkUserButton from '../clerk-user-button'
+import MainLogo from '../main-logo'
 
 type MainNavProps = {
   children?: React.ReactNode
@@ -85,7 +84,7 @@ const MainNav = ({ children }: MainNavProps) => {
 
   return (
     <div className="hidden h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6 md:flex">
-      <div className="flex h-[60px] items-center">
+      {/* <div className="flex h-[60px] items-center">
         <Link
           href={appRoutes.dashboard}
           className="hidden items-center space-x-2 md:flex mr-4"
@@ -98,7 +97,8 @@ const MainNav = ({ children }: MainNavProps) => {
             COMM
           </span>
         </Link>
-      </div>
+      </div> */}
+      <MainLogo />
       <nav className="mt-6 flex-1">
         <ul className="flex flex-col gap-2">
           {memberRoutes.map(route => (

@@ -22,6 +22,7 @@ const MainNav = ({ children }: MainNavProps) => {
   const [isMounted, setIsMounted] = useState(false)
   const pathname = usePathname()
   const { isCmsMode } = useAppStore()
+  const isAdminPage = pathname.includes('admin')
 
   const memberRoutes: RouteProps[] = [
     {
@@ -84,7 +85,12 @@ const MainNav = ({ children }: MainNavProps) => {
   if (!isMounted) return <SkeletonMainNav />
 
   return (
-    <div className="hidden h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6 md:flex">
+    <div
+      className={cn(
+        'hidden  h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6 ',
+        isAdminPage ? 'lg:flex' : 'md:flex'
+      )}
+    >
       <div className="flex h-[60px] items-center">
         <Link
           href={appRoutes.dashboard}

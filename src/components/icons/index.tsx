@@ -37,7 +37,8 @@ import {
   User,
   X,
   type LucideIcon,
-  Sparkles
+  Sparkles,
+  ChevronUp
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -48,6 +49,7 @@ export const Icons = {
   close: X,
   check: BadgeCheck,
   arrowRight: ChevronRight,
+  arrowUp: ChevronUp,
   arrowBack: ChevronLeft,
   arrowDown: ChevronDown,
   arrowUpDown: ArrowUpDown,

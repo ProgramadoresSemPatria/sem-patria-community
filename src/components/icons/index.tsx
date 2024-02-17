@@ -29,6 +29,7 @@ import {
   MoreVertical,
   Plus,
   PlusCircle,
+  Play,
   Rocket,
   SlidersHorizontal,
   Sun,
@@ -78,5 +79,6 @@ export const Icons = {
   rocket: Rocket,
   calendarDays: CalendarDays,
   calendarClock: CalendarClock,
-  sparkles: Sparkles
+  sparkles: Sparkles,
+  videos: Play
 }

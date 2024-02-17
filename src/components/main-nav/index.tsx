@@ -84,20 +84,6 @@ const MainNav = ({ children }: MainNavProps) => {
 
   return (
     <div className="hidden h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6 md:flex">
-      {/* <div className="flex h-[60px] items-center">
-        <Link
-          href={appRoutes.dashboard}
-          className="hidden items-center space-x-2 md:flex mr-4"
-        >
-          <Image src={appLogo} alt="Logo" height={40} width={40} />
-          <span className="hidden text-sm font-bold sm:inline-block text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-cyan-400">
-            Sem Pátria
-          </span>
-          <span className="font-light tracking-widest text-muted-foreground opacity-75">
-            COMM
-          </span>
-        </Link>
-      </div> */}
       <MainLogo />
       <nav className="mt-6 flex-1">
         <ul className="flex flex-col gap-2">

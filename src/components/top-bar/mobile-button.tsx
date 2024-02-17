@@ -1,6 +1,8 @@
 'use client'
 import { Icons } from '@/components/icons'
 import MobileNav from '@/components/mobile-nav'
+import { cn } from '@/lib/utils'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 type MobileButtonProps = {
@@ -9,11 +11,16 @@ type MobileButtonProps = {
 
 export const MobileButton = ({ children }: MobileButtonProps) => {
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false)
+  const pathname = usePathname()
+  const isAdminPage = pathname.includes('admin')
 
   return (
     <>
       <button
-        className="flex items-center space-x-2 md:hidden"
+        className={cn(
+          'flex items-center space-x-2 ',
+          isAdminPage ? 'lg:hidden' : 'md:hidden'
+        )}
         onClick={() => {
           setShowMobileMenu(!showMobileMenu)
         }}
@@ -25,7 +32,9 @@ export const MobileButton = ({ children }: MobileButtonProps) => {
         )}
         <span className="font-bold">Menu</span>
       </button>
-      {showMobileMenu && <MobileNav>{children}</MobileNav>}
+      {showMobileMenu && (
+        <MobileNav isAdminPage={isAdminPage}>{children}</MobileNav>
+      )}
     </>
   )
 }

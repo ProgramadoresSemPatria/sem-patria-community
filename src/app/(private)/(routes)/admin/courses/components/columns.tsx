@@ -25,7 +25,19 @@ export const columns: Array<ColumnDef<CourseColumn>> = [
   },
   {
     accessorKey: 'category',
-    header: 'Category',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === 'asc')
+          }}
+        >
+          Category
+          <Icons.arrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => (
       <span>
         {row.original.category.charAt(0).toUpperCase() +
@@ -39,7 +51,19 @@ export const columns: Array<ColumnDef<CourseColumn>> = [
   },
   {
     accessorKey: 'level',
-    header: 'Level',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === 'asc')
+          }}
+        >
+          Level
+          <Icons.arrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => (
       <Badge className={`${validateCourseLevelColor(row.original.level)}`}>
         {row.original.level}

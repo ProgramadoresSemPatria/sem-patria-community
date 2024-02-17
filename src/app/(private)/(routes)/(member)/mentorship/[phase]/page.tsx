@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import MainLogo from '@/components/main-logo'
 import Link from 'next/link'
 import { Icons } from '@/components/icons'
-import { carouselItemsMentorshipList } from '@/lib/constants'
+import { mentorshipPahses } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 
 const videos = ['Video 1', 'Video 20', 'Video3', 'video 4']
@@ -11,7 +11,7 @@ type TabType = 'videos' | 'phases'
 
 const PhasePage = ({ params }: { params: { phase: string } }) => {
   const [tab, setTab] = useState<TabType>('videos')
-  const actualPhase = carouselItemsMentorshipList.filter(item => {
+  const actualPhase = mentorshipPahses.filter(item => {
     return item.href.includes(params.phase)
   })
   console.log(actualPhase)
@@ -71,7 +71,7 @@ const PhasePage = ({ params }: { params: { phase: string } }) => {
         {tab === 'phases' && (
           <div className="border border-slate-300 flex flex-col mr-2 p-6  gap-y-2 rounded-md">
             <h1>Phases</h1>
-            {carouselItemsMentorshipList.map(phase => (
+            {mentorshipPahses.map(phase => (
               <h2 key={phase.title} className="text-xl">
                 {phase.title}
               </h2>

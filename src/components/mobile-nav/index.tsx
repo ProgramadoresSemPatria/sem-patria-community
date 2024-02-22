@@ -1,14 +1,14 @@
 import Link from 'next/link'
 import * as React from 'react'
 
+import { useAppStore } from '@/hooks/use-app-store'
 import { useLockBody } from '@/hooks/use-lock-body'
 import { appRoutes } from '@/lib/constants'
 import { type RouteProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import ClerkUserButton from '../clerk-user-button'
-import { LogoutButton } from '../top-bar/logout-button'
-import { useAppStore } from '@/hooks/use-app-store'
 import MainLogo from '../main-logo'
+import { LogoutButton } from '../top-bar/logout-button'
 
 type MobileNavProps = {
   children?: React.ReactNode
@@ -36,10 +36,6 @@ const MobileNav = ({
     {
       href: `${appRoutes.codeUp}`,
       label: 'Code Up'
-    },
-    {
-      href: `${appRoutes.mentorship}`,
-      label: 'Mentorship'
     },
     {
       href: appRoutes.settings,

@@ -1,17 +1,17 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import * as React from 'react'
 import { Icons } from '@/components/icons'
 import { useAppStore } from '@/hooks/use-app-store'
 import { appRoutes } from '@/lib/constants'
 import { type RouteProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import * as React from 'react'
 import { useEffect, useState } from 'react'
-import { SkeletonMainNav } from './components/skeleton-main-nav'
 import ClerkUserButton from '../clerk-user-button'
 import MainLogo from '../main-logo'
+import { SkeletonMainNav } from './components/skeleton-main-nav'
 
 type MainNavProps = {
   children?: React.ReactNode
@@ -42,12 +42,6 @@ const MainNav = ({ children }: MainNavProps) => {
       label: 'Code Up',
       active: pathname === appRoutes.codeUp,
       icon: <Icons.calendar className="h-4 w-4" />
-    },
-    {
-      href: `${appRoutes.mentorship}`,
-      label: 'Mentorship',
-      active: pathname === appRoutes.mentorship,
-      icon: <Icons.mentorship className="h-4 w-4" />
     },
     {
       href: appRoutes.settings,

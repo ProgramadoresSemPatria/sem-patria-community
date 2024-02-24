@@ -88,10 +88,10 @@ export const Comments = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="rounded-full group hover:bg-slate-900"
+                  className="rounded-full group"
                 >
                   <Icons.trash
-                    className="h-5 group-hover:text-red-800 transition-colors"
+                    className="h-5 transition-colors text-slate-600 group-hover:text-white"
                     strokeWidth={2}
                   />
                 </Button>
@@ -99,7 +99,6 @@ export const Comments = () => {
             </div>
             <p className="text-sm">{comment.comment}</p>
             <div className="flex items-center w-fit space-x-1 mt-2 font-bold text-slate-600 text-sm">
-             
               <Button
                 variant="ghost"
                 size="icon"

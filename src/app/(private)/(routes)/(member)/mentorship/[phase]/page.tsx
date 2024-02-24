@@ -1,11 +1,12 @@
 'use client'
-import React, { useState } from 'react'
-import Link from 'next/link'
+import Zeus from '@/assets/zeus.png'
 import { Icons } from '@/components/icons'
 import { mentorshipPahses } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
-import Zeus from '@/assets/zeus.png'
+import Link from 'next/link'
+import { useState } from 'react'
+import { Comments } from './components/comments'
 
 const videos = [
   {
@@ -55,6 +56,7 @@ const PhasePage = ({ params }: { params: { phase: string } }) => {
         />
         <span>{`Inicio > ${actualPhase.title}`}</span>
         <h1 className="p-4 font-bold text-2xl">Como montar seu curriculo</h1>
+        <Comments />
       </div>
       {/* Phase videos */}
       <div className="rounded-xl w-full lg:w-1/3">

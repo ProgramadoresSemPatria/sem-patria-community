@@ -64,6 +64,8 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
           coursesList.length > 0 &&
           coursesList.map(course => (
             <Link
+              target="_blank"
+              rel="noopener noreferrer"
               href={course.courseUrl}
               key={course.id}
               className="flex flex-col gap-2 p-3 h-full overflow-hidden rounded-lg hover:bg-muted cursor-pointer transition-all ease-in"

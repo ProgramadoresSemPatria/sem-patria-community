@@ -9,7 +9,8 @@
     "lint": "next lint",
     "postinstall": "prisma generate && husky install",
     "commit": "cz",
-    "check-types": "tsc --noEmit --pretty"
+    "check-types": "tsc --noEmit --pretty",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@blocknote/core": "^0.10.1",
@@ -69,6 +70,7 @@
     "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^6.13.0",
     "autoprefixer": "^10.4.16",
+    "cypress": "^13.6.4",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.54.0",
     "eslint-config-next": "14.0.3",

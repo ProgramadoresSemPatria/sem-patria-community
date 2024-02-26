@@ -23,7 +23,7 @@ const TopBar = async () => {
 
   return (
     <div className="flex h-[60px] items-center justify-end border-b border-slate-6 px-6">
-      <MainLogo />
+      <MainLogo shouldBevisibleInMentoshipPage />
       <div className="flex items-center gap-3">
         {user.isAdmin && <CMSButton />}
         <FeedbackButton />

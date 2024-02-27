@@ -11,6 +11,7 @@ import {
 import { useAuth } from '@clerk/nextjs'
 import { format } from 'date-fns'
 import Image from 'next/image'
+import { useMemo, useState } from 'react'
 
 const commentsArray = [
   {
@@ -41,6 +42,16 @@ const commentsArray = [
     likes: []
   }
 ]
+const orderByValues = [
+  {
+    value: 'recent',
+    label: 'Most Recent'
+  },
+  {
+    value: 'upvotes',
+    label: 'Most Upvotes'
+  }
+]
 
 export const Comments = () => {
   const { userId } = useAuth()
@@ -63,12 +74,14 @@ export const Comments = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-32">
             <DropdownMenuRadioGroup value={orderBy} onValueChange={setOrderBy}>
-              <DropdownMenuRadioItem value="recent">
-                Most Recent
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="upvotes">
-                Most Upvotes
-              </DropdownMenuRadioItem>
+              {orderByValues.map(orderByValue => (
+                <DropdownMenuRadioItem
+                  key={orderByValue.value}
+                  value={orderByValue.value}
+                >
+                  {orderByValue.label}
+                </DropdownMenuRadioItem>
+              ))}
             </DropdownMenuRadioGroup>
           </DropdownMenuContent>
         </DropdownMenu>

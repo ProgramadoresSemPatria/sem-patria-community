@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger
@@ -91,6 +92,18 @@ export const Comments = () => {
     [orderBy]
   )
 
+  const adminActions = useMemo(() => {
+    return [
+      {
+        label: 'Delete comment',
+        icon: <Icons.trash className="h-4" />,
+        onClick: () => {
+          console.log('delete')
+        }
+      }
+    ]
+  }, [])
+
   return (
     <div className="mx-2 w-auto ring-1 ring-slate-800 rounded-md p-6 flex flex-col">
       <div className="flex gap-4 items-center mb-6">
@@ -145,16 +158,25 @@ export const Comments = () => {
               </div>
               {/* Admin Actions */}
               <div className="flex gap-2 items-center ">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full group"
-                >
-                  <Icons.trash
-                    className="h-5 transition-colors text-slate-600 group-hover:text-white"
-                    strokeWidth={2}
-                  />
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="group rounded-full"
+                    >
+                      <Icons.moreMenu className="transition-colors text-slate-600 group-hover:text-white h-6" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-fit">
+                    {adminActions.map(action => (
+                      <DropdownMenuItem key={action.label}>
+                        {action.icon}
+                        {action.label}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
             <p className="text-sm">{comment.comment}</p>

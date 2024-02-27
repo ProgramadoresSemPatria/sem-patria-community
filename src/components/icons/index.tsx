@@ -85,5 +85,6 @@ export const Icons = {
   calendarClock: CalendarClock,
   sparkles: Sparkles,
   videos: Play,
-  upVote: ThumbsUp
+  upVote: ThumbsUp,
+  moreMenu: MoreVertical,
 }

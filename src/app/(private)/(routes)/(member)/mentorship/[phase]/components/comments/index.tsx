@@ -10,28 +10,34 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useAuth } from '@clerk/nextjs'
 import { format } from 'date-fns'
-import { useState } from 'react'
+import Image from 'next/image'
 
 const commentsArray = [
   {
     id: 1,
     username: 'John Doe',
+    userImg:
+      'https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ2l0aHViL2ltZ18yWnhiT0FSY000WmdyUVVqQVdmT2RhTG1zeWQifQ',
     comment: 'This is a comment',
-    date: '2021-10-10',
+    date: '2024-02-25',
     likes: ['user_2ZxbOCJzJkhbkpHfj1IYXxEQS1Y']
   },
   {
     id: 2,
     username: 'Jane Doe',
+    userImg:
+      'https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ2l0aHViL2ltZ18yWnhiT0FSY000WmdyUVVqQVdmT2RhTG1zeWQifQ',
     comment: 'This is a medium comment',
-    date: '2021-10-11',
+    date: '2024-02-26 12:00:00',
     likes: []
   },
   {
     id: 3,
     username: 'Patrick Doe',
+    userImg:
+      'https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ2l0aHViL2ltZ18yWnhiT0FSY000WmdyUVVqQVdmT2RhTG1zeWQifQ',
     comment: 'This is a long comment',
-    date: '2021-10-12',
+    date: '2024-01-10',
     likes: []
   }
 ]
@@ -75,10 +81,19 @@ export const Comments = () => {
             className="border-b last:border-none border-slate-900 rounded-md p-4"
           >
             <div className="flex justify-between">
-              <div className="flex gap-2 items-center ">
-                <h2 className="font-semibold text-lg text-slate-300">
-                  {comment.username}
-                </h2>
+              <div className="flex gap-2 items-center mb-2">
+                <>
+                  <Image
+                    className="rounded-full w-8 mr-1"
+                    alt=""
+                    width={500}
+                    height={500}
+                    src={user.user?.imageUrl ?? ''}
+                  />
+                  <h2 className="font-semibold text-lg text-slate-300">
+                    {comment.username}
+                  </h2>
+                </>
                 <p className="text-xs text-slate-500">
                   {format(new Date(comment.date), 'dd/MM/yyy')}
                 </p>

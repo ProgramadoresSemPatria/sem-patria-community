@@ -133,7 +133,7 @@ export const Comments = () => {
                     alt=""
                     width={500}
                     height={500}
-                    src={user.user?.imageUrl ?? ''}
+                    src={comment.userImg}
                   />
                   <h2 className="font-semibold text-lg text-slate-300">
                     {comment.username}

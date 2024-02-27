@@ -57,7 +57,39 @@ export const Comments = () => {
   const { userId } = useAuth()
   const [orderBy, setOrderBy] = useState('recent')
 
-  console.log(userId)
+  const getStringFromDate = (date: string) => {
+    const commentDate = new Date(date)
+    const todayDate = new Date()
+
+    const diff = todayDate.getTime() - commentDate.getTime()
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+    const minutes = Math.floor(
+      (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60) / 60
+    )
+
+    if (days > 0) {
+      if (days > 7) {
+        return format(commentDate, 'dd/MM/yyyy')
+      }
+      return `${days} days ago`
+    } else if (hours > 0) {
+      return `${hours} hours ago`
+    } else {
+      return `${minutes} minutes ago`
+    }
+  }
+
+  const orderedComments = useMemo(
+    () =>
+      commentsArray.sort((a, b) => {
+        if (orderBy === 'recent') {
+          return new Date(b.date).getTime() - new Date(a.date).getTime()
+        }
+        return b.likes.length - a.likes.length
+      }),
+    [orderBy]
+  )
 
   return (
     <div className="mx-2 w-auto ring-1 ring-slate-800 rounded-md p-6 flex flex-col">
@@ -88,7 +120,7 @@ export const Comments = () => {
       </div>
 
       <div className="flex flex-col gap-4">
-        {commentsArray.map(comment => (
+        {orderedComments.map(comment => (
           <div
             key={comment.id}
             className="border-b last:border-none border-slate-900 rounded-md p-4"
@@ -108,7 +140,7 @@ export const Comments = () => {
                   </h2>
                 </>
                 <p className="text-xs text-slate-500">
-                  {format(new Date(comment.date), 'dd/MM/yyy')}
+                  {getStringFromDate(comment.date)}
                 </p>
               </div>
               {/* Admin Actions */}

@@ -12,15 +12,16 @@ export const useCourseContent = () => {
   const searchParams = useSearchParams()
 
   const { data: coursesList, isLoading } = useQuery<Course[]>({
-    queryKey: ['courses', { filter: searchParams.get('filter') }],
+    queryKey: ['courses', { category: searchParams.get('category') }],
     queryFn: async () =>
-      (await api.get(`/api/course?filter=${searchParams.get('filter')}`)).data,
-    enabled: !!searchParams.get('filter')
+      (await api.get(`/api/course?category=${searchParams.get('category')}`))
+        .data,
+    enabled: !!searchParams.get('category')
   })
 
   useEffect(() => {
-    if (!searchParams.get('filter')) {
-      router.push(`${pathname}?filter=all`)
+    if (!searchParams.get('category')) {
+      router.push(`${pathname}?category=all`)
     }
   }, [pathname, router, searchParams])
 

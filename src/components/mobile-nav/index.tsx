@@ -30,7 +30,7 @@ const MobileNav = ({
       label: 'Dashboard'
     },
     {
-      href: `${appRoutes.courses}?filter=all`,
+      href: `${appRoutes.courses}?category=all`,
       label: 'Courses'
     },
     {

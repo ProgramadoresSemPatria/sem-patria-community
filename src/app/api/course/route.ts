@@ -5,7 +5,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 export async function GET(req: NextRequest) {
   try {
     const { userId } = auth()
-    const category = req.nextUrl.searchParams.get('filter')
+    const category = req.nextUrl.searchParams.get('category')
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 

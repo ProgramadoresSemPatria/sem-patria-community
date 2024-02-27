@@ -30,11 +30,14 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
     <div className="mt-6">
       <div className="flex items-center flex-wrap w-full gap-x-2">
         {categoryOptions.map(category => (
-          <Link key={category.id} href={`${pathname}?filter=${category.name}`}>
+          <Link
+            key={category.id}
+            href={`${pathname}?category=${category.name}`}
+          >
             <Button
               className="p-2"
               variant={
-                searchParams.get('filter') === category.name
+                searchParams.get('category') === category.name
                   ? 'secondary'
                   : 'ghost'
               }
@@ -53,7 +56,7 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
               {coursesList &&
                 coursesList.length > 0 &&
                 coursesList.map(course => (
-                  <Link href={course.courseUrl} key={course.id}>
+                  <Link href={course.courseUrl} key={course.id} target="_blank">
                     <CourseCard courseProps={course} />
                   </Link>
                 ))}

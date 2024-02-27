@@ -32,7 +32,7 @@ const MainNav = ({ children }: MainNavProps) => {
       icon: <Icons.dashboard className="h-4 w-4" />
     },
     {
-      href: `${appRoutes.courses}?filter=all`,
+      href: `${appRoutes.courses}?category=all`,
       label: 'Courses',
       active: pathname === appRoutes.courses,
       icon: <Icons.code className="h-4 w-4" />

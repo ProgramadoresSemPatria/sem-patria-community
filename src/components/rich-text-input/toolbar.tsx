@@ -1,13 +1,6 @@
 import { Toggle } from '@/components/ui/toggle'
-import { ListBulletIcon } from '@radix-ui/react-icons'
 import { type Editor } from '@tiptap/react'
-import {
-  Bold,
-  Heading1,
-  Italic,
-  ListOrdered,
-  Strikethrough
-} from 'lucide-react'
+import { Icons } from '../icons'
 interface ToolbarProps {
   editor: Editor | null
 }
@@ -25,7 +18,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
           editor.chain().focus().toggleHeading({ level: 1 }).run()
         }
       >
-        <Heading1 className="h-4 w-4" />
+        <Icons.h1 className="h-4 w-4" />
       </Toggle>
       <Toggle
         className='data-[state="on"]:bg-slate-700'
@@ -33,7 +26,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
         pressed={editor.isActive('bold')}
         onPressedChange={() => editor.chain().focus().toggleBold().run()}
       >
-        <Bold className="h-4 w-4" />
+        <Icons.bold className="h-4 w-4" />
       </Toggle>
       <Toggle
         className='data-[state="on"]:bg-slate-700'
@@ -41,7 +34,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
         pressed={editor.isActive('italic')}
         onPressedChange={() => editor.chain().focus().toggleItalic().run()}
       >
-        <Italic className="h-4 w-4" />
+        <Icons.italic className="h-4 w-4" />
       </Toggle>
       <Toggle
         className='data-[state="on"]:bg-slate-700'
@@ -49,7 +42,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
         pressed={editor.isActive('strike')}
         onPressedChange={() => editor.chain().focus().toggleStrike().run()}
       >
-        <Strikethrough className="h-4 w-4" />
+        <Icons.strike className="h-4 w-4" />
       </Toggle>
       <span
         className="
@@ -64,7 +57,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
         pressed={editor.isActive('bulletList')}
         onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
       >
-        <ListBulletIcon className="h-4 w-4" />
+        <Icons.listBullet className="h-4 w-4" />
       </Toggle>
       <Toggle
         className='data-[state="on"]:bg-slate-700'
@@ -72,7 +65,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
         pressed={editor.isActive('orderedList')}
         onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
       >
-        <ListOrdered className="h-4 w-4" />
+        <Icons.listOrdered className="h-4 w-4" />
       </Toggle>
     </div>
   )

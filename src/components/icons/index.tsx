@@ -40,7 +40,14 @@ import {
   User,
   X,
   type LucideIcon,
-  ThumbsUp
+  ThumbsUp,
+  Send,
+  Heading1,
+  Bold,
+  Strikethrough,
+  Italic,
+  List,
+  ListOrdered
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -87,4 +94,11 @@ export const Icons = {
   videos: Play,
   upVote: ThumbsUp,
   moreMenu: MoreVertical,
+  send: Send,
+  h1: Heading1,
+  bold: Bold,
+  italic: Italic,
+  strike: Strikethrough,
+  listBullet: List,
+  listOrdered: ListOrdered,
 }

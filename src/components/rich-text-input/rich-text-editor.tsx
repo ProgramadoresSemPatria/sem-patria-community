@@ -1,4 +1,5 @@
 'use client'
+import Placeholder from '@tiptap/extension-placeholder'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { Toolbar } from './toolbar'
@@ -35,17 +36,16 @@ export const RichTextEditor = ({ onChange, content }: RichTextEditorProps) => {
     editorProps: {
       attributes: {
         class:
-          'rounded-md border min-h-[150px] p-2 ring-offset-2 bg-background disabled:cursor-not-allowed disabled:opacity-50'
+          'px-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50'
       }
     },
     onUpdate({ editor }) {
       onChange(editor.getHTML())
-      console.log(editor.getHTML())
     }
   })
 
   return (
-    <div className="flex flex-col justify-stretch min-h-[250px] gap-1">
+    <div className="flex flex-col justify-stretch mb-2 gap-1 rounded-md border p-2 bg-slate-800">
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>

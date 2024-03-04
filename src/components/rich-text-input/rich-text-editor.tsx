@@ -9,6 +9,10 @@ interface RichTextEditorProps {
 export const RichTextEditor = ({ onChange, content }: RichTextEditorProps) => {
   const editor = useEditor({
     extensions: [
+      Placeholder.configure({
+        placeholder: 'Add a comment...',
+        emptyEditorClass: 'is-editor-empty'
+      }),
       StarterKit.configure({
         heading: {
           HTMLAttributes: {

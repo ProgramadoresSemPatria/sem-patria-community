@@ -1,6 +1,6 @@
+import { RichTextInput } from '@/components/rich-text-input'
 import { useMemo, useState } from 'react'
 import { CommentComponent } from './comment-component'
-import { CommentInput } from './comment-input'
 import { OrderBy } from './order-by'
 
 export interface Comment {
@@ -64,7 +64,7 @@ export const Comments = () => {
         </h1>
         <OrderBy orderByValue={orderBy} setOrderByValue={setOrderBy} />
       </div>
-      <CommentInput />
+      <RichTextInput />
       <div className="flex flex-col gap-4">
         {orderedComments.map(comment => (
           <CommentComponent key={comment.id} comment={comment} />

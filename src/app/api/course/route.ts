@@ -5,27 +5,42 @@ import { NextResponse, type NextRequest } from 'next/server'
 export async function GET(req: NextRequest) {
   try {
     const { userId } = auth()
-    const category = req.nextUrl.searchParams.get('category')
+    const categoryParam = req.nextUrl.searchParams.get('category')
+    const levelParam = req.nextUrl.searchParams.get('level')
+    const availabilityParam = req.nextUrl.searchParams.get('availability')
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
     const findedCategory =
-      category &&
+      categoryParam &&
       (await prismadb.category.findFirst({
         where: {
-          name: category
+          name: categoryParam
         }
       }))
 
+    const levels = levelParam ? levelParam.split(',') : undefined
     const courses = findedCategory
       ? await prismadb.course.findMany({
           where: {
             category: findedCategory,
+            level: {
+              in: levels
+            },
+            isPaid: availabilityParam
+              ? availabilityParam !== 'free'
+              : undefined,
             isPending: false
           }
         })
       : await prismadb.course.findMany({
           where: {
+            level: {
+              in: levels
+            },
+            isPaid: availabilityParam
+              ? availabilityParam !== 'free'
+              : undefined,
             isPending: false
           }
         })

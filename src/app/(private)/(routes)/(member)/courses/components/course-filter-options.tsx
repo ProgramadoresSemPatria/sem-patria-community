@@ -18,9 +18,7 @@ export const CourseFilterOptions = () => {
     filterOptions,
     category,
     navigateToLevelFilter,
-    navigateToAvailabilityFilter,
-    level,
-    availability
+    navigateToAvailabilityFilter
   } = useCourseFilterOptions()
 
   return (
@@ -41,11 +39,12 @@ export const CourseFilterOptions = () => {
           <h4 className="text-sm text-gray-300 font-bold">Skill Level</h4>
           <div className="flex items-center space-x-2">
             <Link
+              className="h-4"
               href={{
                 query: {
                   category,
                   level: navigateToLevelFilter(CourseFilterLevels.Beginner),
-                  availability
+                  availability: filterOptions.availability.join(',')
                 }
               }}
             >
@@ -53,8 +52,8 @@ export const CourseFilterOptions = () => {
                 checked={filterOptions.levels.includes(
                   CourseFilterLevels.Beginner
                 )}
-                onCheckedChange={() => {
-                  onSelectFilterLevel(CourseFilterLevels.Beginner)
+                onCheckedChange={async () => {
+                  await onSelectFilterLevel(CourseFilterLevels.Beginner)
                 }}
               />
             </Link>
@@ -64,11 +63,12 @@ export const CourseFilterOptions = () => {
           </div>
           <div className="flex items-center space-x-2">
             <Link
+              className="h-4"
               href={{
                 query: {
                   category,
                   level: navigateToLevelFilter(CourseFilterLevels.Intermediate),
-                  availability
+                  availability: filterOptions.availability.join(',')
                 }
               }}
             >
@@ -76,8 +76,8 @@ export const CourseFilterOptions = () => {
                 checked={filterOptions.levels.includes(
                   CourseFilterLevels.Intermediate
                 )}
-                onCheckedChange={() => {
-                  onSelectFilterLevel(CourseFilterLevels.Intermediate)
+                onCheckedChange={async () => {
+                  await onSelectFilterLevel(CourseFilterLevels.Intermediate)
                 }}
               />
             </Link>
@@ -87,11 +87,12 @@ export const CourseFilterOptions = () => {
           </div>
           <div className="flex items-center space-x-2">
             <Link
+              className="h-4"
               href={{
                 query: {
                   category,
                   level: navigateToLevelFilter(CourseFilterLevels.Advanced),
-                  availability
+                  availability: filterOptions.availability.join(',')
                 }
               }}
             >
@@ -99,8 +100,8 @@ export const CourseFilterOptions = () => {
                 checked={filterOptions.levels.includes(
                   CourseFilterLevels.Advanced
                 )}
-                onCheckedChange={() => {
-                  onSelectFilterLevel(CourseFilterLevels.Advanced)
+                onCheckedChange={async () => {
+                  await onSelectFilterLevel(CourseFilterLevels.Advanced)
                 }}
               />
             </Link>
@@ -111,38 +112,14 @@ export const CourseFilterOptions = () => {
         </div>
 
         <div className="flex flex-col gap-y-2">
-          <h4 className="text-sm text-gray-300 font-bold">Paid</h4>
+          <h4 className="text-sm text-gray-300 font-bold">Availability</h4>
           <div className="flex items-center space-x-2">
             <Link
+              className="h-4"
               href={{
                 query: {
                   category,
-                  level,
-                  availability: navigateToAvailabilityFilter(
-                    CourseFilterAvailability.Paid
-                  )
-                }
-              }}
-            >
-              <Checkbox
-                checked={filterOptions.availability.includes(
-                  CourseFilterAvailability.Paid
-                )}
-                onCheckedChange={() => {
-                  onSelectFilterAvailability(CourseFilterAvailability.Paid)
-                }}
-              />
-            </Link>
-            <Label className="text-sm text-gray-300 group-hover:text-gray-100 transition-color">
-              Paid
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Link
-              href={{
-                query: {
-                  category,
-                  level,
+                  level: filterOptions.levels.join(','),
                   availability: navigateToAvailabilityFilter(
                     CourseFilterAvailability.Free
                   )
@@ -153,13 +130,15 @@ export const CourseFilterOptions = () => {
                 checked={filterOptions.availability.includes(
                   CourseFilterAvailability.Free
                 )}
-                onCheckedChange={() => {
-                  onSelectFilterAvailability(CourseFilterAvailability.Free)
+                onCheckedChange={async () => {
+                  await onSelectFilterAvailability(
+                    CourseFilterAvailability.Free
+                  )
                 }}
               />
             </Link>
             <Label className="text-sm text-gray-300 group-hover:text-gray-100 transition-color">
-              Free
+              Only Free
             </Label>
           </div>
         </div>

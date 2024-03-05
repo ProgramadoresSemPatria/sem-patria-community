@@ -1,5 +1,6 @@
+'use client'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useReducer } from 'react'
+import { useCallback, useReducer } from 'react'
 
 export enum CourseFilterLevels {
   Beginner = 'beginner',
@@ -8,7 +9,6 @@ export enum CourseFilterLevels {
 }
 
 export enum CourseFilterAvailability {
-  Paid = 'paid',
   Free = 'free'
 }
 
@@ -59,28 +59,10 @@ export const useCourseFilterOptions = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
   const category = searchParams.get('category')
-  const level = searchParams.get('level')
-  const availability = searchParams.get('availability')
 
   const [filterOptions, dispatch] = useReducer(
     filterOptionsReducer,
     initialState
-  )
-
-  const clearAllFilters = useCallback(() => {
-    dispatch({ type: 'CLEAR_ALL_FILTERS' })
-    router.push(`?category=${category}`)
-  }, [category, router])
-
-  const onSelectFilterLevel = useCallback((value: CourseFilterLevels) => {
-    dispatch({ type: 'SET_FILTER_LEVEL', payload: value })
-  }, [])
-
-  const onSelectFilterAvailability = useCallback(
-    (value: CourseFilterAvailability) => {
-      dispatch({ type: 'SET_FILTER_AVAILABILITY', payload: value })
-    },
-    []
   )
 
   const showClearButton =
@@ -88,10 +70,24 @@ export const useCourseFilterOptions = () => {
     (searchParams.get('availability') !== '' &&
       searchParams.get('availability'))
 
+  const clearAllFilters = useCallback(() => {
+    dispatch({ type: 'CLEAR_ALL_FILTERS' })
+    router.push(`?category=${category}`)
+  }, [category, router])
+
+  const onSelectFilterLevel = useCallback(async (value: CourseFilterLevels) => {
+    dispatch({ type: 'SET_FILTER_LEVEL', payload: value })
+  }, [])
+
+  const onSelectFilterAvailability = useCallback(
+    async (value: CourseFilterAvailability) => {
+      dispatch({ type: 'SET_FILTER_AVAILABILITY', payload: value })
+    },
+    []
+  )
+
   const navigateToLevelFilter = useCallback(
     (param: CourseFilterLevels) => {
-      if (searchParams.get('level') === '') return null
-
       if (filterOptions.levels.includes(param)) {
         return (
           filterOptions.levels.filter(level => level !== param).join(',') ??
@@ -101,13 +97,11 @@ export const useCourseFilterOptions = () => {
 
       return [...filterOptions.levels, param].join(',')
     },
-    [filterOptions.levels, searchParams]
+    [filterOptions.levels]
   )
 
   const navigateToAvailabilityFilter = useCallback(
     (param: CourseFilterAvailability) => {
-      if (searchParams.get('availability') === '') return null
-
       if (filterOptions.availability.includes(param)) {
         return (
           filterOptions.availability
@@ -118,10 +112,8 @@ export const useCourseFilterOptions = () => {
 
       return [...filterOptions.availability, param].join(',')
     },
-    [filterOptions.availability, searchParams]
+    [filterOptions.availability]
   )
-
-  useEffect(() => {}, [searchParams])
 
   return {
     clearAllFilters,
@@ -132,7 +124,6 @@ export const useCourseFilterOptions = () => {
     category,
     navigateToLevelFilter,
     navigateToAvailabilityFilter,
-    level,
-    availability
+    searchParams
   }
 }

@@ -5,7 +5,7 @@ import Hefesto from '@/assets/hefesto.png'
 import Hermes from '@/assets/hermes.png'
 import Prometeu from '@/assets/prometeu.png'
 import Zeus from '@/assets/zeus.png'
-import { type CarouselItemsMentorshipListProps } from './types'
+import { type MetorshipPhasesProps } from './types'
 
 export const appConfig = {
   name: 'Sem pátria - Community',
@@ -40,47 +40,47 @@ export const settingOptions = [
   }
 ]
 
-export const carouselItemsMentorshipList: CarouselItemsMentorshipListProps[] = [
+export const mentorshipPahses: MetorshipPhasesProps[] = [
   {
-    href: '/',
+    href: '/mentorship/phase-1',
     src: Genesis.src,
-    phase: 'Phase 1 ',
-    title: 'GENESIS'
+    phase: 'Phase 1 - GENESIS ',
+    title: 'Mentalidade e Disciplina'
   },
   {
-    href: '/',
+    href: '/mentorship/phase-2',
     src: Hefesto.src,
-    phase: 'Phase 2 ',
-    title: 'HEFESTO'
+    phase: 'Phase 2 - HEFESTO',
+    title: 'Desenvolvimento como dev'
   },
   {
-    href: '/',
+    href: '/mentorship/phase-3',
     src: Hermes.src,
-    phase: 'Phase 3 ',
-    title: 'HERMES'
+    phase: 'Phase 3 - HERMES',
+    title: 'Aprenda a se vender'
   },
   {
-    href: '/',
+    href: '/mentorship/phase-4',
     src: Apollo.src,
-    phase: 'Phase 4 ',
-    title: 'APOLLO'
+    phase: 'Phase 4 - APOLLO',
+    title: 'Networking e relações profissionais '
   },
   {
-    href: '/',
+    href: '/mentorship/phase-5',
     src: Prometeu.src,
-    phase: 'Phase 5 ',
-    title: 'PROMETEU'
+    phase: 'Phase 5 - PROMETEU',
+    title: 'Prospectar vagas e jobs'
   },
   {
-    href: '/',
+    href: '/mentorship/phase-6',
     src: Zeus.src,
-    phase: 'Phase 6 ',
-    title: 'ZEUS'
+    phase: 'Phase 6 - ZEUS',
+    title: 'Superando o mercado'
   },
   {
-    href: '/',
+    href: '/mentorship/phase-7',
     src: Hades.src,
-    phase: 'Phase 7 ',
-    title: 'HADES'
+    phase: 'Phase 7 - HADES',
+    title: 'Consegui um sim e agora?'
   }
 ]

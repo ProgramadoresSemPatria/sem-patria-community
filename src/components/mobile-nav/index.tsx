@@ -1,22 +1,26 @@
 import Link from 'next/link'
 import * as React from 'react'
 
-import appLogo from '@/assets/logo.svg'
+import { useAppStore } from '@/hooks/use-app-store'
 import { useLockBody } from '@/hooks/use-lock-body'
-import { appConfig, appRoutes } from '@/lib/constants'
+import { appRoutes } from '@/lib/constants'
 import { type RouteProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
 import ClerkUserButton from '../clerk-user-button'
+import MainLogo from '../main-logo'
 import { LogoutButton } from '../top-bar/logout-button'
-import { useAppStore } from '@/hooks/use-app-store'
 
 type MobileNavProps = {
   children?: React.ReactNode
   isAdminPage: boolean
+  isMentorshipPage: boolean
 }
 
-const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
+const MobileNav = ({
+  children,
+  isAdminPage,
+  isMentorshipPage
+}: MobileNavProps) => {
   useLockBody()
   const { isCmsMode } = useAppStore()
 
@@ -26,16 +30,12 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
       label: 'Dashboard'
     },
     {
-      href: `${appRoutes.courses}?filter=all`,
+      href: `${appRoutes.courses}?category=all`,
       label: 'Courses'
     },
     {
       href: `${appRoutes.codeUp}`,
       label: 'Code Up'
-    },
-    {
-      href: `${appRoutes.mentorship}`,
-      label: 'Mentorship'
     },
     {
       href: appRoutes.settings,
@@ -62,14 +62,13 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
     <div
       className={cn(
         'fixed inset-0 top-16 z-50 grid h-[calc(100vh-4rem)] grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md animate-in slide-in-from-bottom-80 ',
-        isAdminPage ? 'lg:hidden' : 'md:hidden'
+        !isAdminPage && !isMentorshipPage && 'md:hidden',
+        isAdminPage && 'xl:hidden',
+        isMentorshipPage && 'p-0'
       )}
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
-        <Link href="/" className="flex items-center space-x-2">
-          <Image src={appLogo} alt="Logo" height={40} width={40} />
-          <span className="font-bold">{appConfig.name}</span>
-        </Link>
+        <MainLogo />
         <div className="grid grid-cols-2 w-full">
           <div>
             <span className="font-semibold pb-1">Member</span>

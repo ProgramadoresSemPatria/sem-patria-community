@@ -29,6 +29,7 @@ import {
   MoreVertical,
   Plus,
   PlusCircle,
+  Play,
   Rocket,
   SlidersHorizontal,
   Sun,
@@ -36,7 +37,8 @@ import {
   User,
   X,
   type LucideIcon,
-  Sparkles
+  Sparkles,
+  ChevronUp
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -47,6 +49,7 @@ export const Icons = {
   close: X,
   check: BadgeCheck,
   arrowRight: ChevronRight,
+  arrowUp: ChevronUp,
   arrowBack: ChevronLeft,
   arrowDown: ChevronDown,
   arrowUpDown: ArrowUpDown,
@@ -78,5 +81,6 @@ export const Icons = {
   rocket: Rocket,
   calendarDays: CalendarDays,
   calendarClock: CalendarClock,
-  sparkles: Sparkles
+  sparkles: Sparkles,
+  videos: Play
 }

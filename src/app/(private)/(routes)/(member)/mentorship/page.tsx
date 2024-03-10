@@ -1,10 +1,11 @@
+import { DefaultLayout } from '@/components/default-layout'
 import Header from '@/components/header'
 
 const Mentorship = () => {
   return (
-    <div className="container pt-6 h-full">
+    <DefaultLayout>
       <Header title="Mentorship" />
-    </div>
+    </DefaultLayout>
   )
 }
 

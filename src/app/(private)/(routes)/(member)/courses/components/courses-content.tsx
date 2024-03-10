@@ -59,7 +59,12 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
                 courseList &&
                 courseList.length > 0 &&
                 courseList.map(course => (
-                  <Link href={course.courseUrl} key={course.id} target="_blank">
+                  <Link
+                    href={course.courseUrl}
+                    key={course.id}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <CourseCard courseProps={course} />
                   </Link>
                 ))}

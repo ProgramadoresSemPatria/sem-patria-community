@@ -1,3 +1,4 @@
+import { DefaultLayout } from '@/components/default-layout'
 import Header from '@/components/header'
 import NavOptions from '@/components/nav-options'
 import { Separator } from '@/components/ui/separator'
@@ -10,12 +11,12 @@ type SettingsLayoutProps = {
 export default function SettingsLayout({ children }: SettingsLayoutProps) {
   return (
     <>
-      <div className="container pt-6">
+      <DefaultLayout>
         <Header title="Settings" description="Manage your account settings." />
         <Separator className="my-6" />
         <NavOptions options={settingOptions} />
         <div className="mt-8">{children}</div>
-      </div>
+      </DefaultLayout>
     </>
   )
 }

@@ -1,11 +1,12 @@
+import { DefaultLayout } from '@/components/default-layout'
 import Header from '@/components/header'
 import { ChallengeCommitCard } from './components/challenge-commit-card'
-import MentorshipList from './components/mentorship-list'
 import { EventsCalendar } from './components/events-calendar/events-calendar'
+import MentorshipList from './components/mentorship-list'
 
 export default function Dashboard() {
   return (
-    <div className="container pt-6">
+    <DefaultLayout>
       <Header title="Dashboard" />
       <div className="flex flex-col">
         <MentorshipList />
@@ -14,6 +15,6 @@ export default function Dashboard() {
           <EventsCalendar />
         </div>
       </div>
-    </div>
+    </DefaultLayout>
   )
 }

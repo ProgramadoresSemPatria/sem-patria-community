@@ -12,6 +12,7 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
   Code,
   Copy,
   Edit,
@@ -27,18 +28,25 @@ import {
   Moon,
   MoreHorizontal,
   MoreVertical,
+  Play,
   Plus,
   PlusCircle,
-  Play,
   Rocket,
   SlidersHorizontal,
+  Sparkles,
   Sun,
   Trash,
   User,
   X,
   type LucideIcon,
-  Sparkles,
-  ChevronUp
+  ThumbsUp,
+  Send,
+  Heading1,
+  Bold,
+  Strikethrough,
+  Italic,
+  List,
+  ListOrdered
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -82,5 +90,14 @@ export const Icons = {
   calendarDays: CalendarDays,
   calendarClock: CalendarClock,
   sparkles: Sparkles,
-  videos: Play
+  videos: Play,
+  upVote: ThumbsUp,
+  moreMenu: MoreVertical,
+  send: Send,
+  h1: Heading1,
+  bold: Bold,
+  italic: Italic,
+  strike: Strikethrough,
+  listBullet: List,
+  listOrdered: ListOrdered
 }

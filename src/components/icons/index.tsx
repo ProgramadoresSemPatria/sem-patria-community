@@ -25,7 +25,6 @@ import {
   Loader2,
   LogOut,
   Menu,
-  MessageCircle,
   Moon,
   MoreHorizontal,
   MoreVertical,
@@ -100,5 +99,5 @@ export const Icons = {
   italic: Italic,
   strike: Strikethrough,
   listBullet: List,
-  listOrdered: ListOrdered,
+  listOrdered: ListOrdered
 }

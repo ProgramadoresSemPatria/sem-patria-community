@@ -2,12 +2,18 @@
 import Placeholder from '@tiptap/extension-placeholder'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import { useEffect } from 'react'
 import { Toolbar } from './toolbar'
 interface RichTextEditorProps {
   content: string
   onChange: (value: string) => void
+  isSubmitting?: boolean
 }
-export const RichTextEditor = ({ onChange, content }: RichTextEditorProps) => {
+export const RichTextEditor = ({
+  onChange,
+  content,
+  isSubmitting
+}: RichTextEditorProps) => {
   const editor = useEditor({
     extensions: [
       Placeholder.configure({
@@ -43,6 +49,12 @@ export const RichTextEditor = ({ onChange, content }: RichTextEditorProps) => {
       onChange(editor.getHTML())
     }
   })
+
+  useEffect(() => {
+    if (isSubmitting) {
+      editor?.commands.setContent('')
+    }
+  }, [editor?.commands, isSubmitting])
 
   return (
     <div className="flex flex-col justify-stretch mb-2 gap-1 rounded-md border p-2 bg-slate-800">

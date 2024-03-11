@@ -11,7 +11,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
   return (
     <div className="flex items-center gap-1 border border-input bg-transparent rounded-md">
       <Toggle
-        className='data-[state="on"]:bg-slate-700'
+        className='data-[state="on"]:bg-slate-900'
         size="sm"
         pressed={editor.isActive('heading')}
         onPressedChange={() =>
@@ -21,7 +21,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
         <Icons.h1 className="h-4 w-4" />
       </Toggle>
       <Toggle
-        className='data-[state="on"]:bg-slate-700'
+        className='data-[state="on"]:bg-slate-900'
         size="sm"
         pressed={editor.isActive('bold')}
         onPressedChange={() => editor.chain().focus().toggleBold().run()}
@@ -29,7 +29,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
         <Icons.bold className="h-4 w-4" />
       </Toggle>
       <Toggle
-        className='data-[state="on"]:bg-slate-700'
+        className='data-[state="on"]:bg-slate-900'
         size="sm"
         pressed={editor.isActive('italic')}
         onPressedChange={() => editor.chain().focus().toggleItalic().run()}
@@ -37,7 +37,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
         <Icons.italic className="h-4 w-4" />
       </Toggle>
       <Toggle
-        className='data-[state="on"]:bg-slate-700'
+        className='data-[state="on"]:bg-slate-900'
         size="sm"
         pressed={editor.isActive('strike')}
         onPressedChange={() => editor.chain().focus().toggleStrike().run()}
@@ -52,7 +52,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
       "
       />
       <Toggle
-        className='data-[state="on"]:bg-slate-700'
+        className='data-[state="on"]:bg-slate-900'
         size="sm"
         pressed={editor.isActive('bulletList')}
         onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
@@ -60,7 +60,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
         <Icons.listBullet className="h-4 w-4" />
       </Toggle>
       <Toggle
-        className='data-[state="on"]:bg-slate-700'
+        className='data-[state="on"]:bg-slate-900'
         size="sm"
         pressed={editor.isActive('orderedList')}
         onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}

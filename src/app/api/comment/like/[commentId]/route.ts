@@ -2,10 +2,13 @@ import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function DELETE(req: NextRequest) {
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { commentId: string } }
+) {
   try {
     const { userId } = auth()
-    const { commentId } = await req.json()
+    const { commentId } = params
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
@@ -20,18 +23,33 @@ export async function DELETE(req: NextRequest) {
 
     if (!comment) return new NextResponse('Comment not found', { status: 404 })
 
-    if (comment.userId !== userId)
-      return new NextResponse('Unauthorized', { status: 403 })
-
-    await prismadb.comment.delete({
+    const like = await prismadb.like.findFirst({
       where: {
-        id: commentId
+        userId,
+        commentId
       }
     })
 
-    return new NextResponse('Comment deleted')
+    if (!like) {
+      await prismadb.like.create({
+        data: {
+          userId,
+          commentId
+        }
+      })
+    } else {
+      await prismadb.like.delete({
+        where: {
+          id: like.id,
+          userId,
+          commentId
+        }
+      })
+    }
+
+    return new NextResponse('Like toggled', { status: 200 })
   } catch (error) {
-    console.log('[DELETE_COMMENTS_ERROR]', error)
+    console.log('[POST_COMMENTS_ERROR]', error)
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }

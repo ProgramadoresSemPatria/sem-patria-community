@@ -7,13 +7,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Roles {
+  Base
+  PerfilFechado
+  PSP
+  Prime
+  Builder
+  Admin
+}
+
 model User {
-  id        String   @id @default(uuid())
-  email     String
-  name      String
-  username  String
-  level     String?
-  isAdmin   Boolean  @default(false)
+  id         String  @id @default(uuid())
+  email      String
+  password   String
+  name       String
+  username   String
+  level      String?
+  role       Roles   @default(Base)
+  github     String?
+  linkedin   String?
+  instagram  String?
+  followers  Int     @default(0)
+  followings Int     @default(0)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Notes     Note[]

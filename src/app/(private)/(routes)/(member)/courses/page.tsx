@@ -23,7 +23,10 @@ const CoursesPage = async () => {
     <>
       <Suspense fallback={<SkeletonCoursePage />}>
         <div className="container pt-6">
-          <Header title="Courses" />
+          <Header
+            title="Courses"
+            description="Browse all our community content."
+          />
           <CoursesContent categories={categoriesWithCourses} />
         </div>
       </Suspense>

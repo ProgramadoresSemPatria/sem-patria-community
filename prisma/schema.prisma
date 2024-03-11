@@ -74,7 +74,6 @@ model Comment {
   comment   String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  userImage String
   likes     Like[]
   video     Video    @relation(fields: [videoId], references: [id])
   videoId   String
@@ -86,7 +85,7 @@ model Like {
   id        String   @id @default(uuid())
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  comment   Comment  @relation(fields: [commentId], references: [id])
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
   createdAt DateTime @default(now())
 }

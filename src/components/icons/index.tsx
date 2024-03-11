@@ -12,6 +12,7 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
   Code,
   Copy,
   Edit,
@@ -27,18 +28,18 @@ import {
   Moon,
   MoreHorizontal,
   MoreVertical,
+  Play,
   Plus,
   PlusCircle,
-  Play,
   Rocket,
   SlidersHorizontal,
+  Sparkles,
   Sun,
   Trash,
   User,
+  Video,
   X,
-  type LucideIcon,
-  Sparkles,
-  ChevronUp
+  type LucideIcon
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -82,5 +83,6 @@ export const Icons = {
   calendarDays: CalendarDays,
   calendarClock: CalendarClock,
   sparkles: Sparkles,
-  videos: Play
+  play: Play,
+  video: Video
 }

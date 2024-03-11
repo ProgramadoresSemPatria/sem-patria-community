@@ -1,4 +1,4 @@
-export type RouteProps = {
+export type MenuItemProps = {
   href: string
   label: string
   active?: boolean

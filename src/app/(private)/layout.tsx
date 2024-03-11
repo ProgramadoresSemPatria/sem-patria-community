@@ -20,7 +20,6 @@ export default async function PrivateLayout({
   return (
     <div className="flex min-h-screen">
       <MainNav />
-
       <main className="w-full">
         <TopBar />
         <div className="h-[calc(100vh-60px)] overflow-auto pb-10">

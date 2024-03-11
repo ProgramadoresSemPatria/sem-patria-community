@@ -1,4 +1,9 @@
+'use client'
+import { Icons } from '@/components/icons'
 import { RichTextInput } from '@/components/rich-text-input'
+import { Skeleton } from '@/components/ui/skeleton'
+import { api } from '@/lib/api'
+import { useQuery } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 import { CommentComponent } from './comment-component'
 import { OrderBy } from './order-by'
@@ -12,63 +17,67 @@ export interface Comment {
   likes: string[]
 }
 
-const commentsArray = [
-  {
-    id: '1',
-    username: 'John Doe',
-    userImg:
-      'https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ2l0aHViL2ltZ18yWnhiT0FSY000WmdyUVVqQVdmT2RhTG1zeWQifQ',
-    comment: 'This is a comment',
-    date: '2024-02-25',
-    likes: ['user_2ZxbOCJzJkhbkpHfj1IYXxEQS1Y']
-  },
-  {
-    id: '2',
-    username: 'Jane Doe',
-    userImg:
-      'https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ2l0aHViL2ltZ18yWnhiT0FSY000WmdyUVVqQVdmT2RhTG1zeWQifQ',
-    comment: 'This is a medium comment',
-    date: '2024-02-26 12:00:00',
-    likes: []
-  },
-  {
-    id: '3',
-    username: 'Patrick Doe',
-    userImg:
-      'https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ2l0aHViL2ltZ18yWnhiT0FSY000WmdyUVVqQVdmT2RhTG1zeWQifQ',
-    comment: 'This is a long comment',
-    date: '2024-01-10',
-    likes: []
-  }
-]
-
 export const Comments = () => {
   const [orderBy, setOrderBy] = useState('recent')
 
+  const {
+    data: comments = [],
+    isLoading,
+    isFetching
+  } = useQuery<Comment[]>({
+    queryKey: ['comments'],
+    queryFn: async () => {
+      const { data } = await api.get(
+        `/api/comment/a90654b5-e855-4df6-914f-26873e89e4d6`
+      )
+      return data
+    }
+  })
+
   const orderedComments = useMemo(
     () =>
-      commentsArray.sort((a, b) => {
+      comments.sort((a, b) => {
         if (orderBy === 'recent') {
           return new Date(b.date).getTime() - new Date(a.date).getTime()
         }
         return b.likes.length - a.likes.length
       }),
-    [orderBy]
+    [orderBy, comments]
   )
+
+  const CommentsLoading = () => {
+    return Array.from({ length: 3 }).map((_, index) => (
+      <Skeleton key={index} className="w-full h-40" />
+    ))
+  }
 
   return (
     <div className="mx-2 w-auto ring-1 ring-slate-800 rounded-md p-6 flex flex-col">
+      {isFetching && <Icons.loader className="ml-auto w-6 h-6 animate-spin" />}
       <div className="flex gap-4 items-center mb-6">
-        <h1 className="font-semibold text-xl">
-          {commentsArray.length} Comments{' '}
-        </h1>
-        <OrderBy orderByValue={orderBy} setOrderByValue={setOrderBy} />
+        {isLoading ? (
+          <Skeleton className="w-36 h-10" />
+        ) : (
+          <>
+            <h1 className="flex items-center gap-1 font-semibold text-xl">
+              <span className="tabular-nums"> {comments.length}</span> Comments
+            </h1>
+            <OrderBy orderByValue={orderBy} setOrderByValue={setOrderBy} />
+          </>
+        )}
       </div>
-      <RichTextInput />
-      <div className="flex flex-col gap-4">
-        {orderedComments.map(comment => (
-          <CommentComponent key={comment.id} comment={comment} />
-        ))}
+      <RichTextInput
+        isCommentsLoading={isLoading}
+        videoId="a90654b5-e855-4df6-914f-26873e89e4d6"
+      />
+      <div className="flex flex-col gap-4 mt-6">
+        {isLoading ? (
+          <CommentsLoading />
+        ) : (
+          orderedComments.map(comment => (
+            <CommentComponent key={comment.id} comment={comment} />
+          ))
+        )}
       </div>
     </div>
   )

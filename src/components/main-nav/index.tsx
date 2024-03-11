@@ -22,7 +22,6 @@ const MainNav = ({ children }: MainNavProps) => {
   const pathname = usePathname()
   const { isCmsMode } = useAppStore()
   const isAdminPage = pathname.includes('admin')
-  const isMentorshipPage = pathname.includes('mentorship')
 
   const memberRoutes: RouteProps[] = [
     {
@@ -30,6 +29,12 @@ const MainNav = ({ children }: MainNavProps) => {
       label: 'Dashboard',
       active: pathname.includes(appRoutes.dashboard),
       icon: <Icons.dashboard className="h-4 w-4" />
+    },
+    {
+      href: appRoutes.mentorship,
+      label: 'Mentorship',
+      active: pathname === appRoutes.mentorship,
+      icon: <Icons.mentorship className="h-4 w-4" />
     },
     {
       href: `${appRoutes.courses}?category=all`,
@@ -81,10 +86,9 @@ const MainNav = ({ children }: MainNavProps) => {
   return (
     <div
       className={cn(
-        ' hidden h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6 ',
-        !isAdminPage && !isMentorshipPage && 'md:flex',
-        isAdminPage && 'xl:flex',
-        isMentorshipPage && 'hidden'
+        'hidden h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6',
+        !isAdminPage && 'md:flex',
+        isAdminPage && 'xl:flex'
       )}
     >
       <MainLogo />

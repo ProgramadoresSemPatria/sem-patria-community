@@ -1,3 +1,4 @@
+import { Icons } from '@/components/icons'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,12 +7,16 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
+import { Button } from '@/components/ui/button'
 import { appRoutes } from '@/lib/constants'
-import { Comments } from './components/comments/comments'
+import { Comments } from './components/comments'
 import { MentorshipHeader } from './components/mentorship-header'
 import MentorshipTab from './components/mentorship-tab'
+import { useProgramPage } from './use-program-page'
 
 const ProgramPage = ({ params }: { params: { program: string } }) => {
+  const { formatTitle } = useProgramPage()
+
   return (
     <>
       <MentorshipHeader title={params.program} />
@@ -22,21 +27,27 @@ const ProgramPage = ({ params }: { params: { program: string } }) => {
               className="w-full h-[calc(80vh-80px)] rounded-md"
               src="https://www.youtube.com/watch?v=ADJKbuayubE"
             />
-            <Breadcrumb className="pl-4 pt-4">
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href={appRoutes.mentorship}>
-                    Mentorship
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>
-                    {params.program.replace(/-/g, ' ').toUpperCase()}
-                  </BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+            <div className="w-full flex justify-between items-center pl-4 pt-2">
+              <Breadcrumb className="p-0">
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href={appRoutes.mentorship}>
+                      Mentorship
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>
+                      {formatTitle(params.program)}
+                    </BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+              <Button variant="ghost" className="flex items-center">
+                <Icons.check className="h-4 w-4 mr-2" color="#34d399" /> Mark as
+                watched
+              </Button>
+            </div>
             <h1 className="p-4 font-bold text-2xl">
               Como montar seu curriculo
             </h1>

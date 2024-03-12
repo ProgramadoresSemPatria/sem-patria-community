@@ -17,8 +17,18 @@ export const ClassroomCard = ({
   chapters,
   progress
 }: ClassroomCardProps) => {
+  const formattedHref = (title: string) => {
+    const href: Record<string, string> = {
+      'A Base': 'a-base',
+      'Programador Sem Pátria': 'psp',
+      'Programador Prime': 'prime',
+      'Perfil Fechado': 'perfil-fechado'
+    }
+
+    return href[title]
+  }
   return (
-    <Link href={`/mentorship/${title.toLowerCase().replace(' ', '-')}`}>
+    <Link href={`/mentorship/${formattedHref(title)}`}>
       <Card className="group hover:bg-muted transition overflow-hidden rounded-lg h-80 flex flex-col">
         <CardContent className="flex flex-col h-full p-0">
           <div className="h-1/2">

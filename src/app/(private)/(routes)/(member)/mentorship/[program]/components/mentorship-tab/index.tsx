@@ -5,6 +5,7 @@ import { mentorshipPhases } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useProgramPage } from '../../use-program-page'
 import { TabTypes, useMentorshipTab } from './use-mentorship-tab'
 
 type MentorshipTabProps = {
@@ -13,6 +14,7 @@ type MentorshipTabProps = {
 
 const MentorshipTab = ({ title }: MentorshipTabProps) => {
   const { tab, handleSetTab, assets, videos } = useMentorshipTab()
+  const { formatTitle } = useProgramPage()
 
   return (
     <div className="flex flex-col self-stretch w-full md:w-[360px] min-[1441px]:w-[384px] min-[1921px]:w-[432px] h-full border-l border-l-gray-800 transition-all">
@@ -67,7 +69,7 @@ const MentorshipTab = ({ title }: MentorshipTabProps) => {
             <Card>
               <CardContent>
                 <h1 className="font-light p-4 pl-0">
-                  {title.replace('-', ' ').toUpperCase()}
+                  {formatTitle(title)}
                   <div className="flex gap-x-2 items-center text-sm text-muted-foreground">
                     <span>3 Classes</span>
                     <div className="h-1 w-1 rounded-full bg-muted-foreground" />

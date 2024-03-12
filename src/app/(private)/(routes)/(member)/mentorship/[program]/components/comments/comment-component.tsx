@@ -10,7 +10,7 @@ import { format } from 'date-fns'
 import Image from 'next/image'
 import { useReducer } from 'react'
 import { AdminActions } from './admin-actions'
-import { type Comment } from './comments'
+import { type Comment } from './'
 
 interface CommentComponentProps {
   comment: Comment

@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { useToast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { validateUserLevelColor } from '@/lib/utils'
-import { type User } from '@prisma/client'
+import { Roles, type User } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -110,9 +110,9 @@ export const MembersList = ({ userProps, allUsers }: MembersListProps) => {
                   : 'Unknown'}
               </Badge>
               <Button variant="outline" disabled>
-                {user.isAdmin ? 'Admin' : 'Member'}
+                {user.role === Roles.Admin ? 'Admin' : 'Member'}
               </Button>
-              {userProps.isAdmin && !user.isAdmin && (
+              {userProps.role === Roles.Admin && !user.role && (
                 <Button
                   disabled={isDeleting}
                   variant="destructive"

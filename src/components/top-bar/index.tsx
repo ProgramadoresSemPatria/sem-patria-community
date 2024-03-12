@@ -9,6 +9,7 @@ import { FeedbackButton } from './feedback-button'
 import { LogoutButton } from './logout-button'
 import { MobileButton } from './mobile-button'
 import NotificationsButton from './notifications-button/index'
+import { Roles } from '@prisma/client'
 
 const TopBar = async () => {
   const { userId } = auth()
@@ -25,9 +26,9 @@ const TopBar = async () => {
     <div className="flex h-[60px] items-center justify-end border-b border-slate-6 px-6">
       <MainLogo isMobile />
       <div className="flex items-center gap-3">
-        {user.isAdmin && <CMSButton />}
+        {user.role === Roles.Admin && <CMSButton />}
         <FeedbackButton />
-        {user.isAdmin && <NotificationsButton />}
+        {user.role === Roles.Admin && <NotificationsButton />}
         <div className="hidden md:flex">
           <LogoutButton />
         </div>

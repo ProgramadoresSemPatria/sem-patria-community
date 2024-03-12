@@ -11,3 +11,11 @@ export type MetorshipPhasesProps = {
   phase: string
   title: string
 }
+
+export enum Roles {
+  Base,
+  PSP,
+  Prime,
+  PerfilFechado,
+  Admin
+}

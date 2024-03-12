@@ -1,3 +1,5 @@
+import generatePassword from '@/actions/auth/generate-password'
+import { sendEmailWithPassword } from '@/actions/auth/send-email-with-password'
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs'
 import { type NextRequest, NextResponse } from 'next/server'
@@ -25,4 +27,27 @@ export async function PATCH(req: NextRequest) {
     console.log('[USER_LEVEL_PATCH_ERROR]', error)
     return new NextResponse('Internal Server Error', { status: 500 })
   }
+}
+
+export async function POST(req: NextRequest) {
+  const { email, name, username, github, instagram, level, linkedin, role } =
+    await req.json()
+
+  const user = await prismadb.user.create({
+    data: {
+      email,
+      password: generatePassword(),
+      name,
+      username,
+      github,
+      instagram,
+      level,
+      linkedin,
+      role
+    }
+  })
+
+  sendEmailWithPassword(email, generatePassword())
+
+  return NextResponse.json(user)
 }

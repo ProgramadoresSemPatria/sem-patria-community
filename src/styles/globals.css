@@ -74,3 +74,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.tiptap p.is-editor-empty:first-child::before {
+ @apply text-slate-500;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}

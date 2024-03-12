@@ -1,3 +1,4 @@
+'use client'
 import { Icons } from '@/components/icons'
 import Link from 'next/link'
 import { useShortMenu } from './use-short-menu'
@@ -8,6 +9,7 @@ export const ShortMenu = () => {
     handleShowShortMenu,
     filteredMenuItems: menuItems
   } = useShortMenu()
+
   return (
     <button
       className="flex items-center space-x-2"

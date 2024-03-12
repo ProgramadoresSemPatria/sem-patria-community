@@ -8,15 +8,17 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   email     String
   name      String
   username  String
   level     String?
-  isAdmin   Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isAdmin   Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   Notes     Note[]
+  Comment   Comment[]
+  Like      Like[]
 }
 
 model Course {
@@ -60,4 +62,30 @@ model Event {
   externalUrl  String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+model Video {
+  id       String    @id @default(uuid())
+  comments Comment[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  comment   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  likes     Like[]
+  video     Video    @relation(fields: [videoId], references: [id])
+  videoId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String
+  createdAt DateTime @default(now())
 }

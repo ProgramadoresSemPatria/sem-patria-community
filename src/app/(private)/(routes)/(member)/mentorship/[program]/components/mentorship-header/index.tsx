@@ -1,4 +1,3 @@
-import ClerkUserButton from '@/components/clerk-user-button'
 import MainLogo from '@/components/main-logo'
 import { ShortMenu } from '@/components/short-menu'
 import { useMentorshipHeader } from './use-mentorship-header'
@@ -21,7 +20,7 @@ export const MentorshipHeader = ({ title }: MentorshipHeaderProps) => {
         </h1>
       </div>
       <div className="flex justify-end">
-        <ClerkUserButton hiddenName />
+        <div className="h-3 w-3 bg-muted-foreground rounded-full" />
       </div>
     </header>
   )

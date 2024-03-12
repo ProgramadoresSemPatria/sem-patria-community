@@ -5,9 +5,8 @@ export type MenuItemProps = {
   disabled?: boolean
   icon?: React.ReactNode
 }
-export type MetorshipPhasesProps = {
+export type MentorshipPhasesProps = {
   href: string
   src: string
-  phase: string
   title: string
 }

@@ -8,9 +8,10 @@ datasource db {
 }
 
 enum Roles {
-  Base
   PerfilFechado
-  PSP
+  PortifolioBoostProgram
+  Base
+  ProgramadorSemPatria
   Prime
   Builder
   Admin
@@ -23,7 +24,7 @@ model User {
   name       String
   username   String
   level      String?
-  role       Roles   @default(Base)
+  role       Roles[] @default([])
   github     String?
   linkedin   String?
   instagram  String?

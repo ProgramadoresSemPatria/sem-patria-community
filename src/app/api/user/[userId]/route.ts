@@ -16,10 +16,10 @@ export async function DELETE(
 
     const user = await prismadb.user.delete({
       where: {
-        id: params.userId,
-        AND: {
-          isAdmin: false
-        }
+        id: params.userId
+        // AND: {
+        //   role: !Roles.Admin
+        // }
       }
     })
 

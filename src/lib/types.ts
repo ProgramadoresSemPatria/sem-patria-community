@@ -10,3 +10,11 @@ export type MentorshipPhasesProps = {
   src: string
   title: string
 }
+
+export enum Roles {
+  Base,
+  PSP,
+  Prime,
+  PerfilFechado,
+  Admin
+}

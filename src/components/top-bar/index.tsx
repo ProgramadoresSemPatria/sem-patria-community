@@ -25,9 +25,9 @@ const TopBar = async () => {
     <div className="flex h-[60px] items-center justify-end border-b border-slate-6 px-6">
       <MainLogo isMobile />
       <div className="flex items-center gap-3">
-        {user.isAdmin && <CMSButton />}
+        {user.role.includes('Admin') && <CMSButton />}
         <FeedbackButton />
-        {user.isAdmin && <NotificationsButton />}
+        {user.role.includes('Admin') && <NotificationsButton />}
         <div className="hidden md:flex">
           <LogoutButton />
         </div>

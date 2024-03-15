@@ -1,19 +1,22 @@
-export type VimeoProjectApiResponse = {
-  data: Array<{
-    name: string
-    uri: string
-    metadata: {
-      connections: {
-        videos: {
-          total: number
-        }
-      }
-    }
-  }>
+export type GetVimeoVideoResponse = {
+  total: number
+  data: VimeoVideoProps[]
 }
 
-export type VimeoProjectProps = {
-  id: string
+export type VimeoVideoProps = {
   name: string
-  videosAmount: number
+  description?: string
+  player_url: string
+  duration: number
+  pictures: {
+    sizes: Array<{
+      width: number
+      height: number
+      link: string
+    }>
+  }
+}
+
+export type GetVimeoVideoProps = {
+  projectId: string
 }

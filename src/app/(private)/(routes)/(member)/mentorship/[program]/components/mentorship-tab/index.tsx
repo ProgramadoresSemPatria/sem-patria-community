@@ -2,19 +2,17 @@
 import { Icons } from '@/components/icons'
 import { Card, CardContent } from '@/components/ui/card'
 import { mentorshipPhases } from '@/lib/constants'
-import { cn } from '@/lib/utils'
+import { cn, formatTitle } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useProgramPage } from '../../use-program-page'
 import { TabTypes, useMentorshipTab } from './use-mentorship-tab'
 
 type MentorshipTabProps = {
-  title: string
+  program: string
 }
 
-const MentorshipTab = ({ title }: MentorshipTabProps) => {
-  const { tab, handleSetTab, assets, videos } = useMentorshipTab()
-  const { formatTitle } = useProgramPage()
+const MentorshipTab = ({ program }: MentorshipTabProps) => {
+  const { tab, handleSetTab, assets, videos } = useMentorshipTab({ program })
 
   return (
     <div className="flex flex-col self-stretch w-full md:w-[360px] min-[1441px]:w-[384px] min-[1921px]:w-[432px] h-full border-l border-l-gray-800 transition-all">
@@ -69,7 +67,7 @@ const MentorshipTab = ({ title }: MentorshipTabProps) => {
             <Card>
               <CardContent>
                 <h1 className="font-light p-4 pl-0">
-                  {formatTitle(title)}
+                  {formatTitle(program)}
                   <div className="flex gap-x-2 items-center text-sm text-muted-foreground">
                     <span>3 Classes</span>
                     <div className="h-1 w-1 rounded-full bg-muted-foreground" />
@@ -78,16 +76,16 @@ const MentorshipTab = ({ title }: MentorshipTabProps) => {
                 </h1>
 
                 <div className="flex flex-col">
-                  {videos.map(video => (
+                  {videos?.data.map(video => (
                     <Link
                       className="flex p-2 items-center gap-6 cursor-pointer rounded transition-colors hover:bg-gray-800 text-success-light hover:text-success-light"
-                      key={video.title}
-                      href={`${video.href}`}
+                      key={video.player_url}
+                      href={`/`}
                     >
                       <div className="flex flex-1 items-center gap-3 overflow-hidden">
                         <Icons.video />
                         <span className="w-full overflow-hidden text-ellipsis text-sm whitespace-nowrap">
-                          {video.title}
+                          {video.name}
                         </span>
                       </div>
                       <span className="text-sm text-gray-300 font-normal tabular-nums">

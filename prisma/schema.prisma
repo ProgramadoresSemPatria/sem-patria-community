@@ -65,8 +65,14 @@ model Event {
 }
 
 model Video {
-  id       String    @id @default(uuid())
-  comments Comment[]
+  id          String    @id @default(uuid())
+  projectId   String
+  title       String
+  description String?
+  url         String
+  duration    Int
+  comments    Comment[]
+  createdAt   DateTime @default(now())
 }
 
 model Comment {

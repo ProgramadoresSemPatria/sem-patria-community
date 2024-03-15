@@ -1,24 +1,16 @@
 import { vimeoApi } from '@/lib/api'
-import { type VimeoProjectApiResponse, type VimeoProjectProps } from './types'
+import { type GetVimeoVideoProps, type GetVimeoVideoResponse } from './types'
 
-export const getAllVimeoProjects = async (): Promise<VimeoProjectProps[]> => {
-  const url = '/me/projects'
+export const getVimeoVideos = async (
+  props: GetVimeoVideoProps
+): Promise<GetVimeoVideoResponse> => {
+  const url = `/me/projects/${props.projectId}/videos`
 
-  const { data } = await vimeoApi.get<VimeoProjectApiResponse>(url)
-
-  const extractNumberAfterLastSlash = (value: string) => {
-    const regex = /\/(\d+)$/
-    const match = value.match(regex)
-    if (match) {
-      return parseInt(match[1], 10)
-    }
+  const params = {
+    per_page: 100
   }
 
-  const formattedData: VimeoProjectProps[] = data.data.map(project => ({
-    id: extractNumberAfterLastSlash(project.uri)?.toString() ?? '',
-    name: project.name,
-    videosAmount: project.metadata.connections.videos.total
-  }))
+  const { data } = await vimeoApi.get<GetVimeoVideoResponse>(url, { params })
 
-  return formattedData
+  return data
 }

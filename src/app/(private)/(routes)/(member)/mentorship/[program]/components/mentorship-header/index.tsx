@@ -1,14 +1,12 @@
 import MainLogo from '@/components/main-logo'
 import { ShortMenu } from '@/components/short-menu'
-import { useProgramPage } from '../../use-program-page'
+import { formatTitle } from '@/lib/utils'
 
 type MentorshipHeaderProps = {
-  title: string
+  program: string
 }
 
-export const MentorshipHeader = ({ title }: MentorshipHeaderProps) => {
-  const { formatTitle } = useProgramPage()
-
+export const MentorshipHeader = ({ program }: MentorshipHeaderProps) => {
   return (
     <header className="grid grid-cols-3 h-[72px] px-4 lg:pr-8 bg-gray-850 border border-transparent items-center border-b-muted">
       <div className="flex items-center">
@@ -17,7 +15,7 @@ export const MentorshipHeader = ({ title }: MentorshipHeaderProps) => {
       </div>
       <div className="flex">
         <h1 className="text-muted-foreground font-semibold mx-auto text-center text-lg">
-          {formatTitle(title)}
+          {formatTitle(program)}
         </h1>
       </div>
       <div className="flex justify-end">

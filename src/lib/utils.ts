@@ -49,3 +49,14 @@ export const formatExternalUrl = (url: string): string => {
 
   return `https://${url}`
 }
+
+export const formatTitle = (title: string) => {
+  const titleHref: Record<string, string> = {
+    'a-base': 'A Base',
+    psp: 'Programador Sem Pátria',
+    prime: 'Programador Prime',
+    'perfil-fechado': 'Perfil Fechado'
+  }
+
+  return titleHref[title]
+}

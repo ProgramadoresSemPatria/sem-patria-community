@@ -1,3 +1,5 @@
+import { type GetVimeoVideoResponse } from '@/services/vimeo/types'
+import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
 
 export enum TabTypes {
@@ -6,35 +8,22 @@ export enum TabTypes {
   ASSETS = 'assets'
 }
 
-export const useMentorshipTab = () => {
+type UseMentorshipTabProps = {
+  program: string
+}
+
+export const useMentorshipTab = ({ program }: UseMentorshipTabProps) => {
+  const queryClient = useQueryClient()
+  const videos = queryClient.getQueryData<GetVimeoVideoResponse>([
+    'vimeo-videos',
+    program
+  ])
+
   const [tab, setTab] = useState<TabTypes>(TabTypes.VIDEOS)
 
   const handleSetTab = useCallback((tab: TabTypes) => {
     setTab(tab)
   }, [])
-
-  const videos = [
-    {
-      title: 'Mindset e disciplina',
-      href: '/',
-      description: ''
-    },
-    {
-      title: 'Gestão de tempo',
-      href: '/',
-      description: ''
-    },
-    {
-      title: 'Alinhamento de mentalidade',
-      href: '/',
-      description: ''
-    },
-    {
-      title: 'Como realmente aprender tudo que estuda',
-      href: '/',
-      description: ''
-    }
-  ]
 
   const assets = [
     {

@@ -8,7 +8,7 @@ export default async function PrivateLayout({
   children: React.ReactNode
 }) {
   const user = await currentUser()
-  if (!user?.username) return redirect(appRoutes.signIn)
+  if (!user) return redirect(appRoutes.signIn)
 
   return <div>{children}</div>
 }

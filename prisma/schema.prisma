@@ -18,24 +18,23 @@ enum Roles {
 }
 
 model User {
-  id         String  @id @default(uuid())
+  id         String    @id @default(uuid())
   email      String
   password   String
   name       String
   username   String
   level      String?
-  role       Roles[] @default([])
+  role       Roles[]   @default([])
   github     String?
   linkedin   String?
   instagram  String?
-  followers  Int     @default(0)
-  followings Int     @default(0)
-
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Notes     Note[]
-  Comment   Comment[]
-  Like      Like[]
+  followers  Int       @default(0)
+  followings Int       @default(0)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Notes      Note[]
+  Comment    Comment[]
+  Like       Like[]
 }
 
 model Course {
@@ -81,15 +80,32 @@ model Event {
   updatedAt    DateTime @updatedAt
 }
 
-model Video {
+model Classroom {
+  id          String            @id @default(uuid())
+  title       String            @unique
+  progress    Int               @default(0)
+  modules     ClassroomModule[]
+  permissions Roles[]           @default([])
+  createdAt   DateTime          @default(now())
+}
+
+model ClassroomModule {
   id          String    @id @default(uuid())
-  projectId   String
   title       String
-  description String?
-  url         String
-  duration    Int
-  comments    Comment[]
-  createdAt   DateTime @default(now())
+  videos      Video[]
+  classroom   Classroom @relation(fields: [classroomId], references: [id])
+  classroomId String
+}
+
+model Video {
+  id                String           @id @default(uuid())
+  title             String
+  description       String?
+  url               String
+  comments          Comment[]
+  createdAt         DateTime         @default(now())
+  ClassroomModule   ClassroomModule? @relation(fields: [classroomModuleId], references: [id])
+  classroomModuleId String?
 }
 
 model Comment {

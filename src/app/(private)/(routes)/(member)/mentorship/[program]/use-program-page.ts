@@ -32,7 +32,6 @@ export const useProgramPage = ({ program }: UseProgramPageProps) => {
 
   useEffect(() => {
     if (videos) {
-      console.log('oi')
       setVideoSelected(videos.data.find(video => video.name === program))
     }
   }, [program, videos])

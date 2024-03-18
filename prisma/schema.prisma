@@ -83,7 +83,6 @@ model Event {
 model Classroom {
   id          String            @id @default(uuid())
   title       String            @unique
-  progress    Int               @default(0)
   modules     ClassroomModule[]
   permissions Roles[]           @default([])
   createdAt   DateTime          @default(now())

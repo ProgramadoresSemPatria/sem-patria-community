@@ -1,3 +1,4 @@
+import { DefaultLayout } from '@/components/default-layout'
 import { SkeletonCmsPage } from '@/components/skeletons/skeleton-cms-page'
 import prismadb from '@/lib/prismadb'
 import { Suspense } from 'react'
@@ -18,11 +19,11 @@ const AdminEventsPage = async () => {
   }))
 
   return (
-    <div className="container flex-col pt-6">
+    <DefaultLayout>
       <Suspense fallback={<SkeletonCmsPage />}>
         <EventsClient events={formattedEvents} />
       </Suspense>
-    </div>
+    </DefaultLayout>
   )
 }
 

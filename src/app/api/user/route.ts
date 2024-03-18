@@ -1,8 +1,8 @@
 import generatePassword from '@/actions/auth/generate-password'
 import { sendEmailWithPassword } from '@/actions/auth/send-email-with-password'
 import prismadb from '@/lib/prismadb'
-import { auth } from '@clerk/nextjs'
-import { type NextRequest, NextResponse } from 'next/server'
+import { auth, clerkClient } from '@clerk/nextjs'
+import { NextResponse, type NextRequest } from 'next/server'
 
 export async function PATCH(req: NextRequest) {
   try {
@@ -30,15 +30,18 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const { email, name, username, github, instagram, level, linkedin, role } =
+  const { email, name, github, instagram, level, linkedin, role } =
     await req.json()
 
-  const user = await prismadb.user.create({
-    data: {
-      email,
-      password: generatePassword(),
-      name,
-      username,
+  const newUserPassword = generatePassword()
+
+  // Create user at Clerk
+  const clerkUser = await clerkClient.users.createUser({
+    emailAddress: [email],
+    firstName: name,
+    username: github,
+    password: newUserPassword,
+    publicMetadata: {
       github,
       instagram,
       level,
@@ -47,7 +50,25 @@ export async function POST(req: NextRequest) {
     }
   })
 
-  sendEmailWithPassword(email, generatePassword())
+  // Create user at DB
+  const user = await prismadb.user.create({
+    data: {
+      id: clerkUser.id,
+      email,
+      password: newUserPassword,
+      name,
+      username: github,
+      // TODO: Add imageUrl from Clerk to User
+      // imageUrl: clerkUser.imageUrl,
+      github,
+      instagram,
+      level,
+      linkedin,
+      role: [role]
+    }
+  })
+
+  sendEmailWithPassword(email, newUserPassword)
 
   return NextResponse.json(user)
 }

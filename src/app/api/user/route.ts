@@ -58,8 +58,7 @@ export async function POST(req: NextRequest) {
       password: newUserPassword,
       name,
       username: github,
-      // TODO: Add imageUrl from Clerk to User
-      // imageUrl: clerkUser.imageUrl,
+      imageUrl: clerkUser.imageUrl,
       github,
       instagram,
       level,

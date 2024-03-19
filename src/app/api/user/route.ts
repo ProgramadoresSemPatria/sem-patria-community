@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
     }
   })
 
-  sendEmailWithPassword(email, newUserPassword)
+  await sendEmailWithPassword(email, newUserPassword)
 
   return NextResponse.json(user)
 }

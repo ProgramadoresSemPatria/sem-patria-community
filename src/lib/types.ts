@@ -13,9 +13,11 @@ export type MetorshipPhasesProps = {
 }
 
 export enum Roles {
-  Base,
-  PSP,
-  Prime,
-  PerfilFechado,
-  Admin
+  PerfilFechado = 'Perfil Fechado',
+  PortifolioBoostProgram = 'Portifólio Boost Program',
+  Base = 'Base',
+  ProgramadorSemPatria = 'Programador Sem Pátria',
+  Prime = 'Prime',
+  Builder = 'Builder',
+  Admin = 'Admin'
 }

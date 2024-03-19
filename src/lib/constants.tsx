@@ -24,7 +24,9 @@ export enum appRoutes {
   admin_categories = '/admin/categories',
   admin_categories_new = '/admin/categories/new',
   admin_events = '/admin/events',
-  admin_events_new = '/admin/events/new'
+  admin_events_new = '/admin/events/new',
+  admin_users = '/admin/users',
+  admin_users_new = '/admin/new-user'
 }
 
 export const menuItems: MenuItemProps[] = [
@@ -52,6 +54,11 @@ export const menuItems: MenuItemProps[] = [
     href: appRoutes.settings,
     label: 'Settings',
     icon: <Icons.settings className="h-4 w-4" />
+  },
+  {
+    href: appRoutes.admin_users,
+    label: 'Users',
+    icon: <Icons.user className="h-4 w-4" />
   },
   {
     href: appRoutes.admin_courses,

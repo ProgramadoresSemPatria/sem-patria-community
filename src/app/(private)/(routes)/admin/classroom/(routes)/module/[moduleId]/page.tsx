@@ -5,15 +5,17 @@ import { NewClassroomModuleForm } from './components/new-classroom-module-form'
 const NewClassroomModulePage = async ({
   params
 }: {
-  params: { classroomId: string }
+  params: { moduleId: string }
 }) => {
-  const classroom = await prismadb.classroom.findFirst({
-    where: { id: params.classroomId }
+  const module = await prismadb.classroomModule.findUnique({
+    where: { id: params.moduleId }
   })
+
+  const classrooms = await prismadb.classroom.findMany()
 
   return (
     <DefaultLayout>
-      <NewClassroomModuleForm initialData={classroom} />
+      <NewClassroomModuleForm initialData={module} classrooms={classrooms} />
     </DefaultLayout>
   )
 }

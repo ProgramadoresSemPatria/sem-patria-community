@@ -4,12 +4,17 @@ import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import Link from 'next/link'
 import ClassroomContent from './components/classroom-content'
+import ModuleContent from './components/classroom-module-content'
 
 const AdminClassroomPage = () => {
   const tabsOptions = [
     {
       id: 'classroom',
       content: <ClassroomContent />
+    },
+    {
+      id: 'modules',
+      content: <ModuleContent />
     },
     {
       id: 'videos',
@@ -25,27 +30,19 @@ const AdminClassroomPage = () => {
       />
       <Separator className="my-6" />
       <Tabs defaultValue={tabsOptions[0].id} className="w-full">
-        <TabsList className="grid grid-cols-2 w-1/3 mb-6">
-          <TabsTrigger value="classroom">
+        <TabsList className="w-auto mb-6">
+          {tabsOptions.map(value => (
             <Link
+              key={value.id}
               href={{
-                query: { tabSelected: 'classroom' }
+                query: { tabSelected: `${value.id}` }
               }}
-              className="appearance-none w-full"
             >
-              Classroom
+              <TabsTrigger value={value.id} className="w-full px-8">
+                {value.id.slice(0, 1).toUpperCase() + value.id.slice(1)}
+              </TabsTrigger>
             </Link>
-          </TabsTrigger>
-          <TabsTrigger value="videos">
-            <Link
-              href={{
-                query: { tabSelected: 'videos' }
-              }}
-              className="appearance-none w-full"
-            >
-              Videos
-            </Link>
-          </TabsTrigger>
+          ))}
         </TabsList>
         {tabsOptions.map(value => (
           <TabsContent key={value.id} value={value.id}>

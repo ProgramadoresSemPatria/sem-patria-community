@@ -10,7 +10,6 @@ export const NewClassroomModuleButton = () => {
 
   return (
     <Button
-      variant="secondary"
       onClick={() => {
         router.push(appRoutes.admin_classroom_module_new)
       }}

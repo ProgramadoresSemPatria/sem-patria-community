@@ -4,7 +4,6 @@ import Header from '@/components/header'
 import { Icons } from '@/components/icons'
 import { AlertModal } from '@/components/modals/alert-modal'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
   FormControl,
@@ -15,7 +14,7 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
@@ -36,7 +35,9 @@ const formSchema = z.object({
   title: z.string().min(1, {
     message: 'Title is required'
   }),
-  permissions: z.string().array().nonempty()
+  permissions: z.string().array().nonempty({
+    message: 'Please select a permission.'
+  })
 })
 
 type NewClassroomFormValues = z.infer<typeof formSchema>
@@ -110,6 +111,7 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
   })
 
   const onSubmit = async (values: NewClassroomFormValues) => {
+    values.permissions.push(Roles.Admin)
     await createOrUpdateClassroom(values)
   }
 
@@ -201,47 +203,32 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
                   <FormItem>
                     <FormLabel>Permissions</FormLabel>
                     <FormDescription className="!mt-0">
-                      Select all roles that can be accessed by this classroom
+                      Select the role that can be accessed by this classroom
                     </FormDescription>
-                    <FormControl>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                        {Object.values(roles).map(value => {
-                          return (
-                            <div
-                              key={value}
-                              className="flex items-center gap-x-2"
-                            >
-                              <Checkbox
+                    <RadioGroup
+                      onValueChange={value => {
+                        form.setValue('permissions', [value])
+                      }}
+                      className="grid max-w-full grid-cols-2 gap-4 pt-2"
+                    >
+                      {Object.values(roles).map(value => (
+                        <FormItem key={value}>
+                          <FormLabel className="flex items-center gap-x-2">
+                            <FormControl className="flex items-center gap-x-4">
+                              <RadioGroupItem
+                                value={value}
                                 checked={
                                   !!form
                                     .getValues('permissions')
                                     .includes(value)
                                 }
-                                onCheckedChange={checked => {
-                                  if (checked) {
-                                    form.setValue('permissions', [
-                                      value,
-                                      ...form.getValues('permissions')
-                                    ])
-                                  } else {
-                                    const permissions = form
-                                      .getValues('permissions')
-                                      .filter(
-                                        (permission: string) =>
-                                          permission !== value
-                                      )
-                                    form.setValue('permissions', [
-                                      ...permissions
-                                    ] as [string, ...string[]])
-                                  }
-                                }}
                               />
-                              <Label>{value}</Label>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </FormControl>
+                            </FormControl>
+                            {value}
+                          </FormLabel>
+                        </FormItem>
+                      ))}
+                    </RadioGroup>
                     <FormMessage />
                   </FormItem>
                 )}

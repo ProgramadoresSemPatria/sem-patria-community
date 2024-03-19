@@ -12,9 +12,9 @@ const AdminUsersPage = async () => {
     name: item.name,
     email: item.email,
     subscriptionDate: item.createdAt,
-    lastAccess: new Date(),
+    lastAccess: item.lastLogin,
     level: item.level,
-    imageUrl: 'https://i.pravatar.cc'
+    imageUrl: item.imageUrl
   }))
 
   return (

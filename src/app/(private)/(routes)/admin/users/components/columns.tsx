@@ -9,10 +9,10 @@ import { UserCellAction } from './user-cell-action'
 export type UserColumn = {
   id: string
   name: string
-  imageUrl: string
+  imageUrl: string | null
   email: string
   subscriptionDate: Date
-  lastAccess: Date
+  lastAccess: Date | null
   level: string | null
 }
 
@@ -24,7 +24,7 @@ export const userColumns: Array<ColumnDef<UserColumn>> = [
       return (
         <div className="flex gap-2 items-center">
           <Image
-            src={cell.row.original.imageUrl}
+            src={cell.row.original.imageUrl || ''}
             width={30}
             height={30}
             alt={cell.getValue() as string}
@@ -53,6 +53,8 @@ export const userColumns: Array<ColumnDef<UserColumn>> = [
     accessorKey: 'lastAccess',
     header: 'Last Access',
     cell: cell => {
+      if (!cell.getValue()) return 'No data available'
+
       const date = new Date(cell.getValue() as string)
       return format(date, 'dd/MM/yyyy', {
         locale: ptBR

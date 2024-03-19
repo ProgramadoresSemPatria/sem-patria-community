@@ -33,13 +33,12 @@ export const AdminActions = ({ commentId }: AdminActionsProps) => {
       })
       await queryClient.refetchQueries({ queryKey: ['comments'] })
     },
-    onError: error => {
+    onError: () => {
       toast({
         title: 'An error occurred.',
         description: 'Unable to delete the comment',
         variant: 'destructive'
       })
-      console.log(error)
     }
   })
 

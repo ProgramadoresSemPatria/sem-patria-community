@@ -25,6 +25,9 @@ export enum appRoutes {
   admin_categories_new = '/admin/categories/new',
   admin_events = '/admin/events',
   admin_events_new = '/admin/events/new',
+  admin_classroom = '/admin/classroom',
+  admin_classroom_new = '/admin/classroom/new',
+  admin_classroom_module_new = '/admin/classroom/module/new',
   admin_users = '/admin/users',
   admin_users_new = '/admin/new-user'
 }
@@ -74,6 +77,11 @@ export const menuItems: MenuItemProps[] = [
     href: appRoutes.admin_events,
     label: 'Events',
     icon: <Icons.calendarDays className="h-4 w-4" />
+  },
+  {
+    href: `${appRoutes.admin_classroom}?tabSelected=classroom`,
+    label: 'Classroom',
+    icon: <Icons.classroom className="h-4 w-4" />
   }
 ]
 

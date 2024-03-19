@@ -7,12 +7,12 @@ import { NextResponse, type NextRequest } from 'next/server'
 export async function PATCH(req: NextRequest) {
   try {
     const { userId } = auth()
-    const { email, name, github, instagram, level, linkedin, role,password } =
+    const { email, name, github, instagram, level, linkedin, role, password } =
       await req.json()
-    
+
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
     // Update user at Clerk
-   await clerkClient.users.updateUser(userId, {
+    await clerkClient.users.updateUser(userId, {
       primaryEmailAddressID: email,
       password,
       firstName: name,
@@ -39,7 +39,7 @@ export async function PATCH(req: NextRequest) {
         instagram,
         level,
         linkedin,
-        role,
+        role
       }
     })
 
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
     }
   })
 
-  // sendEmailWithPassword(email, newUserPassword)
+  sendEmailWithPassword(email, newUserPassword)
 
   return NextResponse.json(user)
 }

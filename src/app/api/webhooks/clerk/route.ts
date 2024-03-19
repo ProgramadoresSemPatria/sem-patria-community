@@ -78,15 +78,19 @@ export async function POST(req: Request) {
 
   // UPDATE
   if (eventType === 'user.updated') {
-    const { id, image_url, primary_email_address_id } = evt.data
+    const {
+      id,
+      image_url: imageUrl,
+      primary_email_address_id: email
+    } = evt.data
 
     const updatedUser = await prisma?.user.update({
       where: {
         id
       },
       data: {
-        imageUrl: image_url,
-        email: primary_email_address_id
+        imageUrl,
+        email
       }
     })
 

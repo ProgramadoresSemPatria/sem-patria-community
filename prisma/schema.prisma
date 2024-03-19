@@ -28,10 +28,12 @@ model User {
   github     String?
   linkedin   String?
   instagram  String?
+  imageUrl   String?
   followers  Int       @default(0)
   followings Int       @default(0)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
+  lastLogin  DateTime?
   Notes      Note[]
   Comment    Comment[]
   Like       Like[]

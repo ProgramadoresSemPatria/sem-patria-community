@@ -32,22 +32,24 @@ export async function PATCH(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const { email, name, username, github, instagram, level, linkedin, role } =
     await req.json()
-
-  const user = await prismadb.user.create({
-    data: {
-      email,
-      password: generatePassword(),
-      name,
-      username,
-      github,
-      instagram,
-      level,
-      linkedin,
-      role
-    }
-  })
-
-  sendEmailWithPassword(email, generatePassword())
-
-  return NextResponse.json(user)
+  const password = generatePassword()
+  try {
+    const user = await prismadb.user.create({
+      data: {
+        email,
+        password,
+        name,
+        username,
+        github,
+        instagram,
+        level,
+        linkedin,
+        role
+      }
+    })
+    sendEmailWithPassword(email, password)
+    return NextResponse.json(user)
+  } catch (error) {
+    console.error(error)
+  }
 }

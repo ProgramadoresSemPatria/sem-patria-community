@@ -289,7 +289,7 @@ export const NewUserForm = () => {
                   </FormItem>
                 )}
               />
-              <div className="flex flex-col gap-y-2">
+              <div className="flex flex-col gap-y-2 w-full">
                 <FormField
                   control={form.control}
                   name="role"
@@ -345,7 +345,7 @@ export const NewUserForm = () => {
                     </FormItem>
                   )}
                 />
-                <div className="flex gap-x-1">
+                <div className="flex flex-wrap gap-1 max-w-full">
                   {selectedRoles.map(role => (
                     <Badge key={role}>
                       {role}{' '}

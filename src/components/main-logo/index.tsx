@@ -16,17 +16,17 @@ const MainLogo = ({ isMobile }: MainLogoProps) => {
             href={appRoutes.dashboard}
             className="flex items-center space-x-2 md:flex mr-4"
           >
-            <Image src={appLogo} alt="Logo" height={32} width={32} />
+            <Image src={appLogo} alt="Logo" height={28} width={28} />
           </Link>
         </div>
       ) : (
-        <div className="hidden md:flex h-[60px] w-full items-center">
+        <div className="hidden md:flex h-[60px] items-center">
           <Link
             href={appRoutes.dashboard}
             className="flex items-center space-x-2 md:flex mr-4"
           >
-            <Image src={appLogo} alt="Logo" height={32} width={32} />
-            <span className=" text-sm font-bold sm:inline-block text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-cyan-400">
+            <Image src={appLogo} alt="Logo" height={28} width={28} />
+            <span className="text-sm font-bold sm:inline-block text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-cyan-400">
               Sem Pátria
             </span>
             <span className="font-light tracking-widest text-muted-foreground opacity-75">

@@ -5,6 +5,7 @@ import {
   BadgeCheck,
   Bell,
   BellDot,
+  Bold,
   Bot,
   CalendarCheck2,
   CalendarClock,
@@ -16,12 +17,18 @@ import {
   Code,
   Copy,
   Edit,
+  ExternalLink,
   File,
+  FileArchive,
   Globe,
   GraduationCap,
+  Heading1,
   Home,
+  Italic,
   Layers,
   LayoutDashboard,
+  List,
+  ListOrdered,
   Loader2,
   LogOut,
   Menu,
@@ -32,26 +39,24 @@ import {
   Plus,
   PlusCircle,
   Rocket,
+  Send,
   SlidersHorizontal,
   Sparkles,
+  Strikethrough,
   Sun,
+  ThumbsUp,
   Trash,
   User,
+  Video,
   X,
   type LucideIcon,
-  ThumbsUp,
-  Send,
-  Heading1,
-  Bold,
-  Strikethrough,
-  Italic,
-  List,
-  ListOrdered
+  Shapes
 } from 'lucide-react'
 
 export type IconType = LucideIcon
 
 export const Icons = {
+  asset: FileArchive,
   lightMode: Sun,
   darkMode: Moon,
   close: X,
@@ -90,7 +95,8 @@ export const Icons = {
   calendarDays: CalendarDays,
   calendarClock: CalendarClock,
   sparkles: Sparkles,
-  videos: Play,
+  play: Play,
+  video: Video,
   upVote: ThumbsUp,
   moreMenu: MoreVertical,
   send: Send,
@@ -99,5 +105,7 @@ export const Icons = {
   italic: Italic,
   strike: Strikethrough,
   listBullet: List,
-  listOrdered: ListOrdered
+  listOrdered: ListOrdered,
+  redirect: ExternalLink,
+  classroom: Shapes
 }

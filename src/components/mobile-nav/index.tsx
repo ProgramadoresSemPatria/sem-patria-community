@@ -4,7 +4,7 @@ import * as React from 'react'
 import { useAppStore } from '@/hooks/use-app-store'
 import { useLockBody } from '@/hooks/use-lock-body'
 import { appRoutes } from '@/lib/constants'
-import { type RouteProps } from '@/lib/types'
+import { type MenuItemProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import ClerkUserButton from '../clerk-user-button'
 import MainLogo from '../main-logo'
@@ -19,7 +19,7 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
   useLockBody()
   const { isCmsMode } = useAppStore()
 
-  const items: RouteProps[] = [
+  const items: MenuItemProps[] = [
     {
       href: appRoutes.dashboard,
       label: 'Dashboard'
@@ -42,7 +42,7 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
     }
   ]
 
-  const adminRoutes: RouteProps[] = [
+  const adminRoutes: MenuItemProps[] = [
     {
       href: appRoutes.admin_courses,
       label: 'Courses'

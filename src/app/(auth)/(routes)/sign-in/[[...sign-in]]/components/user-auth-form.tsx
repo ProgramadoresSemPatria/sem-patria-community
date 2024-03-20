@@ -70,8 +70,6 @@ const UserAuthForm = ({ redirectUrl }: { redirectUrl: string }) => {
       router.push(redirectUrl || '/dashboard')
     },
     onError: async error => {
-      console.log(error)
-
       if (error.message === 'Session already exists') {
         router.push(redirectUrl || '/dashboard')
       }

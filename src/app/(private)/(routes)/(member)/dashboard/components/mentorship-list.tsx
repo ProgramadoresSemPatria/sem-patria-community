@@ -1,12 +1,12 @@
 import { Badge } from '@/components/ui/badge'
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious
 } from '@/components/ui/carousel'
-import { mentorshipPahses } from '@/lib/constants'
+import { mentorshipPhases } from '@/lib/constants'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -20,7 +20,7 @@ const MentorshipList = () => {
 
       <Carousel className="mx-6">
         <CarouselContent>
-          {mentorshipPahses.map(item => (
+          {mentorshipPhases.map(item => (
             <CarouselItem
               key={item.src}
               className="group relative basis-1/4 md:basis-1/3 lg:basis-1/5 xl:basis-[14.2857143%]"

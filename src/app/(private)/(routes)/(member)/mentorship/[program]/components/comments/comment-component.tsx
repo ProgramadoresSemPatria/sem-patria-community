@@ -9,8 +9,8 @@ import StarterKit from '@tiptap/starter-kit'
 import { format } from 'date-fns'
 import Image from 'next/image'
 import { useReducer } from 'react'
+import { type Comment } from './'
 import { AdminActions } from './admin-actions'
-import { type Comment } from './comments'
 
 interface CommentComponentProps {
   comment: Comment
@@ -74,13 +74,12 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['comments'] })
     },
-    onError: error => {
+    onError: () => {
       toast({
         title: 'An error occurred.',
         description: 'Unable to like the comment',
         variant: 'destructive'
       })
-      console.log(error)
     }
   })
 

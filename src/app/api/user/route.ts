@@ -1,5 +1,5 @@
 import generatePassword from '@/actions/auth/generate-password'
-import { sendEmailWithPassword } from '@/actions/auth/send-email-with-password'
+import { sendEmailWithLink } from '@/actions/auth/send-email-with-link'
 import prismadb from '@/lib/prismadb'
 import { auth, clerkClient } from '@clerk/nextjs'
 import { NextResponse, type NextRequest } from 'next/server'
@@ -57,38 +57,43 @@ export async function POST(req: NextRequest) {
   const newUserPassword = generatePassword()
 
   // Create user at Clerk
-  const clerkUser = await clerkClient.users.createUser({
-    emailAddress: [email],
-    firstName: name,
-    username: github,
-    password: newUserPassword,
-    publicMetadata: {
-      github,
-      instagram,
-      level,
-      linkedin,
-      role
-    }
-  })
-
-  // Create user at DB
-  const user = await prismadb.user.create({
-    data: {
-      id: clerkUser.id,
-      email,
-      password: newUserPassword,
-      name,
+  try {
+    const clerkUser = await clerkClient.users.createUser({
+      emailAddress: [email],
+      firstName: name,
       username: github,
-      imageUrl: clerkUser.imageUrl,
-      github,
-      instagram,
-      level,
-      linkedin,
-      role: [role]
-    }
-  })
+      password: newUserPassword,
+      publicMetadata: {
+        github,
+        instagram,
+        level,
+        linkedin,
+        role
+      }
+    })
 
-  await sendEmailWithPassword(email, newUserPassword)
+    // Create user at DB
+    const user = await prismadb.user.create({
+      data: {
+        id: clerkUser.id,
+        email,
+        password: newUserPassword,
+        name,
+        username: github,
+        imageUrl: clerkUser.imageUrl,
+        github,
+        instagram,
+        level,
+        linkedin,
+        role: [role]
+      }
+    })
 
-  return NextResponse.json(user)
+    await sendEmailWithLink(user)
+
+    return NextResponse.json(user)
+  } catch (error) {
+    console.log('[USER_LEVEL_POST_ERROR]', error)
+    return new NextResponse('Internal Server Error', { status: 500 })
+  }
 }

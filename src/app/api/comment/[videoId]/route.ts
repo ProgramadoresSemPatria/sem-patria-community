@@ -30,7 +30,8 @@ export async function GET(
       include: {
         user: {
           select: {
-            username: true
+            username: true,
+            imageUrl: true
           }
         },
         likes: {
@@ -48,7 +49,7 @@ export async function GET(
       id: comment.id,
       username: comment.user.username,
       comment: comment.comment,
-      userImage: 'https://i.pravatar.cc',
+      userImage: comment.user.imageUrl,
       date: comment.createdAt,
       likes: comment.likes.map(like => like.userId)
     }))

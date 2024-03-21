@@ -11,7 +11,7 @@ import { OrderBy } from './order-by'
 export interface Comment {
   id: string
   username: string
-  userImg: string
+  userImage: string
   comment: string
   date: string
   likes: string[]

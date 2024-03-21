@@ -22,7 +22,7 @@ export default async function Page({
   const { redirect_url: redirectUrl } = searchParams
   const { userId } = auth()
 
-  if (userId) return redirect(appRoutes.root)
+  if (userId) return redirect(appRoutes.dashboard)
 
   const backgroundImages = [
     Apollo.src,

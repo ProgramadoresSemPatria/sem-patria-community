@@ -1,10 +1,10 @@
 import { Badge } from '@/components/ui/badge'
 import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
 } from '@/components/ui/carousel'
 import { mentorshipPhases } from '@/lib/constants'
 import Image from 'next/image'
@@ -34,7 +34,7 @@ const MentorshipList = () => {
                   height={200}
                 />
                 <div className="absolute hidden top-0 bottom-0 left-0 right-0 group-hover:flex flex-col justify-center text-center">
-                  <span>{item.phase}</span>
+                  <span>{item.title}</span>
                   <span className="text-purple-600 font-bold">
                     {item.title}
                   </span>

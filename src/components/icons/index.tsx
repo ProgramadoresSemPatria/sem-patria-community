@@ -50,7 +50,8 @@ import {
   Video,
   X,
   type LucideIcon,
-  Shapes
+  Shapes,
+  Lock
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -107,5 +108,6 @@ export const Icons = {
   listBullet: List,
   listOrdered: ListOrdered,
   redirect: ExternalLink,
-  classroom: Shapes
+  classroom: Shapes,
+  lock: Lock
 }

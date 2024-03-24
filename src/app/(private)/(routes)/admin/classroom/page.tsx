@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import Link from 'next/link'
 import ClassroomContent from './components/classroom-content'
 import ModuleContent from './components/classroom-module-content'
+import VideoContent from './components/classroom-video-content'
 
 const AdminClassroomPage = () => {
   const tabsOptions = [
@@ -18,7 +19,7 @@ const AdminClassroomPage = () => {
     },
     {
       id: 'videos',
-      content: <div>Coming Soon</div>
+      content: <VideoContent />
     }
   ]
 

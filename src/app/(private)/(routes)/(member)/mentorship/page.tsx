@@ -1,6 +1,6 @@
 import { DefaultLayout } from '@/components/default-layout'
 import Header from '@/components/header'
-import { MentorshipSection } from './components/mentorship-section'
+import { MentorshipSections } from './components/mentorship-sections'
 
 const Mentorship = () => {
   return (
@@ -9,7 +9,7 @@ const Mentorship = () => {
         title="Mentorship"
         description="Browse all our community content."
       />
-      <MentorshipSection />
+      <MentorshipSections />
     </DefaultLayout>
   )
 }

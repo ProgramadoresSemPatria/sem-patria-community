@@ -9,7 +9,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { format } from 'date-fns'
 import Image from 'next/image'
 import { useReducer } from 'react'
-import { type Comment } from './'
+import { type Comment } from '.'
 import { AdminActions } from './admin-actions'
 
 interface CommentComponentProps {

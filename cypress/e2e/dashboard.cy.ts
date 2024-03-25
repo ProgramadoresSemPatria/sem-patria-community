@@ -51,4 +51,16 @@ describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
         cy.contains('Inform the progress of the day')
       })
   })
+
+  it('Should go to the /settings page by clicking the Settings button in the sidebar', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+    cy.get('[href="/settings"]')
+      .click()
+      .then(() => {
+        cy.contains('Settings')
+        cy.contains('Manage your account settings')
+      })
+  })
 })

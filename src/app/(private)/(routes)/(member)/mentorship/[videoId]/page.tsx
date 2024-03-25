@@ -57,7 +57,7 @@ const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
               <ButtonMarkAsWatched videoProps={videoSelected} />
             </div>
             <h1 className="p-4 font-bold text-2xl">{videoSelected.title}</h1>
-            <Comments />
+            <Comments videoProps={videoSelected} />
           </div>
           <MentorshipTab
             videoProps={videoSelected}

@@ -1,5 +1,6 @@
 import prismadb from '@/lib/prismadb'
 
+import { Icons } from '@/components/icons'
 import { SkeletonMentorshipPage } from '@/components/skeletons/skeleton-mentorship-page'
 import { currentUser } from '@clerk/nextjs'
 import { Suspense } from 'react'
@@ -52,8 +53,6 @@ export const MentorshipSections = async () => {
     return {
       id: classroom.id,
       title: classroom.title,
-      permissions: classroom.permissions,
-      createdAt: classroom.createdAt,
       modules: modulesWithVideos,
       hasPermission: hasPermission()
     }
@@ -64,7 +63,12 @@ export const MentorshipSections = async () => {
       <Suspense fallback={<SkeletonMentorshipPage />}>
         {formattedData.map(classroom => (
           <div key={classroom.id} className="flex flex-col gap-y-3">
-            <h2 className="font-medium text-lg">{classroom.title}</h2>
+            <h2 className="font-medium text-lg flex items-center">
+              {classroom.title}
+              {!classroom.hasPermission && (
+                <Icons.lock className="h-4 w-4 ml-2" />
+              )}
+            </h2>
             <div className="flex flex-col gap-y-3">
               <ModuleCarousel
                 modules={classroom.modules}

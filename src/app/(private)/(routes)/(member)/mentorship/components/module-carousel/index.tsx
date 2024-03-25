@@ -44,8 +44,13 @@ export const ModuleCarousel = ({
             return (
               <CarouselItem
                 key={module.id}
-                className="group basis-1/4 md:basis-1/3 lg:basis-1/5 cursor-pointer"
+                className={cn(
+                  !hasPermission &&
+                    'flex flex-col justify-center items-center relative',
+                  'group basis-1/4 md:basis-1/3 lg:basis-1/5'
+                )}
                 onClick={() => {
+                  if (!hasPermission) return
                   return toast({
                     title: 'No Content!',
                     description: 'This module has no content yet.'
@@ -57,8 +62,16 @@ export const ModuleCarousel = ({
                   alt={module.title}
                   width={1920}
                   height={1080}
-                  className="object-cover w-fit group-hover:opacity-80 rounded"
+                  className={cn(
+                    hasPermission
+                      ? 'group-hover:opacity-80'
+                      : 'group-hover:opacity-25',
+                    'object-cover w-fit rounded'
+                  )}
                 />
+                {!hasPermission && (
+                  <Icons.lock className="h-6 w-6 absolute hidden group-hover:flex flex-col justify-center" />
+                )}
               </CarouselItem>
             )
           return (
@@ -86,7 +99,7 @@ export const ModuleCarousel = ({
                     'object-cover w-fit rounded'
                   )}
                 />
-                {hasPermission && (
+                {!hasPermission && (
                   <Icons.lock className="h-6 w-6 absolute hidden group-hover:flex flex-col justify-center" />
                 )}
               </Link>

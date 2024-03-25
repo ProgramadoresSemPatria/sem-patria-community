@@ -2,48 +2,26 @@
 import { Icons } from '@/components/icons'
 import { RichTextInput } from '@/components/rich-text-input'
 import { Skeleton } from '@/components/ui/skeleton'
-import { api } from '@/lib/api'
-import { useQuery } from '@tanstack/react-query'
-import { useMemo, useState } from 'react'
+import { type Video } from '@prisma/client'
 import { CommentComponent } from './comment-component'
 import { OrderBy } from './order-by'
+import { useComments } from './use-comments'
 
-export interface Comment {
-  id: string
-  username: string
-  userImg: string
-  comment: string
-  date: string
-  likes: string[]
+type CommentsProps = {
+  videoProps: Video
 }
 
-export const Comments = () => {
-  const [orderBy, setOrderBy] = useState('recent')
-
+export const Comments = ({ videoProps }: CommentsProps) => {
   const {
-    data: comments = [],
+    isFetching,
     isLoading,
-    isFetching
-  } = useQuery<Comment[]>({
-    queryKey: ['comments'],
-    queryFn: async () => {
-      const { data } = await api.get(
-        `/api/comment/a90654b5-e855-4df6-914f-26873e89e4d6`
-      )
-      return data
-    }
+    orderedComments,
+    setOrderBy,
+    comments,
+    orderBy
+  } = useComments({
+    videoProps
   })
-
-  const orderedComments = useMemo(
-    () =>
-      comments.sort((a, b) => {
-        if (orderBy === 'recent') {
-          return new Date(b.date).getTime() - new Date(a.date).getTime()
-        }
-        return b.likes.length - a.likes.length
-      }),
-    [orderBy, comments]
-  )
 
   const CommentsLoading = () => {
     return Array.from({ length: 3 }).map((_, index) => (
@@ -66,10 +44,7 @@ export const Comments = () => {
           </>
         )}
       </div>
-      <RichTextInput
-        isCommentsLoading={isLoading}
-        videoId="a90654b5-e855-4df6-914f-26873e89e4d6"
-      />
+      <RichTextInput isCommentsLoading={isLoading} videoId={videoProps.id} />
       <div className="flex flex-col gap-4 mt-6">
         {isLoading ? (
           <CommentsLoading />

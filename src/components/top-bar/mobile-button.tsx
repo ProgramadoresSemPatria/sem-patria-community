@@ -13,14 +13,13 @@ export const MobileButton = ({ children }: MobileButtonProps) => {
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false)
   const pathname = usePathname()
   const isAdminPage = pathname.includes('admin')
-  const isMentorshipPage = pathname.includes('mentorship')
 
   return (
     <>
       <button
         className={cn(
           'flex items-center space-x-2',
-          !isAdminPage && !isMentorshipPage && 'md:hidden',
+          !isAdminPage && 'md:hidden',
           isAdminPage && 'xl:hidden'
         )}
         onClick={() => {
@@ -35,12 +34,7 @@ export const MobileButton = ({ children }: MobileButtonProps) => {
         <span className="font-bold">Menu</span>
       </button>
       {showMobileMenu && (
-        <MobileNav
-          isMentorshipPage={isMentorshipPage}
-          isAdminPage={isAdminPage}
-        >
-          {children}
-        </MobileNav>
+        <MobileNav isAdminPage={isAdminPage}>{children}</MobileNav>
       )}
     </>
   )

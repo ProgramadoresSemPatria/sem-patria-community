@@ -1,17 +1,16 @@
 'use client'
 
+import { useAppStore } from '@/hooks/use-app-store'
+import { menuItems } from '@/lib/constants'
+import { type MenuItemProps } from '@/lib/types'
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import * as React from 'react'
-import { Icons } from '@/components/icons'
-import { useAppStore } from '@/hooks/use-app-store'
-import { appRoutes } from '@/lib/constants'
-import { type RouteProps } from '@/lib/types'
-import { cn } from '@/lib/utils'
 import { useEffect, useState } from 'react'
-import { SkeletonMainNav } from './components/skeleton-main-nav'
 import ClerkUserButton from '../clerk-user-button'
 import MainLogo from '../main-logo'
+import { SkeletonMainNav } from './components/skeleton-main-nav'
 
 type MainNavProps = {
   children?: React.ReactNode
@@ -22,61 +21,24 @@ const MainNav = ({ children }: MainNavProps) => {
   const pathname = usePathname()
   const { isCmsMode } = useAppStore()
   const isAdminPage = pathname.includes('admin')
-  const isMentorshipPage = pathname.includes('mentorship')
 
-  const memberRoutes: RouteProps[] = [
-    {
-      href: appRoutes.dashboard,
-      label: 'Dashboard',
-      active: pathname.includes(appRoutes.dashboard),
-      icon: <Icons.dashboard className="h-4 w-4" />
-    },
-    {
-      href: `${appRoutes.courses}?filter=all`,
-      label: 'Courses',
-      active: pathname === appRoutes.courses,
-      icon: <Icons.code className="h-4 w-4" />
-    },
-    {
-      href: `${appRoutes.codeUp}`,
-      label: 'Code Up',
-      active: pathname === appRoutes.codeUp,
-      icon: <Icons.calendar className="h-4 w-4" />
-    },
-    {
-      href: `${appRoutes.mentorship}`,
-      label: 'Mentorship',
-      active: pathname === appRoutes.mentorship,
-      icon: <Icons.mentorship className="h-4 w-4" />
-    },
-    {
-      href: appRoutes.settings,
-      label: 'Settings',
-      active: pathname.includes(appRoutes.settings),
-      icon: <Icons.settings className="h-4 w-4" />
-    }
-  ]
+  const memberRoutes: MenuItemProps[] = menuItems
+    .filter(item => !item.href.includes('admin'))
+    .map(item => {
+      return {
+        ...item,
+        active: pathname.includes(item.href)
+      }
+    })
 
-  const adminRoutes: RouteProps[] = [
-    {
-      href: appRoutes.admin_courses,
-      label: 'Courses',
-      active: pathname.includes(appRoutes.admin_courses),
-      icon: <Icons.alignVertSA className="h-4 w-4" />
-    },
-    {
-      href: appRoutes.admin_categories,
-      label: 'Categories',
-      active: pathname.includes(appRoutes.admin_categories),
-      icon: <Icons.layers className="h-4 w-4" />
-    },
-    {
-      href: appRoutes.admin_events,
-      label: 'Events',
-      active: pathname.includes(appRoutes.admin_events),
-      icon: <Icons.calendarDays className="h-4 w-4" />
-    }
-  ]
+  const adminRoutes: MenuItemProps[] = menuItems
+    .filter(item => item.href.includes('admin'))
+    .map(item => {
+      return {
+        ...item,
+        active: pathname.includes(item.href)
+      }
+    })
 
   useEffect(() => {
     setIsMounted(true)
@@ -87,10 +49,9 @@ const MainNav = ({ children }: MainNavProps) => {
   return (
     <div
       className={cn(
-        ' hidden h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6 ',
-        !isAdminPage && !isMentorshipPage && 'md:flex',
-        isAdminPage && 'xl:flex',
-        isMentorshipPage && 'hidden'
+        'hidden h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6',
+        !isAdminPage && 'md:flex',
+        isAdminPage && 'xl:flex'
       )}
     >
       <MainLogo />

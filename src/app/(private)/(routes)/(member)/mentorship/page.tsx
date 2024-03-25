@@ -1,10 +1,16 @@
+import { DefaultLayout } from '@/components/default-layout'
 import Header from '@/components/header'
+import { MentorshipSection } from './components/mentorship-section'
 
 const Mentorship = () => {
   return (
-    <div className="container pt-6 h-full">
-      <Header title="Mentorship" />
-    </div>
+    <DefaultLayout>
+      <Header
+        title="Mentorship"
+        description="Browse all our community content."
+      />
+      <MentorshipSection />
+    </DefaultLayout>
   )
 }
 

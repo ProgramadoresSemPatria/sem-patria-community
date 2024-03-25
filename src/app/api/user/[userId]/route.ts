@@ -1,6 +1,6 @@
 import prismadb from '@/lib/prismadb'
-import { auth } from '@clerk/nextjs'
-import { type NextRequest, NextResponse } from 'next/server'
+import { auth, clerkClient } from '@clerk/nextjs'
+import { NextResponse, type NextRequest } from 'next/server'
 
 export async function DELETE(
   req: NextRequest,
@@ -13,13 +13,13 @@ export async function DELETE(
 
     if (!params.userId)
       return new NextResponse('User id required', { status: 400 })
+    // Delete user at Clerk
+    await clerkClient.users.deleteUser(params.userId)
 
+    // Delete user at DB
     const user = await prismadb.user.delete({
       where: {
-        id: params.userId,
-        AND: {
-          isAdmin: false
-        }
+        id: params.userId
       }
     })
 

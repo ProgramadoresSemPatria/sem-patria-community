@@ -1,4 +1,4 @@
-describe('Dashboard', () => {
+describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
   beforeEach(() => {
     cy.session('signed-in', () => {
       cy.signIn()
@@ -37,6 +37,18 @@ describe('Dashboard', () => {
       .then(() => {
         cy.contains('Courses')
         cy.contains('Browse all our community content')
+      })
+  })
+
+  it('Should go to the /code-up page by clicking the Courses button in the sidebar', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+    cy.get('[href="/code-up"]')
+      .click()
+      .then(() => {
+        cy.contains('Code Up')
+        cy.contains('Inform the progress of the day')
       })
   })
 })

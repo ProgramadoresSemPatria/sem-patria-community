@@ -57,17 +57,16 @@ declare interface Window {
 declare namespace Cypress {
   interface Chainable {
     signIn(): Chainable<void>
+    getByTestId(id: string): Chainable<void>
   }
 }
 
 Cypress.Commands.add(`signIn`, () => {
   // cy.intercept(
+  //   'https://coherent-amoeba-16.clerk.accounts.dev/v1/client/sign_ins?**',
   //   {
-  //     method: 'POST',
-  //     url: 'https://coherent-amoeba-16.clerk.accounts.dev/v1/client/sign_ins?**'
-  //   },
-  //   {
-  //     statusCode: 200
+  //     statusCode: 200,
+
   //   }
   // )
   cy.log(`Signing in.`)
@@ -81,7 +80,7 @@ Cypress.Commands.add(`signIn`, () => {
       expect(window.Clerk.isReady()).to.eq(true)
     })
     .then(window => {
-      cy.clearCookies({ domain: window.location.host }).then(async () => {
+      cy.clearCookies({ domain: window.location.hostname }).then(async () => {
         await window.Clerk.client.signIn
           .create({
             identifier: Cypress.env(`test_email`),
@@ -94,4 +93,8 @@ Cypress.Commands.add(`signIn`, () => {
           })
       })
     })
+})
+
+Cypress.Commands.add('getByTestId', id => {
+  cy.get(`[testid=${id}]`)
 })

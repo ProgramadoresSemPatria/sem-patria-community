@@ -16,7 +16,7 @@ describe('Dashboard', () => {
       })
   })
 
-  it('Should go to the /mentoship page by clicking the mentorship button in the sidebar', () => {
+  it('Should go to the /mentoship page by clicking the Mentorship button in the sidebar', () => {
     cy.visit('/dashboard', {
       failOnStatusCode: false
     })
@@ -25,6 +25,18 @@ describe('Dashboard', () => {
       .then(() => {
         cy.contains('Mentorship')
         cy.contains('Browse all our community content.')
+      })
+  })
+
+  it('Should go to the /courses page by clicking the Courses button in the sidebar', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+    cy.get('[href="/courses?category=all"]')
+      .click()
+      .then(() => {
+        cy.contains('Courses')
+        cy.contains('Browse all our community content')
       })
   })
 })

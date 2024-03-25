@@ -63,4 +63,69 @@ describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
         cy.contains('Manage your account settings')
       })
   })
+
+  it('Should go to the /users page by clicking the Users button in the sidebar', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+    cy.contains('CMS Mode').click()
+    cy.contains('Users')
+      .click()
+      .then(() => {
+        cy.contains('Users')
+        cy.contains('Manage the community users here')
+      })
+  })
+
+  it('Should go to the /admin/courses page by clicking the CMS Courses button in the sidebar', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+    cy.contains('CMS Mode').click()
+    cy.get('[href="/admin/courses"]')
+      .click()
+      .then(() => {
+        cy.contains('Courses')
+        cy.contains('Manage the indications of courses of community.')
+      })
+  })
+
+  it('Should go to the /admin/categories page by clicking the CMS Categories button in the sidebar', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+    cy.contains('CMS Mode').click()
+    cy.get('[href="/admin/categories"]')
+      .click()
+      .then(() => {
+        cy.contains('Categories')
+        cy.contains('Manage the categories of courses')
+      })
+  })
+
+  it('Should go to the /admin/events page by clicking the CMS Events button in the sidebar', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+    cy.contains('CMS Mode').click()
+    cy.get('[href="/admin/events"]')
+      .click()
+      .then(() => {
+        cy.contains('Community Events')
+        cy.contains('Manage the community events here')
+      })
+  })
+
+  it('Should go to the /admin/classroom page by clicking the CMS Classroom button in the sidebar', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+    cy.contains('CMS Mode').click()
+    cy.get('[href="/admin/events"]')
+      .click()
+      .then(() => {
+        cy.contains('Classroom')
+        cy.contains('Manage the projects and videos of the community.')
+      })
+  })
 })

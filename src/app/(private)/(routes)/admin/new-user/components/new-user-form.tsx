@@ -2,7 +2,9 @@
 
 import Header from '@/components/header'
 import { Icons } from '@/components/icons'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
   FormControl,
@@ -27,6 +29,7 @@ import { Roles } from '@/lib/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -34,6 +37,7 @@ const formSchema = z.object({
   name: z.string().min(1, {
     message: 'Name is required'
   }),
+  username: z.string(),
   email: z
     .string()
     .email({
@@ -42,9 +46,17 @@ const formSchema = z.object({
     .min(1, {
       message: 'Email is required'
     }),
-  role: z.string().min(1, {
-    message: 'Role is required'
-  }),
+  role: z.array(
+    z.enum([
+      'PerfilFechado',
+      'PortifolioBoostProgram',
+      'Base',
+      'ProgramadorSemPatria',
+      'Prime',
+      'Builder',
+      'Admin'
+    ])
+  ),
   level: z.string(),
   github: z.string(),
   instagram: z.string(),
@@ -56,6 +68,8 @@ type NewUserFormValues = z.infer<typeof formSchema>
 export const NewUserForm = () => {
   const router = useRouter()
   const { toast } = useToast()
+  type Role = keyof typeof Roles
+  const [selectedRoles, setSelectedRoles] = useState<Role[]>([])
 
   const title = 'Create user'
   const description = 'Add a new user to the community.'
@@ -66,8 +80,9 @@ export const NewUserForm = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
+      username: '',
       email: '',
-      role: '',
+      role: [],
       level: '',
       github: '',
       linkedin: '',
@@ -77,6 +92,7 @@ export const NewUserForm = () => {
 
   const { mutateAsync: createUser, isPending } = useMutation({
     mutationFn: async (data: z.infer<typeof formSchema>) => {
+      console.log(data)
       return await api.post(`/api/user`, data)
     },
     onSuccess: () => {
@@ -96,9 +112,22 @@ export const NewUserForm = () => {
     }
   })
 
-  const onSubmit = async (values: NewUserFormValues) => {
-    await createUser(values)
+  const handleSelectedRoles = (role: string) => {
+    const newSelectedRoles = [...selectedRoles]
+    const index = newSelectedRoles.indexOf(role as Role)
+    if (index > -1) {
+      newSelectedRoles.splice(index, 1)
+    } else {
+      newSelectedRoles.push(role as Role)
+    }
+    setSelectedRoles(newSelectedRoles)
   }
+
+  const onSubmit = async (values: NewUserFormValues) => {
+    await createUser({ ...values, role: selectedRoles })
+  }
+
+  useEffect(() => {}, [selectedRoles])
 
   return (
     <>
@@ -107,7 +136,7 @@ export const NewUserForm = () => {
           size="icon"
           variant="link"
           onClick={() => {
-            router.push(appRoutes.admin_courses)
+            router.push(appRoutes.dashboard)
           }}
           className="font-medium w-fit"
         >
@@ -134,7 +163,24 @@ export const NewUserForm = () => {
                     <FormControl>
                       <Input
                         disabled={isPending}
-                        placeholder="User name"
+                        placeholder="Name"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isPending}
+                        placeholder="Username"
                         {...field}
                       />
                     </FormControl>
@@ -155,41 +201,6 @@ export const NewUserForm = () => {
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="role"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Role</FormLabel>
-                    {Roles && (
-                      <Select
-                        disabled={isPending}
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue
-                              defaultValue={field.value}
-                              placeholder="Select a category"
-                            />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {Object.values(Roles).map(role => (
-                            <SelectItem key={role} value={role.toString()}>
-                              {role}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -278,6 +289,78 @@ export const NewUserForm = () => {
                   </FormItem>
                 )}
               />
+              <div className="flex flex-col gap-y-2 w-full">
+                <FormField
+                  control={form.control}
+                  name="role"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Roles</FormLabel>
+                      {Roles && (
+                        <Select disabled={isPending}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue
+                                placeholder={
+                                  selectedRoles.length > 0
+                                    ? `${selectedRoles.length} selected`
+                                    : 'Select roles'
+                                }
+                              />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {Object.entries(Roles).map(([key, value]) => (
+                              <div
+                                key={key}
+                                className="flex gap-x-2 items-center"
+                              >
+                                <Checkbox
+                                  onCheckedChange={() => {
+                                    handleSelectedRoles(key)
+                                  }}
+                                  // onCheckedChange={() => {
+                                  //   const newSelectedRoles = [...selectedRoles]
+                                  //   const index = newSelectedRoles.indexOf(
+                                  //     key as Role
+                                  //   )
+                                  //   if (index > -1) {
+                                  //     newSelectedRoles.splice(index, 1)
+                                  //   } else {
+                                  //     newSelectedRoles.push(key as Role)
+                                  //   }
+                                  //   setSelectedRoles(newSelectedRoles)
+                                  // }}
+                                  key={key}
+                                  value={key}
+                                  checked={selectedRoles.includes(key as Role)}
+                                />
+                                <label>{value}</label>
+                              </div>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex flex-wrap gap-1 max-w-full">
+                  {selectedRoles.map(role => (
+                    <Badge key={role}>
+                      {role}{' '}
+                      <span
+                        className="ml-2 hover:cursor-pointer"
+                        onClick={() => {
+                          handleSelectedRoles(role)
+                        }}
+                      >
+                        {<Icons.close size={15} />}
+                      </span>{' '}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
             </div>
             <Button disabled={isPending} className="ml-auto" type="submit">
               {isPending && (

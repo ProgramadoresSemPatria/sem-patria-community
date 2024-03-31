@@ -29,7 +29,7 @@ export enum appRoutes {
   admin_classroom_new = '/admin/classroom/new',
   admin_classroom_module_new = '/admin/classroom/module/new',
   admin_users = '/admin/users',
-  admin_users_new = '/admin/new-user'
+  admin_users_new = '/admin/users/new'
 }
 
 export const menuItems: MenuItemProps[] = [

@@ -1,8 +1,6 @@
+'use client'
+
 import Header from '@/components/header'
-import { zodResolver } from '@hookform/resolvers/zod'
-import React, { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import {
   Form,
   FormControl,
@@ -12,11 +10,15 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useQuery, useMutation } from '@tanstack/react-query'
-import { api } from '@/lib/api'
-import { useRouter } from 'next/navigation'
-import { appRoutes } from '@/lib/constants'
 import { toast } from '@/components/ui/use-toast'
+import { api } from '@/lib/api'
+import { appRoutes } from '@/lib/constants'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 const formSchema = z
   .object({

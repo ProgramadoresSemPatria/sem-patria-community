@@ -51,17 +51,18 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const { email, name, github, instagram, level, linkedin, role } =
+  const { email, name, username, github, instagram, level, linkedin, role } =
     await req.json()
 
   const newUserPassword = generatePassword()
+  // seria bom verificar se o user que ta criando isso e admin?
 
   // Create user at Clerk
   try {
     const clerkUser = await clerkClient.users.createUser({
       emailAddress: [email],
       firstName: name,
-      username: github,
+      username,
       password: newUserPassword,
       publicMetadata: {
         github,
@@ -79,13 +80,13 @@ export async function POST(req: NextRequest) {
         email,
         password: newUserPassword,
         name,
-        username: github,
+        username,
         imageUrl: clerkUser.imageUrl,
         github,
         instagram,
         level,
         linkedin,
-        role: [role]
+        role
       }
     })
 

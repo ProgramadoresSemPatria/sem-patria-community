@@ -9,11 +9,11 @@ import StarterKit from '@tiptap/starter-kit'
 import { format } from 'date-fns'
 import Image from 'next/image'
 import { useReducer } from 'react'
-import { type Comment } from '.'
 import { AdminActions } from './admin-actions'
+import { type CommentResponse } from './use-comments'
 
-interface CommentComponentProps {
-  comment: Comment
+type CommentComponentProps = {
+  comment: CommentResponse
 }
 export const CommentComponent = ({ comment }: CommentComponentProps) => {
   const { userId } = useAuth()
@@ -72,7 +72,7 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
       return await api.put(`/api/comment/like/${comment.id}`)
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['comments'] })
+      await queryClient.invalidateQueries({ queryKey: ['video-comments'] })
     },
     onError: () => {
       toast({

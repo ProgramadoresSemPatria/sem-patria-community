@@ -1,6 +1,8 @@
 'use client'
 
+import { Icons } from '@/components/icons'
 import { SkeletonCourseCards } from '@/components/skeletons/skeleton-course-cards'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { useCourseContent } from '@/hooks/course/use-course-content'
 import { useCourseStore } from '@/hooks/course/use-course-store'
@@ -50,7 +52,7 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
         ))}
       </div>
 
-      <div className="lg:grid lg:grid-cols-[1fr_280px] items-start lg:gap-8 gap-6 mt-6">
+      <div className="lg:grid lg:grid-cols-[1fr_280px] items-start lg:gap-8 gap-6 mt-2">
         <div className="flex flex-col gap-8">
           {isLoading && <SkeletonCourseCards />}
           <div className="flex flex-col gap-8">
@@ -71,9 +73,15 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
             </div>
           </div>
           {!isLoading && !courseList?.length && (
-            <div className="col-span-full text-muted-foreground font-medium">
-              There are no course recommendations at this time.
-            </div>
+            <Alert className="w-1/2">
+              <Icons.sparkles className="h-4 w-4" />
+              <AlertTitle>There is a little trouble.</AlertTitle>
+              <AlertDescription>
+                <span className="col-span-full text-muted-foreground font-medium">
+                  There are no course recommendations at this time.
+                </span>
+              </AlertDescription>
+            </Alert>
           )}
         </div>
         <CourseFilterOptions />

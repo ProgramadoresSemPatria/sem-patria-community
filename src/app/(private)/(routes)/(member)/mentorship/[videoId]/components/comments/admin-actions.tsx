@@ -22,7 +22,7 @@ export const AdminActions = ({ commentId }: AdminActionsProps) => {
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ['delete-comment'],
     mutationFn: async () => {
-      return await api.delete(`/api/comment/`, {
+      return await api.delete(`/api/comment`, {
         data: { commentId }
       })
     },
@@ -31,7 +31,8 @@ export const AdminActions = ({ commentId }: AdminActionsProps) => {
         title: 'Comment deleted',
         description: 'The comment has been deleted'
       })
-      await queryClient.refetchQueries({ queryKey: ['comments'] })
+      await queryClient.refetchQueries({ queryKey: ['video-comments'] })
+      setIsAlertModalOpen(false)
     },
     onError: () => {
       toast({

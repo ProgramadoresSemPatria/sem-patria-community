@@ -23,10 +23,7 @@ const CoursesPage = async () => {
   return (
     <>
       <DefaultLayout>
-        <Header
-          title="Courses"
-          description="Browse all our community content."
-        />
+        <Header title="Courses" />
         <Suspense fallback={<SkeletonCoursePage />}>
           <CoursesContent categories={categoriesWithCourses} />
         </Suspense>

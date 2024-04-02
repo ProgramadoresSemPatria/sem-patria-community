@@ -1,3 +1,4 @@
+import { DefaultLayout } from '@/components/default-layout'
 import prismadb from '@/lib/prismadb'
 import { NewUserForm } from './components/new-user-form'
 
@@ -7,11 +8,9 @@ const NewUserPage = async ({ params }: { params: { userId: string } }) => {
   })
 
   return (
-    <div className="flex-col">
-      <div className="flex-1 space-y-4 p-8 pt-6">
-        <NewUserForm initialData={user} />
-      </div>
-    </div>
+    <DefaultLayout>
+      <NewUserForm initialData={user} />
+    </DefaultLayout>
   )
 }
 

@@ -3,7 +3,11 @@ import Hades from '@/assets/hades.png'
 import Hefesto from '@/assets/hefesto.png'
 import Hermes from '@/assets/hermes.png'
 import { Icons } from '@/components/icons'
-import { type MentorshipPhasesProps, type MenuItemProps } from './types'
+import {
+  type MentorshipPhasesProps,
+  type MentorshipProgramModuleProps,
+  type MenuItemProps
+} from './types'
 
 export const appConfig = {
   name: 'Sem pátria - Community',
@@ -29,7 +33,8 @@ export enum appRoutes {
   admin_classroom_new = '/admin/classroom/new',
   admin_classroom_module_new = '/admin/classroom/module/new',
   admin_users = '/admin/users',
-  admin_users_new = '/admin/users/new'
+  admin_users_new = '/admin/users/new',
+  admin_classroom_video_new = '/admin/classroom/video/new'
 }
 
 export const menuItems: MenuItemProps[] = [
@@ -61,12 +66,12 @@ export const menuItems: MenuItemProps[] = [
   {
     href: appRoutes.admin_users,
     label: 'Users',
-    icon: <Icons.user className="h-4 w-4" />
+    icon: <Icons.users className="h-4 w-4" />
   },
   {
     href: appRoutes.admin_courses,
     label: 'Courses',
-    icon: <Icons.alignVertSA className="h-4 w-4" />
+    icon: <Icons.codeSandbox className="h-4 w-4" />
   },
   {
     href: appRoutes.admin_categories,
@@ -119,23 +124,18 @@ export const mentorshipPhases: MentorshipPhasesProps[] = [
   }
 ]
 
-export const mentorshipPrograms = () => {
-  const programs = [
-    {
-      vimeoProjectId: '19781607',
-      title: 'A Base',
-      chapters: 10,
-      progress: 0,
-      thumbnail: Genesis.src
+export const mentorshipProgramModuleProps = (program: string) => {
+  const props: Record<string, MentorshipProgramModuleProps> = {
+    Fundamentos: {
+      image: Genesis.src
     },
-    {
-      vimeoProjectId: '19781609',
-      title: 'Programador Sem Pátria',
-      chapters: 10,
-      progress: 0,
-      thumbnail: Hades.src
+    Roadmap: {
+      image: Hades.src
+    },
+    Preparação: {
+      image: Hefesto.src
     }
-  ]
+  }
 
-  return programs
+  return props[program]
 }

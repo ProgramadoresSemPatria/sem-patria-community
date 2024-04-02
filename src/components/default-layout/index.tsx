@@ -16,7 +16,9 @@ export const DefaultLayout = ({ children, className }: DefaultLayoutProps) => {
       <main className="w-full">
         <TopBar />
         <div className="h-[calc(100vh-60px)] overflow-auto pb-10">
-          <div className={cn('container pt-6', className)}>{children}</div>
+          <div className={cn('mx-auto container px-6', className)}>
+            {children}
+          </div>
         </div>
       </main>
     </div>

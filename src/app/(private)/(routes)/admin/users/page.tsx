@@ -1,9 +1,9 @@
+import { DefaultLayout } from '@/components/default-layout'
 import { SkeletonCmsPage } from '@/components/skeletons/skeleton-cms-page'
 import prismadb from '@/lib/prismadb'
 import { Suspense } from 'react'
 import { type UserColumn } from './components/columns'
 import UsersClient from './components/user-client'
-import { DefaultLayout } from '@/components/default-layout'
 
 const AdminUsersPage = async () => {
   const users = await prismadb.user.findMany({})

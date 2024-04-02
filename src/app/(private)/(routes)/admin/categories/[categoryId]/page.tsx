@@ -1,3 +1,4 @@
+import { DefaultLayout } from '@/components/default-layout'
 import prismadb from '@/lib/prismadb'
 import { NewCategoryForm } from './components/new-category-form'
 
@@ -11,11 +12,9 @@ const NewCategoryPage = async ({
   })
 
   return (
-    <div className="flex-col">
-      <div className="flex-1 space-y-4 p-8 pt-6">
-        <NewCategoryForm initialData={category} />
-      </div>
-    </div>
+    <DefaultLayout className="flex-col">
+      <NewCategoryForm initialData={category} />
+    </DefaultLayout>
   )
 }
 

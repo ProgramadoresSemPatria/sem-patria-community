@@ -11,6 +11,10 @@ export type MentorshipPhasesProps = {
   title: string
 }
 
+export type MentorshipProgramModuleProps = {
+  image: string
+}
+
 export enum Roles {
   PerfilFechado = 'Perfil Fechado',
   PortifolioBoostProgram = 'Portifólio Boost Program',

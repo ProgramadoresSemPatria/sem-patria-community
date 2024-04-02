@@ -122,7 +122,7 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
               alt=""
               width={500}
               height={500}
-              src={comment.userImage}
+              src={comment.userImg}
             />
             <h2 className="font-semibold text-lg text-slate-300">
               {comment.username}

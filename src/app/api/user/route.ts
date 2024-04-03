@@ -1,4 +1,5 @@
 import generatePassword from '@/actions/auth/generate-password'
+import { sendEmailWithLink } from '@/actions/auth/send-email-with-link'
 import prismadb from '@/lib/prismadb'
 import { auth, clerkClient } from '@clerk/nextjs'
 import { NextResponse, type NextRequest } from 'next/server'

@@ -39,7 +39,6 @@ type NewPasswordFormValues = z.infer<typeof formSchema>
 const SetPassword = () => {
   const router = useRouter()
   const title = 'Update password'
-  const description = 'Add your new password'
   const toastMessage = 'Password changed successfully'
 
   const form = useForm<NewPasswordFormValues>({
@@ -97,7 +96,7 @@ const SetPassword = () => {
   return (
     <>
       <div className="flex items-center justify-between">
-        <Header title={title} description={description} />
+        <Header title={title} />
       </div>
       <Form {...form}>
         <form

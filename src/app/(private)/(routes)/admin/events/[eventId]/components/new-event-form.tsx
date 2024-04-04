@@ -253,6 +253,7 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
                     <FormLabel>Title</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="title"
                         disabled={isPending}
                         placeholder="Event title"
                         {...field}
@@ -270,6 +271,7 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
                     <FormLabel>Description</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="description"
                         disabled={isPending}
                         placeholder="Event description"
                         {...field}
@@ -288,11 +290,13 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
                     <FormLabel>Location</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="location"
                         disabled={isPending}
                         placeholder="Event location"
                         {...field}
                       />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -307,7 +311,7 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
                       Select the date of the event.
                     </FormDescription>
                     <Popover>
-                      <PopoverTrigger asChild>
+                      <PopoverTrigger data-testid="date" asChild>
                         <FormControl>
                           <Button
                             variant={'outline'}
@@ -351,13 +355,17 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
                       setHour(value)
                     }}
                   >
-                    <SelectTrigger className="w-fit">
+                    <SelectTrigger data-testid="hour" className="w-fit">
                       <SelectValue placeholder={`${hour}h`} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         {hours.map(hour => (
-                          <SelectItem key={hour} value={hour}>
+                          <SelectItem
+                            data-testid={hour}
+                            key={hour}
+                            value={hour}
+                          >
                             {hour}h
                           </SelectItem>
                         ))}
@@ -370,13 +378,17 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
                       setMinute(value)
                     }}
                   >
-                    <SelectTrigger className="w-fit">
+                    <SelectTrigger data-testid="minute" className="w-fit">
                       <SelectValue placeholder={`${minute}min`} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         {minutes.map(minute => (
-                          <SelectItem key={minute} value={minute}>
+                          <SelectItem
+                            data-testid={minute}
+                            key={minute}
+                            value={minute}
+                          >
                             {minute}min
                           </SelectItem>
                         ))}
@@ -396,6 +408,7 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
                     <FormLabel className="flex gap-2 items-center">
                       External URL
                       <Checkbox
+                        data-testid="externalUrl"
                         checked={hasExternalUrl}
                         onCheckedChange={(checked: boolean) => {
                           setHasExternalUrl(checked)
@@ -408,6 +421,7 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
                     </FormDescription>
                     <FormControl>
                       <Input
+                        data-testid="externalUrlInput"
                         {...field}
                         disabled={field.disabled ?? isPending}
                         placeholder="Event external url"
@@ -427,6 +441,7 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
                     <FormLabel className="flex gap-2 items-center">
                       Special Guest
                       <Checkbox
+                        data-testid="specialGuest"
                         checked={hasSpecialGuest}
                         onCheckedChange={(checked: boolean) => {
                           setHasSpecialGuest(checked)
@@ -439,6 +454,7 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
                     </FormDescription>
                     <FormControl>
                       <Input
+                        data-testid="specialGuestInput"
                         {...field}
                         disabled={field.disabled ?? isPending}
                         placeholder="Event special guest"
@@ -449,7 +465,12 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
                 )}
               />
             </div>
-            <Button disabled={isPending} className="ml-auto" type="submit">
+            <Button
+              data-testid="submit"
+              disabled={isPending}
+              className="ml-auto"
+              type="submit"
+            >
               {isPending && (
                 <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
               )}

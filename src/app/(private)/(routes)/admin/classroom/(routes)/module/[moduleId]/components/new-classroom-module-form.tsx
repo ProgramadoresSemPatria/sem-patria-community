@@ -106,6 +106,7 @@ export const NewClassroomModuleForm = ({
                     <FormLabel>Title</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="title"
                         disabled={isPending}
                         placeholder="Classroom title"
                         {...field}
@@ -130,7 +131,7 @@ export const NewClassroomModuleForm = ({
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger data-testid="classroom">
                             <SelectValue
                               defaultValue={field.value}
                               placeholder="Select a classroom"
@@ -139,7 +140,11 @@ export const NewClassroomModuleForm = ({
                         </FormControl>
                         <SelectContent>
                           {classrooms.map(value => (
-                            <SelectItem key={value.id} value={value.id}>
+                            <SelectItem
+                              data-testid={value.title}
+                              key={value.id}
+                              value={value.id}
+                            >
                               {value.title}
                             </SelectItem>
                           ))}
@@ -173,7 +178,12 @@ export const NewClassroomModuleForm = ({
                 )}
               />
             </div>
-            <Button disabled={isPending} className="ml-auto" type="submit">
+            <Button
+              data-testid="submit"
+              disabled={isPending}
+              className="ml-auto"
+              type="submit"
+            >
               {isPending && (
                 <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
               )}

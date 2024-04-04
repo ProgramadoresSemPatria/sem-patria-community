@@ -39,20 +39,18 @@ describe('Admin Users page', () => {
       failOnStatusCode: false
     })
     cy.contains('New User').click()
-    cy.get('#\\:ri\\:-form-item').type('John Doe') // name
-    cy.get('#\\:rj\\:-form-item').type('johndoe') // username
-    cy.get('#\\:rk\\:-form-item').type('johndoe@gmail.com') // email
-    cy.get('#\\:rl\\:-form-item').click()
-    cy.get('select[aria-hidden="true"]:eq(0)').select('junior', { force: true }) // levels
-    cy.get('#\\:rn\\:-form-item').type('https://github.com/johndoe') // gthub
-    cy.get('#\\:ro\\:-form-item').type('https://linkedin.com/johndoe') // linkedin
-    cy.get('#\\:rp\\:-form-item').type('@johndoe') // instagram
-    cy.get('#\\:rq\\:-form-item').click() // roles
-    cy.get(':nth-child(1) > .peer').click()
-    cy.get(':nth-child(2) > .peer').click()
-    cy.get(':nth-child(4) > .peer').click()
-    cy.get(':nth-child(5) > .peer').click()
-    cy.get('.space-y-8 > .justify-center').click({ force: true })
+    cy.get('[data-testid="name"]').type('John Doe') // name
+    cy.get('[data-testid="username"]').type('johndoe') // username
+    cy.get('[data-testid="email"]').type('johndoe@gmail.com') // email
+    cy.get('[data-testid="level"]').click()
+    cy.get('[data-testid="junior"]').click({ force: true }) // levels
+    cy.get('[data-testid="github"]').type('https://github.com/johndoe') // gthub
+    cy.get('[data-testid="linkedin"]').type('https://linkedin.com/johndoe') // linkedin
+    cy.get('[data-testid="instagram"]').type('@johndoe') // instagram
+    cy.get('[data-testid="role"]').click() // roles
+    cy.get('[data-testid="Admin"]').click()
+    cy.get('[data-testid="Builder"]').click()
+    cy.get('[data-testid="submit"]').click({ force: true })
     cy.contains('Success')
     cy.contains('User created successfully')
   })
@@ -62,7 +60,7 @@ describe('Admin Users page', () => {
       failOnStatusCode: false
     })
     cy.contains('New User').click()
-    cy.get('.space-y-8 > .justify-center').click({ force: true })
+    cy.get('[data-testid="submit"]').click({ force: true })
     cy.contains('Name is required').should('exist')
   })
 
@@ -71,8 +69,8 @@ describe('Admin Users page', () => {
       failOnStatusCode: false
     })
     cy.contains('New User').click()
-    cy.get('#\\:ri\\:-form-item').type('John Doe') // name
-    cy.get('.space-y-8 > .justify-center').click({ force: true })
+    cy.get('[data-testid="name"]').type('John Doe') // name
+    cy.get('[data-testid="submit"]').click({ force: true })
     cy.contains('Invalid email').should('exist')
   })
 

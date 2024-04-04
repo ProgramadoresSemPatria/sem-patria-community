@@ -162,6 +162,7 @@ export const NewUserForm = () => {
                     <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="name"
                         disabled={isPending}
                         placeholder="Name"
                         {...field}
@@ -179,6 +180,7 @@ export const NewUserForm = () => {
                     <FormLabel>Username</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="username"
                         disabled={isPending}
                         placeholder="Username"
                         {...field}
@@ -196,6 +198,7 @@ export const NewUserForm = () => {
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="email"
                         disabled={isPending}
                         placeholder="Email"
                         {...field}
@@ -219,7 +222,7 @@ export const NewUserForm = () => {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger data-testid="level">
                           <SelectValue
                             defaultValue={field.value}
                             placeholder="Select a level"
@@ -227,10 +230,18 @@ export const NewUserForm = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="estagiario">Estagiário</SelectItem>
-                        <SelectItem value="junior">Junior</SelectItem>
-                        <SelectItem value="pleno">Pleno</SelectItem>
-                        <SelectItem value="senior">Senior</SelectItem>
+                        <SelectItem data-testid="estagiario" value="estagiario">
+                          Estagiário
+                        </SelectItem>
+                        <SelectItem data-testid="junior" value="junior">
+                          Junior
+                        </SelectItem>
+                        <SelectItem data-testid="pleno" value="pleno">
+                          Pleno
+                        </SelectItem>
+                        <SelectItem data-testid="senior" value="senior">
+                          Senior
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -246,6 +257,7 @@ export const NewUserForm = () => {
                     <FormLabel>Github</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="github"
                         disabled={isPending}
                         placeholder="Github"
                         {...field}
@@ -263,6 +275,7 @@ export const NewUserForm = () => {
                     <FormLabel>Linkedin</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="linkedin"
                         disabled={isPending}
                         placeholder="Linkedin"
                         {...field}
@@ -280,6 +293,7 @@ export const NewUserForm = () => {
                     <FormLabel>Instagram</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="instagram"
                         disabled={isPending}
                         placeholder="Instagram"
                         {...field}
@@ -299,7 +313,7 @@ export const NewUserForm = () => {
                       {Roles && (
                         <Select disabled={isPending}>
                           <FormControl>
-                            <SelectTrigger>
+                            <SelectTrigger data-testid="role">
                               <SelectValue
                                 placeholder={
                                   selectedRoles.length > 0
@@ -316,6 +330,7 @@ export const NewUserForm = () => {
                                 className="flex gap-x-2 items-center"
                               >
                                 <Checkbox
+                                  data-testid={key}
                                   onCheckedChange={() => {
                                     handleSelectedRoles(key)
                                   }}
@@ -362,7 +377,12 @@ export const NewUserForm = () => {
                 </div>
               </div>
             </div>
-            <Button disabled={isPending} className="ml-auto" type="submit">
+            <Button
+              data-testid="submit"
+              disabled={isPending}
+              className="ml-auto"
+              type="submit"
+            >
               {isPending && (
                 <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
               )}

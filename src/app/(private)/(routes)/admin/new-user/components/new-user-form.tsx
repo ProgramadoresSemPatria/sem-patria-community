@@ -92,7 +92,6 @@ export const NewUserForm = () => {
 
   const { mutateAsync: createUser, isPending } = useMutation({
     mutationFn: async (data: z.infer<typeof formSchema>) => {
-      console.log(data)
       return await api.post(`/api/user`, data)
     },
     onSuccess: () => {

@@ -125,7 +125,7 @@ describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
       .click()
       .then(() => {
         cy.contains('Classroom')
-        cy.contains('Manage the projects and videos of the community.')
+        cy.contains('Manage the community events here.')
       })
   })
 })

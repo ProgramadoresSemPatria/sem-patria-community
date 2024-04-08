@@ -76,6 +76,7 @@ export async function POST(req: NextRequest) {
     await req.json()
 
   const newUserPassword = generatePassword()
+  // seria bom verificar se o user que ta criando isso e admin?
 
   // Create user at Clerk
   try {

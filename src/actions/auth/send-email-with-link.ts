@@ -17,7 +17,7 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 
 export const sendEmailWithLink = async (user: User) => {
   const token = generateToken(user)
-  const url = `https://localhost:3000/set-password?token=${token}`
+  const url = `http://localhost:3000/set-password/${token}`
 
   await resend.emails.send({
     from: 'onboarding@resend.dev',

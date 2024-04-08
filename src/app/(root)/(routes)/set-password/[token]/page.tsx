@@ -1,6 +1,7 @@
 'use client'
-
 import Header from '@/components/header'
+import { Icons } from '@/components/icons'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -36,10 +37,11 @@ const formSchema = z
 
 type NewPasswordFormValues = z.infer<typeof formSchema>
 
-const SetPassword = () => {
+const SetPassword = ({ params }: { params: { token: string } }) => {
   const router = useRouter()
-  const title = 'Update password'
+  const title = 'Set password'
   const toastMessage = 'Password changed successfully'
+  const action = 'Set password'
 
   const form = useForm<NewPasswordFormValues>({
     resolver: zodResolver(formSchema),
@@ -49,19 +51,15 @@ const SetPassword = () => {
     }
   })
 
-  const verifyToken = async () => {
-    await api.get('/api/auth')
-  }
-
   const { error, isSuccess, isPending } = useQuery({
     queryKey: ['set-password'],
-    queryFn: verifyToken
+    queryFn: async () => await api.get(`/api/auth/${params.token}`)
   })
 
   const { mutateAsync: setPassword } = useMutation({
     mutationFn: async (data: z.infer<typeof formSchema>) => {
       if (data.password === data.confirmPassword) {
-        return await api.patch(`/api/auth`, {
+        return await api.patch(`/api/auth/${params.token}`, {
           password: data.password
         })
       }
@@ -88,7 +86,7 @@ const SetPassword = () => {
   }
 
   useEffect(() => {
-    if (!isSuccess || error) {
+    if (error) {
       router.push(appRoutes.signIn)
     }
   }, [error, isSuccess, isPending, router])
@@ -108,9 +106,10 @@ const SetPassword = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input
+                    type="password"
                     disabled={isPending}
                     placeholder="Password"
                     {...field}
@@ -125,9 +124,10 @@ const SetPassword = () => {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
                   <Input
+                    type="password"
                     disabled={isPending}
                     placeholder="Confirm Password"
                     {...field}
@@ -137,6 +137,12 @@ const SetPassword = () => {
               </FormItem>
             )}
           />
+          <Button disabled={isPending} className="ml-auto" type="submit">
+            {isPending && (
+              <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            {action}
+          </Button>
         </form>
       </Form>
     </>

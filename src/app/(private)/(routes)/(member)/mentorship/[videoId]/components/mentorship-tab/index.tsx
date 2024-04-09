@@ -45,22 +45,22 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
             <h1 className="font-bold text-xl pl-3">Content</h1>
             <Card>
               <CardContent>
-                <h1 className="font-light p-4 pl-0">
+                <h1 className="font-light p-4 pl-0 whitespace-nowrap overflow-hidden text-ellipsis">
                   {videoProps.title}
-                  <div className="flex gap-x-2 items-center text-sm text-muted-foreground">
-                    <span>{moduleVideos.length} Videos</span>
-                    <div className="h-1 w-1 rounded-full bg-muted-foreground" />
-                    <span>
-                      {moduleVideos
-                        .find(item => item.title === videoProps.title)
-                        ?.createdAt.toLocaleDateString('pt-BR', {
-                          day: 'numeric',
-                          month: 'long',
-                          year: 'numeric'
-                        })}
-                    </span>
-                  </div>
                 </h1>
+                <div className="flex gap-x-2 items-center text-sm text-muted-foreground">
+                  <span>{moduleVideos.length} Videos</span>
+                  <div className="h-1 w-1 rounded-full bg-muted-foreground" />
+                  <span>
+                    {moduleVideos
+                      .find(item => item.title === videoProps.title)
+                      ?.createdAt.toLocaleDateString('pt-BR', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                      })}
+                  </span>
+                </div>
 
                 <div className="flex flex-col">
                   {moduleVideos.map(video => {
@@ -85,7 +85,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                                 <span
                                   className={cn(
                                     isVideoWatched && 'text-emerald-400',
-                                    'w-full overflow-hidden text-ellipsis text-sm whitespace-nowrap'
+                                    'w-full text-ellipsis text-sm line-clamp-2 text-left'
                                   )}
                                 >
                                   {video.title}

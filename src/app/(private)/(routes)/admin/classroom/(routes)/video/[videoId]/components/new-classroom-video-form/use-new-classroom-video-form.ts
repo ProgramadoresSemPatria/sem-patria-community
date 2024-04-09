@@ -34,7 +34,6 @@ export const useNewClassroomVideoForm = ({
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
 
   const title = initialData ? 'Edit Video' : 'Create Video'
-  const description = initialData ? 'Edit a Video' : 'Add a new Video.'
   const toastMessage = initialData
     ? 'Video updated.'
     : 'Video created successfully'
@@ -118,7 +117,6 @@ export const useNewClassroomVideoForm = ({
     isAlertModalOpen,
     setIsAlertModalOpen,
     title,
-    description,
     action,
     form,
     isDeleting,

@@ -1,13 +1,15 @@
 type HeaderProps = {
   title: string
-  description?: string
+  children?: React.ReactNode
 }
-const Header = ({ title, description }: HeaderProps) => {
+const Header = ({ title, children }: HeaderProps) => {
   return (
     <>
-      <div className="space-y-0.5 mt-6">
-        <h2 className="text-2xl font-bold tracking-tight">{title}</h2>
-        <p className="text-muted-foreground">{description}</p>
+      <div className="space-y-0.5 flex items-center justify-between py-8">
+        <h2 className="text-[28px] leading-[34px] tracking-[-0.416px] font-bold">
+          {title}
+        </h2>
+        <div className="flex-end flex gap-2">{children}</div>
       </div>
     </>
   )

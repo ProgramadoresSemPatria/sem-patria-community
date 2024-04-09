@@ -50,7 +50,9 @@ const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>{videoSelected.title}</BreadcrumbPage>
+                    <BreadcrumbPage className="text-ellipsis whitespace-nowrap w-3/4 overflow-hidden">
+                      {videoSelected.title}
+                    </BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>

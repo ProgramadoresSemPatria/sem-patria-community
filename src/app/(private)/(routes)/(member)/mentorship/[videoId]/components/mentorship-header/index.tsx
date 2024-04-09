@@ -13,7 +13,7 @@ export const MentorshipHeader = ({ videoTitle }: MentorshipHeaderProps) => {
         <MainLogo />
       </div>
       <div className="flex">
-        <h1 className="text-muted-foreground font-semibold mx-auto text-center text-lg">
+        <h1 className="text-muted-foreground font-semibold mx-auto text-center text-lg text-ellipsis whitespace-nowrap overflow-hidden">
           {videoTitle}
         </h1>
       </div>

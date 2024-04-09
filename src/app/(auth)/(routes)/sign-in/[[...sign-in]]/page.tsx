@@ -1,11 +1,4 @@
-import Apollo from '@/assets/apollo.png'
-import Genesis from '@/assets/genesis.png'
-import Hades from '@/assets/hades.png'
-import Hefesto from '@/assets/hefesto.png'
-import Hermes from '@/assets/hermes.png'
 import appLogo from '@/assets/logo.svg'
-import Prometeu from '@/assets/prometeu.png'
-import Zeus from '@/assets/zeus.png'
 import { appRoutes } from '@/lib/constants'
 import { auth } from '@clerk/nextjs'
 import Image from 'next/image'
@@ -22,16 +15,10 @@ export default async function Page({
   const { redirect_url: redirectUrl } = searchParams
   const { userId } = auth()
 
-  if (userId) return redirect(appRoutes.root)
+  if (userId) return redirect(appRoutes.dashboard)
 
   const backgroundImages = [
-    Apollo.src,
-    Genesis.src,
-    Hades.src,
-    Hefesto.src,
-    Hermes.src,
-    Prometeu.src,
-    Zeus.src
+    12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 31, 32, 34, 35
   ]
 
   return (
@@ -40,12 +27,16 @@ export default async function Page({
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
           <div className="absolute inset-0 bg-slate-950">
             <Image
-              src={`${backgroundImages[Math.floor(Math.random() * 6)]}`}
+              src={`/login-images/${
+                backgroundImages[
+                  Math.floor(Math.random() * backgroundImages.length)
+                ]
+              }.png`}
               priority
-              width={1280}
-              height={843}
+              width={1200}
+              height={1680}
               alt="auth-background"
-              className="hidden md:block h-[100vh] brightness-50"
+              className="hidden md:block h-[100vh] w-full brightness-50 "
             />
           </div>
         </div>

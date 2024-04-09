@@ -32,6 +32,8 @@ export enum appRoutes {
   admin_classroom = '/admin/classroom',
   admin_classroom_new = '/admin/classroom/new',
   admin_classroom_module_new = '/admin/classroom/module/new',
+  admin_users = '/admin/users',
+  admin_users_new = '/admin/users/new',
   admin_classroom_video_new = '/admin/classroom/video/new'
 }
 
@@ -62,9 +64,14 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.settings className="h-4 w-4" />
   },
   {
+    href: appRoutes.admin_users,
+    label: 'Users',
+    icon: <Icons.users className="h-4 w-4" />
+  },
+  {
     href: appRoutes.admin_courses,
     label: 'Courses',
-    icon: <Icons.alignVertSA className="h-4 w-4" />
+    icon: <Icons.codeSandbox className="h-4 w-4" />
   },
   {
     href: appRoutes.admin_categories,

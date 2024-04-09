@@ -3,10 +3,9 @@ import Header from '@/components/header'
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
-import { Separator } from '@/components/ui/separator'
 import { appRoutes } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
-import { type CourseColumn, columns } from './columns'
+import { columns, type CourseColumn } from './columns'
 
 type CoursesClientProps = {
   courses: CourseColumn[]
@@ -17,11 +16,7 @@ const CoursesClient = ({ courses }: CoursesClientProps) => {
 
   return (
     <>
-      <div className="flex items-center justify-between">
-        <Header
-          title="Courses"
-          description="Manage the indications of courses of community."
-        />
+      <Header title="Courses">
         <Button
           onClick={() => {
             router.push(appRoutes.admin_courses_new)
@@ -30,8 +25,7 @@ const CoursesClient = ({ courses }: CoursesClientProps) => {
           <Icons.plus className="w-4 h-4 mr-2" />
           Add New
         </Button>
-      </div>
-      <Separator className="my-6" />
+      </Header>
       <DataTable searchKey="name" columns={columns} data={courses} />
     </>
   )

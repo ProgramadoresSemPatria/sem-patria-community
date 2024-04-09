@@ -1,8 +1,7 @@
 'use client'
 
-import { Icons } from '@/components/icons'
+import { NoContent } from '@/components/no-content'
 import { SkeletonCourseCards } from '@/components/skeletons/skeleton-course-cards'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { useCourseContent } from '@/hooks/course/use-course-content'
 import { useCourseStore } from '@/hooks/course/use-course-store'
@@ -31,7 +30,7 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
       : []
 
   return (
-    <div className="mt-6">
+    <div>
       <div className="flex items-center flex-wrap w-full gap-x-2">
         {categoryOptions.map(category => (
           <Link
@@ -73,15 +72,10 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
             </div>
           </div>
           {!isLoading && !courseList?.length && (
-            <Alert className="w-1/2">
-              <Icons.sparkles className="h-4 w-4" />
-              <AlertTitle>There is a little trouble.</AlertTitle>
-              <AlertDescription>
-                <span className="col-span-full text-muted-foreground font-medium">
-                  There are no course recommendations at this time.
-                </span>
-              </AlertDescription>
-            </Alert>
+            <NoContent
+              title="There is a little trouble."
+              description="There are no course recommendations at this time."
+            />
           )}
         </div>
         <CourseFilterOptions />

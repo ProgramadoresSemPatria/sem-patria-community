@@ -12,7 +12,7 @@ import Link from 'next/link'
 
 const MentorshipList = () => {
   return (
-    <div className="py-6">
+    <div className="pb-6">
       <div className="flex items-center gap-x-4 mb-4">
         <h1 className="text-xl font-bold">Mentorship Program</h1>
         <Badge className="m-0">Comming Soon</Badge>

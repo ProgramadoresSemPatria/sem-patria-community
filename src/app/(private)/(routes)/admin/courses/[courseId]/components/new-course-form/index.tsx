@@ -23,142 +23,31 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import { useToast } from '@/components/ui/use-toast'
-import { api } from '@/lib/api'
 import { appRoutes } from '@/lib/constants'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { type Category, type Course } from '@prisma/client'
-import { useMutation } from '@tanstack/react-query'
-import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import { useNewCourseForm } from './use-new-course-form'
 
 type NewCourseFormProps = {
   initialData: Course | null
   categories: Category[]
 }
 
-const formSchema = z.object({
-  name: z.string().min(1, {
-    message: 'Name is required'
-  }),
-  courseUrl: z
-    .string()
-    .url({
-      message: 'Invalid url'
-    })
-    .min(1, {
-      message: 'Url is required'
-    }),
-  isPaid: z.boolean().default(false),
-  level: z.string().min(1, {
-    message: 'Level is required'
-  }),
-  categoryId: z.string().min(1, {
-    message: 'Category is required'
-  })
-})
-
-type NewCourseFormValues = z.infer<typeof formSchema>
-
 export const NewCourseForm = ({
   initialData,
   categories
 }: NewCourseFormProps) => {
-  const params = useParams()
-  const router = useRouter()
-  const { toast } = useToast()
-
-  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
-
-  const title = initialData ? 'Edit course' : 'Create course'
-  const description = initialData
-    ? 'Edit a course'
-    : 'Add a new course to the community.'
-  const toastMessage = initialData
-    ? 'Course updated.'
-    : 'Course created successfully'
-  const action = initialData ? 'Save changes' : 'Create course'
-
-  const form = useForm<NewCourseFormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: initialData
-      ? {
-          ...initialData
-        }
-      : {
-          name: '',
-          courseUrl: '',
-          categoryId: '',
-          level: '',
-          isPaid: false
-        }
-  })
-
-  const { mutateAsync: deleteCourse, isPending: isDeleting } = useMutation({
-    mutationFn: async () => {
-      return await api.delete(`/api/course/${params.courseId}`)
-    },
-    onSuccess: () => {
-      router.push(appRoutes.admin_courses)
-      router.refresh()
-      toast({
-        title: 'Success',
-        description: 'Course deleted successfully.'
-      })
-    },
-    onError: () => {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong.',
-        variant: 'destructive'
-      })
-    }
-  })
-
-  const { mutateAsync: createOrUpdateCourse, isPending } = useMutation({
-    mutationFn: async (data: z.infer<typeof formSchema>) => {
-      if (initialData) {
-        return await api.patch(`/api/course/${params.courseId}`, data)
-      }
-
-      return await api.post(`/api/course`, data)
-    },
-    onSuccess: () => {
-      router.push(appRoutes.admin_courses)
-      router.refresh()
-      toast({
-        title: 'Success',
-        description: `${toastMessage}`
-      })
-    },
-    onError: () => {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong.',
-        variant: 'destructive'
-      })
-    }
-  })
-
-  const onSubmit = async (values: NewCourseFormValues) => {
-    await createOrUpdateCourse(values)
-  }
-
-  const onDeleteCourse = async () => {
-    try {
-      await deleteCourse()
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong.',
-        variant: 'destructive'
-      })
-    } finally {
-      setIsAlertModalOpen(false)
-    }
-  }
+  const {
+    isAlertModalOpen,
+    isDeleting,
+    setIsAlertModalOpen,
+    onDeleteCourse,
+    router,
+    title,
+    isPending,
+    form,
+    onSubmit,
+    action
+  } = useNewCourseForm({ initialData })
 
   return (
     <>
@@ -174,34 +63,35 @@ export const NewCourseForm = ({
         }}
       />
       <div className="flex flex-col">
-        <Button
-          size="icon"
-          variant="link"
-          onClick={() => {
-            router.push(appRoutes.admin_courses)
-          }}
-          className="font-medium w-fit"
-        >
-          <Icons.arrowBack className="mr-2 h-4 w-4" />
-          Voltar
-        </Button>
+        <div className="flex items-center">
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={() => {
+              router.push(appRoutes.admin_courses)
+            }}
+            className="flex items-center justify-center mr-4"
+          >
+            <Icons.arrowBack className="h-5 w-5" />
+          </Button>
 
-        <div className="flex items-center justify-between">
-          <Header title={title} description={description} />
-          {initialData && (
-            <Button
-              disabled={isPending}
-              variant="destructive"
-              size="icon"
-              onClick={() => {
-                setIsAlertModalOpen(true)
-              }}
-            >
-              <Icons.trash className="h-4 w-4" />
-            </Button>
-          )}
+          <div className="flex items-center justify-between w-full">
+            <Header title={title} />
+            {initialData && (
+              <Button
+                disabled={isPending}
+                variant="destructive"
+                size="icon"
+                onClick={() => {
+                  setIsAlertModalOpen(true)
+                }}
+              >
+                <Icons.trash className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
         </div>
-        <Separator className="my-6" />
+        <Separator className="mb-6" />
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

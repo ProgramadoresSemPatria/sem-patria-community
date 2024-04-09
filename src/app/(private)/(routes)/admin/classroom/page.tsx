@@ -1,6 +1,5 @@
 import { DefaultLayout } from '@/components/default-layout'
 import Header from '@/components/header'
-import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import Link from 'next/link'
 import ClassroomContent from './components/classroom-content'
@@ -25,11 +24,7 @@ const AdminClassroomPage = () => {
 
   return (
     <DefaultLayout>
-      <Header
-        title="Classroom"
-        description="Manage the projects and videos of the community."
-      />
-      <Separator className="my-6" />
+      <Header title="Classroom" />
       <Tabs defaultValue={tabsOptions[0].id} className="w-full">
         <TabsList className="w-auto mb-6">
           {tabsOptions.map(value => (

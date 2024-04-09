@@ -5,10 +5,7 @@ import { MentorshipSections } from './components/mentorship-sections'
 const Mentorship = () => {
   return (
     <DefaultLayout>
-      <Header
-        title="Mentorship"
-        description="Browse all our community content."
-      />
+      <Header title="Mentorship" />
       <MentorshipSections />
     </DefaultLayout>
   )

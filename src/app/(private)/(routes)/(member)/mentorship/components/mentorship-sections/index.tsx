@@ -1,6 +1,7 @@
 import prismadb from '@/lib/prismadb'
 
 import { Icons } from '@/components/icons'
+import { NoContent } from '@/components/no-content'
 import { SkeletonMentorshipPage } from '@/components/skeletons/skeleton-mentorship-page'
 import { currentUser } from '@clerk/nextjs'
 import { Suspense } from 'react'
@@ -59,8 +60,14 @@ export const MentorshipSections = async () => {
   })
 
   return (
-    <div className="mt-6 flex flex-col gap-y-10">
+    <div className="flex flex-col gap-y-10">
       <Suspense fallback={<SkeletonMentorshipPage />}>
+        {!formattedData.length && (
+          <NoContent
+            title="No classrooms created yet."
+            description="Try contact the for any admin to add a new content."
+          />
+        )}
         {formattedData.map(classroom => (
           <div key={classroom.id} className="flex flex-col gap-y-3">
             <h2 className="font-medium text-lg flex items-center">

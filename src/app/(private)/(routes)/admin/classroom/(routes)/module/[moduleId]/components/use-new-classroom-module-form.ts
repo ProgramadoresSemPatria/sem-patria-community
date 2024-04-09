@@ -34,7 +34,6 @@ export const useNewClassroomModuleForm = ({
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
 
   const title = initialData ? 'Edit Module' : 'Create Module'
-  const description = initialData ? 'Edit a Module' : 'Add a new Module.'
   const toastMessage = initialData
     ? 'Module updated.'
     : 'Module created successfully'
@@ -121,7 +120,6 @@ export const useNewClassroomModuleForm = ({
     isAlertModalOpen,
     setIsAlertModalOpen,
     title,
-    description,
     action,
     form,
     isDeleting,

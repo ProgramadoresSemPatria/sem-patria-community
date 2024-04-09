@@ -30,172 +30,39 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import { useToast } from '@/components/ui/use-toast'
-import { api } from '@/lib/api'
 import { appRoutes } from '@/lib/constants'
 import { cn } from '@/lib/utils'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { type Event } from '@prisma/client'
-import { useMutation } from '@tanstack/react-query'
 import { format } from 'date-fns'
-import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import { useNewEventForm } from './use-new-event-form'
 
 type NewEventFormProps = {
   initialData: Event | null
 }
 
-const formSchema = z.object({
-  title: z.string().min(1, {
-    message: 'Name is required'
-  }),
-  description: z.string().min(1, {
-    message: 'Description is required'
-  }),
-  date: z.date().min(new Date(), {
-    message: 'Date is required'
-  }),
-  location: z.string().min(1, {
-    message: 'Location is required'
-  }),
-  externalUrl: z.string().optional(),
-  specialGuest: z.string().optional()
-})
-
-type NewEventFormValues = z.infer<typeof formSchema>
-
-const hours = Array.from(Array(24).keys()).map(item => item.toString())
-const minutes = [
-  '00',
-  '5',
-  '10',
-  '15',
-  '20',
-  '25',
-  '30',
-  '35',
-  '40',
-  '45',
-  '50',
-  '55'
-]
-
 export const NewEventForm = ({ initialData }: NewEventFormProps) => {
-  const params = useParams()
-  const router = useRouter()
-  const { toast } = useToast()
-
-  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
-
-  const [hasExternalUrl, setHasExternalUrl] = useState(
-    !!initialData?.externalUrl ?? false
-  )
-  const [hasSpecialGuest, setHasSpecialGuest] = useState(
-    !!initialData?.specialGuest ?? false
-  )
-  const [hour, setHour] = useState(
-    initialData ? new Date(initialData.date).getUTCHours() : '18'
-  )
-  const [minute, setMinute] = useState(
-    initialData ? new Date(initialData.date).getUTCMinutes() : '00'
-  )
-
-  const title = initialData ? 'Edit event' : 'Create event'
-  const description = initialData
-    ? 'Edit a event'
-    : 'Add a new event to the community.'
-  const toastMessage = initialData
-    ? 'Event updated.'
-    : 'Event created successfully'
-  const action = initialData ? 'Save changes' : 'Create event'
-
-  const form = useForm<NewEventFormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: initialData
-      ? {
-          ...initialData,
-          externalUrl: initialData.externalUrl ?? undefined,
-          specialGuest: initialData.specialGuest ?? undefined
-        }
-      : {
-          title: '',
-          description: '',
-          date: new Date(),
-          location: '',
-          externalUrl: '',
-          specialGuest: ''
-        }
-  })
-
-  const { mutateAsync: deleteEvent, isPending: isDeleting } = useMutation({
-    mutationFn: async () => {
-      return await api.delete(`/api/event/${params.eventId}`)
-    },
-    onSuccess: () => {
-      router.push(appRoutes.admin_events)
-      router.refresh()
-      toast({
-        title: 'Success',
-        description: 'Event was deleted successfully.'
-      })
-    },
-    onError: () => {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong.',
-        variant: 'destructive'
-      })
-    }
-  })
-
-  const { mutateAsync: createOrUpdateEvent, isPending } = useMutation({
-    mutationFn: async (data: z.infer<typeof formSchema>) => {
-      if (initialData) {
-        return await api.patch(`/api/event/${params.eventId}`, data)
-      }
-
-      return await api.post(`/api/event`, data)
-    },
-    onSuccess: () => {
-      router.push(appRoutes.admin_events)
-      router.refresh()
-      toast({
-        title: 'Success',
-        description: `${toastMessage}`
-      })
-    },
-    onError: () => {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong.',
-        variant: 'destructive'
-      })
-    }
-  })
-
-  const onSubmit = async (values: NewEventFormValues) => {
-    // set the hour and minute of the date
-    values.date.setUTCHours(Number(hour))
-    values.date.setUTCMinutes(Number(minute))
-
-    await createOrUpdateEvent(values)
-  }
-
-  const onDeleteEvent = async () => {
-    try {
-      await deleteEvent()
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong.',
-        variant: 'destructive'
-      })
-    } finally {
-      setIsAlertModalOpen(false)
-    }
-  }
+  const {
+    isAlertModalOpen,
+    isDeleting,
+    setIsAlertModalOpen,
+    onDeleteEvent,
+    router,
+    title,
+    isPending,
+    form,
+    onSubmit,
+    action,
+    hours,
+    hour,
+    setHour,
+    minute,
+    minutes,
+    setMinute,
+    hasExternalUrl,
+    setHasExternalUrl,
+    hasSpecialGuest,
+    setHasSpecialGuest
+  } = useNewEventForm({ initialData })
 
   return (
     <>
@@ -211,34 +78,35 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
         }}
       />
       <div className="flex flex-col">
-        <Button
-          size="icon"
-          variant="link"
-          onClick={() => {
-            router.push(appRoutes.admin_events)
-          }}
-          className="font-medium w-fit"
-        >
-          <Icons.arrowBack className="mr-2 h-4 w-4" />
-          Voltar
-        </Button>
+        <div className="flex items-center">
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={() => {
+              router.push(appRoutes.admin_events)
+            }}
+            className="flex items-center justify-center mr-4"
+          >
+            <Icons.arrowBack className="h-5 w-5" />
+          </Button>
 
-        <div className="flex items-center justify-between">
-          <Header title={title} description={description} />
-          {initialData && (
-            <Button
-              disabled={isPending}
-              variant="destructive"
-              size="icon"
-              onClick={() => {
-                setIsAlertModalOpen(true)
-              }}
-            >
-              <Icons.trash className="h-4 w-4" />
-            </Button>
-          )}
+          <div className="flex items-center justify-between w-full">
+            <Header title={title} />
+            {initialData && (
+              <Button
+                disabled={isPending}
+                variant="destructive"
+                size="icon"
+                onClick={() => {
+                  setIsAlertModalOpen(true)
+                }}
+              >
+                <Icons.trash className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
         </div>
-        <Separator className="my-6" />
+        <Separator className="mb-6" />
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

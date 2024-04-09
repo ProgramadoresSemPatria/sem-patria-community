@@ -64,7 +64,7 @@ export const NoteOptions = ({ note }: NoteOptionsProps) => {
         loading={isDeleting}
       />
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger data-testid="..." asChild>
           <Button variant="outline" size="icon">
             <span className="sr-only">Open menu</span>
             <Icons.spreadVertical className="w-4 h-4" />

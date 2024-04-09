@@ -67,6 +67,7 @@ export const NoteHeader = ({ note }: NoteHeaderProps) => {
         <Icons.arrowBack className="h-4 w-4 mr-1" /> Back
       </Button>
       <Button
+        data-testid="save"
         variant="secondary"
         disabled={isPending}
         onClick={handleSaveChanges}

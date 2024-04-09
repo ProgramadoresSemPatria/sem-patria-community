@@ -1,6 +1,7 @@
 import generatePassword from '@/actions/auth/generate-password'
 import { sendEmailWithLink } from '@/actions/auth/send-email-with-link'
 import prismadb from '@/lib/prismadb'
+import { Roles } from '@/lib/types'
 import { auth, clerkClient } from '@clerk/nextjs'
 import { NextResponse, type NextRequest } from 'next/server'
 
@@ -76,10 +77,17 @@ export async function POST(req: NextRequest) {
     await req.json()
 
   const newUserPassword = generatePassword()
-  // seria bom verificar se o user que ta criando isso e admin?
 
-  // Create user at Clerk
   try {
+    const { userId } = auth()
+
+    const currentUser = await prismadb.user.findFirst({
+      where: { id: userId as string }
+    })
+
+    if (!currentUser?.role.includes(Roles.Admin))
+      return new NextResponse('Unauthorized', { status: 401 })
+
     const clerkUser = await clerkClient.users.createUser({
       emailAddress: [email],
       firstName: name,
@@ -94,8 +102,7 @@ export async function POST(req: NextRequest) {
       }
     })
 
-    // Create user at DB
-    const user = await prismadb.user.create({
+    const createdUser = await prismadb.user.create({
       data: {
         id: clerkUser.id,
         email,
@@ -111,9 +118,9 @@ export async function POST(req: NextRequest) {
       }
     })
 
-    await sendEmailWithLink(user)
+    await sendEmailWithLink(createdUser)
 
-    return NextResponse.json(user)
+    return NextResponse.json(createdUser)
   } catch (error) {
     console.log('[USER_LEVEL_POST_ERROR]', error)
     return new NextResponse('Internal Server Error', { status: 500 })

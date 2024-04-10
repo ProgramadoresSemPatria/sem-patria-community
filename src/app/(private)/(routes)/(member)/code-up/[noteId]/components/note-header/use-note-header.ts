@@ -1,20 +1,19 @@
-'use client'
-import { Icons } from '@/components/icons'
-import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
 import { useNote } from '@/hooks/note/use-note'
 import { useNoteStore } from '@/hooks/note/use-note-store'
 import { type Note } from '@prisma/client'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
-type NoteHeaderProps = {
+type UseNoteHeaderProps = {
   note: Note
 }
 
-export const NoteHeader = ({ note }: NoteHeaderProps) => {
+export const useNoteHeader = ({ note }: UseNoteHeaderProps) => {
   const router = useRouter()
   const { title, content } = useNoteStore()
   const { useSaveChangesNote } = useNote()
+  const [isPublicNote, setIsPublicNote] = useState(note.isPublic ?? true)
 
   const { mutateAsync: onSaveChangesNote, isPending } = useSaveChangesNote(
     note.id,
@@ -36,6 +35,10 @@ export const NoteHeader = ({ note }: NoteHeaderProps) => {
     }
   )
 
+  const onChangeNoteVsibility = () => {
+    setIsPublicNote(prev => !prev)
+  }
+
   const handleSaveChanges = async () => {
     if (!note.id) return
 
@@ -49,31 +52,18 @@ export const NoteHeader = ({ note }: NoteHeaderProps) => {
 
     const props = {
       title: title ?? note.title,
-      content
+      content,
+      isPublic: isPublicNote
     }
 
     await onSaveChangesNote(props)
   }
-  return (
-    <div className="flex items-center justify-between w-full">
-      <Button
-        variant="ghost"
-        disabled={isPending}
-        onClick={() => {
-          router.back()
-          router.refresh()
-        }}
-      >
-        <Icons.arrowBack className="h-4 w-4 mr-1" /> Back
-      </Button>
-      <Button
-        variant="secondary"
-        disabled={isPending}
-        onClick={handleSaveChanges}
-      >
-        {isPending && <Icons.loader className="h-4 w-4 mr-2 animate-spin" />}
-        Save Changes
-      </Button>
-    </div>
-  )
+
+  return {
+    isPending,
+    router,
+    handleSaveChanges,
+    isPublicNote,
+    onChangeNoteVsibility
+  }
 }

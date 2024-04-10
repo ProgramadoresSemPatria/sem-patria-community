@@ -1,21 +1,15 @@
 'use client'
 import { useNoteStore } from '@/hooks/note/use-note-store'
 import { type Note } from '@prisma/client'
-import dynamic from 'next/dynamic'
-import { useMemo, useRef, useState, type ElementRef } from 'react'
+import { useRef, useState, type ElementRef } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
+import { NoteEditor } from './note-editor'
 
 type NoteContentProps = {
   note: Note
 }
 
 export const NoteContent = ({ note }: NoteContentProps) => {
-  const Editor = useMemo(
-    () =>
-      dynamic(async () => await import('@/components/editor'), { ssr: false }),
-    []
-  )
-
   const { title, onChangeContent, onChangeTitle } = useNoteStore()
 
   const inputRef = useRef<ElementRef<'textarea'>>(null)
@@ -61,18 +55,7 @@ export const NoteContent = ({ note }: NoteContentProps) => {
           {title ?? note.title}
         </div>
       )}
-      <Editor
-        editable
-        onChange={onChangeContent}
-        initialContent={note.content ?? undefined}
-      />
-      <p className="text-sm text-gray-500 mt-2">
-        Insert the hashtag{' '}
-        <kbd className="rounded-md border bg-muted px-1 text-xs">
-          #100DaysOfCommit
-        </kbd>{' '}
-        in title of the note if it refers to the challenge.
-      </p>
+      <NoteEditor onChange={onChangeContent} note={note} />
     </div>
   )
 }

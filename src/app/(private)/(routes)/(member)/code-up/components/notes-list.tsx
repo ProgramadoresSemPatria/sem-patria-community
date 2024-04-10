@@ -1,4 +1,5 @@
 'use client'
+import { Badge } from '@/components/ui/badge'
 import { useNoteStore } from '@/hooks/note/use-note-store'
 import { appRoutes } from '@/lib/constants'
 import { type Note } from '@prisma/client'
@@ -33,7 +34,12 @@ export const NotesList = ({ notes }: NotesListProps) => {
               </p>
             </div>
           </div>
-          <NoteOptions note={note} />
+          <div className="flex items-center gap-x-4">
+            <Badge variant="secondary">
+              {note.isPublic ? 'Public' : 'Private'}
+            </Badge>
+            <NoteOptions note={note} />
+          </div>
         </div>
       ))}
     </div>

@@ -32,15 +32,15 @@ const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
   return (
     <>
       <MentorshipHeader videoTitle={videoSelected.title} />
-      <div className="overflow-auto">
-        <div className="flex flex-col md:flex-row md:col h-full box-border overflow-x-auto md:overflow-hidden">
-          <div className="flex flex-col flex-1 flex-shrink-0 w-full md:overflow-y-auto transition-[height]">
+      <div className="overflow-y-auto">
+        <div className="flex flex-col md:flex-row md:col h-full box-border md:overflow-hidden">
+          <div className="flex flex-col flex-1 flex-shrink-0 w-full md:overflow-y-auto transition-[height] overflow-x-hidden">
             <iframe
               src={videoSelected.url}
               title={videoSelected.title}
               className="h-[calc(77vh-60px)] w-full"
             />
-            <div className="w-full flex justify-between items-center pl-4 pt-2">
+            <div className="flex justify-between items-center pl-4 pt-2">
               <Breadcrumb className="p-0">
                 <BreadcrumbList>
                   <BreadcrumbItem>
@@ -50,7 +50,7 @@ const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
-                    <BreadcrumbPage className="text-ellipsis whitespace-nowrap w-3/4 overflow-hidden">
+                    <BreadcrumbPage className="text-ellipsis w-3/4 overflow-x-hidden">
                       {videoSelected.title}
                     </BreadcrumbPage>
                   </BreadcrumbItem>
@@ -58,7 +58,9 @@ const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
               </Breadcrumb>
               <ButtonMarkAsWatched videoProps={videoSelected} />
             </div>
-            <h1 className="p-4 font-bold text-2xl">{videoSelected.title}</h1>
+            <h1 className="p-4 font-bold text-2xl w-3/4">
+              {videoSelected.title}
+            </h1>
             <Comments videoProps={videoSelected} />
           </div>
           <MentorshipTab

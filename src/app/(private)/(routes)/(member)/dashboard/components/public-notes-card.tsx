@@ -1,6 +1,4 @@
-import { Icons } from '@/components/icons'
 import { SkeletonDefault } from '@/components/skeletons/skeleton-default'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import {
   Card,
   CardContent,
@@ -12,21 +10,20 @@ import prismadb from '@/lib/prismadb'
 import { Suspense } from 'react'
 import { TimelineNotes } from './timeline-notes'
 
-export const ChallengeCommitCard = async () => {
+export const PublicNotesCard = async () => {
   const notes = await prismadb.note.findMany({
     where: {
-      title: {
-        contains: '#100DaysOfCommit'
-      }
-    }
+      isPublic: true
+    },
+    take: 10
   })
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Challenge #100DaysOfCommit</CardTitle>
+        <CardTitle>#ChallengeCodeUp Public notes of our members.</CardTitle>
         <CardDescription>
-          These are the last notes of our members.
+          The last notes writted of our members.
         </CardDescription>
       </CardHeader>
       <Suspense
@@ -36,16 +33,7 @@ export const ChallengeCommitCard = async () => {
           </div>
         }
       >
-        <CardContent>
-          <Alert className="max-w-fit mb-6">
-            <Icons.rocket className="h-4 w-4" />
-            <AlertTitle>Make your part!</AlertTitle>
-            <AlertDescription className="text-sm">
-              Create a note with the hashtag #100DaysOfCommit and show it to all
-              your dedication.
-            </AlertDescription>
-          </Alert>
-
+        <CardContent className="max-h-max=[500px] overflow-y-auto">
           {notes.length === 0 && (
             <span className="font-medium text-muted-foreground">
               There are no notes to the challenge for now.

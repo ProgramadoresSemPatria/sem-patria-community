@@ -1,5 +1,6 @@
 'use client'
 
+import Hefesto from '@/assets/hefesto.png'
 import { Icons } from '@/components/icons'
 import { SkeletonMentorshipPage } from '@/components/skeletons/skeleton-mentorship-page'
 import {
@@ -58,7 +59,10 @@ export const ModuleCarousel = ({
                 }}
               >
                 <Image
-                  src={mentorshipProgramModuleProps(module.title).image}
+                  src={
+                    mentorshipProgramModuleProps(module.title)?.image ??
+                    Hefesto.src
+                  }
                   alt={module.title}
                   width={1920}
                   height={1080}
@@ -88,7 +92,10 @@ export const ModuleCarousel = ({
                 aria-disabled={!hasPermission}
               >
                 <Image
-                  src={mentorshipProgramModuleProps(module.title).image}
+                  src={
+                    mentorshipProgramModuleProps(module.title)?.image ??
+                    Hefesto.src
+                  }
                   alt={module.title}
                   width={1920}
                   height={1080}

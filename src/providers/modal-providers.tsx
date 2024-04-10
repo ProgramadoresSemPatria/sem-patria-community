@@ -1,5 +1,6 @@
 'use client'
 
+import EventsModal from '@/components/modals/events-modal'
 import FeedbackModal from '@/components/modals/feedback-modal'
 import { PermissionModal } from '@/components/modals/permission-modal'
 import { useEffect, useState } from 'react'
@@ -17,6 +18,7 @@ export const ModalProvider = () => {
     <>
       <PermissionModal />
       <FeedbackModal />
+      <EventsModal />
     </>
   )
 }

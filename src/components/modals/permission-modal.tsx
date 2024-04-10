@@ -1,7 +1,7 @@
 'use client'
 
 import { Modal } from '@/components/ui/modal'
-import { usePermissionModal } from '@/hooks/use-modal'
+import { usePermissionModal } from '@/hooks/modal/use-modal'
 import { appRoutes } from '@/lib/constants'
 import { useClerk } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'

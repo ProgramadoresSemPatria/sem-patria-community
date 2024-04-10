@@ -1,7 +1,7 @@
 import { Modal } from '@/components/ui/modal'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useFeedbackModal } from '@/hooks/use-feedback-modal'
+import { useFeedbackModal } from '@/hooks/modal/use-feedback-modal'
 import { FeedbackModalCourseContent } from './feedback-modal-course-content'
 
 const FeedbackModal = () => {

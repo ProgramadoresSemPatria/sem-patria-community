@@ -2,12 +2,12 @@
 
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
-import { useFeedbackModal } from '@/hooks/modal/use-feedback-modal'
+import { useEventModal } from '@/hooks/modal/use-event-modal'
 import { useEffect, useState } from 'react'
 
-export const FeedbackButton = () => {
+export const EventsButton = () => {
   const [isMounted, setIsMounted] = useState(false)
-  const { onOpen } = useFeedbackModal()
+  const { onOpen } = useEventModal()
 
   useEffect(() => {
     setIsMounted(true)
@@ -16,9 +16,8 @@ export const FeedbackButton = () => {
   if (!isMounted) return null
 
   return (
-    <Button onClick={onOpen} variant="outline" className="gap-x-2 items-center">
-      <Icons.bot className="w-4 h-4" />
-      Feedback
+    <Button onClick={onOpen} variant="ghost" size="icon">
+      <Icons.calendarDays className="w-5 h-5" />
     </Button>
   )
 }

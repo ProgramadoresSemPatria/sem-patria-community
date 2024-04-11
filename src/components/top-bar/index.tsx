@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 
 import MainLogo from '../main-logo'
 import { CMSButton } from './cms-button'
+import { EventsButton } from './events-button'
 import { FeedbackButton } from './feedback-button'
 import { LogoutButton } from './logout-button'
 import { MobileButton } from './mobile-button'
@@ -28,6 +29,7 @@ const TopBar = async () => {
         {user.role.includes('Admin') && <CMSButton />}
         <FeedbackButton />
         {user.role.includes('Admin') && <NotificationsButton />}
+        <EventsButton />
         <div className="hidden md:flex">
           <LogoutButton />
         </div>

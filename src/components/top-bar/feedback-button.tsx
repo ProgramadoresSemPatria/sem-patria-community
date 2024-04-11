@@ -2,8 +2,8 @@
 
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
+import { useFeedbackModal } from '@/hooks/modal/use-feedback-modal'
 import { useEffect, useState } from 'react'
-import { useFeedbackModal } from '@/hooks/use-feedback-modal'
 
 export const FeedbackButton = () => {
   const [isMounted, setIsMounted] = useState(false)

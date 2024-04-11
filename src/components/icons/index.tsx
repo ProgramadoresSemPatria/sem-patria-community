@@ -15,6 +15,7 @@ import {
   ChevronRight,
   ChevronUp,
   Code,
+  Codesandbox,
   Copy,
   Edit,
   ExternalLink,
@@ -30,6 +31,7 @@ import {
   List,
   ListOrdered,
   Loader2,
+  Lock,
   LogOut,
   Menu,
   Moon,
@@ -40,6 +42,7 @@ import {
   PlusCircle,
   Rocket,
   Send,
+  Shapes,
   SlidersHorizontal,
   Sparkles,
   Strikethrough,
@@ -50,7 +53,7 @@ import {
   Video,
   X,
   type LucideIcon,
-  Shapes
+  Users
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -71,6 +74,7 @@ export const Icons = {
   dashboard: LayoutDashboard,
   file: File,
   user: User,
+  users: Users,
   menu: Menu,
   settings: SlidersHorizontal,
   bot: Bot,
@@ -107,5 +111,7 @@ export const Icons = {
   listBullet: List,
   listOrdered: ListOrdered,
   redirect: ExternalLink,
-  classroom: Shapes
+  classroom: Shapes,
+  lock: Lock,
+  codeSandbox: Codesandbox
 }

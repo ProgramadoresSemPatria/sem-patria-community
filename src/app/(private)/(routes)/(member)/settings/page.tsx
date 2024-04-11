@@ -27,10 +27,7 @@ const SettingsPage = async () => {
     <>
       <PersonalInfo userProps={user} />
       <Separator className="my-6" />
-      <Header
-        title="Members of community"
-        description="All members of this community and their levels."
-      />
+      <Header title="Members of community" />
       <Suspense fallback={<SkeletonMembersList />}>
         <MembersList userProps={user} allUsers={allUsers} />
       </Suspense>

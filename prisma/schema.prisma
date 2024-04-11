@@ -64,6 +64,7 @@ model Note {
   id        String   @id @default(uuid())
   title     String
   content   String?
+  isPublic  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id])

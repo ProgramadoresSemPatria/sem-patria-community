@@ -1,10 +1,12 @@
 'use client'
 
+import { Roles } from '@/lib/types'
 import { type ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import Image from 'next/image'
 import { UserCellAction } from './user-cell-action'
+import UserCellRoles from './user-cell-roles'
 
 export type UserColumn = {
   id: string
@@ -14,6 +16,7 @@ export type UserColumn = {
   subscriptionDate: Date
   lastAccess: Date | null
   level: string | null
+  role: string[] | null
 }
 
 export const userColumns: Array<ColumnDef<UserColumn>> = [
@@ -64,6 +67,17 @@ export const userColumns: Array<ColumnDef<UserColumn>> = [
   {
     accessorKey: 'level',
     header: 'Level'
+  },
+  {
+    accessorKey: 'role',
+    header: 'Roles',
+    cell: cell => {
+      const rolesMapped = (cell.getValue() as string[]).map(
+        (role: string) => Roles[role as keyof typeof Roles]
+      )
+
+      return <UserCellRoles roles={rolesMapped} />
+    }
   },
   {
     id: 'actions',

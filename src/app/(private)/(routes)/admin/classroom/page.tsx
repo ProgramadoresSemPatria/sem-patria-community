@@ -1,10 +1,10 @@
 import { DefaultLayout } from '@/components/default-layout'
 import Header from '@/components/header'
-import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import Link from 'next/link'
 import ClassroomContent from './components/classroom-content'
 import ModuleContent from './components/classroom-module-content'
+import VideoContent from './components/classroom-video-content'
 
 const AdminClassroomPage = () => {
   const tabsOptions = [
@@ -18,17 +18,13 @@ const AdminClassroomPage = () => {
     },
     {
       id: 'videos',
-      content: <div>Coming Soon</div>
+      content: <VideoContent />
     }
   ]
 
   return (
     <DefaultLayout>
-      <Header
-        title="Classroom"
-        description="Manage the projects and videos of the community."
-      />
-      <Separator className="my-6" />
+      <Header title="Classroom" />
       <Tabs defaultValue={tabsOptions[0].id} className="w-full">
         <TabsList className="w-auto mb-6">
           {tabsOptions.map(value => (

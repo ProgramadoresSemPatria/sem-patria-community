@@ -48,7 +48,7 @@ export const RichTextInput = ({
     },
     onSuccess: async () => {
       form.setValue('content', '')
-      await queryClient.invalidateQueries({ queryKey: ['comments'] })
+      await queryClient.invalidateQueries({ queryKey: ['video-comments'] })
     },
     onError: error => {
       toast({

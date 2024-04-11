@@ -1,22 +1,30 @@
 import generatePassword from '@/actions/auth/generate-password'
 import { sendEmailWithLink } from '@/actions/auth/send-email-with-link'
 import prismadb from '@/lib/prismadb'
+import { Roles } from '@/lib/types'
 import { auth, clerkClient } from '@clerk/nextjs'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function PATCH(req: NextRequest) {
   try {
-    const { userId } = auth()
-    const { email, name, github, instagram, level, linkedin, role, password } =
-      await req.json()
+    const { userId: authUserId } = auth()
+    const {
+      email,
+      name,
+      github,
+      username,
+      instagram,
+      level,
+      linkedin,
+      role,
+      userId
+    } = await req.json()
 
-    if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
+    if (!authUserId) return new NextResponse('Unauthenticated', { status: 401 })
     // Update user at Clerk
-    await clerkClient.users.updateUser(userId, {
-      primaryEmailAddressID: email,
-      password,
+    const updatedUser = await clerkClient.users.updateUser(userId, {
       firstName: name,
-      username: github,
+      username,
       publicMetadata: {
         github,
         instagram,
@@ -25,6 +33,20 @@ export async function PATCH(req: NextRequest) {
         role
       }
     })
+
+    // If email was updated, update the primary email at Clerk
+    if (email !== updatedUser.emailAddresses[0].emailAddress) {
+      await clerkClient.emailAddresses.createEmailAddress({
+        userId,
+        emailAddress: email,
+        primary: true,
+        verified: true
+      })
+      // Remove the old email
+      await clerkClient.emailAddresses.deleteEmailAddress(
+        updatedUser.emailAddresses[0].id
+      )
+    }
 
     // Update user at DB
     const user = await prismadb.user.update({
@@ -51,17 +73,25 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const { email, name, github, instagram, level, linkedin, role } =
+  const { email, name, github, username, instagram, level, linkedin, role } =
     await req.json()
 
   const newUserPassword = generatePassword()
 
-  // Create user at Clerk
   try {
+    const { userId } = auth()
+
+    const currentUser = await prismadb.user.findFirst({
+      where: { id: userId as string }
+    })
+
+    if (!currentUser?.role.includes(Roles.Admin))
+      return new NextResponse('Unauthorized', { status: 401 })
+
     const clerkUser = await clerkClient.users.createUser({
       emailAddress: [email],
       firstName: name,
-      username: github,
+      username,
       password: newUserPassword,
       publicMetadata: {
         github,
@@ -72,26 +102,25 @@ export async function POST(req: NextRequest) {
       }
     })
 
-    // Create user at DB
-    const user = await prismadb.user.create({
+    const createdUser = await prismadb.user.create({
       data: {
         id: clerkUser.id,
         email,
         password: newUserPassword,
         name,
-        username: github,
+        username,
         imageUrl: clerkUser.imageUrl,
         github,
         instagram,
         level,
         linkedin,
-        role: [role]
+        role
       }
     })
 
-    await sendEmailWithLink(user)
+    await sendEmailWithLink(createdUser)
 
-    return NextResponse.json(user)
+    return NextResponse.json(createdUser)
   } catch (error) {
     console.log('[USER_LEVEL_POST_ERROR]', error)
     return new NextResponse('Internal Server Error', { status: 500 })

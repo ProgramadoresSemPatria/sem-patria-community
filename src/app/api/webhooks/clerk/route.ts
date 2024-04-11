@@ -81,7 +81,8 @@ export async function POST(req: Request) {
     const {
       id,
       image_url: imageUrl,
-      primary_email_address_id: email
+      primary_email_address_id: email,
+      last_sign_in_at: lastSignInAt
     } = evt.data
 
     const updatedUser = await prisma?.user.update({
@@ -90,7 +91,8 @@ export async function POST(req: Request) {
       },
       data: {
         imageUrl,
-        email
+        email,
+        lastLogin: new Date(lastSignInAt ?? Date.now())
       }
     })
 

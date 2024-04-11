@@ -40,7 +40,6 @@ export const NewClassroomModuleForm = ({
     isAlertModalOpen,
     setIsAlertModalOpen,
     title,
-    description,
     action,
     form,
     isDeleting,
@@ -64,34 +63,35 @@ export const NewClassroomModuleForm = ({
         }}
       />
       <div className="flex flex-col">
-        <Button
-          size="icon"
-          variant="link"
-          onClick={() => {
-            router.push(`${appRoutes.admin_classroom}?tabSelected=classroom`)
-          }}
-          className="font-medium w-fit"
-        >
-          <Icons.arrowBack className="mr-2 h-4 w-4" />
-          Voltar
-        </Button>
+        <div className="flex items-center">
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={() => {
+              router.push(`${appRoutes.admin_classroom}?tabSelected=classroom`)
+            }}
+            className="flex items-center justify-center mr-4"
+          >
+            <Icons.arrowBack className="h-5 w-5" />
+          </Button>
 
-        <div className="flex items-center justify-between">
-          <Header title={title} description={description} />
-          {initialData && (
-            <Button
-              disabled={isPending}
-              variant="destructive"
-              size="icon"
-              onClick={() => {
-                setIsAlertModalOpen(true)
-              }}
-            >
-              <Icons.trash className="h-4 w-4" />
-            </Button>
-          )}
+          <div className="flex items-center justify-between w-full">
+            <Header title={title} />
+            {initialData && (
+              <Button
+                disabled={isPending}
+                variant="destructive"
+                size="icon"
+                onClick={() => {
+                  setIsAlertModalOpen(true)
+                }}
+              >
+                <Icons.trash className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
         </div>
-        <Separator className="my-6" />
+        <Separator className="mb-6" />
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

@@ -1,3 +1,4 @@
+import { DefaultLayout } from '@/components/default-layout'
 import { SkeletonCmsPage } from '@/components/skeletons/skeleton-cms-page'
 import prismadb from '@/lib/prismadb'
 import { Suspense } from 'react'
@@ -14,15 +15,16 @@ const AdminUsersPage = async () => {
     subscriptionDate: item.createdAt,
     lastAccess: item.lastLogin,
     level: item.level,
-    imageUrl: item.imageUrl
+    imageUrl: item.imageUrl,
+    role: item.role
   }))
 
   return (
-    <div className="container flex-col pt-6">
+    <DefaultLayout>
       <Suspense fallback={<SkeletonCmsPage />}>
         <UsersClient users={formattedUsers} />
       </Suspense>
-    </div>
+    </DefaultLayout>
   )
 }
 

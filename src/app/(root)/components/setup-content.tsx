@@ -1,6 +1,6 @@
 'use client'
 
-import { usePermissionModal } from '@/hooks/use-modal'
+import { usePermissionModal } from '@/hooks/modal/use-modal'
 import { useEffect } from 'react'
 
 export const SetupPageContent = () => {

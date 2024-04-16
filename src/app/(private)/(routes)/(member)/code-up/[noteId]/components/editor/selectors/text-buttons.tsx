@@ -1,12 +1,6 @@
+import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import {
-  BoldIcon,
-  CodeIcon,
-  ItalicIcon,
-  StrikethroughIcon,
-  UnderlineIcon
-} from 'lucide-react'
 import { EditorBubbleItem, useEditor } from 'novel'
 import type { SelectorItem } from './node-selector'
 
@@ -19,31 +13,31 @@ export const TextButtons = () => {
       name: 'bold',
       isActive: editor => editor.isActive('bold'),
       command: editor => editor.chain().focus().toggleBold().run(),
-      icon: BoldIcon
+      icon: Icons.bold
     },
     {
       name: 'italic',
       isActive: editor => editor.isActive('italic'),
       command: editor => editor.chain().focus().toggleItalic().run(),
-      icon: ItalicIcon
+      icon: Icons.italic
     },
     {
       name: 'underline',
       isActive: editor => editor.isActive('underline'),
       command: editor => editor.chain().focus().toggleUnderline().run(),
-      icon: UnderlineIcon
+      icon: Icons.underline
     },
     {
       name: 'strike',
       isActive: editor => editor.isActive('strike'),
       command: editor => editor.chain().focus().toggleStrike().run(),
-      icon: StrikethroughIcon
+      icon: Icons.strike
     },
     {
       name: 'code',
       isActive: editor => editor.isActive('code'),
       command: editor => editor.chain().focus().toggleCode().run(),
-      icon: CodeIcon
+      icon: Icons.code
     }
   ]
 

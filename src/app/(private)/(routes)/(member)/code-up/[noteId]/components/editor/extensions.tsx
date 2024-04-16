@@ -1,3 +1,4 @@
+import { common, createLowlight } from 'lowlight'
 import {
   // AIHighlight,
   HorizontalRule,
@@ -12,12 +13,11 @@ import {
 import { UploadImagesPlugin } from 'novel/plugins'
 import AutoJoiner from 'tiptap-extension-auto-joiner'
 import GlobalDragHandle from 'tiptap-extension-global-drag-handle'
-import { common, createLowlight } from 'lowlight'
+
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { cx } from 'class-variance-authority'
 
 const lowlight = createLowlight(common)
-
-import { cx } from 'class-variance-authority'
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 
 // const aiHighlight = AIHighlight
 // You can overwrite the placeholder with your own configuration

@@ -1,4 +1,5 @@
 /* eslint-disable no-new */
+import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import {
   Popover,
@@ -51,7 +52,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
           variant="ghost"
           className="gap-2 rounded-none border-none"
         >
-          <p className="text-base">↗</p>
+          <Icons.redirect className="w-4 h-4" />
           <p
             className={cn('underline decoration-stone-400 underline-offset-4', {
               'text-blue-500': editor.isActive('link')

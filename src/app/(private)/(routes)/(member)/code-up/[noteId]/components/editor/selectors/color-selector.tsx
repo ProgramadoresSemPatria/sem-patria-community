@@ -1,6 +1,6 @@
-import { Check, ChevronDown } from 'lucide-react'
 import { EditorBubbleItem, useEditor } from 'novel'
 
+import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import {
   Popover,
@@ -121,7 +121,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
           >
             A
           </span>
-          <ChevronDown className="h-4 w-4" />
+          <Icons.arrowDown className="h-4 w-4" />
         </Button>
       </PopoverTrigger>
 
@@ -183,7 +183,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
                 <span>{name}</span>
               </div>
               {editor.isActive('highlight', { color }) && (
-                <Check className="h-4 w-4" />
+                <Icons.checkSimple className="h-4 w-4" />
               )}
             </EditorBubbleItem>
           ))}

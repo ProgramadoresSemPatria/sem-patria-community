@@ -1,3 +1,4 @@
+import { CaretSortIcon } from '@radix-ui/react-icons'
 import {
   AlignVerticalSpaceAround,
   ArrowUpDown,
@@ -7,9 +8,11 @@ import {
   BellDot,
   Bold,
   Bot,
+  Braces,
   CalendarCheck2,
   CalendarClock,
   CalendarDays,
+  Check,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -24,6 +27,8 @@ import {
   Globe,
   GraduationCap,
   Heading1,
+  Heading2,
+  Heading3,
   Home,
   Italic,
   Layers,
@@ -40,6 +45,7 @@ import {
   Play,
   Plus,
   PlusCircle,
+  Quote,
   Rocket,
   Send,
   Shapes,
@@ -49,11 +55,12 @@ import {
   Sun,
   ThumbsUp,
   Trash,
+  Type,
   User,
+  Users,
   Video,
   X,
-  type LucideIcon,
-  Users
+  type LucideIcon
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -105,6 +112,8 @@ export const Icons = {
   moreMenu: MoreVertical,
   send: Send,
   h1: Heading1,
+  h2: Heading2,
+  h3: Heading3,
   bold: Bold,
   italic: Italic,
   strike: Strikethrough,
@@ -113,5 +122,10 @@ export const Icons = {
   redirect: ExternalLink,
   classroom: Shapes,
   lock: Lock,
-  codeSandbox: Codesandbox
+  codeSandbox: Codesandbox,
+  checkSimple: Check,
+  braces: Braces,
+  text: Type,
+  quote: Quote,
+  caretSort: CaretSortIcon
 }

@@ -1,19 +1,15 @@
 import avatarImg from '@/assets/avatar.png'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import prismadb from '@/lib/prismadb'
-import { cn } from '@/lib/utils'
 import { type Note } from '@prisma/client'
 import { format } from 'date-fns'
 import Image from 'next/image'
+import TimelineNotesContent from './timeline-notes-content'
 
 type TimelineNotesProps = {
-  hasDivider?: boolean
   note: Note
 }
-export const TimelineNotes = async ({
-  hasDivider,
-  note
-}: TimelineNotesProps) => {
+export const TimelineNotes = async ({ note }: TimelineNotesProps) => {
   const userProps = await prismadb.user.findUnique({
     where: {
       id: note.userId
@@ -22,10 +18,7 @@ export const TimelineNotes = async ({
 
   return (
     <div className="flex flex-col relative">
-      {hasDivider && (
-        <div className="h-12 w-[2px] bg-violet-950 absolute -top-2 left-[3px]" />
-      )}
-      <div className={cn('flex items-center', hasDivider && 'mt-8')}>
+      <div className="flex items-center">
         <div className="w-2 h-2 rounded-full bg-violet-700" />
         <Avatar className="ml-4">
           <AvatarImage src={`https://github.com/${userProps?.username}.png`} />
@@ -44,6 +37,9 @@ export const TimelineNotes = async ({
             {format(note.updatedAt, 'MMMM dd, yyy')}
           </span>
         </div>
+      </div>
+      <div className="w-full flex justify-center">
+        <TimelineNotesContent content={note.content} />
       </div>
     </div>
   )

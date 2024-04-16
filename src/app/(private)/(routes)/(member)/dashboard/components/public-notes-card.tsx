@@ -19,7 +19,7 @@ export const PublicNotesCard = async () => {
   })
 
   return (
-    <Card>
+    <Card className="h-fit">
       <CardHeader>
         <CardTitle>#ChallengeCodeUp Public notes of our members.</CardTitle>
         <CardDescription>
@@ -41,7 +41,7 @@ export const PublicNotesCard = async () => {
           )}
 
           {notes.map((note, i) => (
-            <TimelineNotes key={note.id} note={note} hasDivider={i !== 0} />
+            <TimelineNotes key={note.id} note={note} />
           ))}
         </CardContent>
       </Suspense>

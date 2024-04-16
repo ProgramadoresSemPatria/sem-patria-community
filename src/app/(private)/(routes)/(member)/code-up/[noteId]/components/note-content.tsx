@@ -3,7 +3,7 @@ import { useNoteStore } from '@/hooks/note/use-note-store'
 import { type Note } from '@prisma/client'
 import { useRef, useState, type ElementRef } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
-import { NoteEditor } from './note-editor'
+import NoteEditor from './editor/editor'
 
 type NoteContentProps = {
   note: Note
@@ -55,7 +55,10 @@ export const NoteContent = ({ note }: NoteContentProps) => {
           {title ?? note.title}
         </div>
       )}
-      <NoteEditor onChange={onChangeContent} note={note} />
+      <NoteEditor
+        initialValue={JSON.parse(note.content ?? '{}')}
+        onChange={onChangeContent}
+      />
     </div>
   )
 }

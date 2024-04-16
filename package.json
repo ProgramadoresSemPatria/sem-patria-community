@@ -14,6 +14,9 @@
   "dependencies": {
     "@blocknote/core": "^0.10.1",
     "@blocknote/react": "^0.10.1",
+    "@casl/ability": "^6.7.1",
+    "@casl/prisma": "^1.4.1",
+    "@casl/react": "^3.1.0",
     "@clerk/clerk-react": "^4.28.1",
     "@clerk/nextjs": "^4.29.3",
     "@clerk/themes": "^1.7.9",

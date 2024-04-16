@@ -3,6 +3,7 @@ import Header from '@/components/header'
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
+import { Can } from '@/hooks/use-ability'
 import { appRoutes } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
 import { columns, type CourseColumn } from './columns'
@@ -17,14 +18,16 @@ const CoursesClient = ({ courses }: CoursesClientProps) => {
   return (
     <>
       <Header title="Courses">
-        <Button
-          onClick={() => {
-            router.push(appRoutes.admin_courses_new)
-          }}
-        >
-          <Icons.plus className="w-4 h-4 mr-2" />
-          Add New
-        </Button>
+        <Can I="create" a="Course">
+          <Button
+            onClick={() => {
+              router.push(appRoutes.admin_courses_new)
+            }}
+          >
+            <Icons.plus className="w-4 h-4 mr-2" />
+            Add New
+          </Button>
+        </Can>
       </Header>
       <DataTable searchKey="name" columns={columns} data={courses} />
     </>

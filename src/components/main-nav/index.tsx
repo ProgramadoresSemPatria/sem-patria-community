@@ -1,6 +1,6 @@
 'use client'
 
-import { useAppStore } from '@/hooks/use-app-store'
+import { Can } from '@/hooks/use-ability'
 import { menuItems } from '@/lib/constants'
 import { type MenuItemProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
@@ -19,8 +19,6 @@ type MainNavProps = {
 const MainNav = ({ children }: MainNavProps) => {
   const [isMounted, setIsMounted] = useState(false)
   const pathname = usePathname()
-  const { isCmsMode } = useAppStore()
-  const isAdminPage = pathname.includes('admin')
 
   const memberRoutes: MenuItemProps[] = menuItems
     .filter(item => !item.href.includes('admin'))
@@ -49,9 +47,7 @@ const MainNav = ({ children }: MainNavProps) => {
   return (
     <div
       className={cn(
-        'hidden h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6',
-        !isAdminPage && 'md:flex',
-        isAdminPage && 'xl:flex'
+        'hidden md:flex h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6'
       )}
     >
       <MainLogo />
@@ -72,7 +68,7 @@ const MainNav = ({ children }: MainNavProps) => {
               </span>
             </Link>
           ))}
-          {isCmsMode && (
+          <Can I="get" a="CMS">
             <div className="mt-6">
               <p className="font-medium text-sm text-foreground pb-2">CMS</p>
               <ul className="flex flex-col gap-2">
@@ -93,7 +89,7 @@ const MainNav = ({ children }: MainNavProps) => {
                 ))}
               </ul>
             </div>
-          )}
+          </Can>
         </ul>
       </nav>
       <ClerkUserButton />

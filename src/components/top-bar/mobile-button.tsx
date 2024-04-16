@@ -17,11 +17,7 @@ export const MobileButton = ({ children }: MobileButtonProps) => {
   return (
     <>
       <button
-        className={cn(
-          'flex items-center space-x-2',
-          !isAdminPage && 'md:hidden',
-          isAdminPage && 'xl:hidden'
-        )}
+        className={cn('flex md:hidden items-center space-x-2')}
         onClick={() => {
           setShowMobileMenu(!showMobileMenu)
         }}

@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { useToast } from '@/components/ui/use-toast'
+import { Can } from '@/hooks/use-ability'
 import { api } from '@/lib/api'
 import { appRoutes } from '@/lib/constants'
 import { useMutation } from '@tanstack/react-query'
@@ -141,23 +142,27 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
             <Icons.edit className="mr-2 h-4 w-4" />
             Update
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => {
-              setIsAlertModalOpen(true)
-            }}
-          >
-            <Icons.trash className="mr-2 h-4 w-4" />
-            Delete
-          </DropdownMenuItem>
-          {data.isPending && (
+          <Can I="delete" a="Course">
             <DropdownMenuItem
-              onClick={async () => {
-                await onApproveCourse()
+              onClick={() => {
+                setIsAlertModalOpen(true)
               }}
             >
-              <Icons.check className="mr-2 h-4 w-4" />
-              Approve
+              <Icons.trash className="mr-2 h-4 w-4" />
+              Delete
             </DropdownMenuItem>
+          </Can>
+          {data.isPending && (
+            <Can I="approve" a="Course">
+              <DropdownMenuItem
+                onClick={async () => {
+                  await onApproveCourse()
+                }}
+              >
+                <Icons.check className="mr-2 h-4 w-4" />
+                Approve
+              </DropdownMenuItem>
+            </Can>
           )}
         </DropdownMenuContent>
       </DropdownMenu>

@@ -12,7 +12,7 @@ export const LogoutButton = () => {
   return (
     <Button
       variant="ghost"
-      className="gap-x-2 items-center ml-2"
+      className="gap-x-2 items-center"
       onClick={async () => {
         await signOut(() => {
           router.push(appRoutes.signIn)

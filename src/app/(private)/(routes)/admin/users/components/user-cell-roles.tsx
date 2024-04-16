@@ -13,8 +13,6 @@ const UserCellRoles = ({ roles }: UserCellRolesProps) => {
   const lastRole = userRoles.pop()
   const remaningRolesQuantity = userRoles.length
 
-  console.log(userRoles)
-
   return (
     <Popover>
       <PopoverTrigger

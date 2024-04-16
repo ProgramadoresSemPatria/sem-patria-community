@@ -1,11 +1,11 @@
 import { appConfig } from '@/lib/constants'
 import { cn } from '@/lib/utils'
+import { AppProviders } from '@/providers/app-provider'
 import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../styles/globals.css'
-import { AppProviders } from '@/providers/app-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 

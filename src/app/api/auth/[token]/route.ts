@@ -1,8 +1,8 @@
-import { type NextRequest, NextResponse } from 'next/server'
-import jwt from 'jsonwebtoken'
 import prismadb from '@/lib/prismadb'
 import { clerkClient } from '@clerk/nextjs'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import { NextResponse, type NextRequest } from 'next/server'
 
 export async function GET(
   req: NextRequest,
@@ -42,7 +42,7 @@ export async function PATCH(
       password
     })
 
-    await prismadb.user.update({
+    const user = await prismadb.user.update({
       where: {
         id: decoded.userId
       },
@@ -51,9 +51,18 @@ export async function PATCH(
       }
     })
 
+    if (!user)
+      return new NextResponse(
+        'An error occurs while updating the password. Try again later.',
+        { status: 400 }
+      )
+
     return NextResponse.json({ message: 'Password updated successfully' })
   } catch (error) {
     console.log('[USER_LEVEL_PATCH_ERROR]', error)
-    return new NextResponse('Internal Server Error', { status: 500 })
+    return new NextResponse(
+      'Password has been found in an online data breach. For account safety, please use a different password.',
+      { status: 400 }
+    )
   }
 }

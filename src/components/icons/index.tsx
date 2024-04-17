@@ -19,6 +19,8 @@ import {
   Copy,
   Edit,
   ExternalLink,
+  Eye,
+  EyeOff,
   File,
   FileArchive,
   Globe,
@@ -50,10 +52,11 @@ import {
   ThumbsUp,
   Trash,
   User,
+  Users,
   Video,
   X,
   type LucideIcon,
-  Users
+  HelpCircle
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -113,5 +116,8 @@ export const Icons = {
   redirect: ExternalLink,
   classroom: Shapes,
   lock: Lock,
-  codeSandbox: Codesandbox
+  codeSandbox: Codesandbox,
+  eye: Eye,
+  eyeOff: EyeOff,
+  help: HelpCircle
 }

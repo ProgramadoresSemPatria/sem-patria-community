@@ -26,6 +26,7 @@ import {
   Globe,
   GraduationCap,
   Heading1,
+  HelpCircle,
   Home,
   Italic,
   Layers,
@@ -51,12 +52,12 @@ import {
   Sun,
   ThumbsUp,
   Trash,
+  UploadCloud,
   User,
   Users,
   Video,
   X,
-  type LucideIcon,
-  HelpCircle
+  type LucideIcon
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -119,5 +120,6 @@ export const Icons = {
   codeSandbox: Codesandbox,
   eye: Eye,
   eyeOff: EyeOff,
-  help: HelpCircle
+  help: HelpCircle,
+  cloudUpload: UploadCloud
 }

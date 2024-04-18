@@ -13,6 +13,7 @@ const formSchema = z.object({
   title: z.string().min(1, {
     message: 'Title is required'
   }),
+  fileUrl: z.string(),
   classroomId: z.string().min(1, {
     message: 'Classroom is required'
   })
@@ -31,7 +32,14 @@ export const useNewClassroomModuleForm = ({
   const router = useRouter()
   const { toast } = useToast()
 
-  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
+  const form = useForm<NewClassroomModuleFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: initialData?.title ?? '',
+      classroomId: initialData?.classroomId ?? '',
+      fileUrl: initialData?.fileUrl ?? ''
+    }
+  })
 
   const title = initialData ? 'Edit Module' : 'Create Module'
   const toastMessage = initialData
@@ -39,13 +47,15 @@ export const useNewClassroomModuleForm = ({
     : 'Module created successfully'
   const action = initialData ? 'Save changes' : 'Create Module'
 
-  const form = useForm<NewClassroomModuleFormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: initialData?.title ?? '',
-      classroomId: initialData?.classroomId ?? ''
-    }
-  })
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
+  const [previewImage, setPreviewImage] = useState<string | undefined>(
+    initialData?.fileUrl ?? undefined
+  )
+
+  const onSetPreviewImage = (image: string) => {
+    setPreviewImage(image)
+    form.setValue('fileUrl', image)
+  }
 
   const { mutateAsync: deleteClassroomModule, isPending: isDeleting } =
     useMutation({
@@ -126,6 +136,8 @@ export const useNewClassroomModuleForm = ({
     isPending,
     onSubmit,
     onDeleteClassroomModule,
-    router
+    router,
+    previewImage,
+    onSetPreviewImage
   }
 }

@@ -84,11 +84,6 @@ const ForumFeed: React.FC<ForumFeedProps> = ({
   return (
     <ul className="flex flex-col col-span-2 space-y-6">
       {posts.map((post: ExtendedPost, index) => {
-        const likesAmount = post.likes.reduce((acc, like) => {
-          if (like.type === 'UP') return acc + 1
-          if (like.type === 'DOWN') return acc - 1
-          return acc
-        }, 0)
 
         const currentLike = post.likes.find(like => like.userId === userId)
 
@@ -96,23 +91,25 @@ const ForumFeed: React.FC<ForumFeedProps> = ({
           return (
             <li key={post.id} ref={ref}>
               <Post
+                userId={userId as string}
                 commentAmount={post.comments.length}
                 post={post}
                 categoryName={post.category.name}
-                likesAmount={likesAmount}
-                currentLike={currentLike}
+                likesAmount={post.likes.length}
+                currentLike={!!currentLike}
               />
             </li>
           )
         } else {
           return (
             <Post
+            userId={userId as string}
               key={post.id}
               commentAmount={post.comments.length}
               post={post}
               categoryName={post.category.name}
-              likesAmount={likesAmount}
-              currentLike={currentLike}
+              likesAmount={post.likes.length}
+              currentLike={!!currentLike}
             />
           )
         }

@@ -6,8 +6,7 @@ const f = createUploadthing()
 
 export const ourFileRouter = {
   imageUploader: f({
-    image: { maxFileSize: '4MB', maxFileCount: 1 },
-    video: { maxFileSize: '16MB', maxFileCount: 1 }
+    image: { maxFileSize: '4MB', maxFileCount: 1 }
   })
     .middleware(() => {
       const user = auth()

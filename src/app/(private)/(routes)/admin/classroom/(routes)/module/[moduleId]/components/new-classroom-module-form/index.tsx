@@ -46,13 +46,15 @@ export const NewClassroomModuleForm = ({
     title,
     action,
     form,
-    isDeleting,
+    isDeletingModule,
     isPending,
     onSubmit,
     onDeleteClassroomModule,
     router,
     previewImage,
-    onSetPreviewImage
+    onSetPreviewImage,
+    onDeleteImageModule,
+    isDeletingImageModule
   } = useNewClassroomModuleForm({ initialData })
 
   return (
@@ -60,7 +62,7 @@ export const NewClassroomModuleForm = ({
       <AlertModal
         isOpen={isAlertModalOpen}
         description="Are you sure you want to delete this module?"
-        loading={isDeleting}
+        loading={isDeletingModule}
         onClose={() => {
           setIsAlertModalOpen(false)
         }}
@@ -179,7 +181,9 @@ export const NewClassroomModuleForm = ({
                   )}
                 />
                 <Button
-                  disabled={isPending}
+                  disabled={
+                    isPending || isDeletingImageModule || isDeletingModule
+                  }
                   className="mr-auto mt-4"
                   type="submit"
                 >
@@ -205,8 +209,28 @@ export const NewClassroomModuleForm = ({
                 )}
               />
 
-              <div className="flex flex-col gap-y-4">
-                <Label>Image preview</Label>
+              <div className="flex flex-col gap-y-2">
+                <div className="flex justify-between items-center">
+                  <Label>Image preview</Label>
+                  {previewImage && (
+                    <Button
+                      variant="link"
+                      className="text-rose-600 !p-0 h-auto text-sm"
+                      onClick={() => {
+                        onDeleteImageModule(previewImage)
+                      }}
+                      disabled={isDeletingImageModule}
+                      type="button"
+                    >
+                      Remove image
+                      {isDeletingImageModule ? (
+                        <Icons.loader className="h-4 w-4 ml-2 animate-spin text-primary" />
+                      ) : (
+                        <Icons.trash className="h-4 w-4 ml-2 text-rose-600" />
+                      )}
+                    </Button>
+                  )}
+                </div>
                 {previewImage ? (
                   <Link
                     href={previewImage}
@@ -218,7 +242,7 @@ export const NewClassroomModuleForm = ({
                       alt="uploaded-image"
                       width={1920}
                       height={1080}
-                      className="w-full h-[calc(100vh-300px)] rounded-md"
+                      className="w-full h-auto max-h-[calc(100vh-250px)] rounded-md"
                     />
                   </Link>
                 ) : (

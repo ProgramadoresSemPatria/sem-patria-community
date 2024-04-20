@@ -11,10 +11,10 @@ export const UploadImageModule = ({
   return (
     <div className="cursor-pointer">
       <UploadDropzone
-        className="border-dashed"
+        className="p-0 pb-2 border-dashed border border-violet-600"
         appearance={{
           button:
-            'ut-ready:bg-green-500 bg-muted text-sm mb-4 after:bg-purple-600'
+            'ut-ready:bg-muted ut-ready:hover:bg-slate-700 transition-colors ut-ready:py-2 ut-readying:bg-transparent ut-uploading:!bg-transparent ut-uploading:py-1 h-auto text-sm font-semibold mb-4'
         }}
         content={{
           label: () => {
@@ -38,7 +38,7 @@ export const UploadImageModule = ({
           onSetPreviewImage(res[0].url)
           toast({
             title: 'Success',
-            description: `Upload Completed!`
+            description: `🎉 Upload Completed!`
           })
         }}
         onUploadError={(error: Error) => {

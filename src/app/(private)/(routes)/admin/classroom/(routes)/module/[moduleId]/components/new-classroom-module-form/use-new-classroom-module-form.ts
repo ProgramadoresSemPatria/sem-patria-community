@@ -1,15 +1,13 @@
 import { useToast } from '@/components/ui/use-toast'
-import { api } from '@/lib/api'
-import { appRoutes } from '@/lib/constants'
+import { useModuleService } from '@/services/classroom/module/use-module-service'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { type ClassroomModule } from '@prisma/client'
-import { useMutation } from '@tanstack/react-query'
-import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
-const formSchema = z.object({
+export const classroomModuleFormSchema = z.object({
   title: z.string().min(1, {
     message: 'Title is required'
   }),
@@ -19,7 +17,7 @@ const formSchema = z.object({
   })
 })
 
-type NewClassroomModuleFormValues = z.infer<typeof formSchema>
+type NewClassroomModuleFormValues = z.infer<typeof classroomModuleFormSchema>
 
 type UseNewClassroomModuleFormProps = {
   initialData: ClassroomModule | null
@@ -28,12 +26,20 @@ type UseNewClassroomModuleFormProps = {
 export const useNewClassroomModuleForm = ({
   initialData
 }: UseNewClassroomModuleFormProps) => {
-  const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
+  const {
+    createOrUpdateClassroomModule,
+    deleteClassroomModule,
+    isDeletingModule,
+    isPending,
+    deleteImageModule,
+    isDeletingImageModule,
+    isImageDeleted
+  } = useModuleService({ initialData })
 
   const form = useForm<NewClassroomModuleFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(classroomModuleFormSchema),
     defaultValues: {
       title: initialData?.title ?? '',
       classroomId: initialData?.classroomId ?? '',
@@ -42,9 +48,6 @@ export const useNewClassroomModuleForm = ({
   })
 
   const title = initialData ? 'Edit Module' : 'Create Module'
-  const toastMessage = initialData
-    ? 'Module updated.'
-    : 'Module created successfully'
   const action = initialData ? 'Save changes' : 'Create Module'
 
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
@@ -56,58 +59,6 @@ export const useNewClassroomModuleForm = ({
     setPreviewImage(image)
     form.setValue('fileUrl', image)
   }
-
-  const { mutateAsync: deleteClassroomModule, isPending: isDeleting } =
-    useMutation({
-      mutationFn: async () => {
-        return await api.delete(`/api/classroom/module/${params.moduleId}`)
-      },
-      onSuccess: () => {
-        router.push(appRoutes.admin_classroom)
-        router.refresh()
-        toast({
-          title: 'Success',
-          description: 'Module deleted successfully.'
-        })
-      },
-      onError: () => {
-        toast({
-          title: 'Error',
-          description: 'Something went wrong.',
-          variant: 'destructive'
-        })
-      }
-    })
-
-  const { mutateAsync: createOrUpdateClassroomModule, isPending } = useMutation(
-    {
-      mutationFn: async (data: z.infer<typeof formSchema>) => {
-        if (initialData) {
-          return await api.patch(
-            `/api/classroom/module/${params.moduleId}`,
-            data
-          )
-        }
-
-        return await api.post(`/api/classroom/module`, data)
-      },
-      onSuccess: () => {
-        router.push(appRoutes.admin_classroom)
-        router.refresh()
-        toast({
-          title: 'Success',
-          description: `${toastMessage}`
-        })
-      },
-      onError: () => {
-        toast({
-          title: 'Error',
-          description: 'Something went wrong.',
-          variant: 'destructive'
-        })
-      }
-    }
-  )
 
   const onSubmit = async (values: NewClassroomModuleFormValues) => {
     await createOrUpdateClassroomModule(values)
@@ -126,18 +77,31 @@ export const useNewClassroomModuleForm = ({
       setIsAlertModalOpen(false)
     }
   }
+
+  const onDeleteImageModule = (image: string) => {
+    const imageKey = image.substring(image.lastIndexOf('/') + 1)
+
+    deleteImageModule(imageKey)
+  }
+
+  useEffect(() => {
+    if (isImageDeleted) setPreviewImage(() => undefined)
+  }, [isImageDeleted])
+
   return {
     isAlertModalOpen,
     setIsAlertModalOpen,
     title,
     action,
     form,
-    isDeleting,
+    isDeletingModule,
     isPending,
     onSubmit,
     onDeleteClassroomModule,
     router,
     previewImage,
-    onSetPreviewImage
+    onSetPreviewImage,
+    onDeleteImageModule,
+    isDeletingImageModule
   }
 }

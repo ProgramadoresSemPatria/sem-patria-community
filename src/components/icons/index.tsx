@@ -34,6 +34,7 @@ import {
   Lock,
   LogOut,
   Menu,
+  MessageSquare,
   Moon,
   MoreHorizontal,
   MoreVertical,
@@ -113,5 +114,6 @@ export const Icons = {
   redirect: ExternalLink,
   classroom: Shapes,
   lock: Lock,
-  codeSandbox: Codesandbox
+  codeSandbox: Codesandbox,
+  forum: MessageSquare
 }

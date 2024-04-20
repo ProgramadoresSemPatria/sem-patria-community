@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input'
 import useCreatePostModalStore from '@/hooks/modal/use-create-post'
 import React from 'react'
 
-function CreatePostCommentComponent() {
+function CreatePostComponent() {
   const { isOpen, onOpen } = useCreatePostModalStore()
 
   return (
@@ -20,4 +20,4 @@ function CreatePostCommentComponent() {
   )
 }
 
-export default CreatePostCommentComponent
+export default CreatePostComponent

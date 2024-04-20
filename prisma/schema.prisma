@@ -156,7 +156,6 @@ model Like {
   userId String
   post   Post     @relation(fields: [postId], references: [id])
   postId String
-  type   VoteType
 
   @@id([userId, postId])
 }
@@ -166,12 +165,6 @@ model CommentLike {
   userId    String
   comment   Comment  @relation(fields: [commentId], references: [id])
   commentId String
-  type      VoteType
-
+  
   @@id([userId, commentId])
-}
-
-enum VoteType {
-  UP
-  DOWN
 }

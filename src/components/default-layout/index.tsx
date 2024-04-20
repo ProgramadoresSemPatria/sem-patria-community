@@ -8,7 +8,10 @@ type DefaultLayoutProps = {
   className?: string
 }
 
-export const DefaultLayout = ({ children, className }: DefaultLayoutProps) => {
+export const DefaultLayout = async ({
+  children,
+  className
+}: DefaultLayoutProps) => {
   return (
     <div className="flex min-h-screen">
       <MainNav />

@@ -1,17 +1,15 @@
 'use client'
 
-import Hefesto from '@/assets/hefesto.png'
+import DefaultImage from '@/assets/advanced.png'
 import { Icons } from '@/components/icons'
 import { SkeletonMentorshipPage } from '@/components/skeletons/skeleton-mentorship-page'
 import {
   Carousel,
   CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious
+  CarouselItem
 } from '@/components/ui/carousel'
 import { toast } from '@/components/ui/use-toast'
-import { appRoutes, mentorshipProgramModuleProps } from '@/lib/constants'
+import { appRoutes } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { type Video } from '@prisma/client'
 import Image from 'next/image'
@@ -23,6 +21,7 @@ type ModuleCarouselProps = {
     id: string
     title: string
     classroomId: string
+    fileUrl?: string
     videos: Video[]
   }>
   hasPermission: boolean
@@ -37,7 +36,7 @@ export const ModuleCarousel = ({
   if (!isMounted) return <SkeletonMentorshipPage />
 
   return (
-    <Carousel>
+    <Carousel className="w-full overflow-x-hidden">
       <CarouselContent>
         {modules.map(module => {
           const hasVideos = module.videos.length
@@ -48,7 +47,7 @@ export const ModuleCarousel = ({
                 className={cn(
                   !hasPermission &&
                     'flex flex-col justify-center items-center relative',
-                  'group basis-1/4 md:basis-1/3 lg:basis-1/5'
+                  'basis-1/4 cursor-pointer'
                 )}
                 onClick={() => {
                   if (!hasPermission) return
@@ -59,10 +58,7 @@ export const ModuleCarousel = ({
                 }}
               >
                 <Image
-                  src={
-                    mentorshipProgramModuleProps(module.title)?.image ??
-                    Hefesto.src
-                  }
+                  src={module.fileUrl ?? DefaultImage.src}
                   alt={module.title}
                   width={1920}
                   height={1080}
@@ -70,7 +66,7 @@ export const ModuleCarousel = ({
                     hasPermission
                       ? 'group-hover:opacity-80'
                       : 'group-hover:opacity-25',
-                    'object-cover w-fit rounded'
+                    'object-cover w-full rounded max-h-[450px] h-full'
                   )}
                 />
                 {!hasPermission && (
@@ -81,7 +77,7 @@ export const ModuleCarousel = ({
           return (
             <CarouselItem
               key={module.id}
-              className="group basis-1/4 md:basis-1/3 lg:basis-1/5"
+              className="group basis-1/4 cursor-pointer"
             >
               <Link
                 className={`${
@@ -92,10 +88,7 @@ export const ModuleCarousel = ({
                 aria-disabled={!hasPermission}
               >
                 <Image
-                  src={
-                    mentorshipProgramModuleProps(module.title)?.image ??
-                    Hefesto.src
-                  }
+                  src={module.fileUrl ?? DefaultImage.src}
                   alt={module.title}
                   width={1920}
                   height={1080}
@@ -103,7 +96,7 @@ export const ModuleCarousel = ({
                     hasPermission
                       ? 'group-hover:opacity-80'
                       : 'group-hover:opacity-25',
-                    'object-cover w-fit rounded'
+                    'object-cover w-fit rounded max-h-[450px] h-full'
                   )}
                 />
                 {!hasPermission && (
@@ -114,8 +107,6 @@ export const ModuleCarousel = ({
           )
         })}
       </CarouselContent>
-      <CarouselPrevious className="xl:hidden" />
-      <CarouselNext className="xl:hidden" />
     </Carousel>
   )
 }

@@ -1,23 +1,24 @@
-'use client'
-
-import { useAppStore } from '@/hooks/use-app-store'
 import { appRoutes } from '@/lib/constants'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import prismadb from '@/lib/prismadb'
+import { auth } from '@clerk/nextjs'
+import { Roles } from '@prisma/client'
+import { redirect } from 'next/navigation'
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children
 }: {
   children: React.ReactNode
 }) {
-  const { isCmsMode } = useAppStore()
-  const router = useRouter()
-
-  useEffect(() => {
-    if (!isCmsMode) {
-      router.push(appRoutes.dashboard)
+  const { userId } = auth()
+  if (!userId) return redirect(appRoutes.root)
+  const user = await prismadb.user.findFirst({
+    where: {
+      id: userId
     }
-  }, [isCmsMode, router])
+  })
+
+  if (!user?.role.includes(Roles.Admin) && !user?.role.includes(Roles.Builder))
+    return redirect(appRoutes.dashboard)
 
   return <>{children}</>
 }

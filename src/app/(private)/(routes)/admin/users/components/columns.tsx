@@ -1,5 +1,7 @@
 'use client'
 
+import { Icons } from '@/components/icons'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Roles } from '@/lib/types'
 import { type ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
@@ -26,13 +28,20 @@ export const userColumns: Array<ColumnDef<UserColumn>> = [
     cell: cell => {
       return (
         <div className="flex gap-2 items-center">
-          <Image
-            src={cell.row.original.imageUrl || ''}
-            width={30}
-            height={30}
-            alt={cell.getValue() as string}
-            className="rounded-full"
-          />
+          {cell.row.original.imageUrl !== null ? (
+            <Image
+              src={cell.row.original.imageUrl || ''}
+              width={30}
+              height={30}
+              alt={cell.getValue() as string}
+              className="rounded-full"
+            />
+          ) : (
+            <Skeleton className="flex flex-col items-center justify-center w-8 h-8 rounded-full">
+              <Icons.user className="w-6 h-6 text-white fill-white" />
+            </Skeleton>
+          )}
+
           <span>{`${cell.getValue()}`}</span>
         </div>
       )
@@ -66,7 +75,14 @@ export const userColumns: Array<ColumnDef<UserColumn>> = [
   },
   {
     accessorKey: 'level',
-    header: 'Level'
+    header: 'Level',
+    cell: ({ row }) => {
+      if (!row.original.level) return '-'
+
+      const formattedValue =
+        row.original.level.charAt(0).toUpperCase() + row.original.level.slice(1)
+      return formattedValue
+    }
   },
   {
     accessorKey: 'role',

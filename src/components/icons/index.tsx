@@ -23,6 +23,8 @@ import {
   Copy,
   Edit,
   ExternalLink,
+  Eye,
+  EyeOff,
   File,
   FileArchive,
   Globe,
@@ -30,6 +32,7 @@ import {
   Heading1,
   Heading2,
   Heading3,
+  HelpCircle,
   Home,
   Italic,
   Layers,
@@ -56,6 +59,7 @@ import {
   Sun,
   ThumbsUp,
   Trash,
+  UploadCloud,
   Type,
   Underline,
   User,
@@ -132,4 +136,8 @@ export const Icons = {
   text: Type,
   quote: Quote,
   caretSort: CaretSortIcon
+  cloudUpload: UploadCloud
+  help: HelpCircle,
+  eyeOff: EyeOff,
+  eye: Eye,
 }

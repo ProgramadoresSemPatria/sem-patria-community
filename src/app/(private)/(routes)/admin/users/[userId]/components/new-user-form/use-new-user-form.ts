@@ -4,6 +4,7 @@ import { appRoutes } from '@/lib/constants'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { type Roles, type User } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
+import { type AxiosError } from 'axios'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -13,7 +14,9 @@ const formSchema = z.object({
   name: z.string().min(1, {
     message: 'Name is required'
   }),
-  username: z.string(),
+  username: z.string().min(4, {
+    message: 'Username must contain at least 4 characters'
+  }),
   email: z
     .string()
     .email({
@@ -97,10 +100,10 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
         description: 'User was deleted successfully.'
       })
     },
-    onError: () => {
+    onError: error => {
       toast({
         title: 'Error',
-        description: 'Something went wrong.',
+        description: error.message ?? 'Something went wrong.',
         variant: 'destructive'
       })
     }
@@ -139,10 +142,12 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
         description: `${toastMessage}`
       })
     },
-    onError: () => {
+    onError: (error: AxiosError) => {
       toast({
         title: 'Error',
-        description: 'Something went wrong.',
+        description: error.response?.data
+          ? `${error.response?.data as string}`
+          : 'Something went wrong.',
         variant: 'destructive'
       })
     }

@@ -88,6 +88,21 @@ export async function POST(req: NextRequest) {
     if (!currentUser?.role.includes(Roles.Admin))
       return new NextResponse('Unauthorized', { status: 401 })
 
+    const hasUser = await prismadb.user.findFirst({
+      where: {
+        OR: [{ email }, { username }]
+      }
+    })
+    if (hasUser) {
+      const isEmail = hasUser.email === email
+      return new NextResponse(
+        `Already exists an user with this ${isEmail ? 'Email' : 'Username'}.`,
+        {
+          status: 400
+        }
+      )
+    }
+
     const clerkUser = await clerkClient.users.createUser({
       emailAddress: [email],
       firstName: name,

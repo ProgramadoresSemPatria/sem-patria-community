@@ -1,4 +1,4 @@
-import appLogo from '@/assets/logo.svg'
+import appLogo from '@/assets/app-logo.png'
 import { appRoutes } from '@/lib/constants'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -16,7 +16,7 @@ const MainLogo = ({ isMobile }: MainLogoProps) => {
             href={appRoutes.dashboard}
             className="flex items-center space-x-2 md:flex mr-4"
           >
-            <Image src={appLogo} alt="Logo" height={28} width={28} />
+            <Image src={appLogo} alt="Logo" height={100} width={100} />
           </Link>
         </div>
       ) : (
@@ -25,13 +25,7 @@ const MainLogo = ({ isMobile }: MainLogoProps) => {
             href={appRoutes.dashboard}
             className="flex items-center space-x-2 md:flex mr-4"
           >
-            <Image src={appLogo} alt="Logo" height={28} width={28} />
-            <span className="text-sm font-bold sm:inline-block text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-cyan-400">
-              Sem Pátria
-            </span>
-            <span className="font-light tracking-widest text-muted-foreground opacity-75">
-              COMM
-            </span>
+            <Image src={appLogo} alt="Logo" height={100} width={100} />
           </Link>
         </div>
       )}

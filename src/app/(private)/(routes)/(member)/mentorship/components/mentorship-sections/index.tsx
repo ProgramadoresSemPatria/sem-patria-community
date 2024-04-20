@@ -34,6 +34,7 @@ export const MentorshipSections = async () => {
       return {
         id: module.id,
         title: module.title,
+        fileUrl: module.fileUrl ?? undefined,
         classroomId: module.classroomId,
         videos
       }
@@ -70,18 +71,21 @@ export const MentorshipSections = async () => {
         )}
         {formattedData.map(classroom => (
           <div key={classroom.id} className="flex flex-col gap-y-3">
-            <h2 className="font-medium text-lg flex items-center">
-              {classroom.title}
-              {!classroom.hasPermission && (
-                <Icons.lock className="h-4 w-4 ml-2" />
-              )}
-            </h2>
-            <div className="flex flex-col gap-y-3">
-              <ModuleCarousel
-                modules={classroom.modules}
-                hasPermission={classroom.hasPermission}
-              />
+            <div className="flex items-center justify-between w-full">
+              <h2 className="font-medium text-lg flex items-center">
+                {classroom.title}
+                {!classroom.hasPermission && (
+                  <Icons.lock className="h-4 w-4 ml-2" />
+                )}
+              </h2>
+              <span className="text-sm text-purple-700 font-medium">
+                Drag to see more
+              </span>
             </div>
+            <ModuleCarousel
+              modules={classroom.modules}
+              hasPermission={classroom.hasPermission}
+            />
           </div>
         ))}
       </Suspense>

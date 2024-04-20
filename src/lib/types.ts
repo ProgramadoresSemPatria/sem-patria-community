@@ -24,3 +24,5 @@ export enum Roles {
   Builder = 'Builder',
   Admin = 'Admin'
 }
+
+export type UserAbilityRoles = 'ADMIN' | 'BUILDER' | 'MEMBER'

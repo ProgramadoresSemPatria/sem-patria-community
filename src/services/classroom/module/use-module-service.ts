@@ -1,53 +1,27 @@
-import { useToast } from '@/components/ui/use-toast'
+'use client'
+
+import { type classroomModuleFormSchema } from '@/app/(private)/(routes)/admin/classroom/(routes)/module/[moduleId]/components/new-classroom-module-form/use-new-classroom-module-form'
+import { toast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { appRoutes } from '@/lib/constants'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { type ClassroomModule } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import { type z } from 'zod'
 
-const formSchema = z.object({
-  title: z.string().min(1, {
-    message: 'Title is required'
-  }),
-  classroomId: z.string().min(1, {
-    message: 'Classroom is required'
-  })
-})
-
-type NewClassroomModuleFormValues = z.infer<typeof formSchema>
-
-type UseNewClassroomModuleFormProps = {
+type UseModuleServiceProps = {
   initialData: ClassroomModule | null
 }
 
-export const useNewClassroomModuleForm = ({
-  initialData
-}: UseNewClassroomModuleFormProps) => {
-  const params = useParams()
+export const useModuleService = ({ initialData }: UseModuleServiceProps) => {
   const router = useRouter()
-  const { toast } = useToast()
+  const params = useParams()
 
-  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
-
-  const title = initialData ? 'Edit Module' : 'Create Module'
   const toastMessage = initialData
     ? 'Module updated.'
     : 'Module created successfully'
-  const action = initialData ? 'Save changes' : 'Create Module'
 
-  const form = useForm<NewClassroomModuleFormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: initialData?.title ?? '',
-      classroomId: initialData?.classroomId ?? ''
-    }
-  })
-
-  const { mutateAsync: deleteClassroomModule, isPending: isDeleting } =
+  const { mutateAsync: deleteClassroomModule, isPending: isDeletingModule } =
     useMutation({
       mutationFn: async () => {
         return await api.delete(`/api/classroom/module/${params.moduleId}`)
@@ -71,7 +45,7 @@ export const useNewClassroomModuleForm = ({
 
   const { mutateAsync: createOrUpdateClassroomModule, isPending } = useMutation(
     {
-      mutationFn: async (data: z.infer<typeof formSchema>) => {
+      mutationFn: async (data: z.infer<typeof classroomModuleFormSchema>) => {
         if (initialData) {
           return await api.patch(
             `/api/classroom/module/${params.moduleId}`,
@@ -99,33 +73,36 @@ export const useNewClassroomModuleForm = ({
     }
   )
 
-  const onSubmit = async (values: NewClassroomModuleFormValues) => {
-    await createOrUpdateClassroomModule(values)
-  }
-
-  const onDeleteClassroomModule = async () => {
-    try {
-      await deleteClassroomModule()
-    } catch (error) {
+  const {
+    mutate: deleteImageModule,
+    isPending: isDeletingImageModule,
+    isSuccess: isImageDeleted
+  } = useMutation({
+    mutationFn: async (imageKey: string) => {
+      return await api.post(`/api/uploadthing/delete`, { imageKey })
+    },
+    onSuccess() {
+      toast({
+        title: 'Success',
+        description: 'Image deleted successfully.'
+      })
+    },
+    onError() {
       toast({
         title: 'Error',
-        description: 'Something went wrong.',
+        description: 'Something went wrong deleting the image.',
         variant: 'destructive'
       })
-    } finally {
-      setIsAlertModalOpen(false)
     }
-  }
+  })
+
   return {
-    isAlertModalOpen,
-    setIsAlertModalOpen,
-    title,
-    action,
-    form,
-    isDeleting,
+    deleteClassroomModule,
+    isDeletingModule,
+    createOrUpdateClassroomModule,
     isPending,
-    onSubmit,
-    onDeleteClassroomModule,
-    router
+    deleteImageModule,
+    isDeletingImageModule,
+    isImageDeleted
   }
 }

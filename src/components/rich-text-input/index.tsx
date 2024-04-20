@@ -24,6 +24,7 @@ import {
   SelectValue
 } from '../ui/select'
 import { useCategory } from '@/hooks/category/use-category'
+import useCreatePostModalStore from '@/hooks/modal/use-create-post'
 
 interface RichTextInputProps {
   videoId?: string
@@ -51,6 +52,7 @@ export const RichTextInput = ({
     }
   })
   const { categories } = useCategory()
+  const {onClose} = useCreatePostModalStore()
 
   const { mutateAsync: createPost, isPending } = useMutation({
     mutationKey: ['post'],
@@ -61,7 +63,6 @@ export const RichTextInput = ({
       categoryId: string
       content: string
     }) => {
-      console.log(categoryId, form.getValues().categoryIdForm)
       return await api.post(`/api/post`, {
         content,
         categoryId
@@ -70,6 +71,7 @@ export const RichTextInput = ({
     onSuccess: async () => {
       form.setValue('content', '')
       await queryClient.invalidateQueries({ queryKey: ['post'] })
+      onClose()
     },
     onError: error => {
       toast({

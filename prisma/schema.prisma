@@ -18,25 +18,27 @@ enum Roles {
 }
 
 model User {
-  id         String    @id @default(uuid())
-  email      String
-  password   String?
-  name       String
-  username   String
-  level      String?
-  role       Roles[]   @default([])
-  github     String?
-  linkedin   String?
-  instagram  String?
-  imageUrl   String?
-  followers  Int       @default(0)
-  followings Int       @default(0)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  lastLogin  DateTime?
-  Notes      Note[]
-  Comment    Comment[]
-  Like       Like[]
+  id           String        @id @default(uuid())
+  email        String
+  password     String?
+  name         String
+  username     String
+  level        String?
+  role         Roles[]       @default([])
+  github       String?
+  linkedin     String?
+  instagram    String?
+  imageUrl     String?
+  followers    Int           @default(0)
+  followings   Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  lastLogin    DateTime?
+  notes        Note[]
+  comments     Comment[]
+  likes        Like[]
+  commentLikes CommentLike[]
+  posts        Post[]
 }
 
 model Course {
@@ -58,6 +60,7 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   courses   Course[] @relation("CourseToCategory")
+  posts     Post[]
 }
 
 model Note {
@@ -106,8 +109,24 @@ model Video {
   url               String
   comments          Comment[]
   createdAt         DateTime         @default(now())
-  ClassroomModule   ClassroomModule? @relation(fields: [classroomModuleId], references: [id])
+  classroomModule   ClassroomModule? @relation(fields: [classroomModuleId], references: [id])
   classroomModuleId String?
+}
+
+model Post {
+  id         String   @id @default(uuid())
+  title      String?
+  content    Json?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  comments Comment[]
+  likes    Like[]
 }
 
 model Comment {
@@ -115,18 +134,44 @@ model Comment {
   comment   String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  likes     Like[]
-  video     Video    @relation(fields: [videoId], references: [id])
-  videoId   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  video   Video?  @relation(fields: [videoId], references: [id])
+  videoId String?
+
+  post   Post?   @relation(fields: [postId], references: [id])
+  postId String?
+
+  replyToId String?
+  replyTo   Comment?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies   Comment[] @relation("ReplyTo")
+
+  likes     CommentLike[]
+  commentId String?
 }
 
 model Like {
-  id        String   @id @default(uuid())
+  user   User     @relation(fields: [userId], references: [id])
+  userId String
+  post   Post     @relation(fields: [postId], references: [id])
+  postId String
+  type   VoteType
+
+  @@id([userId, postId])
+}
+
+model CommentLike {
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  comment   Comment  @relation(fields: [commentId], references: [id])
   commentId String
-  createdAt DateTime @default(now())
+  type      VoteType
+
+  @@id([userId, commentId])
+}
+
+enum VoteType {
+  UP
+  DOWN
 }

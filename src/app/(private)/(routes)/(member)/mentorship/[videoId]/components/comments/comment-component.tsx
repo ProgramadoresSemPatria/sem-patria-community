@@ -6,11 +6,11 @@ import { useAuth } from '@clerk/nextjs'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { format } from 'date-fns'
 import Image from 'next/image'
 import { useReducer } from 'react'
 import { AdminActions } from './admin-actions'
 import { type CommentResponse } from './use-comments'
+import { getStringFromDate } from '@/lib/utils'
 
 type CommentComponentProps = {
   comment: CommentResponse
@@ -18,29 +18,6 @@ type CommentComponentProps = {
 export const CommentComponent = ({ comment }: CommentComponentProps) => {
   const { userId } = useAuth()
   const queryClient = useQueryClient()
-
-  const getStringFromDate = (date: string) => {
-    const commentDate = new Date(date)
-    const todayDate = new Date()
-
-    const diff = todayDate.getTime() - commentDate.getTime()
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-    const minutes = Math.floor(
-      (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60) / 60
-    )
-
-    if (days > 0) {
-      if (days > 7) {
-        return format(commentDate, 'dd/MM/yyyy')
-      }
-      return `${days} days ago`
-    } else if (hours > 0) {
-      return `${hours} hours ago`
-    } else {
-      return `${minutes} minutes ago`
-    }
-  }
 
   const editor = useEditor({
     extensions: [

@@ -1,11 +1,9 @@
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs'
 import { type NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 
-export async function POST(
-  req: NextRequest
-  // { params }: { params: { categoryId: string } }
-) {
+export async function POST(req: NextRequest) {
   try {
     const { userId } = auth()
     const { title, content, categoryId } = await req.json()
@@ -36,40 +34,28 @@ export async function POST(
 
 export async function GET(req: Request) {
   const url = new URL(req.url)
-  console.log(url)
   try {
-    // const { limit, page, categoryName } = z
-    //   .object({
-    //     limit: z.string(),
-    //     page: z.string(),
-    //     categoryName: z.string().nullish().optional()
-    //   })
-    //   .parse({
-    //     categoryName: url.searchParams.get('category'),
-    //     limit: url.searchParams.get('limit'),
-    //     page: url.searchParams.get('page')
-    //   })
-    const categoryName = url.searchParams.get('category')
-    // const limit = url.searchParams.get('limit')
-    // const page = url.searchParams.get('page')
+    const { limit, page, categoryName } = z
+      .object({
+        limit: z.string(),
+        page: z.string(),
+        categoryName: z.string().nullish().optional()
+      })
+      .parse({
+        categoryName: url.searchParams.get('category'),
+        limit: url.searchParams.get('limit'),
+        page: url.searchParams.get('page')
+      })
 
-    // let whereClause = {}
-    // console.log('categoryName', categoryName)
+    let whereClause = {}
 
-    // if (categoryName) {
-    //   whereClause = {
-    //     category: {
-    //       name: categoryName
-    //     }
-    //   }
-    // }
-    // console.log(whereClause)
+    if (categoryName && categoryName !== 'All') {
+      whereClause = { category: { name: categoryName } }
+    }
 
     const posts = await prismadb.post.findMany({
-      // take: limit ? parseInt(limit) : undefined,
-      // skip: limit
-      //   ? (parseInt(page as string) - 1) * parseInt(limit)
-      //   : undefined, // skip should start from 0 for page 1
+      take: limit ? parseInt(limit) : undefined,
+      skip: limit ? (parseInt(page) - 1) * parseInt(limit) : undefined,
       orderBy: {
         createdAt: 'desc'
       },
@@ -79,18 +65,8 @@ export async function GET(req: Request) {
         user: true,
         comments: true
       },
-      where: {
-        category: {
-          name:
-            categoryName !== 'All'
-              ? (categoryName as string)
-              : {
-                  not: 'all'
-                }
-        }
-      }
+      where: whereClause
     })
-    // console.log('post route get', posts)
 
     return new Response(JSON.stringify(posts))
   } catch (error) {

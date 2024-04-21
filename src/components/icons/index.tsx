@@ -34,6 +34,7 @@ import {
   Heading3,
   HelpCircle,
   Home,
+  Image,
   Italic,
   Layers,
   LayoutDashboard,
@@ -59,9 +60,9 @@ import {
   Sun,
   ThumbsUp,
   Trash,
-  UploadCloud,
   Type,
   Underline,
+  UploadCloud,
   User,
   Users,
   Video,
@@ -135,9 +136,10 @@ export const Icons = {
   braces: Braces,
   text: Type,
   quote: Quote,
-  caretSort: CaretSortIcon
-  cloudUpload: UploadCloud
+  caretSort: CaretSortIcon,
+  cloudUpload: UploadCloud,
   help: HelpCircle,
   eyeOff: EyeOff,
   eye: Eye,
+  image: Image
 }

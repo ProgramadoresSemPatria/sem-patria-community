@@ -10,18 +10,18 @@ import {
   EditorRoot,
   type JSONContent
 } from 'novel'
-import { handleCommandNavigation } from 'novel/extensions'
+import { ImageResizer, handleCommandNavigation } from 'novel/extensions'
 import { useState } from 'react'
 import { defaultExtensions } from './extensions'
 import { ColorSelector } from './selectors/color-selector'
 import { LinkSelector } from './selectors/link-selector'
 import { NodeSelector } from './selectors/node-selector'
 
-// import { handleImageDrop, handleImagePaste } from 'novel/plugins'
+import { Separator } from '@/components/ui/separator'
+import { handleImageDrop, handleImagePaste } from 'novel/plugins'
+import { uploadFn } from './image-upload'
 import { TextButtons } from './selectors/text-buttons'
 import { slashCommand, suggestionItems } from './slash-command'
-// import { uploadFn } from "./image-upload";
-import { Separator } from '@/components/ui/separator'
 
 const extensions = [...defaultExtensions, slashCommand]
 
@@ -49,9 +49,10 @@ const NoteEditor = ({
           handleDOMEvents: {
             keydown: (_view, event) => handleCommandNavigation(event)
           },
-          // handlePaste: (view, event) => handleImagePaste(view, event, uploadFn),
-          // handleDrop: (view, event, _slice, moved) =>
-          //   handleImageDrop(view, event, moved, uploadFn),
+          handlePaste: (view, event) => handleImagePaste(view, event, uploadFn),
+          handleDrop: (view, event, _slice, moved) =>
+            handleImageDrop(view, event, moved, uploadFn),
+
           attributes: {
             class: `prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full ${
               editable ? 'min-h-screen' : 'h-fit'
@@ -62,7 +63,7 @@ const NoteEditor = ({
           onChange && onChange(JSON.stringify(editor.getJSON()))
         }}
         editable={editable}
-        // slotAfter={<ImageResizer />}
+        slotAfter={<ImageResizer />}
       >
         <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all scrollbar-thin scrollbar-thumb-slate-900 scrollbar-track-slate-800 scrollbar-thumb-rounded-sm">
           <EditorCommandEmpty className="px-2 text-muted-foreground">

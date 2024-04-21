@@ -19,8 +19,6 @@ import { cx } from 'class-variance-authority'
 
 const lowlight = createLowlight(common)
 
-// const aiHighlight = AIHighlight
-// You can overwrite the placeholder with your own configuration
 const placeholder = Placeholder
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
@@ -34,7 +32,7 @@ const tiptapImage = TiptapImage.extend({
   addProseMirrorPlugins() {
     return [
       UploadImagesPlugin({
-        imageClass: cx('opacity-40 rounded-lg border border-stone-200')
+        imageClass: cx('opacity-40 rounded-lg border border-slate-200')
       })
     ]
   }
@@ -135,5 +133,4 @@ export const defaultExtensions = [
   dragHandle,
   autoJoiner,
   codeblockLowlight
-  // aiHighlight
 ]

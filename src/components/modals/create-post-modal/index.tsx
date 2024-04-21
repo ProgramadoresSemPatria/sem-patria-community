@@ -1,7 +1,7 @@
 import React from 'react'
-import { RichTextInput } from '@/components/rich-text-input'
 import useCreatePostModalStore from '@/hooks/modal/use-create-post'
 import { Modal } from '@/components/ui/modal'
+import { RichTextInput } from '@/app/(private)/(routes)/(member)/forum/components/rich-text-input-post'
 
 const CreatePostModal = () => {
   const { isOpen, onClose } = useCreatePostModalStore()

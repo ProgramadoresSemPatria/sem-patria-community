@@ -15,7 +15,6 @@ import { Icons } from '../icons'
 import { Button } from '../ui/button'
 import { Skeleton } from '../ui/skeleton'
 import { toast } from '../ui/use-toast'
-import { RichTextEditor } from './rich-text-editor'
 import {
   Select,
   SelectContent,
@@ -25,6 +24,7 @@ import {
 } from '../ui/select'
 import { useCategory } from '@/hooks/category/use-category'
 import useCreatePostModalStore from '@/hooks/modal/use-create-post'
+import { RichTextEditor } from './rich-text-editor'
 
 interface RichTextInputProps {
   videoId?: string
@@ -52,7 +52,7 @@ export const RichTextInput = ({
     }
   })
   const { categories } = useCategory()
-  const {onClose} = useCreatePostModalStore()
+  const { onClose } = useCreatePostModalStore()
 
   const { mutateAsync: createPost, isPending } = useMutation({
     mutationKey: ['post'],

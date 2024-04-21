@@ -1,17 +1,13 @@
 'use client'
-// import { SkeletonCourseCards } from '@/components/skeletons/skeleton-course-cards'
 import { Button } from '@/components/ui/button'
 import { useCategory } from '@/hooks/category/use-category'
 import { usePostContent } from '@/hooks/post/use-post-filter-options'
-// import { usePostStore } from '@/hooks/post/use-post-store'
 import Link from 'next/link'
 import React from 'react'
-// import Post from './post'
 
 const ForumFilters = () => {
   const { categories } = useCategory()
   const { pathname, searchParams } = usePostContent()
-  // const { postList } = usePostStore()
 
   const categoryOptions =
     categories && categories.length > 0
@@ -25,7 +21,7 @@ const ForumFilters = () => {
       : []
   return (
     <div>
-      <div className="flex gap-x-2 py-2">
+      <div className="flex gap-x-2 py-2 overflow-auto">
         {categoryOptions?.map(category => {
           return (
             <Link

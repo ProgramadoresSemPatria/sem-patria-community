@@ -7,9 +7,8 @@ import ForumFilters from './components/filters'
 import prismadb from '@/lib/prismadb'
 import { currentUser } from '@clerk/nextjs'
 
-const ForumPage = async ({ params }: { params: { category: string } }) => {
+const ForumPage = async () => {
   const user = await currentUser()
-  // console.log('category', params)
   const posts = await prismadb.post.findMany({
     include: {
       category: true,
@@ -18,17 +17,12 @@ const ForumPage = async ({ params }: { params: { category: string } }) => {
       user: true
     }
   })
-  // console.log(category?.posts)
   return (
     <DefaultLayout>
       <Header title="Forum" />
       <CreatePostCommentComponent />
       <ForumFilters />
-      <ForumFeed
-        userId={user?.id}
-        initialPosts={posts || []}
-        categoryName={params.category}
-      />
+      <ForumFeed userId={user?.id} initialPosts={posts || []} />
     </DefaultLayout>
   )
 }

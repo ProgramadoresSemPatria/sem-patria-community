@@ -3,20 +3,13 @@
 import { type ExtendedPost } from '@/lib/types'
 import { getStringFromDate } from '@/lib/utils'
 import Image from 'next/image'
-import { Icons } from '@/components/icons'
-import { type Like } from '@prisma/client'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { MessageSquare } from 'lucide-react'
 import Link from 'next/link'
-import { type FC, useRef, useReducer } from 'react'
+import { type FC, useRef } from 'react'
 import StarterKit from '@tiptap/starter-kit'
-import { Button } from '@/components/ui/button'
-import PostLike from './post-likes'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { api } from '@/lib/api'
-import { toast } from '@/components/ui/use-toast'
 import { useRouter } from 'next/navigation'
-
+import PostLike from './post-likes'
 
 interface PostProps {
   post: ExtendedPost
@@ -38,8 +31,6 @@ const Post: FC<PostProps> = ({
   const router = useRouter()
 
   const pRef = useRef<HTMLParagraphElement>(null)
-  const queryClient = useQueryClient()
-
 
   const editor = useEditor({
     extensions: [
@@ -64,53 +55,40 @@ const Post: FC<PostProps> = ({
     editable: false,
     content: post.content as string
   })
-  const { mutateAsync } = useMutation({
-    mutationKey: ['like-comment'],
-    mutationFn: async () => {
-      return await api.put(`/api/post/${post.id}/likes`)
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['video-comments'] })
-    },
-    onError: () => {
-      toast({
-        title: 'An error occurred.',
-        description: 'Unable to like the comment',
-        variant: 'destructive'
+
+  const editorTitle = useEditor({
+    extensions: [
+      StarterKit.configure({
+        heading: {
+          HTMLAttributes: {
+            class: 'text-xl font-bold'
+          }
+        },
+        bulletList: {
+          HTMLAttributes: {
+            class: 'list-disc pl-4'
+          }
+        },
+        orderedList: {
+          HTMLAttributes: {
+            class: 'list-decimal pl-4'
+          }
+        }
       })
-    }
+    ],
+    editable: false,
+    content: post.title as string
   })
 
-  const [likeState, dispatch] = useReducer(
-    (state: { likes: number; liked: boolean }, action: { type: string }) => {
-      switch (action.type) {
-        case 'LIKE':
-          return { ...state, liked: true, likes: state.likes + 1 }
-        case 'UNLIKE':
-          return { ...state, liked: false, likes: state.likes - 1 }
-        default:
-          return state
-      }
-    },
-    {
-      liked: post.likes.includes({userId, postId: post.id} ?? ''),
-      likes: post.likes.length
-    }
-  )
-
-  const handleLike = async () => {
-    try {
-      dispatch({ type: likeState.liked ? 'UNLIKE' : 'LIKE' })
-      await mutateAsync()
-    } catch (error) {
-      dispatch({ type: likeState.liked ? 'LIKE' : 'UNLIKE' })
-    }
-  }
   return (
-    <div onClick={() => router.push(`/forum/${post.id}`)} className="rounded-md bg-slate-900 shadow text-white hover:cursor-pointer ">
+    <div
+      onClick={e => {
+        e.stopPropagation()
+        router.push(`/forum/${post.id}`)
+      }}
+      className="rounded-md bg-slate-900 shadow text-white hover:cursor-pointer "
+    >
       <div className="px-6 py-4 flex justify-between">
-      {/* <PostLike initialVotesAmt={post.likes.length} post={post} /> */}
-
         <div className="w-0 flex-1">
           <div className="flex max-h-40 text-gray-300">
             <Image
@@ -124,15 +102,21 @@ const Post: FC<PostProps> = ({
               <span className="font-bold text-base">{post.user.username}</span>
               <span className="text-xs">
                 {getStringFromDate(post.createdAt.toString())} in{' '}
-                {post.category.name}{' '}
+                <span
+                  className="hover:cursor-pointer hover:underline"
+                  onClick={e => {
+                    e.stopPropagation()
+                    router.push(`forum?category=${post.category.name}`)
+                  }}
+                >
+                  {post.category.name}{' '}
+                </span>
               </span>
             </div>
           </div>
           {post.title && (
-            <a href={`/${categoryName}/post/${post.id}`}>
-              <h1 className="text-lg font-semibold py-2 leading-6 text-gray-900">
-                {post.title}
-              </h1>
+            <a href={`/forum/${post.id}`}>
+              <EditorContent editor={editorTitle} />
             </a>
           )}
           <div
@@ -147,26 +131,11 @@ const Post: FC<PostProps> = ({
         </div>
       </div>
       <div className="flex items-center">
-        <div className="flex items-center w-fit space-x-1 font-bold text-slate-600 text-sm">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="group rounded-full"
-            onClick={handleLike}
-          >
-            <Icons.upVote
-              data-userliked={likeState.liked}
-              className="h-5 data-[userliked=true]:text-violet-900 group-hover:text-white "
-              strokeWidth={2}
-            />
-          </Button>
-          <p
-            data-userliked={likeState.liked}
-            className="leading-4 data-[userliked=true]:text-violet-900"
-          >
-            {_likesAmount}
-          </p>
-        </div>
+        <PostLike
+          initialVotesAmt={post.likes.length}
+          post={post}
+          userId={userId}
+        />
         <div className="bg-slate-900 z-20 text-sm px-4 py-4 sm:px-6">
           <Link
             href={`/${categoryName}/post/${post.id}`}

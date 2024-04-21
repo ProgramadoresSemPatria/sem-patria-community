@@ -7,23 +7,14 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import React, { useEffect, useRef } from 'react'
 import Post from './post'
 import { Loader2 } from 'lucide-react'
-import { usePostStore } from '@/hooks/post/use-post-store'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 interface ForumFeedProps {
   initialPosts: ExtendedPost[]
-  categoryName?: string
   userId?: string
 }
 
-const ForumFeed: React.FC<ForumFeedProps> = ({
-  initialPosts,
-  categoryName,
-  userId
-}) => {
-  // const { postList } = usePostStore()
-  // console.log('postlist', postList)
-  // const {} = usePostStore()
+const ForumFeed: React.FC<ForumFeedProps> = ({ initialPosts, userId }) => {
   const lastPostRef = useRef<HTMLElement>(null)
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -33,27 +24,21 @@ const ForumFeed: React.FC<ForumFeedProps> = ({
     threshold: 1
   })
 
-  // const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
-  //   queryKey: ['infinite-query', { categoryName }],
-  //   queryFn: async ({ pageParam = 1 }) => {
-  //     const query =
-  //       `/api/posts/limit=${5}&page=${pageParam}` +
-  //       (categoryName ? `&category=${categoryName}` : '')
-  //     const { data } = await api.get(query)
-  //     return data as ExtendedPost[]
-  //   },
-  //   getNextPageParam: (_, pages) => {
-  //     return pages.length + 1
-  //   },
-  //   initialData: { pages: [initialPosts], pageParams: [1] }
-  // })
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ['infinite-posts', { categoryName }],
+    queryKey: [
+      'infinite-posts',
+      {
+        category: searchParams.get('category')
+      }
+    ],
     queryFn: async ({ pageParam = 1 }) => {
-      const query =
-        `/api/posts?limit=5&page=${pageParam}` +
-        (categoryName ? `&category=${encodeURIComponent(categoryName)}` : '')
-      const response = await api.get(query)
+      const response = await api.get(`/api/post`, {
+        params: {
+          category: searchParams.get('category'),
+          page: pageParam,
+          limit: 10
+        }
+      })
       return response.data
     },
     getNextPageParam: (_, allPages) => {
@@ -74,17 +59,15 @@ const ForumFeed: React.FC<ForumFeedProps> = ({
 
   useEffect(() => {
     if (!searchParams.get('category')) {
-      router.push(`${pathname}?category=all`)
+      router.push(`${pathname}?category=All`)
     }
   }, [pathname, router, searchParams])
 
   const posts = data?.pages.flatMap(page => page) ?? initialPosts
-  console.log('forum feed', data.pages)
 
   return (
     <ul className="flex flex-col col-span-2 space-y-6">
       {posts.map((post: ExtendedPost, index) => {
-
         const currentLike = post.likes.find(like => like.userId === userId)
 
         if (index === posts.length - 1) {
@@ -103,7 +86,7 @@ const ForumFeed: React.FC<ForumFeedProps> = ({
         } else {
           return (
             <Post
-            userId={userId as string}
+              userId={userId as string}
               key={post.id}
               commentAmount={post.comments.length}
               post={post}

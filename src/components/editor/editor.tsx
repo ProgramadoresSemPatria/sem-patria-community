@@ -63,7 +63,7 @@ const NoteEditor = ({
           onChange && onChange(JSON.stringify(editor.getJSON()))
         }}
         editable={editable}
-        slotAfter={<ImageResizer />}
+        slotAfter={editable ?? <ImageResizer />}
       >
         <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all scrollbar-thin scrollbar-thumb-slate-900 scrollbar-track-slate-800 scrollbar-thumb-rounded-sm">
           <EditorCommandEmpty className="px-2 text-muted-foreground">

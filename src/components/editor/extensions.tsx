@@ -1,6 +1,5 @@
 import { common, createLowlight } from 'lowlight'
 import {
-  // AIHighlight,
   HorizontalRule,
   Placeholder,
   StarterKit,
@@ -32,20 +31,20 @@ const tiptapImage = TiptapImage.extend({
   addProseMirrorPlugins() {
     return [
       UploadImagesPlugin({
-        imageClass: cx('opacity-40 rounded-lg border border-slate-200')
+        imageClass: cx('opacity-40 rounded-lg')
       })
     ]
   }
 }).configure({
   allowBase64: true,
   HTMLAttributes: {
-    class: cx('rounded-lg border border-muted')
+    class: cx('rounded-lg')
   }
 })
 
 const updatedImage = UpdatedImage.configure({
   HTMLAttributes: {
-    class: cx('rounded-lg border border-muted')
+    class: cx('rounded-lg')
   }
 })
 

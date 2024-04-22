@@ -1,4 +1,4 @@
-import NoteEditor from '@/app/(private)/(routes)/(member)/code-up/[noteId]/components/editor/editor'
+import NoteEditor from '@/components/editor/editor'
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import {

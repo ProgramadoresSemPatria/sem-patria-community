@@ -1,9 +1,9 @@
 'use client'
+import NoteEditor from '@/components/editor/editor'
 import { useNoteStore } from '@/hooks/note/use-note-store'
 import { type Note } from '@prisma/client'
 import { useRef, useState, type ElementRef } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
-import NoteEditor from './editor/editor'
 
 type NoteContentProps = {
   note: Note

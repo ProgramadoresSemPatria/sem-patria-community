@@ -15,6 +15,9 @@ const ForumPage = async () => {
       comments: true,
       likes: true,
       user: true
+    },
+    orderBy: {
+      createdAt: 'desc'
     }
   })
   return (

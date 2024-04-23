@@ -25,16 +25,22 @@ import {
 import { Button } from '@/components/ui/button'
 import { Icons } from '@/components/icons'
 import { RichTextEditor } from './rich-text-editor-post'
-import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
 
 interface RichTextInputProps {
   isCommentsLoading?: boolean
 }
 
 const contentSchema = z.object({
-  title: z.string().min(1),
-  content: z.string().min(1),
-  categoryIdForm: z.string()
+  title: z.string().min(1, {
+    message: 'Title is required'
+  }),
+  content: z.string().min(1, {
+    message: 'Content is required'
+  }),
+  categoryIdForm: z.string().min(1, {
+    message: 'Category ID is required'
+  })
 })
 
 export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
@@ -84,12 +90,14 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
 
   const onSubmit = useCallback(
     async (values: z.infer<typeof contentSchema>) => {
-      if (values.categoryIdForm)
+      if (values.categoryIdForm && values.content && values.title)
         await createPost({
           categoryId: values.categoryIdForm,
           title: values.title,
           content: values.content
         })
+      // nao consegui de outra forma
+      window.location.reload()
     },
     [createPost]
   )
@@ -148,13 +156,18 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Title</FormLabel>
-
               <FormControl>
-                <RichTextEditor
+                <Input
+                  placeholder="Title..."
+                  onChange={field.onChange}
+                  content={field.value}
+                  disabled={form.formState.isLoading}
+                />
+                {/* <RichTextEditor
                   onChange={field.onChange}
                   content={field.value}
                   isSubmitting={form.formState.isSubmitting}
-                />
+                /> */}
               </FormControl>
             </FormItem>
           )}
@@ -165,7 +178,6 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Content</FormLabel>
-
               <FormControl>
                 <RichTextEditor
                   onChange={field.onChange}

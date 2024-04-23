@@ -128,6 +128,21 @@ export const suggestionItems = createSuggestionItems([
       }
       input.click()
     }
+  },
+  {
+    title: 'Youtube Embed',
+    description: 'Embed a youtube video.',
+    searchTerms: ['youtube', 'video'],
+    icon: <Icons.youtube size={18} />,
+    command: ({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .setColor('#475569')
+        .insertContent('Just paste your youtube link here 👍')
+        .run()
+    }
   }
 ])
 

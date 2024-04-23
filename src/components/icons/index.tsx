@@ -67,6 +67,7 @@ import {
   Users,
   Video,
   X,
+  Youtube,
   type LucideIcon
 } from 'lucide-react'
 
@@ -141,5 +142,6 @@ export const Icons = {
   help: HelpCircle,
   eyeOff: EyeOff,
   eye: Eye,
-  image: Image
+  image: Image,
+  youtube:Youtube
 }

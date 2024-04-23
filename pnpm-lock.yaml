@@ -119,6 +119,9 @@ dependencies:
   '@tiptap/extension-placeholder':
     specifier: ^2.2.4
     version: 2.2.4(@tiptap/core@2.2.4)(@tiptap/pm@2.2.4)
+  '@tiptap/extension-youtube':
+    specifier: ^2.3.0
+    version: 2.3.0(@tiptap/core@2.2.4)
   '@tiptap/pm':
     specifier: ^2.2.4
     version: 2.2.4
@@ -431,7 +434,7 @@ packages:
       remark-stringify: 10.0.3
       unified: 10.1.2
       uuid: 8.3.2
-      y-prosemirror: 1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.33.1)(y-protocols@1.0.6)(yjs@13.6.10)
+      y-prosemirror: 1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.32.7)(y-protocols@1.0.6)(yjs@13.6.10)
       y-protocols: 1.0.6(yjs@13.6.10)
       yjs: 13.6.10
     transitivePeerDependencies:
@@ -466,12 +469,6 @@ packages:
       - supports-color
     dev: false
 
-  /@cfcs/core@0.0.6:
-    resolution: {integrity: sha512-FxfJMwoLB8MEMConeXUCqtMGqxdtePQxRBOiGip9ULcYYam3WfCgoY6xdnMaSkYvRvmosp5iuG+TiPofm65+Pw==}
-    dependencies:
-      '@egjs/component': 3.0.5
-    dev: false
-
   /@casl/ability@6.7.1:
     resolution: {integrity: sha512-e+Vgrehd1/lzOSwSqKHtmJ6kmIuZbGBlM2LBS5IuYGGKmVHuhUuyh3XgTn1VIw9+TO4gqU+uptvxfIRBUEdJuw==}
     dependencies:
@@ -498,6 +495,12 @@ packages:
     dependencies:
       '@casl/ability': 6.7.1
       react: 18.2.0
+    dev: false
+
+  /@cfcs/core@0.0.6:
+    resolution: {integrity: sha512-FxfJMwoLB8MEMConeXUCqtMGqxdtePQxRBOiGip9ULcYYam3WfCgoY6xdnMaSkYvRvmosp5iuG+TiPofm65+Pw==}
+    dependencies:
+      '@egjs/component': 3.0.5
     dev: false
 
   /@clerk/backend@0.37.2(react@18.2.0):
@@ -2904,7 +2907,7 @@ packages:
       y-prosemirror: 1.0.20
     dependencies:
       '@tiptap/core': 2.2.4(@tiptap/pm@2.2.4)
-      y-prosemirror: 1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.33.1)(y-protocols@1.0.6)(yjs@13.6.10)
+      y-prosemirror: 1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.32.7)(y-protocols@1.0.6)(yjs@13.6.10)
     dev: false
 
   /@tiptap/extension-collaboration@2.1.15(@tiptap/core@2.2.4)(@tiptap/pm@2.2.4)(y-prosemirror@1.0.20):
@@ -2916,7 +2919,7 @@ packages:
     dependencies:
       '@tiptap/core': 2.2.4(@tiptap/pm@2.2.4)
       '@tiptap/pm': 2.2.4
-      y-prosemirror: 1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.33.1)(y-protocols@1.0.6)(yjs@13.6.10)
+      y-prosemirror: 1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.32.7)(y-protocols@1.0.6)(yjs@13.6.10)
     dev: false
 
   /@tiptap/extension-color@2.3.0(@tiptap/core@2.2.4)(@tiptap/extension-text-style@2.3.0):
@@ -3231,6 +3234,14 @@ packages:
 
   /@tiptap/extension-underline@2.1.15(@tiptap/core@2.2.4):
     resolution: {integrity: sha512-GennZVVC0QI7An7CRsnHykYPZnHAQWG8o8l+4Stg3UcGym7xH9tUv3JNxiDbjijw/jHDQVf7FJtjTNH749+4NA==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.2.4(@tiptap/pm@2.2.4)
+    dev: false
+
+  /@tiptap/extension-youtube@2.3.0(@tiptap/core@2.2.4):
+    resolution: {integrity: sha512-N1IvKhVLe2PVCJzzdDy7w5anixcyrzMEEV4u47MhVgwez9ushzGljVzMqwDK1adJJcil7JqYBt//73uAW44B4g==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
@@ -9629,6 +9640,12 @@ packages:
       '@babel/runtime': 7.23.4
     dev: false
 
+  /tailwind-merge@2.2.2:
+    resolution: {integrity: sha512-tWANXsnmJzgw6mQ07nE3aCDkCK4QdT3ThPMCzawoYA2Pws7vSTCvz3Vrjg61jVUGfFZPJzxEP+NimbcW+EdaDw==}
+    dependencies:
+      '@babel/runtime': 7.24.4
+    dev: false
+
   /tailwind-scrollbar@3.1.0(tailwindcss@3.3.5):
     resolution: {integrity: sha512-pmrtDIZeHyu2idTejfV59SbaJyvp1VRjYxAjZBH0jnyrPRo6HL1kD5Glz8VPagasqr6oAx6M05+Tuw429Z8jxg==}
     engines: {node: '>=12.13.0'}
@@ -9637,12 +9654,6 @@ packages:
     dependencies:
       tailwindcss: 3.3.5
     dev: true
-
-  /tailwind-merge@2.2.2:
-    resolution: {integrity: sha512-tWANXsnmJzgw6mQ07nE3aCDkCK4QdT3ThPMCzawoYA2Pws7vSTCvz3Vrjg61jVUGfFZPJzxEP+NimbcW+EdaDw==}
-    dependencies:
-      '@babel/runtime': 7.24.4
-    dev: false
 
   /tailwindcss-animate@1.0.7(tailwindcss@3.3.5):
     resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
@@ -10419,7 +10430,7 @@ packages:
   /wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  /y-prosemirror@1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.33.1)(y-protocols@1.0.6)(yjs@13.6.10):
+  /y-prosemirror@1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.32.7)(y-protocols@1.0.6)(yjs@13.6.10):
     resolution: {integrity: sha512-LVMtu3qWo0emeYiP+0jgNcvZkqhzE/otOoro+87q0iVKxy/sMKuiJZnokfJdR4cn9qKx0Un5fIxXqbAlR2bFkA==}
     peerDependencies:
       prosemirror-model: ^1.7.1
@@ -10431,7 +10442,7 @@ packages:
       lib0: 0.2.88
       prosemirror-model: 1.19.4
       prosemirror-state: 1.4.3
-      prosemirror-view: 1.33.1
+      prosemirror-view: 1.32.7
       y-protocols: 1.0.6(yjs@13.6.10)
       yjs: 13.6.10
     dev: false

@@ -14,6 +14,7 @@ import AutoJoiner from 'tiptap-extension-auto-joiner'
 import GlobalDragHandle from 'tiptap-extension-global-drag-handle'
 
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import Youtube from '@tiptap/extension-youtube'
 import { cx } from 'class-variance-authority'
 
 const lowlight = createLowlight(common)
@@ -120,6 +121,11 @@ const codeblockLowlight = CodeBlockLowlight.configure({
   defaultLanguage: 'plaintext'
 })
 
+const youtubeEmbed = Youtube.configure({
+  interfaceLanguage: 'en',
+  width: '100%' as unknown as number
+})
+
 export const defaultExtensions = [
   starterKit,
   placeholder,
@@ -131,5 +137,6 @@ export const defaultExtensions = [
   horizontalRule,
   dragHandle,
   autoJoiner,
-  codeblockLowlight
+  codeblockLowlight,
+  youtubeEmbed
 ]

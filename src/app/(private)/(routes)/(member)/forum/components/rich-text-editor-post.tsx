@@ -17,7 +17,7 @@ export const RichTextEditor = ({
   const editor = useEditor({
     extensions: [
       Placeholder.configure({
-        placeholder: 'Add a comment...',
+        placeholder: 'Add a post...',
         emptyEditorClass: 'is-editor-empty'
       }),
       StarterKit.configure({

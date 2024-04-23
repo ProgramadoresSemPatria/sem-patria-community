@@ -1,3 +1,4 @@
+'use client'
 import NoteEditor from '@/components/editor/editor'
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
@@ -10,6 +11,7 @@ import Image from 'next/image'
 import { useReducer } from 'react'
 import { AdminActions } from './admin-actions'
 import { type CommentResponse } from './use-comments'
+import { getStringFromDate } from '@/lib/utils'
 
 type CommentComponentProps = {
   comment: CommentResponse

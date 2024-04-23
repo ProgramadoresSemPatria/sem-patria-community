@@ -1,4 +1,10 @@
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel
+} from '@/components/ui/form'
 import { api } from '@/lib/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -11,18 +17,31 @@ import { Icons } from '../icons'
 import { Button } from '../ui/button'
 import { Skeleton } from '../ui/skeleton'
 import { toast } from '../ui/use-toast'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '../ui/select'
+import { useCategory } from '@/hooks/category/use-category'
+import useCreatePostModalStore from '@/hooks/modal/use-create-post'
+import { RichTextEditor } from './rich-text-editor'
 
 interface RichTextInputProps {
-  videoId: string
-  isCommentsLoading: boolean
+  videoId?: string
+  categoryId?: string
+  isCommentsLoading?: boolean
 }
 
 const contentSchema = z.object({
-  content: z.string().min(1)
+  content: z.string().min(1),
+  categoryIdForm: z.string()
 })
 
 export const RichTextInput = ({
   videoId,
+  categoryId,
   isCommentsLoading
 }: RichTextInputProps) => {
   const queryClient = useQueryClient()
@@ -30,11 +49,42 @@ export const RichTextInput = ({
     resolver: zodResolver(contentSchema),
     mode: 'onChange',
     defaultValues: {
-      content: ''
+      content: '',
+      categoryIdForm: ''
+    }
+  })
+  const { categories } = useCategory()
+  const { onClose } = useCreatePostModalStore()
+
+  const { mutateAsync: createPost, isPending } = useMutation({
+    mutationKey: ['post'],
+    mutationFn: async ({
+      content,
+      categoryId
+    }: {
+      categoryId: string
+      content: string
+    }) => {
+      return await api.post(`/api/post`, {
+        content,
+        categoryId
+      })
+    },
+    onSuccess: async () => {
+      form.setValue('content', '')
+      await queryClient.invalidateQueries({ queryKey: ['post'] })
+      onClose()
+    },
+    onError: error => {
+      toast({
+        title: 'An error ocurred while creating post',
+        description: error.message,
+        variant: 'destructive'
+      })
     }
   })
 
-  const { mutateAsync, isPending } = useMutation({
+  const { mutateAsync: createVideoComment } = useMutation({
     mutationKey: ['post-comment'],
     mutationFn: async ({
       videoId,
@@ -62,12 +112,18 @@ export const RichTextInput = ({
 
   const onSubmit = useCallback(
     async (values: z.infer<typeof contentSchema>) => {
-      await mutateAsync({
-        videoId,
-        content: values.content
-      })
+      if (videoId)
+        await createVideoComment({
+          videoId,
+          content: values.content
+        })
+      if (categoryId || values.categoryIdForm)
+        await createPost({
+          categoryId: categoryId || values.categoryIdForm,
+          content: values.content
+        })
     },
-    [mutateAsync, videoId]
+    [categoryId, createPost, createVideoComment, videoId]
   )
 
   if (isCommentsLoading) {
@@ -81,7 +137,45 @@ export const RichTextInput = ({
 
   return (
     <Form {...form}>
-      <form className="flex flex-col" onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        {!categoryId && !videoId && (
+          <FormField
+            control={form.control}
+            name="categoryIdForm"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Category</FormLabel>
+                <Select
+                  disabled={isPending}
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue
+                        defaultValue={field.value}
+                        placeholder="Select a category"
+                      />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {categories &&
+                      categories.length > 0 &&
+                      categories.map(category => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={form.control}
           name="content"

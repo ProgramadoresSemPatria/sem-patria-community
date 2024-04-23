@@ -1,3 +1,11 @@
+import {
+  type Category,
+  type Comment,
+  type Like,
+  type Post,
+  type User
+} from '@prisma/client'
+
 export type MenuItemProps = {
   href: string
   label: string
@@ -26,3 +34,10 @@ export enum Roles {
 }
 
 export type UserAbilityRoles = 'ADMIN' | 'BUILDER' | 'MEMBER'
+
+export type ExtendedPost = Post & {
+  category: Category
+  likes: Like[]
+  user: User
+  comments: Comment[]
+}

@@ -40,6 +40,10 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
     {
       href: appRoutes.settings,
       label: 'Settings'
+    },
+    {
+      href: appRoutes.forum,
+      label: 'Forum'
     }
   ]
 

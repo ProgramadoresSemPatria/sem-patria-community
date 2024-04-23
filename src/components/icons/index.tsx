@@ -143,5 +143,5 @@ export const Icons = {
   eyeOff: EyeOff,
   eye: Eye,
   image: Image,
-  youtube:Youtube
+  youtube: Youtube
 }

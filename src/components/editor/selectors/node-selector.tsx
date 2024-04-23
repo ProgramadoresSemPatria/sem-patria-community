@@ -13,7 +13,7 @@ export type SelectorItem = {
   isActive: (editor: EditorInstance) => boolean
 }
 
-const items: SelectorItem[] = [
+export const nodeItems: SelectorItem[] = [
   {
     name: 'Text',
     icon: Icons.text,
@@ -89,7 +89,7 @@ export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
   const { editor } = useEditor()
   if (!editor) return null
 
-  const activeItem = items.filter(item => item.isActive(editor)).pop() ?? {
+  const activeItem = nodeItems.filter(item => item.isActive(editor)).pop() ?? {
     name: 'Multiple'
   }
 
@@ -105,7 +105,7 @@ export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent sideOffset={5} align="start" className="w-48 p-1">
-        {items.map((item, index) => (
+        {nodeItems.map((item, index) => (
           <EditorBubbleItem
             key={index}
             onSelect={editor => {

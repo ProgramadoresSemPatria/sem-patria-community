@@ -7,8 +7,8 @@ import {
   PopoverTrigger
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import { type Editor } from '@tiptap/core'
 import { Check, Trash } from 'lucide-react'
-import { useEditor } from 'novel'
 import { useEffect, useRef } from 'react'
 
 export function isValidUrl(url: string) {
@@ -32,13 +32,18 @@ export function getUrlFromString(str: string) {
 interface LinkSelectorProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  editor: Editor | null
+  isToolbar?: boolean
 }
 
-export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
+export const LinkSelector = ({
+  open,
+  onOpenChange,
+  editor,
+  isToolbar = false
+}: LinkSelectorProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const { editor } = useEditor()
 
-  // Autofocus on input by default
   useEffect(() => {
     inputRef.current && inputRef.current?.focus()
   })
@@ -50,7 +55,8 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
         <Button
           size="sm"
           variant="ghost"
-          className="gap-2 rounded-none border-none"
+          data-istoolbar={isToolbar}
+          className="gap-2 data-[istoolbar=false]:rounded-none border-none"
         >
           <Icons.redirect className="w-4 h-4" />
           <p
@@ -67,6 +73,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
           onSubmit={e => {
             const target = e.currentTarget as HTMLFormElement
             e.preventDefault()
+            e.stopPropagation()
             const input = target[0] as HTMLInputElement
             const url = getUrlFromString(input.value)
             url && editor.chain().focus().setLink({ href: url }).run()

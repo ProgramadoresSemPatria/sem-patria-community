@@ -1,72 +1,68 @@
+'use client'
 import { Toggle } from '@/components/ui/toggle'
-import { type Editor } from '@tiptap/react'
+import { type Editor } from '@tiptap/core'
+import { useState } from 'react'
+import { LinkSelector } from '../editor/selectors/link-selector'
+import { nodeItems } from '../editor/selectors/node-selector'
+import { textItems } from '../editor/selectors/text-buttons'
 import { Icons } from '../icons'
+import { ToolbarColorSelector } from './toolbar-color-selector'
+
 interface ToolbarProps {
   editor: Editor | null
 }
 
 export const Toolbar = ({ editor }: ToolbarProps) => {
+  const [openColor, setOpenColor] = useState(false)
+  const [openLink, setOpenLink] = useState(false)
   if (!editor) return null
 
   return (
-    <div className="flex items-center gap-1 border border-input bg-transparent rounded-md">
-      <Toggle
-        className='data-[state="on"]:bg-slate-900'
-        size="sm"
-        pressed={editor.isActive('heading')}
-        onPressedChange={() =>
-          editor.chain().focus().toggleHeading({ level: 1 }).run()
-        }
-      >
-        <Icons.h1 className="h-4 w-4" />
-      </Toggle>
-      <Toggle
-        className='data-[state="on"]:bg-slate-900'
-        size="sm"
-        pressed={editor.isActive('bold')}
-        onPressedChange={() => editor.chain().focus().toggleBold().run()}
-      >
-        <Icons.bold className="h-4 w-4" />
-      </Toggle>
-      <Toggle
-        className='data-[state="on"]:bg-slate-900'
-        size="sm"
-        pressed={editor.isActive('italic')}
-        onPressedChange={() => editor.chain().focus().toggleItalic().run()}
-      >
-        <Icons.italic className="h-4 w-4" />
-      </Toggle>
-      <Toggle
-        className='data-[state="on"]:bg-slate-900'
-        size="sm"
-        pressed={editor.isActive('strike')}
-        onPressedChange={() => editor.chain().focus().toggleStrike().run()}
-      >
-        <Icons.strike className="h-4 w-4" />
-      </Toggle>
-      <span
-        className="
-        border-l border-slate-600
-        h-6
-        mx-2
-      "
+    <div className="flex w-fit max-w-[90vw] rounded-md border border-muted px-2 py-1 bg-background space-x-1">
+      {nodeItems.map((item, index) => (
+        <Toggle
+          key={item.name}
+          className='data-[state="on"]:bg-slate-900'
+          size="sm"
+          pressed={item.isActive(editor)}
+          onPressedChange={() => {
+            item.command(editor)
+          }}
+        >
+          {item.name === 'Code' ? (
+            <Icons.braces className="h-4 w-4" />
+          ) : (
+            <item.icon className="h-4 w-4" />
+          )}
+        </Toggle>
+      ))}
+      <span className="border border-muted" />
+      <LinkSelector
+        editor={editor}
+        open={openLink}
+        onOpenChange={setOpenLink}
+        isToolbar
       />
-      <Toggle
-        className='data-[state="on"]:bg-slate-900'
-        size="sm"
-        pressed={editor.isActive('bulletList')}
-        onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
-      >
-        <Icons.listBullet className="h-4 w-4" />
-      </Toggle>
-      <Toggle
-        className='data-[state="on"]:bg-slate-900'
-        size="sm"
-        pressed={editor.isActive('orderedList')}
-        onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
-      >
-        <Icons.listOrdered className="h-4 w-4" />
-      </Toggle>
+      <span className="border border-muted" />
+      {textItems.map((item, index) => (
+        <Toggle
+          key={item.name}
+          className='data-[state="on"]:bg-slate-900'
+          size="sm"
+          pressed={item.isActive(editor)}
+          onPressedChange={() => {
+            item.command(editor)
+          }}
+        >
+          <item.icon className="h-4 w-4" />
+        </Toggle>
+      ))}
+      <span className="border border-muted" />
+      <ToolbarColorSelector
+        editor={editor}
+        open={openColor}
+        onOpenChange={setOpenColor}
+      />
     </div>
   )
 }

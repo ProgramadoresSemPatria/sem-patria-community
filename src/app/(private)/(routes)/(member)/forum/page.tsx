@@ -24,7 +24,7 @@ const ForumPage = async () => {
     <DefaultLayout>
       <Header title="Forum" />
       <CreatePostCommentComponent />
-      <ForumFilters />
+      {/* <ForumFilters /> */}
       <ForumFeed userId={user?.id} initialPosts={posts || []} />
     </DefaultLayout>
   )

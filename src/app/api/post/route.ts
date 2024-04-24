@@ -35,30 +35,41 @@ export async function POST(req: NextRequest) {
 export async function GET(req: Request) {
   const url = new URL(req.url)
   try {
-    const { limit, page, categoryName } = z
+    const { limit, page, categoryName, orderBy } = z
       .object({
         limit: z.string(),
         page: z.string(),
-        categoryName: z.string().nullish().optional()
+        categoryName: z.string().nullish().optional(),
+        orderBy: z.string().nullish().optional()
       })
       .parse({
         categoryName: url.searchParams.get('category'),
         limit: url.searchParams.get('limit'),
-        page: url.searchParams.get('page')
+        page: url.searchParams.get('page'),
+        orderBy: url.searchParams.get('orderBy')
       })
 
+    let orderByClause = {}
     let whereClause = {}
 
-    if (categoryName && categoryName !== 'All') {
+    if (orderBy && orderBy === 'date') {
+      orderByClause = { createdAt: 'asc' }
+    } else {
+      orderByClause = {
+        likes: {
+          _count: 'desc'
+        }
+      }
+    }
+
+    if (categoryName && categoryName !== 'all') {
       whereClause = { category: { name: categoryName } }
     }
 
     const posts = await prismadb.post.findMany({
       take: limit ? parseInt(limit) : undefined,
       skip: limit ? (parseInt(page) - 1) * parseInt(limit) : undefined,
-      orderBy: {
-        createdAt: 'desc'
-      },
+      orderBy: orderByClause,
       include: {
         category: true,
         likes: true,

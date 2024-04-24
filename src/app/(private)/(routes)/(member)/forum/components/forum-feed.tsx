@@ -35,8 +35,9 @@ const ForumFeed: React.FC<ForumFeedProps> = ({ initialPosts, userId }) => {
       const response = await api.get(`/api/post`, {
         params: {
           category: searchParams.get('category'),
+          orderBy: searchParams.get('orderBy'),
           page: pageParam,
-          limit: 10
+          limit: 3
         }
       })
       return response.data
@@ -59,7 +60,7 @@ const ForumFeed: React.FC<ForumFeedProps> = ({ initialPosts, userId }) => {
 
   useEffect(() => {
     if (!searchParams.get('category')) {
-      router.push(`${pathname}?category=All`)
+      router.push(`${pathname}?category=all`)
     }
   }, [pathname, router, searchParams])
 

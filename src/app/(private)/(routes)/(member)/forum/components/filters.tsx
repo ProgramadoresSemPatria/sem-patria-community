@@ -1,13 +1,45 @@
 'use client'
+import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel
+} from '@/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 import { useCategory } from '@/hooks/category/use-category'
-import { usePostContent } from '@/hooks/post/use-post-filter-options'
-import Link from 'next/link'
+import useFiltersModalStore from '@/hooks/modal/use-filters-modal'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import React from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+const contentSchema = z.object({
+  orderBy: z.string(),
+  category: z.string()
+})
 
 const ForumFilters = () => {
+  const { onClose } = useFiltersModalStore()
+  const router = useRouter()
+  const form = useForm({
+    resolver: zodResolver(contentSchema),
+    mode: 'onChange',
+    defaultValues: {
+      orderBy: '',
+      category: ''
+    }
+  })
   const { categories } = useCategory()
-  const { pathname, searchParams } = usePostContent()
 
   const categoryOptions =
     categories && categories.length > 0
@@ -19,59 +51,90 @@ const ForumFilters = () => {
           ...categories
         ]
       : []
+
+  const onSubmit = () => {
+    router.push(
+      `/forum?category=${form.getValues().category}${
+        form.getValues().orderBy ? `&orderBy=${form.getValues().orderBy}` : ''
+      }`
+    )
+    onClose()
+  }
   return (
-    <div>
-      <div className="flex gap-x-2 py-2 overflow-auto">
-        {categoryOptions?.map(category => {
-          return (
-            <Link
-              key={category.id}
-              href={`${pathname}?category=${category.name}`}
-            >
-              <Button
-                className="p-2"
-                variant={
-                  searchParams.get('category') === category.name
-                    ? 'secondary'
-                    : 'ghost'
-                }
+    <Form {...form}>
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <FormField
+          control={form.control}
+          name="category"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Category</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                value={field.value}
+                defaultValue={field.value}
               >
-                {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
-              </Button>
-            </Link>
-          )
-        })}
-      </div>
-      {/*
-      <div>
-        <div>
-          {isLoading && <SkeletonCourseCards />}
-          <div>
-            {!isLoading &&
-              postList &&
-              postList.length > 0 &&
-              postList.map(post => {
-                return (
-                  <Link
-                    href={post.id}
-                    key={post.id}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Post
-                      key={post.id}
-                      post={post}
-                      commentAmt={post.comments.length}
-                      votesAmt={votesAmt}
-                      subredditName={category.name}
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue
+                      defaultValue={field.value}
+                      placeholder="Select a category"
                     />
-                  </Link>
-                )
-              })}
-          </div>
-        </div>
-      </div> */}
-    </div>
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {categoryOptions &&
+                    categoryOptions.length > 0 &&
+                    categoryOptions.map(category => (
+                      <SelectItem key={category.id} value={category.name}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="orderBy"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>OrderBy</FormLabel>
+              <Select
+                // disabled={isPending}
+                onValueChange={field.onChange}
+                value={field.value}
+                defaultValue={field.value}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue
+                      defaultValue={field.value}
+                      placeholder="Order by"
+                    />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="date">Date</SelectItem>
+                  <SelectItem value="likes">Most likes</SelectItem>
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
+        <Button
+          type="submit"
+          disabled={!form.formState.isValid || form.formState.isSubmitting}
+          className="self-end w-fit bg-slate-800 text-white gap-1 hover:bg-slate-900"
+        >
+          Apply filters
+        </Button>
+      </form>
+    </Form>
   )
 }
 

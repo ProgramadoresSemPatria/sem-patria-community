@@ -37,10 +37,14 @@ export async function GET(req: Request) {
   try {
     const { limit, page, categoryName, orderBy } = z
       .object({
-        limit: z.string(),
-        page: z.string(),
-        categoryName: z.string().nullish().optional(),
-        orderBy: z.string().nullish().optional()
+        limit: z.string().default('10'),
+        page: z.string().default('1'),
+        categoryName: z.string().nullish().optional().default('All'),
+        orderBy: z
+          .enum(['datenew', 'dateold', 'likes'])
+          .nullish()
+          .optional()
+          .default('datenew')
       })
       .parse({
         categoryName: url.searchParams.get('category'),
@@ -52,17 +56,23 @@ export async function GET(req: Request) {
     let orderByClause = {}
     let whereClause = {}
 
-    if (orderBy && orderBy === 'date') {
-      orderByClause = { createdAt: 'asc' }
-    } else {
-      orderByClause = {
-        likes: {
-          _count: 'desc'
-        }
+    if (orderBy) {
+      switch (orderBy) {
+        case 'datenew':
+          orderByClause = { createdAt: 'desc' }
+          break
+        case 'dateold':
+          orderByClause = { createdAt: 'asc' }
+          break
+        case 'likes':
+          orderByClause = { likes: { _count: 'desc' } }
+          break
+        default:
+          orderByClause = { createdAt: 'desc' }
       }
     }
 
-    if (categoryName && categoryName !== 'all') {
+    if (categoryName !== 'All') {
       whereClause = { category: { name: categoryName } }
     }
 

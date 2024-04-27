@@ -41,7 +41,7 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
       label: 'Settings'
     },
     {
-      href: appRoutes.forum,
+      href: `${appRoutes.forum}?category=All`,
       label: 'Forum'
     }
   ]

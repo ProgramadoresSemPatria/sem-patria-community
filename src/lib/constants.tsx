@@ -90,7 +90,7 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.classroom className="h-4 w-4" />
   },
   {
-    href: `${appRoutes.forum}?category=all`,
+    href: `${appRoutes.forum}?category=All`,
     label: 'Forum',
     icon: <Icons.forum className="h-4 w-4" />
   }

@@ -28,7 +28,8 @@ const ForumFeed: React.FC<ForumFeedProps> = ({ initialPosts, userId }) => {
     queryKey: [
       'infinite-posts',
       {
-        category: searchParams.get('category')
+        category: searchParams.get('category'),
+        orderBy: searchParams.get('orderBy')
       }
     ],
     queryFn: async ({ pageParam = 1 }) => {
@@ -60,7 +61,7 @@ const ForumFeed: React.FC<ForumFeedProps> = ({ initialPosts, userId }) => {
 
   useEffect(() => {
     if (!searchParams.get('category')) {
-      router.push(`${pathname}?category=all`)
+      router.push(`${pathname}?category=All`)
     }
   }, [pathname, router, searchParams])
 

@@ -41,6 +41,37 @@ export const PostActions = ({ post }: PostActionsProps) => {
       })
     }
   })
+  const { mutateAsync: pinPost, isPending: isPinning } = useMutation({
+    mutationKey: ['pin-post'],
+    mutationFn: async ({ postId }: { postId: string }) => {
+      return await api.put(`/api/post/${postId}/pin`)
+    },
+    onSuccess: async () => {
+      toast({
+        title: 'Post pinned',
+        description: ' The post has been pinned'
+      })
+    },
+    onError: () => {
+      toast({
+        title: 'An error occurred.',
+        description: 'Unable to pin the post',
+        variant: 'destructive'
+      })
+    }
+  })
+
+  const onPinPost = async () => {
+    try {
+      await pinPost({ postId: post.id })
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Something went wrong.',
+        variant: 'destructive'
+      })
+    }
+  }
 
   const onDeletePost = async () => {
     try {
@@ -89,6 +120,20 @@ export const PostActions = ({ post }: PostActionsProps) => {
               <Icons.trash className="mr-2 h-4 w-4" />
             )}
             Delete
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            disabled={isPinning}
+            onClick={e => {
+              e.preventDefault()
+              void onPinPost()
+            }}
+          >
+            {isDeleting ? (
+              <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Icons.send className="mr-2 h-4 w-4" />
+            )}
+            {post.isPinned ? 'Unpin' : 'Pin'}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

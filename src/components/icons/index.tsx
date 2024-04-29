@@ -53,6 +53,7 @@ import {
   User,
   Video,
   X,
+  PinIcon,
   type LucideIcon,
   Users
 } from 'lucide-react'
@@ -85,6 +86,7 @@ export const Icons = {
   globe: Globe,
   alignVertSA: AlignVerticalSpaceAround,
   plus: Plus,
+  pin: PinIcon,
   plusCircle: PlusCircle,
   copy: Copy,
   spread: MoreHorizontal,

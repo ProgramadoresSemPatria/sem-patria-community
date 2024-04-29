@@ -115,10 +115,13 @@ model Video {
 
 model Post {
   id         String   @id @default(uuid())
-  title      String?
-  content    Json?
+  title      String
+  content    Json
+  isPinned   Boolean? @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
 

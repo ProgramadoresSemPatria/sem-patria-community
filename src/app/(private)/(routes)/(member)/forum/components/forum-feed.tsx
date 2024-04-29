@@ -65,14 +65,29 @@ const ForumFeed: React.FC<ForumFeedProps> = ({ initialPosts, userId }) => {
     }
   }, [pathname, router, searchParams])
 
-  const posts = data?.pages.flatMap(page => page) ?? initialPosts
+  const allPosts = data?.pages.flatMap(page => page) ?? initialPosts
 
+  const pinnedPosts = allPosts.filter(post => post.isPinned)
+  const regularPosts = allPosts.filter(post => !post.isPinned)
   return (
     <ul className="flex flex-col col-span-2 space-y-6">
-      {posts.map((post: ExtendedPost, index) => {
+      {pinnedPosts.length > 0 &&
+        pinnedPosts.map(post => (
+          <li key={post.id}>
+            <Post
+              post={post}
+              userId={userId as string}
+              commentAmount={post.comments.length}
+              categoryName={post.category.name}
+              likesAmount={post.likes.length}
+              currentLike={!!post.likes.find(like => like.userId === userId)}
+            />
+          </li>
+        ))}
+      {regularPosts.map((post: ExtendedPost, index) => {
         const currentLike = post.likes.find(like => like.userId === userId)
 
-        if (index === posts.length - 1) {
+        if (index === regularPosts.length - 1) {
           return (
             <li key={post.id} ref={ref}>
               <Post

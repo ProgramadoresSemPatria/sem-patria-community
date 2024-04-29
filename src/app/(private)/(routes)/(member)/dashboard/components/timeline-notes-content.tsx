@@ -27,6 +27,7 @@ const TimelineNotesContent = ({
           <NoteEditor
             editable={false}
             initialValue={JSON.parse(content) || '{}'}
+            variant="readonly"
           />
         ) : (
           <div className="text-center text-gray-500">No content available</div>

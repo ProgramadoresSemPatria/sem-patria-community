@@ -19,6 +19,7 @@ import { NodeSelector } from './selectors/node-selector'
 
 import { Separator } from '@/components/ui/separator'
 import { type Editor } from '@tiptap/core'
+import { cva } from 'class-variance-authority'
 import { handleImageDrop, handleImagePaste } from 'novel/plugins'
 import { Toolbar } from '../rich-text-input/toolbar'
 import { uploadFn } from './image-upload'
@@ -33,13 +34,15 @@ interface EditorProp {
   editable?: boolean
   hasToolbar?: boolean
   isSubmitting?: boolean
+  variant?: 'note' | 'readonly' | 'videoCommentInput' | 'postInput'
 }
 const NoteEditor = ({
   initialValue,
   onChange,
   editable = true,
   hasToolbar = false,
-  isSubmitting = false
+  isSubmitting = false,
+  variant = 'note'
 }: EditorProp) => {
   const [openNode, setOpenNode] = useState(false)
   const [openColor, setOpenColor] = useState(false)
@@ -52,10 +55,27 @@ const NoteEditor = ({
     }
   }, [editor?.commands, isSubmitting])
 
+  const attributeVariants = cva(
+    'prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full h-fit prose-ol:m-0 prose-ul:m-0 prose-headings:m-0 prose-code:m-0',
+    {
+      variants: {
+        variant: {
+          note: 'min-h-screen',
+          readonly: '',
+          videoCommentInput: 'min-h-[200px]',
+          postInput: ''
+        }
+      },
+      defaultVariants: {
+        variant: 'note'
+      }
+    }
+  )
+
   return (
     <div
       data-hastoolbar={hasToolbar}
-      className="flex flex-col justify-stretch mb-2 gap-1 rounded-lg data-[hastoolbar=true]:p-2 data-[hastoolbar=true]:bg-slate-900"
+      className="flex flex-col max-w-full w-[100%] justify-stretch mb-2 gap-1 rounded-lg data-[hastoolbar=true]:p-2 data-[hastoolbar=true]:bg-slate-900"
     >
       {hasToolbar && editable && <Toolbar editor={editor as Editor} />}
       <EditorRoot>
@@ -73,11 +93,7 @@ const NoteEditor = ({
               handleImageDrop(view, event, moved, uploadFn),
 
             attributes: {
-              class: `prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full ${
-                editable && !hasToolbar && 'min-h-screen'
-              } ${
-                hasToolbar && 'min-h-[200px]'
-              } h-fit prose-ol:m-0 prose-ul:m-0 prose-headings:m-0 prose-code:m-0`
+              class: attributeVariants({ variant })
             }
           }}
           onUpdate={({ editor }) => {

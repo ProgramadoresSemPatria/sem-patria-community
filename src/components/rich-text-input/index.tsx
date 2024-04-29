@@ -5,6 +5,8 @@ import {
   FormItem,
   FormLabel
 } from '@/components/ui/form'
+import { useCategory } from '@/hooks/category/use-category'
+import useCreatePostModalStore from '@/hooks/modal/use-create-post'
 import { api } from '@/lib/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -15,8 +17,6 @@ import { z } from 'zod'
 import NoteEditor from '../editor/editor'
 import { Icons } from '../icons'
 import { Button } from '../ui/button'
-import { Skeleton } from '../ui/skeleton'
-import { toast } from '../ui/use-toast'
 import {
   Select,
   SelectContent,
@@ -24,9 +24,8 @@ import {
   SelectTrigger,
   SelectValue
 } from '../ui/select'
-import { useCategory } from '@/hooks/category/use-category'
-import useCreatePostModalStore from '@/hooks/modal/use-create-post'
-import { RichTextEditor } from './rich-text-editor'
+import { Skeleton } from '../ui/skeleton'
+import { toast } from '../ui/use-toast'
 
 interface RichTextInputProps {
   videoId?: string
@@ -187,6 +186,7 @@ export const RichTextInput = ({
                   onChange={field.onChange}
                   isSubmitting={form.formState.isSubmitting}
                   hasToolbar
+                  variant="videoCommentInput"
                 />
               </FormControl>
             </FormItem>

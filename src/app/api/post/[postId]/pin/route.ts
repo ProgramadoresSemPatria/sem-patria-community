@@ -1,0 +1,45 @@
+import prismadb from '@/lib/prismadb'
+import { auth } from '@clerk/nextjs'
+import { NextResponse, type NextRequest } from 'next/server'
+
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { postId: string } }
+) {
+  try {
+    console.log(params)
+    const { userId } = auth()
+    const { postId } = params
+
+    if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
+
+    if (!postId) return new NextResponse('Post id is required', { status: 400 })
+
+    const existingPost = await prismadb.post.findUnique({
+      where: {
+        id: postId
+      }
+    })
+
+    if (!existingPost) {
+      return new NextResponse('Post not found', { status: 404 })
+    }
+
+    const updatedPost = await prismadb.post.update({
+      where: {
+        id: postId
+      },
+      data: {
+        isPinned: !existingPost.isPinned
+      }
+    })
+
+    const message = updatedPost.isPinned ? 'Post pinned' : 'Post unpinned'
+    console.log(message)
+
+    return new NextResponse(message, { status: 200 })
+  } catch (error) {
+    console.log('[POST_COMMENTS_ERROR]', error)
+    return new NextResponse('Internal Server Error', { status: 500 })
+  }
+}

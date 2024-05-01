@@ -71,7 +71,8 @@ const ForumFeed: React.FC<ForumFeedProps> = ({ initialPosts, userId }) => {
   const regularPosts = allPosts.filter(post => !post.isPinned)
   return (
     <ul className="flex flex-col col-span-2 space-y-6">
-      {pinnedPosts.length > 0 &&
+      {searchParams.get('category') !== 'All' &&
+        pinnedPosts.length > 0 &&
         pinnedPosts.map(post => (
           <li key={post.id}>
             <Post

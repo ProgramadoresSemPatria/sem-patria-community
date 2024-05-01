@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import PostLike from './post-likes'
 import avatarImg from '@/assets/avatar.png'
 import { PostActions } from './post-actions'
+import { Icons } from '@/components/icons'
 
 interface PostProps {
   post: ExtendedPost
@@ -90,6 +91,7 @@ const Post: FC<PostProps> = ({
       // }}
       className="rounded-md bg-slate-900 shadow text-white hover:cursor-pointer "
     >
+      {post.isPinned && <Icons.pin className="absolute" />}
       <div className="px-6 py-4 flex justify-between">
         <div className="w-0 flex-1">
           <div className="flex items-center max-h-40 text-gray-300">

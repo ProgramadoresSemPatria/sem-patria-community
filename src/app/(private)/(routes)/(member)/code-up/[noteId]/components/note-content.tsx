@@ -7,9 +7,13 @@ import TextareaAutosize from 'react-textarea-autosize'
 
 type NoteContentProps = {
   note: Note
+  isPublicView?: boolean
 }
 
-export const NoteContent = ({ note }: NoteContentProps) => {
+export const NoteContent = ({
+  note,
+  isPublicView = false
+}: NoteContentProps) => {
   const { title, onChangeContent, onChangeTitle } = useNoteStore()
 
   const inputRef = useRef<ElementRef<'textarea'>>(null)
@@ -38,6 +42,8 @@ export const NoteContent = ({ note }: NoteContentProps) => {
     <div className="md:max-w-3xl lg:max-w-4xl mt-6 mx-auto group relative">
       {isEditingTitle ? (
         <TextareaAutosize
+          disabled={isPublicView}
+          data-isdisabled={isPublicView}
           ref={inputRef}
           onBlur={disableInput}
           onKeyDown={onKeyDown}
@@ -45,7 +51,7 @@ export const NoteContent = ({ note }: NoteContentProps) => {
           onChange={e => {
             onChangeTitle(e.target.value)
           }}
-          className="w-full text-5xl bg-transparent font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF]"
+          className="w-full text-5xl bg-transparent font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF] data-[isdisabled=true]:resize-none"
         />
       ) : (
         <div
@@ -59,6 +65,7 @@ export const NoteContent = ({ note }: NoteContentProps) => {
       <NoteEditor
         initialValue={JSON.parse(note.content ?? '{}')}
         onChange={onChangeContent}
+        editable={!isPublicView}
       />
     </div>
   )

@@ -39,7 +39,7 @@ export const TimelineNotes = async ({ note }: TimelineNotesProps) => {
         </div>
       </div>
       <div className="w-full flex justify-center">
-        <TimelineNotesContent content={note.content} />
+        <TimelineNotesContent content={note.content} noteId={note.id} />
       </div>
     </div>
   )

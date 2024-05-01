@@ -5,6 +5,7 @@ import { Button } from '@/components//ui/button'
 import { PopoverContent, PopoverTrigger } from '@/components//ui/popover'
 import { Icons } from '@/components/icons'
 import { Popover } from '@radix-ui/react-popover'
+import { useMemo } from 'react'
 
 export type SelectorItem = {
   name: string
@@ -83,13 +84,28 @@ export const nodeItems: SelectorItem[] = [
 interface NodeSelectorProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  hasTitleEnabled?: boolean
 }
 
-export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
+export const NodeSelector = ({
+  open,
+  onOpenChange,
+  hasTitleEnabled = true
+}: NodeSelectorProps) => {
   const { editor } = useEditor()
+
+  const filteredNodeItems = useMemo(() => {
+    if (hasTitleEnabled) {
+      return nodeItems
+    }
+    return nodeItems.filter(item => item.name !== 'Heading 1')
+  }, [hasTitleEnabled])
+
   if (!editor) return null
 
-  const activeItem = nodeItems.filter(item => item.isActive(editor)).pop() ?? {
+  const activeItem = filteredNodeItems
+    .filter(item => item.isActive(editor))
+    .pop() ?? {
     name: 'Multiple'
   }
 

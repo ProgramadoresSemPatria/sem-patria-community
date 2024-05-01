@@ -11,7 +11,7 @@ import {
   type JSONContent
 } from 'novel'
 import { ImageResizer, handleCommandNavigation } from 'novel/extensions'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { defaultExtensions } from './extensions'
 import { ColorSelector } from './selectors/color-selector'
 import { LinkSelector } from './selectors/link-selector'
@@ -72,12 +72,26 @@ const NoteEditor = ({
     }
   )
 
+  const hasH1TitleEnabled = variant === 'note'
+
+  const filteredSuggestionItems = useMemo(() => {
+    if (hasH1TitleEnabled) {
+      return suggestionItems
+    }
+    return suggestionItems.filter(item => item.title !== 'Heading 1')
+  }, [hasH1TitleEnabled])
+
   return (
     <div
       data-hastoolbar={hasToolbar}
       className="flex flex-col max-w-full w-[100%] justify-stretch mb-2 gap-1 rounded-lg data-[hastoolbar=true]:p-2 data-[hastoolbar=true]:bg-slate-900"
     >
-      {hasToolbar && editable && <Toolbar editor={editor as Editor} />}
+      {hasToolbar && editable && (
+        <Toolbar
+          hasTitleEnabled={hasH1TitleEnabled}
+          editor={editor as Editor}
+        />
+      )}
       <EditorRoot>
         <EditorContent
           className="w-full data-[hastoolbar=false]:border py-2 px-6 rounded-xl my-4"
@@ -116,7 +130,7 @@ const NoteEditor = ({
               No results
             </EditorCommandEmpty>
             <EditorCommandList>
-              {suggestionItems.map(item => (
+              {filteredSuggestionItems.map(item => (
                 <EditorCommandItem
                   value={item.title}
                   onCommand={val => item.command?.(val)}
@@ -144,7 +158,11 @@ const NoteEditor = ({
               className="flex w-fit max-w-[90vw] overflow-hidden rounded-md border border-muted bg-background shadow-xl"
             >
               <Separator orientation="vertical" />
-              <NodeSelector open={openNode} onOpenChange={setOpenNode} />
+              <NodeSelector
+                open={openNode}
+                onOpenChange={setOpenNode}
+                hasTitleEnabled={hasH1TitleEnabled}
+              />
               <Separator orientation="vertical" />
 
               <LinkSelector

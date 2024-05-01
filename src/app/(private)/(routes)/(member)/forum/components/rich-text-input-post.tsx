@@ -26,6 +26,7 @@ import { Button } from '@/components/ui/button'
 import { Icons } from '@/components/icons'
 import { RichTextEditor } from './rich-text-editor-post'
 import { Input } from '@/components/ui/input'
+import { useSearchParams } from 'next/navigation'
 
 interface RichTextInputProps {
   isCommentsLoading?: boolean
@@ -45,6 +46,8 @@ const contentSchema = z.object({
 
 export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
   const queryClient = useQueryClient()
+  const searchParams = useSearchParams()
+
   const form = useForm({
     resolver: zodResolver(contentSchema),
     mode: 'onChange',
@@ -75,10 +78,9 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
       })
     },
     onSuccess: async () => {
-      form.setValue('content', '')
-      await queryClient.invalidateQueries({ queryKey: ['post'] })
       onClose()
     },
+
     onError: error => {
       toast({
         title: 'An error ocurred while creating post',
@@ -96,10 +98,11 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
           title: values.title,
           content: values.content
         })
-      // nao consegui de outra forma
-      window.location.reload()
+      await queryClient.refetchQueries({
+        queryKey: ['infinite-posts', { category: searchParams.get('category') }]
+      })
     },
-    [createPost]
+    [createPost, queryClient, searchParams]
   )
 
   if (isCommentsLoading) {

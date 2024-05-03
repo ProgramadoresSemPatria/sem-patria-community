@@ -1,17 +1,80 @@
-# Comunidade Sem Pátria
+# Comunidade Sem Pátria 💻
 
-## How run the project
-1. Generate a personal key in your github;
-  1.1 Click in your user -> Settings -> Developer Settings -> Personal access tokens -> Generate a classic token;
-2. Create a variable in your .env with the following name: "GITHUB_TOKEN";
-3. Insert the value of the token created;
-4. Change the value of variable "USERS_WHITELIST" to your github username in .env file;
-5. Run the project;
+## 📌 Table of Contents
 
-<strong>OBS: REMEMBER DO NOT COMMIT YOUR PERSONAL TOKEN!</strong>
+- [Comunidade Sem Pátria 💻](#comunidade-sem-pátria-)
+  - [📌 Table of Contents](#-table-of-contents)
+  - [🚀 Get Started](#-get-started)
+    - [🖥 Installation](#-installation)
+    - [Configuration](#configuration)
+      - [🪪 Credentials](#-credentials)
+    - [Running](#running)
 
-### Outros pontos importantes
-- Estamos utilizando a lib shadcn-ui para a criação da UI e componentes reutilizaveis. Então sempre que forem criar um componente novo chequem se no projeto já não existe e se não, deem uma olhada nessa lib e vejam se há algo semelhante.
-[shadcn-ui][https://ui.shadcn.com/docs]
+## 🚀 Get Started
 
-** Caso sintam dificuldade deem uma estudada no youtube e vejam como funciona. É bem fácil e simples, qualquer duvida pode falar com @carlosdevv no discord.
+To clone the repository to your local machine, follow these steps:
+1. Open a terminal
+2. Navigate to the directory where you want to clone the repository
+3. Execute the following command:
+
+```shell
+    git clone git@github.com:ProgramadoresSemPatria/sem-patria-community.git
+```
+
+or if you use HTTPS:
+```shell
+    git clone https://github.com/ProgramadoresSemPatria/sem-patria-community.git
+```
+
+```bash
+    cd sem-patria-community
+```
+
+### 🖥 Installation
+
+Once you have cloned the repository, you need to install the project's dependencies.
+
+**Use the recommended node version which is >=18.x**
+
+If you have [nvm](https://github.com/nvm-sh/nvm#installing-and-updating):
+
+```shell
+    nvm use
+```
+
+Install dependencies:
+
+>pnpm recommended
+
+```bash
+pnpm i
+```
+
+### Configuration
+
+Copy env example:
+
+```shell
+    cp .env.example .env.local
+```
+
+Set env values according to your credentials.
+
+#### 🪪 Credentials
+
+1. Generate a personal key in your GitHub
+  1.1 Click in your user -> Settings -> Developer Settings -> Personal access tokens -> Generate a classic token
+2. Change the value of variable `GITHUB_TOKEN` with the created token
+3. Change the value of variable `USERS_WHITELIST` to your github username
+
+>**⚠️ DO NOT COMMIT YOUR PERSONAL TOKEN**
+
+### Running
+
+Run the development server:
+
+```bash
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your favorite browser.

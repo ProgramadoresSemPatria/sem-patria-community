@@ -50,7 +50,7 @@ const PostLike = ({
       }
     },
     {
-      liked: post.likes.includes({ userId, postId: post.id } ?? ''),
+      liked: post.likes.some(like => like.userId === userId),
       likes: post.likes.length
     }
   )
@@ -66,7 +66,7 @@ const PostLike = ({
   }
 
   return (
-    <div className="flex items-center w-fit space-x-1 mt-2 font-bold text-slate-600 text-sm">
+    <div className="flex items-center w-fit space-x-1 font-bold text-slate-600 text-sm">
       <Button
         variant="ghost"
         size="icon"
@@ -75,7 +75,9 @@ const PostLike = ({
       >
         <Icons.upVote
           data-userliked={likeState.liked}
-          className="h-5 data-[userliked=true]:text-violet-900 group-hover:text-white "
+          className={`h-4 w-4 ${
+            likeState.liked ? 'text-violet-900' : ''
+          } group-hover:text-white`}
           strokeWidth={2}
         />
       </Button>

@@ -4,7 +4,7 @@ import { api } from '@/lib/api'
 import { type ExtendedPost } from '@/lib/types'
 import { useIntersection } from '@mantine/hooks'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Post from './post'
 import { Loader2 } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -12,6 +12,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 interface ForumFeedProps {
   initialPosts: ExtendedPost[]
   userId?: string
+  isAdmin?: boolean
 }
 
 const ForumFeed: React.FC<ForumFeedProps> = ({ initialPosts, userId }) => {
@@ -19,6 +20,8 @@ const ForumFeed: React.FC<ForumFeedProps> = ({ initialPosts, userId }) => {
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
+  const [allPosts, setAllPosts] = useState(initialPosts)
+  const [pinnedPosts, setPinnedPosts] = useState<ExtendedPost[]>()
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
     threshold: 1
@@ -65,15 +68,26 @@ const ForumFeed: React.FC<ForumFeedProps> = ({ initialPosts, userId }) => {
     }
   }, [pathname, router, searchParams])
 
-  const allPosts = data?.pages.flatMap(page => page) ?? initialPosts
+  useEffect(() => {
+    if (data.pages) {
+      setAllPosts(data.pages.flatMap(page => page))
+    }
+  }, [data.pages])
 
-  const pinnedPosts = allPosts.filter(post => post.isPinned)
-  const regularPosts = allPosts.filter(post => !post.isPinned)
+  useEffect(() => {
+    const category = searchParams.get('category')
+    if (category) {
+      setPinnedPosts(
+        allPosts.filter(
+          post => post.isPinned && post.category.name === category
+        )
+      )
+    }
+  }, [allPosts, searchParams])
   return (
     <ul className="flex flex-col col-span-2 space-y-6">
       {searchParams.get('category') !== 'All' &&
-        pinnedPosts.length > 0 &&
-        pinnedPosts.map(post => (
+        pinnedPosts?.map(post => (
           <li key={post.id}>
             <Post
               post={post}
@@ -82,13 +96,14 @@ const ForumFeed: React.FC<ForumFeedProps> = ({ initialPosts, userId }) => {
               categoryName={post.category.name}
               likesAmount={post.likes.length}
               currentLike={!!post.likes.find(like => like.userId === userId)}
+              isPinned
             />
           </li>
         ))}
-      {regularPosts.map((post: ExtendedPost, index) => {
+      {allPosts.map((post: ExtendedPost, index) => {
         const currentLike = post.likes.find(like => like.userId === userId)
 
-        if (index === regularPosts.length - 1) {
+        if (index === allPosts.length - 1) {
           return (
             <li key={post.id} ref={ref}>
               <Post

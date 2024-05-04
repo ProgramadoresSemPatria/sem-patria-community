@@ -21,6 +21,7 @@ interface PostProps {
   currentLike?: boolean
   commentAmount: number
   userId: string
+  isPinned?: boolean
 }
 
 const Post: FC<PostProps> = ({
@@ -29,7 +30,8 @@ const Post: FC<PostProps> = ({
   currentLike: _currentLike,
   categoryName,
   commentAmount,
-  userId
+  userId,
+  isPinned
 }) => {
   const router = useRouter()
 
@@ -91,7 +93,6 @@ const Post: FC<PostProps> = ({
       // }}
       className="rounded-md bg-slate-900 shadow text-white hover:cursor-pointer "
     >
-      {post.isPinned && <Icons.pin className="absolute" />}
       <div className="px-6 py-4 flex justify-between">
         <div className="w-0 flex-1">
           <div className="flex items-center max-h-40 text-gray-300">
@@ -130,7 +131,10 @@ const Post: FC<PostProps> = ({
             ) : null}
           </div>
         </div>
-        {isCurrentUserPost && <PostActions post={post} />}{' '}
+        <div className="flex gap-x-2 items-start">
+          {post.isPinned && isPinned && <Icons.pin className="my-1" />}
+          {isCurrentUserPost && <PostActions post={post} />}{' '}
+        </div>
       </div>
       <div className="flex items-center">
         <PostLike

@@ -1,4 +1,4 @@
-import appLogo from '@/assets/logo.svg'
+import appLogo from '@/assets/app-logo.png'
 import { appRoutes } from '@/lib/constants'
 import { auth } from '@clerk/nextjs'
 import Image from 'next/image'
@@ -48,16 +48,10 @@ export default async function Page({
                 <Image
                   src={appLogo}
                   alt="Logo"
-                  height={50}
-                  width={50}
+                  height={200}
+                  width={200}
                   priority
                 />
-                <span className=" text-2xl font-bold sm:inline-block text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-cyan-400">
-                  Sem Pátria
-                </span>
-                <span className="font-light tracking-widest text-muted-foreground opacity-75">
-                  COMM
-                </span>
               </div>
             </div>
             <div className="flex flex-col space-y-4 text-center my-auto">

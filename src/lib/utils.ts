@@ -1,6 +1,8 @@
+import { Roles, type User } from '@prisma/client'
 import { clsx, type ClassValue } from 'clsx'
 import { format } from 'date-fns'
 import { twMerge } from 'tailwind-merge'
+import { type UserAbilityRoles } from './types'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -83,4 +85,13 @@ export const getStringFromDate = (date: string) => {
   } else {
     return `${minutes} minutes ago`
   }
+}
+
+export const defineUserRole = (user: User): UserAbilityRoles => {
+  const hasAdmin = user.role.some(role => role === Roles.Admin)
+  const hasBuilder = user.role.some(role => role === Roles.Builder)
+
+  if (hasAdmin) return 'ADMIN'
+  if (hasBuilder) return 'BUILDER'
+  return 'MEMBER'
 }

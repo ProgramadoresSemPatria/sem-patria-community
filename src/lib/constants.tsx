@@ -3,6 +3,7 @@ import Hades from '@/assets/hades.png'
 import Hefesto from '@/assets/hefesto.png'
 import Hermes from '@/assets/hermes.png'
 import { Icons } from '@/components/icons'
+import { type User } from '@prisma/client'
 import {
   type MentorshipPhasesProps,
   type MentorshipProgramModuleProps,
@@ -145,3 +146,27 @@ export const mentorshipProgramModuleProps = (program: string) => {
 
   return props[program]
 }
+
+export const emailTemplate = (user: User, url: string) => `
+<main>
+<h1>Fala, ${user.name}!</h1>
+<span>Aqui é o Yuri Pereira, fundador da Borderless Coding. Passando para avisar que seu acesso foi liberado!</span>
+<br />
+<p>Agora você tem acesso a área de membros da Borderless Coding, o conteúdo que você adquiriu já está disponível, abaixo está o link para você gerar a sua senha de acesso a plataforma:
+</p>
+<a href="${url}">${url}</a>
+<p>Assim que entrar na plataforma, aproveite para subir sua foto e preencher com suas informações pessoais.</p>
+<p>Dentro teremos um video introdutório explicando como utilizar nossa área de membros na qual teremos todos os conteúdos necessários para sua evolução, fórum, desafio code UP e muito mais!
+</p>
+<p>Vale lembrar que o primeiro passo para sua evolução é a saída da zona de conforto para sua carreira global, logo a plataforma por default está em inglês.
+</p>
+<a href="${process.env.BASE_URL_PRODUCTION}">${process.env.BASE_URL_PRODUCTION}</a>
+<br />
+<p>
+Um grande abraço e vamos pra cima!
+<br />
+Go Global or Nothing.
+</p>
+<p>Yuri Pereira</p>
+</main>
+`

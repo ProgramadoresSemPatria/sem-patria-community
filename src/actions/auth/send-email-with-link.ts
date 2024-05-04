@@ -1,6 +1,7 @@
-import { Resend } from 'resend'
-import jwt from 'jsonwebtoken'
+import { emailTemplate } from '@/lib/constants'
 import { type User } from '@prisma/client'
+import jwt from 'jsonwebtoken'
+import { Resend } from 'resend'
 
 const generateToken = (user: User) => {
   return jwt.sign(
@@ -22,10 +23,21 @@ export const sendEmailWithLink = async (user: User) => {
       ? `${process.env.BASE_URL_DEVELOPMENT}/set-password/${token}`
       : `${process.env.BASE_URL_PRODUCTION}/set-password/${token}`
 
+  const htmlTemplate = emailTemplate(user, url)
+  const userEmail =
+    process.env.NODE_ENV === 'development'
+      ? process.env.DEVELOPER_EMAIL
+      : user.email
+
+  const fromEmail =
+    process.env.NODE_ENV === 'development'
+      ? 'onboarding@resend.dev'
+      : 'mentoria@borderlesscoding.com'
+
   await resend.emails.send({
-    from: 'onboarding@resend.dev',
-    to: user.email,
-    subject: 'Update password',
-    html: `<p>Enter URL to update your password <strong>${url}</strong>!</p>`
+    from: fromEmail,
+    to: userEmail ?? user.email,
+    subject: 'Atualize sua senha - Borderless Coding Community',
+    html: htmlTemplate
   })
 }

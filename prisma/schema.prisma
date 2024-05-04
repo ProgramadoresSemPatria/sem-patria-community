@@ -97,6 +97,7 @@ model Classroom {
 model ClassroomModule {
   id          String    @id @default(uuid())
   title       String
+  fileUrl     String?
   videos      Video[]
   classroom   Classroom @relation(fields: [classroomId], references: [id])
   classroomId String

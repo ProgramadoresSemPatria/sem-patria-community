@@ -1,7 +1,9 @@
+'use client'
+
 import Link from 'next/link'
 import * as React from 'react'
 
-import { useAppStore } from '@/hooks/use-app-store'
+import { Can } from '@/hooks/use-ability'
 import { useLockBody } from '@/hooks/use-lock-body'
 import { appRoutes } from '@/lib/constants'
 import { type MenuItemProps } from '@/lib/types'
@@ -17,7 +19,6 @@ type MobileNavProps = {
 
 const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
   useLockBody()
-  const { isCmsMode } = useAppStore()
 
   const items: MenuItemProps[] = [
     {
@@ -89,7 +90,7 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
               ))}
             </nav>
           </div>
-          {isCmsMode && (
+          <Can I="get" an="CMS">
             <div>
               <span className="font-semibold pb-1">Admin</span>
               <nav className="grid grid-flow-row auto-rows-max text-sm text-muted-foreground font-medium">
@@ -107,7 +108,7 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
                 ))}
               </nav>
             </div>
-          )}
+          </Can>
         </div>
         {children}
         <div className="flex justify-between">

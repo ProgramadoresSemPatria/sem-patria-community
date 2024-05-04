@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const { userId } = auth()
-    const { title, classroomId } = await req.json()
+    const { title, classroomId, fileUrl } = await req.json()
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
@@ -45,7 +45,8 @@ export async function POST(req: NextRequest) {
     const module = await prismadb.classroomModule.create({
       data: {
         title,
-        classroomId
+        classroomId,
+        fileUrl
       }
     })
 

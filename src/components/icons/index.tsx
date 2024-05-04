@@ -19,11 +19,14 @@ import {
   Copy,
   Edit,
   ExternalLink,
+  Eye,
+  EyeOff,
   File,
   FileArchive,
   Globe,
   GraduationCap,
   Heading1,
+  HelpCircle,
   Home,
   Italic,
   Layers,
@@ -50,12 +53,13 @@ import {
   Sun,
   ThumbsUp,
   Trash,
+  UploadCloud,
   User,
+  Users,
   Video,
   X,
   PinIcon,
-  type LucideIcon,
-  Users
+  type LucideIcon
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -117,5 +121,9 @@ export const Icons = {
   classroom: Shapes,
   lock: Lock,
   codeSandbox: Codesandbox,
+  eye: Eye,
+  eyeOff: EyeOff,
+  help: HelpCircle,
+  cloudUpload: UploadCloud,
   forum: MessageSquare
 }

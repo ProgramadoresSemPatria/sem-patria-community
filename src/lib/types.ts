@@ -39,3 +39,5 @@ export type ExtendedPost = Post & {
   user: User
   comments: Comment[]
 }
+
+export type UserAbilityRoles = 'ADMIN' | 'BUILDER' | 'MEMBER'

@@ -3,7 +3,10 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname:'img.clerk.com',
+        hostname: 'img.clerk.com'
+      },
+      {
+        hostname: 'utfs.io'
       }
     ]
   }

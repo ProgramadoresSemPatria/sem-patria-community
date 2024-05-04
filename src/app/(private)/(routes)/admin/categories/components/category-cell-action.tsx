@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useToast } from '@/components/ui/use-toast'
 import { useCategory } from '@/hooks/category/use-category'
+import { Can } from '@/hooks/use-ability'
 import { appRoutes } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -89,14 +90,16 @@ export const CategoryCellAction = ({ data }: CategoryCellActionProps) => {
             <Icons.edit className="mr-2 h-4 w-4" />
             Update
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => {
-              setIsAlertModalOpen(true)
-            }}
-          >
-            <Icons.trash className="mr-2 h-4 w-4" />
-            Delete
-          </DropdownMenuItem>
+          <Can I="delete" a="Category">
+            <DropdownMenuItem
+              onClick={() => {
+                setIsAlertModalOpen(true)
+              }}
+            >
+              <Icons.trash className="mr-2 h-4 w-4" />
+              Delete
+            </DropdownMenuItem>
+          </Can>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

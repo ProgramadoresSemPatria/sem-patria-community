@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { useToast } from '@/components/ui/use-toast'
+import { Can } from '@/hooks/use-ability'
 import { api } from '@/lib/api'
 import { appRoutes } from '@/lib/constants'
 import { useMutation } from '@tanstack/react-query'
@@ -106,14 +107,16 @@ export const EventCellAction = ({ data }: EventCellActionProps) => {
             <Icons.edit className="mr-2 h-4 w-4" />
             Update
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => {
-              setIsAlertModalOpen(true)
-            }}
-          >
-            <Icons.trash className="mr-2 h-4 w-4" />
-            Delete
-          </DropdownMenuItem>
+          <Can I="delete" a="Event">
+            <DropdownMenuItem
+              onClick={() => {
+                setIsAlertModalOpen(true)
+              }}
+            >
+              <Icons.trash className="mr-2 h-4 w-4" />
+              Delete
+            </DropdownMenuItem>
+          </Can>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

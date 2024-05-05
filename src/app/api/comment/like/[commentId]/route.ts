@@ -23,7 +23,7 @@ export async function PUT(
 
     if (!comment) return new NextResponse('Comment not found', { status: 404 })
 
-    const like = await prismadb.like.findFirst({
+    const like = await prismadb.commentLike.findFirst({
       where: {
         userId,
         commentId
@@ -31,16 +31,19 @@ export async function PUT(
     })
 
     if (!like) {
-      await prismadb.like.create({
+      await prismadb.commentLike.create({
         data: {
           userId,
           commentId
         }
       })
     } else {
-      await prismadb.like.delete({
+      await prismadb.commentLike.delete({
         where: {
-          id: like.id,
+          userId_commentId: {
+            userId,
+            commentId
+          },
           userId,
           commentId
         }
@@ -49,7 +52,7 @@ export async function PUT(
 
     return new NextResponse('Like toggled', { status: 200 })
   } catch (error) {
-    console.log('[POST_COMMENTS_ERROR]', error)
+    console.log('[POST_COMMENTS_LIKE_ERROR]', error)
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }

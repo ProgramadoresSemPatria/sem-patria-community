@@ -115,7 +115,7 @@ const NoteEditor = ({
               if (editor.getText() !== '') {
                 onChange(JSON.stringify(editor.getJSON()))
               } else {
-                onChange('')
+                onChange('{}')
               }
             }
           }}

@@ -50,7 +50,9 @@ const PostLike = ({
       }
     },
     {
-      liked: post.likes.includes({ userId, postId: post.id } ?? ''),
+      liked: post.likes.some(
+        like => like.userId === userId && like.postId === post.id
+      ),
       likes: post.likes.length
     }
   )

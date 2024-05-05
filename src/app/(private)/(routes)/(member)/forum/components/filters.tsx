@@ -67,7 +67,6 @@ const ForumFilters = () => {
       )
     }
   }
-
   return (
     <div className="flex py-2 gap-x-2">
       <Popover open={openCategory} onOpenChange={setOpenCategory}>
@@ -98,9 +97,9 @@ const ForumFilters = () => {
                   key={category.name}
                   value={category.name}
                   onSelect={currentValue => {
-                    setCategoryName(
-                      currentValue === category.name ? '' : category.name
-                    )
+                    // console.log(categoryOptions)
+                    console.log(category.name)
+                    setCategoryName(category.name)
                     setOpenCategory(false)
                     router.push(
                       `/forum?category=${category.name}${
@@ -173,11 +172,12 @@ const ForumFilters = () => {
 
       <Button
         onClick={() => {
-          router.push(`/forum?category=All`)
           setCategoryName('All')
           setOrderBy('')
+          router.push(`/forum?category=All`)
         }}
         variant="ghost"
+        className="border-dashed border"
       >
         Reset
         <Icons.close className="ml-2" size={15} />

@@ -84,11 +84,13 @@ export async function GET(req: Request) {
       whereClause = { category: { name: categoryName } }
     }
     const cachedPosts = await redis.zrange('posts', 0, -1)
-    console.log('cached postss', cachedPosts)
     let posts
     if (cachedPosts.length > 0) {
-      posts = cachedPosts.map(post => JSON.parse(post as string))
-      // .filter(post => post.category.name === categoryName)
+      posts = cachedPosts
+        .map(post => JSON.parse(post as string))
+        .filter(
+          post => categoryName !== 'All' && post.category.name === categoryName
+        )
     }
     if (!posts || posts.length < Number(limit)) {
       posts = await prismadb.post.findMany({
@@ -105,13 +107,13 @@ export async function GET(req: Request) {
       })
 
       // Optionally refresh the cache
-      posts.forEach(
-        async post =>
-          await redis.zadd('posts', {
-            score: new Date(post.createdAt).getTime(),
-            member: JSON.stringify(post)
-          })
-      )
+      //   posts.forEach(
+      //     async post =>
+      //       await redis.zadd('posts', {
+      //         score: new Date(post.createdAt).getTime(),
+      //         member: JSON.stringify(post)
+      //       })
+      //   )
     }
 
     // const posts = await prismadb.post.findMany({

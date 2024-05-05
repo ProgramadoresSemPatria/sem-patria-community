@@ -18,11 +18,25 @@ export async function PUT(
     const existingPost = await prismadb.post.findUnique({
       where: {
         id: postId
-      }
+      },
+      include: { category: true }
     })
 
     if (!existingPost) {
       return new NextResponse('Post not found', { status: 404 })
+    }
+
+    const pinnedCount = await prismadb.post.count({
+      where: {
+        categoryId: existingPost.categoryId,
+        isPinned: true
+      }
+    })
+
+    if (pinnedCount >= 3 && !existingPost.isPinned) {
+      return new NextResponse('Category already has 3 pinned posts', {
+        status: 403
+      })
     }
 
     const updatedPost = await prismadb.post.update({

@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { toast } from '@/components/ui/use-toast'
+import { Can } from '@/hooks/use-ability'
 import { api } from '@/lib/api'
 import { type Post } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
@@ -121,20 +122,22 @@ export const PostActions = ({ post }: PostActionsProps) => {
             )}
             Delete
           </DropdownMenuItem>
-          <DropdownMenuItem
-            disabled={isPinning}
-            onClick={e => {
-              e.preventDefault()
-              void onPinPost()
-            }}
-          >
-            {isDeleting ? (
-              <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Icons.send className="mr-2 h-4 w-4" />
-            )}
-            {post.isPinned ? 'Unpin' : 'Pin'}
-          </DropdownMenuItem>
+          <Can I="pin" an="Post">
+            <DropdownMenuItem
+              disabled={isPinning}
+              onClick={e => {
+                e.preventDefault()
+                void onPinPost()
+              }}
+            >
+              {isDeleting ? (
+                <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Icons.send className="mr-2 h-4 w-4" />
+              )}
+              {post.isPinned ? 'Unpin' : 'Pin'}
+            </DropdownMenuItem>
+          </Can>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

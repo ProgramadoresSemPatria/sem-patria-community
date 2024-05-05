@@ -13,6 +13,7 @@ import PostLike from './post-likes'
 import avatarImg from '@/assets/avatar.png'
 import { PostActions } from './post-actions'
 import { Icons } from '@/components/icons'
+import { Can } from '@/hooks/use-ability'
 
 interface PostProps {
   post: ExtendedPost
@@ -91,7 +92,9 @@ const Post: FC<PostProps> = ({
       //   e.stopPropagation()
       //   router.push(`/forum/${post.id}`)
       // }}
-      className="rounded-md bg-slate-900 shadow text-white hover:cursor-pointer "
+      className={`rounded-md bg-slate-900 shadow text-white hover:cursor-pointer ${
+        isPinned && post.isPinned ? 'border-l-2 border-l-orange-600' : ''
+      }`}
     >
       <div className="px-6 py-4 flex justify-between">
         <div className="w-0 flex-1">
@@ -132,8 +135,12 @@ const Post: FC<PostProps> = ({
           </div>
         </div>
         <div className="flex gap-x-2 items-start">
-          {post.isPinned && isPinned && <Icons.pin className="my-1" />}
-          {isCurrentUserPost && <PostActions post={post} />}{' '}
+          {post.isPinned && isPinned && (
+            <Icons.pin className="my-1  fill-orange-600" />
+          )}
+          <Can I="manage" an="Post">
+            {isCurrentUserPost && <PostActions post={post} />}{' '}
+          </Can>
         </div>
       </div>
       <div className="flex items-center">

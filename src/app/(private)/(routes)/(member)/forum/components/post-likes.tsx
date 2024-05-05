@@ -76,14 +76,14 @@ const PostLike = ({
         <Icons.upVote
           data-userliked={likeState.liked}
           className={`h-4 w-4 ${
-            likeState.liked ? 'text-violet-900' : ''
+            likeState.liked ? 'text-orange-900' : ''
           } group-hover:text-white`}
           strokeWidth={2}
         />
       </Button>
       <p
         data-userliked={likeState.liked}
-        className="leading-4 data-[userliked=true]:text-violet-900"
+        className="leading-4 data-[userliked=true]:text-orange-900"
       >
         {likeState.likes}
       </p>

@@ -10,7 +10,8 @@ import {
   cmsSubject,
   courseSubject,
   eventSubject,
-  userSubject
+  userSubject,
+  postSubject
 } from './subjects'
 
 const appAbilitiesSchema = z.union([
@@ -20,6 +21,7 @@ const appAbilitiesSchema = z.union([
   eventSubject,
   classroomSubject,
   cmsSubject,
+  postSubject,
 
   z.tuple([z.literal('manage'), z.literal('all')])
 ])

@@ -16,7 +16,8 @@ export const permissions: Record<UserAbilityRoles, PermissionsByRole> = {
     can('get', ['Category', 'Classroom', 'Course', 'Event', 'User'], {})
     can('get', 'CMS')
   },
-  MEMBER: (user, { cannot }) => {
+  MEMBER: (user, { can, cannot }) => {
     cannot('manage', 'all')
+    can('delete', 'Post', { userId: user.id })
   }
 }

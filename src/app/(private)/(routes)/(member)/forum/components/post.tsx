@@ -138,8 +138,10 @@ const Post: FC<PostProps> = ({
           {post.isPinned && isPinned && (
             <Icons.pin className="my-1  fill-orange-600" />
           )}
-          <Can I="manage" an="Post">
-            {isCurrentUserPost && <PostActions post={post} />}{' '}
+          <Can I="delete" a="Post">
+            {/* {isCurrentUserPost && */}
+            <PostActions post={post} />
+            {/* } */}
           </Can>
         </div>
       </div>

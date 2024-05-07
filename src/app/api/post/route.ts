@@ -105,15 +105,6 @@ export async function GET(req: Request) {
         },
         where: whereClause
       })
-
-      // Optionally refresh the cache
-      //   posts.forEach(
-      //     async post =>
-      //       await redis.zadd('posts', {
-      //         score: new Date(post.createdAt).getTime(),
-      //         member: JSON.stringify(post)
-      //       })
-      //   )
     }
 
     // const posts = await prismadb.post.findMany({

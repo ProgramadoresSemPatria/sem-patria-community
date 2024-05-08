@@ -1,11 +1,10 @@
 import { DefaultLayout } from '@/components/default-layout'
 import Header from '@/components/header'
-import React from 'react'
-import CreatePostCommentComponent from './components/create-post'
-import ForumFeed from './components/forum-feed'
 import prismadb from '@/lib/prismadb'
 import { currentUser } from '@clerk/nextjs'
+import CreatePostCommentComponent from './components/create-post'
 import ForumFilters from './components/filters'
+import ForumFeed from './components/forum-feed'
 
 const ForumPage = async () => {
   const user = await currentUser()

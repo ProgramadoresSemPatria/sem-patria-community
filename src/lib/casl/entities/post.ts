@@ -5,4 +5,4 @@ export const postSchema = z.object({
   userId: z.string()
 })
 
-export type Event = z.infer<typeof postSchema>
+export type Post = z.infer<typeof postSchema>

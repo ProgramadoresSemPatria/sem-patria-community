@@ -136,7 +136,7 @@ const Post: FC<PostProps> = ({
         </div>
         <div className="flex gap-x-2 items-start">
           {post.isPinned && isPinned && (
-            <Icons.pin className="my-1  fill-orange-600" />
+            <Icons.pin className="my-1  text-orange-600 fill-orange-600 h-5 w-5" />
           )}
           <Can I="delete" a="Post">
             {/* {isCurrentUserPost && */}

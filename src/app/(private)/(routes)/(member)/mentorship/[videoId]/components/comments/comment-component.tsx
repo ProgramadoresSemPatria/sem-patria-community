@@ -1,17 +1,16 @@
 'use client'
+import NoteEditor from '@/components/editor/editor'
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { useAuth } from '@clerk/nextjs'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { format } from 'date-fns'
 import Image from 'next/image'
 import { useReducer } from 'react'
 import { AdminActions } from './admin-actions'
 import { type CommentResponse } from './use-comments'
-import { getStringFromDate } from '@/lib/utils'
 
 type CommentComponentProps = {
   comment: CommentResponse
@@ -20,29 +19,28 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
   const { userId } = useAuth()
   const queryClient = useQueryClient()
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        heading: {
-          HTMLAttributes: {
-            class: 'text-xl font-bold'
-          }
-        },
-        bulletList: {
-          HTMLAttributes: {
-            class: 'list-disc pl-4'
-          }
-        },
-        orderedList: {
-          HTMLAttributes: {
-            class: 'list-decimal pl-4'
-          }
-        }
-      })
-    ],
-    editable: false,
-    content: comment.comment
-  })
+  const getStringFromDate = (date: string) => {
+    const commentDate = new Date(date)
+    const todayDate = new Date()
+
+    const diff = todayDate.getTime() - commentDate.getTime()
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+    const minutes = Math.floor(
+      (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60) / 60
+    )
+
+    if (days > 0) {
+      if (days > 7) {
+        return format(commentDate, 'dd/MM/yyyy')
+      }
+      return `${days} days ago`
+    } else if (hours > 0) {
+      return `${hours} hours ago`
+    } else {
+      return `${minutes} minutes ago`
+    }
+  }
 
   const { mutateAsync } = useMutation({
     mutationKey: ['like-comment'],
@@ -112,7 +110,7 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
         </div>
         <AdminActions commentId={comment.id} />
       </div>
-      <EditorContent editor={editor} className="text-sm" />
+      <NoteEditor editable={false} initialValue={JSON.parse(comment.comment)} />
       <div className="flex items-center w-fit space-x-1 mt-2 font-bold text-slate-600 text-sm">
         <Button
           variant="ghost"

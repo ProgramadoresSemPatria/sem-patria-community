@@ -74,5 +74,5 @@ module.exports = withUt({
       }
     }
   },
-  plugins: [require('tailwindcss-animate')]
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography'), require('tailwind-scrollbar')({ preferredStrategy: 'pseudoelements', nocompatible:true})]
 })

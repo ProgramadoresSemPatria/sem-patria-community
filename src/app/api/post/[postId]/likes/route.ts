@@ -13,8 +13,7 @@ export async function PUT(
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
-    if (!postId)
-      return new NextResponse('Post id is required', { status: 400 })
+    if (!postId) return new NextResponse('Post id is required', { status: 400 })
 
     const post = await prismadb.post.findFirst({
       where: {
@@ -41,10 +40,10 @@ export async function PUT(
     } else {
       await prismadb.like.delete({
         where: {
-       userId_postId:{
-        postId,
-        userId
-       }
+          userId_postId: {
+            postId,
+            userId
+          }
         }
       })
     }

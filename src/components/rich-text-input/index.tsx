@@ -5,16 +5,18 @@ import {
   FormItem,
   FormLabel
 } from '@/components/ui/form'
+import { useCategory } from '@/hooks/category/use-category'
+import useCreatePostModalStore from '@/hooks/modal/use-create-post'
 import { api } from '@/lib/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { type JSONContent } from 'novel'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import NoteEditor from '../editor/editor'
 import { Icons } from '../icons'
 import { Button } from '../ui/button'
-import { Skeleton } from '../ui/skeleton'
-import { toast } from '../ui/use-toast'
 import {
   Select,
   SelectContent,
@@ -22,9 +24,8 @@ import {
   SelectTrigger,
   SelectValue
 } from '../ui/select'
-import { useCategory } from '@/hooks/category/use-category'
-import useCreatePostModalStore from '@/hooks/modal/use-create-post'
-import { RichTextEditor } from './rich-text-editor'
+import { Skeleton } from '../ui/skeleton'
+import { toast } from '../ui/use-toast'
 
 interface RichTextInputProps {
   videoId?: string
@@ -180,10 +181,12 @@ export const RichTextInput = ({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <RichTextEditor
+                <NoteEditor
+                  initialValue={field.value as unknown as JSONContent}
                   onChange={field.onChange}
-                  content={field.value}
                   isSubmitting={form.formState.isSubmitting}
+                  hasToolbar
+                  variant="videoCommentInput"
                 />
               </FormControl>
             </FormItem>
@@ -192,7 +195,7 @@ export const RichTextInput = ({
         <Button
           type="submit"
           disabled={!form.formState.isValid || form.formState.isSubmitting}
-          className="self-end w-fit bg-slate-800 text-white gap-1 hover:bg-slate-900"
+          className="self-end w-fit bg-slate-900 text-white gap-1 hover:bg-slate-900/70"
         >
           {isPending ? (
             <>

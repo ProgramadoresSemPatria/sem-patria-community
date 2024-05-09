@@ -111,7 +111,7 @@ export const PostActions = ({ post }: PostActionsProps) => {
           <DropdownMenuItem
             disabled={isDeleting}
             onClick={e => {
-              e.preventDefault()
+              e.stopPropagation()
               setIsDeleteModalOpen(true)
             }}
           >
@@ -126,7 +126,7 @@ export const PostActions = ({ post }: PostActionsProps) => {
             <DropdownMenuItem
               disabled={isPinning}
               onClick={e => {
-                e.preventDefault()
+                e.stopPropagation()
                 void onPinPost()
               }}
             >

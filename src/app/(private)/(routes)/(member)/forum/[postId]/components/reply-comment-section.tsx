@@ -154,13 +154,13 @@ const ReplyCommentSection = ({
             >
               <Icons.upVote
                 data-userliked={likeState.liked}
-                className="h-5 data-[userliked=true]:text-violet-900 group-hover:text-white "
+                className="h-5 data-[userliked=true]:text-orange-900 group-hover:text-white "
                 strokeWidth={2}
               />
             </Button>
             <p
               data-userliked={likeState.liked}
-              className="leading-4 data-[userliked=true]:text-violet-900"
+              className="leading-4 data-[userliked=true]:text-orange-900"
             >
               {likeState.likes}
             </p>
@@ -173,18 +173,18 @@ const ReplyCommentSection = ({
                   data-userreplied={replyState.replied}
                   variant="ghost"
                   size="icon"
-                  className="group rounded-full data-[userreplied=true]:text-violet-900"
+                  className="group rounded-full data-[userreplied=true]:text-orange-900"
                 >
                   <Icons.forum
                     data-userreplied={replyState.replied}
-                    className="h-5 data-[userreplied=true]:text-violet-900 group-hover:text-white"
+                    className="h-5 data-[userreplied=true]:text-orange-900 group-hover:text-white"
                     strokeWidth={2}
                   />
                 </Button>
               </CollapsibleTrigger>
               <p
                 data-userliked={replyState.replied}
-                className="leading-4 data-[userliked=true]:text-violet-900"
+                className="leading-4 data-[userliked=true]:text-orange-900"
               >
                 {replyState.replies}
               </p>

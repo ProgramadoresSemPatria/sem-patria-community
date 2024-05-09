@@ -1,19 +1,18 @@
 'use client'
 
-import { type ExtendedPost } from '@/lib/types'
-import { getStringFromDate } from '@/lib/utils'
-import Image from 'next/image'
-import { EditorContent, useEditor } from '@tiptap/react'
-import { MessageSquare } from 'lucide-react'
-import Link from 'next/link'
-import { type FC, useRef } from 'react'
-import StarterKit from '@tiptap/starter-kit'
-import { useRouter } from 'next/navigation'
-import PostLike from './post-likes'
 import avatarImg from '@/assets/avatar.png'
-import { PostActions } from './post-actions'
+import NoteEditor from '@/components/editor/editor'
 import { Icons } from '@/components/icons'
 import { Can } from '@/hooks/use-ability'
+import { type ExtendedPost } from '@/lib/types'
+import { getStringFromDate } from '@/lib/utils'
+import { MessageSquare } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { type FC } from 'react'
+import { PostActions } from './post-actions'
+import PostLike from './post-likes'
 
 interface PostProps {
   post: ExtendedPost
@@ -36,62 +35,11 @@ const Post: FC<PostProps> = ({
 }) => {
   const router = useRouter()
 
-  const pRef = useRef<HTMLParagraphElement>(null)
-
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        heading: {
-          HTMLAttributes: {
-            class: 'text-xl font-bold'
-          }
-        },
-        bulletList: {
-          HTMLAttributes: {
-            class: 'list-disc pl-4'
-          }
-        },
-        orderedList: {
-          HTMLAttributes: {
-            class: 'list-decimal pl-4'
-          }
-        }
-      })
-    ],
-    editable: false,
-    content: post.content as string
-  })
-
-  // const editorTitle = useEditor({
-  //   extensions: [
-  //     StarterKit.configure({
-  //       heading: {
-  //         HTMLAttributes: {
-  //           class: 'text-2xl font-bold'
-  //         }
-  //       },
-  //       bulletList: {
-  //         HTMLAttributes: {
-  //           class: 'list-disc pl-4'
-  //         }
-  //       },
-  //       orderedList: {
-  //         HTMLAttributes: {
-  //           class: 'list-decimal pl-4'
-  //         }
-  //       }
-  //     })
-  //   ],
-  //   editable: false,
-  //   content: post.title as string
-  // })
-  const isCurrentUserPost = post.userId === userId
   return (
     <div
-      // onClick={e => {
-      //   e.stopPropagation()
-      //   router.push(`/forum/${post.id}`)
-      // }}
+      onClick={e => {
+        router.push(`/forum/${post.id}`)
+      }}
       className={`rounded-md bg-slate-900 shadow text-white hover:cursor-pointer ${
         isPinned && post.isPinned ? 'border-l-2 border-l-orange-600' : ''
       }`}
@@ -122,16 +70,13 @@ const Post: FC<PostProps> = ({
               </span>
             </div>
           </div>
-          <div
-            className="relative text-sm max-h-40 w-full mt-2 overflow-clip"
-            ref={pRef}
-          >
-            {/* <EditorContent editor={editorTitle} /> */}
+          <div className="relative text-sm max-h-40 w-full mt-2 overflow-clip">
             <h1 className="font-bold text-2xl">{post.title}</h1>
-            <EditorContent editor={editor} className="text-sm max-h-[80px]" />
-            {pRef.current?.clientHeight === 160 ? (
-              <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent"></div>
-            ) : null}
+            <NoteEditor
+              initialValue={JSON.parse(post.content as string)}
+              editable={false}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-slate-900 from-0% to-50% rounded-md shadow-lg" />
           </div>
         </div>
         <div className="flex gap-x-2 items-start">
@@ -139,9 +84,7 @@ const Post: FC<PostProps> = ({
             <Icons.pin className="my-1  text-orange-600 fill-orange-600 h-5 w-5" />
           )}
           <Can I="delete" a="Post">
-            {/* {isCurrentUserPost && */}
             <PostActions post={post} />
-            {/* } */}
           </Can>
         </div>
       </div>

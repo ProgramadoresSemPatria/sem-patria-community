@@ -6,16 +6,15 @@ const CreatePostModal = () => {
   const { isOpen, onClose } = useCreatePostModalStore()
 
   return (
-    <>
-      <Modal
-        title="Create Post"
-        description="What is on your mind?"
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <RichTextInput />
-      </Modal>
-    </>
+    <Modal
+      title="Create Post"
+      description="What is on your mind?"
+      isOpen={isOpen}
+      onClose={onClose}
+      className="min-w-fit"
+    >
+      <RichTextInput />
+    </Modal>
   )
 }
 

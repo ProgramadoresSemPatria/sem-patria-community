@@ -1,7 +1,6 @@
 import { common, createLowlight } from 'lowlight'
 import {
   HorizontalRule,
-  Placeholder,
   StarterKit,
   TaskItem,
   TaskList,
@@ -19,7 +18,6 @@ import { cx } from 'class-variance-authority'
 
 const lowlight = createLowlight(common)
 
-const placeholder = Placeholder
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
     class: cx(
@@ -128,7 +126,6 @@ const youtubeEmbed = Youtube.configure({
 
 export const defaultExtensions = [
   starterKit,
-  placeholder,
   tiptapLink,
   tiptapImage,
   updatedImage,

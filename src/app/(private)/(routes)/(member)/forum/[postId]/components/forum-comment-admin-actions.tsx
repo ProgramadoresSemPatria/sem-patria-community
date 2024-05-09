@@ -1,3 +1,4 @@
+'use client'
 import { Icons } from '@/components/icons'
 import { AlertModal } from '@/components/modals/alert-modal'
 import { Button } from '@/components/ui/button'

@@ -1,3 +1,6 @@
+import NoteEditor from '@/components/editor/editor'
+import { Icons } from '@/components/icons'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -5,16 +8,7 @@ import {
   FormItem,
   FormLabel
 } from '@/components/ui/form'
-import { api } from '@/lib/api'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useCallback } from 'react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { useCategory } from '@/hooks/category/use-category'
-import useCreatePostModalStore from '@/hooks/modal/use-create-post'
-import { toast } from '@/components/ui/use-toast'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -22,11 +16,17 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
-import { Icons } from '@/components/icons'
-import { RichTextEditor } from './rich-text-editor-post'
-import { Input } from '@/components/ui/input'
+import { Skeleton } from '@/components/ui/skeleton'
+import { toast } from '@/components/ui/use-toast'
+import { useCategory } from '@/hooks/category/use-category'
+import useCreatePostModalStore from '@/hooks/modal/use-create-post'
+import { api } from '@/lib/api'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
+import { useCallback } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 interface RichTextInputProps {
   isCommentsLoading?: boolean
@@ -166,11 +166,6 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
                   content={field.value}
                   disabled={form.formState.isLoading}
                 />
-                {/* <RichTextEditor
-                  onChange={field.onChange}
-                  content={field.value}
-                  isSubmitting={form.formState.isSubmitting}
-                /> */}
               </FormControl>
             </FormItem>
           )}
@@ -182,11 +177,13 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
             <FormItem>
               <FormLabel>Content</FormLabel>
               <FormControl>
-                <RichTextEditor
-                  onChange={field.onChange}
-                  content={field.value}
-                  isSubmitting={form.formState.isSubmitting}
-                />
+                <div className="max-h-[300px] overflow-y-auto rounded-md">
+                  <NoteEditor
+                    onChange={field.onChange}
+                    hasToolbar
+                    variant="postInput"
+                  />
+                </div>
               </FormControl>
             </FormItem>
           )}

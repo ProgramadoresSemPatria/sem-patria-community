@@ -115,13 +115,12 @@ model Video {
 }
 
 model Post {
-  id         String   @id @default(uuid())
-  title      String
-  content    Json
-  isPinned   Boolean? @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
+  id        String   @id @default(uuid())
+  title     String
+  content   Json
+  isPinned  Boolean? @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
@@ -141,14 +140,14 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  video   Video?  @relation(fields: [videoId], references: [id])
+  video   Video?  @relation(fields: [videoId], references: [id], onDelete: Cascade)
   videoId String?
 
-  post   Post?   @relation(fields: [postId], references: [id])
+  post   Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String?
 
   replyToId String?
-  replyTo   Comment?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replyTo   Comment?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   replies   Comment[] @relation("ReplyTo")
 
   likes     CommentLike[]
@@ -156,19 +155,19 @@ model Comment {
 }
 
 model Like {
-  user   User     @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
   userId String
-  post   Post     @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
 
   @@id([userId, postId])
 }
 
 model CommentLike {
-  user      User     @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id])
   userId    String
-  comment   Comment  @relation(fields: [commentId], references: [id])
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
-  
+
   @@id([userId, commentId])
 }

@@ -64,7 +64,7 @@ const CommentSection = ({ postId, comments }: CommentSectionProps) => {
 
   return (
     <>
-      {comments && comments.length > 0 ? (
+      {commentsData.length > 0 ? (
         <div className="flex flex-col w-full">
           <Collapsible
             className="flex flex-col w-full items-center pb-8"
@@ -116,7 +116,10 @@ const CommentSection = ({ postId, comments }: CommentSectionProps) => {
           ))}
         </div>
       ) : (
-        <Collapsible className="flex flex-col w-full items-center pb-12">
+        <Collapsible
+          className="flex flex-col w-full items-center pb-12"
+          open={isNewCommentOpen}
+        >
           <div className="flex items-end mb-2">
             <p id="comments" className="text-muted-foreground">
               No comments yet,
@@ -125,6 +128,9 @@ const CommentSection = ({ postId, comments }: CommentSectionProps) => {
               <Button
                 className="underline text-muted-foreground px-1 py-0 h-fit leading-relaxed"
                 variant="link"
+                onClick={() => {
+                  setIsNewCommentOpen(!isNewCommentOpen)
+                }}
               >
                 be the first!
               </Button>

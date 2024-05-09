@@ -47,7 +47,7 @@ const MainNav = ({ children }: MainNavProps) => {
   return (
     <div
       className={cn(
-        'hidden md:flex h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6'
+        'hidden md:flex h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6 sticky top-0'
       )}
     >
       <MainLogo />

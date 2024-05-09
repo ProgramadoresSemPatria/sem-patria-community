@@ -12,12 +12,14 @@ interface PostLikeProps {
   initialVotesAmt: number
   initialVote?: boolean
   userId: string
+  isPostPage?: boolean
 }
 const PostLike = ({
   initialVotesAmt,
   userId,
   post,
-  initialVote
+  initialVote,
+  isPostPage = false
 }: PostLikeProps) => {
   const queryClient = useQueryClient()
 
@@ -77,7 +79,8 @@ const PostLike = ({
       >
         <Icons.upVote
           data-userliked={likeState.liked}
-          className={`h-4 w-4 ${
+          data-ispostpage={isPostPage}
+          className={`data-[ispostpage=true]:h-5 data-[ispostpage=true]:w-5 h-4 w-4 ${
             likeState.liked ? 'text-orange-900' : ''
           } group-hover:text-white`}
           strokeWidth={2}

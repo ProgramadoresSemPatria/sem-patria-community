@@ -1,8 +1,6 @@
 import defaultAvatar from '@/assets/avatar.png'
 import { DefaultLayout } from '@/components/default-layout'
 import NoteEditor from '@/components/editor/editor'
-import { Icons } from '@/components/icons'
-import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import prismadb from '@/lib/prismadb'
 import { type ExtendedPost } from '@/lib/types'
@@ -14,6 +12,7 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import PostLike from '../components/post-likes'
 import CommentSection from './components/comment-section'
+import PostCommentsLink from './components/post-comments-link'
 
 interface PostPageProps {
   params: {
@@ -120,23 +119,10 @@ const PostPage = async ({ params }: PostPageProps) => {
                   initialVotesAmt={post.likes.length || 0}
                   post={post as unknown as ExtendedPost}
                   userId={userId}
+                  isPostPage
                 />
 
-                <a href="#comments">
-                  <div className="flex items-center w-fit space-x-1 mt-2 font-bold text-slate-600 text-sm">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="group rounded-full"
-                    >
-                      <Icons.forum
-                        className="h-5 group-hover:text-white "
-                        strokeWidth={2}
-                      />
-                    </Button>
-                    <p className="leading-4">{post?.comments.length}</p>
-                  </div>
-                </a>
+                <PostCommentsLink commentsLength={post?.comments.length} />
               </>
             )}
             <Separator decorative orientation="vertical" className="h-5 mt-2" />

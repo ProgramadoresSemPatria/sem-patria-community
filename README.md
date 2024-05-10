@@ -1,14 +1,19 @@
-# Comunidade Sem Pátria 💻
+<h1 align="center">Borderless Coding
+<img src="src/assets/logo.svg" width="36" height="36" alt="Logo" /></h1>
+
+A platform for Borderless members to connect, collaborate, and share knowledge within the community.
 
 ## 📌 Table of Contents
 
-- [Comunidade Sem Pátria 💻](#comunidade-sem-pátria-)
-  - [📌 Table of Contents](#-table-of-contents)
-  - [🚀 Get Started](#-get-started)
-    - [🖥 Installation](#-installation)
-    - [Configuration](#configuration)
-      - [🪪 Credentials](#-credentials)
-    - [Running](#running)
+- [📌 Table of Contents](#-table-of-contents)
+- [🚀 Get Started](#-get-started)
+  - [🖥 Installation](#-installation)
+  - [Configuration](#configuration)
+    - [🪪 Credentials](#-credentials)
+  - [Running](#running)
+    - [Migrations](#migrations)
+    - [Using Prisma Studio](#using-prisma-studio)
+    - [Development server](#development-server)
 
 ## 🚀 Get Started
 
@@ -55,7 +60,7 @@ pnpm i
 Copy env example:
 
 ```shell
-    cp .env.example .env.local
+    cp .env.example .env
 ```
 
 Set env values according to your credentials.
@@ -71,7 +76,29 @@ Set env values according to your credentials.
 
 ### Running
 
-Run the development server:
+Before start development server, you need to ensure that database is configured.
+
+#### Migrations
+
+To set up the database schema and apply any pending migrations, execute the following command:
+
+```bash
+pnpm migrate dev
+```
+
+This command will ensure that your database is up to date with the latest changes defined in your Prisma schema.
+
+#### Using Prisma Studio
+
+To visually explore and interact with your database, you can use [Prisma Studio](https://www.prisma.io/studio). Run the following command:
+
+```bash
+pnpm prisma studio
+```
+
+This will open Prisma Studio in your default web browser, allowing you to view and manipulate your data directly.
+
+#### Development server
 
 ```bash
 pnpm dev

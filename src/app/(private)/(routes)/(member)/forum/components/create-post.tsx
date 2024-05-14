@@ -2,7 +2,6 @@
 import CreatePostModal from '@/components/modals/create-post-modal'
 import { Input } from '@/components/ui/input'
 import useCreatePostModalStore from '@/hooks/modal/use-create-post'
-import React from 'react'
 
 function CreatePostComponent() {
   const { isOpen, onOpen } = useCreatePostModalStore()
@@ -11,7 +10,7 @@ function CreatePostComponent() {
     <div className="flex items-center justify-between py-2">
       <Input
         className="w-[97%]"
-        placeholder="What is on your mind?"
+        placeholder="🧠 What is on your mind?"
         onFocus={() => {
           onOpen()
         }}

@@ -15,6 +15,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 
+import BackButton from '@/components/back-button'
 import {
   Select,
   SelectContent,
@@ -46,8 +47,7 @@ export const NewClassroomVideoForm = ({
     isDeleting,
     isPending,
     onSubmit,
-    onDeleteClassroomVideo,
-    router
+    onDeleteClassroomVideo
   } = useNewClassroomVideoForm({ initialData })
 
   return (
@@ -65,16 +65,9 @@ export const NewClassroomVideoForm = ({
       />
       <div className="flex flex-col">
         <div className="flex items-center">
-          <Button
-            size="icon"
-            variant="outline"
-            onClick={() => {
-              router.push(`${appRoutes.admin_classroom}?tabSelected=classroom`)
-            }}
-            className="flex items-center justify-center mr-4"
-          >
-            <Icons.arrowBack className="h-5 w-5" />
-          </Button>
+          <BackButton
+            route={`${appRoutes.admin_classroom}?tabSelected=classroom`}
+          />
 
           <div className="flex items-center justify-between w-full">
             <Header title={title} />
@@ -134,13 +127,14 @@ export const NewClassroomVideoForm = ({
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name="classroomModuleId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Modules (optional)</FormLabel>
-                    {modules.length && (
+              {modules.length > 0 && (
+                <FormField
+                  control={form.control}
+                  name="classroomModuleId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Modules (optional)</FormLabel>
+
                       <Select
                         disabled={isPending}
                         onValueChange={field.onChange}
@@ -163,11 +157,11 @@ export const NewClassroomVideoForm = ({
                           ))}
                         </SelectContent>
                       </Select>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
 
               <FormField
                 control={form.control}

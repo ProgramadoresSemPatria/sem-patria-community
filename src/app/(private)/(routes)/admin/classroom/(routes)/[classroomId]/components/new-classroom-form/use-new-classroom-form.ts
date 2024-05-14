@@ -119,7 +119,6 @@ export const useNewClassroomForm = ({
     isDeleting,
     setIsAlertModalOpen,
     onDeleteClassroom,
-    router,
     title,
     isPending,
     form,

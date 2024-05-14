@@ -1,5 +1,6 @@
 'use client'
 
+import BackButton from '@/components/back-button'
 import Header from '@/components/header'
 import { Icons } from '@/components/icons'
 import { AlertModal } from '@/components/modals/alert-modal'
@@ -42,7 +43,6 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
     isDeletingUser,
     onDeleteUser,
     isPending,
-    router,
     title,
     form,
     onSubmit,
@@ -69,16 +69,8 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
           {initialData ? (
             <div className="mt-6 mb-4 flex items-center justify-between w-full">
               <div className="flex items-center">
-                <Button
-                  size="icon"
-                  variant="outline"
-                  onClick={() => {
-                    router.push(appRoutes.admin_users)
-                  }}
-                  className="mr-6"
-                >
-                  <Icons.arrowBack className="h-5 w-5" />
-                </Button>
+                <BackButton route={appRoutes.admin_users} />
+
                 <div className="flex gap-2 items-center space-x-2">
                   <Image
                     src={initialData.imageUrl || ''}
@@ -106,16 +98,8 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
             </div>
           ) : (
             <div className="flex items-center gap-x-4">
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={() => {
-                  router.push(appRoutes.admin_users)
-                }}
-                className="flex items-center justify-center"
-              >
-                <Icons.arrowBack className="h-5 w-5" />
-              </Button>
+              <BackButton route={appRoutes.admin_users} />
+
               <Header title={title} />
             </div>
           )}

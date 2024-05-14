@@ -9,84 +9,24 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { toast } from '@/components/ui/use-toast'
 import { Can } from '@/hooks/use-ability'
-import { api } from '@/lib/api'
 import { type Post } from '@prisma/client'
-import { useMutation } from '@tanstack/react-query'
-import { useState } from 'react'
+import { usePostActions } from './use-post-actions'
 
 type PostActionsProps = {
   post: Post
 }
 
 export const PostActions = ({ post }: PostActionsProps) => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-
-  const { mutateAsync: deletePost, isPending: isDeleting } = useMutation({
-    mutationKey: ['delete-post'],
-    mutationFn: async ({ postId }: { postId: string }) => {
-      return await api.delete(`/api/post/${postId}`)
-    },
-    onSuccess: async () => {
-      toast({
-        title: 'Post deleted',
-        description: ' The post has been deleted'
-      })
-    },
-    onError: () => {
-      toast({
-        title: 'An error occurred.',
-        description: 'Unable to delete the post',
-        variant: 'destructive'
-      })
-    }
-  })
-  const { mutateAsync: pinPost, isPending: isPinning } = useMutation({
-    mutationKey: ['pin-post'],
-    mutationFn: async ({ postId }: { postId: string }) => {
-      return await api.put(`/api/post/${postId}/pin`)
-    },
-    onSuccess: async () => {
-      toast({
-        title: 'Post pinned',
-        description: ' The post has been pinned'
-      })
-    },
-    onError: () => {
-      toast({
-        title: 'An error occurred.',
-        description: 'Unable to pin the post',
-        variant: 'destructive'
-      })
-    }
-  })
-
-  const onPinPost = async () => {
-    try {
-      await pinPost({ postId: post.id })
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong.',
-        variant: 'destructive'
-      })
-    }
-  }
-
-  const onDeletePost = async () => {
-    try {
-      await deletePost({ postId: post.id })
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong.',
-        variant: 'destructive'
-      })
-    } finally {
-      setIsDeleteModalOpen(false)
-    }
-  }
+  const {
+    isDeleteModalOpen,
+    onOpenDeleteModal,
+    onCloseDeleteModal,
+    onDeletePost,
+    isDeleting,
+    onPinPost,
+    isPinning
+  } = usePostActions({ post })
 
   return (
     <>
@@ -94,7 +34,7 @@ export const PostActions = ({ post }: PostActionsProps) => {
         isOpen={isDeleteModalOpen}
         description="Are you sure you want to delete this post?"
         onClose={() => {
-          setIsDeleteModalOpen(false)
+          onCloseDeleteModal()
         }}
         onConfirm={onDeletePost}
         loading={isDeleting}
@@ -112,7 +52,7 @@ export const PostActions = ({ post }: PostActionsProps) => {
             disabled={isDeleting}
             onClick={e => {
               e.stopPropagation()
-              setIsDeleteModalOpen(true)
+              onOpenDeleteModal()
             }}
           >
             {isDeleting ? (

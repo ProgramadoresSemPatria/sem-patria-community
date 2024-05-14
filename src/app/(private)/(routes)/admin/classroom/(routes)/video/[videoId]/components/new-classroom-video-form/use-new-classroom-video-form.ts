@@ -45,7 +45,7 @@ export const useNewClassroomVideoForm = ({
       title: initialData?.title ?? '',
       description: initialData?.description ?? '',
       videoUrl: initialData?.url ?? '',
-      classroomModuleId: initialData?.classroomModuleId ?? ''
+      classroomModuleId: initialData?.classroomModuleId ?? undefined
     }
   })
 
@@ -122,7 +122,6 @@ export const useNewClassroomVideoForm = ({
     isDeleting,
     isPending,
     onSubmit,
-    onDeleteClassroomVideo,
-    router
+    onDeleteClassroomVideo
   }
 }

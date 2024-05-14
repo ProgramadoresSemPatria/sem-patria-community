@@ -164,7 +164,6 @@ export const useNewEventForm = ({ initialData }: UseNewEventFormProps) => {
     isDeleting,
     setIsAlertModalOpen,
     onDeleteEvent,
-    router,
     title,
     isPending,
     form,

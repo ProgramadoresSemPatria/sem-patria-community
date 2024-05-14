@@ -112,7 +112,6 @@ export const useNewCategoryForm = ({
     isDeleting,
     setIsAlertModalOpen,
     onDeleteCategory,
-    router,
     title,
     isPending,
     form,

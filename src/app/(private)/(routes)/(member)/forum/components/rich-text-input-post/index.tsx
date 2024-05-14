@@ -17,93 +17,14 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
-import { toast } from '@/components/ui/use-toast'
-import { useCategory } from '@/hooks/category/use-category'
-import useCreatePostModalStore from '@/hooks/modal/use-create-post'
-import { api } from '@/lib/api'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useSearchParams } from 'next/navigation'
-import { useCallback } from 'react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { useRichTextInputPost } from './use-rich-text-input-post'
 
-interface RichTextInputProps {
+type RichTextInputProps = {
   isCommentsLoading?: boolean
 }
 
-const contentSchema = z.object({
-  title: z.string().min(1, {
-    message: 'Title is required'
-  }),
-  content: z.string().min(1, {
-    message: 'Content is required'
-  }),
-  categoryIdForm: z.string().min(1, {
-    message: 'Category ID is required'
-  })
-})
-
 export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
-  const queryClient = useQueryClient()
-  const searchParams = useSearchParams()
-
-  const form = useForm({
-    resolver: zodResolver(contentSchema),
-    mode: 'onChange',
-    defaultValues: {
-      content: '',
-      title: '',
-      categoryIdForm: ''
-    }
-  })
-  const { categories } = useCategory()
-  const { onClose } = useCreatePostModalStore()
-
-  const { mutateAsync: createPost, isPending } = useMutation({
-    mutationKey: ['post'],
-    mutationFn: async ({
-      content,
-      title,
-      categoryId
-    }: {
-      categoryId: string
-      title: string
-      content: string
-    }) => {
-      return await api.post(`/api/post`, {
-        content,
-        categoryId,
-        title
-      })
-    },
-    onSuccess: async () => {
-      onClose()
-    },
-
-    onError: error => {
-      toast({
-        title: 'An error ocurred while creating post',
-        description: error.message,
-        variant: 'destructive'
-      })
-    }
-  })
-
-  const onSubmit = useCallback(
-    async (values: z.infer<typeof contentSchema>) => {
-      if (values.categoryIdForm && values.content && values.title)
-        await createPost({
-          categoryId: values.categoryIdForm,
-          title: values.title,
-          content: values.content
-        })
-      await queryClient.refetchQueries({
-        queryKey: ['infinite-posts', { category: searchParams.get('category') }]
-      })
-    },
-    [createPost, queryClient, searchParams]
-  )
+  const { form, onSubmit, isPending, categories } = useRichTextInputPost()
 
   if (isCommentsLoading) {
     return (

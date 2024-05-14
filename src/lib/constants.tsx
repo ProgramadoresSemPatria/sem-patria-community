@@ -46,6 +46,11 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.dashboard className="h-4 w-4" />
   },
   {
+    href: `${appRoutes.forum}?category=All`,
+    label: 'Forum',
+    icon: <Icons.forum className="h-4 w-4" />
+  },
+  {
     href: appRoutes.mentorship,
     label: 'Mentorship',
     icon: <Icons.mentorship className="h-4 w-4" />
@@ -89,11 +94,6 @@ export const menuItems: MenuItemProps[] = [
     href: `${appRoutes.admin_classroom}?tabSelected=classroom`,
     label: 'Classroom',
     icon: <Icons.classroom className="h-4 w-4" />
-  },
-  {
-    href: `${appRoutes.forum}?category=All`,
-    label: 'Forum',
-    icon: <Icons.forum className="h-4 w-4" />
   }
 ]
 

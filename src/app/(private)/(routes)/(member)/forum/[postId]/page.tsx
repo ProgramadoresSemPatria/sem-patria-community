@@ -1,8 +1,9 @@
+import { getPost } from '@/actions/post/get-post'
 import defaultAvatar from '@/assets/avatar.png'
+import BackButton from '@/components/back-button'
 import { DefaultLayout } from '@/components/default-layout'
 import NoteEditor from '@/components/editor/editor'
 import { Separator } from '@/components/ui/separator'
-import prismadb from '@/lib/prismadb'
 import { type ExtendedPost } from '@/lib/types'
 import { auth } from '@clerk/nextjs'
 import { type Comment } from '@prisma/client'
@@ -14,7 +15,7 @@ import PostLike from '../components/post-likes'
 import CommentSection from './components/comment-section'
 import PostCommentsLink from './components/post-comments-link'
 
-interface PostPageProps {
+type PostPageProps = {
   params: {
     postId: string
   }
@@ -34,51 +35,6 @@ export type ExtendedComment = Comment & {
   createdAt: string
 }
 
-const getPost = async (postId: string) => {
-  const postById = await prismadb.post.findFirst({
-    where: {
-      id: postId
-    },
-    include: {
-      category: true,
-      comments: {
-        include: {
-          likes: true,
-          replies: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  username: true,
-                  imageUrl: true
-                }
-              },
-              likes: true
-            }
-          },
-          user: {
-            select: {
-              id: true,
-              username: true,
-              imageUrl: true
-            }
-          }
-        }
-      },
-      likes: true,
-      user: {
-        select: {
-          id: true,
-          username: true,
-          imageUrl: true
-        }
-      }
-    }
-  })
-
-  return postById
-}
-
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
   const post = await getPost(params.postId)
@@ -87,6 +43,7 @@ const PostPage = async ({ params }: PostPageProps) => {
     <DefaultLayout>
       <Suspense fallback={'loading'}>
         <div className="h-full flex flex-col items-center sm:items-start justify-between mt-10 w-full gap-4">
+          <BackButton isIcon={false} />
           <h1 className="font-bold text-4xl">{post?.title}</h1>
           <div className="flex gap-4 items-center mt-6">
             <Image
@@ -116,7 +73,6 @@ const PostPage = async ({ params }: PostPageProps) => {
             {post && userId && (
               <>
                 <PostLike
-                  initialVotesAmt={post.likes.length || 0}
                   post={post as unknown as ExtendedPost}
                   userId={userId}
                   isPostPage

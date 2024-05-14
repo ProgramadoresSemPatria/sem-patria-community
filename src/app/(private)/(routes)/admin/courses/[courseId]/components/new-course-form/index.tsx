@@ -1,5 +1,6 @@
 'use client'
 
+import BackButton from '@/components/back-button'
 import Header from '@/components/header'
 import { Icons } from '@/components/icons'
 import { AlertModal } from '@/components/modals/alert-modal'
@@ -64,16 +65,7 @@ export const NewCourseForm = ({
       />
       <div className="flex flex-col">
         <div className="flex items-center">
-          <Button
-            size="icon"
-            variant="outline"
-            onClick={() => {
-              router.push(appRoutes.admin_courses)
-            }}
-            className="flex items-center justify-center mr-4"
-          >
-            <Icons.arrowBack className="h-5 w-5" />
-          </Button>
+          <BackButton route={appRoutes.admin_courses} />
 
           <div className="flex items-center justify-between w-full">
             <Header title={title} />

@@ -40,7 +40,7 @@ import {
   LayoutDashboard,
   List,
   ListOrdered,
-  Loader2,
+  Loader,
   Lock,
   LogOut,
   Menu,
@@ -48,6 +48,7 @@ import {
   Moon,
   MoreHorizontal,
   MoreVertical,
+  PinIcon,
   Play,
   Plus,
   PlusCircle,
@@ -69,7 +70,6 @@ import {
   Video,
   X,
   Youtube,
-  PinIcon,
   type LucideIcon
 } from 'lucide-react'
 
@@ -95,7 +95,7 @@ export const Icons = {
   menu: Menu,
   settings: SlidersHorizontal,
   bot: Bot,
-  loader: Loader2,
+  loader: Loader,
   code: Code,
   signOut: LogOut,
   globe: Globe,

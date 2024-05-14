@@ -1,3 +1,4 @@
+import { DefaultLayout } from '@/components/default-layout'
 import prismadb from '@/lib/prismadb'
 import { NewCourseForm } from './components/new-course-form'
 
@@ -9,11 +10,9 @@ const NewCoursePage = async ({ params }: { params: { courseId: string } }) => {
   const categories = await prismadb.category.findMany()
 
   return (
-    <div className="flex-col">
-      <div className="flex-1 space-y-4 p-8 pt-6">
-        <NewCourseForm initialData={course} categories={categories} />
-      </div>
-    </div>
+    <DefaultLayout>
+      <NewCourseForm initialData={course} categories={categories} />
+    </DefaultLayout>
   )
 }
 

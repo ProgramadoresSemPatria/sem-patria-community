@@ -1,18 +1,16 @@
+import { DefaultLayout } from '@/components/default-layout'
 import Header from '@/components/header'
-import { Separator } from '@/components/ui/separator'
 import { CodeUpContent } from './components/code-up-content'
 import { CreateNoteButton } from './components/create-note-button'
 
 const CodeUpPage = () => {
   return (
-    <div className="container pt-6 h-full">
-      <div className="flex items-center justify-between">
-        <Header title="Code Up" description="Inform the progress of the day." />
+    <DefaultLayout className="h-full">
+      <Header title="Code Up">
         <CreateNoteButton />
-      </div>
-      <Separator className="my-4" />
+      </Header>
       <CodeUpContent />
-    </div>
+    </DefaultLayout>
   )
 }
 

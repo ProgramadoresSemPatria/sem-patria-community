@@ -8,7 +8,7 @@ export async function PUT(
 ) {
   try {
     const { userId } = auth()
-    const { title, content } = await req.json()
+    const { title, content, isPublic } = await req.json()
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
@@ -24,7 +24,8 @@ export async function PUT(
       },
       data: {
         title,
-        content
+        content,
+        isPublic
       }
     })
 

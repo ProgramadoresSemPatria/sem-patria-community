@@ -110,9 +110,9 @@ export const MembersList = ({ userProps, allUsers }: MembersListProps) => {
                   : 'Unknown'}
               </Badge>
               <Button variant="outline" disabled>
-                {user.isAdmin ? 'Admin' : 'Member'}
+                {user.role.includes('Admin') ? 'Admin' : 'Member'}
               </Button>
-              {userProps.isAdmin && !user.isAdmin && (
+              {user.role.includes('Admin') && !user.role && (
                 <Button
                   disabled={isDeleting}
                   variant="destructive"

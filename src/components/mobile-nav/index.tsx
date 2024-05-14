@@ -1,15 +1,16 @@
+'use client'
+
 import Link from 'next/link'
 import * as React from 'react'
 
-import appLogo from '@/assets/logo.svg'
+import { Can } from '@/hooks/use-ability'
 import { useLockBody } from '@/hooks/use-lock-body'
-import { appConfig, appRoutes } from '@/lib/constants'
-import { type RouteProps } from '@/lib/types'
+import { appRoutes } from '@/lib/constants'
+import { type MenuItemProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
 import ClerkUserButton from '../clerk-user-button'
+import MainLogo from '../main-logo'
 import { LogoutButton } from '../top-bar/logout-button'
-import { useAppStore } from '@/hooks/use-app-store'
 
 type MobileNavProps = {
   children?: React.ReactNode
@@ -18,15 +19,18 @@ type MobileNavProps = {
 
 const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
   useLockBody()
-  const { isCmsMode } = useAppStore()
 
-  const items: RouteProps[] = [
+  const items: MenuItemProps[] = [
     {
       href: appRoutes.dashboard,
       label: 'Dashboard'
     },
     {
-      href: `${appRoutes.courses}?filter=all`,
+      href: appRoutes.mentorship,
+      label: 'Mentorship'
+    },
+    {
+      href: `${appRoutes.courses}?category=all`,
       label: 'Courses'
     },
     {
@@ -34,16 +38,16 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
       label: 'Code Up'
     },
     {
-      href: `${appRoutes.mentorship}`,
-      label: 'Mentorship'
-    },
-    {
       href: appRoutes.settings,
       label: 'Settings'
+    },
+    {
+      href: `${appRoutes.forum}?category=All`,
+      label: 'Forum'
     }
   ]
 
-  const adminRoutes: RouteProps[] = [
+  const adminRoutes: MenuItemProps[] = [
     {
       href: appRoutes.admin_courses,
       label: 'Courses'
@@ -61,15 +65,13 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
   return (
     <div
       className={cn(
-        'fixed inset-0 top-16 z-50 grid h-[calc(100vh-4rem)] grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md animate-in slide-in-from-bottom-80 ',
-        isAdminPage ? 'lg:hidden' : 'md:hidden'
+        'fixed inset-0 top-16 z-50 grid h-[calc(100vh-4rem)] grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md animate-in slide-in-from-bottom-80',
+        !isAdminPage && 'md:hidden',
+        isAdminPage && 'xl:hidden'
       )}
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
-        <Link href="/" className="flex items-center space-x-2">
-          <Image src={appLogo} alt="Logo" height={40} width={40} />
-          <span className="font-bold">{appConfig.name}</span>
-        </Link>
+        <MainLogo />
         <div className="grid grid-cols-2 w-full">
           <div>
             <span className="font-semibold pb-1">Member</span>
@@ -88,7 +90,7 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
               ))}
             </nav>
           </div>
-          {isCmsMode && (
+          <Can I="get" an="CMS">
             <div>
               <span className="font-semibold pb-1">Admin</span>
               <nav className="grid grid-flow-row auto-rows-max text-sm text-muted-foreground font-medium">
@@ -106,7 +108,7 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
                 ))}
               </nav>
             </div>
-          )}
+          </Can>
         </div>
         {children}
         <div className="flex justify-between">

@@ -1,5 +1,3 @@
-'use client'
-
 import { Icons } from '@/components/icons'
 import { useNotification } from '@/hooks/notification/use-notification'
 import { useMemo } from 'react'

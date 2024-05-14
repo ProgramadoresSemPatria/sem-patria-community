@@ -1,21 +1,19 @@
 'use client'
+import NoteEditor from '@/components/editor/editor'
 import { useNoteStore } from '@/hooks/note/use-note-store'
 import { type Note } from '@prisma/client'
-import dynamic from 'next/dynamic'
-import { useMemo, useRef, useState, type ElementRef } from 'react'
+import { useRef, useState, type ElementRef } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 
 type NoteContentProps = {
   note: Note
+  isPublicView?: boolean
 }
 
-export const NoteContent = ({ note }: NoteContentProps) => {
-  const Editor = useMemo(
-    () =>
-      dynamic(async () => await import('@/components/editor'), { ssr: false }),
-    []
-  )
-
+export const NoteContent = ({
+  note,
+  isPublicView = false
+}: NoteContentProps) => {
   const { title, onChangeContent, onChangeTitle } = useNoteStore()
 
   const inputRef = useRef<ElementRef<'textarea'>>(null)
@@ -44,6 +42,8 @@ export const NoteContent = ({ note }: NoteContentProps) => {
     <div className="md:max-w-3xl lg:max-w-4xl mt-6 mx-auto group relative">
       {isEditingTitle ? (
         <TextareaAutosize
+          disabled={isPublicView}
+          data-isdisabled={isPublicView}
           ref={inputRef}
           onBlur={disableInput}
           onKeyDown={onKeyDown}
@@ -51,28 +51,22 @@ export const NoteContent = ({ note }: NoteContentProps) => {
           onChange={e => {
             onChangeTitle(e.target.value)
           }}
-          className="w-full text-5xl bg-transparent font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF]"
+          className="w-full text-5xl bg-transparent font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF] data-[isdisabled=true]:resize-none"
         />
       ) : (
         <div
+          data-testid="title"
           onClick={enableInput}
           className="pb-[11.5px] text-5xl font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF]"
         >
           {title ?? note.title}
         </div>
       )}
-      <Editor
-        editable
+      <NoteEditor
+        initialValue={JSON.parse(note.content ?? '{}')}
         onChange={onChangeContent}
-        initialContent={note.content ?? undefined}
+        editable={!isPublicView}
       />
-      <p className="text-sm text-gray-500 mt-2">
-        Insert the hashtag{' '}
-        <kbd className="rounded-md border bg-muted px-1 text-xs">
-          #100DaysOfCommit
-        </kbd>{' '}
-        in title of the note if it refers to the challenge.
-      </p>
     </div>
   )
 }

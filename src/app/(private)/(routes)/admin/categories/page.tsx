@@ -1,3 +1,4 @@
+import { DefaultLayout } from '@/components/default-layout'
 import { SkeletonCmsPage } from '@/components/skeletons/skeleton-cms-page'
 import prismadb from '@/lib/prismadb'
 import { format } from 'date-fns'
@@ -18,11 +19,11 @@ const AdminCategoriesPage = async () => {
   }))
 
   return (
-    <div className="container flex-col pt-6">
+    <DefaultLayout>
       <Suspense fallback={<SkeletonCmsPage />}>
         <CategoriesClient categories={formattedCategories} />
       </Suspense>
-    </div>
+    </DefaultLayout>
   )
 }
 

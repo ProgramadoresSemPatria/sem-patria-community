@@ -11,7 +11,7 @@ export const EmptyNotes = () => {
   const { theme } = useTheme()
 
   return (
-    <Card className="mt-4 gap-y-4 w-full h-full flex flex-col justify-center items-center">
+    <Card className="gap-y-4 w-full h-[500px] flex flex-col justify-center items-center">
       <Image
         src={theme === 'dark' ? EmptyNotesDarkImg : EmptyNotesImg}
         alt="Empty Note"

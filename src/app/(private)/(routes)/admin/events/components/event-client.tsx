@@ -3,7 +3,7 @@ import Header from '@/components/header'
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
-import { Separator } from '@/components/ui/separator'
+import { Can } from '@/hooks/use-ability'
 import { appRoutes } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
 import { eventColumns, type EventColumn } from './columns'
@@ -17,21 +17,18 @@ const EventsClient = ({ events }: EventsClientProps) => {
 
   return (
     <>
-      <div className="flex items-center justify-between">
-        <Header
-          title="Community Events"
-          description="Manage the community events here."
-        />
-        <Button
-          onClick={() => {
-            router.push(appRoutes.admin_events_new)
-          }}
-        >
-          <Icons.plus className="w-4 h-4 mr-2" />
-          New Event
-        </Button>
-      </div>
-      <Separator className="my-6" />
+      <Header title="Community Events">
+        <Can I="create" a="Event">
+          <Button
+            onClick={() => {
+              router.push(appRoutes.admin_events_new)
+            }}
+          >
+            <Icons.plus className="w-4 h-4 mr-2" />
+            New Event
+          </Button>
+        </Can>
+      </Header>
       <DataTable searchKey="title" columns={eventColumns} data={events} />
     </>
   )

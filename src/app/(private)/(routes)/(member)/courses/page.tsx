@@ -1,3 +1,4 @@
+import { DefaultLayout } from '@/components/default-layout'
 import Header from '@/components/header'
 import { SkeletonCoursePage } from '@/components/skeletons/skeleton-course-page'
 import prismadb from '@/lib/prismadb'
@@ -21,12 +22,12 @@ const CoursesPage = async () => {
 
   return (
     <>
-      <Suspense fallback={<SkeletonCoursePage />}>
-        <div className="container pt-6">
-          <Header title="Courses" />
+      <DefaultLayout>
+        <Header title="Courses" />
+        <Suspense fallback={<SkeletonCoursePage />}>
           <CoursesContent categories={categoriesWithCourses} />
-        </div>
-      </Suspense>
+        </Suspense>
+      </DefaultLayout>
     </>
   )
 }

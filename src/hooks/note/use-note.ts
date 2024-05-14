@@ -2,7 +2,7 @@ import { api } from '@/lib/api'
 import { type Note } from '@prisma/client'
 import { useMutation, type UseMutationOptions } from '@tanstack/react-query'
 import { type AxiosError, type AxiosResponse } from 'axios'
-import { type SaveChangesNoteBody } from './type'
+import { type SaveChangesNoteBody } from './types'
 
 export const useNote = () => {
   const useCreateNewNote = (options?: UseMutationOptions<Note, AxiosError>) =>

@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+import { withUt } from 'uploadthing/tw'
+
+module.exports = withUt({
   darkMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
@@ -12,10 +14,13 @@ module.exports = {
       center: true,
       padding: '2rem',
       screens: {
-        '2xl': '1600px'
+        '2xl': '1280px'
       }
     },
     extend: {
+      zIndex: {
+        '100': '100',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -72,5 +77,5 @@ module.exports = {
       }
     }
   },
-  plugins: [require('tailwindcss-animate')]
-}
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography'), require('tailwind-scrollbar')({ preferredStrategy: 'pseudoelements', nocompatible:true})]
+})

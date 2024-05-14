@@ -11,7 +11,7 @@ export const ourFileRouter = {
     .middleware(() => {
       const user = auth()
 
-      if (!user) throw new UploadThingError('Unauthorized')
+      if (!user) throw new UploadThingError('Unauthorized') as Error
 
       return { userId: user.userId }
     })

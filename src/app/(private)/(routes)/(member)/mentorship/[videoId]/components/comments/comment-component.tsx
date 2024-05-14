@@ -1,11 +1,11 @@
+'use client'
+import NoteEditor from '@/components/editor/editor'
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { useAuth } from '@clerk/nextjs'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
 import { format } from 'date-fns'
 import Image from 'next/image'
 import { useReducer } from 'react'
@@ -41,30 +41,6 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
       return `${minutes} minutes ago`
     }
   }
-
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        heading: {
-          HTMLAttributes: {
-            class: 'text-xl font-bold'
-          }
-        },
-        bulletList: {
-          HTMLAttributes: {
-            class: 'list-disc pl-4'
-          }
-        },
-        orderedList: {
-          HTMLAttributes: {
-            class: 'list-decimal pl-4'
-          }
-        }
-      })
-    ],
-    editable: false,
-    content: comment.comment
-  })
 
   const { mutateAsync } = useMutation({
     mutationKey: ['like-comment'],
@@ -134,7 +110,7 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
         </div>
         <AdminActions commentId={comment.id} />
       </div>
-      <EditorContent editor={editor} className="text-sm" />
+      <NoteEditor editable={false} initialValue={JSON.parse(comment.comment)} />
       <div className="flex items-center w-fit space-x-1 mt-2 font-bold text-slate-600 text-sm">
         <Button
           variant="ghost"

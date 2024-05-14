@@ -9,14 +9,14 @@ type PermissionsByRole = (
 ) => void
 
 export const permissions: Record<UserAbilityRoles, PermissionsByRole> = {
-  ADMIN: (user, { can }) => {
+  ADMIN: (_, { can }) => {
     can('manage', 'all')
   },
-  BUILDER: (user, { can }) => {
+  BUILDER: (_, { can }) => {
     can('get', ['Category', 'Classroom', 'Course', 'Event', 'User'], {})
     can('get', 'CMS')
   },
-  MEMBER: (user, { cannot }) => {
-    cannot('manage', 'all')
+  MEMBER: (user, { can }) => {
+    can('delete', 'Post', { userId: { equals: user.id } })
   }
 }

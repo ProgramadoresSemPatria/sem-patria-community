@@ -4,6 +4,7 @@ import { classroomSchema } from '../entities/classroom'
 import { courseSchema } from '../entities/course'
 import { eventSchema } from '../entities/event'
 import { userSchema } from '../entities/user'
+import { postSchema } from '../entities/post'
 
 export const userSubject = z.tuple([
   z.union([
@@ -59,6 +60,18 @@ export const eventSubject = z.tuple([
     z.literal('delete')
   ]),
   z.union([z.literal('Event'), eventSchema])
+])
+
+export const postSubject = z.tuple([
+  z.union([
+    z.literal('manage'),
+    z.literal('get'),
+    z.literal('create'),
+    z.literal('update'),
+    z.literal('delete'),
+    z.literal('pin')
+  ]),
+  z.union([z.literal('Post'), postSchema])
 ])
 
 export const cmsSubject = z.tuple([z.literal('get'), z.literal('CMS')])

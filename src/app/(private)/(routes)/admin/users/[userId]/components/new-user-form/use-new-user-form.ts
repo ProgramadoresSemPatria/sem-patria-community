@@ -180,7 +180,6 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
     isDeletingUser,
     onDeleteUser,
     isPending,
-    router,
     title,
     form,
     onSubmit,

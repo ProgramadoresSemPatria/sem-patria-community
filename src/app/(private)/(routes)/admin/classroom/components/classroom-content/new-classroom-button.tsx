@@ -12,6 +12,7 @@ export const NewClassroomButton = () => {
   return (
     <Can I="create" a="Classroom">
       <Button
+        data-testid="new-classroom"
         onClick={() => {
           router.push(appRoutes.admin_classroom_new)
         }}

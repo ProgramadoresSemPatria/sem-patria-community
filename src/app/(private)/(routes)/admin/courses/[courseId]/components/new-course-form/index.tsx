@@ -1,5 +1,6 @@
 'use client'
 
+import BackButton from '@/components/back-button'
 import Header from '@/components/header'
 import { Icons } from '@/components/icons'
 import { AlertModal } from '@/components/modals/alert-modal'
@@ -64,16 +65,7 @@ export const NewCourseForm = ({
       />
       <div className="flex flex-col">
         <div className="flex items-center">
-          <Button
-            size="icon"
-            variant="outline"
-            onClick={() => {
-              router.push(appRoutes.admin_courses)
-            }}
-            className="flex items-center justify-center mr-4"
-          >
-            <Icons.arrowBack className="h-5 w-5" />
-          </Button>
+          <BackButton route={appRoutes.admin_courses} />
 
           <div className="flex items-center justify-between w-full">
             <Header title={title} />
@@ -106,6 +98,7 @@ export const NewCourseForm = ({
                     <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="name"
                         disabled={isPending}
                         placeholder="Course name"
                         {...field}
@@ -123,6 +116,7 @@ export const NewCourseForm = ({
                     <FormLabel>Url</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="url"
                         disabled={isPending}
                         placeholder="Course Url"
                         {...field}
@@ -147,7 +141,7 @@ export const NewCourseForm = ({
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger data-testid="category">
                             <SelectValue
                               defaultValue={field.value}
                               placeholder="Select a category"
@@ -156,7 +150,11 @@ export const NewCourseForm = ({
                         </FormControl>
                         <SelectContent>
                           {categories.map(category => (
-                            <SelectItem key={category.id} value={category.id}>
+                            <SelectItem
+                              data-testid={category.name}
+                              key={category.id}
+                              value={category.id}
+                            >
                               {category.name}
                             </SelectItem>
                           ))}
@@ -199,7 +197,7 @@ export const NewCourseForm = ({
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger data-testid="level">
                           <SelectValue
                             defaultValue={field.value}
                             placeholder="Select a level"
@@ -207,11 +205,18 @@ export const NewCourseForm = ({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="beginner">Beginner</SelectItem>
-                        <SelectItem value="intermediate">
+                        <SelectItem data-testid="beginner" value="beginner">
+                          Beginner
+                        </SelectItem>
+                        <SelectItem
+                          data-testid="intermediate"
+                          value="intermediate"
+                        >
                           Intermediate
                         </SelectItem>
-                        <SelectItem value="advanced">Advanced</SelectItem>
+                        <SelectItem data-testid="advanced" value="advanced">
+                          Advanced
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -226,6 +231,7 @@ export const NewCourseForm = ({
                   <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                     <FormControl>
                       <Checkbox
+                        data-testid="checkbox"
                         checked={field.value}
                         onCheckedChange={field.onChange}
                       />
@@ -240,7 +246,12 @@ export const NewCourseForm = ({
                 )}
               />
             </div>
-            <Button disabled={isPending} className="ml-auto" type="submit">
+            <Button
+              data-testid="submit"
+              disabled={isPending}
+              className="ml-auto"
+              type="submit"
+            >
               {isPending && (
                 <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
               )}

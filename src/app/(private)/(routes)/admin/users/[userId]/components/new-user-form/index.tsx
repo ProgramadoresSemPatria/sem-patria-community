@@ -1,5 +1,6 @@
 'use client'
 
+import BackButton from '@/components/back-button'
 import Header from '@/components/header'
 import { Icons } from '@/components/icons'
 import { AlertModal } from '@/components/modals/alert-modal'
@@ -42,7 +43,6 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
     isDeletingUser,
     onDeleteUser,
     isPending,
-    router,
     title,
     form,
     onSubmit,
@@ -69,16 +69,8 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
           {initialData ? (
             <div className="mt-6 mb-4 flex items-center justify-between w-full">
               <div className="flex items-center">
-                <Button
-                  size="icon"
-                  variant="outline"
-                  onClick={() => {
-                    router.push(appRoutes.admin_users)
-                  }}
-                  className="mr-6"
-                >
-                  <Icons.arrowBack className="h-5 w-5" />
-                </Button>
+                <BackButton route={appRoutes.admin_users} />
+
                 <div className="flex gap-2 items-center space-x-2">
                   <Image
                     src={initialData.imageUrl || ''}
@@ -106,16 +98,8 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
             </div>
           ) : (
             <div className="flex items-center gap-x-4">
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={() => {
-                  router.push(appRoutes.admin_users)
-                }}
-                className="flex items-center justify-center"
-              >
-                <Icons.arrowBack className="h-5 w-5" />
-              </Button>
+              <BackButton route={appRoutes.admin_users} />
+
               <Header title={title} />
             </div>
           )}
@@ -135,6 +119,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                     <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="name"
                         disabled={isPending}
                         placeholder="Name"
                         {...field}
@@ -152,6 +137,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                     <FormLabel>Username</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="username"
                         disabled={isPending}
                         placeholder="Username"
                         {...field}
@@ -169,6 +155,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="email"
                         disabled={isPending}
                         placeholder="Email"
                         {...field}
@@ -192,7 +179,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger data-testid="level">
                           <SelectValue
                             defaultValue={field.value}
                             placeholder="Select a level"
@@ -200,10 +187,18 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="estagiario">Estagiário</SelectItem>
-                        <SelectItem value="junior">Junior</SelectItem>
-                        <SelectItem value="pleno">Pleno</SelectItem>
-                        <SelectItem value="senior">Senior</SelectItem>
+                        <SelectItem data-testid="estagiario" value="estagiario">
+                          Estagiário
+                        </SelectItem>
+                        <SelectItem data-testid="junior" value="junior">
+                          Junior
+                        </SelectItem>
+                        <SelectItem data-testid="pleno" value="pleno">
+                          Pleno
+                        </SelectItem>
+                        <SelectItem data-testid="senior" value="senior">
+                          Senior
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -219,6 +214,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                     <FormLabel>Github</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="github"
                         disabled={isPending}
                         placeholder="Github"
                         {...field}
@@ -236,6 +232,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                     <FormLabel>Linkedin</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="linkedin"
                         disabled={isPending}
                         placeholder="Linkedin"
                         {...field}
@@ -253,6 +250,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                     <FormLabel>Instagram</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="instagram"
                         disabled={isPending}
                         placeholder="Instagram"
                         {...field}
@@ -272,7 +270,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                       {Roles && (
                         <Select disabled={isPending}>
                           <FormControl>
-                            <SelectTrigger>
+                            <SelectTrigger data-testid="role">
                               <SelectValue
                                 placeholder={
                                   selectedRoles.length > 0
@@ -289,6 +287,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                                 className="flex gap-x-2 items-center"
                               >
                                 <Checkbox
+                                  data-testid={key}
                                   onCheckedChange={() => {
                                     handleSelectedRoles(key)
                                   }}
@@ -335,7 +334,12 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                 </div>
               </div>
             </div>
-            <Button disabled={isPending} className="ml-auto" type="submit">
+            <Button
+              data-testid="submit"
+              disabled={isPending}
+              className="ml-auto"
+              type="submit"
+            >
               {isPending && (
                 <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
               )}

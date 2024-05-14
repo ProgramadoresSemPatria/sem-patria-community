@@ -18,6 +18,9 @@ module.exports = withUt({
       }
     },
     extend: {
+      zIndex: {
+        '100': '100',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -74,5 +77,5 @@ module.exports = withUt({
       }
     }
   },
-  plugins: [require('tailwindcss-animate')]
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography'), require('tailwind-scrollbar')({ preferredStrategy: 'pseudoelements', nocompatible:true})]
 })

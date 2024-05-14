@@ -8,9 +8,10 @@ import { useNoteHeader } from './use-note-header'
 
 type NoteHeaderProps = {
   note: Note
+  isPublicView?: boolean
 }
 
-export const NoteHeader = ({ note }: NoteHeaderProps) => {
+export const NoteHeader = ({ note, isPublicView = false }: NoteHeaderProps) => {
   const {
     isPending,
     router,
@@ -32,27 +33,33 @@ export const NoteHeader = ({ note }: NoteHeaderProps) => {
         <Icons.arrowBack className="h-4 w-4 mr-2" />
         Back
       </Button>
-      <div className="flex items-center space-x-2">
-        <Label htmlFor="note-visibility">
-          Note visibilty:{' '}
-          <span className="font-semibold">
-            {isPublicNote ? 'Public' : 'Private'}
-          </span>
-        </Label>
-        <Switch
-          id="note-visibility"
-          checked={isPublicNote}
-          onCheckedChange={onChangeNoteVsibility}
-        />
-      </div>
-      <Button
-        variant="secondary"
-        disabled={isPending}
-        onClick={handleSaveChanges}
-      >
-        {isPending && <Icons.loader className="h-4 w-4 mr-2 animate-spin" />}
-        Save Changes
-      </Button>
+      {!isPublicView && (
+        <>
+          <div className="flex items-center space-x-2">
+            <Label htmlFor="note-visibility">
+              Note visibilty:{' '}
+              <span className="font-semibold">
+                {isPublicNote ? 'Public' : 'Private'}
+              </span>
+            </Label>
+            <Switch
+              id="note-visibility"
+              checked={isPublicNote}
+              onCheckedChange={onChangeNoteVsibility}
+            />
+          </div>
+          <Button
+            variant="secondary"
+            disabled={isPending}
+            onClick={handleSaveChanges}
+          >
+            {isPending && (
+              <Icons.loader className="h-4 w-4 mr-2 animate-spin" />
+            )}
+            Save Changes
+          </Button>
+        </>
+      )}
     </div>
   )
 }

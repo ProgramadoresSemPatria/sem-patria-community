@@ -23,7 +23,7 @@ export async function DELETE(req: NextRequest) {
     if (comment.userId !== userId)
       return new NextResponse('Unauthorized', { status: 403 })
 
-    await prismadb.comment.delete({
+    await prismadb.comment.deleteMany({
       where: {
         id: commentId
       }

@@ -25,7 +25,7 @@ export const ShortMenu = () => {
         )}
       </div>
       {showShortMenu && (
-        <nav className="fixed inset-0 left-2 top-[72px] z-50 h-min max-h-[280px] w-[280px] overflow-hidden bg-popover rounded-[10px] animate-slide-up-and-fade shadow-base slide-in-from-bottom-80">
+        <nav className="fixed inset-0 left-2 top-[72px] z-50 h-min max-h-[320px] w-[280px] overflow-hidden bg-popover rounded-[10px] animate-slide-up-and-fade shadow-base slide-in-from-bottom-80">
           <div className="flex flex-col">
             {menuItems.map(item => (
               <Link

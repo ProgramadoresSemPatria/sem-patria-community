@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
 
     const videos = await prismadb.video.findMany({
       include: {
-        ClassroomModule: true
+        classroomModule: true
       }
     })
 

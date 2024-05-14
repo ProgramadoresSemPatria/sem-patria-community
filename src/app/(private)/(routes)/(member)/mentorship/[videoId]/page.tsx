@@ -50,7 +50,7 @@ const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
-                    <BreadcrumbPage className="text-ellipsis w-3/4 overflow-x-hidden">
+                    <BreadcrumbPage className="overflow-x-hidden">
                       {videoSelected.title}
                     </BreadcrumbPage>
                   </BreadcrumbItem>
@@ -61,6 +61,9 @@ const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
             <h1 className="p-4 font-bold text-2xl w-3/4">
               {videoSelected.title}
             </h1>
+            <span className="px-4 pb-4 text-muted-foreground w-3/4">
+              {videoSelected.description ?? 'No description.'}
+            </span>
             <Comments videoProps={videoSelected} />
           </div>
           <MentorshipTab

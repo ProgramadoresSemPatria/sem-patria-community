@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 
+import BackButton from '@/components/back-button'
 import { Label } from '@/components/ui/label'
 import { appRoutes } from '@/lib/constants'
 import { type Classroom, type ClassroomModule } from '@prisma/client'
@@ -72,16 +73,9 @@ export const NewClassroomModuleForm = ({
       />
       <div className="flex flex-col">
         <div className="flex items-center">
-          <Button
-            size="icon"
-            variant="outline"
-            onClick={() => {
-              router.push(`${appRoutes.admin_classroom}?tabSelected=classroom`)
-            }}
-            className="flex items-center justify-center mr-4"
-          >
-            <Icons.arrowBack className="h-5 w-5" />
-          </Button>
+          <BackButton
+            route={`${appRoutes.admin_classroom}?tabSelected=classroom`}
+          />
 
           <div className="flex items-center justify-between w-full">
             <Header title={title} />

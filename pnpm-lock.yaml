@@ -16,7 +16,7 @@ dependencies:
     version: 6.7.1
   '@casl/prisma':
     specifier: ^1.4.1
-    version: 1.4.1(@casl/ability@6.7.1)(@prisma/client@5.10.2)
+    version: 1.4.1(@casl/ability@6.7.1)(@prisma/client@5.14.0)
   '@casl/react':
     specifier: ^3.1.0
     version: 3.1.0(@casl/ability@6.7.1)(react@18.2.0)
@@ -42,8 +42,8 @@ dependencies:
     specifier: ^7.8.0
     version: 7.8.0(react@18.2.0)
   '@prisma/client':
-    specifier: ^5.10.2
-    version: 5.10.2(prisma@5.10.2)
+    specifier: ^5.14.0
+    version: 5.14.0(prisma@5.10.2)
   '@radix-ui/react-aspect-ratio':
     specifier: ^1.0.3
     version: 1.0.3(@types/react-dom@18.2.17)(@types/react@18.2.39)(react-dom@18.2.0)(react@18.2.0)
@@ -449,7 +449,7 @@ packages:
       remark-stringify: 10.0.3
       unified: 10.1.2
       uuid: 8.3.2
-      y-prosemirror: 1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.32.7)(y-protocols@1.0.6)(yjs@13.6.10)
+      y-prosemirror: 1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.33.1)(y-protocols@1.0.6)(yjs@13.6.10)
       y-protocols: 1.0.6(yjs@13.6.10)
       yjs: 13.6.10
     transitivePeerDependencies:
@@ -490,14 +490,14 @@ packages:
       '@ucast/mongo2js': 1.3.4
     dev: false
 
-  /@casl/prisma@1.4.1(@casl/ability@6.7.1)(@prisma/client@5.10.2):
+  /@casl/prisma@1.4.1(@casl/ability@6.7.1)(@prisma/client@5.14.0):
     resolution: {integrity: sha512-WTFcWhYnoEc8fRHMzlqd3MU6WXOtT1cfoHmxSyB14gVeRHWvOyWdVaGxueLySgBOb08kIiZdjOBYNJRTzlAqBA==}
     peerDependencies:
       '@casl/ability': ^5.3.0 || ^6.0.0
       '@prisma/client': ^2.14.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
     dependencies:
       '@casl/ability': 6.7.1
-      '@prisma/client': 5.10.2(prisma@5.10.2)
+      '@prisma/client': 5.14.0(prisma@5.10.2)
       '@ucast/core': 1.10.2
       '@ucast/js': 3.0.4
     dev: false
@@ -1496,8 +1496,8 @@ packages:
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
     dev: false
 
-  /@prisma/client@5.10.2(prisma@5.10.2):
-    resolution: {integrity: sha512-ef49hzB2yJZCvM5gFHMxSFL9KYrIP9udpT5rYo0CsHD4P9IKj473MbhU1gjKKftiwWBTIyrt9jukprzZXazyag==}
+  /@prisma/client@5.14.0(prisma@5.10.2):
+    resolution: {integrity: sha512-akMSuyvLKeoU4LeyBAUdThP/uhVP3GuLygFE3MlYzaCb3/J8SfsYBE5PkaFuLuVpLyA6sFoW+16z/aPhNAESqg==}
     engines: {node: '>=16.13'}
     requiresBuild: true
     peerDependencies:
@@ -3017,7 +3017,7 @@ packages:
       y-prosemirror: 1.0.20
     dependencies:
       '@tiptap/core': 2.2.4(@tiptap/pm@2.2.4)
-      y-prosemirror: 1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.32.7)(y-protocols@1.0.6)(yjs@13.6.10)
+      y-prosemirror: 1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.33.1)(y-protocols@1.0.6)(yjs@13.6.10)
     dev: false
 
   /@tiptap/extension-collaboration@2.1.15(@tiptap/core@2.2.4)(@tiptap/pm@2.2.4)(y-prosemirror@1.0.20):
@@ -3029,7 +3029,7 @@ packages:
     dependencies:
       '@tiptap/core': 2.2.4(@tiptap/pm@2.2.4)
       '@tiptap/pm': 2.2.4
-      y-prosemirror: 1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.32.7)(y-protocols@1.0.6)(yjs@13.6.10)
+      y-prosemirror: 1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.33.1)(y-protocols@1.0.6)(yjs@13.6.10)
     dev: false
 
   /@tiptap/extension-color@2.3.0(@tiptap/core@2.2.4)(@tiptap/extension-text-style@2.3.0):
@@ -11174,7 +11174,7 @@ packages:
   /wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  /y-prosemirror@1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.32.7)(y-protocols@1.0.6)(yjs@13.6.10):
+  /y-prosemirror@1.0.20(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.33.1)(y-protocols@1.0.6)(yjs@13.6.10):
     resolution: {integrity: sha512-LVMtu3qWo0emeYiP+0jgNcvZkqhzE/otOoro+87q0iVKxy/sMKuiJZnokfJdR4cn9qKx0Un5fIxXqbAlR2bFkA==}
     peerDependencies:
       prosemirror-model: ^1.7.1
@@ -11186,7 +11186,7 @@ packages:
       lib0: 0.2.88
       prosemirror-model: 1.19.4
       prosemirror-state: 1.4.3
-      prosemirror-view: 1.32.7
+      prosemirror-view: 1.33.1
       y-protocols: 1.0.6(yjs@13.6.10)
       yjs: 13.6.10
     dev: false

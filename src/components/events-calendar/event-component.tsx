@@ -4,6 +4,12 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@/components/ui/tooltip'
 import { formatExternalUrl } from '@/lib/utils'
 import { type Event } from '@prisma/client'
 
@@ -16,27 +22,43 @@ export const EventComponent = ({ event }: EventComponentProps) => {
   const date = new Date(event.date)
   const offset = date.getTimezoneOffset()
   const adjustedDate = new Date(date.getTime() + offset * 60 * 1000)
+
   return (
     <Popover>
-      <PopoverTrigger>
-        <div className="flex items-center text-sm gap-3 px-2 py-1 rounded-md hover:bg-slate-900">
-          <div className="rounded-full w-2 h-2 bg-blue-700" />
-          <div className="flex flex-col">
-            <span className="font-semibold truncate">{event.title}</span>
-            <span className="text-xs text-muted-foreground">
-              {adjustedDate.toLocaleDateString()} - {adjustedDate.getHours()}:
-              {adjustedDate.getMinutes()}
-            </span>
-          </div>
-        </div>
-      </PopoverTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <PopoverTrigger>
+              <div className="flex items-center text-sm p-1 rounded-md hover:bg-slate-900">
+                <div className="flex flex-col">
+                  <span className="text-left font-semibold text-sm text-ellipsis line-clamp-1">
+                    {event.title}
+                  </span>
+                  <span className="text-left text-xs text-muted-foreground">
+                    {adjustedDate.toLocaleDateString()} -{' '}
+                    {adjustedDate.getHours()}:
+                    {adjustedDate.getMinutes() < 10
+                      ? `0${adjustedDate.getMinutes()}`
+                      : adjustedDate.getMinutes()}
+                  </span>
+                </div>
+              </div>
+              <TooltipContent className="bg-slate-900 text-foreground">
+                <span>See more details</span>
+              </TooltipContent>
+            </PopoverTrigger>
+          </TooltipTrigger>
+        </Tooltip>
+      </TooltipProvider>
       <PopoverContent side="left" align="center" className="bg-slate-900">
         <div className="flex flex-col gap-2 p-2">
           <div className="flex flex-col">
             <span className="font-semibold text-lg">{event.title}</span>
             <span className="text-muted-foreground text-sm">
               {adjustedDate.toLocaleDateString()} - {adjustedDate.getHours()}:
-              {adjustedDate.getMinutes()}
+              {adjustedDate.getMinutes() < 10
+                ? `0${adjustedDate.getMinutes()}`
+                : adjustedDate.getMinutes()}
             </span>
           </div>
           <span className="italic">{event.description}</span>

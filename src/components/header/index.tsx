@@ -5,7 +5,7 @@ type HeaderProps = {
 const Header = ({ title, children }: HeaderProps) => {
   return (
     <>
-      <div className="space-y-0.5 flex items-center justify-between py-8">
+      <div className="space-y-0.5 flex items-center justify-between py-4">
         <h2 className="text-[28px] leading-[34px] tracking-[-0.416px] font-bold">
           {title}
         </h2>

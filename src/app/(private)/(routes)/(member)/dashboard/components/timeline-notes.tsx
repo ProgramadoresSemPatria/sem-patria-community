@@ -8,8 +8,9 @@ import TimelineNotesContent from './timeline-notes-content'
 
 type TimelineNotesProps = {
   note: Note
+  lastNote: boolean
 }
-export const TimelineNotes = async ({ note }: TimelineNotesProps) => {
+export const TimelineNotes = async ({ note, lastNote }: TimelineNotesProps) => {
   const userProps = await prismadb.user.findUnique({
     where: {
       id: note.userId
@@ -17,9 +18,12 @@ export const TimelineNotes = async ({ note }: TimelineNotesProps) => {
   })
 
   return (
-    <div className="flex flex-col relative">
-      <div className="flex items-center">
-        <div className="w-2 h-2 rounded-full bg-violet-700" />
+    <div className="flex flex-col">
+      <div className="flex items-center relative">
+        <div className="w-2 h-2 rounded-full bg-violet-600" />
+        {!lastNote && (
+          <div className="absolute w-1 h-[72px] rounded-sm bg-violet-950 left-[2px] -bottom-[59px]" />
+        )}
         <Avatar className="ml-4">
           <AvatarImage src={`https://github.com/${userProps?.username}.png`} />
           <AvatarFallback>
@@ -38,7 +42,7 @@ export const TimelineNotes = async ({ note }: TimelineNotesProps) => {
           </span>
         </div>
       </div>
-      <div className="w-full flex justify-center">
+      <div className="w-full flex justify-center pb-3">
         <TimelineNotesContent content={note.content} noteId={note.id} />
       </div>
     </div>

@@ -50,7 +50,9 @@ const MainNav = ({ children }: MainNavProps) => {
         'hidden md:flex h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6 sticky top-0'
       )}
     >
-      <MainLogo />
+      <div className="w-full flex items-center justify-center">
+        <MainLogo />
+      </div>
       <nav className="mt-6 flex-1">
         <ul className="flex flex-col gap-2">
           {memberRoutes.map(route => (

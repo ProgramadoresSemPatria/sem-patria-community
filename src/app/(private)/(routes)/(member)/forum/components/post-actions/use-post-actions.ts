@@ -1,12 +1,17 @@
 import { toast } from '@/components/ui/use-toast'
 import { usePost } from '@/hooks/post/use-post'
 import { type Post } from '@prisma/client'
+import { useQueryClient } from '@tanstack/react-query'
+import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 type UsePostActions = {
   post: Post
 }
 export const usePostActions = ({ post }: UsePostActions) => {
+  const queryClient = useQueryClient()
+  const searchParams = useSearchParams()
+
   const {
     onPinPost: pinPost,
     onDeletePost: deletePost,
@@ -27,6 +32,9 @@ export const usePostActions = ({ post }: UsePostActions) => {
   const onPinPost = async () => {
     try {
       await pinPost({ postId: post.id })
+      await queryClient.refetchQueries({
+        queryKey: ['infinite-posts', { category: searchParams.get('category') }]
+      })
     } catch (error) {
       toast({
         title: 'Error',
@@ -39,6 +47,9 @@ export const usePostActions = ({ post }: UsePostActions) => {
   const onDeletePost = async () => {
     try {
       await deletePost({ postId: post.id })
+      await queryClient.refetchQueries({
+        queryKey: ['infinite-posts', { category: searchParams.get('category') }]
+      })
     } catch (error) {
       toast({
         title: 'Error',

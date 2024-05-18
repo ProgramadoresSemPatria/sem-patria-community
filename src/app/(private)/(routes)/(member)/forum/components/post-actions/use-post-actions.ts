@@ -1,12 +1,13 @@
 import { toast } from '@/components/ui/use-toast'
 import { usePost } from '@/hooks/post/use-post'
+import { type ExtendedPost } from '@/lib/types'
 import { type Post } from '@prisma/client'
 import { useQueryClient } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 type UsePostActions = {
-  post: Post
+  post: Post | ExtendedPost
 }
 export const usePostActions = ({ post }: UsePostActions) => {
   const queryClient = useQueryClient()
@@ -17,7 +18,7 @@ export const usePostActions = ({ post }: UsePostActions) => {
     onDeletePost: deletePost,
     isDeleting,
     isPinning
-  } = usePost({})
+  } = usePost({ post })
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 

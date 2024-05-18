@@ -52,6 +52,7 @@ export const PostActions = ({ post }: PostActionsProps) => {
             disabled={isDeleting}
             onClick={e => {
               e.stopPropagation()
+              e.preventDefault()
               onOpenDeleteModal()
             }}
           >

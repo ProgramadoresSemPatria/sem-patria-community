@@ -1,0 +1,75 @@
+{
+  "uniqueActions": [
+    {
+      "id": "1",
+      "completed": false,
+      "title": "Feedback Técnico: Após participar de 3 entrevistas técnicas, colete feedback e compartilhe as devolutivas na comunidade."
+    },
+    {
+      "id": "2",
+      "completed": false,
+      "title": "Desafio #codeUp: Participe e conclua o desafio #codeUp."
+    },
+    {
+      "id": "3",
+      "completed": false,
+      "title": "Organização: Mantenha atualizada a planilha da maratona de entrevistas (disponível no módulo de Prospecção de Vagas)."
+    }
+  ],
+  "daily": [
+    {
+      "id": "1",
+      "completed": false,
+      "title": "Aplicação para Vagas: Envie candidaturas para 2 vagas por dia."
+    },
+    {
+      "id": "2",
+      "completed": false,
+      "title": "Interatividade no LinkedIn: Comente em 1 post por dia."
+    },
+    {
+      "id": "3",
+      "completed": false,
+      "title": "Engajamento no LinkedIn: Curta 2 posts por dia."
+    },
+    {
+      "id": "4",
+      "completed": false,
+      "title": "Estudo de Inglês: (para NÃO B2) Dedique 30 minutos diários ao estudo do inglês, no mínimo."
+    }
+  ],
+  "weekly": [
+    {
+      "id": "1",
+      "completed": false,
+      "title": "Mock Interview: Participe de 1 Mock Interview por semana, seja como ouvinte ou participante ativo."
+    }
+  ],
+  "monthly": [
+    {
+      "id": "1",
+      "completed": false,
+      "title": "Preparação de CV: Elabore pelo menos 4 versões diferentes de seu currículo, fazendo ajustes específicos com base na estratégia do 'CV Camaleão' (consulte a mentoria gravada sobre como criar um CV impactante)."
+    },
+    {
+      "id": "2",
+      "completed": false,
+      "title": "Gravação de entrevista: Grave uma entrevista por mês para análise."
+    },
+    {
+      "id": "3",
+      "completed": false,
+      "title": "Módulo Prospecção de Vagas: Assista a todas as sessões 1x/mês."
+    },
+    {
+      "id": "4",
+      "completed": false,
+      "title": "Módulo Processo Seletivo: Assista a todas as sessões 1x/mês"
+    },
+    {
+      "id": "5",
+      "completed": false,
+      "title": "Módulo Networking Profissional: Assista às sessões 'como manter follow up eficazes' e 'Feedback for the win' 1x/mês"
+    }
+  ]
+}

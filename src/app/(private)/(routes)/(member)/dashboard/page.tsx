@@ -1,6 +1,7 @@
 import { DefaultLayout } from '@/components/default-layout'
 import { EventsCalendar } from '@/components/events-calendar'
 import Header from '@/components/header'
+import Checklist from './components/checklist'
 import ForumWidget from './components/forum-widget'
 import { PublicNotesCard } from './components/public-notes-card'
 
@@ -17,6 +18,9 @@ export default function Dashboard() {
             <EventsCalendar isWidget />
             <div className="my-4" />
             <PublicNotesCard />
+          </div>
+          <div className="col-span-2">
+            <Checklist />
           </div>
         </div>
       </div>

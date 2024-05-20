@@ -2,6 +2,7 @@ import { Icons } from '@/components/icons'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { appRoutes } from '@/lib/constants'
 import prismadb from '@/lib/prismadb'
 import { currentUser } from '@clerk/nextjs'
@@ -69,9 +70,11 @@ const ForumWidget = async () => {
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="max-h-80 relative overflow-y-auto">
-          <ForumFeed userId={user?.id} initialPosts={posts || []} />
-        </CardContent>
+        <ScrollArea className="max-h-80 overflow-auto">
+          <CardContent>
+            <ForumFeed userId={user?.id} initialPosts={posts || []} />
+          </CardContent>
+        </ScrollArea>
       </Card>
     </div>
   )

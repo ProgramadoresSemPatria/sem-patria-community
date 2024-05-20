@@ -78,7 +78,10 @@ const PostPage = async ({ params }: PostPageProps) => {
                   isPostPage
                 />
 
-                <PostCommentsLink commentsLength={post?.comments.length} />
+                <PostCommentsLink
+                  comments={post?.comments as unknown as ExtendedComment[]}
+                  postId={post.id}
+                />
               </>
             )}
             <Separator decorative orientation="vertical" className="h-5 mt-2" />

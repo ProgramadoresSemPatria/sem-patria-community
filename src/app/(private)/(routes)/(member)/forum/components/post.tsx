@@ -36,6 +36,8 @@ const Post = ({
   return (
     <div
       onClick={e => {
+        e.preventDefault()
+        e.stopPropagation()
         router.push(`/forum/${post.id}`)
       }}
       className={cn(

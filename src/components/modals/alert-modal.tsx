@@ -38,10 +38,26 @@ export const AlertModal = ({
       onClose={onClose}
     >
       <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-        <Button variant="outline" disabled={loading} onClick={onClose}>
+        <Button
+          variant="outline"
+          disabled={loading}
+          onClick={e => {
+            e.preventDefault()
+            e.stopPropagation()
+            onClose()
+          }}
+        >
           Cancel
         </Button>
-        <Button variant="destructive" disabled={loading} onClick={onConfirm}>
+        <Button
+          variant="destructive"
+          disabled={loading}
+          onClick={e => {
+            e.preventDefault()
+            e.stopPropagation()
+            onConfirm()
+          }}
+        >
           {loading && <Icons.loader className="mr-2 h-4 w-4 animate-spin" />}
           Delete
         </Button>

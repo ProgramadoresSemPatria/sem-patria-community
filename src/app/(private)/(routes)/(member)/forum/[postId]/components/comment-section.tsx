@@ -9,11 +9,12 @@ import {
 } from '@/components/ui/collapsible'
 import { toast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { type ExtendedComment } from '../page'
 import { ForumCommentComponent } from './forum-comment-component'
 import SendCommentButton from './send-comment-button'
+import { usePostComments } from './use-post-comments'
 interface CommentSectionProps {
   postId: string | undefined
   comments: ExtendedComment[] | undefined
@@ -23,17 +24,9 @@ const CommentSection = ({ postId, comments }: CommentSectionProps) => {
   const [commentContent, setCommentContent] = useState('{}')
   const [isNewCommentOpen, setIsNewCommentOpen] = useState(false)
 
-  const {
-    data: commentsData,
-    isFetching,
-    refetch
-  } = useQuery<ExtendedComment[]>({
-    initialData: comments || [],
-    queryKey: ['get-comments', postId],
-    queryFn: async () => {
-      const { data } = await api.get(`/api/post/${postId}/comments`)
-      return data
-    }
+  const { commentsData, isFetching, refetch } = usePostComments({
+    comments,
+    postId
   })
 
   const { mutateAsync, isPending } = useMutation({

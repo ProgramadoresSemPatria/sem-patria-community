@@ -111,7 +111,9 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
         />
         <Button
           type="submit"
-          disabled={!form.formState.isValid || form.formState.isSubmitting}
+          disabled={
+            !form.formState.isValid || form.formState.isSubmitting || isPending
+          }
           className="self-end w-fit bg-slate-800 text-white gap-1 hover:bg-slate-900"
         >
           {isPending ? (

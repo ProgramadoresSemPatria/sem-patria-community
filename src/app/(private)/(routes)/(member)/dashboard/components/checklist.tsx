@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Icons } from '@/components/icons'
 import { useTodos } from '@/hooks/checklist/use-todos'
@@ -7,6 +8,14 @@ import { ChecklistItem } from './checklist-item'
 
 const Checklist = () => {
   const todos = useTodos(state => state.todos)
+
+  const totalItems = useMemo(
+    () =>
+      Object.values(todos)
+        .map(arr => arr.length)
+        .reduce((sum, length) => sum + length, 0),
+    [todos]
+  )
 
   return (
     <div className="flex flex-col gap-y-2">
@@ -21,7 +30,7 @@ const Checklist = () => {
 
             <div className="flex gap-x-2">
               <Icons.checkSquare className="w-4 h-4" />
-              0/4
+              0/{totalItems}
             </div>
           </CardTitle>
         </CardHeader>

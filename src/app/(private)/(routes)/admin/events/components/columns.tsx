@@ -1,8 +1,16 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@/components/ui/tooltip'
 import { type ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import Link from 'next/link'
 import { EventCellAction } from './event-cell-action'
 
 export type EventColumn = {
@@ -17,11 +25,39 @@ export type EventColumn = {
 export const eventColumns: Array<ColumnDef<EventColumn>> = [
   {
     accessorKey: 'title',
-    header: 'Title'
+    header: 'Title',
+    cell: ({ row }) => {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="max-w-[150px] line-clamp-1">
+                {row.getValue('title')}
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>{row.getValue('title')}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )
+    }
   },
   {
     accessorKey: 'description',
-    header: 'Description'
+    header: 'Description',
+    cell: ({ row }) => {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="max-w-[400px] line-clamp-1">
+                {row.getValue('description')}
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>{row.getValue('description')}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )
+    }
   },
   {
     accessorKey: 'date',
@@ -31,26 +67,75 @@ export const eventColumns: Array<ColumnDef<EventColumn>> = [
       const date = new Date(cell.getValue() as string)
       const offset = date.getTimezoneOffset()
       const adjustedDate = new Date(date.getTime() + offset * 60 * 1000)
-      return format(adjustedDate, 'dd/MM/yyyy - HH:mm', {
-        locale: ptBR
-      })
+      return (
+        <span className="max-w-[150px] line-clamp-1">
+          {format(adjustedDate, 'dd/MM/yyyy - HH:mm', {
+            locale: ptBR
+          })}
+        </span>
+      )
     }
   },
   {
     accessorKey: 'location',
-    header: 'Location'
+    header: 'Location',
+    cell: ({ row }) => {
+      return (
+        <span className="max-w-[100px] line-clamp-1">
+          {row.getValue('location')}
+        </span>
+      )
+    }
   },
   {
     accessorKey: 'externalUrl',
-    header: 'External Url'
+    header: 'External Url',
+    cell: ({ row }) => {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link
+                target="_blank"
+                href={row.getValue('externalUrl')}
+                className="max-w-[150px] line-clamp-1"
+              >
+                <Button variant="link" className="p-0">
+                  {row.getValue('externalUrl')}
+                </Button>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent>{row.getValue('externalUrl')}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )
+    }
   },
   {
     accessorKey: 'specialGuest',
-    header: 'Special Guest'
+    header: 'Special Guest',
+    cell: ({ row }) => {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="max-w-[100px] line-clamp-1">
+                {row.getValue('specialGuest')}
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>{row.getValue('specialGuest')}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )
+    }
   },
   {
     id: 'actions',
     header: 'Actions',
-    cell: ({ row }) => <EventCellAction data={row.original} />
+    cell: ({ row }) => (
+      <div className="max-w-[50px]">
+        <EventCellAction data={row.original} />
+      </div>
+    )
   }
 ]

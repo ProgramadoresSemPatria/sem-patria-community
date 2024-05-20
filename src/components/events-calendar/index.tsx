@@ -123,7 +123,7 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
           >
             <section className="flex flex-col gap-4 2xl:ml-10 w-full px-4">
               {isLoading ? (
-                <Icons.loader className="w-4 h-4" />
+                <Icons.loader className="w-4 h-4 animate-spin" />
               ) : (
                 eventsDisplay?.map((event, i) => (
                   <EventComponent key={event.id} event={event} />

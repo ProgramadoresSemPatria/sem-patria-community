@@ -19,7 +19,7 @@ export default function Dashboard() {
             <div className="my-4" />
             <PublicNotesCard />
           </div>
-          <div className="col-span-2">
+          <div className="lg:col-span-2">
             <Checklist />
           </div>
         </div>

@@ -2,6 +2,7 @@
 import { Toggle } from '@/components/ui/toggle'
 import { type Editor } from '@tiptap/core'
 import { useMemo, useState } from 'react'
+import { uploadFn } from '../editor/image-upload'
 import { LinkSelector } from '../editor/selectors/link-selector'
 import { nodeItems } from '../editor/selectors/node-selector'
 import { textItems } from '../editor/selectors/text-buttons'
@@ -52,6 +53,35 @@ export const Toolbar = ({ editor, hasTitleEnabled = true }: ToolbarProps) => {
         onOpenChange={setOpenLink}
         isToolbar
       />
+      <span className="border border-muted" />
+      <Toggle
+        className='data-[state="on"]:bg-slate-900'
+        size="sm"
+        pressed={editor.isActive('image')}
+        onPressedChange={() => {
+          editor
+            .chain()
+            .focus()
+            .deleteRange({
+              from: editor.view.state.selection.from,
+              to: editor.view.state.selection.to
+            })
+            .run()
+          const input = document.createElement('input')
+          input.type = 'file'
+          input.accept = 'image/*'
+          input.onchange = async () => {
+            if (input.files?.length) {
+              const file = input.files[0]
+              const pos = editor.view.state.selection.from
+              uploadFn(file, editor.view, pos)
+            }
+          }
+          input.click()
+        }}
+      >
+        <Icons.image size={18} />
+      </Toggle>
       <span className="border border-muted" />
       {textItems.map((item, index) => (
         <Toggle

@@ -15,6 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { type EventApiProps } from '@/hooks/event/types'
 import { useAllEvents, useWeekEvents } from '@/hooks/event/use-event'
 import { cn } from '@/lib/utils'
@@ -116,21 +117,23 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
               </Popover>
             </CardTitle>
           </CardHeader>
-          <CardContent
-            className={cn(
-              'flex flex-col gap-2 md:gap-0 justify-start items-start p-0 pb-4 max-h-28 overflow-y-auto'
-            )}
-          >
-            <section className="flex flex-col gap-4 2xl:ml-10 w-full px-4">
-              {isLoading ? (
-                <Icons.loader className="w-4 h-4" />
-              ) : (
-                eventsDisplay?.map((event, i) => (
-                  <EventComponent key={event.id} event={event} />
-                ))
+          <ScrollArea className="max-h-28 overflow-y-auto">
+            <CardContent
+              className={cn(
+                'flex flex-col gap-2 md:gap-0 justify-start items-start p-0 pb-4'
               )}
-            </section>
-          </CardContent>
+            >
+              <section className="flex flex-col gap-4 2xl:ml-10 w-full px-4">
+                {isLoading ? (
+                  <Icons.loader className="w-4 h-4" />
+                ) : (
+                  eventsDisplay?.map((event, i) => (
+                    <EventComponent key={event.id} event={event} />
+                  ))
+                )}
+              </section>
+            </CardContent>
+          </ScrollArea>
         </Card>
       </div>
     )

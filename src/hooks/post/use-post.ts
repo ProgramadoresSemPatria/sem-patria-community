@@ -3,6 +3,7 @@
 import { toast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { type ExtendedPost } from '@/lib/types'
+import { type Post } from '@prisma/client'
 import {
   useInfiniteQuery,
   useMutation,
@@ -12,7 +13,7 @@ import { useSearchParams } from 'next/navigation'
 
 type UsePostProps = {
   initialPosts?: ExtendedPost[]
-  post?: ExtendedPost
+  post?: ExtendedPost | Post
 }
 
 export const usePost = ({ initialPosts, post }: UsePostProps) => {
@@ -122,8 +123,10 @@ export const usePost = ({ initialPosts, post }: UsePostProps) => {
     },
     onSuccess: async () => {
       toast({
-        title: 'Post pinned',
-        description: ' The post has been pinned'
+        title: post?.isPinned ? 'Post unpinned ' : 'Post pinned',
+        description: post?.isPinned
+          ? 'The post has been unpinned'
+          : 'The post has been pinned'
       })
     },
     onError: () => {

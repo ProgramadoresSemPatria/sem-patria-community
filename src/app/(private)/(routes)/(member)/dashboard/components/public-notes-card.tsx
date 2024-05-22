@@ -9,6 +9,7 @@ import {
 import prismadb from '@/lib/prismadb'
 import { Suspense } from 'react'
 import { TimelineNotes } from './timeline-notes'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 export const PublicNotesCard = async () => {
   const notes = await prismadb.note.findMany({
@@ -35,20 +36,27 @@ export const PublicNotesCard = async () => {
             </div>
           }
         >
-          <CardContent className="h-52 overflow-y-auto">
-            {notes.length === 0 && (
-              <span className="font-medium text-muted-foreground">
-                There are no notes to the challenge for now.
-              </span>
-            )}
+          <ScrollArea className="max-h-52 overflow-y-auto">
+            <CardContent>
+              {notes.length === 0 && (
+                <span className="font-medium text-muted-foreground">
+                  There are no notes to the challenge for now.
+                </span>
+              )}
 
-            {notes.map((note, index) => {
-              const lastNote = index === notes.length - 1 || notes.length === 1
-              return (
-                <TimelineNotes key={note.id} note={note} lastNote={lastNote} />
-              )
-            })}
-          </CardContent>
+              {notes.map((note, index) => {
+                const lastNote =
+                  index === notes.length - 1 || notes.length === 1
+                return (
+                  <TimelineNotes
+                    key={note.id}
+                    note={note}
+                    lastNote={lastNote}
+                  />
+                )
+              })}
+            </CardContent>
+          </ScrollArea>
         </Suspense>
       </Card>
     </div>

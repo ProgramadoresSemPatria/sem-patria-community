@@ -21,6 +21,7 @@ import {
   Code,
   Codesandbox,
   Copy,
+  Dot,
   Edit,
   ExternalLink,
   Eye,
@@ -147,5 +148,6 @@ export const Icons = {
   eye: Eye,
   image: Image,
   youtube: Youtube,
-  forum: MessageSquare
+  forum: MessageSquare,
+  dot: Dot
 }

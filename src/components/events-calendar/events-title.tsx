@@ -17,9 +17,9 @@ export const EventsTitle = ({
   onClick
 }: EventsTitleProps) => {
   return (
-    <div className="flex gap-1 items-center ">
-      <Icons.calendarClock className="h-4 w-4" />{' '}
-      <span className="font-semibold">{title}</span>
+    <div className="flex gap-1 items-center w-full">
+      <Icons.calendarClock className="h-4 w-4 mr-2" />
+      <span className="font-semibold text-sm">{title}</span>
       {hasSelectedDay && (
         <TooltipProvider>
           <Tooltip>

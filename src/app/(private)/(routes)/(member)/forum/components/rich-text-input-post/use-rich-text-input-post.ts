@@ -4,7 +4,7 @@ import { usePost } from '@/hooks/post/use-post'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQueryClient } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -41,6 +41,12 @@ export const useRichTextInputPost = () => {
   } = usePost({})
   const { onClose } = useCreatePostModalStore()
 
+  useEffect(() => {
+    if (isSuccessOnCreatePost) {
+      onClose()
+    }
+  }, [isSuccessOnCreatePost, onClose])
+
   const onSubmit = useCallback(
     async (values: z.infer<typeof contentSchema>) => {
       if (values.categoryIdForm && values.content && values.title)
@@ -52,12 +58,8 @@ export const useRichTextInputPost = () => {
       await queryClient.refetchQueries({
         queryKey: ['infinite-posts', { category: searchParams.get('category') }]
       })
-
-      if (isSuccessOnCreatePost) {
-        onClose()
-      }
     },
-    [isSuccessOnCreatePost, onClose, onCreatePost, queryClient, searchParams]
+    [onCreatePost, queryClient, searchParams]
   )
   return { categories, onSubmit, form, isPending }
 }

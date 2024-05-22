@@ -2,12 +2,20 @@
 
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
+import { type ExtendedComment } from '../page'
+import { usePostComments } from './use-post-comments'
 
 interface PostCommentsLinkProps {
-  commentsLength: number
+  comments: ExtendedComment[]
+  postId: string
 }
 
-const PostCommentsLink = ({ commentsLength }: PostCommentsLinkProps) => {
+const PostCommentsLink = ({ comments, postId }: PostCommentsLinkProps) => {
+  const { commentsData } = usePostComments({
+    comments,
+    postId
+  })
+
   return (
     <div
       className="flex items-center w-fit space-x-1 font-bold text-slate-600 text-sm"
@@ -19,7 +27,7 @@ const PostCommentsLink = ({ commentsLength }: PostCommentsLinkProps) => {
       <Button variant="ghost" size="icon" className="group rounded-full">
         <Icons.forum className="h-5 group-hover:text-white " strokeWidth={2} />
       </Button>
-      <p className="leading-4">{commentsLength}</p>
+      <p className="leading-4">{commentsData.length}</p>
     </div>
   )
 }

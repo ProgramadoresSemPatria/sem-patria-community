@@ -71,6 +71,7 @@
     "embla-carousel-react": "8.0.0-rc19",
     "highlight.js": "^11.9.0",
     "jsonwebtoken": "^9.0.2",
+    "ksuid": "^3.0.0",
     "lodash.debounce": "^4.0.8",
     "lowlight": "^3.1.0",
     "lucide-react": "^0.292.0",

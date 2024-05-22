@@ -2,6 +2,12 @@ import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs'
 import { NextResponse, type NextRequest } from 'next/server'
 import { z } from 'zod'
+import KSUID from 'ksuid'
+
+async function generateKSUID() {
+  return (await KSUID.random()).string
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { userId } = auth()
@@ -15,8 +21,11 @@ export async function POST(req: NextRequest) {
     if (!categoryId)
       return new NextResponse('Category ID is required', { status: 400 })
 
+    const id = await generateKSUID()
+
     const post = await prismadb.post.create({
       data: {
+        id,
         title,
         content,
         categoryId,
@@ -58,19 +67,19 @@ export async function GET(req: Request) {
     if (orderBy) {
       switch (orderBy) {
         case 'datenew':
-          orderByClause = { createdAt: 'desc' }
+          orderByClause = { id: 'desc' }
           break
         case 'dateold':
-          orderByClause = { createdAt: 'asc' }
+          orderByClause = { id: 'asc' }
           break
         case 'likes':
           orderByClause = { likes: { _count: 'desc' } }
           break
         default:
-          orderByClause = { createdAt: 'desc' }
+          orderByClause = { id: 'desc' }
       }
     } else {
-      orderByClause = { createdAt: 'desc' }
+      orderByClause = { id: 'desc' }
     }
 
     if (categoryName !== 'All') {

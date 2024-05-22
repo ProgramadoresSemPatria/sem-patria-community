@@ -1,18 +1,18 @@
-export interface TodoItem {
+export interface ChallengeItem {
   id: string
   title: string
   completed: boolean
   updatedAt?: string
 }
 
-export interface TodoList {
-  weekly: TodoItem[]
-  daily: TodoItem[]
-  monthly: TodoItem[]
-  uniqueActions: TodoItem[]
+export interface ChallengeSections {
+  weekly: ChallengeItem[]
+  daily: ChallengeItem[]
+  monthly: ChallengeItem[]
+  uniqueActions: ChallengeItem[]
 }
 
-export interface TodoStore {
-  todos: TodoList
-  setTodos: (todos: TodoList) => void
+export interface ChecklistStore {
+  challenges: ChallengeSections
+  setChallenges: (challenges: ChallengeSections) => void
 }

@@ -3,18 +3,18 @@
 import { useMemo } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Icons } from '@/components/icons'
-import { useTodos } from '@/hooks/checklist/use-todos'
+import { useChecklist } from '@/hooks/checklist/use-checklist'
 import { ChecklistItem } from './checklist-item'
 
 const Checklist = () => {
-  const todos = useTodos(state => state.todos)
+  const challenges = useChecklist(state => state.challenges)
 
   const totalItems = useMemo(
     () =>
-      Object.values(todos)
+      Object.values(challenges)
         .map(arr => arr.length)
         .reduce((sum, length) => sum + length, 0),
-    [todos]
+    [challenges]
   )
 
   return (
@@ -37,22 +37,22 @@ const Checklist = () => {
 
         <CardContent className="flex flex-col gap-y-2 max-h-36 relative overflow-y-auto">
           <h2 className="text-lg font-semibold">Diária</h2>
-          {todos.daily.map((todo, idx) => (
+          {challenges.daily.map((todo, idx) => (
             <ChecklistItem key={idx} item={todo} />
           ))}
 
           <h2 className="text-lg font-semibold">Semanal</h2>
-          {todos.weekly.map((todo, idx) => (
+          {challenges.weekly.map((todo, idx) => (
             <ChecklistItem key={idx} item={todo} />
           ))}
 
           <h2 className="text-lg font-semibold">Mensal</h2>
-          {todos.monthly.map((todo, idx) => (
+          {challenges.monthly.map((todo, idx) => (
             <ChecklistItem key={idx} item={todo} />
           ))}
 
           <h2 className="text-lg font-semibold">Ação Única</h2>
-          {todos.uniqueActions.map((todo, idx) => (
+          {challenges.uniqueActions.map((todo, idx) => (
             <ChecklistItem key={idx} item={todo} />
           ))}
         </CardContent>

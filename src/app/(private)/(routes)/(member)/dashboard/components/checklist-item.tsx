@@ -1,8 +1,8 @@
 import { Checkbox } from '@/components/ui/checkbox'
-import { type TodoItem } from '@/hooks/checklist/type'
+import { type ChallengeItem } from '@/hooks/checklist/type'
 
 type ChecklistItemProps = {
-  item: TodoItem
+  item: ChallengeItem
 }
 
 export const ChecklistItem = ({ item }: ChecklistItemProps) => {

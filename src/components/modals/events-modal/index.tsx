@@ -13,6 +13,7 @@ const EventsModal = () => {
         description="Events that are happening in the mentorship program."
         isOpen={isOpen}
         onClose={onClose}
+        className="max-w-fit"
       >
         <Separator className="mb-4" />
         <EventsCalendar />

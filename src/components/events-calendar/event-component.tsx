@@ -53,7 +53,9 @@ export const EventComponent = ({ event }: EventComponentProps) => {
       <PopoverContent side="left" align="center" className="bg-slate-900">
         <div className="flex flex-col gap-2 p-2">
           <div className="flex flex-col">
-            <span className="font-semibold text-lg">{event.title}</span>
+            <span className="font-semibold text-lg text-ellipsis line-clamp-3">
+              {event.title}
+            </span>
             <span className="text-muted-foreground text-sm">
               {adjustedDate.toLocaleDateString()} - {adjustedDate.getHours()}:
               {adjustedDate.getMinutes() < 10
@@ -61,7 +63,9 @@ export const EventComponent = ({ event }: EventComponentProps) => {
                 : adjustedDate.getMinutes()}
             </span>
           </div>
-          <span className="italic">{event.description}</span>
+          <span className="italic line-clamp-4 text-ellipsis">
+            {event.description}
+          </span>
           {event.specialGuest && (
             <div className="flex gap-2 items-center">
               <Icons.sparkles className="w-4 h-4" />

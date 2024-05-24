@@ -19,7 +19,7 @@ export const DefaultLayout = async ({
       <main className="w-full">
         <TopBar />
         <div className="pb-10">
-          <div className={cn('mx-auto container px-6', className)}>
+          <div className={cn('mx-auto container pt-6', className)}>
             {children}
           </div>
         </div>

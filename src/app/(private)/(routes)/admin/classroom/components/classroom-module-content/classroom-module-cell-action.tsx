@@ -14,6 +14,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { Can } from '@/hooks/use-ability'
 import { api } from '@/lib/api'
 import { appRoutes } from '@/lib/constants'
+import { useModuleService } from '@/services/classroom/module/use-module-service'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -28,6 +29,8 @@ export const ClassroomModuleCellAction = ({
 }: ClassroomModuleCellActionProps) => {
   const { toast } = useToast()
   const router = useRouter()
+
+  const { deleteImageModule, isDeletingImageModule } = useModuleService({})
 
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
 
@@ -54,6 +57,11 @@ export const ClassroomModuleCellAction = ({
 
   const onDeleteClassroomModule = async () => {
     try {
+      if (data.fileUrl) {
+        const image = data.fileUrl
+        const imageKey = image.substring(image.lastIndexOf('/') + 1)
+        deleteImageModule(imageKey)
+      }
       await deleteClassroomModule()
     } catch (error) {
       toast({
@@ -75,7 +83,7 @@ export const ClassroomModuleCellAction = ({
           setIsAlertModalOpen(false)
         }}
         onConfirm={onDeleteClassroomModule}
-        loading={isDeleting}
+        loading={isDeleting || isDeletingImageModule}
       />
       <DropdownMenu>
         <DropdownMenuTrigger data-testid="..." asChild>

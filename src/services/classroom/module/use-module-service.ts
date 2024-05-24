@@ -10,7 +10,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { type z } from 'zod'
 
 type UseModuleServiceProps = {
-  initialData: ClassroomModule | null
+  initialData?: ClassroomModule | null
 }
 
 export const useModuleService = ({ initialData }: UseModuleServiceProps) => {
@@ -80,19 +80,6 @@ export const useModuleService = ({ initialData }: UseModuleServiceProps) => {
   } = useMutation({
     mutationFn: async (imageKey: string) => {
       return await api.post(`/api/uploadthing/delete`, { imageKey })
-    },
-    onSuccess() {
-      toast({
-        title: 'Success',
-        description: 'Image deleted successfully.'
-      })
-    },
-    onError() {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong deleting the image.',
-        variant: 'destructive'
-      })
     }
   })
 

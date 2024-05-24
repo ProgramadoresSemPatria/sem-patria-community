@@ -3,73 +3,73 @@
     {
       "id": "1",
       "completed": false,
-      "title": "Feedback Técnico: Após participar de 3 entrevistas técnicas, colete feedback e compartilhe as devolutivas na comunidade."
+      "title": "Technical Feedback: After participating in 3 technical interviews, collect feedback and share it with the community."
     },
     {
       "id": "2",
       "completed": false,
-      "title": "Desafio #codeUp: Participe e conclua o desafio #codeUp."
+      "title": "#CodeUp Challenge: Participate and complete the #CodeUp challenge."
     },
     {
       "id": "3",
       "completed": false,
-      "title": "Organização: Mantenha atualizada a planilha da maratona de entrevistas (disponível no módulo de Prospecção de Vagas)."
+      "title": "Organization: Keep the interview marathon spreadsheet updated (available in the Job Prospecting module)."
     }
   ],
   "daily": [
     {
       "id": "1",
       "completed": false,
-      "title": "Aplicação para Vagas: Envie candidaturas para 2 vagas por dia."
+      "title": "Job Applications: Apply for 2 jobs per day."
     },
     {
       "id": "2",
       "completed": false,
-      "title": "Interatividade no LinkedIn: Comente em 1 post por dia."
+      "title": "LinkedIn Interactivity: Comment on 1 post per day."
     },
     {
       "id": "3",
       "completed": false,
-      "title": "Engajamento no LinkedIn: Curta 2 posts por dia."
+      "title": "LinkedIn Engagement: Like 2 posts per day."
     },
     {
       "id": "4",
       "completed": false,
-      "title": "Estudo de Inglês: (para NÃO B2) Dedique 30 minutos diários ao estudo do inglês, no mínimo."
+      "title": "English Study: (for NON-B2) Dedicate at least 30 minutes per day to studying English."
     }
   ],
   "weekly": [
     {
       "id": "1",
       "completed": false,
-      "title": "Mock Interview: Participe de 1 Mock Interview por semana, seja como ouvinte ou participante ativo."
+      "title": "Mock Interview: Participate in 1 Mock Interview per week, either as a listener or an active participant."
     }
   ],
   "monthly": [
     {
       "id": "1",
       "completed": false,
-      "title": "Preparação de CV: Elabore pelo menos 4 versões diferentes de seu currículo, fazendo ajustes específicos com base na estratégia do 'CV Camaleão' (consulte a mentoria gravada sobre como criar um CV impactante)."
+      "title": "CV Preparation: Prepare at least 4 different versions of your resume, making specific adjustments based on the 'CV Chameleon' strategy (see the recorded mentoring on how to create an impactful resume)."
     },
     {
       "id": "2",
       "completed": false,
-      "title": "Gravação de entrevista: Grave uma entrevista por mês para análise."
+      "title": "Interview Recording: Record one interview per month for analysis."
     },
     {
       "id": "3",
       "completed": false,
-      "title": "Módulo Prospecção de Vagas: Assista a todas as sessões 1x/mês."
+      "title": "Job Prospecting Module: Attend all sessions 1x/month."
     },
     {
       "id": "4",
       "completed": false,
-      "title": "Módulo Processo Seletivo: Assista a todas as sessões 1x/mês"
+      "title": "Selection Process Module: Attend all sessions 1x/month."
     },
     {
       "id": "5",
       "completed": false,
-      "title": "Módulo Networking Profissional: Assista às sessões 'como manter follow up eficazes' e 'Feedback for the win' 1x/mês"
+      "title": "Professional Networking Module: Attend the 'how to maintain effective follow-ups' and 'Feedback for the win' sessions 1x/month."
     }
   ]
 }

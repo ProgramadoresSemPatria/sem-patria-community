@@ -36,22 +36,22 @@ const Checklist = () => {
         </CardHeader>
 
         <CardContent className="flex flex-col gap-y-2 max-h-36 relative overflow-y-auto">
-          <h2 className="text-lg font-semibold">Diária</h2>
+          <h2 className="text-lg font-semibold">Daily</h2>
           {challenges.daily.map((todo, idx) => (
             <ChecklistItem key={idx} item={todo} />
           ))}
 
-          <h2 className="text-lg font-semibold">Semanal</h2>
+          <h2 className="text-lg font-semibold">Weekly</h2>
           {challenges.weekly.map((todo, idx) => (
             <ChecklistItem key={idx} item={todo} />
           ))}
 
-          <h2 className="text-lg font-semibold">Mensal</h2>
+          <h2 className="text-lg font-semibold">Monthly</h2>
           {challenges.monthly.map((todo, idx) => (
             <ChecklistItem key={idx} item={todo} />
           ))}
 
-          <h2 className="text-lg font-semibold">Ação Única</h2>
+          <h2 className="text-lg font-semibold">Unique Actions</h2>
           {challenges.uniqueActions.map((todo, idx) => (
             <ChecklistItem key={idx} item={todo} />
           ))}

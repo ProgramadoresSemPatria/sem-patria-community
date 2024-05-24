@@ -1,4 +1,5 @@
 import { useToast } from '@/components/ui/use-toast'
+import { uploadFiles } from '@/lib/uploadthing'
 import { useModuleService } from '@/services/classroom/module/use-module-service'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { type ClassroomModule } from '@prisma/client'
@@ -51,21 +52,50 @@ export const useNewClassroomModuleForm = ({
   const action = initialData ? 'Save changes' : 'Create Module'
 
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
-  const [previewImage, setPreviewImage] = useState<string | undefined>(
-    initialData?.fileUrl ?? undefined
-  )
+  const [previewImage, setPreviewImage] = useState<string>()
+  const [imageProps, setImageProps] = useState<File>()
+  const [uploadingImage, setUploadingImage] = useState<boolean>(false)
 
-  const onSetPreviewImage = (image: string) => {
-    setPreviewImage(image)
-    form.setValue('fileUrl', image)
+  const onSetPreviewImage = (file: File) => {
+    const image = Object.assign(file, {
+      preview: URL.createObjectURL(file)
+    })
+    setPreviewImage(image.preview)
+    setImageProps(file)
+  }
+
+  const onRemoveImage = () => {
+    setPreviewImage(() => undefined)
   }
 
   const onSubmit = async (values: NewClassroomModuleFormValues) => {
-    await createOrUpdateClassroomModule(values)
+    if (imageProps) {
+      setUploadingImage(() => true)
+      const file = await uploadFiles('imageUploader', {
+        files: [imageProps]
+      })
+      setUploadingImage(() => false)
+
+      const props = {
+        ...values,
+        fileUrl: file[0].url
+      }
+
+      await createOrUpdateClassroomModule(props)
+      return
+    }
+
+    await createOrUpdateClassroomModule({
+      ...values,
+      fileUrl: values.fileUrl ?? undefined
+    })
   }
 
   const onDeleteClassroomModule = async () => {
     try {
+      if (initialData?.fileUrl) {
+        onDeleteImageModule(initialData.fileUrl)
+      }
       await deleteClassroomModule()
     } catch (error) {
       toast({
@@ -101,7 +131,8 @@ export const useNewClassroomModuleForm = ({
     router,
     previewImage,
     onSetPreviewImage,
-    onDeleteImageModule,
-    isDeletingImageModule
+    onRemoveImage,
+    isDeletingImageModule,
+    uploadingImage
   }
 }

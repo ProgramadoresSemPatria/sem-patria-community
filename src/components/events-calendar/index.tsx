@@ -123,9 +123,9 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
                 'flex flex-col gap-2 md:gap-0 justify-start items-start p-0 pb-4'
               )}
             >
-              <section className="flex flex-col gap-4 2xl:ml-10 w-full px-4">
+              <section className="flex flex-col gap-4 w-full px-4">
                 {isLoading ? (
-                  <Icons.loader className="w-4 h-4" />
+                  <Icons.loader className="w-4 h-4 animate-spin" />
                 ) : (
                   eventsDisplay?.map((event, i) => (
                     <EventComponent key={event.id} event={event} />
@@ -154,7 +154,7 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
       </CardHeader>
       <CardContent
         className={cn(
-          'flex flex-col gap-2 md:gap-0 md:flex-row justify-start items-start p-4 h-full max-h-80'
+          'flex flex-col gap-2 md:gap-0 md:flex-row justify-start items-start p-4 h-full'
         )}
       >
         <Calendar
@@ -164,7 +164,7 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
           onDayClick={handleClickDay}
         />
 
-        <section className="flex flex-col gap-4 2xl:ml-10 pl-4 overflow-y-auto max-h-72">
+        <section className="flex flex-col gap-4 pl-4 overflow-y-auto max-h-72 max-w-sm">
           <EventsTitle
             title={eventsTitle}
             hasSelectedDay={selectedDay !== undefined}

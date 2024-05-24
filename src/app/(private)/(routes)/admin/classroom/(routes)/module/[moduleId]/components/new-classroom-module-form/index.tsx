@@ -54,8 +54,9 @@ export const NewClassroomModuleForm = ({
     router,
     previewImage,
     onSetPreviewImage,
-    onDeleteImageModule,
-    isDeletingImageModule
+    onRemoveImage,
+    isDeletingImageModule,
+    uploadingImage
   } = useNewClassroomModuleForm({ initialData })
 
   return (
@@ -176,14 +177,18 @@ export const NewClassroomModuleForm = ({
                 />
                 <Button
                   disabled={
-                    isPending || isDeletingImageModule || isDeletingModule
+                    isPending ||
+                    isDeletingImageModule ||
+                    isDeletingModule ||
+                    uploadingImage
                   }
                   className="mr-auto mt-4"
                   type="submit"
                 >
-                  {isPending && (
-                    <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
-                  )}
+                  {isPending ||
+                    (uploadingImage && (
+                      <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
+                    ))}
                   {action}
                 </Button>
               </div>
@@ -210,9 +215,7 @@ export const NewClassroomModuleForm = ({
                     <Button
                       variant="link"
                       className="text-rose-600 !p-0 h-auto text-sm"
-                      onClick={() => {
-                        onDeleteImageModule(previewImage)
-                      }}
+                      onClick={onRemoveImage}
                       disabled={isDeletingImageModule}
                       type="button"
                     >
@@ -225,14 +228,14 @@ export const NewClassroomModuleForm = ({
                     </Button>
                   )}
                 </div>
-                {previewImage ? (
+                {initialData?.fileUrl || previewImage ? (
                   <Link
-                    href={previewImage}
+                    href={previewImage ?? initialData?.fileUrl ?? ''}
                     target="_blank"
                     className="cursor-pointer"
                   >
                     <Image
-                      src={previewImage}
+                      src={previewImage ?? initialData?.fileUrl ?? ''}
                       alt="uploaded-image"
                       width={1920}
                       height={1080}

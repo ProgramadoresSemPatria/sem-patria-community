@@ -59,7 +59,7 @@ const NoteEditor = ({
     hasH1TitleEnabled
   } = useEditorState({ isSubmitting, variant })
 
-  const { uploadFn } = useEditorUploadFile()
+  const { uploadFn, handleValidateImageWasDeleted } = useEditorUploadFile()
 
   const attributeVariants = cva(
     'prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full h-fit prose-ol:m-0 prose-ul:m-0 prose-headings:m-0 prose-code:m-0',
@@ -120,11 +120,17 @@ const NoteEditor = ({
               class: attributeVariants({ variant })
             }
           }}
-          onUpdate={({ editor }) => {
+          onUpdate={({ editor, transaction }) => {
             if (onChange) {
               if (editor.getText() !== '') {
-                console.log(editor.getJSON())
-                onChange(JSON.stringify(editor.getJSON()))
+                const previousContent = transaction.before.content.toJSON()
+                const currentContent = editor.getJSON()
+                handleValidateImageWasDeleted({
+                  previousContent,
+                  currentContent: currentContent.content || []
+                })
+
+                onChange(JSON.stringify(currentContent))
               } else {
                 onChange('{}')
               }

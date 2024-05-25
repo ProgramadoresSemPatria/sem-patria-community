@@ -25,6 +25,7 @@ export enum appRoutes {
   settings = '/settings',
   forum = '/forum',
   appearance = '/settings/appearance',
+  checklist = '/settings/checklist',
   admin_courses = '/admin/courses',
   admin_courses_new = '/admin/courses/new',
   admin_categories = '/admin/categories',
@@ -105,6 +106,10 @@ export const settingOptions = [
   {
     title: 'Appearance',
     href: appRoutes.appearance
+  },
+  {
+    title: 'Checklist',
+    href: appRoutes.checklist
   }
 ]
 

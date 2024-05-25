@@ -49,6 +49,10 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
 
   const adminRoutes: MenuItemProps[] = [
     {
+      href: appRoutes.admin_users,
+      label: 'Users'
+    },
+    {
       href: appRoutes.admin_courses,
       label: 'Courses'
     },
@@ -59,6 +63,10 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
     {
       href: appRoutes.admin_events,
       label: 'Events'
+    },
+    {
+      href: appRoutes.admin_classroom,
+      label: 'Classroom'
     }
   ]
 

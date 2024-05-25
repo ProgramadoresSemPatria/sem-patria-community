@@ -17,6 +17,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useMutationState } from '@tanstack/react-query'
 import { useRichTextInputPost } from './use-rich-text-input-post'
 
 type RichTextInputProps = {
@@ -25,6 +26,11 @@ type RichTextInputProps = {
 
 export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
   const { form, onSubmit, isPending, categories } = useRichTextInputPost()
+  const isUploadingImage =
+    useMutationState({
+      filters: { mutationKey: ['editor-upload-file'], status: 'pending' },
+      select: mutation => mutation.state.status
+    }).length > 0
 
   if (isCommentsLoading) {
     return (
@@ -112,7 +118,10 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
         <Button
           type="submit"
           disabled={
-            !form.formState.isValid || form.formState.isSubmitting || isPending
+            !form.formState.isValid ||
+            form.formState.isSubmitting ||
+            isPending ||
+            isUploadingImage
           }
           className="self-end w-fit bg-slate-800 text-white gap-1 hover:bg-slate-900"
         >

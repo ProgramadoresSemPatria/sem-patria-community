@@ -1,6 +1,6 @@
 import { type Editor } from '@tiptap/core'
 import { useEffect, useMemo, useState } from 'react'
-import { suggestionItems } from './slash-command'
+import { useSuggestionItems } from './slash-command'
 
 type UseEditorProps = {
   isSubmitting?: boolean
@@ -11,6 +11,8 @@ const useEditorState = ({ isSubmitting, variant }: UseEditorProps) => {
   const [openColor, setOpenColor] = useState(false)
   const [openLink, setOpenLink] = useState(false)
   const [editor, setEditor] = useState<Editor | null>(null)
+
+  const { suggestionItems } = useSuggestionItems()
 
   useEffect(() => {
     if (isSubmitting) {
@@ -25,7 +27,7 @@ const useEditorState = ({ isSubmitting, variant }: UseEditorProps) => {
       return suggestionItems
     }
     return suggestionItems.filter(item => item.title !== 'Heading 1')
-  }, [hasH1TitleEnabled])
+  }, [hasH1TitleEnabled, suggestionItems])
 
   return {
     openNode,

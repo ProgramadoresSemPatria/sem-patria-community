@@ -25,12 +25,10 @@ import { type Editor } from '@tiptap/core'
 import { cva } from 'class-variance-authority'
 import { handleImageDrop, handleImagePaste } from 'novel/plugins'
 import { Toolbar } from '../rich-text-input/toolbar'
-import { uploadFn } from './image-upload'
 import { TextButtons } from './selectors/text-buttons'
-import { slashCommand } from './slash-command'
+import { useSuggestionItems } from './slash-command'
 import { useEditorState } from './use-editor-state'
-
-const extensions = [...defaultExtensions, slashCommand]
+import { useEditorUploadFile } from './use-image-upload'
 
 interface EditorProp {
   initialValue?: JSONContent
@@ -61,6 +59,8 @@ const NoteEditor = ({
     hasH1TitleEnabled
   } = useEditorState({ isSubmitting, variant })
 
+  const { uploadFn } = useEditorUploadFile()
+
   const attributeVariants = cva(
     'prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full h-fit prose-ol:m-0 prose-ul:m-0 prose-headings:m-0 prose-code:m-0',
     {
@@ -77,6 +77,10 @@ const NoteEditor = ({
       }
     }
   )
+
+  const { slashCommand } = useSuggestionItems()
+
+  const extensions = [...defaultExtensions, slashCommand]
 
   return (
     <div
@@ -119,6 +123,7 @@ const NoteEditor = ({
           onUpdate={({ editor }) => {
             if (onChange) {
               if (editor.getText() !== '') {
+                console.log(editor.getJSON())
                 onChange(JSON.stringify(editor.getJSON()))
               } else {
                 onChange('{}')

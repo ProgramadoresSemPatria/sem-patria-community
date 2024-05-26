@@ -64,7 +64,7 @@ const NoteEditor = ({
     {
       variants: {
         variant: {
-          note: 'min-h-screen',
+          note: 'h-fit',
           readonly: '',
           videoCommentInput: 'min-h-[200px]',
           postInput: ''

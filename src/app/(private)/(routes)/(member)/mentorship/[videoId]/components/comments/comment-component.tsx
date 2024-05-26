@@ -86,10 +86,7 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
   }
 
   return (
-    <div
-      key={comment.id}
-      className="border-b last:border-none border-slate-900 rounded-md p-4"
-    >
+    <div key={comment.id} className="border-2  border-slate-600 rounded-md p-4">
       <div className="flex justify-between">
         <div className="flex gap-2 items-center mb-2">
           <>

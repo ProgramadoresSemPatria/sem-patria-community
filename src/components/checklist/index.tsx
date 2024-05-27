@@ -62,23 +62,31 @@ export const Checklist = ({ isWidget = false }: ChecklistProps) => {
           <ScrollArea className="max-h-96 overflow-y-auto">
             <CardContent className="flex flex-col gap-y-2 relative">
               <h2 className="text-lg font-semibold">Daily</h2>
-              {challenges.daily.map((todo, idx) => (
-                <ChecklistItem key={idx} item={todo} />
+              {challenges.daily.map(todo => (
+                <ChecklistItem key={todo.id} item={todo} sectionName="daily" />
               ))}
 
               <h2 className="text-lg font-semibold">Weekly</h2>
-              {challenges.weekly.map((todo, idx) => (
-                <ChecklistItem key={idx} item={todo} />
+              {challenges.weekly.map(todo => (
+                <ChecklistItem key={todo.id} item={todo} sectionName="weekly" />
               ))}
 
               <h2 className="text-lg font-semibold">Monthly</h2>
-              {challenges.monthly.map((todo, idx) => (
-                <ChecklistItem key={idx} item={todo} />
+              {challenges.monthly.map(todo => (
+                <ChecklistItem
+                  key={todo.id}
+                  item={todo}
+                  sectionName="monthly"
+                />
               ))}
 
               <h2 className="text-lg font-semibold">Unique Actions</h2>
-              {challenges.uniqueActions.map((todo, idx) => (
-                <ChecklistItem key={idx} item={todo} />
+              {challenges.uniqueActions.map(todo => (
+                <ChecklistItem
+                  key={todo.id}
+                  item={todo}
+                  sectionName="uniqueActions"
+                />
               ))}
             </CardContent>
           </ScrollArea>
@@ -107,22 +115,26 @@ export const Checklist = ({ isWidget = false }: ChecklistProps) => {
         <CardContent className="flex flex-col gap-y-2 relative">
           <h2 className="text-lg font-semibold mb-2">Daily</h2>
           {challenges.daily.map(todo => (
-            <ChecklistItem key={todo.id} item={todo} />
+            <ChecklistItem key={todo.id} item={todo} sectionName="daily" />
           ))}
 
           <h2 className="text-lg font-semibold mb-2">Weekly</h2>
           {challenges.weekly.map(todo => (
-            <ChecklistItem key={todo.id} item={todo} />
+            <ChecklistItem key={todo.id} item={todo} sectionName="weekly" />
           ))}
 
           <h2 className="text-lg font-semibold mb-2">Monthly</h2>
           {challenges.monthly.map(todo => (
-            <ChecklistItem key={todo.id} item={todo} />
+            <ChecklistItem key={todo.id} item={todo} sectionName="monthly" />
           ))}
 
           <h2 className="text-lg font-semibold mb-2">Unique Actions</h2>
           {challenges.uniqueActions.map(todo => (
-            <ChecklistItem key={todo.id} item={todo} />
+            <ChecklistItem
+              key={todo.id}
+              item={todo}
+              sectionName="uniqueActions"
+            />
           ))}
         </CardContent>
       </Card>

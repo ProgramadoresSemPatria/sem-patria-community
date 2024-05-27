@@ -1,3 +1,5 @@
+import { type CheckedState } from '@radix-ui/react-checkbox'
+
 export interface ChallengeItem {
   id: string
   title: string
@@ -14,5 +16,9 @@ export interface ChallengeSections {
 
 export interface ChecklistStore {
   challenges: ChallengeSections
-  setChallenges: (challenges: ChallengeSections) => void
+  toggleComplete: (
+    sectionName: keyof ChallengeSections,
+    itemId: ChallengeItem['id'],
+    checked: CheckedState
+  ) => void
 }

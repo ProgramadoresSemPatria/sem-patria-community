@@ -2,10 +2,10 @@
 import { Toggle } from '@/components/ui/toggle'
 import { type Editor } from '@tiptap/core'
 import { useMemo, useState } from 'react'
-import { uploadFn } from '../editor/image-upload'
 import { LinkSelector } from '../editor/selectors/link-selector'
 import { nodeItems } from '../editor/selectors/node-selector'
 import { textItems } from '../editor/selectors/text-buttons'
+import { useEditorUploadFile } from '../editor/use-image-upload'
 import { Icons } from '../icons'
 import { ToolbarColorSelector } from './toolbar-color-selector'
 
@@ -17,6 +17,7 @@ interface ToolbarProps {
 export const Toolbar = ({ editor, hasTitleEnabled = true }: ToolbarProps) => {
   const [openColor, setOpenColor] = useState(false)
   const [openLink, setOpenLink] = useState(false)
+  const { uploadFn } = useEditorUploadFile()
 
   const filteredNodeItems = useMemo(() => {
     if (hasTitleEnabled) {
@@ -28,7 +29,7 @@ export const Toolbar = ({ editor, hasTitleEnabled = true }: ToolbarProps) => {
   if (!editor) return null
 
   return (
-    <div className="flex w-fit max-w-[90vw] rounded-md border border-muted px-2 py-1 bg-background space-x-1">
+    <div className="flex flex-wrap w-fit max-w-[90vw] rounded-md border border-muted px-2 py-1 bg-background space-x-1">
       {filteredNodeItems.map((item, index) => (
         <Toggle
           key={item.name}

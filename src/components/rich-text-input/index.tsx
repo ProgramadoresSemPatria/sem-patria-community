@@ -9,7 +9,11 @@ import { useCategory } from '@/hooks/category/use-category'
 import useCreatePostModalStore from '@/hooks/modal/use-create-post'
 import { api } from '@/lib/api'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useMutation,
+  useMutationState,
+  useQueryClient
+} from '@tanstack/react-query'
 import { type JSONContent } from 'novel'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
@@ -54,6 +58,11 @@ export const RichTextInput = ({
   })
   const { categories } = useCategory()
   const { onClose } = useCreatePostModalStore()
+  const isUploadingImage =
+    useMutationState({
+      filters: { mutationKey: ['editor-upload-file'], status: 'pending' },
+      select: mutation => mutation.state.status
+    }).length > 0
 
   const { mutateAsync: createPost, isPending } = useMutation({
     mutationKey: ['post'],
@@ -194,7 +203,11 @@ export const RichTextInput = ({
         />
         <Button
           type="submit"
-          disabled={!form.formState.isValid || form.formState.isSubmitting}
+          disabled={
+            !form.formState.isValid ||
+            form.formState.isSubmitting ||
+            isUploadingImage
+          }
           className="self-end w-fit bg-slate-900 text-white gap-1 hover:bg-slate-900/70"
         >
           {isPending ? (

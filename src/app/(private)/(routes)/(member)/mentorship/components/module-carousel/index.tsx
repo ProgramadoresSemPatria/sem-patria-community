@@ -78,12 +78,12 @@ export const ModuleCarousel = ({
           return (
             <CarouselItem
               key={module.id}
-              className="group xl:basis-1/4  basis-1/3  cursor-pointer hover:scale-105 hover:-translate-y-1 transition ease-in-out delay-150"
+              className="group xl:basis-1/4 basis-1/3 cursor-pointer hover:scale-105 hover:-translate-y-1 transition ease-in-out delay-150"
             >
               <Link
                 className={`${
                   !hasPermission &&
-                  'pointer-events-none flex flex-col justify-center items-center relative '
+                  'pointer-events-none flex flex-col justify-center items-center relative'
                 }`}
                 href={`${appRoutes.mentorship}/${module.videos[0].id}`}
                 aria-disabled={!hasPermission}
@@ -95,7 +95,7 @@ export const ModuleCarousel = ({
                   height={1080}
                   className={cn(
                     hasPermission
-                      ? 'group-hover:opacity-80 '
+                      ? 'group-hover:opacity-80'
                       : 'group-hover:opacity-25',
                     'object-cover w-fit rounded max-h-[550px] h-full'
                   )}

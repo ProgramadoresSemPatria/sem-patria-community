@@ -28,7 +28,7 @@ export const Toolbar = ({ editor, hasTitleEnabled = true }: ToolbarProps) => {
   if (!editor) return null
 
   return (
-    <div className="flex w-fit max-w-[90vw] rounded-md border border-muted px-2 py-1 bg-background space-x-1">
+    <div className="flex flex-wrap w-fit max-w-[90vw] rounded-md border border-muted px-2 py-1 bg-background space-x-1">
       {filteredNodeItems.map((item, index) => (
         <Toggle
           key={item.name}

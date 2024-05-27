@@ -49,6 +49,10 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
 
   const adminRoutes: MenuItemProps[] = [
     {
+      href: appRoutes.admin_users,
+      label: 'Users'
+    },
+    {
       href: appRoutes.admin_courses,
       label: 'Courses'
     },
@@ -59,13 +63,17 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
     {
       href: appRoutes.admin_events,
       label: 'Events'
+    },
+    {
+      href: appRoutes.admin_classroom,
+      label: 'Classroom'
     }
   ]
 
   return (
     <div
       className={cn(
-        'fixed inset-0 top-16 z-50 grid h-[calc(100vh-4rem)] grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md animate-in slide-in-from-bottom-80',
+        'fixed inset-0 top-8 z-50 grid h-[calc(100vh-4rem)] grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md animate-in slide-in-from-bottom-80',
         !isAdminPage && 'md:hidden',
         isAdminPage && 'xl:hidden'
       )}

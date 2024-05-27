@@ -1,5 +1,6 @@
 import { Checkbox } from '@/components/ui/checkbox'
 import { type ChallengeItem } from '@/hooks/checklist/type'
+import { cn } from '@/lib/utils'
 
 type ChecklistItemProps = {
   item: ChallengeItem
@@ -15,7 +16,14 @@ export const ChecklistItem = ({ item }: ChecklistItemProps) => {
           console.log('🚀 ~ ChecklistItem ~ onCheckedChange:', newValue)
         }}
       />
-      <span className="text-muted-foreground text-sm">{item.title}</span>
+      <span
+        className={cn(
+          item.completed && 'line-through',
+          'text-muted-foreground text-sm'
+        )}
+      >
+        {item.title}
+      </span>
     </div>
   )
 }

@@ -16,7 +16,7 @@ type ChecklistProps = {
 }
 
 export const Checklist = ({ isWidget = false }: ChecklistProps) => {
-  const challenges = useChecklist(state => state.challenges)
+  const { challenges } = useChecklist()
 
   const completedItems = useMemo(
     () =>

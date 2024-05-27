@@ -4,7 +4,7 @@ import {
   type ChecklistStore
 } from '@/hooks/checklist/type'
 import { createJSONStorage, persist } from 'zustand/middleware'
-import mockData from '@/hooks/checklist/mock/data.json'
+import { mockData } from '@/hooks/checklist/mock/data'
 
 const initialData: ChallengeSections = mockData
 
@@ -13,7 +13,15 @@ export const useChecklist = create(
     (set, get) => ({
       challenges: initialData,
       toggleComplete: (sectionName, itemId, checked) => {
-        // TODO:
+        set(state => ({
+          challenges: {
+            ...state.challenges,
+            [sectionName]: {
+              ...state.challenges[sectionName],
+              [itemId]: checked
+            }
+          }
+        }))
         console.log(sectionName, itemId, checked)
       }
     }),

@@ -64,13 +64,13 @@ const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
             <span className="px-4 pb-4 text-muted-foreground w-3/4">
               {videoSelected.description ?? 'No description.'}
             </span>
-            <Comments videoProps={videoSelected} />
           </div>
           <MentorshipTab
             videoProps={videoSelected}
             moduleVideos={moduleVideos}
           />
         </div>
+        <Comments videoProps={videoSelected} />
       </div>
     </>
   )

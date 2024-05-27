@@ -15,7 +15,6 @@ import {
   Placeholder,
   handleCommandNavigation
 } from 'novel/extensions'
-import { useEffect, useMemo, useState } from 'react'
 import { defaultExtensions } from './extensions'
 import { ColorSelector } from './selectors/color-selector'
 import { LinkSelector } from './selectors/link-selector'
@@ -26,11 +25,10 @@ import { type Editor } from '@tiptap/core'
 import { cva } from 'class-variance-authority'
 import { handleImageDrop, handleImagePaste } from 'novel/plugins'
 import { Toolbar } from '../rich-text-input/toolbar'
-import { uploadFn } from './image-upload'
 import { TextButtons } from './selectors/text-buttons'
-import { slashCommand, suggestionItems } from './slash-command'
-
-const extensions = [...defaultExtensions, slashCommand]
+import { useSuggestionItems } from './slash-command'
+import { useEditorState } from './use-editor-state'
+import { useEditorUploadFile } from './use-image-upload'
 
 interface EditorProp {
   initialValue?: JSONContent
@@ -48,23 +46,27 @@ const NoteEditor = ({
   isSubmitting = false,
   variant = 'note'
 }: EditorProp) => {
-  const [openNode, setOpenNode] = useState(false)
-  const [openColor, setOpenColor] = useState(false)
-  const [openLink, setOpenLink] = useState(false)
-  const [editor, setEditor] = useState<Editor | null>(null)
+  const {
+    editor,
+    openColor,
+    openLink,
+    openNode,
+    setOpenColor,
+    setEditor,
+    setOpenLink,
+    setOpenNode,
+    filteredSuggestionItems,
+    hasH1TitleEnabled
+  } = useEditorState({ isSubmitting, variant })
 
-  useEffect(() => {
-    if (isSubmitting) {
-      editor?.commands.setContent(null)
-    }
-  }, [editor?.commands, isSubmitting])
+  const { uploadFn, handleValidateImageWasDeleted } = useEditorUploadFile()
 
   const attributeVariants = cva(
     'prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full h-fit prose-ol:m-0 prose-ul:m-0 prose-headings:m-0 prose-code:m-0',
     {
       variants: {
         variant: {
-          note: 'min-h-screen',
+          note: 'h-fit',
           readonly: '',
           videoCommentInput: 'min-h-[200px]',
           postInput: ''
@@ -76,14 +78,9 @@ const NoteEditor = ({
     }
   )
 
-  const hasH1TitleEnabled = variant === 'note'
+  const { slashCommand } = useSuggestionItems()
 
-  const filteredSuggestionItems = useMemo(() => {
-    if (hasH1TitleEnabled) {
-      return suggestionItems
-    }
-    return suggestionItems.filter(item => item.title !== 'Heading 1')
-  }, [hasH1TitleEnabled])
+  const extensions = [...defaultExtensions, slashCommand]
 
   return (
     <div
@@ -113,25 +110,33 @@ const NoteEditor = ({
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event)
             },
-            handlePaste: (view, event) =>
-              handleImagePaste(view, event, uploadFn),
-            handleDrop: (view, event, _slice, moved) =>
-              handleImageDrop(view, event, moved, uploadFn),
-
+            handlePaste: (view, event) => {
+              handleImagePaste(view, event, uploadFn)
+            },
+            handleDrop: (view, event, _slice, moved) => {
+              handleImageDrop(view, event, moved, uploadFn)
+            },
             attributes: {
               class: attributeVariants({ variant })
             }
           }}
-          onUpdate={({ editor }) => {
+          onUpdate={({ editor, transaction }) => {
             if (onChange) {
               if (editor.getText() !== '') {
-                onChange(JSON.stringify(editor.getJSON()))
+                const previousContent = transaction.before.content.toJSON()
+                const currentContent = editor.getJSON()
+                handleValidateImageWasDeleted({
+                  previousContent,
+                  currentContent: currentContent.content || []
+                })
+
+                onChange(JSON.stringify(currentContent))
               } else {
                 onChange('{}')
               }
             }
           }}
-          editable={editable}
+          editable={editable && !isSubmitting}
           slotAfter={editable ?? <ImageResizer />}
           onCreate={({ editor }: { editor: Editor }) => {
             setEditor(editor)

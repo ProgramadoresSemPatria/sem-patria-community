@@ -13,16 +13,15 @@ export const useChecklist = create(
     (set, get) => ({
       challenges: initialData,
       toggleComplete: (sectionName, itemId, checked) => {
-        set(state => ({
+        const updatedChallenges = get().challenges[sectionName].map(item =>
+          item.id === itemId ? { ...item, completed: checked } : item
+        )
+        set({
           challenges: {
-            ...state.challenges,
-            [sectionName]: {
-              ...state.challenges[sectionName],
-              [itemId]: checked
-            }
+            ...get().challenges,
+            [sectionName]: updatedChallenges
           }
-        }))
-        console.log(sectionName, itemId, checked)
+        })
       }
     }),
     {

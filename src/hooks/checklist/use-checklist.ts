@@ -5,6 +5,7 @@ import {
 } from '@/hooks/checklist/type'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { mockData } from '@/hooks/checklist/mock/data'
+import { formatISO } from 'date-fns'
 
 const initialData: ChallengeSections = mockData
 
@@ -14,7 +15,9 @@ export const useChecklist = create(
       challenges: initialData,
       toggleComplete: (sectionName, itemId, checked) => {
         const updatedChallenges = get().challenges[sectionName].map(item =>
-          item.id === itemId ? { ...item, completed: checked } : item
+          item.id === itemId
+            ? { ...item, updatedAt: formatISO(new Date()), completed: checked }
+            : item
         )
         set({
           challenges: {

@@ -110,8 +110,8 @@ export const Checklist = ({ isWidget = false }: ChecklistProps) => {
             </CardTitle>
           </CardHeader>
 
-          <ScrollArea className="max-h-96 overflow-y-auto">
-            <CardContent className="flex flex-col gap-y-2 relative">
+          <CardContent className="flex flex-col gap-y-2 relative">
+            <ScrollArea className="max-h-96 overflow-y-auto">
               <h2 className="text-lg font-semibold">Daily</h2>
               {challenges.daily.map(todo => (
                 <ChecklistItem key={todo.id} item={todo} sectionName="daily" />
@@ -139,8 +139,8 @@ export const Checklist = ({ isWidget = false }: ChecklistProps) => {
                   sectionName="uniqueActions"
                 />
               ))}
-            </CardContent>
-          </ScrollArea>
+            </ScrollArea>
+          </CardContent>
         </Card>
       </div>
     )

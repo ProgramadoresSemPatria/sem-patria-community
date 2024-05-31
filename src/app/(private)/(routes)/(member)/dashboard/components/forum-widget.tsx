@@ -1,17 +1,17 @@
 import { Icons } from '@/components/icons'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { appRoutes } from '@/lib/constants'
 import prismadb from '@/lib/prismadb'
 import { currentUser } from '@clerk/nextjs'
 import Link from 'next/link'
-import ForumFeed from '../../forum/components/forum-feed'
+import Post from '../../forum/components/post'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 const ForumWidget = async () => {
   const user = await currentUser()
   const posts = await prismadb.post.findMany({
+    take: 10,
     include: {
       category: true,
       comments: true,
@@ -31,7 +31,7 @@ const ForumWidget = async () => {
           <CardTitle className="flex items-center justify-between">
             <div className="flex items-center gap-x-2">
               <Icons.forum className="w-5 h-5" />
-              Recent posts of our members
+              Recent posts
             </div>
             <div>
               <Link href={appRoutes.forum}>
@@ -44,37 +44,24 @@ const ForumWidget = async () => {
               </Link>
             </div>
           </CardTitle>
-          <div className="flex items-center gap-x-2 w-full overflow-x-auto">
-            <Button
-              variant="outline"
-              className="flex w-fit hover:bg-transparent items-center justify-between border-dashed cursor-default gap-x-2"
-            >
-              <Icons.layers className=" h-4 w-4 shrink-0 opacity-50" />
-              <span>Category</span>
-              <span className="text-xs text-muted-foreground">|</span>
-              <Badge className="bg-slate-900 hover:bg-slate-900 text-white">
-                All
-              </Badge>
-            </Button>
-
-            <Button
-              variant="outline"
-              className="flex w-fit hover:bg-transparent items-center justify-between border-dashed cursor-default gap-x-2"
-            >
-              <Icons.arrowUpDown className="h-4 w-4 shrink-0 opacity-50" />
-              <span>Order by</span>
-              <span className="text-xs text-muted-foreground">|</span>
-              <Badge className="bg-slate-900 hover:bg-slate-900 text-white">
-                News
-              </Badge>
-            </Button>
-          </div>
         </CardHeader>
-        <ScrollArea className="max-h-80 overflow-auto">
-          <CardContent>
-            <ForumFeed userId={user?.id} initialPosts={posts || []} />
-          </CardContent>
-        </ScrollArea>
+        <CardContent>
+          <ScrollArea className="max-h-screen overflow-auto">
+            <ul className="flex flex-col col-span-2 space-y-6">
+              {posts.map(post => (
+                <li key={post.id}>
+                  <Post
+                    userId={user?.id || ''}
+                    commentAmount={post.comments.length}
+                    post={post}
+                    categoryName={post.category.name}
+                    likesAmount={post.likes.length}
+                  />
+                </li>
+              ))}
+            </ul>
+          </ScrollArea>
+        </CardContent>
       </Card>
     </div>
   )

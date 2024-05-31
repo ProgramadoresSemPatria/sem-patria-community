@@ -20,8 +20,8 @@ export const PublicNotesCard = async () => {
   })
 
   return (
-    <div className="flex flex-col gap-y-2 h-full">
-      <h2 className="text-lg font-semibold">Recents notes of our members</h2>
+    <div className="flex flex-col gap-y-2">
+      <h2 className="text-lg font-semibold">Recent notes of our members</h2>
       <Card>
         <CardHeader>
           <CardTitle>#ChallengeCodeUp Public notes of our members.</CardTitle>

@@ -4,7 +4,7 @@ export interface ChallengeItem {
   id: string
   title: string
   completed: boolean
-  updatedAt?: string
+  updatedAt: string
 }
 
 export interface ChallengeSections {

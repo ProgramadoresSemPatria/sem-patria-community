@@ -127,7 +127,7 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
                 {isLoading ? (
                   <Icons.loader className="w-4 h-4 animate-spin" />
                 ) : (
-                  eventsDisplay?.map((event, i) => (
+                  eventsDisplay?.map(event => (
                     <EventComponent key={event.id} event={event} />
                   ))
                 )}

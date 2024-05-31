@@ -1,3 +1,6 @@
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { Icons } from '../icons'
 import MainLogo from '../main-logo'
 import { EventsButton } from './events-button'
 import { FeedbackButton } from './feedback-button'
@@ -11,6 +14,12 @@ const TopBar = async () => {
       <MainLogo isMobile />
       <div className="flex items-center gap-3">
         <FeedbackButton />
+        <Button variant="outline">
+          <Link href="" className="flex items-center gap-x-2">
+            <span>Give your feedback</span>
+            <Icons.redirect className="h-4 w-4 text-violet-600" />
+          </Link>
+        </Button>
         <NotificationsButton />
         <EventsButton />
         <div className="hidden md:flex">

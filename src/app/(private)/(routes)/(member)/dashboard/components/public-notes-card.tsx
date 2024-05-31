@@ -20,13 +20,13 @@ export const PublicNotesCard = async () => {
   })
 
   return (
-    <div className="flex flex-col gap-y-2 h-full">
-      <h2 className="text-lg font-semibold">Recents notes of our members</h2>
-      <Card className="max-h-80">
+    <div className="flex flex-col gap-y-2">
+      <h2 className="text-lg font-semibold">Recent notes of our members</h2>
+      <Card>
         <CardHeader>
           <CardTitle>#ChallengeCodeUp Public notes of our members.</CardTitle>
           <CardDescription>
-            The last notes writted of our members.
+            The last notes written by our members.
           </CardDescription>
         </CardHeader>
         <Suspense
@@ -36,7 +36,7 @@ export const PublicNotesCard = async () => {
             </div>
           }
         >
-          <ScrollArea className="max-h-52 overflow-y-auto">
+          <ScrollArea className="max-h-64 overflow-y-auto">
             <CardContent>
               {notes.length === 0 && (
                 <span className="font-medium text-muted-foreground">

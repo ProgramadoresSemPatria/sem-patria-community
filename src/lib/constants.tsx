@@ -22,9 +22,10 @@ export enum appRoutes {
   courses = '/courses',
   codeUp = '/code-up',
   mentorship = '/mentorship',
-  settings = '/settings',
+  profile = '/profile',
   forum = '/forum',
-  appearance = '/settings/appearance',
+  appearance = '/profile/appearance',
+  checklist = '/profile/checklist',
   admin_courses = '/admin/courses',
   admin_courses_new = '/admin/courses/new',
   admin_categories = '/admin/categories',
@@ -66,9 +67,9 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.calendar className="h-4 w-4" />
   },
   {
-    href: appRoutes.settings,
-    label: 'Settings',
-    icon: <Icons.settings className="h-4 w-4" />
+    href: appRoutes.profile,
+    label: 'Profile',
+    icon: <Icons.circleUser className="h-4 w-4" />
   },
   {
     href: appRoutes.admin_users,
@@ -100,11 +101,15 @@ export const menuItems: MenuItemProps[] = [
 export const settingOptions = [
   {
     title: 'User',
-    href: appRoutes.settings
+    href: appRoutes.profile
   },
   {
     title: 'Appearance',
     href: appRoutes.appearance
+  },
+  {
+    title: 'Checklist',
+    href: appRoutes.checklist
   }
 ]
 

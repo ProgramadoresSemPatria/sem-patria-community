@@ -10,13 +10,13 @@ export default function Dashboard() {
       <Header title="Dashboard" />
       <div className="flex flex-col w-full h-full max-h-[calc(100vh-8rem)] overflow-hidden">
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-8 overflow-y-visible xl:overflow-hidden">
-          <div className="flex-col hidden lg:flex">
-            <ForumWidget />
-          </div>
           <div className="flex flex-col h-full">
             <EventsCalendar isWidget />
             <div className="my-4" />
             <PublicNotesCard />
+          </div>
+          <div className="flex-col lg:flex">
+            <ForumWidget />
           </div>
         </div>
       </div>

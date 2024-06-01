@@ -14,7 +14,7 @@ const PostLike = ({ userId, post, isPostPage = false }: PostLikeProps) => {
   const { handleLike, likeState } = usePostLikes({ post, userId })
 
   return (
-    <div className="flex ml-2 items-center w-fit space-x-1 font-bold transition-colors text-white text-sm">
+    <div className="flex ml-2 items-center w-fit space-x-1 font-bold transition-colors dark:text-white text-black text-sm">
       <Button
         variant="ghost"
         size="icon"

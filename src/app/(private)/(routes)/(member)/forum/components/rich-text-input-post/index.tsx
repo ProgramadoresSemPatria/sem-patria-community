@@ -114,7 +114,7 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
           disabled={
             !form.formState.isValid || form.formState.isSubmitting || isPending
           }
-          className="self-end w-fit bg-slate-800 text-white gap-1 hover:bg-slate-900"
+          className="self-end w-fit dark:bg-slate-800 bg-slate-200 dark:text-white text-black gap-1 dark:hover:bg-slate-900 hover:bg-slate-100"
         >
           {isPending ? (
             <>

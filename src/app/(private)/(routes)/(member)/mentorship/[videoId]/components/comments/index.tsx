@@ -30,7 +30,7 @@ export const Comments = ({ videoProps }: CommentsProps) => {
   }
 
   return (
-    <div className="overflow-x-auto max-h-[500px] h-min mx-2 w-auto ring-1 ring-slate-800 rounded-md p-6 flex flex-col">
+    <div className="overflow-x-auto max-h-[500px] h-min mx-2 w-auto ring-2 dark:ring-slate-800 ring-slate-300 rounded-md p-6 flex flex-col">
       {isFetching && <Icons.loader className="ml-auto w-6 h-6 animate-spin" />}
       <div className="flex gap-4 items-center mb-6">
         {isLoading ? (

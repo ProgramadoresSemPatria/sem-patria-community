@@ -18,7 +18,11 @@ const TopBar = () => {
       <div className="flex items-center gap-3">
         <FeedbackButton />
         <Button variant="outline">
-          <Link href={feedbackLink} className="flex items-center gap-x-2">
+          <Link
+            href={feedbackLink}
+            target="_blank"
+            className="flex items-center gap-x-2"
+          >
             <span>Give your feedback</span>
             <Icons.redirect className="h-4 w-4 text-violet-600" />
           </Link>

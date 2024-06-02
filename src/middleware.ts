@@ -8,7 +8,8 @@ export default authMiddleware({
     '/api/webhooks(.*)',
     '/api/auth/(.*)',
     '/api/uploadthing(.*)',
-    '/set-password/(.*)'
+    '/set-password/(.*)',
+    '/api/password-recovery(.*)'
   ]
 })
 

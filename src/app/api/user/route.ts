@@ -1,5 +1,6 @@
 import generatePassword from '@/actions/auth/generate-password'
 import { sendEmailWithLink } from '@/actions/auth/send-email-with-link'
+import { emailTemplate } from '@/lib/constants'
 import prismadb from '@/lib/prismadb'
 import { Roles } from '@/lib/types'
 import { auth, clerkClient } from '@clerk/nextjs'
@@ -133,7 +134,11 @@ export async function POST(req: NextRequest) {
       }
     })
 
-    await sendEmailWithLink(createdUser)
+    await sendEmailWithLink(
+      createdUser,
+      emailTemplate,
+      'Atualize sua senha - Borderless Coding Community'
+    )
 
     return NextResponse.json(createdUser)
   } catch (error) {

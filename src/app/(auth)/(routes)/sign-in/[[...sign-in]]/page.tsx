@@ -3,7 +3,7 @@ import { appRoutes } from '@/lib/constants'
 import { auth } from '@clerk/nextjs'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
-import UserAuthForm from './components/user-auth-form'
+import MainForm from './components/main-form'
 
 export default async function Page({
   searchParams
@@ -54,18 +54,7 @@ export default async function Page({
                 />
               </div>
             </div>
-            <div className="flex flex-col space-y-4 text-center my-auto">
-              <h1 className="text-2xl font-semibold tracking-tight">
-                Login to community
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Enter your credentials to access your account
-              </p>
-              <UserAuthForm redirectUrl={redirectUrl} />
-              <p className="text-sm text-muted-foreground">
-                If you have any issues logging in, please contact support
-              </p>
-            </div>
+            <MainForm redirectUrl={redirectUrl} />
           </div>
         </div>
       </div>

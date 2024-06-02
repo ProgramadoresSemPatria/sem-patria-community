@@ -17,7 +17,7 @@ export const ShortMenu = () => {
         handleShowShortMenu()
       }}
     >
-      <div className="flex items-center p-2 justify-center bg-gray-900 rounded hover:bg-muted transition mr-4">
+      <div className="flex items-center p-2 justify-center dark:bg-gray-900 bg-slate-100 rounded hover:bg-muted transition mr-4">
         {showShortMenu ? (
           <Icons.close className="h-5 w-5" />
         ) : (
@@ -31,7 +31,7 @@ export const ShortMenu = () => {
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex items-center w-full gap-4 py-4 px-6 transition-all hover:bg-gray-800 text-sm text-gray-300"
+                className="flex items-center w-full gap-4 py-4 px-6 transition-all dark:hover:bg-gray-800 hover:bg-gray-100  text-sm dark:text-gray-300 text-black"
               >
                 {item.icon && (
                   <div className="overflow-visible">{item.icon}</div>

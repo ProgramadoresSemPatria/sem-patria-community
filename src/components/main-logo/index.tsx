@@ -1,13 +1,19 @@
+'use client'
 import appLogo from '@/assets/app-logo.png'
+import appLogoLight from '@/assets/app-logo-light.png'
 import { appRoutes } from '@/lib/constants'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useTheme } from 'next-themes'
 
 type MainLogoProps = {
   isMobile?: boolean
 }
 
 const MainLogo = ({ isMobile }: MainLogoProps) => {
+  const { theme } = useTheme()
+  const logo = theme === 'dark' ? appLogo : appLogoLight
+
   return (
     <>
       {isMobile ? (
@@ -16,7 +22,7 @@ const MainLogo = ({ isMobile }: MainLogoProps) => {
             href={appRoutes.dashboard}
             className="flex items-center space-x-2 md:flex mr-4"
           >
-            <Image src={appLogo} alt="Logo" height={100} width={100} />
+            <Image src={logo} alt="Logo" height={100} width={100} />
           </Link>
         </div>
       ) : (
@@ -25,7 +31,7 @@ const MainLogo = ({ isMobile }: MainLogoProps) => {
             href={appRoutes.dashboard}
             className="flex items-center space-x-2 md:flex mr-4"
           >
-            <Image src={appLogo} alt="Logo" height={100} width={100} />
+            <Image src={logo} alt="Logo" height={100} width={100} />
           </Link>
         </div>
       )}

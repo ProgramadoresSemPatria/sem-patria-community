@@ -41,13 +41,13 @@ const Post = ({
         router.push(`/forum/${post.id}`)
       }}
       className={cn(
-        isPinned && post.isPinned && 'border-l-2 border-l-orange-600',
-        'rounded-md bg-slate-900 shadow text-white hover:cursor-pointer'
+        (isPinned || post.isPinned) && 'border-l-2 border-l-orange-600',
+        'rounded-md dark:bg-slate-900 bg-slate-100 shadow dark:text-white text-black hover:cursor-pointer'
       )}
     >
       <div className="px-6 py-4 flex justify-between">
         <div className="w-0 flex-1">
-          <div className="flex items-center max-h-40 text-gray-300">
+          <div className="flex items-center max-h-40 dark:text-gray-300 text-black">
             <Image
               className="rounded-full w-8"
               alt=""
@@ -77,7 +77,7 @@ const Post = ({
               initialValue={JSON.parse(post.content as string)}
               editable={false}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-slate-900 from-0% to-50% rounded-md shadow-lg" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-100 dark:from-slate-900 from-0% to-50% rounded-md shadow-lg" />
           </div>
         </div>
         <div className="flex gap-x-2 items-start">

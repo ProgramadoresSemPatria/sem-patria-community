@@ -175,3 +175,21 @@ Go Global or Nothing.
 <p>Yuri Pereira</p>
 </main>
 `
+
+export const passwordRecoveryEmailTemplate = (user: User, url: string) => `
+<main>
+<h1>Fala, ${user.name}!</h1>
+<span>Você solicitou a recuperação de sua senha.</span>
+<br />
+<p>Aqui está o link para você gerar uma nova senha de acesso a plataforma:
+</p>
+<a href="${url}">${url}</a>
+<p>
+  Se você não solicitou a recuperação de senha, por favor, ignore este e-mail.
+</p>
+<br />
+<p>
+  Equipe Borderless Coding Community
+</p>
+</main>
+`

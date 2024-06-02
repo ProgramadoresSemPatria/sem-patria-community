@@ -44,7 +44,7 @@ export const CourseCard = ({ courseProps: props }: CourseCardProps) => {
 
   return (
     <div className="relative flex w-full">
-      <div className="flex flex-col w-full justify-start rounded-[10px] hover:bg-slate-900 overflow-hidden transition cursor-pointer text-left bg-slate-950 border border-slate-800">
+      <div className="flex flex-col w-full justify-start rounded-[10px] dark:hover:bg-slate-900 hover:bg-slate-200 overflow-hidden transition cursor-pointer text-left dark:bg-slate-950 bg-slate-100 border dark:border-slate-800 border-slate-200">
         <Image alt="bg-card" src={BgCardImg} className="absolute" />
         <div className="flex flex-col flex-1 w-full gap-4 p-6">
           <div className="w-full flex items-center justify-between h-11 mb-1">
@@ -72,7 +72,7 @@ export const CourseCard = ({ courseProps: props }: CourseCardProps) => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <span className="mt-1 line-clamp-3 text-base font-medium text-gray-100 leading-snug text-ellipsis whitespace-nowrap">
+                  <span className="mt-1 line-clamp-3 text-base font-medium dark:text-gray-100 text-black leading-snug text-ellipsis whitespace-nowrap">
                     {props.name}
                   </span>
                 </TooltipTrigger>
@@ -80,7 +80,7 @@ export const CourseCard = ({ courseProps: props }: CourseCardProps) => {
               </Tooltip>
             </TooltipProvider>
           </div>
-          <div className="w-fit inline-flex items-center gap-2 border border-gray-600 text-[10px] font-medium whitespace-nowrap px-3 py-1 text-gray-200 tracking-wide uppercase rounded-full hover:border-gray-500 cursor-pointer transition">
+          <div className="w-fit inline-flex items-center gap-2 border border-gray-600 text-[10px] font-medium whitespace-nowrap px-3 py-1 dark:text-gray-200 text-black tracking-wide uppercase rounded-full hover:border-gray-500 cursor-pointer transition">
             {loadCourseIconLevel}
             <span>{props.level}</span>
           </div>

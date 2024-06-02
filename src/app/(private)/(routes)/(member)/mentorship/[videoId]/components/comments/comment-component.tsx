@@ -86,7 +86,10 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
   }
 
   return (
-    <div key={comment.id} className="border-2 border-slate-600 rounded-md p-4">
+    <div
+      key={comment.id}
+      className="border-2 dark:border-slate-600 border-slate-300 rounded-md p-4"
+    >
       <div className="flex justify-between">
         <div className="flex gap-2 items-center mb-2">
           <>
@@ -97,11 +100,11 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
               height={500}
               src={comment.userImg}
             />
-            <h2 className="font-semibold text-lg text-slate-300">
+            <h2 className="font-semibold text-lg dark:text-slate-300 text-black">
               {comment.username}
             </h2>
           </>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs dark:text-slate-500 text-black">
             {getStringFromDate(comment.date)}
           </p>
         </div>

@@ -73,7 +73,7 @@ const MainNav = ({ children }: MainNavProps) => {
                 route.active ? 'text-primary' : 'text-muted-foreground'
               )}
             >
-              <span className="font-medium transition-colors hover:text-primary flex h-8 items-center gap-2 rounded-md px-2 text-sm hover:dark:bg-slate-800 hover:bg-slate-100">
+              <span className="font-medium transition-colors hover:text-primary flex h-8 items-center gap-2 rounded-md px-2 text-sm dark:hover:bg-slate-800 hover:bg-slate-100">
                 {route.icon}
                 {route.label}
               </span>

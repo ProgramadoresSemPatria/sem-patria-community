@@ -54,7 +54,7 @@ export const ForumCommentComponent = ({ comment }: CommentComponentProps) => {
               height={500}
               src={comment.user.imageUrl || defaultAvatar}
             />
-            <h2 className="font-semibold text-lg text-slate-300">
+            <h2 className="font-semibold text-lg dark:text-slate-300 text-black">
               {comment.user.username}
             </h2>
           </>

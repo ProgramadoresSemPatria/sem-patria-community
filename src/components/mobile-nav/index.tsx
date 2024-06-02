@@ -38,8 +38,8 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
       label: 'Code Up'
     },
     {
-      href: appRoutes.settings,
-      label: 'Settings'
+      href: appRoutes.profile,
+      label: 'Profile'
     },
     {
       href: `${appRoutes.forum}?category=All`,

@@ -14,9 +14,16 @@ const formSchema = z.object({
   name: z.string().min(1, {
     message: 'Name is required'
   }),
-  username: z.string().min(4, {
-    message: 'Username must contain at least 4 characters'
-  }),
+  username: z
+    .string()
+    .min(4, {
+      message: 'Username must contain at least 4 characters'
+    })
+    .trim()
+    .refine(
+      s => !s.includes(' '),
+      'Username can only contain letters, numbers and "_" or "-".'
+    ),
   email: z
     .string()
     .email({

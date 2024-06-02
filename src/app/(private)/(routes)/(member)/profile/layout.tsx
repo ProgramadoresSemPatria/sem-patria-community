@@ -3,15 +3,15 @@ import Header from '@/components/header'
 import NavOptions from '@/components/nav-options'
 import { settingOptions } from '@/lib/constants'
 
-type SettingsLayoutProps = {
+type ProfileLayoutProps = {
   children?: React.ReactNode
 }
 
-export default function SettingsLayout({ children }: SettingsLayoutProps) {
+export default function ProfileLayout({ children }: ProfileLayoutProps) {
   return (
     <>
       <DefaultLayout>
-        <Header title="Settings" />
+        <Header title="Profile" />
 
         <NavOptions options={settingOptions} />
         <div className="mt-8">{children}</div>

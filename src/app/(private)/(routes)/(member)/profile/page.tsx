@@ -9,7 +9,7 @@ import { Suspense } from 'react'
 import { MembersList } from './components/members-list'
 import { PersonalInfo } from './components/personal-info'
 
-const SettingsPage = async () => {
+const ProfilePage = async () => {
   const { userId } = auth()
   if (!userId) return redirect(appRoutes.root)
 
@@ -35,4 +35,4 @@ const SettingsPage = async () => {
   )
 }
 
-export default SettingsPage
+export default ProfilePage

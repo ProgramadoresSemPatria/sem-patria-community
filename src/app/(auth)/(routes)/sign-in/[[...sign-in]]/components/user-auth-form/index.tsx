@@ -88,6 +88,7 @@ const UserAuthForm = ({ redirectUrl, setActiveStep }: UserAuthFormProps) => {
                       }
                     />
                     <Button
+                      type="button"
                       size="sm"
                       variant="link"
                       onClick={() => {

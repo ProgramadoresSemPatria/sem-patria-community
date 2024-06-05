@@ -25,9 +25,7 @@ export const CourseFilterOptions = () => {
     <div className="hidden lg:block">
       <div className="flex flex-col gap-6 text-gray-100 __className_f56873">
         <div className="flex justify-between gap-3 items-center">
-          <h3 className="text-lg text-gray-100 font-bold">
-            Filter the content
-          </h3>
+          <h3 className="text-lg text-primary font-bold">Filter the content</h3>
         </div>
         {showClearButton && (
           <Button onClick={clearAllFilters} variant="outline" className="w-min">
@@ -36,7 +34,7 @@ export const CourseFilterOptions = () => {
         )}
 
         <div className="flex flex-col gap-y-2">
-          <h4 className="text-sm text-gray-300 font-bold">Skill Level</h4>
+          <h4 className="text-sm text-primary font-bold">Skill Level</h4>
           <div className="flex items-center space-x-2">
             <Link
               className="h-4"
@@ -57,7 +55,7 @@ export const CourseFilterOptions = () => {
                 }}
               />
             </Link>
-            <Label className="text-sm text-gray-300 group-hover:text-gray-100 transition-color">
+            <Label className="text-sm text-primary dark:group-hover:text-gray-100 transition-color">
               Beginner
             </Label>
           </div>
@@ -81,7 +79,7 @@ export const CourseFilterOptions = () => {
                 }}
               />
             </Link>
-            <Label className="text-sm text-gray-300 group-hover:text-gray-100 transition-color">
+            <Label className="text-sm text-primary dark:group-hover:text-gray-100 transition-color">
               Intermediate
             </Label>
           </div>
@@ -105,14 +103,14 @@ export const CourseFilterOptions = () => {
                 }}
               />
             </Link>
-            <Label className="text-sm text-gray-300 group-hover:text-gray-100 transition-color">
+            <Label className="text-sm text-primary dark:group-hover:text-gray-100 transition-color">
               Advanced
             </Label>
           </div>
         </div>
 
         <div className="flex flex-col gap-y-2">
-          <h4 className="text-sm text-gray-300 font-bold">Availability</h4>
+          <h4 className="text-sm text-primary font-bold">Availability</h4>
           <div className="flex items-center space-x-2">
             <Link
               className="h-4"
@@ -137,7 +135,7 @@ export const CourseFilterOptions = () => {
                 }}
               />
             </Link>
-            <Label className="text-sm text-gray-300 group-hover:text-gray-100 transition-color">
+            <Label className="text-sm text-primary dark:group-hover:text-gray-100 transition-color">
               Only Free
             </Label>
           </div>

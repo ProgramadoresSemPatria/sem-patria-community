@@ -111,240 +111,243 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
             className="space-y-8 w-full"
           >
             <div className="grid grid-cols-3 gap-8">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        data-testid="name"
-                        disabled={isPending}
-                        placeholder="Name"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Username</FormLabel>
-                    <FormControl>
-                      <Input
-                        data-testid="username"
-                        disabled={isPending}
-                        placeholder="Username"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        data-testid="email"
-                        disabled={isPending}
-                        placeholder="Email"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="level"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Levels</FormLabel>
-                    <Select
-                      disabled={isPending}
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger data-testid="level">
-                          <SelectValue
-                            defaultValue={field.value}
-                            placeholder="Select a level"
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem data-testid="estagiario" value="estagiario">
-                          Estagiário
-                        </SelectItem>
-                        <SelectItem data-testid="junior" value="junior">
-                          Junior
-                        </SelectItem>
-                        <SelectItem data-testid="pleno" value="pleno">
-                          Pleno
-                        </SelectItem>
-                        <SelectItem data-testid="senior" value="senior">
-                          Senior
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="github"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Github</FormLabel>
-                    <FormControl>
-                      <Input
-                        data-testid="github"
-                        disabled={isPending}
-                        placeholder="Github"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="linkedin"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Linkedin</FormLabel>
-                    <FormControl>
-                      <Input
-                        data-testid="linkedin"
-                        disabled={isPending}
-                        placeholder="Linkedin"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="instagram"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Instagram</FormLabel>
-                    <FormControl>
-                      <Input
-                        data-testid="instagram"
-                        disabled={isPending}
-                        placeholder="Instagram"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex flex-col gap-y-2 w-full">
+              <div className="flex flex-col gap-y-4 w-full">
                 <FormField
                   control={form.control}
-                  name="role"
+                  name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Roles</FormLabel>
-                      {Roles && (
-                        <Select disabled={isPending}>
-                          <FormControl>
-                            <SelectTrigger data-testid="role">
-                              <SelectValue
-                                placeholder={
-                                  selectedRoles.length > 0
-                                    ? `${selectedRoles.length} selected`
-                                    : 'Select roles'
-                                }
-                              />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {Object.entries(Roles).map(([key, value]) => (
-                              <div
-                                key={key}
-                                className="flex gap-x-2 items-center"
-                              >
-                                <Checkbox
-                                  data-testid={key}
-                                  onCheckedChange={() => {
-                                    handleSelectedRoles(key)
-                                  }}
-                                  // onCheckedChange={() => {
-                                  //   const newSelectedRoles = [...selectedRoles]
-                                  //   const index = newSelectedRoles.indexOf(
-                                  //     key as Role
-                                  //   )
-                                  //   if (index > -1) {
-                                  //     newSelectedRoles.splice(index, 1)
-                                  //   } else {
-                                  //     newSelectedRoles.push(key as Role)
-                                  //   }
-                                  //   setSelectedRoles(newSelectedRoles)
-                                  // }}
-                                  key={key}
-                                  value={key}
-                                  checked={selectedRoles.includes(key as Role)}
-                                />
-                                <label>{value}</label>
-                              </div>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      )}
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          data-testid="name"
+                          disabled={isPending}
+                          placeholder="Name"
+                          {...field}
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <div className="flex flex-wrap gap-1 max-w-full">
-                  {selectedRoles.map(role => (
-                    <Badge key={role}>
-                      {role}{' '}
-                      <span
-                        className="ml-2 hover:cursor-pointer"
-                        onClick={() => {
-                          handleSelectedRoles(role)
-                        }}
+
+                <FormField
+                  control={form.control}
+                  name="level"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Levels</FormLabel>
+                      <Select
+                        disabled={isPending}
+                        onValueChange={field.onChange}
+                        value={field.value}
+                        defaultValue={field.value}
                       >
-                        {<Icons.close size={15} />}
-                      </span>{' '}
-                    </Badge>
-                  ))}
+                        <FormControl>
+                          <SelectTrigger data-testid="level">
+                            <SelectValue
+                              defaultValue={field.value}
+                              placeholder="Select a level"
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem
+                            data-testid="estagiario"
+                            value="estagiario"
+                          >
+                            Estagiário
+                          </SelectItem>
+                          <SelectItem data-testid="junior" value="junior">
+                            Junior
+                          </SelectItem>
+                          <SelectItem data-testid="pleno" value="pleno">
+                            Pleno
+                          </SelectItem>
+                          <SelectItem data-testid="senior" value="senior">
+                            Senior
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="instagram"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Instagram</FormLabel>
+                      <FormControl>
+                        <Input
+                          data-testid="instagram"
+                          disabled={isPending}
+                          placeholder="Instagram"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button
+                  data-testid="submit"
+                  disabled={isPending}
+                  className="mr-auto mt-2"
+                  type="submit"
+                >
+                  {isPending && (
+                    <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  {action}
+                </Button>
+              </div>
+              <div className="flex flex-col gap-y-4 w-full">
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Username</FormLabel>
+                      <FormControl>
+                        <Input
+                          data-testid="username"
+                          disabled={isPending}
+                          placeholder="Username"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="github"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Github</FormLabel>
+                      <FormControl>
+                        <Input
+                          data-testid="github"
+                          disabled={isPending}
+                          placeholder="Github"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="flex flex-col gap-y-2 w-full">
+                  <FormField
+                    control={form.control}
+                    name="role"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Roles</FormLabel>
+                        {Roles && (
+                          <Select disabled={isPending}>
+                            <FormControl>
+                              <SelectTrigger data-testid="role">
+                                <SelectValue
+                                  placeholder={
+                                    selectedRoles.length > 0
+                                      ? `${selectedRoles.length} selected`
+                                      : 'Select roles'
+                                  }
+                                />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {Object.entries(Roles).map(([key, value]) => (
+                                <div
+                                  key={key}
+                                  className="flex gap-x-2 items-center"
+                                >
+                                  <Checkbox
+                                    data-testid={key}
+                                    onCheckedChange={() => {
+                                      handleSelectedRoles(key)
+                                    }}
+                                    key={key}
+                                    value={key}
+                                    checked={selectedRoles.includes(
+                                      key as Role
+                                    )}
+                                  />
+                                  <label>{value}</label>
+                                </div>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className="flex flex-wrap gap-1 max-w-full">
+                    {selectedRoles.map(role => (
+                      <Badge key={role}>
+                        {role}{' '}
+                        <span
+                          className="ml-2 hover:cursor-pointer"
+                          onClick={() => {
+                            handleSelectedRoles(role)
+                          }}
+                        >
+                          {<Icons.close size={15} />}
+                        </span>{' '}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
               </div>
+              <div className="flex flex-col gap-y-4 w-full">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          data-testid="email"
+                          disabled={isPending}
+                          placeholder="Email"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="linkedin"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Linkedin</FormLabel>
+                      <FormControl>
+                        <Input
+                          data-testid="linkedin"
+                          disabled={isPending}
+                          placeholder="Linkedin"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
-            <Button
-              data-testid="submit"
-              disabled={isPending}
-              className="ml-auto"
-              type="submit"
-            >
-              {isPending && (
-                <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              {action}
-            </Button>
           </form>
         </Form>
       </div>

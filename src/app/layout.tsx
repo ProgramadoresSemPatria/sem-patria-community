@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils'
 import { AppProviders } from '@/providers/app-provider'
 import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
+import { Analytics } from '@vercel/analytics/react'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../styles/globals.css'
@@ -40,7 +41,10 @@ export default function RootLayout({
             inter.className
           )}
         >
-          <AppProviders>{children}</AppProviders>
+          <AppProviders>
+            {children}
+            <Analytics mode={'production'} />
+          </AppProviders>
         </body>
       </html>
     </ClerkProvider>

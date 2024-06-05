@@ -18,7 +18,7 @@ export const FeedbackButton = () => {
   return (
     <Button onClick={onOpen} variant="outline" className="gap-x-2 items-center">
       <Icons.bot className="w-4 h-4" />
-      Recomendation
+      Recommendation
     </Button>
   )
 }

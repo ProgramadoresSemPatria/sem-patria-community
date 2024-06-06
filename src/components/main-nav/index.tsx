@@ -79,6 +79,7 @@ const MainNav = ({ children }: MainNavProps) => {
               </span>
             </Link>
           ))}
+          {/* <Leaderboard /> */}
           <Can I="get" a="CMS">
             <Collapsible
               open={isOpenCmsSection}

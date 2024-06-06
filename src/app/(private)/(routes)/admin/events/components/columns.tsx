@@ -89,6 +89,7 @@ export const eventColumns: Array<ColumnDef<EventColumn>> = [
   },
   {
     accessorKey: 'externalUrl',
+    id: 'Url',
     header: 'External Url',
     cell: ({ row }) => {
       return (
@@ -97,15 +98,15 @@ export const eventColumns: Array<ColumnDef<EventColumn>> = [
             <TooltipTrigger asChild>
               <Link
                 target="_blank"
-                href={row.getValue('externalUrl')}
+                href={row.getValue('Url')}
                 className="max-w-[150px] line-clamp-1"
               >
                 <Button variant="link" className="p-0">
-                  {row.getValue('externalUrl')}
+                  {row.getValue('Url')}
                 </Button>
               </Link>
             </TooltipTrigger>
-            <TooltipContent>{row.getValue('externalUrl')}</TooltipContent>
+            <TooltipContent>{row.getValue('Url')}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       )
@@ -113,6 +114,7 @@ export const eventColumns: Array<ColumnDef<EventColumn>> = [
   },
   {
     accessorKey: 'specialGuest',
+    id: 'Guest',
     header: 'Special Guest',
     cell: ({ row }) => {
       return (
@@ -120,10 +122,10 @@ export const eventColumns: Array<ColumnDef<EventColumn>> = [
           <Tooltip>
             <TooltipTrigger asChild>
               <span className="max-w-[100px] line-clamp-1">
-                {row.getValue('specialGuest')}
+                {row.getValue('Guest')}
               </span>
             </TooltipTrigger>
-            <TooltipContent>{row.getValue('specialGuest')}</TooltipContent>
+            <TooltipContent>{row.getValue('Guest')}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       )

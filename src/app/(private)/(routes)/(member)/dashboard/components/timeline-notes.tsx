@@ -20,9 +20,9 @@ export const TimelineNotes = async ({ note, lastNote }: TimelineNotesProps) => {
   return (
     <div className="flex flex-col">
       <div className="flex items-center relative">
-        <div className="w-2 h-2 rounded-full bg-violet-600" />
+        <div className="w-2 h-2 rounded-full bg-violet-400 dark:bg-violet-600" />
         {!lastNote && (
-          <div className="absolute w-1 h-[72px] rounded-sm bg-violet-950 left-[2px] -bottom-[59px]" />
+          <div className="absolute w-1 h-[72px] rounded-sm bg-slate-100 dark:bg-violet-950 left-[2px] -bottom-[59px]" />
         )}
         <Avatar className="ml-4">
           <AvatarImage src={`https://github.com/${userProps?.username}.png`} />

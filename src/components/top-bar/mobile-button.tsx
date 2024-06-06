@@ -17,7 +17,7 @@ export const MobileButton = ({ children }: MobileButtonProps) => {
   return (
     <>
       <button
-        className={cn('flex md:hidden items-center space-x-2')}
+        className={cn('flex md:hidden items-center space-x-2 mr-6')}
         onClick={() => {
           setShowMobileMenu(!showMobileMenu)
         }}
@@ -27,7 +27,7 @@ export const MobileButton = ({ children }: MobileButtonProps) => {
         ) : (
           <Icons.menu className="h-5 w-5" />
         )}
-        <span className="font-bold">Menu</span>
+        {/* <span className="font-bold">Menu</span> */}
       </button>
       {showMobileMenu && (
         <MobileNav isAdminPage={isAdminPage}>{children}</MobileNav>

@@ -37,7 +37,9 @@ export const NoteHeader = ({ note, isPublicView = false }: NoteHeaderProps) => {
         <>
           <div className="flex items-center space-x-2">
             <Label htmlFor="note-visibility">
-              <span className="hidden sm:inline-flex">Note visibilty:</span>
+              <span className="hidden sm:inline-flex mr-2">
+                Note visibilty:{' '}
+              </span>
               <span className="font-semibold">
                 {isPublicNote ? 'Public' : 'Private'}
               </span>

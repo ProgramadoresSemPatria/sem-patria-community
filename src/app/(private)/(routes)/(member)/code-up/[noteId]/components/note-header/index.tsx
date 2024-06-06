@@ -37,7 +37,7 @@ export const NoteHeader = ({ note, isPublicView = false }: NoteHeaderProps) => {
         <>
           <div className="flex items-center space-x-2">
             <Label htmlFor="note-visibility">
-              Note visibilty:{' '}
+              <span className="hidden sm:inline-flex">Note visibilty:</span>
               <span className="font-semibold">
                 {isPublicNote ? 'Public' : 'Private'}
               </span>
@@ -52,11 +52,25 @@ export const NoteHeader = ({ note, isPublicView = false }: NoteHeaderProps) => {
             variant="secondary"
             disabled={isPending}
             onClick={handleSaveChanges}
+            className="hidden sm:block"
           >
             {isPending && (
               <Icons.loader className="h-4 w-4 mr-2 animate-spin" />
             )}
             Save Changes
+          </Button>
+          <Button
+            variant="secondary"
+            disabled={isPending}
+            onClick={handleSaveChanges}
+            className="sm:hidden"
+            size="icon"
+          >
+            {isPending ? (
+              <Icons.loader className="h-4 w-4 animate-spin" />
+            ) : (
+              <Icons.save className="h-4 w-4" />
+            )}
           </Button>
         </>
       )}

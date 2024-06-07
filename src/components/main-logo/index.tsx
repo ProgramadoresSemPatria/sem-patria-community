@@ -12,7 +12,7 @@ type MainLogoProps = {
 
 const MainLogo = ({ isMobile }: MainLogoProps) => {
   const { theme } = useTheme()
-  const logo = theme === 'dark' ? appLogo : appLogoLight
+  const logo = theme === 'dark' ? appLogoLight : appLogo
 
   return (
     <>

@@ -8,7 +8,7 @@ export const useWeekEvents = () => {
   return useQuery<EventApiProps>({
     queryKey: ['events'],
     queryFn: async () => {
-      // get the current week start date from the beggining of the week and end date
+      // get the current week start date from the beginning of the week and end date
       const currentWeekStartDate = new Date()
       currentWeekStartDate.setDate(
         currentWeekStartDate.getDate() - currentWeekStartDate.getDay()

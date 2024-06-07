@@ -34,7 +34,7 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
       label: 'Courses'
     },
     {
-      href: `${appRoutes.codeUp}`,
+      href: appRoutes.codeUp,
       label: 'Code Up'
     },
     {

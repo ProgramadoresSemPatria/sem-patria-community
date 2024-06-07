@@ -5,7 +5,11 @@ import { Button } from '@/components/ui/button'
 import { useEventModal } from '@/hooks/modal/use-event-modal'
 import { useEffect, useState } from 'react'
 
-export const EventsButton = () => {
+type EventsButtonProps = {
+  isMobile?: boolean
+}
+
+export const EventsButton = ({ isMobile }: EventsButtonProps) => {
   const [isMounted, setIsMounted] = useState(false)
   const { onOpen } = useEventModal()
 
@@ -16,8 +20,13 @@ export const EventsButton = () => {
   if (!isMounted) return null
 
   return (
-    <Button onClick={onOpen} variant="ghost" size="icon">
-      <Icons.calendarDays className="w-5 h-5" />
+    <Button
+      onClick={onOpen}
+      variant="ghost"
+      size="icon"
+      className={isMobile ? 'mr-4' : undefined}
+    >
+      <Icons.calendarDays className="h-5 w-5" />
     </Button>
   )
 }

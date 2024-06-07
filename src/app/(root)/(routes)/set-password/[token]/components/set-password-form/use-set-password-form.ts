@@ -11,8 +11,12 @@ import { z } from 'zod'
 
 const formSchema = z
   .object({
-    password: z.string().min(8),
-    confirmPassword: z.string()
+    password: z
+      .string()
+      .min(8, { message: 'Password must be at least 8 characters long' }),
+    confirmPassword: z
+      .string()
+      .min(8, { message: 'Password must be at least 8 characters long' })
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {
@@ -35,12 +39,31 @@ export const useSetPasswordForm = ({ params }: UseSetPasswordFormProps) => {
   const router = useRouter()
 
   const form = useForm<NewPasswordFormValues>({
+    mode: 'onChange',
     resolver: zodResolver(formSchema),
     defaultValues: {
       password: '',
       confirmPassword: ''
     }
   })
+
+  const password = form.watch('password')
+  const confirmPassword = form.watch('confirmPassword')
+
+  useEffect(() => {
+    if (
+      password.length >= 8 &&
+      confirmPassword.length > 0 &&
+      password !== confirmPassword
+    ) {
+      form.setError('root', {
+        type: 'manual',
+        message: 'Passwords did not match'
+      })
+    } else {
+      form.clearErrors('root')
+    }
+  }, [password, confirmPassword, form])
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
 

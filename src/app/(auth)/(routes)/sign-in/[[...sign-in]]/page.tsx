@@ -41,7 +41,7 @@ export default async function Page({
           </div>
         </div>
         <div className="p-8 col-span-1">
-          <div className="mx-auto flex w-full flex-col sm:w-[350px] h-[70vh]">
+          <div className="mx-auto flex w-full flex-col sm:w-[350px] h-[90vh] md:h-[70vh] overflow-hidden">
             {/* Logo */}
             <div className="flex w-full items-center justify-center">
               <div className="flex items-center space-x-2 md:flex">

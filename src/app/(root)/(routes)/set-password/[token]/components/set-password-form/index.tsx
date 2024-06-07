@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -62,9 +61,6 @@ const SetPasswordForm = ({ params }: { params: { token: string } }) => {
                     }
                   />
                 </FormControl>
-                <FormDescription>
-                  Password must be at least 8 characters long.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -96,7 +92,11 @@ const SetPasswordForm = ({ params }: { params: { token: string } }) => {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage>
+                  {form.formState.errors.confirmPassword?.message}
+                  {form.formState.errors.root &&
+                    form.formState.errors.root?.message}
+                </FormMessage>
               </FormItem>
             )}
           />

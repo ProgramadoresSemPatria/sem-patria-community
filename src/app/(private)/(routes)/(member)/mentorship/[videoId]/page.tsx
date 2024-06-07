@@ -38,8 +38,10 @@ const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
             <iframe
               src={videoSelected.url}
               title={videoSelected.title}
-              className="h-[calc(77vh-60px)] w-full"
+              className=" h-full w-full aspect-[16/10.5] 2xl:aspect-[16/10.3]"
+              allowFullScreen
             />
+
             <div className="flex justify-between items-center pl-4 pt-2">
               <Breadcrumb className="p-0">
                 <BreadcrumbList>

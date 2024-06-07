@@ -1,12 +1,12 @@
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { appRoutes } from '@/lib/constants'
 import prismadb from '@/lib/prismadb'
 import { currentUser } from '@clerk/nextjs'
 import Link from 'next/link'
 import Post from '../../forum/components/post'
-import { ScrollArea } from '@/components/ui/scroll-area'
 
 const ForumWidget = async () => {
   const user = await currentUser()

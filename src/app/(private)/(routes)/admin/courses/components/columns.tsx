@@ -1,11 +1,11 @@
 'use client'
 
+import { Icons } from '@/components/icons'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { validateCourseLevelColor, validateIsPendingColor } from '@/lib/utils'
 import { type ColumnDef } from '@tanstack/react-table'
 import { CourseCellAction } from './course-cell-action'
-import { Icons } from '@/components/icons'
 
 export type CourseColumn = {
   id: string
@@ -47,6 +47,7 @@ export const columns: Array<ColumnDef<CourseColumn>> = [
   },
   {
     accessorKey: 'courseUrl',
+    id: 'url',
     header: 'Url'
   },
   {
@@ -72,11 +73,13 @@ export const columns: Array<ColumnDef<CourseColumn>> = [
   },
   {
     accessorKey: 'isPaid',
+    id: 'Paid',
     header: 'Paid',
     cell: ({ row }) => <span>{row.original.isPaid ? 'Paid' : 'Free'}</span>
   },
   {
     accessorKey: 'isPending',
+    id: 'Pending',
     header: ({ column }) => {
       return (
         <Button

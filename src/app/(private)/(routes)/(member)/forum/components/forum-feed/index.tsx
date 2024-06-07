@@ -24,15 +24,15 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
               userId={userId as string}
               commentAmount={post.comments.length}
               categoryName={post.category.name}
-              likesAmount={post.likes.length}
-              currentLike={!!post.likes.find(like => like.userId === userId)}
+              likesAmount={post?.likes.length}
+              currentLike={!!post?.likes?.find(like => like.userId === userId)}
               isPinned
             />
           </li>
         ))}
 
       {allPosts.map((post: ExtendedPost, index: number) => {
-        const currentLike = post.likes.find(like => like.userId === userId)
+        const currentLike = post?.likes?.find(like => like.userId === userId)
 
         if (index === allPosts.length - 1) {
           return (

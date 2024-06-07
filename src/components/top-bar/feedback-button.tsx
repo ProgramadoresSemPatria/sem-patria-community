@@ -5,7 +5,11 @@ import { Button } from '@/components/ui/button'
 import { useFeedbackModal } from '@/hooks/modal/use-feedback-modal'
 import { useEffect, useState } from 'react'
 
-export const FeedbackButton = () => {
+type FeedbackButtonProps = {
+  isMobile?: boolean
+}
+
+export const FeedbackButton = ({ isMobile }: FeedbackButtonProps) => {
   const [isMounted, setIsMounted] = useState(false)
   const { onOpen } = useFeedbackModal()
 
@@ -16,9 +20,14 @@ export const FeedbackButton = () => {
   if (!isMounted) return null
 
   return (
-    <Button onClick={onOpen} variant="outline" className="gap-x-2 items-center">
-      <Icons.bot className="w-4 h-4" />
-      Recomendation
+    <Button
+      onClick={onOpen}
+      size={isMobile ? 'icon' : 'default'}
+      variant="outline"
+      className="gap-x-2 items-center"
+    >
+      {!isMobile && 'Recommendation'}
+      <Icons.bot className="h-5 w-5" />
     </Button>
   )
 }

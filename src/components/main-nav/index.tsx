@@ -56,10 +56,10 @@ const MainNav = ({ children }: MainNavProps) => {
   return (
     <div
       className={cn(
-        'hidden md:flex h-screen w-[250px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6 sticky top-0'
+        'hidden md:flex h-screen w-[200px] flex-shrink-0 flex-col justify-between border-r border-slate-6 px-4 pb-6 sticky top-0'
       )}
     >
-      <div className="w-full flex items-center justify-center">
+      <div className="w-full flex items-center">
         <MainLogo />
       </div>
       <nav className="mt-6 flex-1">

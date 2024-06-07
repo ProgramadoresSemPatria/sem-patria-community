@@ -13,7 +13,7 @@ const NotificationsButton = () => {
   return (
     <Can I="get" an="CMS">
       <Popover>
-        <PopoverTrigger className="hover:bg-accent p-2 rounded-md">
+        <PopoverTrigger className="hover:bg-accent rounded-md">
           <NotificationsButtonTrigger />
         </PopoverTrigger>
         <PopoverContent className="p-0">

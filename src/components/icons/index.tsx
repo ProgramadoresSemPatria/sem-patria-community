@@ -73,7 +73,8 @@ import {
   Video,
   X,
   Youtube,
-  type LucideIcon
+  type LucideIcon,
+  Save
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -153,5 +154,6 @@ export const Icons = {
   image: Image,
   youtube: Youtube,
   forum: MessageSquare,
-  dot: Dot
+  dot: Dot,
+  save: Save
 }

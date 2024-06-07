@@ -77,6 +77,7 @@ export const LinkSelector = ({
             const input = target[0] as HTMLInputElement
             const url = getUrlFromString(input.value)
             url && editor.chain().focus().setLink({ href: url }).run()
+            onOpenChange(false)
           }}
           className="flex  p-1 "
         >

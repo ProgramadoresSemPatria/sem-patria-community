@@ -50,7 +50,6 @@ export const useSetPasswordForm = ({ params }: UseSetPasswordFormProps) => {
   const password = form.watch('password')
   const confirmPassword = form.watch('confirmPassword')
 
-
   useEffect(() => {
     if (
       password.length >= 8 &&

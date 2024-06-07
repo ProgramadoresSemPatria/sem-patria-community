@@ -23,10 +23,7 @@ const TopBar = () => {
       <MainLogo isMobile />
       <div className="flex items-center gap-4">
         <FeedbackButton isMobile={isMobile} />
-        <Button
-          size={isMobile ? 'icon' : 'default'}
-          variant='outline'
-        >
+        <Button size={isMobile ? 'icon' : 'default'} variant="outline">
           <Link
             href={feedbackLink}
             target="_blank"

@@ -20,7 +20,12 @@ export const EventsButton = ({ isMobile }: EventsButtonProps) => {
   if (!isMounted) return null
 
   return (
-    <Button onClick={onOpen} variant="ghost" size="icon" className={isMobile ? 'mr-4' : undefined}>
+    <Button
+      onClick={onOpen}
+      variant="ghost"
+      size="icon"
+      className={isMobile ? 'mr-4' : undefined}
+    >
       <Icons.calendarDays className="h-5 w-5" />
     </Button>
   )

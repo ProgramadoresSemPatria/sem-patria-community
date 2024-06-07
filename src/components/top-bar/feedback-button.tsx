@@ -23,10 +23,10 @@ export const FeedbackButton = ({ isMobile }: FeedbackButtonProps) => {
     <Button
       onClick={onOpen}
       size={isMobile ? 'icon' : 'default'}
-      variant='outline'
+      variant="outline"
       className="gap-x-2 items-center"
     >
-      {!isMobile && "Recommendation"}
+      {!isMobile && 'Recommendation'}
       <Icons.bot className="h-5 w-5" />
     </Button>
   )

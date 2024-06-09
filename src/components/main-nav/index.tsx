@@ -90,7 +90,7 @@ const MainNav = ({ children }: MainNavProps) => {
                   <p className="font-medium text-sm text-foreground pb-2">
                     CMS
                   </p>
-                  <CollapsibleTrigger>
+                  <CollapsibleTrigger asChild>
                     <Button size="icon" variant="ghost">
                       {isOpenCmsSection ? (
                         <Icons.arrowUp className="w-4 h-4" />

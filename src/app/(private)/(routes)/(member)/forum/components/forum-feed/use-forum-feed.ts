@@ -44,8 +44,8 @@ export const useForumFeed = ({ initialPosts }: UseForumFeedProps) => {
     const category = searchParams.get('category')
     if (category) {
       setPinnedPosts(
-        allPosts.filter(
-          post => post.isPinned && post.category.name === category
+        allPosts?.filter(
+          post => post?.isPinned && post?.category?.name === category
         )
       )
     }

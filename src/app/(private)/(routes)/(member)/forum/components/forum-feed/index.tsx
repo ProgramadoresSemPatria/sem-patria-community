@@ -22,9 +22,9 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
             <Post
               post={post}
               userId={userId as string}
-              commentAmount={post.comments.length}
-              categoryName={post.category.name}
-              likesAmount={post?.likes.length}
+              commentAmount={post?.comments?.length || 0}
+              categoryName={post?.category?.name || ''}
+              likesAmount={post?.likes?.length || 0}
               currentLike={!!post?.likes?.find(like => like.userId === userId)}
               isPinned
             />
@@ -32,6 +32,10 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
         ))}
 
       {allPosts.map((post: ExtendedPost, index: number) => {
+        if (!post) {
+          return null
+        }
+
         const currentLike = post?.likes?.find(like => like.userId === userId)
 
         if (index === allPosts.length - 1) {
@@ -39,10 +43,10 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
             <li key={post.id} ref={ref}>
               <Post
                 userId={userId as string}
-                commentAmount={post.comments.length}
+                commentAmount={post?.comments?.length || 0}
                 post={post}
-                categoryName={post.category.name}
-                likesAmount={post.likes.length}
+                categoryName={post?.category?.name || ''}
+                likesAmount={post?.likes?.length || 0}
                 currentLike={!!currentLike}
               />
             </li>
@@ -52,10 +56,10 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
             <Post
               userId={userId as string}
               key={post.id}
-              commentAmount={post.comments.length}
+              commentAmount={post?.comments?.length || 0}
               post={post}
-              categoryName={post.category.name}
-              likesAmount={post.likes.length}
+              categoryName={post?.category?.name || ''}
+              likesAmount={post?.likes?.length || 0}
               currentLike={!!currentLike}
             />
           )

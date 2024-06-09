@@ -102,7 +102,7 @@ export const MembersList = ({ userProps, allUsers }: MembersListProps) => {
             <div className="ml-auto flex items-center gap-x-4">
               <Badge
                 className={`text-gray-200 ${validateUserLevelColor(
-                  user.level ?? 'unknown'
+                  user.level || 'unknown'
                 )}  transition-colors ease-in`}
               >
                 {user.level

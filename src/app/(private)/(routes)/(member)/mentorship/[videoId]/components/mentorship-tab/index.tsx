@@ -63,41 +63,43 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                 </div>
 
                 <div className="flex flex-col">
-                  {moduleVideos.map(video => {
-                    const isVideoWatched = videosAlreadyWatched.some(
-                      item => item === video.id
-                    )
+                  {moduleVideos
+                    .sort((a, b) => Number(a.createdAt) - Number(b.createdAt))
+                    .map(video => {
+                      const isVideoWatched = videosAlreadyWatched.some(
+                        item => item === video.id
+                      )
 
-                    return (
-                      <TooltipProvider key={video.url}>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <Link
-                              className="flex p-2 items-center gap-6 cursor-pointer rounded transition-colors hover:bg-gray-800 text-success-light hover:text-success-light"
-                              href={`${appRoutes.mentorship}/${video.id}`}
-                            >
-                              <div className="flex flex-1 items-center gap-3 overflow-hidden">
-                                <Icons.video
-                                  className={cn(
-                                    isVideoWatched && 'stroke-emerald-400'
-                                  )}
-                                />
-                                <span
-                                  className={cn(
-                                    isVideoWatched && 'text-emerald-400',
-                                    'w-full text-ellipsis text-sm line-clamp-2 text-left'
-                                  )}
-                                >
-                                  {video.title}
-                                </span>
-                              </div>
-                            </Link>
-                          </TooltipTrigger>
-                          <TooltipContent>{video.title}</TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    )
-                  })}
+                      return (
+                        <TooltipProvider key={video.url}>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <Link
+                                className="flex p-2 items-center gap-6 cursor-pointer rounded transition-colors hover:bg-gray-800 text-success-light hover:text-success-light"
+                                href={`${appRoutes.mentorship}/${video.id}`}
+                              >
+                                <div className="flex flex-1 items-center gap-3 overflow-hidden">
+                                  <Icons.video
+                                    className={cn(
+                                      isVideoWatched && 'stroke-emerald-400'
+                                    )}
+                                  />
+                                  <span
+                                    className={cn(
+                                      isVideoWatched && 'text-emerald-400',
+                                      'w-full text-ellipsis text-sm line-clamp-2 text-left'
+                                    )}
+                                  >
+                                    {video.title}
+                                  </span>
+                                </div>
+                              </Link>
+                            </TooltipTrigger>
+                            <TooltipContent>{video.title}</TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      )
+                    })}
                 </div>
               </CardContent>
             </Card>

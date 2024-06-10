@@ -4,7 +4,12 @@ import { type Video } from '@prisma/client'
 import { type ColumnDef } from '@tanstack/react-table'
 import { ClassroomVideoCellAction } from './classroom-video-cell-action'
 
-export type ClassroomVideoColumn = Video
+export type ClassroomVideoColumn = Video & {
+  classroomModule: {
+    id: string
+    title: string
+  } | null
+}
 
 export const columns: Array<ColumnDef<ClassroomVideoColumn>> = [
   {
@@ -16,6 +21,13 @@ export const columns: Array<ColumnDef<ClassroomVideoColumn>> = [
     header: 'Description',
     cell: ({ row }) => {
       return `${row.original.description ?? '-'}`
+    }
+  },
+  {
+    accessorKey: 'classroomModule.title',
+    header: 'Module',
+    cell: ({ row }) => {
+      return row.original.classroomModule?.title ?? '-'
     }
   },
   {

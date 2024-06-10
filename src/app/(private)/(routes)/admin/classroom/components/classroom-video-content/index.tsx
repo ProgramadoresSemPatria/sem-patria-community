@@ -5,7 +5,17 @@ import { ClassroomVideoTable } from './classroom-video-table'
 import { NewClassroomVideoButton } from './new-classroom-video-button'
 
 const VideoContent = async () => {
-  const videos = await prismadb.video.findMany()
+  const videos = await prismadb.video.findMany({
+    include: {
+      classroomModule: {
+        select: {
+          id: true,
+          title: true,
+        }
+      }
+    }
+  })
+
 
   return (
     <>

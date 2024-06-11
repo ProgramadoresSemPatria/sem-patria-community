@@ -72,11 +72,13 @@ export const CourseCard = ({ courseProps: props }: CourseCardProps) => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <span className="mt-1 line-clamp-3 text-base font-medium dark:text-gray-100 text-black leading-snug text-ellipsis whitespace-nowrap">
+                  <span className="mt-1 text-base font-medium dark:text-gray-100 text-black leading-snug line-clamp-4">
                     {props.name}
                   </span>
                 </TooltipTrigger>
-                <TooltipContent>{props.name}</TooltipContent>
+                <TooltipContent className="max-w-[400px]">
+                  {props.name}
+                </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>

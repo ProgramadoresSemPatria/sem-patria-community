@@ -78,7 +78,7 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8 w-full"
           >
-            <div className="grid grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <FormField
                 control={form.control}
                 name="title"
@@ -109,12 +109,12 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
                       onValueChange={value => {
                         form.setValue('permissions', [value])
                       }}
-                      className="grid max-w-full grid-cols-2 gap-4 pt-2"
+                      className="flex flex-col flex-wrap gap-4 pt-2"
                     >
                       {Object.values(roles).map(value => (
                         <FormItem key={value}>
-                          <FormLabel className="flex items-center gap-x-2">
-                            <FormControl className="flex items-center gap-x-4">
+                          <FormLabel className="flex items-center gap-2">
+                            <FormControl className="flex items-center gap-4">
                               <RadioGroupItem
                                 value={value}
                                 checked={

@@ -55,7 +55,7 @@ export const useNewClassroomVideoForm = ({
         return await api.delete(`/api/classroom/video/${params.videoId}`)
       },
       onSuccess: () => {
-        router.push(appRoutes.admin_classroom)
+        router.push(`${appRoutes.admin_classroom}?tabSelected=videos`)
         router.refresh()
         toast({
           title: 'Success',
@@ -80,7 +80,7 @@ export const useNewClassroomVideoForm = ({
       return await api.post(`/api/classroom/video`, data)
     },
     onSuccess: () => {
-      router.push(appRoutes.admin_classroom)
+      router.push(`${appRoutes.admin_classroom}?tabSelected=videos`)
       router.refresh()
       toast({
         title: 'Success',

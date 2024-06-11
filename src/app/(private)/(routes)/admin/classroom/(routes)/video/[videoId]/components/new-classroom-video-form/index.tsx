@@ -66,7 +66,7 @@ export const NewClassroomVideoForm = ({
       <div className="flex flex-col">
         <div className="flex items-center">
           <BackButton
-            route={`${appRoutes.admin_classroom}?tabSelected=classroom`}
+            route={`${appRoutes.admin_classroom}?tabSelected=videos`}
           />
 
           <div className="flex items-center justify-between w-full">

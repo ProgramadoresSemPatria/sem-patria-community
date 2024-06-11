@@ -151,8 +151,8 @@ export const NewClassroomModuleForm = ({
                       ) : (
                         <div className="flex flex-col gap-y-2">
                           <span className="text-muted-foreground font-medium text-sm">
-                            You must create a classrom before create a module to
-                            him.
+                            You must create a classroom before create a module
+                            to him.
                           </span>
                           <Button
                             variant="secondary"

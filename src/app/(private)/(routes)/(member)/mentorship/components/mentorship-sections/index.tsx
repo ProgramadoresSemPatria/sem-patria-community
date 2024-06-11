@@ -70,7 +70,7 @@ export const MentorshipSections = async () => {
           />
         )}
         {formattedData.map(classroom => (
-          <div key={classroom.id} className="flex flex-col gap-y-3">
+          <div key={classroom.id} className="relative flex flex-col gap-y-3">
             <div className="flex items-center justify-between w-full">
               <h2 className="font-medium text-lg flex items-center">
                 {classroom.title}
@@ -78,9 +78,6 @@ export const MentorshipSections = async () => {
                   <Icons.lock className="h-4 w-4 ml-2" />
                 )}
               </h2>
-              <span className="text-sm text-purple-700 font-medium">
-                Drag to see more
-              </span>
             </div>
             <ModuleCarousel
               modules={classroom.modules}

@@ -26,7 +26,7 @@ export const columns: Array<ColumnDef<ClassroomColumn>> = [
     header: 'Permissions',
     cell: ({ row }) => {
       return (
-        <div className="flex items-center gap-x-3 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap">
           {row.original.permissions.map(value => (
             <Badge key={value}>{value}</Badge>
           ))}

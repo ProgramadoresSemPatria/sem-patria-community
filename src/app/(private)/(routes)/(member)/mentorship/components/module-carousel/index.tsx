@@ -3,6 +3,7 @@
 import DefaultImage from '@/assets/advanced.png'
 import { Icons } from '@/components/icons'
 import { SkeletonMentorshipPage } from '@/components/skeletons/skeleton-mentorship-page'
+import { Button } from '@/components/ui/button'
 import {
   Carousel,
   CarouselContent,
@@ -31,83 +32,115 @@ export const ModuleCarousel = ({
   modules,
   hasPermission
 }: ModuleCarouselProps) => {
-  const { isMounted } = useModuleCarousel()
+  const {
+    isMounted,
+    carouselApi,
+    setCarouselApi,
+    handleClickBackward,
+    handleClickForward
+  } = useModuleCarousel()
 
   if (!isMounted) return <SkeletonMentorshipPage />
 
   return (
-    <Carousel className="w-full overflow-x-hidden">
-      <CarouselContent>
-        {modules.map(module => {
-          const hasVideos = module.videos.length
-          if (!hasVideos)
+    <>
+      <div className="flex gap-1 absolute right-0">
+        <Button
+          variant="ghost"
+          size="icon"
+          disabled={!carouselApi?.canScrollPrev()}
+          onClick={handleClickBackward}
+        >
+          <Icons.arrowBack className="h-6 w-6" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          disabled={!carouselApi?.canScrollNext()}
+          onClick={handleClickForward}
+        >
+          <Icons.arrowRight className="h-6 w-6" />
+        </Button>
+      </div>
+      <Carousel
+        setApi={setCarouselApi}
+        className="w-full overflow-x-hidden"
+        opts={{
+          slidesToScroll: 2
+        }}
+      >
+        <CarouselContent>
+          {modules.map(module => {
+            const hasVideos = module.videos.length
+            if (!hasVideos)
+              return (
+                <CarouselItem
+                  key={module.id}
+                  className={cn(
+                    !hasPermission &&
+                      'flex flex-col justify-center items-center relative',
+                    'xl:basis-1/4  basis-1/3 cursor-pointer',
+                    'hover:scale-105 hover:-translate-y-1 transition ease-in-out delay-150'
+                  )}
+                  onClick={() => {
+                    if (!hasPermission) return
+                    return toast({
+                      title: 'No Content!',
+                      description: 'This module has no content yet.'
+                    })
+                  }}
+                >
+                  <Image
+                    src={module.fileUrl ?? DefaultImage.src}
+                    alt={module.title}
+                    width={1920}
+                    height={1080}
+                    className={cn(
+                      hasPermission
+                        ? 'group-hover:opacity-80'
+                        : 'group-hover:opacity-25',
+                      'object-cover w-full rounded max-h-[450px] h-full'
+                    )}
+                  />
+                  {!hasPermission && (
+                    <Icons.lock className="h-6 w-6 absolute hidden group-hover:flex flex-col justify-center" />
+                  )}
+                </CarouselItem>
+              )
             return (
               <CarouselItem
                 key={module.id}
-                className={cn(
-                  !hasPermission &&
-                    'flex flex-col justify-center items-center relative',
-                  'xl:basis-1/4  basis-1/3 cursor-pointer',
-                  'hover:scale-105 hover:-translate-y-1 transition ease-in-out delay-150'
-                )}
-                onClick={() => {
-                  if (!hasPermission) return
-                  return toast({
-                    title: 'No Content!',
-                    description: 'This module has no content yet.'
-                  })
-                }}
+                className="group xl:basis-1/4 basis-1/3 cursor-pointer hover:scale-105 hover:-translate-y-1 transition ease-in-out delay-150"
               >
-                <Image
-                  src={module.fileUrl ?? DefaultImage.src}
-                  alt={module.title}
-                  width={1920}
-                  height={1080}
-                  className={cn(
-                    hasPermission
-                      ? 'group-hover:opacity-80'
-                      : 'group-hover:opacity-25',
-                    'object-cover w-full rounded max-h-[450px] h-full'
+                <Link
+                  className={`${
+                    !hasPermission &&
+                    'pointer-events-none flex flex-col justify-center items-center relative'
+                  }`}
+                  href={`${appRoutes.mentorship}/${module.videos[0].id}`}
+                  aria-disabled={!hasPermission}
+                >
+                  <Image
+                    src={module.fileUrl ?? DefaultImage.src}
+                    alt={module.title}
+                    width={1920}
+                    height={1080}
+                    className={cn(
+                      hasPermission
+                        ? 'group-hover:opacity-80'
+                        : 'group-hover:opacity-25',
+                      'object-cover w-fit rounded max-h-[550px] h-full'
+                    )}
+                  />
+                  {!hasPermission && (
+                    <Icons.lock className="h-6 w-6 absolute hidden group-hover:flex flex-col justify-center" />
                   )}
-                />
-                {!hasPermission && (
-                  <Icons.lock className="h-6 w-6 absolute hidden group-hover:flex flex-col justify-center" />
-                )}
+                </Link>
               </CarouselItem>
             )
-          return (
-            <CarouselItem
-              key={module.id}
-              className="group xl:basis-1/4 basis-1/3 cursor-pointer hover:scale-105 hover:-translate-y-1 transition ease-in-out delay-150"
-            >
-              <Link
-                className={`${
-                  !hasPermission &&
-                  'pointer-events-none flex flex-col justify-center items-center relative'
-                }`}
-                href={`${appRoutes.mentorship}/${module.videos[0].id}`}
-                aria-disabled={!hasPermission}
-              >
-                <Image
-                  src={module.fileUrl ?? DefaultImage.src}
-                  alt={module.title}
-                  width={1920}
-                  height={1080}
-                  className={cn(
-                    hasPermission
-                      ? 'group-hover:opacity-80'
-                      : 'group-hover:opacity-25',
-                    'object-cover w-fit rounded max-h-[550px] h-full'
-                  )}
-                />
-                {!hasPermission && (
-                  <Icons.lock className="h-6 w-6 absolute hidden group-hover:flex flex-col justify-center" />
-                )}
-              </Link>
-            </CarouselItem>
-          )
-        })}
-      </CarouselContent>
-    </Carousel>
+          })}
+        </CarouselContent>
+      </Carousel>
+    </>
   )
 }

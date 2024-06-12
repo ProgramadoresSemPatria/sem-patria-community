@@ -6,7 +6,13 @@ import ClassroomContent from './components/classroom-content'
 import ModuleContent from './components/classroom-module-content'
 import VideoContent from './components/classroom-video-content'
 
-const AdminClassroomPage = () => {
+const AdminClassroomPage = ({
+  searchParams
+}: {
+  searchParams?: Record<string, string | string[] | undefined>
+}) => {
+  const tabSelected = searchParams?.tabSelected as string
+
   const tabsOptions = [
     {
       id: 'classroom',
@@ -25,7 +31,7 @@ const AdminClassroomPage = () => {
   return (
     <DefaultLayout>
       <Header title="Classroom" />
-      <Tabs defaultValue={tabsOptions[0].id} className="w-full">
+      <Tabs defaultValue={tabSelected || tabsOptions[0].id} className="w-full">
         <TabsList className="w-auto mb-6">
           {tabsOptions.map(value => (
             <Link

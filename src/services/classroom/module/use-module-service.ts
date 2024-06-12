@@ -27,7 +27,7 @@ export const useModuleService = ({ initialData }: UseModuleServiceProps) => {
         return await api.delete(`/api/classroom/module/${params.moduleId}`)
       },
       onSuccess: () => {
-        router.push(appRoutes.admin_classroom)
+        router.push(`${appRoutes.admin_classroom}?tabSelected=modules`)
         router.refresh()
         toast({
           title: 'Success',
@@ -56,7 +56,7 @@ export const useModuleService = ({ initialData }: UseModuleServiceProps) => {
         return await api.post(`/api/classroom/module`, data)
       },
       onSuccess: () => {
-        router.push(appRoutes.admin_classroom)
+        router.push(`${appRoutes.admin_classroom}?tabSelected=modules`)
         router.refresh()
         toast({
           title: 'Success',

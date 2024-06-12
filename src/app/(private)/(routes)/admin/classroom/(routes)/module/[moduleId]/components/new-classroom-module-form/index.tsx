@@ -75,7 +75,7 @@ export const NewClassroomModuleForm = ({
       <div className="flex flex-col">
         <div className="flex items-center">
           <BackButton
-            route={`${appRoutes.admin_classroom}?tabSelected=classroom`}
+            route={`${appRoutes.admin_classroom}?tabSelected=modules`}
           />
 
           <div className="flex items-center justify-between w-full">

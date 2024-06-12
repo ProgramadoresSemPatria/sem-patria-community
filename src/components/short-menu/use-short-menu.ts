@@ -11,5 +11,5 @@ export const useShortMenu = () => {
   const handleShowShortMenu = () => {
     setShowShortMenu(prev => !prev)
   }
-  return { showShortMenu, handleShowShortMenu, filteredMenuItems }
+  return { showShortMenu, handleShowShortMenu, filteredMenuItems, menuItems }
 }

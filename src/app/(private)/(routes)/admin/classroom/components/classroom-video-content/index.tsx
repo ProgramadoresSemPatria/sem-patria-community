@@ -10,12 +10,11 @@ const VideoContent = async () => {
       classroomModule: {
         select: {
           id: true,
-          title: true,
+          title: true
         }
       }
     }
   })
-
 
   return (
     <>

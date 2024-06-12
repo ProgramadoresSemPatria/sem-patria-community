@@ -54,7 +54,9 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
       />
       <div className="flex flex-col">
         <div className="flex items-center">
-          <BackButton route={appRoutes.admin_classroom} />
+          <BackButton
+            route={`${appRoutes.admin_classroom}?tabSelected=classroom`}
+          />
 
           <div className="flex items-center justify-between w-full">
             <Header title={title} />

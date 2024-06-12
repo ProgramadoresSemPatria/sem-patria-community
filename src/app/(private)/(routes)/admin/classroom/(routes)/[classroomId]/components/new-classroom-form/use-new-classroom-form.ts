@@ -52,7 +52,7 @@ export const useNewClassroomForm = ({
       return await api.delete(`/api/classroom/${params.classroomId}`)
     },
     onSuccess: () => {
-      router.push(appRoutes.admin_classroom)
+      router.push(`${appRoutes.admin_classroom}?tabSelected=classroom`)
       router.refresh()
       toast({
         title: 'Success',
@@ -77,7 +77,7 @@ export const useNewClassroomForm = ({
       return await api.post(`/api/classroom`, data)
     },
     onSuccess: () => {
-      router.push(appRoutes.admin_classroom)
+      router.push(`${appRoutes.admin_classroom}?tabSelected=classroom`)
       router.refresh()
       toast({
         title: 'Success',

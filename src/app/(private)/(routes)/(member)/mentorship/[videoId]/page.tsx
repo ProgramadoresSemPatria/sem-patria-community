@@ -26,6 +26,9 @@ const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
   const moduleVideos = await prismadb.video.findMany({
     where: {
       classroomModuleId: videoSelected.classroomModuleId
+    },
+    orderBy: {
+      order: 'asc'
     }
   })
 

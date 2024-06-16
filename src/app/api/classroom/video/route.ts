@@ -1,3 +1,4 @@
+import { type VideoOrder } from '@/app/(private)/(routes)/(member)/mentorship/[videoId]/components/mentorship-tab/use-mentorship-tab'
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs'
 import { NextResponse, type NextRequest } from 'next/server'
@@ -60,6 +61,31 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(video)
   } catch (error) {
     console.log('[VIDEO_POST_ERROR]', error)
+    return new NextResponse('Internal Server Error', { status: 500 })
+  }
+}
+
+export async function PATCH(req: NextRequest) {
+  try {
+    const { userId } = auth()
+    const { order } = await req.json()
+    console.log('order', order)
+
+    if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
+
+    // eslint-disable-next-line @typescript-eslint/promise-function-async
+    const updatePromises = order.map((video: VideoOrder) => {
+      return prismadb.video.update({
+        where: { id: video.id },
+        data: { order: video.order }
+      })
+    })
+
+    const updatedVideos = await prismadb.$transaction(updatePromises)
+
+    return NextResponse.json(updatedVideos)
+  } catch (error) {
+    console.log('[VIDEOS_PATCH_ERROR]', error)
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }

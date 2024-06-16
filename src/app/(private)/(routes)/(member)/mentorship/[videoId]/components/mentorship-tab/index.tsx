@@ -62,8 +62,8 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                     </h1>
                     {canManageVideos && (
                       <Button
-                        onClick={() => {
-                          handleSaveOrder(videos)
+                        onClick={async () => {
+                          await handleSaveOrder(videos)
                         }}
                         size="sm"
                       >

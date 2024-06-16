@@ -70,6 +70,7 @@
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
     "embla-carousel-react": "8.0.0-rc19",
+    "framer-motion": "^11.2.10",
     "highlight.js": "^11.9.0",
     "jsonwebtoken": "^9.0.2",
     "ksuid": "^3.0.0",

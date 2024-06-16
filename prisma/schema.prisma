@@ -112,6 +112,7 @@ model Video {
   createdAt         DateTime         @default(now())
   classroomModule   ClassroomModule? @relation(fields: [classroomModuleId], references: [id])
   classroomModuleId String?
+  order Int?
 }
 
 model Post {

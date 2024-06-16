@@ -74,7 +74,8 @@ import {
   X,
   Youtube,
   type LucideIcon,
-  Save
+  Save,
+  GripVertical
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -117,6 +118,7 @@ export const Icons = {
   calendar: CalendarCheck2,
   mentorship: GraduationCap,
   bell: Bell,
+  grip: GripVertical,
   bellDot: BellDot,
   rocket: Rocket,
   calendarDays: CalendarDays,

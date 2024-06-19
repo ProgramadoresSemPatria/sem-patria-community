@@ -73,7 +73,7 @@ export const ForumCommentComponent = ({ comment }: CommentComponentProps) => {
                 <TooltipContent>
                   {format(
                     new Date(comment.createdAt),
-                    'MM/dd/yyyy, hh:mm:ss aa O'
+                    'dd/MM/yyyy, HH:mm:ss O'
                   )}
                 </TooltipContent>
               </Tooltip>

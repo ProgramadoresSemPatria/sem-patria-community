@@ -1,5 +1,11 @@
 import defaultAvatar from '@/assets/avatar.png'
 import NoteEditor from '@/components/editor/editor'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@/components/ui/tooltip'
 import { useUser } from '@clerk/nextjs'
 import { format } from 'date-fns'
 import Image from 'next/image'
@@ -13,26 +19,24 @@ type CommentComponentProps = {
 
 export const ForumCommentComponent = ({ comment }: CommentComponentProps) => {
   const { user } = useUser()
-  const getStringFromDate = (date: string) => {
+  const getStringFromDate = (date: string): string => {
     const commentDate = new Date(date)
     const todayDate = new Date()
 
-    const diff = todayDate.getTime() - commentDate.getTime()
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-    const minutes = Math.floor(
-      (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60) / 60
-    )
+    const diffInMillis = todayDate.getTime() - commentDate.getTime()
+    const diffInMinutes = Math.floor(diffInMillis / (1000 * 60))
+    const diffInHours = Math.floor(diffInMinutes / 60)
+    const diffInDays = Math.floor(diffInHours / 24)
 
-    if (days > 0) {
-      if (days > 7) {
+    if (diffInDays > 0) {
+      if (diffInDays > 7) {
         return format(commentDate, 'dd/MM/yyyy')
       }
-      return `${days} days ago`
-    } else if (hours > 0) {
-      return `${hours} hours ago`
+      return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`
+    } else if (diffInHours > 0) {
+      return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`
     } else {
-      return `${minutes} minutes ago`
+      return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''} ago`
     }
   }
 
@@ -49,7 +53,7 @@ export const ForumCommentComponent = ({ comment }: CommentComponentProps) => {
           <>
             <Image
               className="rounded-full w-8 mr-1"
-              alt=""
+              alt="User avatar"
               width={500}
               height={500}
               src={comment.user.imageUrl || defaultAvatar}
@@ -58,9 +62,23 @@ export const ForumCommentComponent = ({ comment }: CommentComponentProps) => {
               {comment.user.username}
             </h2>
           </>
-          <p className="text-xs text-slate-500">
-            {getStringFromDate(comment.createdAt)}
-          </p>
+          {comment.createdAt && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <p className="text-xs text-slate-500">
+                    {getStringFromDate(comment.createdAt)}
+                  </p>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {format(
+                    new Date(comment.createdAt),
+                    'dd/MM/yyyy, HH:mm:ss O'
+                  )}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
         </div>
         {isOwnerOrAdmin && <ForumAdminActions commentId={comment.id} />}
       </div>

@@ -20,6 +20,7 @@ type PostProps = {
   commentAmount: number
   userId: string
   isPinned?: boolean
+  actions?: boolean
 }
 
 const Post = ({
@@ -29,7 +30,8 @@ const Post = ({
   categoryName,
   commentAmount,
   userId,
-  isPinned
+  isPinned,
+  actions = true
 }: PostProps) => {
   const router = useRouter()
 
@@ -85,7 +87,7 @@ const Post = ({
             <Icons.pin className="my-1 text-orange-600 fill-orange-600 h-5 w-5" />
           )}
           <Can I="delete" a="Post">
-            <PostActions post={post} />
+            {actions && <PostActions post={post} />}
           </Can>
         </div>
       </div>

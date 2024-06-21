@@ -65,6 +65,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                         onClick={async () => {
                           await handleSaveOrder(videos)
                         }}
+                        className="bg-slate-950 dark:bg-slate-100"
                         size="sm"
                       >
                         Save order
@@ -100,7 +101,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                             <Tooltip>
                               <TooltipTrigger className="flex w-full">
                                 <Link
-                                  className="flex p-2 w-full items-center justify-between gap-6 cursor-pointer rounded transition-colors hover:bg-gray-800 text-success-light hover:text-success-light"
+                                  className="flex p-2 w-full items-center justify-between gap-6 cursor-pointer rounded transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 text-success-light hover:text-success-light"
                                   href={`${appRoutes.mentorship}/${video.id}`}
                                 >
                                   <div className="flex flex-1 items-center gap-3 overflow-hidden">

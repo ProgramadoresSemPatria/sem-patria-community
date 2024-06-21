@@ -56,6 +56,7 @@ const ForumWidget = async () => {
                     post={post}
                     categoryName={post.category.name}
                     likesAmount={post.likes.length}
+                    actions={false}
                   />
                 </li>
               ))}

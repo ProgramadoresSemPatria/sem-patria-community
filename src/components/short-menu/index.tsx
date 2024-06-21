@@ -32,7 +32,7 @@ export const ShortMenu = ({ isAdmin }: ShortMenuProps) => {
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex items-center w-full gap-4 py-4 px-6 transition-all dark:hover:bg-gray-800 hover:bg-gray-100  text-sm dark:text-gray-300 text-black"
+                className="flex items-center w-full gap-4 py-4 px-6 transition-all dark:hover:bg-gray-800 hover:bg-slate-100  text-sm dark:text-gray-300 text-black"
               >
                 {item.icon && (
                   <div className="overflow-visible">{item.icon}</div>

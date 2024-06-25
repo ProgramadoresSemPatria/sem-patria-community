@@ -50,6 +50,44 @@ export const usePost = ({ initialPosts, post }: UsePostProps) => {
     }
   })
 
+  const {
+    mutateAsync: onUpdatePost,
+    isPending: isUpdatingPost,
+    isSuccess: isSuccessOnUpdatePost
+  } = useMutation({
+    mutationKey: ['update-post'],
+    mutationFn: async ({
+      postId,
+      title,
+      content,
+      categoryId
+    }: {
+      postId: string
+      title: string
+      content: string
+      categoryId: string
+    }) => {
+      return await api.put(`/api/post/${postId}`, {
+        title,
+        content,
+        categoryId
+      })
+    },
+    onSuccess: async () => {
+      toast({
+        title: 'Post updated!',
+        description: 'The page will refresh to reflect the changes'
+      })
+    },
+    onError: error => {
+      toast({
+        title: 'An error occurred while updating the post',
+        description: error.message,
+        variant: 'destructive'
+      })
+    }
+  })
+
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: [
       'infinite-posts',
@@ -149,6 +187,9 @@ export const usePost = ({ initialPosts, post }: UsePostProps) => {
     isDeleting,
     onCreatePost,
     isCreatingPost,
-    isSuccessOnCreatePost
+    isSuccessOnCreatePost,
+    onUpdatePost,
+    isUpdatingPost,
+    isSuccessOnUpdatePost
   }
 }

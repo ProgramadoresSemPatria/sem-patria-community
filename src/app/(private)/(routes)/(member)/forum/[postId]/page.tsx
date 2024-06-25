@@ -5,6 +5,7 @@ import { DefaultLayout } from '@/components/default-layout'
 import NoteEditor from '@/components/editor/editor'
 import { Separator } from '@/components/ui/separator'
 import { type ExtendedPost } from '@/lib/types'
+import { checkIsSameDate } from '@/lib/utils'
 import { auth } from '@clerk/nextjs'
 import { type Comment } from '@prisma/client'
 import format from 'date-fns/format'
@@ -13,6 +14,7 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import PostLike from '../components/post-likes'
 import CommentSection from './components/comment-section'
+import EditPostButton from './components/edit-post-button'
 import PostCommentsLink from './components/post-comments-link'
 
 type PostPageProps = {
@@ -62,14 +64,25 @@ const PostPage = async ({ params }: PostPageProps) => {
                   {post?.user.username}
                 </Link>
               </span>
-              <span className="text-muted-foreground truncate text-sm">
-                {post?.createdAt
-                  ? format(post?.createdAt, 'MMMM dd, yyyy')
-                  : 'Date not available'}
-              </span>
+              {post &&
+              !checkIsSameDate(
+                post?.createdAt.toString(),
+                post?.updatedAt.toString()
+              ) ? (
+                <span className="text-muted-foreground truncate text-xs">
+                  Last updated at{' '}
+                  {format(post?.updatedAt, 'MMMM dd, yyyy, HH:mm')}
+                </span>
+              ) : (
+                <span className="text-muted-foreground truncate text-xs">
+                  {post?.createdAt
+                    ? format(post?.createdAt, 'MMMM dd, yyyy')
+                    : 'Date not available'}
+                </span>
+              )}
             </div>
           </div>
-          <div className="flex gap-6 mt-4 px-4 text-muted-foreground font-semibold text-md items-center">
+          <div className="flex gap-6 mt-4 px-4 text-muted-foreground w-full font-semibold text-md items-center">
             {post && userId && (
               <>
                 <PostLike
@@ -86,6 +99,14 @@ const PostPage = async ({ params }: PostPageProps) => {
             )}
             <Separator decorative orientation="vertical" className="h-5 mt-2" />
             <p className="font-normal mt-2">at {post?.category.name}</p>
+            {post?.userId === userId && (
+              <EditPostButton
+                postId={post?.id}
+                title={post.title}
+                content={post.content}
+                categoryId={post.categoryId}
+              />
+            )}
           </div>
           <Separator />
           <NoteEditor

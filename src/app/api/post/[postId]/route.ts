@@ -37,3 +37,51 @@ export async function DELETE(
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }
+
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { postId: string } }
+) {
+  try {
+    const { userId } = auth()
+    const postId = params.postId
+    const { title, content, categoryId } = await req.json()
+
+    if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
+
+    const hasPost = await prismadb.post.findFirst({
+      where: {
+        id: postId
+      }
+    })
+
+    if (!hasPost) return new NextResponse('Post not found', { status: 404 })
+
+    if (hasPost.userId !== userId)
+      return new NextResponse('Unauthorized', { status: 401 })
+
+    if (!title) return new NextResponse('Title is required', { status: 400 })
+
+    if (!content)
+      return new NextResponse('Content is required', { status: 400 })
+
+    if (!categoryId)
+      return new NextResponse('Category ID is required', { status: 400 })
+
+    const post = await prismadb.post.update({
+      where: {
+        id: postId
+      },
+      data: {
+        title,
+        content,
+        categoryId
+      }
+    })
+
+    return NextResponse.json(post)
+  } catch (error) {
+    console.log('[PUT_POST_ERROR]', error)
+    return new NextResponse('Internal Server Error', { status: 500 })
+  }
+}

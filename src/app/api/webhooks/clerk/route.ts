@@ -3,6 +3,7 @@ import { type WebhookEvent } from '@clerk/nextjs/server'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { Webhook } from 'svix'
+import prismadb from '@/lib/prismadb'
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET
@@ -85,7 +86,7 @@ export async function POST(req: Request) {
       last_sign_in_at: lastSignInAt
     } = evt.data
 
-    const updatedUser = await prisma?.user.update({
+    const updatedUser = await prismadb.user.update({
       where: {
         id
       },
@@ -103,7 +104,7 @@ export async function POST(req: Request) {
   if (eventType === 'user.deleted') {
     const { id } = evt.data
 
-    const deletedUser = await prisma?.user.delete({
+    const deletedUser = await prismadb.user.delete({
       where: {
         id
       }

@@ -96,3 +96,16 @@ export const defineUserRole = (user: User): UserAbilityRoles => {
   if (hasBuilder) return 'BUILDER'
   return 'MEMBER'
 }
+
+export const checkIsSameDate = (date: string, dateToCompare: string) => {
+  const postDate = new Date(date)
+  const todayDate = new Date(dateToCompare)
+
+  return (
+    postDate.getDate() === todayDate.getDate() &&
+    postDate.getMonth() === todayDate.getMonth() &&
+    postDate.getFullYear() === todayDate.getFullYear() &&
+    postDate.getHours() === todayDate.getHours() &&
+    postDate.getMinutes() === todayDate.getMinutes()
+  )
+}

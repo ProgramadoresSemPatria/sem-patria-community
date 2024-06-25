@@ -64,20 +64,22 @@ const PostPage = async ({ params }: PostPageProps) => {
                   {post?.user.username}
                 </Link>
               </span>
-              <span className="text-muted-foreground truncate text-sm">
-                {post?.createdAt
-                  ? format(post?.createdAt, 'MMMM dd, yyyy')
-                  : 'Date not available'}
-              </span>
               {post &&
-                !checkIsSameDate(
-                  post?.createdAt.toString(),
-                  post?.updatedAt.toString()
-                ) && (
-                  <span className="text-muted-foreground truncate text-xs">
-                    Updated at {format(post?.updatedAt, 'MMMM dd, yyyy, HH:mm')}
-                  </span>
-                )}
+              !checkIsSameDate(
+                post?.createdAt.toString(),
+                post?.updatedAt.toString()
+              ) ? (
+                <span className="text-muted-foreground truncate text-xs">
+                  Last updated at{' '}
+                  {format(post?.updatedAt, 'MMMM dd, yyyy, HH:mm')}
+                </span>
+              ) : (
+                <span className="text-muted-foreground truncate text-xs">
+                  {post?.createdAt
+                    ? format(post?.createdAt, 'MMMM dd, yyyy')
+                    : 'Date not available'}
+                </span>
+              )}
             </div>
           </div>
           <div className="flex gap-6 mt-4 px-4 text-muted-foreground w-full font-semibold text-md items-center">

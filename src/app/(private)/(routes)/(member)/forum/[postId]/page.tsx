@@ -97,8 +97,8 @@ const PostPage = async ({ params }: PostPageProps) => {
                 />
               </>
             )}
-            <Separator decorative orientation="vertical" className="h-5 mt-2" />
-            <p className="font-normal mt-2">at {post?.category.name}</p>
+            <Separator decorative orientation="vertical" className="h-5 " />
+            <p className="font-normal">at {post?.category.name}</p>
             {post?.userId === userId && (
               <EditPostButton
                 postId={post?.id}

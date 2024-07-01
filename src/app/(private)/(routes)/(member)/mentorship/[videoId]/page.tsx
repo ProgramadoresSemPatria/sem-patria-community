@@ -18,6 +18,9 @@ const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
   const videoSelected = await prismadb.video.findUnique({
     where: {
       id: params.videoId
+    },
+    include: {
+      attachments: true
     }
   })
 
@@ -29,6 +32,9 @@ const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
     },
     orderBy: {
       order: 'asc'
+    },
+    include: {
+      attachments: true
     }
   })
 

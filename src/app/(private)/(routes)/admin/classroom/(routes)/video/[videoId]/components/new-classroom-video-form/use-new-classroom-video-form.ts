@@ -1,13 +1,23 @@
 import { useToast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { appRoutes } from '@/lib/constants'
+import { uploadFiles } from '@/lib/uploadthing'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { type Video } from '@prisma/client'
+import { type Attachment, type Video } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import { useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
+
+const attachmentSchema = z.object({
+  name: z.string(),
+  type: z.string(),
+  size: z.number(),
+  url: z.string().url({
+    message: 'Invalid attachment URL'
+  })
+})
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -15,18 +25,29 @@ const formSchema = z.object({
   }),
   description: z.string().optional(),
   videoUrl: z.string().url(),
-  classroomModuleId: z.string().uuid().optional()
+  classroomModuleId: z.string().uuid().optional(),
+  attachments: z.array(attachmentSchema).optional()
 })
 
 type NewClassroomVideoFormValues = z.infer<typeof formSchema>
 
 type UseNewClassroomVideoFormProps = {
-  initialData: Video | null
+  initialData: (Video & { attachments: Attachment[] }) | null
+}
+
+type FileWithPreview = {
+  file: File
+  preview: string
 }
 
 export const useNewClassroomVideoForm = ({
   initialData
 }: UseNewClassroomVideoFormProps) => {
+  // const [previewFiles, setPreviewFiles] = useState<string[]>([])
+  // const [fileProps, setFileProps] = useState<File[]>([])
+  const [files, setFiles] = useState<FileWithPreview[]>([])
+  const [uploadingFiles, setUploadingFiles] = useState<boolean>(false)
+
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
@@ -45,9 +66,33 @@ export const useNewClassroomVideoForm = ({
       title: initialData?.title ?? '',
       description: initialData?.description ?? '',
       videoUrl: initialData?.url ?? '',
-      classroomModuleId: initialData?.classroomModuleId ?? undefined
+      classroomModuleId: initialData?.classroomModuleId ?? undefined,
+      attachments: initialData?.attachments ?? []
     }
   })
+
+  // const onSetPreviewFiles = (files: File[]) => {
+  //   console.log('files', files)
+  //   const previewUrls = files.map(file => URL.createObjectURL(file))
+  //   console.log('previewUrls', previewUrls)
+
+  //   setPreviewFiles(previewUrls)
+  //   setFileProps(files)
+  // }
+
+  const onRemoveFile = (index: number) => {
+    setFiles(prevFiles => prevFiles.filter((_, i) => i !== index))
+  }
+
+  const onSetPreviewFiles = (newFiles: File[]) => {
+    const newFileData = newFiles.map(file => ({
+      file,
+      preview: URL.createObjectURL(file)
+    }))
+    // setPreviewFiles(newFileData)
+    //  setFileProps(files)
+    setFiles(prevFiles => [...prevFiles, ...newFileData])
+  }
 
   const { mutateAsync: deleteClassroomVideo, isPending: isDeleting } =
     useMutation({
@@ -73,6 +118,7 @@ export const useNewClassroomVideoForm = ({
 
   const { mutateAsync: createOrUpdateClassroomVideo, isPending } = useMutation({
     mutationFn: async (data: z.infer<typeof formSchema>) => {
+      console.log(data)
       if (initialData) {
         return await api.patch(`/api/classroom/video/${params.videoId}`, data)
       }
@@ -97,8 +143,97 @@ export const useNewClassroomVideoForm = ({
   })
 
   const onSubmit = async (values: NewClassroomVideoFormValues) => {
+    if (files.length > 0) {
+      setUploadingFiles(true)
+      try {
+        const uploadedFiles = await Promise.all(
+          files.map(async file => {
+            const response = await uploadFiles('imageUploader', {
+              files: [file.file]
+            })
+            return {
+              name: file.file.name,
+              type: file.file.type,
+              size: file.file.size,
+              url: response[0].url
+            }
+          })
+        )
+        console.log('uploaded files', uploadedFiles)
+
+        const attachments = uploadedFiles.map(file => ({
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          url: file.url
+        }))
+        console.log('attachments', attachments)
+
+        const props = {
+          ...values,
+          attachments
+        }
+        console.log('props', props)
+
+        await createOrUpdateClassroomVideo(props)
+      } catch (error) {
+        toast({
+          title: 'Error',
+          description: 'Failed to upload files. Please try again.',
+          variant: 'destructive'
+        })
+      } finally {
+        setUploadingFiles(false)
+      }
+
+      return
+    }
+
     await createOrUpdateClassroomVideo(values)
   }
+
+  // const onSubmit = async (values: NewClassroomVideoFormValues) => {
+  //   if (files.length > 0) {
+  //     setUploadingFiles(true)
+  //     try {
+  //       const uploadedFiles = await Promise.all(
+  //         files.map(async file => {
+  //           const response = await uploadFiles('imageUploader', {
+  //             files: [file.file]
+  //           })
+  //           console.log('response', response)
+  //           return response[0] // Assuming the response is an array and we need the first element
+  //         })
+  //       )
+
+  //       console.log('uploaded files', uploadedFiles)
+
+  //       const attachments = uploadedFiles.map(file => file)
+
+  //       console.log('values', values)
+
+  //       const props = {
+  //         ...values,
+  //         uploadedFiles
+  //       }
+  //       console.log('props', props)
+
+  //       await createOrUpdateClassroomVideo(props)
+  //     } catch (error) {
+  //       toast({
+  //         title: 'Error',
+  //         description: 'Failed to upload files. Please try again.',
+  //         variant: 'destructive'
+  //       })
+  //     } finally {
+  //       setUploadingFiles(false)
+  //     }
+
+  //     return
+  //   }
+
+  //   await createOrUpdateClassroomVideo(values)
+  // }
 
   const onDeleteClassroomVideo = async () => {
     try {
@@ -122,6 +257,10 @@ export const useNewClassroomVideoForm = ({
     isDeleting,
     isPending,
     onSubmit,
-    onDeleteClassroomVideo
+    onDeleteClassroomVideo,
+    onSetPreviewFiles,
+    files,
+    uploadingFiles,
+    onRemoveFile
   }
 }

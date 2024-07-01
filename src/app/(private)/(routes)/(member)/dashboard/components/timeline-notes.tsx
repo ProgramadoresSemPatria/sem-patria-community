@@ -30,7 +30,7 @@ export const TimelineNotes = async ({ note, lastNote }: TimelineNotesProps) => {
             <Image src={avatarImg.src} alt="avatar" width={40} height={40} />
           </AvatarFallback>
         </Avatar>
-        <div className="flex flex-col gap-y-1 ml-2 max-w-80">
+        <div className="flex flex-col gap-y-1 ml-2 max-w-72">
           <span className="font-semibold text-sm truncate">{note.title}</span>
           <span className="font-semibold text-sm truncate text-muted-foreground">
             @{userProps?.username ?? 'unknown'}

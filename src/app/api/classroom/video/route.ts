@@ -1,6 +1,7 @@
 import { type VideoOrder } from '@/app/(private)/(routes)/(member)/mentorship/[videoId]/components/mentorship-tab/use-mentorship-tab'
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs'
+import { type Attachment } from '@prisma/client'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function GET(req: NextRequest) {
@@ -40,9 +41,10 @@ export async function POST(req: NextRequest) {
       title,
       videoUrl: url,
       description,
-      classroomModuleId
+      classroomModuleId,
+      attachments
     } = await req.json()
-
+    // console.log(req.json())
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
     if (!title) return new NextResponse('Title is required', { status: 400 })
@@ -54,7 +56,17 @@ export async function POST(req: NextRequest) {
         title,
         description,
         url,
-        classroomModuleId
+        classroomModule: classroomModuleId
+          ? { connect: { id: classroomModuleId } }
+          : undefined,
+        attachments: {
+          create: attachments.map((attachment: Attachment) => ({
+            name: attachment.name,
+            type: attachment.type,
+            size: attachment.size,
+            url: attachment.url
+          }))
+        }
       }
     })
 

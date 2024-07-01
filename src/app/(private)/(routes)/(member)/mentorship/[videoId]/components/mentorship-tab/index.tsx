@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/tooltip'
 import { appRoutes } from '@/lib/constants'
 import { cn } from '@/lib/utils'
-import { type Video } from '@prisma/client'
 import Link from 'next/link'
 import { TabTypes, useMentorshipTab } from './use-mentorship-tab'
 import { Reorder } from 'framer-motion'
@@ -17,10 +16,11 @@ import { useState } from 'react'
 import { AbilityContext } from '@/hooks/use-ability'
 import { useAbility } from '@casl/react'
 import { Button } from '@/components/ui/button'
+import { type VideoWithAttachments } from '@/lib/types'
 
 type MentorshipTabProps = {
-  videoProps: Video
-  moduleVideos: Video[]
+  videoProps: VideoWithAttachments
+  moduleVideos: VideoWithAttachments[]
 }
 
 const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
@@ -46,6 +46,22 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
           <Icons.play
             className="w-5 h-5"
             color={`${tab === TabTypes.VIDEOS ? '#7c3aed' : '#94a3b8'}`}
+          />
+        </div>
+        <div
+          className={cn(
+            'hover:cursor-pointer border-b-2 pb-3 w-full flex justify-center',
+            tab === TabTypes.ATTACHMENTS
+              ? 'border-violet-600'
+              : 'border-gray-600'
+          )}
+          onClick={() => {
+            handleSetTab(TabTypes.ATTACHMENTS)
+          }}
+        >
+          <Icons.file
+            className="w-5 h-5"
+            color={`${tab === TabTypes.ATTACHMENTS ? '#7c3aed' : '#94a3b8'}`}
           />
         </div>
       </div>
@@ -135,6 +151,21 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
               </Card>
             </Reorder.Group>
           </>
+        )}
+        {tab === TabTypes.ATTACHMENTS && (
+          <div className="flex justify-between flex-col rounded-md p-2 border-2 gap-4">
+            <div className="flex justify-between items-center">
+              <h1 className="font-bold text-xl pl-3">Attachments</h1>
+              {canManageVideos && <Button>Add Attachment</Button>}
+            </div>
+            <div className="flex flex-col gap-2">
+              {videoProps.attachments.map(file => (
+                <Link target="_blank" key={file.id} href={file.url}>
+                  {file.name}
+                </Link>
+              ))}
+            </div>
+          </div>
         )}
       </div>
     </div>

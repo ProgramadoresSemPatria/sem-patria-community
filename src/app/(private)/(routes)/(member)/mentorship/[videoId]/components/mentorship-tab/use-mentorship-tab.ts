@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 export enum TabTypes {
   VIDEOS = 'videos',
-  PROGRAMS = 'programs'
+  ATTACHMENTS = 'attachments'
 }
 export interface VideoOrder {
   id: string

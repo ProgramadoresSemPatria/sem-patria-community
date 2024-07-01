@@ -16,7 +16,7 @@ const TimelineNotesContent = ({
   noteId: string
 }) => {
   return (
-    <Collapsible className="flex-1">
+    <Collapsible className="relative max-w-lg">
       <div className="flex justify-center">
         <CollapsibleTrigger asChild>
           <Button className="p-2 gap-1" variant="ghost">

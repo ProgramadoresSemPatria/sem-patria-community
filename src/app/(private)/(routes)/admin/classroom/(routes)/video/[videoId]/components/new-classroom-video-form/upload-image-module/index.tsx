@@ -9,7 +9,7 @@ export const UploadFilesModule = ({
   onSetPreviewFiles
 }: UploadImageModuleProps) => {
   const { getRootProps, getInputProps } = useDropzone({
-    maxFiles: 1,
+    maxFiles: 10,
     accept: {
       'application/pdf': ['.pdf'],
       'application/msword': ['.doc', '.docx'],

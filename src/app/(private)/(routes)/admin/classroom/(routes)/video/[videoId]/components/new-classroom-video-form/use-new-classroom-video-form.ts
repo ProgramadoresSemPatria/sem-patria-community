@@ -43,8 +43,6 @@ type FileWithPreview = {
 export const useNewClassroomVideoForm = ({
   initialData
 }: UseNewClassroomVideoFormProps) => {
-  // const [previewFiles, setPreviewFiles] = useState<string[]>([])
-  // const [fileProps, setFileProps] = useState<File[]>([])
   const [files, setFiles] = useState<FileWithPreview[]>([])
   const [uploadingFiles, setUploadingFiles] = useState<boolean>(false)
 
@@ -71,15 +69,6 @@ export const useNewClassroomVideoForm = ({
     }
   })
 
-  // const onSetPreviewFiles = (files: File[]) => {
-  //   console.log('files', files)
-  //   const previewUrls = files.map(file => URL.createObjectURL(file))
-  //   console.log('previewUrls', previewUrls)
-
-  //   setPreviewFiles(previewUrls)
-  //   setFileProps(files)
-  // }
-
   const onRemoveFile = (index: number) => {
     setFiles(prevFiles => prevFiles.filter((_, i) => i !== index))
   }
@@ -89,8 +78,6 @@ export const useNewClassroomVideoForm = ({
       file,
       preview: URL.createObjectURL(file)
     }))
-    // setPreviewFiles(newFileData)
-    //  setFileProps(files)
     setFiles(prevFiles => [...prevFiles, ...newFileData])
   }
 
@@ -118,7 +105,6 @@ export const useNewClassroomVideoForm = ({
 
   const { mutateAsync: createOrUpdateClassroomVideo, isPending } = useMutation({
     mutationFn: async (data: z.infer<typeof formSchema>) => {
-      console.log(data)
       if (initialData) {
         return await api.patch(`/api/classroom/video/${params.videoId}`, data)
       }
@@ -159,7 +145,6 @@ export const useNewClassroomVideoForm = ({
             }
           })
         )
-        console.log('uploaded files', uploadedFiles)
 
         const attachments = uploadedFiles.map(file => ({
           name: file.name,
@@ -167,13 +152,11 @@ export const useNewClassroomVideoForm = ({
           size: file.size,
           url: file.url
         }))
-        console.log('attachments', attachments)
 
         const props = {
           ...values,
           attachments
         }
-        console.log('props', props)
 
         await createOrUpdateClassroomVideo(props)
       } catch (error) {
@@ -191,49 +174,6 @@ export const useNewClassroomVideoForm = ({
 
     await createOrUpdateClassroomVideo(values)
   }
-
-  // const onSubmit = async (values: NewClassroomVideoFormValues) => {
-  //   if (files.length > 0) {
-  //     setUploadingFiles(true)
-  //     try {
-  //       const uploadedFiles = await Promise.all(
-  //         files.map(async file => {
-  //           const response = await uploadFiles('imageUploader', {
-  //             files: [file.file]
-  //           })
-  //           console.log('response', response)
-  //           return response[0] // Assuming the response is an array and we need the first element
-  //         })
-  //       )
-
-  //       console.log('uploaded files', uploadedFiles)
-
-  //       const attachments = uploadedFiles.map(file => file)
-
-  //       console.log('values', values)
-
-  //       const props = {
-  //         ...values,
-  //         uploadedFiles
-  //       }
-  //       console.log('props', props)
-
-  //       await createOrUpdateClassroomVideo(props)
-  //     } catch (error) {
-  //       toast({
-  //         title: 'Error',
-  //         description: 'Failed to upload files. Please try again.',
-  //         variant: 'destructive'
-  //       })
-  //     } finally {
-  //       setUploadingFiles(false)
-  //     }
-
-  //     return
-  //   }
-
-  //   await createOrUpdateClassroomVideo(values)
-  // }
 
   const onDeleteClassroomVideo = async () => {
     try {

@@ -87,7 +87,7 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
           >
             <div className="flex flex-col gap-y-2 sm:gap-y-6">
               <Avatar>
-                <AvatarImage src={`https://github.com/${user.username}.png`} />
+                <AvatarImage src={user?.imageUrl ? user?.imageUrl : ''} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
 

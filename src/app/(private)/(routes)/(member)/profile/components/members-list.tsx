@@ -82,7 +82,7 @@ export const MembersList = ({ userProps, allUsers }: MembersListProps) => {
           >
             <div className="flex items-center space-x-1">
               <Avatar>
-                <AvatarImage src={`https://github.com/${user.username}.png`} />
+                <AvatarImage src={user?.imageUrl ? user?.imageUrl : ''} />
                 <AvatarFallback>
                   <Image
                     src={avatarImg.src}

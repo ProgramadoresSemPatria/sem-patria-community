@@ -36,11 +36,9 @@ export const TimelineNotes = async ({ note, lastNote }: TimelineNotesProps) => {
             @{userProps?.username ?? 'unknown'}
           </span>
         </div>
-        <div className="ml-auto">
-          <span className="text-muted-foreground font-medium text-sm">
-            {format(note.updatedAt, 'MMMM dd, yyy')}
-          </span>
-        </div>
+        <span className="text-muted-foreground font-medium text-sm ml-auto">
+          {format(note.updatedAt, 'MMMM dd, yyy')}
+        </span>
       </div>
       <div className="w-full flex justify-center pb-3">
         <TimelineNotesContent content={note.content} noteId={note.id} />

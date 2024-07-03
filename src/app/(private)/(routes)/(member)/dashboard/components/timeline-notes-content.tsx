@@ -8,15 +8,17 @@ import {
 } from '@/components/ui/collapsible'
 import Link from 'next/link'
 
+type TimelineNotesContentProps = {
+  content?: string | null
+  noteId: string
+}
+
 const TimelineNotesContent = ({
   content,
   noteId
-}: {
-  content: string | null | undefined
-  noteId: string
-}) => {
+}: TimelineNotesContentProps) => {
   return (
-    <Collapsible className="relative max-w-lg">
+    <Collapsible className="flex-1">
       <div className="flex justify-center">
         <CollapsibleTrigger asChild>
           <Button className="p-2 gap-1" variant="ghost">

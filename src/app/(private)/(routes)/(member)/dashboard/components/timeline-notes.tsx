@@ -30,17 +30,15 @@ export const TimelineNotes = async ({ note, lastNote }: TimelineNotesProps) => {
             <Image src={avatarImg.src} alt="avatar" width={40} height={40} />
           </AvatarFallback>
         </Avatar>
-        <div className="flex flex-col gap-y-1 ml-2">
-          <span className="font-semibold text-sm">{note.title}</span>
-          <span className="font-semibold text-sm text-muted-foreground">
+        <div className="flex flex-col gap-y-1 ml-2 max-w-72">
+          <span className="font-semibold text-sm truncate">{note.title}</span>
+          <span className="font-semibold text-sm truncate text-muted-foreground">
             @{userProps?.username ?? 'unknown'}
           </span>
         </div>
-        <div className="ml-auto">
-          <span className="text-muted-foreground font-medium text-sm">
-            {format(note.updatedAt, 'MMMM dd, yyy')}
-          </span>
-        </div>
+        <span className="text-muted-foreground font-medium text-sm ml-auto">
+          {format(note.updatedAt, 'MMMM dd, yyy')}
+        </span>
       </div>
       <div className="w-full flex justify-center pb-3">
         <TimelineNotesContent content={note.content} noteId={note.id} />

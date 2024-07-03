@@ -66,7 +66,7 @@ export const MentorshipSections = async () => {
         {!formattedData.length && (
           <NoContent
             title="No classrooms created yet."
-            description="Try contact the for any admin to add a new content."
+            description="Try contacting an admin to add new content."
           />
         )}
         {formattedData.map(classroom => (

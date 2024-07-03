@@ -29,7 +29,7 @@ import { type Attachment, type Video } from '@prisma/client'
 import { type ModulesByClassroomProps } from './types'
 import { useNewClassroomVideoForm } from './use-new-classroom-video-form'
 import { Label } from '@/components/ui/label'
-import { UploadFilesModule } from './upload-image-module'
+import { UploadFilesModule } from './upload-file-module'
 
 type NewClassroomVideoFormProps = {
   initialData: (Video & { attachments: Attachment[] }) | null

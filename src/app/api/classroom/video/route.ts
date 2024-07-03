@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
       classroomModuleId,
       attachments
     } = await req.json()
-    // console.log(req.json())
+
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
     if (!title) return new NextResponse('Title is required', { status: 400 })
@@ -81,7 +81,6 @@ export async function PATCH(req: NextRequest) {
   try {
     const { userId } = auth()
     const { order } = await req.json()
-    console.log('order', order)
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 

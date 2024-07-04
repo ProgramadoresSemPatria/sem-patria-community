@@ -25,7 +25,7 @@ export const TimelineNotes = async ({ note, lastNote }: TimelineNotesProps) => {
           <div className="absolute w-1 h-[72px] rounded-sm bg-slate-100 dark:bg-violet-950 left-[2px] -bottom-[59px]" />
         )}
         <Avatar className="ml-4">
-          <AvatarImage src={`https://github.com/${userProps?.username}.png`} />
+          <AvatarImage src={userProps?.imageUrl ? userProps?.imageUrl : ''} />
           <AvatarFallback>
             <Image src={avatarImg.src} alt="avatar" width={40} height={40} />
           </AvatarFallback>

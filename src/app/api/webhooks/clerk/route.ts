@@ -82,7 +82,7 @@ export async function POST(req: Request) {
     const {
       id,
       image_url: imageUrl,
-      primary_email_address_id: email,
+      email_addresses: emails,
       last_sign_in_at: lastSignInAt
     } = evt.data
 
@@ -92,7 +92,7 @@ export async function POST(req: Request) {
       },
       data: {
         imageUrl,
-        email,
+        email: emails[0].email_address,
         lastLogin: new Date(lastSignInAt ?? Date.now())
       }
     })

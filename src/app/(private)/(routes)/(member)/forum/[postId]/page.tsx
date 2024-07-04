@@ -5,7 +5,6 @@ import { DefaultLayout } from '@/components/default-layout'
 import NoteEditor from '@/components/editor/editor'
 import { Separator } from '@/components/ui/separator'
 import { type ExtendedPost } from '@/lib/types'
-import { checkIsSameDate } from '@/lib/utils'
 import { auth } from '@clerk/nextjs'
 import { type Comment } from '@prisma/client'
 import format from 'date-fns/format'
@@ -64,20 +63,15 @@ const PostPage = async ({ params }: PostPageProps) => {
                   {post?.user.username}
                 </Link>
               </span>
-              {post &&
-              !checkIsSameDate(
-                post?.createdAt.toString(),
-                post?.updatedAt.toString()
-              ) ? (
+              <span className="text-muted-foreground truncate text-xs">
+                {post?.createdAt
+                  ? format(post?.createdAt, 'MMMM dd, yyyy')
+                  : 'Date not available'}
+              </span>
+              {post?.updatedAt && (
                 <span className="text-muted-foreground truncate text-xs">
                   Last updated at{' '}
-                  {format(post?.updatedAt, 'MMMM dd, yyyy, HH:mm')}
-                </span>
-              ) : (
-                <span className="text-muted-foreground truncate text-xs">
-                  {post?.createdAt
-                    ? format(post?.createdAt, 'MMMM dd, yyyy')
-                    : 'Date not available'}
+                  {format(post?.updatedAt, 'MM dd, yyyy, HH:mm')}
                 </span>
               )}
             </div>
@@ -97,7 +91,7 @@ const PostPage = async ({ params }: PostPageProps) => {
                 />
               </>
             )}
-            <Separator decorative orientation="vertical" className="h-5 " />
+            <Separator decorative orientation="vertical" className="h-5" />
             <p className="font-normal">at {post?.category.name}</p>
             {post?.userId === userId && (
               <EditPostButton

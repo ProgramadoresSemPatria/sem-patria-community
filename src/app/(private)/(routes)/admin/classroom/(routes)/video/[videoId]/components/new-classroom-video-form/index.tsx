@@ -14,7 +14,6 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
-import Link from 'next/link'
 import BackButton from '@/components/back-button'
 import {
   Select,
@@ -30,6 +29,7 @@ import { type ModulesByClassroomProps } from './types'
 import { useNewClassroomVideoForm } from './use-new-classroom-video-form'
 import { Label } from '@/components/ui/label'
 import { UploadFilesModule } from './upload-file-module'
+import FilesPreview from './upload-file-module/files-preview'
 
 type NewClassroomVideoFormProps = {
   initialData: (Video & { attachments: Attachment[] }) | null
@@ -207,42 +207,11 @@ export const NewClassroomVideoForm = ({
                   <div className="flex justify-between items-center">
                     <Label>File previews</Label>
                   </div>
-                  {files.length > 0 ? (
-                    files.map(({ file, preview }, index) => (
-                      <div
-                        className="flex justify-between border rounded-md p-2"
-                        key={index}
-                      >
-                        <Link
-                          href={preview}
-                          target="_blank"
-                          className="cursor-pointer"
-                        >
-                          <Icons.file className="h-10 w-10 text-gray-500" />
-                          <span>{file.name}</span>
-                        </Link>
-                        <Button
-                          variant="link"
-                          className="text-rose-600 !p-0 h-auto text-sm"
-                          onClick={() => {
-                            onRemoveFile(index)
-                          }}
-                          disabled={uploadingFiles}
-                          type="button"
-                        >
-                          {uploadingFiles ? (
-                            <Icons.loader className="h-4 w-4 ml-2 animate-spin  text-primary" />
-                          ) : (
-                            <Icons.trash className="h-4 w-4 ml-2 text-rose-600" />
-                          )}
-                        </Button>
-                      </div>
-                    ))
-                  ) : (
-                    <span className="font-medium text-sm text-muted-foreground">
-                      No files uploaded yet.
-                    </span>
-                  )}
+                  <FilesPreview
+                    files={files}
+                    uploadingFiles={uploadingFiles}
+                    onRemoveFile={onRemoveFile}
+                  />
                 </div>
               </div>
             </div>

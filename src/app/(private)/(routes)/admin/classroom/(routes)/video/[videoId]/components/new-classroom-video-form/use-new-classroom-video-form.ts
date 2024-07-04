@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { type Attachment, type Video } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -35,7 +35,7 @@ type UseNewClassroomVideoFormProps = {
   initialData: (Video & { attachments: Attachment[] }) | null
 }
 
-type FileWithPreview = {
+export type FileWithPreview = {
   file: File
   preview: string
 }
@@ -45,7 +45,7 @@ export const useNewClassroomVideoForm = ({
 }: UseNewClassroomVideoFormProps) => {
   const [files, setFiles] = useState<FileWithPreview[]>([])
   const [uploadingFiles, setUploadingFiles] = useState<boolean>(false)
-
+  const addAttRef = useRef(false)
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
@@ -106,13 +106,19 @@ export const useNewClassroomVideoForm = ({
   const { mutateAsync: createOrUpdateClassroomVideo, isPending } = useMutation({
     mutationFn: async (data: z.infer<typeof formSchema>) => {
       if (initialData) {
+        addAttRef.current = true
         return await api.patch(`/api/classroom/video/${params.videoId}`, data)
       }
 
       return await api.post(`/api/classroom/video`, data)
     },
     onSuccess: () => {
-      router.push(`${appRoutes.admin_classroom}?tabSelected=videos`)
+      if (addAttRef.current) {
+        router.push(`${appRoutes.mentorship}/${initialData?.id}`)
+      } else {
+        router.push(`${appRoutes.admin_classroom}?tabSelected=videos`)
+      }
+      setFiles([])
       router.refresh()
       toast({
         title: 'Success',

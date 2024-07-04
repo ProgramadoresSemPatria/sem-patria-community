@@ -17,6 +17,9 @@ import { AbilityContext } from '@/hooks/use-ability'
 import { useAbility } from '@casl/react'
 import { Button } from '@/components/ui/button'
 import { type VideoWithAttachments } from '@/lib/types'
+import { UploadFilesModule } from '@/app/(private)/(routes)/admin/classroom/(routes)/video/[videoId]/components/new-classroom-video-form/upload-file-module'
+import { useNewClassroomVideoForm } from '@/app/(private)/(routes)/admin/classroom/(routes)/video/[videoId]/components/new-classroom-video-form/use-new-classroom-video-form'
+import FilesPreview from '@/app/(private)/(routes)/admin/classroom/(routes)/video/[videoId]/components/new-classroom-video-form/upload-file-module/files-preview'
 
 type MentorshipTabProps = {
   videoProps: VideoWithAttachments
@@ -26,10 +29,26 @@ type MentorshipTabProps = {
 const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
   const { tab, handleSetTab, videosAlreadyWatched, handleSaveOrder } =
     useMentorshipTab()
+  const { onSetPreviewFiles, onSubmit, files, onRemoveFile, uploadingFiles } =
+    useNewClassroomVideoForm({
+      initialData: videoProps
+    })
   const ability = useAbility(AbilityContext)
   const canManageVideos = ability.can('manage', 'all')
 
   const [videos, setVideos] = useState(moduleVideos)
+  const [showAddAttachments, setShowAddAttachments] = useState(false)
+
+  const handleSaveAttachments = async () => {
+    await onSubmit({
+      title: videoProps.title,
+      description: videoProps.description as string,
+      videoUrl: videoProps.url,
+      classroomModuleId: videoProps.classroomModuleId as string,
+      attachments: videoProps.attachments
+    })
+    setShowAddAttachments(false)
+  }
 
   return (
     <div className="flex flex-col self-stretch w-full md:w-[360px] min-[1441px]:w-[384px] min-[1921px]:w-[432px] h-full border-l border-l-gray-800 transition-all">
@@ -156,18 +175,51 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
           <div className="flex justify-between flex-col rounded-md p-2 border-2 gap-4">
             <div className="flex justify-between items-center">
               <h1 className="font-bold text-xl pl-3">Attachments</h1>
-              {canManageVideos && <Button>Add Attachment</Button>}
+              {canManageVideos && (
+                <Button
+                  onClick={() => {
+                    setShowAddAttachments(true)
+                  }}
+                >
+                  Add Attachment
+                </Button>
+              )}
             </div>
             <div className="flex flex-col gap-2">
               {videoProps.attachments.map(file => (
-                <Link target="_blank" key={file.id} href={file.url}>
+                <Link
+                  target="_blank"
+                  key={file.id}
+                  href={file.url}
+                  className="flex justify-between"
+                >
                   {file.name}
+                  <Icons.trash
+                    onClick={() => {
+                      // DELETE ATTACHMENTS
+                      console.log('TODO DELETE ATTACHMENTS')
+                    }}
+                    className="h-4 w-4 ml-2 text-rose-600"
+                  />
                 </Link>
               ))}
             </div>
           </div>
         )}
       </div>
+      {showAddAttachments && (
+        <div className="flex flex-col p-2 gap-2">
+          <UploadFilesModule onSetPreviewFiles={onSetPreviewFiles} />
+          <FilesPreview
+            files={files}
+            onRemoveFile={onRemoveFile}
+            uploadingFiles={uploadingFiles}
+          />
+          <Button onClick={handleSaveAttachments}>
+            {uploadingFiles ? 'Saving' : 'Save'}
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

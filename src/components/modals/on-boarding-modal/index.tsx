@@ -17,7 +17,7 @@ const OnBoardingModal = () => {
       <Modal
         className="border-slate-600"
         title="On Boarding Video"
-        description="Watch the entire video to know how the platform works. If you mark as watched you can't see this anymore"
+        description="Watch the entire video to find out how the platform works. Mark as watched so you won't see this modal again"
         isOpen={isOpen}
         onClose={onClose}
       >

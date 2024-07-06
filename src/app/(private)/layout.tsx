@@ -1,4 +1,5 @@
 import { getUser } from '@/actions/user/get-user'
+import OnBoardingModal from '@/components/modals/on-boarding-modal'
 import { appRoutes } from '@/lib/constants'
 import { AbilityProvider } from '@/providers/ability.provider'
 import { currentUser } from '@clerk/nextjs'
@@ -15,5 +16,10 @@ export default async function PrivateLayout({
   const userProps = await getUser(user.id)
   if (!userProps) return redirect(appRoutes.signIn)
 
-  return <AbilityProvider user={userProps}>{children}</AbilityProvider>
+  return (
+    <AbilityProvider user={userProps}>
+      {children}
+      <OnBoardingModal />
+    </AbilityProvider>
+  )
 }

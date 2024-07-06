@@ -112,7 +112,19 @@ model Video {
   createdAt         DateTime         @default(now())
   classroomModule   ClassroomModule? @relation(fields: [classroomModuleId], references: [id])
   classroomModuleId String?
+  attachments Attachment[]
   order Int?
+}
+
+model Attachment {
+  id                String           @id @default(uuid())
+  name String
+  type String
+  size Int
+  url String
+
+  videoId String
+  video Video @relation(fields: [videoId], references: [id])
 }
 
 model Post {

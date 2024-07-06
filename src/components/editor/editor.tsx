@@ -62,7 +62,7 @@ const NoteEditor = ({
   const { uploadFn, handleValidateImageWasDeleted } = useEditorUploadFile()
 
   const attributeVariants = cva(
-    'prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full h-fit prose-ol:m-0 prose-ul:m-0 prose-headings:m-0 prose-code:m-0',
+    'prose prose-lg dark:prose-invert text-black dark:text-white prose-headings:font-title font-default focus:outline-none max-w-full h-fit prose-ol:m-0 prose-ul:m-0 prose-headings:m-0 prose-code:m-0',
     {
       variants: {
         variant: {

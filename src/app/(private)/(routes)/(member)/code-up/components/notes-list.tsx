@@ -24,7 +24,7 @@ export const NotesList = ({ notes }: NotesListProps) => {
               onClick={() => {
                 onChangeTitle(note.title)
               }}
-              className="font-semibold hover:underline"
+              className="font-semibold hover:underline truncate block pr-2"
             >
               {note.title}
             </Link>

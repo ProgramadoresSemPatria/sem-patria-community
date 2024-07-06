@@ -42,16 +42,16 @@ const ReplyCommentSection = ({
     <>
       <Collapsible>
         <div className="flex gap-4">
-          <div className="flex items-center w-fit space-x-1 font-bold text-slate-600 text-sm">
+          <div className="flex items-center w-fit space-x-1 font-bold  text-slate-600 text-sm">
             <Button
               variant="ghost"
               size="icon"
-              className="group rounded-full"
+              className="group rounded-full hover:bg-transparent hover:text-orange-800"
               onClick={handleLike}
             >
               <Icons.upVote
                 data-userliked={likeState.liked}
-                className="h-5 data-[userliked=true]:text-orange-900 group-hover:text-white "
+                className="h-5 data-[userliked=true]:text-orange-800  "
                 strokeWidth={2}
               />
             </Button>
@@ -70,11 +70,11 @@ const ReplyCommentSection = ({
                   data-userreplied={replyState.replied}
                   variant="ghost"
                   size="icon"
-                  className="group rounded-full data-[userreplied=true]:text-orange-900"
+                  className="group rounded-full data-[userreplied=true]:text-orange-900 hover:bg-white dark:hover:bg-transparent"
                 >
                   <Icons.forum
                     data-userreplied={replyState.replied}
-                    className="h-5 data-[userreplied=true]:text-orange-900 group-hover:text-white"
+                    className="h-5 data-[userreplied=true]:text-orange-900 "
                     strokeWidth={2}
                   />
                 </Button>

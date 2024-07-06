@@ -14,7 +14,6 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
-
 import BackButton from '@/components/back-button'
 import {
   Select,
@@ -25,12 +24,15 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { appRoutes } from '@/lib/constants'
-import { type Video } from '@prisma/client'
+import { type Attachment, type Video } from '@prisma/client'
 import { type ModulesByClassroomProps } from './types'
 import { useNewClassroomVideoForm } from './use-new-classroom-video-form'
+import { Label } from '@/components/ui/label'
+import { UploadFilesModule } from './upload-file-module'
+import FilesPreview from './upload-file-module/files-preview'
 
 type NewClassroomVideoFormProps = {
-  initialData: Video | null
+  initialData: (Video & { attachments: Attachment[] }) | null
   modules: ModulesByClassroomProps[]
 }
 
@@ -47,7 +49,11 @@ export const NewClassroomVideoForm = ({
     isDeleting,
     isPending,
     onSubmit,
-    onDeleteClassroomVideo
+    onDeleteClassroomVideo,
+    onSetPreviewFiles,
+    onRemoveFile,
+    uploadingFiles,
+    files
   } = useNewClassroomVideoForm({ initialData })
 
   return (
@@ -180,6 +186,34 @@ export const NewClassroomVideoForm = ({
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="attachments"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Attachments files</FormLabel>
+                    <FormControl>
+                      <UploadFilesModule
+                        onSetPreviewFiles={onSetPreviewFiles}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex flex-col gap-y-2">
+                <div className="flex flex-col gap-y-2">
+                  <div className="flex justify-between items-center">
+                    <Label>File previews</Label>
+                  </div>
+                  <FilesPreview
+                    files={files}
+                    uploadingFiles={uploadingFiles}
+                    onRemoveFile={onRemoveFile}
+                  />
+                </div>
+              </div>
             </div>
             <Button disabled={isPending} className="ml-auto" type="submit">
               {isPending && (

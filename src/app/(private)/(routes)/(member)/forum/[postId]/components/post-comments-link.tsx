@@ -24,8 +24,12 @@ const PostCommentsLink = ({ comments, postId }: PostCommentsLinkProps) => {
         commentsElement?.scrollIntoView({ behavior: 'smooth' })
       }}
     >
-      <Button variant="ghost" size="icon" className="group rounded-full">
-        <Icons.forum className="h-5 group-hover:text-white " strokeWidth={2} />
+      <Button
+        variant="ghost"
+        size="icon"
+        className="hover:bg-white dark:hover:bg-transparent rounded-full"
+      >
+        <Icons.forum className="h-5 dark:hover:text-white" strokeWidth={2} />
       </Button>
       <p className="leading-4">{commentsData.length}</p>
     </div>

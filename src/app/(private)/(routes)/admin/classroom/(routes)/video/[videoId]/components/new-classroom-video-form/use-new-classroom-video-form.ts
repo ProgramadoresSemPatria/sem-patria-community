@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 const attachmentSchema = z.object({
+  id: z.string().optional(),
   name: z.string(),
   type: z.string(),
   size: z.number(),
@@ -45,12 +46,12 @@ export const useNewClassroomVideoForm = ({
 }: UseNewClassroomVideoFormProps) => {
   const [files, setFiles] = useState<FileWithPreview[]>([])
   const [uploadingFiles, setUploadingFiles] = useState<boolean>(false)
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
+
   const addAttRef = useRef(false)
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
-
-  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
 
   const title = initialData ? 'Edit Video' : 'Create Video'
   const toastMessage = initialData
@@ -102,6 +103,29 @@ export const useNewClassroomVideoForm = ({
         })
       }
     })
+
+  const { mutateAsync: deleteAttachment } = useMutation({
+    mutationFn: async (attachmentId: string) => {
+      return await api.delete(
+        `/api/classroom/video/${params.videoId}/${attachmentId}`
+      )
+    },
+    onSuccess: () => {
+      router.refresh()
+
+      toast({
+        title: 'Success',
+        description: 'Attachment deleted successfully.'
+      })
+    },
+    onError: () => {
+      toast({
+        title: 'Error',
+        description: 'Something went wrong.',
+        variant: 'destructive'
+      })
+    }
+  })
 
   const { mutateAsync: createOrUpdateClassroomVideo, isPending } = useMutation({
     mutationFn: async (data: z.infer<typeof formSchema>) => {
@@ -194,6 +218,10 @@ export const useNewClassroomVideoForm = ({
       setIsAlertModalOpen(false)
     }
   }
+
+  const onDeleteAttachment = async (attachmentId: string) => {
+    await deleteAttachment(attachmentId)
+  }
   return {
     isAlertModalOpen,
     setIsAlertModalOpen,
@@ -207,6 +235,7 @@ export const useNewClassroomVideoForm = ({
     onSetPreviewFiles,
     files,
     uploadingFiles,
-    onRemoveFile
+    onRemoveFile,
+    onDeleteAttachment
   }
 }

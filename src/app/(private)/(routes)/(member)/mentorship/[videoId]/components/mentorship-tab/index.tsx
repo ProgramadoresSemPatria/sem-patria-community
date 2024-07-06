@@ -29,10 +29,16 @@ type MentorshipTabProps = {
 const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
   const { tab, handleSetTab, videosAlreadyWatched, handleSaveOrder } =
     useMentorshipTab()
-  const { onSetPreviewFiles, onSubmit, files, onRemoveFile, uploadingFiles } =
-    useNewClassroomVideoForm({
-      initialData: videoProps
-    })
+  const {
+    onSetPreviewFiles,
+    onSubmit,
+    files,
+    onRemoveFile,
+    uploadingFiles,
+    onDeleteAttachment
+  } = useNewClassroomVideoForm({
+    initialData: videoProps
+  })
   const ability = useAbility(AbilityContext)
   const canManageVideos = ability.can('manage', 'all')
 
@@ -187,21 +193,24 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
             </div>
             <div className="flex flex-col gap-2">
               {videoProps.attachments.map(file => (
-                <Link
-                  target="_blank"
-                  key={file.id}
-                  href={file.url}
-                  className="flex justify-between"
-                >
-                  {file.name}
+                <div key={file.id} className="flex justify-between">
+                  <Link
+                    target="_blank"
+                    key={file.id}
+                    href={file.url}
+                    className="flex justify-between"
+                  >
+                    {file.name}
+                  </Link>
                   <Icons.trash
-                    onClick={() => {
-                      // DELETE ATTACHMENTS
-                      console.log('TODO DELETE ATTACHMENTS')
+                    onClick={async e => {
+                      e.stopPropagation()
+                      e.preventDefault()
+                      await onDeleteAttachment(file.id)
                     }}
-                    className="h-4 w-4 ml-2 text-rose-600"
+                    className="h-4 w-4 ml-2 text-rose-600 hover:cursor-pointer"
                   />
-                </Link>
+                </div>
               ))}
             </div>
           </div>

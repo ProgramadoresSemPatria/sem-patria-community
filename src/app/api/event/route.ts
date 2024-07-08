@@ -11,13 +11,6 @@ export async function POST(req: NextRequest) {
     const { title, description, date, location, externalUrl, specialGuest } =
       await req.json()
 
-    const titleAlreadyExists = await prismadb.event.findFirst({
-      where: { title }
-    })
-
-    if (titleAlreadyExists)
-      return new NextResponse('Title already exists', { status: 400 })
-
     const newEvent = await prismadb.event.create({
       data: {
         title,

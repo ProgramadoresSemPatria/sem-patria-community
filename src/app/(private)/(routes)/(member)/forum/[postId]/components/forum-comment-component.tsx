@@ -52,7 +52,7 @@ export const ForumCommentComponent = ({ comment }: CommentComponentProps) => {
         <div className="flex gap-2 items-center">
           <>
             <Image
-              className="rounded-full w-8 mr-1"
+              className="rounded-full w-8 h-8 mr-1"
               alt="User avatar"
               width={500}
               height={500}

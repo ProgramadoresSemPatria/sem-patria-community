@@ -29,6 +29,7 @@ const PostLike = ({ userId, post, isPostPage = false }: PostLikeProps) => {
             'data-[ispostpage=true]:h-5 data-[ispostpage=true]:w-5 h-4 w-4 '
           )}
         />
+
         <span
           data-userliked={likeState.liked}
           className="data-[userliked=true]:text-orange-800 font-semibold text-sm"

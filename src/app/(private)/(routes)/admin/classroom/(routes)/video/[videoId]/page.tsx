@@ -9,7 +9,10 @@ const NewClassroomVideoPage = async ({
   params: { videoId: string }
 }) => {
   const video = await prismadb.video.findUnique({
-    where: { id: params.videoId }
+    where: { id: params.videoId },
+    include: {
+      attachments: true
+    }
   })
 
   const modules = await prismadb.classroomModule.findMany({

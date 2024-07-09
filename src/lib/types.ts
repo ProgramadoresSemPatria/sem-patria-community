@@ -1,4 +1,6 @@
 import {
+  type Attachment,
+  type Video,
   type Category,
   type Comment,
   type Like,
@@ -38,6 +40,10 @@ export type ExtendedPost = Post & {
   likes: Like[]
   user: User
   comments: Comment[]
+}
+
+export type VideoWithAttachments = Video & {
+  attachments: Attachment[]
 }
 
 export type UserAbilityRoles = 'ADMIN' | 'BUILDER' | 'MEMBER'

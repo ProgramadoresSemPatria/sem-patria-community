@@ -51,7 +51,7 @@ const Post = ({
         <div className="w-0 flex-1">
           <div className="flex items-center max-h-40 dark:text-gray-300 text-black">
             <Image
-              className="rounded-full w-8"
+              className="rounded-full w-8 h-8"
               alt=""
               width={500}
               height={500}

@@ -72,7 +72,7 @@ export const CourseCard = ({ courseProps: props }: CourseCardProps) => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <span className="mt-1 text-base font-medium dark:text-gray-100 text-black leading-snug line-clamp-4">
+                  <span className="mt-1 text-base font-medium dark:text-gray-100 text-black leading-snug line-clamp-2 h-[3rem]">
                     {props.name}
                   </span>
                 </TooltipTrigger>

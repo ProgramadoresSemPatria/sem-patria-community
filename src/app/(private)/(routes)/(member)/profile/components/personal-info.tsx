@@ -1,7 +1,11 @@
 'use client'
 
 import { Icons } from '@/components/icons'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  AvatarFallback,
+  AvatarImage,
+  AvatarWithText
+} from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -34,11 +38,16 @@ type PersonalInfoProps = {
   userProps: User
 }
 
-const formSchema = z.object({
-  level: z.string().min(1)
+const personalInfoSchema = z.object({
+  userId: z.string(),
+  email: z.string(),
+  level: z.string(),
+  linkedin: z.string(),
+  github: z.string(),
+  instagram: z.string()
 })
 
-type PersonalInfoFormValues = z.infer<typeof formSchema>
+type PersonalInfoFormValues = z.infer<typeof personalInfoSchema>
 
 export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
   const router = useRouter()
@@ -46,27 +55,32 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
   const { toast } = useToast()
 
   const form = useForm<PersonalInfoFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(personalInfoSchema),
     defaultValues: {
+      userId: userProps.id ?? undefined,
+      email: userProps.email ?? undefined,
+      linkedin: userProps.linkedin ?? undefined,
+      github: userProps.github ?? undefined,
+      instagram: userProps.instagram ?? undefined,
       level: userProps.level ?? undefined
     }
   })
 
   const { mutateAsync: updateUserLevel, isPending: isUpdating } = useMutation({
-    mutationFn: async (data: z.infer<typeof formSchema>) => {
+    mutationFn: async (data: PersonalInfoFormValues) => {
       return await api.patch(`/api/user`, data)
     },
     onSuccess: () => {
       router.refresh()
       toast({
         title: 'Success',
-        description: 'Level updated successfully.'
+        description: 'Profile updated successfully.'
       })
     },
     onError: () => {
       toast({
         title: 'Error',
-        description: 'Something went wrong while updating your level.',
+        description: 'Something went wrong while updating your profile.',
         variant: 'destructive'
       })
     }
@@ -83,38 +97,61 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full max-w-xl"
+            className="w-full max-w-3xl"
           >
-            <div className="flex flex-col gap-y-2 sm:gap-y-6">
-              <Avatar>
+            <div className="flex flex-col gap-y-4 sm:gap-y-6">
+              <AvatarWithText
+                text={`${user.fullName || ''} (@${user.username || ''})` || ''}
+              >
                 <AvatarImage src={user?.imageUrl ? user?.imageUrl : ''} />
                 <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-2 sm:gap-1.5">
-                <div className="flex flex-col gap-y-2">
-                  <Label htmlFor="username">Username</Label>
-                  <Input
-                    type="text"
-                    id="username"
-                    placeholder="Username"
-                    disabled
-                    value={`@${user.username}` || '@'}
-                  />
-                </div>
-                <div className="flex flex-col gap-y-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input
-                    type="text"
-                    id="name"
-                    placeholder="Name"
-                    disabled
-                    value={user.fullName ?? ''}
-                  />
-                </div>
+              </AvatarWithText>
+              <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-2 sm:gap-4">
+                <FormField
+                  control={form.control}
+                  name="github"
+                  disabled={isUpdating}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>GitHub</FormLabel>
+                      <FormControl>
+                        <Input placeholder="GitHub" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="linkedin"
+                  disabled={isUpdating}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>LinkedIn</FormLabel>
+                      <FormControl>
+                        <Input placeholder="LinkedIn" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="instagram"
+                  disabled={isUpdating}
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-y-2 space-y-0 mt-2">
+                      <FormLabel>Instagram</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Instagram" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-2 sm:gap-1.5">
-                <div className="flex flex-col  gap-y-2 ">
+              <div className="grid grid-cols-1 sm:grid-cols-2 items-start gap-2 sm:gap-4">
+                <div className="flex flex-col gap-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
                     type="email"
@@ -127,29 +164,30 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                 <FormField
                   control={form.control}
                   name="level"
+                  disabled={isUpdating}
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-y-2 space-y-0">
                       <FormLabel>Level</FormLabel>
-                      <Select
-                        disabled={false}
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
+                      <FormControl>
+                        <Select
+                          disabled={isUpdating}
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          defaultValue={field.value}
+                        >
                           <SelectTrigger>
                             <SelectValue
                               defaultValue={field.value}
                               placeholder="Select your level"
                             />
                           </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="junior">Junior</SelectItem>
-                          <SelectItem value="pleno">Pleno</SelectItem>
-                          <SelectItem value="senior">Senior</SelectItem>
-                        </SelectContent>
-                      </Select>
+                          <SelectContent>
+                            <SelectItem value="junior">Junior</SelectItem>
+                            <SelectItem value="pleno">Pleno</SelectItem>
+                            <SelectItem value="senior">Senior</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}

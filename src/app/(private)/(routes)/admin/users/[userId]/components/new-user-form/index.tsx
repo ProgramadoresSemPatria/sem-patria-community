@@ -235,7 +235,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                         <Input
                           data-testid="github"
                           disabled={isPending}
-                          placeholder="Github"
+                          placeholder="GitHub"
                           {...field}
                         />
                       </FormControl>
@@ -333,12 +333,12 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                   name="linkedin"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Linkedin</FormLabel>
+                      <FormLabel>LinkedIn</FormLabel>
                       <FormControl>
                         <Input
                           data-testid="linkedin"
                           disabled={isPending}
-                          placeholder="Linkedin"
+                          placeholder="LinkedIn"
                           {...field}
                         />
                       </FormControl>

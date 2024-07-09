@@ -27,7 +27,6 @@ export const useOnBoarding = create<State & Actions>(set => ({
   },
   initializeWatchedStatus: () => {
     const videoWatched = !!localStorage.getItem('videoWatched')
-    console.log(videoWatched)
     set({ videoWatched, isOpen: !videoWatched })
   }
 }))

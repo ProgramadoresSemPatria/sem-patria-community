@@ -79,8 +79,8 @@ export const ModuleCarousel = ({
                   className={cn(
                     !hasPermission &&
                       'flex flex-col justify-center items-center relative',
-                    'xl:basis-1/4  basis-1/3 cursor-pointer',
-                    'hover:scale-105 hover:-translate-y-1 transition ease-in-out delay-150'
+                    'xl:basis-1/4 basis-1/3 cursor-pointer',
+                    'transition-transform ease-in-out hover:scale-110 hover:-translate-y-1 duration-300'
                   )}
                   onClick={() => {
                     if (!hasPermission) return
@@ -110,7 +110,7 @@ export const ModuleCarousel = ({
             return (
               <CarouselItem
                 key={module.id}
-                className="group xl:basis-1/4 basis-1/3 cursor-pointer hover:scale-105 hover:-translate-y-1 transition ease-in-out delay-150"
+                className="group xl:basis-1/4 basis-1/3 cursor-pointer transition-transform ease-in-out hover:scale-110 hover:-translate-y-1 duration-300"
               >
                 <Link
                   className={`${

@@ -7,7 +7,7 @@ import { useEffect, useReducer, useState } from 'react'
 import { type ExtendedComment } from '../../page'
 
 type UseReplyCommentSectionProps = {
-  commentId: string | undefined
+  commentId?: string
   replies: ExtendedComment[]
   likes: ExtendedComment['likes']
 }

@@ -16,8 +16,8 @@ import { ForumCommentComponent } from './forum-comment-component'
 import SendCommentButton from './send-comment-button'
 import { usePostComments } from './use-post-comments'
 interface CommentSectionProps {
-  postId: string | undefined
-  comments: ExtendedComment[] | undefined
+  postId?: string
+  comments?: ExtendedComment[]
 }
 
 const CommentSection = ({ postId, comments }: CommentSectionProps) => {

@@ -17,7 +17,7 @@ export const NoteHeader = ({ note, isPublicView = false }: NoteHeaderProps) => {
     router,
     handleSaveChanges,
     isPublicNote,
-    onChangeNoteVsibility
+    onChangeNoteVisibility
   } = useNoteHeader({ note })
 
   return (
@@ -29,6 +29,7 @@ export const NoteHeader = ({ note, isPublicView = false }: NoteHeaderProps) => {
           router.back()
           router.refresh()
         }}
+        className="w-36"
       >
         <Icons.arrowBack className="h-4 w-4 mr-2" />
         Back
@@ -38,7 +39,7 @@ export const NoteHeader = ({ note, isPublicView = false }: NoteHeaderProps) => {
           <div className="flex items-center space-x-2">
             <Label htmlFor="note-visibility">
               <span className="hidden sm:inline-flex mr-2">
-                Note visibilty:{' '}
+                Note visibility:{' '}
               </span>
               <span className="font-semibold">
                 {isPublicNote ? 'Public' : 'Private'}
@@ -47,14 +48,14 @@ export const NoteHeader = ({ note, isPublicView = false }: NoteHeaderProps) => {
             <Switch
               id="note-visibility"
               checked={isPublicNote}
-              onCheckedChange={onChangeNoteVsibility}
+              onCheckedChange={onChangeNoteVisibility}
             />
           </div>
           <Button
             variant="secondary"
             disabled={isPending}
             onClick={handleSaveChanges}
-            className="hidden sm:block"
+            className="hidden sm:flex"
           >
             {isPending && (
               <Icons.loader className="h-4 w-4 mr-2 animate-spin" />

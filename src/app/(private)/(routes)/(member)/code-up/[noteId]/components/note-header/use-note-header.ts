@@ -35,7 +35,7 @@ export const useNoteHeader = ({ note }: UseNoteHeaderProps) => {
     }
   )
 
-  const onChangeNoteVsibility = () => {
+  const onChangeNoteVisibility = () => {
     setIsPublicNote(prev => !prev)
   }
 
@@ -64,6 +64,6 @@ export const useNoteHeader = ({ note }: UseNoteHeaderProps) => {
     router,
     handleSaveChanges,
     isPublicNote,
-    onChangeNoteVsibility
+    onChangeNoteVisibility
   }
 }

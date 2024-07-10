@@ -14,7 +14,7 @@ import SendCommentButton from '../send-comment-button'
 import { useReplyCommentSection } from './use-reply-comment-section'
 
 type CommentSectionProps = {
-  commentId: string | undefined
+  commentId?: string
   replyToId: string | null
   replies: ExtendedComment[]
   likes: ExtendedComment['likes']

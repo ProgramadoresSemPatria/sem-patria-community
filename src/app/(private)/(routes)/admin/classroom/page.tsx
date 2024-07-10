@@ -9,7 +9,7 @@ import VideoContent from './components/classroom-video-content'
 const AdminClassroomPage = ({
   searchParams
 }: {
-  searchParams?: Record<string, string | string[] | undefined>
+  searchParams?: Record<string, string | string[]>
 }) => {
   const tabSelected = searchParams?.tabSelected as string
 

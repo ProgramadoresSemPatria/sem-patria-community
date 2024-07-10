@@ -33,7 +33,9 @@ export const TimelineNotes = async ({ note, lastNote }: TimelineNotesProps) => {
         <div className="flex flex-col gap-y-1 ml-2 max-w-72">
           <span className="font-semibold text-sm truncate">{note.title}</span>
           <span className="font-semibold text-sm truncate text-muted-foreground">
-            @{userProps?.username ?? 'unknown'}
+            {userProps?.username !== ''
+              ? `@${userProps?.username}`
+              : userProps?.name}
           </span>
         </div>
         <span className="text-muted-foreground font-medium text-sm ml-auto">

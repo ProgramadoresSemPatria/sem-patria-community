@@ -57,7 +57,7 @@ export async function PATCH(req: NextRequest) {
       data: {
         email,
         name,
-        username: github,
+        username: username ?? github,
         github,
         instagram,
         level,

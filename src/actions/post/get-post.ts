@@ -16,6 +16,7 @@ export const getPost = async (postId: string) => {
                 select: {
                   id: true,
                   username: true,
+                  name: true,
                   imageUrl: true
                 }
               },
@@ -26,6 +27,7 @@ export const getPost = async (postId: string) => {
             select: {
               id: true,
               username: true,
+              name: true,
               imageUrl: true
             }
           }
@@ -36,6 +38,7 @@ export const getPost = async (postId: string) => {
         select: {
           id: true,
           username: true,
+          name: true,
           imageUrl: true
         }
       }

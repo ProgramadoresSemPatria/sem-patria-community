@@ -58,7 +58,11 @@ const Post = ({
               src={post.user.imageUrl || avatarImg.src}
             />
             <div className="flex flex-col ml-2">
-              <span className="font-bold text-base">{post.user.username}</span>
+              <span className="font-bold text-base">
+                {post.user.username !== ''
+                  ? post.user.username
+                  : post.user.name}
+              </span>
               <span className="text-xs">
                 {getStringFromDate(post.createdAt.toString())} in{' '}
                 <span

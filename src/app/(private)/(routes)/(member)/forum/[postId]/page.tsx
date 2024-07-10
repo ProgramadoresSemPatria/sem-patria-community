@@ -31,6 +31,7 @@ export type ExtendedComment = Comment & {
   replies: ExtendedComment[]
   user: {
     imageUrl: string
+    name: string
     username: string
   }
   createdAt: string
@@ -60,7 +61,9 @@ const PostPage = async ({ params }: PostPageProps) => {
                   href="#"
                   className="font-semibold hover:underline transition-all"
                 >
-                  {post?.user.username}
+                  {post?.user.username !== ''
+                    ? post?.user.username
+                    : post?.user.name}
                 </Link>
               </span>
               <span className="text-muted-foreground truncate text-xs">

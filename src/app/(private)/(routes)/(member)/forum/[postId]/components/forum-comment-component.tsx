@@ -59,7 +59,9 @@ export const ForumCommentComponent = ({ comment }: CommentComponentProps) => {
               src={comment.user.imageUrl || defaultAvatar}
             />
             <h2 className="font-semibold text-lg dark:text-slate-300 text-black">
-              {comment.user.username}
+              {comment.user.username !== ''
+                ? comment.user.username
+                : comment.user.name}
             </h2>
           </>
           {comment.createdAt && (

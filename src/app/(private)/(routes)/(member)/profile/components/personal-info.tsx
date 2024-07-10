@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -40,11 +41,36 @@ type PersonalInfoProps = {
 
 const personalInfoSchema = z.object({
   userId: z.string(),
-  email: z.string(),
+  email: z
+    .string()
+    .min(1, {
+      message: 'Email is required.'
+    })
+    .email({ message: 'Invalid format of email.' }),
   level: z.string(),
-  linkedin: z.string(),
+  linkedin: z
+    .string()
+    .url({
+      message: 'Invalid format of Url.'
+    })
+    .refine(value => {
+      if (value.length > 0) {
+        return value.includes('linkedin.com')
+      }
+      return true
+    }, 'Invalid format of Linkedin Url.'),
   github: z.string(),
-  instagram: z.string()
+  instagram: z.string(),
+  username: z
+    .string()
+    .min(4, {
+      message: 'Username must contain at least 4 characters.'
+    })
+    .trim()
+    .refine(
+      s => !s.includes(' '),
+      'Username can only contain letters, numbers and "_" or "-".'
+    )
 })
 
 type PersonalInfoFormValues = z.infer<typeof personalInfoSchema>
@@ -62,7 +88,10 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
       linkedin: userProps.linkedin ?? undefined,
       github: userProps.github ?? undefined,
       instagram: userProps.instagram ?? undefined,
-      level: userProps.level ?? undefined
+      level: userProps.level ?? undefined,
+      username:
+        userProps.username ||
+        (userProps.username === '' ? userProps.github ?? undefined : undefined)
     }
   })
 
@@ -101,11 +130,38 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
           >
             <div className="flex flex-col gap-y-4 sm:gap-y-6">
               <AvatarWithText
-                text={`${user.fullName || ''} (@${user.username || ''})` || ''}
+                text={
+                  `${user.fullName || ''} ${
+                    userProps.username ? `(@${userProps.username || ''})` : ''
+                  }` || ''
+                }
               >
                 <AvatarImage src={user?.imageUrl ? user?.imageUrl : ''} />
                 <AvatarFallback>CN</AvatarFallback>
               </AvatarWithText>
+              {(userProps.username === '' ||
+                !userProps.username ||
+                !user.username ||
+                user.username === '') && (
+                <FormField
+                  control={form.control}
+                  name="username"
+                  disabled={isUpdating}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Username</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Username" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                      <FormDescription>
+                        Do not contains blank spaces and only &apos;_&apos; or
+                        &apos;-&apos; as special characters.
+                      </FormDescription>
+                    </FormItem>
+                  )}
+                />
+              )}
               <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-2 sm:gap-4">
                 <FormField
                   control={form.control}

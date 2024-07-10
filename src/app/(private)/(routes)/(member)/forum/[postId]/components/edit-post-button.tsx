@@ -28,7 +28,7 @@ const EditPostButton = ({
         size="sm"
         variant="ghost"
       >
-        Edit <Icons.edit className="w-3 h-3" />
+        Update <Icons.edit className="w-3 h-3" />
       </Button>
       {isOpen && (
         <EditPostModal

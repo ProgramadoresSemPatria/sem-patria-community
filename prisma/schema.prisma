@@ -46,12 +46,11 @@ model Course {
   name       String
   courseUrl  String
   level      String
-  categoryId String
   isPaid     Boolean  @default(false)
   isPending  Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  category   Category @relation("CourseToCategory", fields: [categoryId], references: [id])
+  categories CourseCategory[]
 }
 
 model Category {
@@ -59,8 +58,17 @@ model Category {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  courses   Course[] @relation("CourseToCategory")
+  courses   CourseCategory[]
   posts     Post[]
+}
+
+model CourseCategory {
+  courseId   String
+  categoryId String
+  course     Course   @relation(fields: [courseId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@id([courseId, categoryId])
 }
 
 model Note {

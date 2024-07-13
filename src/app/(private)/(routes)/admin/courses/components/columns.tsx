@@ -6,16 +6,17 @@ import { Button } from '@/components/ui/button'
 import { validateCourseLevelColor, validateIsPendingColor } from '@/lib/utils'
 import { type ColumnDef } from '@tanstack/react-table'
 import { CourseCellAction } from './course-cell-action'
+import { type Category } from '@prisma/client'
 
 export type CourseColumn = {
   id: string
   name: string
   courseUrl: string
   level: string
-  category: string
+  categoryNames: string[]
   isPaid: boolean
   isPending: boolean
-  categoryId?: string
+  categories: Category[]
 }
 
 export const columns: Array<ColumnDef<CourseColumn>> = [
@@ -33,15 +34,22 @@ export const columns: Array<ColumnDef<CourseColumn>> = [
             column.toggleSorting(column.getIsSorted() === 'asc')
           }}
         >
-          Category
+          Categories
           <Icons.arrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
     },
     cell: ({ row }) => (
       <span>
-        {row.original.category.charAt(0).toUpperCase() +
-          row.original.category.slice(1)}
+        {Array.isArray(row.original.categoryNames) ? (
+          row.original.categoryNames.map((cat, index) => (
+            <Badge key={index} className="m-1">
+              {cat}
+            </Badge>
+          ))
+        ) : (
+          <Badge>{row.original.categoryNames}</Badge>
+        )}
       </span>
     )
   },

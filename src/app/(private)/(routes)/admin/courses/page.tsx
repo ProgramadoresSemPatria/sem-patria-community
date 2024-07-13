@@ -8,7 +8,12 @@ import CoursesClient from './components/courses-client'
 const AdminCoursesPage = async () => {
   const courses = await prismadb.course.findMany({
     include: {
-      category: true
+      categories: {
+        include: {
+          category: true,
+          course: true
+        }
+      }
     }
   })
 
@@ -18,8 +23,8 @@ const AdminCoursesPage = async () => {
     courseUrl: item.courseUrl,
     isPaid: item.isPaid,
     level: item.level,
-    categoryId: item.categoryId,
-    category: item.category.name,
+    categories: item.categories.map(cat => cat.category),
+    categoryNames: item.categories.map(cat => cat.category.name),
     isPending: item.isPending
   }))
 

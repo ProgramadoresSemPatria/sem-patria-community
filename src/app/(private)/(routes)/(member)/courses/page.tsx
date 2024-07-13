@@ -9,8 +9,13 @@ const CoursesPage = async () => {
   const categories = await prismadb.category.findMany({
     include: {
       courses: {
+        include: {
+          course: true
+        },
         where: {
-          isPending: false
+          course: {
+            isPending: false
+          }
         }
       }
     }

@@ -11,16 +11,35 @@ import format from 'date-fns/format'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import PostLike from '../components/post-likes'
-import CommentSection from './components/comment-section'
-import EditPostButton from './components/edit-post-button'
-import PostCommentsLink from './components/post-comments-link'
+import PostLike from '../../components/post-likes'
+import CommentSection from '../components/comment-section'
+import EditPostButton from '../components/edit-post-button'
+import PostCommentsLink from '../components/post-comments-link'
 
 type PostPageProps = {
   params: {
     postId: string
+    titleSlug: string
   }
 }
+// const generateMetadaData = async ({ params }: PostPageProps) => {
+//   if (!params?.postId) {
+//     console.error('Params or postId is missing')
+//     return null
+//   }
+
+//   console.log(params)
+//   const post = await getPost(params.postId)
+//   console.log(post)
+
+//   return {
+//     title: post?.title,
+//     description: String(post?.content).substring(0, 150),
+//     alternates: {
+//       canonical: `http://localhost:3000/forum/${params.postId}`
+//     }
+//   }
+// }
 
 export type ExtendedComment = Comment & {
   likes: Array<{
@@ -38,8 +57,10 @@ export type ExtendedComment = Comment & {
 }
 
 const PostPage = async ({ params }: PostPageProps) => {
+  console.log(params)
   const { userId } = auth()
   const post = await getPost(params.postId)
+  // await generateMetadaData({ params: { postId: post?.id } })
 
   return (
     <DefaultLayout>

@@ -8,7 +8,7 @@ import {
   CollapsibleTrigger
 } from '@/components/ui/collapsible'
 import { type ReactElement } from 'react'
-import { type ExtendedComment } from '../../page'
+import { type ExtendedComment } from '../../[...titleSlug]/page'
 import { ForumCommentComponent } from '../forum-comment-component'
 import SendCommentButton from '../send-comment-button'
 import { useReplyCommentSection } from './use-reply-comment-section'

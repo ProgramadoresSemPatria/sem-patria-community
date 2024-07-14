@@ -1,6 +1,6 @@
 import { api } from '@/lib/api'
 import { useQuery } from '@tanstack/react-query'
-import { type ExtendedComment } from '../page'
+import { type ExtendedComment } from '../[...titleSlug]/page'
 
 export function usePostComments({
   comments,

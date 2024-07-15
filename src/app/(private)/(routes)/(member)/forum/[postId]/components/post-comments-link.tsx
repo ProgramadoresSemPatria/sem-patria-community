@@ -2,7 +2,7 @@
 
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
-import { type ExtendedComment } from '../page'
+import { type ExtendedComment } from '../[...titleSlug]/page'
 import { usePostComments } from './use-post-comments'
 
 interface PostCommentsLinkProps {

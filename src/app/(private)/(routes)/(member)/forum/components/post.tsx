@@ -11,6 +11,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { PostActions } from './post-actions'
 import PostLike from './post-likes'
+import slugify from 'slugify'
 
 type PostProps = {
   post: ExtendedPost
@@ -34,13 +35,14 @@ const Post = ({
   actions = true
 }: PostProps) => {
   const router = useRouter()
+  const titleSlug = slugify(post.title, { lower: true, strict: true })
 
   return (
     <div
       onClick={e => {
         e.preventDefault()
         e.stopPropagation()
-        router.push(`/forum/${post.id}`)
+        router.push(`/forum/${post.id}/${titleSlug}`)
       }}
       className={cn(
         isPinned && post.isPinned && 'border-l-2 border-l-orange-600',

@@ -4,7 +4,7 @@ import { useAuth } from '@clerk/nextjs'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useEffect, useReducer, useState } from 'react'
-import { type ExtendedComment } from '../../page'
+import { type ExtendedComment } from '../../[...titleSlug]/page'
 
 type UseReplyCommentSectionProps = {
   commentId?: string

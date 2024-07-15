@@ -9,7 +9,7 @@ import {
 import { useUser } from '@clerk/nextjs'
 import { format } from 'date-fns'
 import Image from 'next/image'
-import { type ExtendedComment } from '../page'
+import { type ExtendedComment } from '../[...titleSlug]/page'
 import { ForumAdminActions } from './forum-comment-admin-actions'
 import ReplyCommentSection from './reply-comment-section'
 

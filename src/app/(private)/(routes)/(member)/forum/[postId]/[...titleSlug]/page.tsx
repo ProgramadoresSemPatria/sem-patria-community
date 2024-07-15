@@ -16,6 +16,7 @@ import EditPostButton from '../components/edit-post-button'
 import PostCommentsLink from '../components/post-comments-link'
 import Head from 'next/head'
 import slugify from 'slugify'
+import { type Comment } from '@prisma/client'
 
 type PostPageProps = {
   params: {

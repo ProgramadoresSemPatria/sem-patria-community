@@ -1,4 +1,4 @@
-import { getPost } from '@/actions/post/get-post'
+import { type PostProps, getPost } from '@/actions/post/get-post'
 import defaultAvatar from '@/assets/avatar.png'
 import BackButton from '@/components/back-button'
 import { DefaultLayout } from '@/components/default-layout'
@@ -6,7 +6,6 @@ import NoteEditor from '@/components/editor/editor'
 import { Separator } from '@/components/ui/separator'
 import { type ExtendedPost } from '@/lib/types'
 import { auth } from '@clerk/nextjs'
-import { type Comment } from '@prisma/client'
 import format from 'date-fns/format'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -24,9 +23,10 @@ type PostPageProps = {
     titleSlug: string
   }
 }
-const generateMetadaData = async post => {
+
+const generateMetadaData = async ({ post }: PostProps) => {
   const titleSlug = slugify(post.title)
-  const dessc = JSON.parse(post.content)
+  const dessc = JSON.parse(post.content?.toString() as string)
 
   return {
     title: post?.title,
@@ -55,7 +55,7 @@ export type ExtendedComment = Comment & {
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
   const post = await getPost(params.postId)
-  const metadata = await generateMetadaData(post)
+  const metadata = await generateMetadaData({ post } as unknown as PostProps)
 
   return (
     <>

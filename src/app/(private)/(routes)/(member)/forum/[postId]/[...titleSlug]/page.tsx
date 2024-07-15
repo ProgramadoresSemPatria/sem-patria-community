@@ -53,7 +53,6 @@ export type ExtendedComment = Comment & {
 }
 
 const PostPage = async ({ params }: PostPageProps) => {
-  console.log(params)
   const { userId } = auth()
   const post = await getPost(params.postId)
   const metadata = await generateMetadaData(post)

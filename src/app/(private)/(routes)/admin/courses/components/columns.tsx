@@ -42,15 +42,11 @@ export const columns: Array<ColumnDef<CourseColumn>> = [
     },
     cell: ({ row }) => (
       <span>
-        {Array.isArray(row.original.categoryNames) ? (
-          row.original.categoryNames.map((cat, index) => (
-            <Badge key={index} className="m-1">
-              {cat}
-            </Badge>
-          ))
-        ) : (
-          <Badge>{row.original.categoryNames}</Badge>
-        )}
+        {row.original.categoryNames.map((cat, index) => (
+          <Badge key={index} className="m-1">
+            {cat}
+          </Badge>
+        ))}
       </span>
     )
   },

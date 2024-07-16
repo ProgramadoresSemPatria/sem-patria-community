@@ -18,10 +18,12 @@ const AdminCoursesPage = async () => {
   })
 
   const formattedCourses: CourseColumn[] = courses.map(item => {
-    const categoryNames =
-      item.categories.length > 0
-        ? item.categories.map(cat => cat.category.name)
-        : [item.category.name]
+    const categoryNames = [
+      ...new Set([
+        ...item.categories.map(cat => cat.category.name),
+        item.category.name
+      ])
+    ]
 
     return {
       id: item.id,
@@ -32,7 +34,7 @@ const AdminCoursesPage = async () => {
       categories: item.categories.map(cat => cat.category),
       categoryNames,
       isPending: item.isPending,
-      category: item.category // Ensure this exists or handle accordingly
+      category: item.category
     }
   })
 

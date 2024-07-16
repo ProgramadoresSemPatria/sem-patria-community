@@ -82,9 +82,10 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
 
   useEffect(() => {
     if (initialData) {
-      setSelectedCategories(
-        initialData.categories.map(category => category.categoryId)
-      )
+      setSelectedCategories([
+        ...initialData.categories.map(category => category.categoryId),
+        initialData.categoryId
+      ])
     }
   }, [initialData])
 

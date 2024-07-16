@@ -25,11 +25,12 @@ import {
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { appRoutes } from '@/lib/constants'
-import { type Category, type Course } from '@prisma/client'
+import { type CourseCategory, type Category, type Course } from '@prisma/client'
 import { useNewCourseForm } from './use-new-course-form'
+import { Badge } from '@/components/ui/badge'
 
 type NewCourseFormProps = {
-  initialData: Course | null
+  initialData: (Course & { categories: CourseCategory[] }) | null
   categories: Category[]
 }
 
@@ -47,7 +48,9 @@ export const NewCourseForm = ({
     isPending,
     form,
     onSubmit,
-    action
+    action,
+    selectedCategories,
+    handleSelectedcategories
   } = useNewCourseForm({ initialData })
 
   return (
@@ -127,62 +130,87 @@ export const NewCourseForm = ({
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name="categoryId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    {categories.length > 0 && (
-                      <Select
-                        disabled={isPending}
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        defaultValue={field.value}
-                      >
+              <div className="flex flex-col gap-1">
+                <FormField
+                  control={form.control}
+                  name="categoryIds"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Categories</FormLabel>
+                      <Select disabled={isPending}>
                         <FormControl>
-                          <SelectTrigger data-testid="category">
+                          <SelectTrigger>
                             <SelectValue
-                              defaultValue={field.value}
-                              placeholder="Select a category"
+                              placeholder={
+                                selectedCategories.length > 0
+                                  ? `${selectedCategories.length} selected`
+                                  : 'Select categories'
+                              }
                             />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
+
+                        <SelectContent className="flex flex-col">
                           {categories.map(category => (
-                            <SelectItem
-                              data-testid={category.name}
+                            <div
                               key={category.id}
-                              value={category.id}
+                              className="flex items-center gap-1"
                             >
+                              <Checkbox
+                                checked={selectedCategories.includes(
+                                  category.id
+                                )}
+                                onCheckedChange={() => {
+                                  handleSelectedcategories(category.id, form)
+                                }}
+                                value={category.id}
+                                disabled={isPending}
+                              />
                               {category.name}
-                            </SelectItem>
+                            </div>
                           ))}
                         </SelectContent>
                       </Select>
-                    )}
-
-                    {!categories.length && (
-                      <div className="flex flex-col gap-y-2">
-                        <span className="text-muted-foreground font-medium text-sm">
-                          You must create a category before create a course.
-                        </span>
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          className="w-1/3"
+                      {!categories.length && (
+                        <div className="flex flex-col gap-y-2">
+                          <span className="text-muted-foreground font-medium text-sm">
+                            You must create a category before creating a course.
+                          </span>
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            className="w-1/3"
+                            onClick={() => {
+                              router.push(appRoutes.admin_categories_new)
+                            }}
+                          >
+                            Create category
+                          </Button>
+                        </div>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex flex-wrap gap-1 max-w-full">
+                  {selectedCategories.map(categoryId => {
+                    const category = categories.find(c => c.id === categoryId)
+                    return (
+                      <Badge key={categoryId}>
+                        {category?.name}{' '}
+                        <span
+                          className="ml-2 hover:cursor-pointer"
                           onClick={() => {
-                            router.push(appRoutes.admin_categories_new)
+                            handleSelectedcategories(categoryId, form)
                           }}
                         >
-                          Create category
-                        </Button>
-                      </div>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                          <Icons.close size={15} />
+                        </span>
+                      </Badge>
+                    )
+                  })}
+                </div>
+              </div>
 
               <FormField
                 control={form.control}

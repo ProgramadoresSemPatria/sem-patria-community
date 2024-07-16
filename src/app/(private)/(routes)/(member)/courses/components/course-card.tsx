@@ -1,7 +1,7 @@
-import AdvancedImg from '@/assets/advanced.png'
-import BeginnerImg from '@/assets/beginner.png'
+import AdvancedImg from '@/assets/advanced.jpg'
+import BeginnerImg from '@/assets/beginner.jpg'
 import BgCardImg from '@/assets/card-bg.png'
-import IntermediateImg from '@/assets/intermediate.png'
+import IntermediateImg from '@/assets/intermediate.jpg'
 import {
   IconCourseAdvancedLevel,
   IconCourseBeginnerLevel,
@@ -48,7 +48,7 @@ export const CourseCard = ({ courseProps: props }: CourseCardProps) => {
         <Image alt="bg-card" src={BgCardImg} className="absolute" />
         <div className="flex flex-col flex-1 w-full gap-4 p-6">
           <div className="w-full flex items-center justify-between h-11 mb-1">
-            <div className="relative w-16 h-14">
+            <div className="relative w-18 h-16">
               <Image
                 src={renderLevelImage(props.level)}
                 alt={props.name}

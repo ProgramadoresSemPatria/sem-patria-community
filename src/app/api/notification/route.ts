@@ -13,7 +13,13 @@ export async function GET(req: NextRequest) {
         isPending: true
       },
       include: {
-        category: true
+        category: true,
+        categories: {
+          include: {
+            category: true,
+            course: true
+          }
+        }
       }
     })
 

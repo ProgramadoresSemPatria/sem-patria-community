@@ -50,12 +50,11 @@ const personalInfoSchema = z.object({
   level: z.string(),
   linkedin: z
     .string()
-    .url({
-      message: 'Invalid format of Url.'
-    })
+    .url()
+    .optional()
     .refine(value => {
-      if (value.length > 0) {
-        return value.includes('linkedin.com')
+      if (value && value.length > 0) {
+        return value?.includes('linkedin.com')
       }
       return true
     }, 'Invalid format of Linkedin Url.'),

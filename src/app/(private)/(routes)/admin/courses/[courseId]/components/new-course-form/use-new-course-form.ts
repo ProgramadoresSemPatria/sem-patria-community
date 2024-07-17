@@ -25,9 +25,8 @@ const formSchema = z.object({
   level: z.string().min(1, {
     message: 'Level is required'
   }),
-  categoryIds: z.array(z.string()).min(1, {
-    message: 'Category is required'
-  })
+  categoryIds: z.array(z.string()),
+  categoryId: z.string()
 })
 
 type NewCourseFormValues = z.infer<typeof formSchema>
@@ -38,6 +37,7 @@ type Form = UseFormReturn<
     isPaid: boolean
     level: string
     categoryIds: string[]
+    categoryId: string
   },
   unknown,
   undefined
@@ -58,6 +58,7 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
 
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [selectedCategory, setSelectedCategory] = useState<string>()
 
   const title = initialData ? 'Edit course' : 'Create course'
   const toastMessage = initialData
@@ -75,6 +76,7 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
           name: '',
           courseUrl: '',
           categoryIds: [],
+          categoryId: '',
           level: '',
           isPaid: false
         }
@@ -84,13 +86,14 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
     if (initialData) {
       const categories = [
         ...new Set([
-          ...initialData.categories.map(category => category.categoryId),
-          initialData.categoryId
+          ...initialData.categories.map(category => category.categoryId)
         ])
       ]
+      setSelectedCategory(initialData.categoryId)
       setSelectedCategories(categories)
+      form.setValue('categoryIds', categories)
     }
-  }, [initialData])
+  }, [form, initialData])
 
   const { mutateAsync: deleteCourse, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
@@ -139,6 +142,7 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
   })
 
   const onSubmit = async (values: NewCourseFormValues) => {
+    console.log(values, selectedCategories)
     await createOrUpdateCourse({ ...values, categoryIds: selectedCategories })
   }
 
@@ -180,6 +184,8 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
     onSubmit,
     action,
     selectedCategories,
+    selectedCategory,
+    setSelectedCategory,
     handleSelectedcategories
   }
 }

@@ -6,7 +6,8 @@ const NewCoursePage = async ({ params }: { params: { courseId: string } }) => {
   const course = await prismadb.course.findUnique({
     where: { id: params.courseId },
     include: {
-      categories: true
+      categories: true,
+      category: true
     }
   })
 

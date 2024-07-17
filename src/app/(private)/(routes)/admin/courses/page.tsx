@@ -8,20 +8,35 @@ import CoursesClient from './components/courses-client'
 const AdminCoursesPage = async () => {
   const courses = await prismadb.course.findMany({
     include: {
+      categories: {
+        include: {
+          category: true
+        }
+      },
       category: true
     }
   })
 
-  const formattedCourses: CourseColumn[] = courses.map(item => ({
-    id: item.id,
-    name: item.name,
-    courseUrl: item.courseUrl,
-    isPaid: item.isPaid,
-    level: item.level,
-    categoryId: item.categoryId,
-    category: item.category.name,
-    isPending: item.isPending
-  }))
+  const formattedCourses: CourseColumn[] = courses.map(item => {
+    const categoryNames = [
+      ...new Set([
+        ...item.categories.map(cat => cat.category.name),
+        item.category.name
+      ])
+    ]
+
+    return {
+      id: item.id,
+      name: item.name,
+      courseUrl: item.courseUrl,
+      isPaid: item.isPaid,
+      level: item.level,
+      categories: item.categories.map(cat => cat.category),
+      categoryNames,
+      isPending: item.isPending,
+      category: item.category
+    }
+  })
 
   return (
     <DefaultLayout>

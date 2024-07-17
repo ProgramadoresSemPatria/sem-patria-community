@@ -8,6 +8,16 @@ import CoursesContent from './components/courses-content'
 const CoursesPage = async () => {
   const categories = await prismadb.category.findMany({
     include: {
+      courseCategory: {
+        include: {
+          course: true
+        },
+        where: {
+          course: {
+            isPending: false
+          }
+        }
+      },
       courses: {
         where: {
           isPending: false

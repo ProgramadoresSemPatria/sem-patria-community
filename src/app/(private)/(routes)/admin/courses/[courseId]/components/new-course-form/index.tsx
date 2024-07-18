@@ -59,7 +59,11 @@ export const NewCourseForm = ({
   const allCategories = [selectedCategory, ...selectedCategories]
 
   const filteredCategories = categories.filter(
-    cat => cat.id !== initialData?.categoryId
+    cat => cat.id !== selectedCategory
+  )
+
+  const filteredBaseCategories = categories.filter(
+    cat => !selectedCategories.includes(cat.id)
   )
 
   return (
@@ -225,7 +229,7 @@ export const NewCourseForm = ({
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {categories.map(category => (
+                          {filteredBaseCategories.map(category => (
                             <SelectItem
                               data-testid={category.name}
                               key={category.id}

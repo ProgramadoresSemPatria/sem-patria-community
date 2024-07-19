@@ -9,8 +9,15 @@ export async function PATCH(
 ) {
   try {
     const { userId } = auth()
-    const { name, categoryId, courseUrl, isPaid, level, isPending } =
-      await req.json()
+    const {
+      name,
+      categoryIds,
+      categoryId,
+      courseUrl,
+      isPaid,
+      level,
+      isPending
+    } = await req.json()
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
@@ -27,7 +34,18 @@ export async function PATCH(
     if (!params.courseId)
       return new NextResponse('Course id is required', { status: 400 })
 
-    const course = await prismadb.course.updateMany({
+    await prismadb.course.update({
+      where: {
+        id: params.courseId
+      },
+      data: {
+        categories: {
+          deleteMany: {}
+        }
+      }
+    })
+
+    const course = await prismadb.course.update({
       where: {
         id: params.courseId
       },
@@ -36,8 +54,15 @@ export async function PATCH(
         courseUrl,
         level,
         isPaid,
+        isPending,
         categoryId,
-        isPending
+        categories: {
+          create: categoryIds.map((categoryId: string) => ({
+            category: {
+              connect: { id: categoryId }
+            }
+          }))
+        }
       }
     })
 

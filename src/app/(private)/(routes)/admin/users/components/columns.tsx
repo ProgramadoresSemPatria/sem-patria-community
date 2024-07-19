@@ -34,7 +34,7 @@ export const userColumns: Array<ColumnDef<UserColumn>> = [
               width={30}
               height={30}
               alt={cell.getValue() as string}
-              className="rounded-full"
+              className="rounded-full w-6 h-6"
             />
           ) : (
             <Skeleton className="flex flex-col items-center justify-center w-8 h-8 rounded-full">

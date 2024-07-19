@@ -1,6 +1,6 @@
 'use client'
 
-import DefaultImage from '@/assets/advanced.png'
+import DefaultImage from '@/assets/advanced.jpg'
 import { Icons } from '@/components/icons'
 import { SkeletonMentorshipPage } from '@/components/skeletons/skeleton-mentorship-page'
 import { Button } from '@/components/ui/button'

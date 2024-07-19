@@ -1,4 +1,4 @@
-import { type PostProps, getPost } from '@/actions/post/get-post'
+import { getPost } from '@/actions/post/get-post'
 import defaultAvatar from '@/assets/avatar.png'
 import BackButton from '@/components/back-button'
 import { DefaultLayout } from '@/components/default-layout'
@@ -14,9 +14,8 @@ import PostLike from '../../components/post-likes'
 import CommentSection from '../components/comment-section'
 import EditPostButton from '../components/edit-post-button'
 import PostCommentsLink from '../components/post-comments-link'
-import Head from 'next/head'
-import slugify from 'slugify'
 import { type Comment } from '@prisma/client'
+import { type Metadata } from 'next'
 
 type PostPageProps = {
   params: {
@@ -25,17 +24,18 @@ type PostPageProps = {
   }
 }
 
-const generateMetadaData = async ({ post }: PostProps) => {
-  const titleSlug = slugify(post.title)
-  const dessc = JSON.parse(post.content?.toString() as string)
+export async function generateMetadata({
+  params
+}: PostPageProps): Promise<Metadata> {
+  const post = await getPost(params.postId)
+  const parsedContent = JSON.parse(post?.content as string)
+  const description = parsedContent.content[0].content[0].text
 
-  return {
+  const metadata: Metadata = {
     title: post?.title,
-    description: dessc.content[0].content[0].text,
-    alternates: {
-      canonical: `http://localhost:3000/forum/${post.id}/${titleSlug}`
-    }
+    description
   }
+  return metadata
 }
 
 export type ExtendedComment = Comment & {
@@ -52,20 +52,12 @@ export type ExtendedComment = Comment & {
   }
   createdAt: string
 }
-
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
   const post = await getPost(params.postId)
-  const metadata = await generateMetadaData({ post } as unknown as PostProps)
 
   return (
     <>
-      <Head>
-        <title>{metadata?.title}</title>
-        <meta name="description" content={metadata?.description} />
-        <meta property="og:title" content={metadata?.title} />
-        <meta property="og:description" content={metadata?.description} />
-      </Head>
       <DefaultLayout>
         <Suspense fallback={'loading'}>
           <div className="h-full flex flex-col items-center sm:items-start justify-between mt-10 w-full gap-4">

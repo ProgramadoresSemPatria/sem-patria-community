@@ -42,25 +42,37 @@ model User {
 }
 
 model Course {
-  id         String   @id @default(uuid())
-  name       String
-  courseUrl  String
-  level      String
-  categoryId String
-  isPaid     Boolean  @default(false)
-  isPending  Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  category   Category @relation("CourseToCategory", fields: [categoryId], references: [id])
+id String @id @default(uuid())
+name String
+courseUrl String
+level String
+categoryId String
+isPaid Boolean @default(false)
+isPending Boolean @default(false)
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+category Category @relation("CourseToCategory", fields: [categoryId], references: [id])
+categories CourseCategory[]
 }
 
 model Category {
-  id        String   @id @default(uuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  courses   Course[] @relation("CourseToCategory")
-  posts     Post[]
+id String @id @default(uuid())
+name String
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+courses Course[] @relation("CourseToCategory")
+courseCategory CourseCategory[]
+posts Post[]
+
+}
+
+model CourseCategory {
+courseId String
+categoryId String
+course Course @relation(fields: [courseId], references: [id])
+category Category @relation(fields: [categoryId], references: [id])
+
+@@id([courseId, categoryId])
 }
 
 model Note {

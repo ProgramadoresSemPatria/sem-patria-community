@@ -157,9 +157,23 @@ export const useNewClassroomVideoForm = ({
       })
     }
   })
+  const MAX_FILE_SIZE = 64 * 1024 * 1024
 
   const onSubmit = async (values: NewClassroomVideoFormValues) => {
     if (files.length > 0) {
+      const oversizedFiles = files.filter(
+        file => file.file.size > MAX_FILE_SIZE
+      )
+      if (oversizedFiles.length > 0) {
+        oversizedFiles.forEach(file => {
+          toast({
+            title: 'File Too Large',
+            description: `File ${file.file.name} is too large. Max file size is 8MB.`,
+            variant: 'destructive'
+          })
+        })
+        return
+      }
       setUploadingFiles(true)
       try {
         const uploadedFiles = await Promise.all(

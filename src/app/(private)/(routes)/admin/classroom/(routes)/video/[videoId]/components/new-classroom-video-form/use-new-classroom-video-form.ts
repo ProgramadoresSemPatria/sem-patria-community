@@ -168,7 +168,7 @@ export const useNewClassroomVideoForm = ({
         oversizedFiles.forEach(file => {
           toast({
             title: 'File Too Large',
-            description: `File ${file.file.name} is too large. Max file size is 8MB.`,
+            description: `File ${file.file.name} is too large. Max file size is 64MB.`,
             variant: 'destructive'
           })
         })

@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import { Icons } from '@/components/icons'
 import { type ExtendedPost } from '@/lib/types'
 import Post from '../post'
@@ -14,22 +15,44 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
   const { pinnedPosts, ref, searchParams, allPosts, isFetchingNextPage } =
     useForumFeed({ initialPosts })
 
+  const topPosts = React.useMemo(() => {
+    if (searchParams.get('category') === 'All') {
+      return [...allPosts]
+        .filter(post => post.likes.length > 0)
+        .sort((a, b) => b.likes.length - a.likes.length)
+        .slice(0, 3)
+    }
+    return []
+  }, [allPosts, searchParams])
   return (
     <ul className="flex flex-col col-span-2 space-y-6">
-      {searchParams.get('category') !== 'All' &&
-        pinnedPosts?.map(post => (
-          <li key={post.id}>
-            <Post
-              post={post}
-              userId={userId as string}
-              commentAmount={post?.comments?.length || 0}
-              categoryName={post?.category?.name || ''}
-              likesAmount={post?.likes?.length || 0}
-              currentLike={!!post?.likes?.find(like => like.userId === userId)}
-              isPinned
-            />
-          </li>
-        ))}
+      {searchParams.get('category') === 'All'
+        ? topPosts.map(post => (
+            <li key={post.id}>
+              <Post
+                post={post}
+                userId={userId as string}
+                commentAmount={post.comments.length}
+                categoryName={post.category.name}
+                likesAmount={post.likes.length}
+                currentLike={!!post.likes.find(like => like.userId === userId)}
+                isPinned={true}
+              />
+            </li>
+          ))
+        : pinnedPosts?.map(post => (
+            <li key={post.id}>
+              <Post
+                post={post}
+                userId={userId as string}
+                commentAmount={post.comments.length}
+                categoryName={post.category.name}
+                likesAmount={post.likes.length}
+                currentLike={!!post.likes.find(like => like.userId === userId)}
+                isPinned={post.isPinned as boolean}
+              />
+            </li>
+          ))}
 
       {allPosts.map((post: ExtendedPost, index: number) => {
         if (!post) {

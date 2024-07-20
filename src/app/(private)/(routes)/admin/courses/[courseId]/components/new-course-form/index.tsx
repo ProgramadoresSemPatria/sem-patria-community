@@ -213,7 +213,6 @@ export const NewCourseForm = ({
                       <Select
                         disabled={isPending}
                         onValueChange={value => {
-                          console.log(value)
                           field.onChange(value)
                           setSelectedCategory(value)
                         }}
@@ -310,7 +309,7 @@ export const NewCourseForm = ({
               </div>
             </div>
             <div className="flex-wrap max-w-full flex flex-col items-end mt-1">
-              <p>All categories</p>
+              <p>Selected categories</p>
               <div>
                 {allCategories.map(categoryId => {
                   const category = categories.find(c => c.id === categoryId)

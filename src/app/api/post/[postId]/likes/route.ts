@@ -7,7 +7,6 @@ export async function PUT(
   { params }: { params: { postId: string } }
 ) {
   try {
-    console.log(params)
     const { userId } = auth()
     const { postId } = params
 

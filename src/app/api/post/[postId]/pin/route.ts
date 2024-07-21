@@ -7,7 +7,6 @@ export async function PUT(
   { params }: { params: { postId: string } }
 ) {
   try {
-    console.log(params)
     const { userId } = auth()
     const { postId } = params
 
@@ -49,7 +48,6 @@ export async function PUT(
     })
 
     const message = updatedPost.isPinned ? 'Post pinned' : 'Post unpinned'
-    console.log(message)
 
     return new NextResponse(message, { status: 200 })
   } catch (error) {

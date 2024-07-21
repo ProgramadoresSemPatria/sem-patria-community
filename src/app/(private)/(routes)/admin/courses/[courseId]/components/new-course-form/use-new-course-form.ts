@@ -142,7 +142,6 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
   })
 
   const onSubmit = async (values: NewCourseFormValues) => {
-    console.log(values, selectedCategories)
     await createOrUpdateCourse({ ...values, categoryIds: selectedCategories })
   }
 

@@ -19,7 +19,19 @@ export type CourseColumn = {
   categories: Category[]
   category: Category
 }
+type Row = {
+  original: {
+    level: string
+  }
+}
+const levelOrder = ['beginner', 'intermediate', 'advanced']
 
+const customSort = (rowA: Row, rowB: Row) => {
+  console.log(rowA)
+  const levelA = rowA.original.level
+  const levelB = rowB.original.level
+  return levelOrder.indexOf(levelA) - levelOrder.indexOf(levelB)
+}
 export const columns: Array<ColumnDef<CourseColumn>> = [
   {
     accessorKey: 'name',
@@ -74,7 +86,8 @@ export const columns: Array<ColumnDef<CourseColumn>> = [
       <Badge className={`${validateCourseLevelColor(row.original.level)}`}>
         {row.original.level}
       </Badge>
-    )
+    ),
+    sortingFn: customSort
   },
   {
     accessorKey: 'isPaid',

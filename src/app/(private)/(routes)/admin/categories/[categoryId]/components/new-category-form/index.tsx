@@ -84,6 +84,7 @@ export const NewCategoryForm = ({ initialData }: NewCategoryFormProps) => {
                     <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="name"
                         disabled={isPending}
                         placeholder="Category name"
                         {...field}
@@ -94,7 +95,12 @@ export const NewCategoryForm = ({ initialData }: NewCategoryFormProps) => {
                 )}
               />
             </div>
-            <Button disabled={isPending} className="ml-auto" type="submit">
+            <Button
+              data-testid="submit"
+              disabled={isPending}
+              className="ml-auto"
+              type="submit"
+            >
               {isPending && (
                 <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
               )}

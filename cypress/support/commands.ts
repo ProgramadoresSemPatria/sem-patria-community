@@ -28,16 +28,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare interface Window {
@@ -62,13 +52,6 @@ declare namespace Cypress {
 }
 
 Cypress.Commands.add(`signIn`, () => {
-  // cy.intercept(
-  //   'https://coherent-amoeba-16.clerk.accounts.dev/v1/client/sign_ins?**',
-  //   {
-  //     statusCode: 200,
-
-  //   }
-  // )
   cy.log(`Signing in.`)
   cy.visit('/', {
     failOnStatusCode: false

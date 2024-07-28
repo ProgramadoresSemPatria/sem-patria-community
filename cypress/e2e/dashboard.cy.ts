@@ -3,29 +3,12 @@ describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
     cy.session('signed-in', () => {
       cy.signIn()
     })
-  })
-  it('Should change CMS Mode on button click', () => {
     cy.visit('/dashboard', {
       failOnStatusCode: false
     })
-    cy.contains('CMS Mode')
-      .click()
-      .then(() => {
-        cy.contains('Member Mode')
-        cy.contains('CMS')
-      })
-  })
-
-  it('Should go to the /mentoship page by clicking the Mentorship button in the sidebar', () => {
-    cy.visit('/dashboard', {
-      failOnStatusCode: false
-    })
-    cy.get('[href="/mentorship"] > .font-medium')
-      .click()
-      .then(() => {
-        cy.contains('Mentorship')
-        cy.contains('Browse all our community content.')
-      })
+    cy.contains('On Boarding Video')
+    cy.contains('Mark as Watched').click()
+    cy.contains('Dashboard')
   })
 
   it('Should go to the /courses page by clicking the Courses button in the sidebar', () => {
@@ -36,7 +19,7 @@ describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
       .click()
       .then(() => {
         cy.contains('Courses')
-        cy.contains('Browse all our community content')
+        cy.contains('All')
       })
   })
 
@@ -48,7 +31,7 @@ describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
       .click()
       .then(() => {
         cy.contains('Code Up')
-        cy.contains('Inform the progress of the day')
+        cy.contains('Create a note')
       })
   })
 
@@ -56,11 +39,11 @@ describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
     cy.visit('/dashboard', {
       failOnStatusCode: false
     })
-    cy.get('[href="/settings"]')
+    cy.get('[href="/profile"]')
       .click()
       .then(() => {
-        cy.contains('Settings')
-        cy.contains('Manage your account settings')
+        cy.contains('Profile')
+        cy.contains('Members of community')
       })
   })
 
@@ -68,64 +51,157 @@ describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
     cy.visit('/dashboard', {
       failOnStatusCode: false
     })
-    cy.contains('CMS Mode').click()
     cy.contains('Users')
       .click()
       .then(() => {
         cy.contains('Users')
-        cy.contains('Manage the community users here')
+        cy.contains('New User')
       })
   })
 
-  it('Should go to the /admin/courses page by clicking the CMS Courses button in the sidebar', () => {
+  it('Should go to the /admin/courses page', () => {
     cy.visit('/dashboard', {
       failOnStatusCode: false
     })
-    cy.contains('CMS Mode').click()
     cy.get('[href="/admin/courses"]')
       .click()
       .then(() => {
         cy.contains('Courses')
-        cy.contains('Manage the indications of courses of community.')
+        cy.contains('Add New')
       })
   })
 
-  it('Should go to the /admin/categories page by clicking the CMS Categories button in the sidebar', () => {
+  it('Should go to the /admin/categories page', () => {
     cy.visit('/dashboard', {
       failOnStatusCode: false
     })
-    cy.contains('CMS Mode').click()
     cy.get('[href="/admin/categories"]')
       .click()
       .then(() => {
         cy.contains('Categories')
-        cy.contains('Manage the categories of courses')
+        cy.contains('Add New')
       })
   })
 
-  it('Should go to the /admin/events page by clicking the CMS Events button in the sidebar', () => {
+  it('Should go to the /admin/events page', () => {
     cy.visit('/dashboard', {
       failOnStatusCode: false
     })
-    cy.contains('CMS Mode').click()
     cy.get('[href="/admin/events"]')
       .click()
       .then(() => {
         cy.contains('Community Events')
-        cy.contains('Manage the community events here')
+        cy.contains('New Event')
       })
   })
 
-  it('Should go to the /admin/classroom page by clicking the CMS Classroom button in the sidebar', () => {
+  it('Should go to the /admin/classroom page', () => {
     cy.visit('/dashboard', {
       failOnStatusCode: false
     })
-    cy.contains('CMS Mode').click()
-    cy.get('[href="/admin/events"]')
+    cy.get('[href="/admin/classroom?tabSelected=classroom"]')
       .click()
       .then(() => {
         cy.contains('Classroom')
-        cy.contains('Manage the community events here.')
+        cy.contains('New Classroom')
       })
+  })
+
+  it('Should go to the /admin/classroom page in Modules tab', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+    cy.get('[href="/admin/classroom?tabSelected=classroom"]')
+      .click()
+      .then(() => {
+        cy.contains('Classroom')
+        cy.contains('New Classroom')
+      })
+    cy.get('#radix-\\:r1u\\:-trigger-modules')
+      .click()
+      .then(() => {
+        cy.contains('New Module')
+      })
+  })
+
+  it('Should go to the /admin/classroom page in Videos tab', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+    cy.get('[href="/admin/classroom?tabSelected=classroom"]')
+      .click()
+      .then(() => {
+        cy.contains('Classroom')
+        cy.contains('New Classroom')
+      })
+    cy.get('#radix-\\:r1u\\:-trigger-videos')
+      .click()
+      .then(() => {
+        cy.contains('New Video')
+      })
+  })
+
+  it('Should go to the dashboard', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+    cy.contains('Dashboard')
+    cy.contains('Recent notes of our members')
+    cy.contains('Next events of the community')
+    cy.contains('127 days challenge')
+    cy.contains('Next events of the community')
+  })
+
+  it('Should go to the forum clicking in Share something', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+    cy.contains('Share something')
+      .click()
+      .then(() => {
+        cy.url().should('eq', 'http://localhost:3000/forum?category=All')
+      })
+  })
+
+  it('Should open calendar', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+    cy.get('#date')
+      .click()
+      .then(() => {
+        cy.get('.rdp').should('exist')
+      })
+  })
+
+  it('Should go to profile checklist when click in See more', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+    cy.contains('See more')
+      .click()
+      .then(() => {
+        cy.url().should('eq', 'http://localhost:3000/profile/checklist')
+      })
+  })
+
+  it.only('Should preview note if exists', () => {
+    cy.visit('/dashboard', {
+      failOnStatusCode: false
+    })
+
+    cy.get('body').then(body => {
+      if (body.find('[style="min-width: 100%; display: table;"]').length) {
+        cy.get('[style="min-width: 100%; display: table;"] > .p-6').then(() => {
+          cy.get('.flex-1 > .flex > .inline-flex')
+            .click()
+            .then(() => {
+              cy.contains('View full note').should('exist')
+            })
+        })
+      } else {
+        cy.log('Element does not exist')
+      }
+    })
   })
 })

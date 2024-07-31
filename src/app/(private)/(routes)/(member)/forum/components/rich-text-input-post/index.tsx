@@ -6,7 +6,8 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel
+  FormLabel,
+  FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import {
@@ -40,6 +41,8 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
       </div>
     )
   }
+
+  console.log(form.getValues())
 
   return (
     <Form {...form}>
@@ -112,6 +115,7 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
                   />
                 </div>
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

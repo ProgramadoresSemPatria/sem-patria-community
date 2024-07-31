@@ -29,7 +29,7 @@ export async function generateMetadata({
 }: PostPageProps): Promise<Metadata> {
   const post = await getPost(params.postId)
   const parsedContent = JSON.parse(post?.content as string)
-  const description = parsedContent?.content?.[0].content?.[0].text
+  const description = parsedContent?.content?.[0].content?.[0].text ?? ''
 
   const metadata: Metadata = {
     title: post?.title,

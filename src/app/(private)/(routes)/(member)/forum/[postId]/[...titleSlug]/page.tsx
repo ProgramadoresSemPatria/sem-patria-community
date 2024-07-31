@@ -15,27 +15,12 @@ import CommentSection from '../components/comment-section'
 import EditPostButton from '../components/edit-post-button'
 import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
-import { type Metadata } from 'next'
 
 type PostPageProps = {
   params: {
     postId: string
     titleSlug: string
   }
-}
-
-export async function generateMetadata({
-  params
-}: PostPageProps): Promise<Metadata> {
-  const post = await getPost(params.postId)
-  const parsedContent = JSON.parse(post?.content as string)
-  const description = parsedContent?.content?.[0].content?.[0].text ?? ''
-
-  const metadata: Metadata = {
-    title: post?.title,
-    description
-  }
-  return metadata
 }
 
 export type ExtendedComment = Comment & {

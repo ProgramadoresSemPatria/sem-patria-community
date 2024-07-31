@@ -42,8 +42,6 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
     )
   }
 
-  console.log(form.getValues())
-
   return (
     <Form {...form}>
       <form

@@ -17,8 +17,8 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
 
   const topPosts = React.useMemo(() => {
     if (searchParams.get('category') === 'All') {
-      return [...allPosts]
-        .filter(post => post.likes.length > 0)
+      return (allPosts || [])
+        .filter(post => post && post.likes && post.likes.length > 0)
         .sort((a, b) => b.likes.length - a.likes.length)
         .slice(0, 3)
     }

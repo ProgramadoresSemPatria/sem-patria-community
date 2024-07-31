@@ -6,6 +6,7 @@ import NoteEditor from '@/components/editor/editor'
 import { Separator } from '@/components/ui/separator'
 import { type ExtendedPost } from '@/lib/types'
 import { auth } from '@clerk/nextjs'
+import { type Comment } from '@prisma/client'
 import format from 'date-fns/format'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -14,8 +15,6 @@ import PostLike from '../../components/post-likes'
 import CommentSection from '../components/comment-section'
 import EditPostButton from '../components/edit-post-button'
 import PostCommentsLink from '../components/post-comments-link'
-import { type Comment } from '@prisma/client'
-// import { type Metadata } from 'next'
 
 type PostPageProps = {
   params: {
@@ -23,20 +22,6 @@ type PostPageProps = {
     titleSlug: string
   }
 }
-
-// export async function generateMetadata({
-//   params
-// }: PostPageProps): Promise<Metadata> {
-//   const post = await getPost(params.postId)
-//   const parsedContent = JSON.parse(post?.content as string)
-//   const description = parsedContent?.content?.[0].content?.[0].text
-
-//   const metadata: Metadata = {
-//     title: post?.title,
-//     description
-//   }
-//   return metadata
-// }
 
 export type ExtendedComment = Comment & {
   likes: Array<{

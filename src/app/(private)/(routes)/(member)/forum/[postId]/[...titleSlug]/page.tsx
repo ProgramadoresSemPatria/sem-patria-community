@@ -6,7 +6,6 @@ import NoteEditor from '@/components/editor/editor'
 import { Separator } from '@/components/ui/separator'
 import { type ExtendedPost } from '@/lib/types'
 import { auth } from '@clerk/nextjs'
-import { type Comment } from '@prisma/client'
 import format from 'date-fns/format'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -15,6 +14,7 @@ import PostLike from '../../components/post-likes'
 import CommentSection from '../components/comment-section'
 import EditPostButton from '../components/edit-post-button'
 import PostCommentsLink from '../components/post-comments-link'
+import { type Comment } from '@prisma/client'
 
 type PostPageProps = {
   params: {

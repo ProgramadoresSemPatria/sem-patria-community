@@ -4,16 +4,22 @@ describe('Admin Courses page', () => {
       cy.signIn()
     })
     cy.visit('/dashboard', {
-      failOnStatusCode: false
+      failOnStatusCode: false,
+      onBeforeLoad: win => {
+        win.localStorage.setItem('videoWatched', 'true')
+      }
     })
-    cy.contains('CMS Mode').click()
   })
   it('Should hide filters when it is clicked', () => {
     cy.visit('/admin/courses', {
       failOnStatusCode: false
     })
     cy.contains('Columns').click()
-    cy.contains('isPaid').click()
+    cy.contains(
+      'div[role="menuitemcheckbox"][aria-checked="true"]',
+      'Paid'
+    ).click()
+
     cy.contains('Paid').should('not.exist')
   })
 
@@ -29,14 +35,14 @@ describe('Admin Courses page', () => {
 
     cy.get(
       '.\\[\\&_tr\\:last-child\\]\\:border-0 > :nth-child(1) > :nth-child(4) > .inline-flex'
-    ).should('contain.text', 'advanced')
+    ).should('contain.text', 'beginner')
 
     cy.get(
       '.\\[\\&_tr\\]\\:border-b > .border-b > :nth-child(4) > .inline-flex'
     ).click({ force: true })
     cy.get(
       '.\\[\\&_tr\\:last-child\\]\\:border-0 > :nth-child(1) > :nth-child(4) > .inline-flex'
-    ).should('contain.text', 'beginner')
+    ).should('contain.text', 'advanced')
   })
 
   it('Should delete new course', () => {
@@ -46,7 +52,7 @@ describe('Admin Courses page', () => {
     cy.visit('/admin/courses', {
       failOnStatusCode: false
     })
-    cy.get('#radix-\\:R2ulqnnlttfekq\\:').click()
+    cy.get('#radix-\\:R2sqlbrquudsukq\\:').click()
     cy.contains('Delete').click()
     cy.contains('Delete').click()
     cy.contains('Success').should('exist')
@@ -60,14 +66,14 @@ describe('Admin Courses page', () => {
     cy.visit('/admin/courses', {
       failOnStatusCode: false
     })
-    cy.get('#radix-\\:R2ulqnnlttfekq\\:').click()
+    cy.get('#radix-\\:R2sqlbrquudsukq\\:').click()
     cy.contains('Update').click()
     cy.get('[data-testid="name"]').clear().type('advancedddd')
     cy.get('[data-testid="url"]')
       .clear()
       .type('https://youtube.com/bordless-community')
     cy.get('[data-testid="category"]').click()
-    cy.get('[data-testid="Front End"]').click()
+    cy.get('[data-testid="web 3"]').click()
     cy.get('[data-testid="level"]').click()
     cy.get('[data-testid="intermediate"]').click()
     cy.get('[data-testid="checkbox"]').click({ force: true })

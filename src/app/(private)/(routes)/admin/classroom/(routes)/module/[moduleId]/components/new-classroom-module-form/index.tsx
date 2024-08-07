@@ -110,6 +110,7 @@ export const NewClassroomModuleForm = ({
                       <FormLabel>Title</FormLabel>
                       <FormControl>
                         <Input
+                          data-testid="title"
                           disabled={isPending}
                           placeholder="Classroom title"
                           {...field}
@@ -127,13 +128,14 @@ export const NewClassroomModuleForm = ({
                       <FormLabel>Classrooms</FormLabel>
                       {classrooms.length ? (
                         <Select
+                          data-testid="classroom"
                           disabled={isPending}
                           onValueChange={field.onChange}
                           value={field.value}
                           defaultValue={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger>
+                            <SelectTrigger data-testid="classroom">
                               <SelectValue
                                 defaultValue={field.value}
                                 placeholder="Select a classroom"
@@ -176,6 +178,7 @@ export const NewClassroomModuleForm = ({
                   )}
                 />
                 <Button
+                  data-testid="submit"
                   disabled={
                     isPending ||
                     isDeletingImageModule ||

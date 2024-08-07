@@ -89,6 +89,7 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
                     <FormLabel>Title</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="title"
                         disabled={isPending}
                         placeholder="Classroom title"
                         {...field}
@@ -136,7 +137,12 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
                 )}
               />
             </div>
-            <Button disabled={isPending} className="ml-auto" type="submit">
+            <Button
+              data-testid="submit"
+              disabled={isPending}
+              className="ml-auto"
+              type="submit"
+            >
               {isPending && (
                 <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
               )}

@@ -23,7 +23,7 @@ export enum appRoutes {
   codeUp = '/code-up',
   mentorship = '/mentorship',
   profile = '/profile',
-  forum = '/forum',
+  forum = '/forum?category=All',
   appearance = '/profile/appearance',
   checklist = '/profile/checklist',
   admin_courses = '/admin/courses',

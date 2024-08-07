@@ -16,7 +16,7 @@ import EditPostButton from '../components/edit-post-button'
 import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
 import { type Metadata } from 'next'
-import Head from 'next/head'
+import appLogo from '@/assets/app-logo-light.png'
 
 type PostPageProps = {
   params: {
@@ -25,41 +25,34 @@ type PostPageProps = {
   }
 }
 
-// export async function getServerSideProps({ params }: PostPageProps) {
-//   const post = await getPost(params.postId)
-//   const parsedContent = JSON.parse(post?.content as string)
-//   const description =
-//     parsedContent.content[0]?.content[0]?.text || 'Default description'
-
-//   const metadata: Metadata = {
-//     title: post?.title || '',
-//     description: description || '',
-//     openGraph: {
-//       title: post?.title || '',
-//       description: description || '',
-//       url: `https://borderless-community-test.vercel.app/forum/${params.postId}/${params.titleSlug}`,
-//       type: 'article'
-//     }
-//   }
-
-//   return {
-//     props: {
-//       post,
-//       metadata
-//     }
-//   }
-// }
-
 export async function generateMetadata({
   params
 }: PostPageProps): Promise<Metadata> {
   const post = await getPost(params.postId)
   const parsedContent = JSON.parse(post?.content as string)
-  const description = parsedContent.content[0].content[0].text
+  const description =
+    parsedContent.content?.[0]?.content?.[0]?.text || 'Default description'
+  const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
+  const title = post?.title || 'Default Title'
+  const altText = `Image for ${title}`
 
   const metadata: Metadata = {
-    title: post?.title,
-    description
+    title,
+    description,
+    openGraph: {
+      title: post?.title || 'Title',
+      description: description || 'description',
+      type: 'article',
+      siteName: 'Borderless Community',
+      images: [
+        {
+          url: img,
+          alt: altText,
+          width: 1900,
+          height: 630
+        }
+      ]
+    }
   }
   return metadata
 }
@@ -81,19 +74,9 @@ export type ExtendedComment = Comment & {
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
   const post = await getPost(params.postId)
-  const parsedContent = JSON.parse(post?.content as string)
-  const description =
-    parsedContent.content[0]?.content[0]?.text || 'Default description'
 
   return (
     <>
-      <Head>
-        <title>{post?.title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={post?.title} />
-        <meta property="og:description" content={description as string} />
-        <meta property="og:type" content="article" />
-      </Head>
       <DefaultLayout>
         <Suspense fallback={'loading'}>
           <div className="h-full flex flex-col items-center sm:items-start justify-between mt-10 w-full gap-4">

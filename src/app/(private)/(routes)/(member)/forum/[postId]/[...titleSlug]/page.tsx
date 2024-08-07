@@ -23,7 +23,6 @@ type PostPageProps = {
     postId: string
     titleSlug: string
   }
-  metadata: Metadata
 }
 
 // export async function getServerSideProps({ params }: PostPageProps) {

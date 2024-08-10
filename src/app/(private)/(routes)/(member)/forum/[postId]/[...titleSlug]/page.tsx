@@ -17,6 +17,7 @@ import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
 import { type Metadata } from 'next'
 import appLogo from '@/assets/app-logo-light.png'
+import Head from 'next/head'
 
 type PostPageProps = {
   params: {
@@ -74,9 +75,24 @@ export type ExtendedComment = Comment & {
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
   const post = await getPost(params.postId)
+  const parsedContent = JSON.parse(post?.content as string)
+  const description =
+    parsedContent.content?.[0]?.content?.[0]?.text || 'Default description'
+  const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
+  const title = post?.title || 'Default Title'
+  const altText = `Image for ${title}`
 
   return (
     <>
+      <Head>
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={img} />
+        <meta property="og:image:alt" content={altText} />
+        <meta property="og:image:width" content="1900" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:type" content="article" />
+      </Head>
       <DefaultLayout>
         <Suspense fallback={'loading'}>
           <div className="h-full flex flex-col items-center sm:items-start justify-between mt-10 w-full gap-4">

@@ -15,12 +15,48 @@ import CommentSection from '../components/comment-section'
 import EditPostButton from '../components/edit-post-button'
 import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
+import { type Metadata } from 'next'
+import appLogo from '@/assets/app-logo-light.png'
+import Head from 'next/head'
 
 type PostPageProps = {
   params: {
     postId: string
     titleSlug: string
   }
+}
+
+export async function generateMetadata({
+  params
+}: PostPageProps): Promise<Metadata> {
+  const post = await getPost(params.postId)
+  const parsedContent = JSON.parse(post?.content as string)
+  const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
+  const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
+  const title = post?.title || ''
+  const altText = `Image for ${title}`
+
+  const metadata: Metadata = {
+    title,
+    description,
+    openGraph: {
+      title: post?.title || '',
+      description: description || '',
+      type: 'article',
+      siteName: 'Borderless Community',
+      url: `https://borderless-community-test.vercel.app/forum/${post?.id}/${params.titleSlug}`,
+      images: [
+        {
+          url: img,
+          alt: altText,
+          width: 1900,
+          height: 630,
+          type: 'image/png'
+        }
+      ]
+    }
+  }
+  return metadata
 }
 
 export type ExtendedComment = Comment & {
@@ -40,9 +76,29 @@ export type ExtendedComment = Comment & {
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
   const post = await getPost(params.postId)
+  const parsedContent = JSON.parse(post?.content as string)
+  const description =
+    parsedContent.content?.[0]?.content?.[0]?.text || 'Default description'
+  const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
+  const title = post?.title || 'Default Title'
+  const altText = `Image for ${title}`
 
   return (
     <>
+      <Head>
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={img} />
+        <meta property="og:image:alt" content={altText} />
+        <meta property="og:image:width" content="1900" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:type" content="article" />
+        <meta property="og:image:type" content="image/png" />
+        <meta
+          property="og:url"
+          content={`https://borderless-community-test.vercel.app/forum/${post?.id}/${params.titleSlug}`}
+        />
+      </Head>
       <DefaultLayout>
         <Suspense fallback={'loading'}>
           <div className="h-full flex flex-col items-center sm:items-start justify-between mt-10 w-full gap-4">

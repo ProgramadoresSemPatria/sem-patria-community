@@ -18,6 +18,7 @@ export default async function Image({
   const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
   const title = post?.title || 'Default Title'
   const altText = `Image for ${title}`
+  console.log('passed here')
   return new ImageResponse(
     (
       <div

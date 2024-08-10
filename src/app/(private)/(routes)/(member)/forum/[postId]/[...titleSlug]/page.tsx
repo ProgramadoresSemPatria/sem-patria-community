@@ -44,7 +44,7 @@ export async function generateMetadata({
       description: description || '',
       type: 'article',
       siteName: 'Borderless Community',
-
+      url: `https://borderless-community-test.vercel.app/forum/${post?.id}/${params.titleSlug}`,
       images: [
         {
           url: img,
@@ -94,6 +94,10 @@ const PostPage = async ({ params }: PostPageProps) => {
         <meta property="og:image:height" content="630" />
         <meta property="og:type" content="article" />
         <meta property="og:image:type" content="image/png" />
+        <meta
+          property="og:url"
+          content={`https://borderless-community-test.vercel.app/forum/${post?.id}/${params.titleSlug}`}
+        />
       </Head>
       <DefaultLayout>
         <Suspense fallback={'loading'}>

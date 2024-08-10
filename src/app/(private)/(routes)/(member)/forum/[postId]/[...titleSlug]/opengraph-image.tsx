@@ -1,7 +1,6 @@
 import { ImageResponse } from 'next/og'
 import { getPost } from '@/actions/post/get-post'
 import appLogo from '@/assets/app-logo-light.png'
-export const alt = 'About Acme'
 export const size = {
   width: 1200,
   height: 630

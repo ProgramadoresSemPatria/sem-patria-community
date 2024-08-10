@@ -31,10 +31,9 @@ export async function generateMetadata({
 }: PostPageProps): Promise<Metadata> {
   const post = await getPost(params.postId)
   const parsedContent = JSON.parse(post?.content as string)
-  const description =
-    parsedContent.content?.[0]?.content?.[0]?.text || 'Default description'
+  const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
   const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
-  const title = post?.title || 'Default Title'
+  const title = post?.title || ''
   const altText = `Image for ${title}`
 
   const metadata: Metadata = {
@@ -45,12 +44,14 @@ export async function generateMetadata({
       description: description || '',
       type: 'article',
       siteName: 'Borderless Community',
+
       images: [
         {
           url: img,
           alt: altText,
           width: 1900,
-          height: 630
+          height: 630,
+          type: 'image/png'
         }
       ]
     }
@@ -92,6 +93,7 @@ const PostPage = async ({ params }: PostPageProps) => {
         <meta property="og:image:width" content="1900" />
         <meta property="og:image:height" content="630" />
         <meta property="og:type" content="article" />
+        <meta property="og:image:type" content="image/png" />
       </Head>
       <DefaultLayout>
         <Suspense fallback={'loading'}>

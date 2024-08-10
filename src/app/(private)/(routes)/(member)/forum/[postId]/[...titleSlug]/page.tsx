@@ -40,8 +40,8 @@ export async function generateMetadata({
     title,
     description,
     openGraph: {
-      title: post?.title || 'Title',
-      description: description || 'description',
+      title: post?.title || '',
+      description: description || '',
       type: 'article',
       siteName: 'Borderless Community',
       images: [

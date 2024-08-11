@@ -77,11 +77,6 @@ export type ExtendedComment = Comment & {
 }
 export function unslugify(slug: string) {
   const words = slug.split('-')
-
-  for (let i = 0; i < words.length; i++) {
-    words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1)
-  }
-
   return words.join(' ')
 }
 
@@ -109,7 +104,7 @@ const PostPage = async ({ params }: PostPageProps) => {
         <meta property="og:image:type" content="image/png" />
         <meta
           property="og:url"
-          content={`https://borderless-community-test.vercel.app/forum/${post?.id}/${params.titleSlug}`}
+          content={`https://borderless-community-test.vercel.app/api/og/${post?.id}`}
         />
       </Head>
       <DefaultLayout>

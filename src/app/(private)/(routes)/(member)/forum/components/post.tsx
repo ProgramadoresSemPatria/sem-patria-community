@@ -36,13 +36,14 @@ const Post = ({
 }: PostProps) => {
   const router = useRouter()
   const titleSlug = slugify(post.title, { lower: true, strict: true })
+  const id = post.id.slice(0, 7)
 
   return (
     <div
       onClick={e => {
         e.preventDefault()
         e.stopPropagation()
-        router.push(`/forum/${post.id}/${titleSlug}`)
+        router.push(`/forum/${id}/${titleSlug}`)
       }}
       className={cn(
         isPinned && 'border-l-2 border-l-orange-600',

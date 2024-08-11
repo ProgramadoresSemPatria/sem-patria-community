@@ -25,35 +25,12 @@ type PostPageProps = {
   }
 }
 
-// export async function getServerSideProps({ params }: PostPageProps) {
-//   const post = await getPost(params.postId)
-//   const parsedContent = JSON.parse(post?.content as string)
-//   const description =
-//     parsedContent.content[0]?.content[0]?.text || 'Default description'
-
-//   const metadata: Metadata = {
-//     title: post?.title || '',
-//     description: description || '',
-//     openGraph: {
-//       title: post?.title || '',
-//       description: description || '',
-//       url: `https://borderless-community-test.vercel.app/forum/${params.postId}/${params.titleSlug}`,
-//       type: 'article'
-//     }
-//   }
-
-//   return {
-//     props: {
-//       post,
-//       metadata
-//     }
-//   }
-// }
-
 export async function generateMetadata({
   params
 }: PostPageProps): Promise<Metadata> {
-  const post = await getPost(params.postId)
+  const originalTitle = unslugify(params.titleSlug[0])
+
+  const post = await getPost(params.postId, originalTitle)
   const parsedContent = JSON.parse(post?.content as string)
   const description = parsedContent.content[0].content[0].text
 
@@ -62,6 +39,10 @@ export async function generateMetadata({
     description
   }
   return metadata
+}
+
+export function unslugify(slug: string) {
+  return slug.split('-').join(' ')
 }
 
 export type ExtendedComment = Comment & {
@@ -80,10 +61,11 @@ export type ExtendedComment = Comment & {
 }
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
-  const post = await getPost(params.postId)
+  const originalTitle = unslugify(params.titleSlug[0])
+  const post = await getPost(params.postId, originalTitle)
   const parsedContent = JSON.parse(post?.content as string)
   const description =
-    parsedContent.content[0]?.content[0]?.text || 'Default description'
+    parsedContent.content?.[0]?.content?.[0]?.text || 'Default description'
 
   return (
     <>

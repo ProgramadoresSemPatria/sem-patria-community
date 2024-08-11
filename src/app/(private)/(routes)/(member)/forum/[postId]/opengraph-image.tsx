@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og'
 import { getPost } from '@/actions/post/get-post'
 import appLogo from '@/assets/app-logo-light.png'
+import { unslugify } from './[...titleSlug]/page'
 export const alt = 'About Acme'
 export const size = {
   width: 1200,
@@ -12,7 +13,8 @@ export default async function Image({
 }: {
   params: { postId: string; slug: string }
 }) {
-  const post = await getPost(params.postId)
+  const titlee = unslugify(params.slug)
+  const post = await getPost(params.postId, titlee)
   const parsedContent = JSON.parse(post?.content as string)
   const description =
     parsedContent.content?.[0]?.content?.[0]?.text || 'Default description'

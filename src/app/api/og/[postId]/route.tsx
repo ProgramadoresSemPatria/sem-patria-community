@@ -2,8 +2,8 @@ import { ImageResponse } from 'next/og'
 import appLogo from '@/assets/app-logo-light.png'
 import { type NextRequest } from 'next/server'
 import prismadb from '@/lib/prismadb'
-export const alt = 'About Acme'
-export const size = {
+
+const size = {
   width: 1200,
   height: 630
 }

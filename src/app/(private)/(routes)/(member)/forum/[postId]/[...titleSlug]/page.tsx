@@ -29,9 +29,7 @@ type PostPageProps = {
 export async function generateMetadata({
   params
 }: PostPageProps): Promise<Metadata> {
-  const titlee = unslugify(params.titleSlug[0])
-
-  const post = await getPost(params.postId, titlee)
+  const post = await getPost(params.postId)
   const parsedContent = JSON.parse(post?.content as string)
   const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
   const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
@@ -46,7 +44,7 @@ export async function generateMetadata({
       description: description || '',
       type: 'website',
       siteName: 'Borderless Community',
-      url: `https://borderless-community-test.vercel.app/forum/${post?.id}/${params.titleSlug}`,
+      url: `https://borderless-community-test.vercel.app/api/${post?.id}`,
       images: [
         {
           url: img,
@@ -75,20 +73,10 @@ export type ExtendedComment = Comment & {
   }
   createdAt: string
 }
-export function unslugify(slug: string) {
-  const words = slug.split('-')
-
-  for (let i = 0; i < words.length; i++) {
-    words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1)
-  }
-
-  return words.join(' ')
-}
 
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
-  const titlee = unslugify(params.titleSlug[0])
-  const post = await getPost(params.postId, titlee)
+  const post = await getPost(params.postId)
   const parsedContent = JSON.parse(post?.content as string)
   const description =
     parsedContent.content?.[0]?.content?.[0]?.text || 'Default description'

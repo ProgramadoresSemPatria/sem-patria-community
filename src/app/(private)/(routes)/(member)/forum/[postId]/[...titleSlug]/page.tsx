@@ -28,9 +28,7 @@ type PostPageProps = {
 export async function generateMetadata({
   params
 }: PostPageProps): Promise<Metadata> {
-  const originalTitle = unslugify(params.titleSlug[0])
-
-  const post = await getPost(params.postId, originalTitle)
+  const post = await getPost(params.postId)
   const parsedContent = JSON.parse(post?.content as string)
   const description = parsedContent.content[0].content[0].text
 
@@ -39,10 +37,6 @@ export async function generateMetadata({
     description
   }
   return metadata
-}
-
-export function unslugify(slug: string) {
-  return slug.split('-').join(' ')
 }
 
 export type ExtendedComment = Comment & {
@@ -61,8 +55,7 @@ export type ExtendedComment = Comment & {
 }
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
-  const originalTitle = unslugify(params.titleSlug[0])
-  const post = await getPost(params.postId, originalTitle)
+  const post = await getPost(params.postId)
   const parsedContent = JSON.parse(post?.content as string)
   const description =
     parsedContent.content?.[0]?.content?.[0]?.text || 'Default description'

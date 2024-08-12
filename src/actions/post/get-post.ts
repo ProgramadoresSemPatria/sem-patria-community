@@ -1,14 +1,10 @@
 import prismadb from '@/lib/prismadb'
 
-export const getPost = async (postId: string, title: string) => {
+export const getPost = async (postId: string) => {
   const postById = await prismadb.post.findFirst({
     where: {
       id: {
         startsWith: postId
-      },
-      title: {
-        contains: title,
-        mode: 'insensitive'
       }
     },
     include: {

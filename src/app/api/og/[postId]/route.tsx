@@ -9,10 +9,10 @@ export const size = {
 }
 export const runtime = 'edge'
 
-export default async function GET(
+export const GET = async (
   req: NextRequest,
   { params }: { params: { postId: string } }
-) {
+) => {
   const post = await prismadb.post.findUnique({ where: { id: params.postId } })
   const parsedContent = JSON.parse(post?.content as string)
   const description =

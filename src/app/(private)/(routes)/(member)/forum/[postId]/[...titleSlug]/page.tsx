@@ -44,7 +44,7 @@ export async function generateMetadata({
       description: description || '',
       type: 'website',
       siteName: 'Borderless Community',
-      url: `https://borderless-community-test.vercel.app/api/${post?.id}`,
+      url: `https://borderless-community-test.vercel.app/api/og/${post?.id}`,
       images: [
         {
           url: img,

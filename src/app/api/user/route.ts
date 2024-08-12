@@ -4,6 +4,7 @@ import { emailTemplate } from '@/lib/constants'
 import prismadb from '@/lib/prismadb'
 import { Roles } from '@/lib/types'
 import { auth, clerkClient } from '@clerk/nextjs'
+import bcrypt from 'bcrypt'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function PATCH(req: NextRequest) {
@@ -18,14 +19,44 @@ export async function PATCH(req: NextRequest) {
       level,
       linkedin,
       role,
-      userId
+      userId,
+      password,
+      passwordConfirmation,
+      newPassword
     } = await req.json()
 
     if (!authUserId) return new NextResponse('Unauthenticated', { status: 401 })
+
+    const currentUser = await prismadb.user.findFirst({
+      where: { id: userId }
+    })
+
+    let hashedPassword
+
+    if (password && newPassword && passwordConfirmation) {
+      if (password !== passwordConfirmation) {
+        return new NextResponse('Passwords did not match', { status: 400 })
+      }
+      // check if user password is correct
+      const isPasswordCorrect = await clerkClient.users.verifyPassword({
+        userId,
+        password
+      })
+
+      if (!isPasswordCorrect) {
+        return new NextResponse('Bad request', { status: 400 })
+      }
+
+      const saltRounds = 5
+      const salt = await bcrypt.genSalt(saltRounds)
+      hashedPassword = await bcrypt.hash(newPassword, salt)
+    }
+
     // Update user at Clerk
     const updatedUser = await clerkClient.users.updateUser(userId, {
       firstName: name,
-      username,
+      username: currentUser?.username === username ? undefined : username,
+      password: newPassword,
       publicMetadata: {
         github,
         instagram,
@@ -58,6 +89,7 @@ export async function PATCH(req: NextRequest) {
         email,
         name,
         username: username ?? github,
+        password: hashedPassword,
         github,
         instagram,
         level,

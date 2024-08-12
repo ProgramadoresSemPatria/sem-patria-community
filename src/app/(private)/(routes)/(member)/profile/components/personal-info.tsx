@@ -25,98 +25,19 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { useToast } from '@/components/ui/use-toast'
-import { api } from '@/lib/api'
 import { useUser } from '@clerk/nextjs'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { type User } from '@prisma/client'
-import { useMutation } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import usePersonalInfo from './use-personal-info'
 
-type PersonalInfoProps = {
+export type PersonalInfoProps = {
   userProps: User
 }
 
-const personalInfoSchema = z.object({
-  userId: z.string(),
-  email: z
-    .string()
-    .min(1, {
-      message: 'Email is required.'
-    })
-    .email({ message: 'Invalid format of email.' }),
-  level: z.string(),
-  linkedin: z
-    .string()
-    .url()
-    .optional()
-    .refine(value => {
-      if (value && value.length > 0) {
-        return value?.includes('linkedin.com')
-      }
-      return true
-    }, 'Invalid format of Linkedin Url.'),
-  github: z.string(),
-  instagram: z.string(),
-  username: z
-    .string()
-    .min(4, {
-      message: 'Username must contain at least 4 characters.'
-    })
-    .trim()
-    .refine(
-      s => !s.includes(' '),
-      'Username can only contain letters, numbers and "_" or "-".'
-    )
-})
-
-type PersonalInfoFormValues = z.infer<typeof personalInfoSchema>
-
 export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
-  const router = useRouter()
   const { isLoaded, user } = useUser()
-  const { toast } = useToast()
 
-  const form = useForm<PersonalInfoFormValues>({
-    resolver: zodResolver(personalInfoSchema),
-    defaultValues: {
-      userId: userProps.id ?? undefined,
-      email: userProps.email ?? undefined,
-      linkedin: userProps.linkedin ?? undefined,
-      github: userProps.github ?? undefined,
-      instagram: userProps.instagram ?? undefined,
-      level: userProps.level ?? undefined,
-      username:
-        userProps.username ||
-        (userProps.username === '' ? userProps.github ?? undefined : undefined)
-    }
-  })
-
-  const { mutateAsync: updateUserLevel, isPending: isUpdating } = useMutation({
-    mutationFn: async (data: PersonalInfoFormValues) => {
-      return await api.patch(`/api/user`, data)
-    },
-    onSuccess: () => {
-      router.refresh()
-      toast({
-        title: 'Success',
-        description: 'Profile updated successfully.'
-      })
-    },
-    onError: () => {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong while updating your profile.',
-        variant: 'destructive'
-      })
-    }
-  })
-
-  const onSubmit = async (values: PersonalInfoFormValues) => {
-    await updateUserLevel(values)
-  }
+  const { form, onSubmit, isUpdating, showPassword, toggleShowPassword } =
+    usePersonalInfo({ userProps })
 
   return (
     <div>
@@ -244,6 +165,106 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                         </Select>
                       </FormControl>
                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-2 sm:gap-4">
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type={showPassword ? 'text' : 'password'}
+                          disabled={isUpdating}
+                          placeholder="Password"
+                          {...field}
+                          icon={
+                            showPassword ? (
+                              <Icons.eyeOff
+                                className="h-4 w-4 cursor-pointer"
+                                onClick={toggleShowPassword}
+                              />
+                            ) : (
+                              <Icons.eye
+                                className="h-4 w-4 cursor-pointer"
+                                onClick={toggleShowPassword}
+                              />
+                            )
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="passwordConfirmation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type={showPassword ? 'text' : 'password'}
+                          disabled={isUpdating}
+                          placeholder="Confirm Password"
+                          icon={
+                            showPassword ? (
+                              <Icons.eyeOff
+                                className="h-4 w-4 cursor-pointer"
+                                onClick={toggleShowPassword}
+                              />
+                            ) : (
+                              <Icons.eye
+                                className="h-4 w-4 cursor-pointer"
+                                onClick={toggleShowPassword}
+                              />
+                            )
+                          }
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage>
+                        {form.formState.errors.passwordConfirmation?.message}
+                      </FormMessage>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="newPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>New Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type={showPassword ? 'text' : 'password'}
+                          disabled={isUpdating}
+                          placeholder="Confirm Password"
+                          icon={
+                            showPassword ? (
+                              <Icons.eyeOff
+                                className="h-4 w-4 cursor-pointer"
+                                onClick={toggleShowPassword}
+                              />
+                            ) : (
+                              <Icons.eye
+                                className="h-4 w-4 cursor-pointer"
+                                onClick={toggleShowPassword}
+                              />
+                            )
+                          }
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage>
+                        {form.formState.errors.newPassword?.message}
+                        {form.formState.errors.root?.message}
+                      </FormMessage>
                     </FormItem>
                   )}
                 />

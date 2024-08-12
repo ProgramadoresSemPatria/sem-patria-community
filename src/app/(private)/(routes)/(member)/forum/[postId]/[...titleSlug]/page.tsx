@@ -16,6 +16,7 @@ import EditPostButton from '../components/edit-post-button'
 import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
 import { type Metadata } from 'next'
+import appLogo from '@/assets/app-logo-light.png'
 import Head from 'next/head'
 
 type PostPageProps = {
@@ -28,13 +29,34 @@ type PostPageProps = {
 export async function generateMetadata({
   params
 }: PostPageProps): Promise<Metadata> {
-  const post = await getPost(params.postId)
+  const titlee = unslugify(params.titleSlug[0])
+
+  const post = await getPost(params.postId, titlee)
   const parsedContent = JSON.parse(post?.content as string)
-  const description = parsedContent.content[0].content[0].text
+  const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
+  const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
+  const title = post?.title || ''
+  const altText = `Image for ${title}`
 
   const metadata: Metadata = {
-    title: post?.title,
-    description
+    title,
+    description,
+    openGraph: {
+      title: post?.title || '',
+      description: description || '',
+      type: 'website',
+      siteName: 'Borderless Community',
+      url: `https://borderless-community-test.vercel.app/forum/${post?.id}/${params.titleSlug}`,
+      images: [
+        {
+          url: img,
+          alt: altText,
+          width: 1900,
+          height: 630,
+          type: 'image/png'
+        }
+      ]
+    }
   }
   return metadata
 }
@@ -53,21 +75,42 @@ export type ExtendedComment = Comment & {
   }
   createdAt: string
 }
+export function unslugify(slug: string) {
+  const words = slug.split('-')
+
+  for (let i = 0; i < words.length; i++) {
+    words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1)
+  }
+
+  return words.join(' ')
+}
+
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
-  const post = await getPost(params.postId)
+  const titlee = unslugify(params.titleSlug[0])
+  const post = await getPost(params.postId, titlee)
   const parsedContent = JSON.parse(post?.content as string)
   const description =
     parsedContent.content?.[0]?.content?.[0]?.text || 'Default description'
+  const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
+  const title = post?.title || 'Default Title'
+  const altText = `Image for ${title}`
 
   return (
     <>
       <Head>
-        <title>{post?.title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={post?.title} />
-        <meta property="og:description" content={description as string} />
-        <meta property="og:type" content="article" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={img} />
+        <meta property="og:image:alt" content={altText} />
+        <meta property="og:image:width" content="1900" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image:type" content="image/png" />
+        <meta
+          property="og:url"
+          content={`https://borderless-community-test.vercel.app/forum/${post?.id}/${params.titleSlug}`}
+        />
       </Head>
       <DefaultLayout>
         <Suspense fallback={'loading'}>

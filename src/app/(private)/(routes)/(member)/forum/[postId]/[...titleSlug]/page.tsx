@@ -97,7 +97,7 @@ const PostPage = async ({ params }: PostPageProps) => {
         <meta property="og:image:type" content="image/png" />
         <meta
           property="og:url"
-          content={`https://borderless-community-test.vercel.app/forum/${post?.id}/${params.titleSlug}`}
+          content={`https://borderless-community-test.vercel.app/api/og/${post?.id}`}
         />
       </Head>
       <DefaultLayout>

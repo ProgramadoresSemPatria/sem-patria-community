@@ -17,7 +17,6 @@ import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
 import { type Metadata } from 'next'
 import appLogo from '@/assets/app-logo-light.png'
-// import Head from 'next/head'
 
 type PostPageProps = {
   params: {
@@ -43,8 +42,6 @@ export async function generateMetadata({
       title: post?.title || '',
       description: description || '',
       type: 'article',
-      // siteName: 'Borderless Community',
-      // url: `https://borderless-community-test.vercel.app/forum/${post?.id}/opengraph-image`,
       images: [
         {
           url: img,
@@ -86,20 +83,6 @@ const PostPage = async ({ params }: PostPageProps) => {
 
   return (
     <>
-      {/* <Head>
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content={img} />
-        <meta property="og:image:alt" content={altText} />
-        <meta property="og:image:width" content="1900" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:type" content="website" />
-        <meta property="og:image:type" content="image/png" />
-        <meta
-          property="og:url"
-          content={`https://borderless-community-test.vercel.app/forum/${post?.id}/opengraph-image`}
-        />
-      </Head> */}
       <DefaultLayout>
         <Suspense fallback={'loading'}>
           <div className="h-full flex flex-col items-center sm:items-start justify-between mt-10 w-full gap-4">

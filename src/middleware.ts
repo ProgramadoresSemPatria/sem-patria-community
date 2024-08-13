@@ -10,8 +10,7 @@ export default authMiddleware({
     '/api/uploadthing(.*)',
     '/set-password/(.*)',
     '/api/password-recovery(.*)',
-    '/forum/(.*)/(.*)',
-    '/forum/2jfZrsY/coinbase-almost-there-interview-experience' // Exact route added
+    '/forum/(.*)/(.*)'
   ]
 })
 

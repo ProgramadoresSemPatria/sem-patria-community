@@ -9,7 +9,8 @@ export default authMiddleware({
     '/api/auth/(.*)',
     '/api/uploadthing(.*)',
     '/set-password/(.*)',
-    '/api/password-recovery(.*)'
+    '/api/password-recovery(.*)',
+    '/forum/(.*)/opengraph-image'
   ]
 })
 

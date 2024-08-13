@@ -1,11 +1,12 @@
 import { ImageResponse } from 'next/og'
 import { getPost } from '@/actions/post/get-post'
 import appLogo from '@/assets/app-logo-light.png'
-export const alt = 'About Acme'
 export const size = {
-  width: 1200,
-  height: 630
+  width: 900,
+  height: 600
 }
+export const contentType = 'image/png'
+export const runtime = 'edge'
 
 export default async function Image({
   params
@@ -19,6 +20,9 @@ export default async function Image({
   const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
   const title = post?.title || 'Default Title'
   const altText = `Image for ${title}`
+  const interSemiBold = fetch(
+    new URL('./Inter-SemiBold.ttf', import.meta.url)
+  ).then(async res => await res.arrayBuffer())
   return new ImageResponse(
     (
       <div
@@ -38,7 +42,15 @@ export default async function Image({
       </div>
     ),
     {
-      ...size
+      ...size,
+      fonts: [
+        {
+          name: 'Inter',
+          data: await interSemiBold,
+          style: 'normal',
+          weight: 400
+        }
+      ]
     }
   )
 }

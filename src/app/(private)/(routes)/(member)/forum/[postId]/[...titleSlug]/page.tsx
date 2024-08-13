@@ -74,12 +74,6 @@ export type ExtendedComment = Comment & {
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
   const post = await getPost(params.postId)
-  // const parsedContent = JSON.parse(post?.content as string)
-  // const description =
-  //   parsedContent.content?.[0]?.content?.[0]?.text || 'Default description'
-  // const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
-  // const title = post?.title || 'Default Title'
-  // const altText = `Image for ${title}`
 
   return (
     <>

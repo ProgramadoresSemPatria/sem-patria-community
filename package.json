@@ -14,7 +14,8 @@
     "postinstall": "prisma generate && husky install",
     "commit": "cz",
     "check-types": "tsc --noEmit --pretty",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "migrate": "prisma migrate"
   },
   "dependencies": {
     "@blocknote/core": "^0.10.1",

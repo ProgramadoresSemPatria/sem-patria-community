@@ -20,9 +20,6 @@ export default async function Image({
   const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
   const title = post?.title || 'Default Title'
   const altText = `Image for ${title}`
-  const interSemiBold = fetch(
-    new URL('./Inter-SemiBold.ttf', import.meta.url)
-  ).then(async res => await res.arrayBuffer())
   return new ImageResponse(
     (
       <div
@@ -42,15 +39,7 @@ export default async function Image({
       </div>
     ),
     {
-      ...size,
-      fonts: [
-        {
-          name: 'Inter',
-          data: await interSemiBold,
-          style: 'normal',
-          weight: 400
-        }
-      ]
+      ...size
     }
   )
 }

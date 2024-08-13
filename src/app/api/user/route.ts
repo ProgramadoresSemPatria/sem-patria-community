@@ -22,7 +22,8 @@ export async function PATCH(req: NextRequest) {
       userId,
       password,
       passwordConfirmation,
-      newPassword
+      newPassword,
+      imageUrl
     } = await req.json()
 
     if (!authUserId) return new NextResponse('Unauthenticated', { status: 401 })
@@ -53,7 +54,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     // Update user at Clerk
-    const updatedUser = await clerkClient.users.updateUser(userId, {
+    let updatedUser = await clerkClient.users.updateUser(userId, {
       firstName: name,
       username: currentUser?.username === username ? undefined : username,
       password: newPassword,
@@ -80,6 +81,16 @@ export async function PATCH(req: NextRequest) {
       )
     }
 
+    // If image was updated, update the image at Clerk
+    if (imageUrl) {
+      const parsedImageUrl = await fetch(imageUrl).then(
+        async res => await res.blob()
+      )
+      updatedUser = await clerkClient.users.updateUserProfileImage(userId, {
+        file: parsedImageUrl
+      })
+    }
+
     // Update user at DB
     const user = await prismadb.user.update({
       where: {
@@ -90,6 +101,7 @@ export async function PATCH(req: NextRequest) {
         name,
         username: username ?? github,
         password: hashedPassword,
+        imageUrl: updatedUser.imageUrl,
         github,
         instagram,
         level,

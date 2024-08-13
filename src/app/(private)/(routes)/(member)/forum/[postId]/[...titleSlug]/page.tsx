@@ -17,7 +17,7 @@ import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
 import { type Metadata } from 'next'
 import appLogo from '@/assets/app-logo-light.png'
-import Head from 'next/head'
+// import Head from 'next/head'
 
 type PostPageProps = {
   params: {
@@ -42,9 +42,9 @@ export async function generateMetadata({
     openGraph: {
       title: post?.title || '',
       description: description || '',
-      type: 'website',
-      siteName: 'Borderless Community',
-      url: `https://borderless-community-test.vercel.app/forum/${post?.id}/opengraph-image`,
+      type: 'article',
+      // siteName: 'Borderless Community',
+      // url: `https://borderless-community-test.vercel.app/forum/${post?.id}/opengraph-image`,
       images: [
         {
           url: img,
@@ -77,16 +77,16 @@ export type ExtendedComment = Comment & {
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
   const post = await getPost(params.postId)
-  const parsedContent = JSON.parse(post?.content as string)
-  const description =
-    parsedContent.content?.[0]?.content?.[0]?.text || 'Default description'
-  const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
-  const title = post?.title || 'Default Title'
-  const altText = `Image for ${title}`
+  // const parsedContent = JSON.parse(post?.content as string)
+  // const description =
+  //   parsedContent.content?.[0]?.content?.[0]?.text || 'Default description'
+  // const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
+  // const title = post?.title || 'Default Title'
+  // const altText = `Image for ${title}`
 
   return (
     <>
-      <Head>
+      {/* <Head>
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={img} />
@@ -99,7 +99,7 @@ const PostPage = async ({ params }: PostPageProps) => {
           property="og:url"
           content={`https://borderless-community-test.vercel.app/forum/${post?.id}/opengraph-image`}
         />
-      </Head>
+      </Head> */}
       <DefaultLayout>
         <Suspense fallback={'loading'}>
           <div className="h-full flex flex-col items-center sm:items-start justify-between mt-10 w-full gap-4">

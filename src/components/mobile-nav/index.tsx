@@ -8,9 +8,9 @@ import { useLockBody } from '@/hooks/use-lock-body'
 import { appRoutes } from '@/lib/constants'
 import { type MenuItemProps } from '@/lib/types'
 import { cn } from '@/lib/utils'
-import ClerkUserButton from '../clerk-user-button'
 import MainLogo from '../main-logo'
 import { LogoutButton } from '../top-bar/logout-button'
+import UserButton from '../user-button'
 
 type MobileNavProps = {
   children?: React.ReactNode
@@ -120,7 +120,7 @@ const MobileNav = ({ children, isAdminPage }: MobileNavProps) => {
         </div>
         {children}
         <div className="flex justify-between">
-          <ClerkUserButton />
+          <UserButton />
           <LogoutButton />
         </div>
       </div>

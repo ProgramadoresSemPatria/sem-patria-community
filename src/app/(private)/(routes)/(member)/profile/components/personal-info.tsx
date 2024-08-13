@@ -1,11 +1,6 @@
 'use client'
 
 import { Icons } from '@/components/icons'
-import {
-  AvatarFallback,
-  AvatarImage,
-  AvatarWithText
-} from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -27,6 +22,7 @@ import {
 } from '@/components/ui/select'
 import { useUser } from '@clerk/nextjs'
 import { type User } from '@prisma/client'
+import ImageInput from './image-input'
 import usePersonalInfo from './use-personal-info'
 
 export type PersonalInfoProps = {
@@ -37,7 +33,12 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
   const { isLoaded, user } = useUser()
 
   const { form, onSubmit, isUpdating, showPassword, toggleShowPassword } =
-    usePersonalInfo({ userProps })
+    usePersonalInfo({
+      userProps: {
+        ...userProps,
+        imageUrl: userProps.imageUrl || user?.imageUrl || ''
+      }
+    })
 
   return (
     <div>
@@ -49,16 +50,15 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
             className="w-full max-w-3xl"
           >
             <div className="flex flex-col gap-y-4 sm:gap-y-6">
-              <AvatarWithText
-                text={
-                  `${user.fullName || ''} ${
+              <div className="flex items-center">
+                <ImageInput />
+                <span className="ml-3 font-semibold">
+                  {`${user.fullName || ''} ${
                     userProps.username ? `(@${userProps.username || ''})` : ''
-                  }` || ''
-                }
-              >
-                <AvatarImage src={user?.imageUrl ? user?.imageUrl : ''} />
-                <AvatarFallback>CN</AvatarFallback>
-              </AvatarWithText>
+                  }` || ''}
+                </span>
+              </div>
+
               {(userProps.username === '' ||
                 !userProps.username ||
                 !user.username ||

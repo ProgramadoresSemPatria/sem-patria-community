@@ -1,5 +1,4 @@
 import { useToast } from '@/components/ui/use-toast'
-import { api } from '@/lib/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
@@ -7,6 +6,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { type PersonalInfoProps } from './personal-info'
+import { api } from '@/lib/api'
 
 export const personalInfoSchema = z
   .object({
@@ -97,6 +97,18 @@ const usePersonalInfo = ({ userProps }: PersonalInfoProps) => {
       username:
         userProps.username ||
         (userProps.username === '' ? userProps.github ?? undefined : undefined),
+      imageUrl: userProps.imageUrl ?? undefined
+    },
+    values: {
+      userId: userProps.id ?? undefined,
+      email: userProps.email ?? undefined,
+      linkedin: userProps.linkedin ?? undefined,
+      github: userProps.github ?? '',
+      instagram: userProps.instagram ?? '',
+      level: userProps.level ?? '',
+      username:
+        userProps.username ||
+        (userProps.username === '' ? userProps.github ?? '' : ''),
       imageUrl: userProps.imageUrl ?? undefined
     }
   })

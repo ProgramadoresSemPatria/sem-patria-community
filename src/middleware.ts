@@ -12,8 +12,7 @@ export default authMiddleware({
     '/api/password-recovery(.*)',
     '/forum/(.*)/(.*)',
     '/forum/2jfZrsY/coinbase-almost-there-interview-experience' // Exact route added
-  ],
-  debug: true
+  ]
 })
 
 export const config = {

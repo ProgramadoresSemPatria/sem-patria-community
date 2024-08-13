@@ -13,10 +13,10 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
-import ClerkUserButton from '../clerk-user-button'
 import { Icons } from '../icons'
 import MainLogo from '../main-logo'
 import { Button } from '../ui/button'
+import UserButton from '../user-button'
 import { SkeletonMainNav } from './components/skeleton-main-nav'
 
 type MainNavProps = {
@@ -126,7 +126,7 @@ const MainNav = ({ children }: MainNavProps) => {
           </Can>
         </ul>
       </nav>
-      <ClerkUserButton />
+      <UserButton />
     </div>
   )
 }

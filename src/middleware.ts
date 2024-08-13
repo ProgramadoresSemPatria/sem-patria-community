@@ -10,8 +10,11 @@ export default authMiddleware({
     '/api/uploadthing(.*)',
     '/set-password/(.*)',
     '/api/password-recovery(.*)',
-    '/forum/(.*)/opengraph-image'
-  ]
+    '/forum/(.*)/(.*)',
+    '/forum/2jfZrsY/coinbase-almost-there-interview-experience' // Exact route added
+  ],
+  ignoredRoutes: ['/forum/(.*)/(.*)'],
+  debug: true
 })
 
 export const config = {

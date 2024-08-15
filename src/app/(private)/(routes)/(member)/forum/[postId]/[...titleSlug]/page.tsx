@@ -42,7 +42,7 @@ export async function generateMetadata({
       siteName: 'Borderless Community',
       title: post?.title || '',
       description: description || '',
-      type: 'article',
+      type: 'website',
       images: [
         {
           url: img,

@@ -39,6 +39,7 @@ export async function generateMetadata({
     title,
     description,
     openGraph: {
+      siteName: 'Borderless Comunnity',
       title: post?.title || '',
       description: description || '',
       type: 'article',

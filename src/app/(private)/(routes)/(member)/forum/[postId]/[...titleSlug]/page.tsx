@@ -39,7 +39,7 @@ export async function generateMetadata({
     title,
     description,
     openGraph: {
-      siteName: 'Discord',
+      siteName: 'Borderless Community',
       title: post?.title || '',
       description: description || '',
       type: 'article',
@@ -47,8 +47,6 @@ export async function generateMetadata({
         {
           url: img,
           alt: altText,
-          width: 1900,
-          height: 630,
           type: 'image/png'
         }
       ]

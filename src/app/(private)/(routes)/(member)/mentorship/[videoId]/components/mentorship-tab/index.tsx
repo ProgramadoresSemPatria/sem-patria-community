@@ -224,7 +224,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
             onRemoveFile={onRemoveFile}
             uploadingFiles={uploadingFiles}
           />
-          <Button onClick={handleSaveAttachments}>
+          <Button disabled={uploadingFiles} onClick={handleSaveAttachments}>
             {uploadingFiles ? 'Saving' : 'Save'}
           </Button>
         </div>

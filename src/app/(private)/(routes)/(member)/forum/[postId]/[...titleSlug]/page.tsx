@@ -45,8 +45,7 @@ export async function generateMetadata({
       images: [
         {
           url: img,
-          alt: altText,
-          type: 'image/png'
+          alt: altText
         }
       ]
     },
@@ -59,8 +58,7 @@ export async function generateMetadata({
       images: [
         {
           url: img,
-          alt: altText,
-          type: 'image/png'
+          alt: altText
         }
       ]
     }

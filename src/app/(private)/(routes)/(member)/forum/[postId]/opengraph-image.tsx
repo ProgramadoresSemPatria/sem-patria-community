@@ -6,7 +6,6 @@ export const size = {
   height: 600
 }
 export const contentType = 'image/png'
-export const runtime = 'edge'
 
 export default async function Image({
   params

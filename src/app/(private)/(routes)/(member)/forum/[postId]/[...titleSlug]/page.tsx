@@ -39,6 +39,17 @@ export async function generateMetadata({
     metadataBase: new URL('https://borderless-community-test.vercel.app'),
     title,
     description,
+    twitter: {
+      title: post?.title || '',
+      description: description || '',
+      images: [
+        {
+          url: img,
+          alt: altText,
+          type: 'image/png'
+        }
+      ]
+    },
     openGraph: {
       url: `https://borderless-community-test.vercel.app/${params.postId}/${params.titleSlug}`,
       siteName: 'Borderless Community',

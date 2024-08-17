@@ -17,6 +17,7 @@ import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
 import { type Metadata } from 'next'
 import appLogo from '@/assets/app-logo-light.png'
+import { headers } from 'next/headers'
 
 type PostPageProps = {
   params: {
@@ -61,6 +62,13 @@ export async function generateMetadata({
           alt: altText
         }
       ]
+    }
+  }
+  if (process.env.NODE_ENV === 'production' && typeof window === 'undefined') {
+    const userAgent = headers().get('user-agent') || ''
+    if (/discord|facebookexternalhit|slackbot/.test(userAgent)) {
+      // Return metadata as-is for these user-agents
+      return metadata
     }
   }
   return metadata

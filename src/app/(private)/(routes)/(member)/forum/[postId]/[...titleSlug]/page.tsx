@@ -36,9 +36,11 @@ export async function generateMetadata({
   const altText = `Image for ${title}`
 
   const metadata: Metadata = {
+    metadataBase: new URL('https://borderless-community-test.vercel.app'),
     title,
     description,
     openGraph: {
+      url: `https://borderless-community-test.vercel.app/${params.postId}/${params.titleSlug}`,
       siteName: 'Borderless Community',
       title: post?.title || '',
       description: description || '',

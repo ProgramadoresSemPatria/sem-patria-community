@@ -43,7 +43,7 @@ export const UploadFilesModule = ({
           'border p-5 border-dashed cursor-pointer gap-y-2 border-violet-700 rounded-lg flex flex-col items-center justify-center w-full'
       })}
     >
-      <input {...getInputProps()} />
+      <input data-testid="upload" {...getInputProps()} />
       <Icons.cloudUpload className="h-10 w-10 text-violet-700" />
       <span className="font-semibold mt-2">Drag and drop your files here</span>
       <span className="text-sm text-muted-foreground">

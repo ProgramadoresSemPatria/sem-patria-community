@@ -294,6 +294,9 @@ importers:
       cypress:
         specifier: ^13.6.4
         version: 13.7.1
+      cypress-file-upload:
+        specifier: ^5.0.8
+        version: 5.0.8(cypress@13.7.1)
       cz-conventional-changelog:
         specifier: ^3.3.0
         version: 3.3.0(@types/node@20.10.0)(typescript@5.3.2)
@@ -2799,6 +2802,12 @@ packages:
 
   csstype@3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
+
+  cypress-file-upload@5.0.8:
+    resolution: {integrity: sha512-+8VzNabRk3zG6x8f8BWArF/xA/W0VK4IZNx3MV0jFWrJS/qKn8eHfa5nU73P9fOQAgwHFJx7zjg4lwOnljMO8g==}
+    engines: {node: '>=8.2.1'}
+    peerDependencies:
+      cypress: '>3.0.0'
 
   cypress@13.7.1:
     resolution: {integrity: sha512-4u/rpFNxOFCoFX/Z5h+uwlkBO4mWzAjveURi3vqdSu56HPvVdyGTxGw4XKGWt399Y1JwIn9E1L9uMXQpc0o55w==}
@@ -8903,6 +8912,10 @@ snapshots:
   csstype@3.1.1: {}
 
   csstype@3.1.2: {}
+
+  cypress-file-upload@5.0.8(cypress@13.7.1):
+    dependencies:
+      cypress: 13.7.1
 
   cypress@13.7.1:
     dependencies:

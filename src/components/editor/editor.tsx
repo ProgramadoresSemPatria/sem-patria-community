@@ -96,6 +96,7 @@ const NoteEditor = ({
       )}
       <EditorRoot>
         <EditorContent
+          data-testid="editor-content"
           className="w-full data-[hastoolbar=false]:border py-2 px-6 rounded-xl my-4"
           {...(initialValue && { initialContent: initialValue })}
           extensions={[

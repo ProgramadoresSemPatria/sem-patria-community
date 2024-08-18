@@ -59,4 +59,38 @@ describe('Mentorship Page', () => {
     ).type('TEsting comment cypress')
     cy.contains('Send').click()
   })
+
+  it.only('Should like a comment', () => {
+    cy.visit('/mentorship', {
+      failOnStatusCode: false
+    })
+    cy.intercept('PUT', '/api/comment/like/**', {
+      statusCode: 200
+    }).as('like')
+    cy.get('[data-testid="nm"] > .false > .group-hover\\:opacity-80')
+      .click()
+      .then(() => {
+        cy.url().should('match', /\/mentorship\/[0-9a-fA-F-]{36}$/)
+      })
+    cy.get(':nth-child(1) > .w-fit > [data-testid="like"]').click()
+    cy.get(':nth-child(1) > .w-fit > [data-testid="likes-count"]').should(
+      'have.text',
+      '1'
+    )
+  })
+
+  it('Should delete a comment', () => {
+    cy.visit('/mentorship', {
+      failOnStatusCode: false
+    })
+    cy.intercept('PUT', '/api/comment/like/**', {
+      statusCode: 200
+    })
+    cy.get('[data-testid="nm"] > .false > .group-hover\\:opacity-80')
+      .click()
+      .then(() => {
+        cy.url().should('match', /\/mentorship\/[0-9a-fA-F-]{36}$/)
+      })
+    cy.get(':nth-child(1) > .w-fit > [data-testid="like"]').click()
+  })
 })

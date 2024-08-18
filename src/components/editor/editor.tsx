@@ -84,6 +84,7 @@ const NoteEditor = ({
 
   return (
     <div
+      data-testid="editor"
       data-hastoolbar={hasToolbar}
       className="flex flex-col max-w-full w-[100%] justify-stretch mb-2 gap-1 rounded-lg data-[hastoolbar=true]:p-2 dark:data-[hastoolbar=true]:bg-slate-900 data-[hastoolbar=true]:bg-slate-100"
     >

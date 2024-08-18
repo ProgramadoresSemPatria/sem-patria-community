@@ -40,7 +40,11 @@ const AdminClassroomPage = ({
                 query: { tabSelected: `${value.id}` }
               }}
             >
-              <TabsTrigger value={value.id} className="w-full px-8">
+              <TabsTrigger
+                data-testid={value.id}
+                value={value.id}
+                className="w-full px-8"
+              >
                 {value.id.slice(0, 1).toUpperCase() + value.id.slice(1)}
               </TabsTrigger>
             </Link>

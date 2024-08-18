@@ -119,6 +119,7 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
                           <FormLabel className="flex items-center gap-2">
                             <FormControl className="flex items-center gap-4">
                               <RadioGroupItem
+                                data-testid={value}
                                 value={value}
                                 checked={
                                   !!form

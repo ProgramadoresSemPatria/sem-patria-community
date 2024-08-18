@@ -137,6 +137,7 @@ export const NewClassroomModuleForm = ({
                           <FormControl>
                             <SelectTrigger data-testid="classroom">
                               <SelectValue
+                                data-testid={field.value}
                                 defaultValue={field.value}
                                 placeholder="Select a classroom"
                               />
@@ -144,7 +145,11 @@ export const NewClassroomModuleForm = ({
                           </FormControl>
                           <SelectContent>
                             {classrooms.map(value => (
-                              <SelectItem key={value.id} value={value.id}>
+                              <SelectItem
+                                data-testid={value.title}
+                                key={value.id}
+                                value={value.id}
+                              >
                                 {value.title}
                               </SelectItem>
                             ))}

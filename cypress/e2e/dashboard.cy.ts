@@ -117,7 +117,7 @@ describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
         cy.contains('Classroom')
         cy.contains('New Classroom')
       })
-    cy.get('#radix-\\:r1u\\:-trigger-modules')
+    cy.get('[data-testid="modules"]')
       .click()
       .then(() => {
         cy.contains('New Module')
@@ -134,7 +134,7 @@ describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
         cy.contains('Classroom')
         cy.contains('New Classroom')
       })
-    cy.get('#radix-\\:r1u\\:-trigger-videos')
+    cy.get('[data-testid="videos"]')
       .click()
       .then(() => {
         cy.contains('New Video')
@@ -185,7 +185,7 @@ describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
       })
   })
 
-  it.only('Should preview note if exists', () => {
+  it('Should preview note if exists', () => {
     cy.visit('/dashboard', {
       failOnStatusCode: false
     })

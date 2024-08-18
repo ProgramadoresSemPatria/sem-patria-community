@@ -3,13 +3,19 @@ describe('Code Up page', () => {
     cy.session('signed-in', () => {
       cy.signIn()
     })
-    cy.visit('/code-up', {
-      failOnStatusCode: false
+    cy.visit('/dashboard', {
+      failOnStatusCode: false,
+      onBeforeLoad: win => {
+        win.localStorage.setItem('videoWatched', 'true')
+      }
     })
   })
   it('Should create a note', () => {
     cy.intercept('/api/note', {
       statusCode: 200
+    })
+    cy.visit('/code-up', {
+      failOnStatusCode: false
     })
     cy.intercept('api/note')
     cy.contains('Create a note').click()
@@ -22,21 +28,29 @@ describe('Code Up page', () => {
       statusCode: 200
     })
     cy.intercept('api/note')
-    cy.get(':nth-child(1) > [data-testid="..."]').click()
+    cy.visit('/code-up', {
+      failOnStatusCode: false
+    })
+    cy.get(':nth-child(1) > .flex > [data-testid="..."]').click()
     cy.contains('View Note').click()
     cy.get('[data-testid="title"]').type('Update test')
-    cy.get('[data-testid="editor"]').type('Editing editor test')
+    cy.get('[data-testid="editor"] > .w-full')
+      .clear()
+      .type('Editing editor test')
     cy.contains('Editing editor test').should('exist')
     cy.contains('Save Changes').click()
     cy.contains('Success').should('exist')
     cy.contains('Your changes have been saved successfully').should('exist')
   })
 
-  it.only('Should delete a note', () => {
+  it('Should delete a note', () => {
     cy.intercept('/api/note/**', {
       statusCode: 200
     }).as('deleteNote')
-    cy.get(':nth-child(1) > [data-testid="..."]').click()
+    cy.visit('/code-up', {
+      failOnStatusCode: false
+    })
+    cy.get(':nth-child(1) > .flex > [data-testid="..."]').click()
     cy.contains('Delete').click()
     cy.contains('Delete').click()
     cy.wait('@deleteNote').its('response.statusCode').should('eq', 200)

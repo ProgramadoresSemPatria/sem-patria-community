@@ -20,7 +20,7 @@ describe('Admin Classroom page', () => {
     })
     cy.get('[data-testid="new-classroom"]').click({ force: true })
     cy.get('[data-testid="title"]').type('A base')
-    cy.get('#\\:r13\\:-form-item').click()
+    cy.get('[data-testid="PerfilFechado"]').click()
     cy.get('[data-testid="submit"]').click()
 
     cy.contains('Success').should('exist')
@@ -39,7 +39,7 @@ describe('Admin Classroom page', () => {
     })
     cy.contains('Update').click()
     cy.get('[data-testid="title"]').type('Test')
-    cy.get('#\\:r17\\:-form-item').click()
+    cy.get('[data-testid="Base"]').click()
     cy.get('[data-testid="submit"]').click()
 
     cy.contains('Success').should('exist')
@@ -75,7 +75,7 @@ describe('Admin Classroom page', () => {
 
     cy.get('[data-testid="title"]').type('Module')
     cy.get('[data-testid="classroom"]').click()
-    cy.get('.p-1 > .relative').click()
+    cy.get('[data-testid="nm "]').click()
     // TODO: test add files
 
     cy.get('[data-testid="submit"]').click()
@@ -92,11 +92,11 @@ describe('Admin Classroom page', () => {
       failOnStatusCode: false
     })
     cy.contains('Modules').click()
-    cy.get('[data-testid="..."]').click()
+    cy.get(':nth-child(1) > :nth-child(5) > [data-testid="..."]').click()
     cy.contains('Update').click()
     cy.get('[data-testid="title"]').clear().type('Fundamentos')
     cy.get('[data-testid="classroom"]').click()
-    cy.get('.p-1 > .relative').click()
+    cy.get('[data-testid="reg"]').click()
 
     cy.get('[data-testid="submit"]').click()
 
@@ -112,7 +112,7 @@ describe('Admin Classroom page', () => {
       failOnStatusCode: false
     })
     cy.contains('Modules').click()
-    cy.get('[data-testid="..."]').click()
+    cy.get(':nth-child(1) > :nth-child(5) > [data-testid="..."]').click()
     cy.contains('Delete').click()
     cy.contains('Delete').click()
 

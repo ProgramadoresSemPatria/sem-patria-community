@@ -4,9 +4,11 @@ describe('Admin Events page', () => {
       cy.signIn()
     })
     cy.visit('/dashboard', {
-      failOnStatusCode: false
+      failOnStatusCode: false,
+      onBeforeLoad: win => {
+        win.localStorage.setItem('videoWatched', 'true')
+      }
     })
-    cy.contains('CMS Mode').click()
   })
 
   it('Should create event', () => {
@@ -23,7 +25,7 @@ describe('Admin Events page', () => {
     )
     cy.get('[data-testid="location"]').type('zoom')
     cy.get('[data-testid="date"]').click()
-    cy.get(':nth-child(2) > :nth-child(5) > .rdp-button_reset').click()
+    cy.get(':nth-child(5) > :nth-child(6) > .rdp-button_reset').click()
     cy.get('[data-testid="hour"]').click()
     cy.get('[data-testid="6"]').click()
     cy.get('[data-testid="minute"]').click()
@@ -66,7 +68,7 @@ describe('Admin Events page', () => {
       .type('Live de boas vindas, para os mentorados da base')
     cy.get('[data-testid="location"]').clear().type('zoom')
     cy.get('[data-testid="date"]').click()
-    cy.get(':nth-child(2) > :nth-child(5) > .rdp-button_reset').click()
+    cy.get(':nth-child(5) > :nth-child(6) > .rdp-button_reset').click()
     cy.get('[data-testid="hour"]').click()
     cy.get('[data-testid="6"]').click()
     cy.get('[data-testid="minute"]').click()
@@ -74,13 +76,12 @@ describe('Admin Events page', () => {
     cy.get('[data-testid="externalUrl"]').click()
     cy.get('[data-testid="externalUrlInput"]').type('https://zoom/event')
     cy.get('[data-testid="specialGuest"]').click()
-    cy.get('[data-testid="specialGuestInput"]').type('Cleber')
     cy.get('[data-testid="submit"]').click()
     cy.contains('Success').should('exist')
     cy.contains('Event updated').should('exist')
   })
 
-  it.only('Should thrown an error if name is empty', () => {
+  it('Should thrown an error if name is empty', () => {
     cy.intercept('/api/event', {
       statusCode: 200
     })
@@ -88,21 +89,6 @@ describe('Admin Events page', () => {
       failOnStatusCode: false
     })
     cy.contains('New Event').click()
-    // cy.get('[data-testid="title"]').type('Live de boas vindas')
-    // cy.get('[data-testid="description"]').type(
-    //   'Live de boas vindas, para os mentorados da base'
-    // )
-    // cy.get('[data-testid="location"]').type('zoom')
-    // cy.get('[data-testid="date"]').click()
-    // cy.get(':nth-child(2) > :nth-child(5) > .rdp-button_reset').click()
-    // cy.get('[data-testid="hour"]').click()
-    // cy.get('[data-testid="6"]').click()
-    // cy.get('[data-testid="minute"]').click()
-    // cy.get('[data-testid="5"]').click()
-    // cy.get('[data-testid="externalUrl"]').click()
-    // cy.get('[data-testid="externalUrlInput"]').type('https://zoom/event')
-    // cy.get('[data-testid="specialGuest"]').click()
-    // cy.get('[data-testid="specialGuestInput"]').type('Cleber')
     cy.get('[data-testid="submit"]').click()
     cy.contains('Name is required').should('exist')
     cy.contains('Description is required').should('exist')

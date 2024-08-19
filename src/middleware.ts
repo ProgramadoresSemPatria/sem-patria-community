@@ -1,4 +1,5 @@
 import { authMiddleware } from '@clerk/nextjs'
+import { NextResponse } from 'next/server'
 
 // This example protects all routes including api/trpc routes
 // Please edit this to allow other routes to be public as needed.
@@ -13,7 +14,14 @@ export default authMiddleware({
     '/forum/(.*)'
     // '/forum/(.*)/(.*)',
     // 'forum/(.*)/opengraph-image'
-  ]
+  ],
+  beforeAuth(req, evt) {
+    const userAgent = req.headers.get('user-agent')
+    if (userAgent && userAgent.includes('Discordbot')) {
+      console.log('let discord accesss', req.headers)
+      return NextResponse.next()
+    }
+  }
 })
 
 export const config = {

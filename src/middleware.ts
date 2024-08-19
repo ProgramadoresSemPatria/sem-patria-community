@@ -17,8 +17,8 @@ export default authMiddleware({
   ],
   beforeAuth(req, evt) {
     const userAgent = req.headers.get('user-agent')
-    if (userAgent && userAgent.includes('Discordbot')) {
-      console.log('let discord accesss', req.headers)
+    if (userAgent?.includes('Discordbot')) {
+      console.log('let discord accesss', req)
       return NextResponse.next()
     }
   }

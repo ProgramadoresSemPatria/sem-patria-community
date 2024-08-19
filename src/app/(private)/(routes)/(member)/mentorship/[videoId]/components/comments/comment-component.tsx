@@ -117,6 +117,7 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
           size="icon"
           className="group rounded-full"
           onClick={handleLike}
+          data-testid="like"
         >
           <Icons.upVote
             data-userliked={likeState.liked}
@@ -125,6 +126,7 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
           />
         </Button>
         <p
+          data-testid="likes-count"
           data-userliked={likeState.liked}
           className="leading-4 data-[userliked=true]:text-violet-900"
         >

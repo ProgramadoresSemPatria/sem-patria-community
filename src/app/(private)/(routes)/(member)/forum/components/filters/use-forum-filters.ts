@@ -1,6 +1,6 @@
 import { useCategory } from '@/hooks/category/use-category'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { orderByOptions } from '.'
 
 export const useForumFilters = () => {
@@ -12,6 +12,13 @@ export const useForumFilters = () => {
   const [openOrderBy, setOpenOrderBy] = useState(false)
   const [categoryName, setCategoryName] = useState('All')
   const [orderBy, setOrderBy] = useState('')
+
+  useEffect(() => {
+    const category = searchParams.get('category')
+    if (category) {
+      setCategoryName(category)
+    }
+  }, [searchParams])
 
   const handleSelect = (selectedId: string) => {
     const selectedOption = orderByOptions.find(
@@ -49,6 +56,7 @@ export const useForumFilters = () => {
     openCategory,
     onOpenCategory,
     categoryName,
+    setCategoryName,
     searchParams,
     handleSetCategoryName,
     openOrderBy,

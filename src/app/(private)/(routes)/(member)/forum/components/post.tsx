@@ -79,7 +79,10 @@ const Post = ({
               </span>
             </div>
           </div>
-          <div className="relative text-sm max-h-40 w-full mt-2 overflow-clip">
+          <div
+            data-testid="post"
+            className="relative text-sm max-h-40 w-full mt-2 overflow-clip"
+          >
             <h1 className="font-bold text-2xl">{post.title}</h1>
             <NoteEditor
               initialValue={JSON.parse(post.content as string)}

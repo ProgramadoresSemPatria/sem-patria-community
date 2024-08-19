@@ -81,3 +81,10 @@ Cypress.Commands.add(`signIn`, () => {
 Cypress.Commands.add('getByTestId', id => {
   cy.get(`[testid=${id}]`)
 })
+
+const resizeObserverLoopErrRe = /^[^(ResizeObserver loop limit exceeded)]/
+Cypress.on('uncaught:exception', err => {
+  if (resizeObserverLoopErrRe.test(err.message)) {
+    return false
+  }
+})

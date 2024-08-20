@@ -11,10 +11,10 @@ export default authMiddleware({
     '/api/uploadthing(.*)',
     '/set-password/(.*)',
     '/api/password-recovery(.*)',
-    '/forum/(.*)'
-    // '/forum/(.*)/(.*)',
-    // 'forum/(.*)/opengraph-image'
+    '/forum/(.*)',
+    '/forum/(.*)/(.*)'
   ],
+  ignoredRoutes: ['/forum/(.*)', '/forum/(.*)/(.*)'],
   beforeAuth(req, evt) {
     const userAgent = req.headers.get('user-agent')
     if (userAgent?.includes('Discordbot')) {

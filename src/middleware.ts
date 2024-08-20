@@ -1,5 +1,6 @@
 import { authMiddleware } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
+import jwt from 'jsonwebtoken'
 
 // This example protects all routes including api/trpc routes
 // Please edit this to allow other routes to be public as needed.
@@ -18,6 +19,11 @@ export default authMiddleware({
     const userAgent = req.headers.get('user-agent')
     if (userAgent?.includes('Discordbot')) {
       console.log('let discord accesss', req)
+      const payload = { user: 'discord-bot' }
+      const secret = process.env.JWT_SECRET
+      const jwtToken = jwt.sign(payload, secret as string, { expiresIn: '1h' })
+
+      req.headers.set('authorization', `Bearer ${jwtToken}`)
       return NextResponse.next()
     }
   }

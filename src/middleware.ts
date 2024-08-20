@@ -14,7 +14,10 @@ export default authMiddleware({
     '/forum/(.*)',
     '/forum/(.*)/(.*)'
   ],
-  authorizedParties: ['https://discordapp.com'],
+  authorizedParties: [
+    'https://discordapp.com',
+    'https://borderless-community-test.vercel.app/'
+  ],
   beforeAuth(req, evt) {
     const userAgent = req.headers.get('user-agent')
     if (userAgent?.includes('Discordbot')) {

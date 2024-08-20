@@ -14,6 +14,7 @@ export default authMiddleware({
     '/forum/(.*)',
     '/forum/(.*)/(.*)'
   ],
+  authorizedParties: ['https://discordapp.com'],
   beforeAuth(req, evt) {
     const userAgent = req.headers.get('user-agent')
     if (userAgent?.includes('Discordbot')) {

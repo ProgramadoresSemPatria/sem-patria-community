@@ -15,7 +15,7 @@
     "commit": "cz",
     "check-types": "tsc --noEmit --pretty",
     "cypress:open": "cypress open",
-    "migrate": "prisma migrate"
+    "prisma-migrate": "prisma migrate dev"
   },
   "dependencies": {
     "@blocknote/core": "^0.10.1",

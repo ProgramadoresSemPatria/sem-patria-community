@@ -1,6 +1,4 @@
 import { authMiddleware } from '@clerk/nextjs'
-import { NextResponse } from 'next/server'
-import jwt from 'jsonwebtoken'
 
 // This example protects all routes including api/trpc routes
 // Please edit this to allow other routes to be public as needed.

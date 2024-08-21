@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { isObjEmpty } from '@/lib/utils'
 import { useUser } from '@clerk/nextjs'
 import { type User } from '@prisma/client'
 import ImageInput from './image-input'
@@ -285,7 +286,11 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                   )}
                 />
               </div>
-              <Button type="submit" className="w-fit">
+              <Button
+                type="submit"
+                className="w-fit"
+                disabled={!isObjEmpty(form.formState.errors) || isUpdating}
+              >
                 {isUpdating && (
                   <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
                 )}

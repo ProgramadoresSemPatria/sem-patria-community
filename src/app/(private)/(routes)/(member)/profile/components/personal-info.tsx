@@ -175,12 +175,12 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel>Old Password</FormLabel>
                       <FormControl>
                         <Input
                           type={showPassword ? 'text' : 'password'}
                           disabled={isUpdating}
-                          placeholder="Password"
+                          placeholder="Old Password"
                           {...field}
                           icon={
                             showPassword ? (

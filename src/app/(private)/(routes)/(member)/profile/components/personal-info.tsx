@@ -178,20 +178,24 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                       <FormLabel>Old Password</FormLabel>
                       <FormControl>
                         <Input
-                          type={showPassword ? 'text' : 'password'}
+                          type={showPassword.password ? 'text' : 'password'}
                           disabled={isUpdating}
                           placeholder="Old Password"
                           {...field}
                           icon={
-                            showPassword ? (
+                            showPassword.password ? (
                               <Icons.eyeOff
                                 className="h-4 w-4 cursor-pointer"
-                                onClick={toggleShowPassword}
+                                onClick={() => {
+                                  toggleShowPassword('password')
+                                }}
                               />
                             ) : (
                               <Icons.eye
                                 className="h-4 w-4 cursor-pointer"
-                                onClick={toggleShowPassword}
+                                onClick={() => {
+                                  toggleShowPassword('password')
+                                }}
                               />
                             )
                           }
@@ -209,19 +213,27 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                       <FormLabel>Confirm Password</FormLabel>
                       <FormControl>
                         <Input
-                          type={showPassword ? 'text' : 'password'}
+                          type={
+                            showPassword.passwordConfirmation
+                              ? 'text'
+                              : 'password'
+                          }
                           disabled={isUpdating}
                           placeholder="Confirm Password"
                           icon={
-                            showPassword ? (
+                            showPassword.passwordConfirmation ? (
                               <Icons.eyeOff
                                 className="h-4 w-4 cursor-pointer"
-                                onClick={toggleShowPassword}
+                                onClick={() => {
+                                  toggleShowPassword('passwordConfirmation')
+                                }}
                               />
                             ) : (
                               <Icons.eye
                                 className="h-4 w-4 cursor-pointer"
-                                onClick={toggleShowPassword}
+                                onClick={() => {
+                                  toggleShowPassword('passwordConfirmation')
+                                }}
                               />
                             )
                           }
@@ -242,19 +254,23 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                       <FormLabel>New Password</FormLabel>
                       <FormControl>
                         <Input
-                          type={showPassword ? 'text' : 'password'}
+                          type={showPassword.newPassword ? 'text' : 'password'}
                           disabled={isUpdating}
                           placeholder="Confirm Password"
                           icon={
-                            showPassword ? (
+                            showPassword.newPassword ? (
                               <Icons.eyeOff
                                 className="h-4 w-4 cursor-pointer"
-                                onClick={toggleShowPassword}
+                                onClick={() => {
+                                  toggleShowPassword('newPassword')
+                                }}
                               />
                             ) : (
                               <Icons.eye
                                 className="h-4 w-4 cursor-pointer"
-                                onClick={toggleShowPassword}
+                                onClick={() => {
+                                  toggleShowPassword('newPassword')
+                                }}
                               />
                             )
                           }

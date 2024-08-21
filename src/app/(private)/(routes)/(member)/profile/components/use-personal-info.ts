@@ -1,12 +1,23 @@
 import { useToast } from '@/components/ui/use-toast'
+import { api } from '@/lib/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useReducer } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { type PersonalInfoProps } from './personal-info'
-import { api } from '@/lib/api'
+
+type State = {
+  password: boolean
+  passwordConfirmation: boolean
+  newPassword: boolean
+}
+
+type Action =
+  | { type: 'TOGGLE_PASSWORD' }
+  | { type: 'TOGGLE_PASSWORDCONFIRMATION' }
+  | { type: 'TOGGLE_NEWPASSWORD' }
 
 export const personalInfoSchema = z
   .object({
@@ -137,17 +148,38 @@ const usePersonalInfo = ({ userProps }: PersonalInfoProps) => {
     await updateUserLevel(values)
   }
 
-  const [showPassword, setShowPassword] = useState(false)
+  const initialState: State = {
+    password: false,
+    passwordConfirmation: false,
+    newPassword: false
+  }
 
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword)
+  const reducer = (state: State, action: Action): State => {
+    switch (action.type) {
+      case 'TOGGLE_PASSWORD':
+        return { ...state, password: !state.password }
+      case 'TOGGLE_PASSWORDCONFIRMATION':
+        return { ...state, passwordConfirmation: !state.passwordConfirmation }
+      case 'TOGGLE_NEWPASSWORD':
+        return { ...state, newPassword: !state.newPassword }
+      default:
+        return state
+    }
+  }
+
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  const toggleShowPassword = (
+    field: 'password' | 'passwordConfirmation' | 'newPassword'
+  ): void => {
+    dispatch({ type: `TOGGLE_${field.toUpperCase()}` as Action['type'] })
   }
 
   return {
     form,
     onSubmit,
     isUpdating,
-    showPassword,
+    showPassword: state,
     toggleShowPassword
   }
 }

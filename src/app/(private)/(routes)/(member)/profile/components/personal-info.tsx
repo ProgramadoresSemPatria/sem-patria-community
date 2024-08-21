@@ -256,7 +256,7 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                         <Input
                           type={showPassword.newPassword ? 'text' : 'password'}
                           disabled={isUpdating}
-                          placeholder="Confirm Password"
+                          placeholder="New Password"
                           icon={
                             showPassword.newPassword ? (
                               <Icons.eyeOff

@@ -14,19 +14,19 @@ export default authMiddleware({
     '/api/password-recovery(.*)',
     '/forum/(.*)',
     '/forum/(.*)/(.*)'
-  ],
-  beforeAuth(req, evt) {
-    const userAgent = req.headers.get('user-agent')
-    if (userAgent?.includes('Discordbot')) {
-      console.log('let discord accesss', req)
-      const payload = { user: 'discord-bot' }
-      const secret = process.env.JWT_SECRET
-      const jwtToken = jwt.sign(payload, secret as string, { expiresIn: '1h' })
+  ]
+  // beforeAuth(req, evt) {
+  //   const userAgent = req.headers.get('user-agent')
+  //   if (userAgent?.includes('Discordbot')) {
+  //     console.log('let discord accesss', req)
+  //     const payload = { user: 'discord-bot' }
+  //     const secret = process.env.JWT_SECRET
+  //     const jwtToken = jwt.sign(payload, secret as string, { expiresIn: '1h' })
 
-      req.headers.set('authorization', `Bearer ${jwtToken}`)
-      return NextResponse.next()
-    }
-  }
+  //     req.headers.set('authorization', `Bearer ${jwtToken}`)
+  //     return NextResponse.next()
+  //   }
+  // }
 })
 
 export const config = {

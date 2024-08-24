@@ -16,7 +16,7 @@ import EditPostButton from '../components/edit-post-button'
 import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
 import { type Metadata } from 'next'
-// import appLogo from '@/assets/app-logo-light.png'
+import appLogo from '@/assets/app-logo-light.png'
 
 type PostPageProps = {
   params: {
@@ -28,32 +28,38 @@ type PostPageProps = {
 export async function generateMetadata({
   params
 }: PostPageProps): Promise<Metadata> {
+  const post = await getPost(params.postId)
+  const parsedContent = JSON.parse(post?.content as string)
+  const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
+  const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
+  const title = post?.title || ''
+  const altText = `Image for ${title}`
+
   const metadata: Metadata = {
     metadataBase: new URL('https://borderless-community-test.vercel.app'),
-    title: 'github',
-    description: 'ewg rjkngre gbreknbgrek kgr4ngkkre,g',
+    title,
+    description,
+    authors: [{ name: post?.user.username || 'Borderless psp' }],
     twitter: {
-      title: 'github',
-      description:
-        'GitHub is where over 100 million developers shape the future of software, together. Contribute to the open source community, manage your Git repositories, review code like a pro, track bugs and fea...' ||
-        '',
+      title: post?.title || '',
+      description: description || '',
       images: [
         {
-          url: 'https://github.githubassets.com/assets/campaign-social-031d6161fa10.png',
-          alt: 'alt'
+          url: img,
+          alt: altText
         }
       ]
     },
     openGraph: {
-      url: `https://github.com`,
+      url: `https://borderless-community-test.vercel.app/api/og/${params.postId}`,
       siteName: 'Borderless Community',
-      title: 'github',
-      description: 'description' || '',
+      title: post?.title || '',
+      description: description || '',
       type: 'website',
       images: [
         {
-          url: 'https://github.githubassets.com/assets/campaign-social-031d6161fa10.png',
-          alt: 'alt'
+          url: img,
+          alt: altText
         }
       ]
     }

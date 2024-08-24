@@ -3,6 +3,13 @@ import { ImageResponse } from 'next/og'
 import { type NextRequest } from 'next/server'
 import appLogo from '@/assets/app-logo-light.png'
 
+export const runtime = 'edge'
+
+const interBold = fetch(
+  new URL('@/assets/fonts/Inter-Bold.ttf', import.meta.url)
+  // eslint-disable-next-line @typescript-eslint/promise-function-async
+).then(res => res.arrayBuffer())
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { postId: string } }
@@ -14,6 +21,9 @@ export async function GET(
     const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
     const title = post?.title || ''
     const altText = `Imageeeee for ${title}`
+    const fontBold = await interBold
+
+    console.log('ola')
 
     return new ImageResponse(
       (
@@ -66,7 +76,15 @@ export async function GET(
       ),
       {
         width: 1200,
-        height: 630
+        height: 630,
+        fonts: [
+          {
+            name: 'Inter',
+            data: fontBold,
+            weight: 700,
+            style: 'normal'
+          }
+        ]
       }
     )
   } catch (error) {

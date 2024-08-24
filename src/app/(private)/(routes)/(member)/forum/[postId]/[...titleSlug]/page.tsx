@@ -15,8 +15,9 @@ import CommentSection from '../components/comment-section'
 import EditPostButton from '../components/edit-post-button'
 import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
-import { type Metadata } from 'next'
-import appLogo from '@/assets/app-logo-light.png'
+// import { type Metadata } from 'next'
+// import appLogo from '@/assets/app-logo-light.png'
+import Head from 'next/head'
 
 type PostPageProps = {
   params: {
@@ -25,47 +26,47 @@ type PostPageProps = {
   }
 }
 
-export async function generateMetadata({
-  params
-}: PostPageProps): Promise<Metadata> {
-  const post = await getPost(params.postId)
-  const parsedContent = JSON.parse(post?.content as string)
-  const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
-  const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
-  const title = post?.title || ''
-  const altText = `Image for ${title}`
+// export async function generateMetadata({
+//   params
+// }: PostPageProps): Promise<Metadata> {
+//   const post = await getPost(params.postId)
+//   const parsedContent = JSON.parse(post?.content as string)
+//   const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
+//   const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
+//   const title = post?.title || ''
+//   const altText = `Image for ${title}`
 
-  const metadata: Metadata = {
-    metadataBase: new URL('https://borderless-community-test.vercel.app'),
-    title,
-    description,
-    authors: [{ name: post?.user.username || 'Borderless psp' }],
-    twitter: {
-      title: post?.title || '',
-      description: description || '',
-      images: [
-        {
-          url: img,
-          alt: altText
-        }
-      ]
-    },
-    openGraph: {
-      url: `https://borderless-community-test.vercel.app/api/og/${params.postId}`,
-      siteName: 'Borderless Community',
-      title: post?.title || '',
-      description: description || '',
-      type: 'website',
-      images: [
-        {
-          url: img,
-          alt: altText
-        }
-      ]
-    }
-  }
-  return metadata
-}
+//   const metadata: Metadata = {
+//     metadataBase: new URL('https://borderless-community-test.vercel.app'),
+//     title,
+//     description,
+//     authors: [{ name: post?.user.username || 'Borderless psp' }],
+//     twitter: {
+//       title: post?.title || '',
+//       description: description || '',
+//       images: [
+//         {
+//           url: img,
+//           alt: altText
+//         }
+//       ]
+//     },
+//     openGraph: {
+//       url: `https://borderless-community-test.vercel.app/api/og/${params.postId}`,
+//       siteName: 'Borderless Community',
+//       title: post?.title || '',
+//       description: description || '',
+//       type: 'website',
+//       images: [
+//         {
+//           url: img,
+//           alt: altText
+//         }
+//       ]
+//     }
+//   }
+//   return metadata
+// }
 
 export type ExtendedComment = Comment & {
   likes: Array<{
@@ -88,6 +89,38 @@ const PostPage = async ({ params }: PostPageProps) => {
 
   return (
     <>
+      <Head>
+        <title>GitHub: Let’s build from here</title>
+        <meta
+          name="description"
+          content="GitHub is where over 100 million developers shape the future of software, together. Contribute to the open source community, manage your Git repositories, review code like a pro, track bugs and fea..."
+        />
+
+        <meta property="og:url" content="https://github.com" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="GitHub: Let’s build from here" />
+        <meta
+          property="og:description"
+          content="GitHub is where over 100 million developers shape the future of software, together. Contribute to the open source community, manage your Git repositories, review code like a pro, track bugs and fea..."
+        />
+        <meta
+          property="og:image"
+          content="https://github.githubassets.com/assets/campaign-social-031d6161fa10.png"
+        />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="github.com" />
+        <meta property="twitter:url" content="https://github.com" />
+        <meta name="twitter:title" content="GitHub: Let’s build from here" />
+        <meta
+          name="twitter:description"
+          content="GitHub is where over 100 million developers shape the future of software, together. Contribute to the open source community, manage your Git repositories, review code like a pro, track bugs and fea..."
+        />
+        <meta
+          name="twitter:image"
+          content="https://github.githubassets.com/assets/campaign-social-031d6161fa10.png"
+        />
+      </Head>
       <DefaultLayout>
         <Suspense fallback={'loading'}>
           <div className="h-full flex flex-col items-center sm:items-start justify-between mt-10 w-full gap-4">

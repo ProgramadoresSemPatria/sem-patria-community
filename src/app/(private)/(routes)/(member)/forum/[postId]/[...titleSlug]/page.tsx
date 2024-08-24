@@ -16,7 +16,7 @@ import EditPostButton from '../components/edit-post-button'
 import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
 import { type Metadata } from 'next'
-import appLogo from '@/assets/app-logo-light.png'
+// import appLogo from '@/assets/app-logo-light.png'
 
 type PostPageProps = {
   params: {

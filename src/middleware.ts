@@ -45,6 +45,35 @@ export default authMiddleware({
     }
 
     return res
+  },
+  beforeAuth(req, evt) {
+    const res = NextResponse.next()
+
+    if (
+      CORS_ALLOWED_ROUTES.some(path =>
+        new RegExp(path).test(req.nextUrl.pathname)
+      )
+    ) {
+      res.headers.set('Access-Control-Allow-Origin', '*')
+      res.headers.set('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+      res.headers.set(
+        'Access-Control-Allow-Headers',
+        'Content-Type, Authorization'
+      )
+
+      if (req.method === 'OPTIONS') {
+        return new NextResponse(null, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            'Access-Control-Max-Age': '86400'
+          }
+        })
+      }
+    }
+
+    return res
   }
 })
 

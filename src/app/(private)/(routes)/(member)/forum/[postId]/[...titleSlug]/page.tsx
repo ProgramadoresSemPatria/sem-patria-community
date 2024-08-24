@@ -15,9 +15,9 @@ import CommentSection from '../components/comment-section'
 import EditPostButton from '../components/edit-post-button'
 import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
-// import { type Metadata } from 'next'
-// import appLogo from '@/assets/app-logo-light.png'
-// import { headers } from 'next/headers'
+import { type Metadata } from 'next'
+import appLogo from '@/assets/app-logo-light.png'
+import { headers } from 'next/headers'
 
 type PostPageProps = {
   params: {
@@ -26,53 +26,53 @@ type PostPageProps = {
   }
 }
 
-// export async function generateMetadata({
-//   params
-// }: PostPageProps): Promise<Metadata> {
-//   const post = await getPost(params.postId)
-//   const parsedContent = JSON.parse(post?.content as string)
-//   const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
-//   const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
-//   const title = post?.title || ''
-//   const altText = `Image for ${title}`
+export async function generateMetadata({
+  params
+}: PostPageProps): Promise<Metadata> {
+  const post = await getPost(params.postId)
+  const parsedContent = JSON.parse(post?.content as string)
+  const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
+  const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
+  const title = post?.title || ''
+  const altText = `Image for ${title}`
 
-//   const metadata: Metadata = {
-//     metadataBase: new URL('https://borderless-community-test.vercel.app'),
-//     title,
-//     description,
-//     twitter: {
-//       title: post?.title || '',
-//       description: description || '',
-//       images: [
-//         {
-//           url: img,
-//           alt: altText
-//         }
-//       ]
-//     },
-//     openGraph: {
-//       url: `https://borderless-community-test.vercel.app/${params.postId}/${params.titleSlug}`,
-//       siteName: 'Borderless Community',
-//       title: post?.title || '',
-//       description: description || '',
-//       type: 'website',
-//       images: [
-//         {
-//           url: img,
-//           alt: altText
-//         }
-//       ]
-//     }
-//   }
-//   if (process.env.NODE_ENV === 'production' && typeof window === 'undefined') {
-//     const userAgent = headers().get('user-agent') || ''
-//     if (/discord|facebookexternalhit|slackbot/.test(userAgent)) {
-//       // Return metadata as-is for these user-agents
-//       return metadata
-//     }
-//   }
-//   return metadata
-// }
+  const metadata: Metadata = {
+    metadataBase: new URL('https://borderless-community-test.vercel.app'),
+    title,
+    description,
+    twitter: {
+      title: post?.title || '',
+      description: description || '',
+      images: [
+        {
+          url: img,
+          alt: altText
+        }
+      ]
+    },
+    openGraph: {
+      url: `https://borderless-community-test.vercel.app/api/og/${params.postId}`,
+      siteName: 'Borderless Community',
+      title: post?.title || '',
+      description: description || '',
+      type: 'website',
+      images: [
+        {
+          url: img,
+          alt: altText
+        }
+      ]
+    }
+  }
+  if (process.env.NODE_ENV === 'production' && typeof window === 'undefined') {
+    const userAgent = headers().get('user-agent') || ''
+    if (/discord|facebookexternalhit|slackbot/.test(userAgent)) {
+      // Return metadata as-is for these user-agents
+      return metadata
+    }
+  }
+  return metadata
+}
 
 export type ExtendedComment = Comment & {
   likes: Array<{

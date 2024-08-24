@@ -25,41 +25,77 @@ type PostPageProps = {
   }
 }
 
+// export async function generateMetadata({
+//   params
+// }: PostPageProps): Promise<Metadata> {
+//   const post = await getPost(params.postId)
+//   const parsedContent = JSON.parse(post?.content as string)
+//   const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
+//   const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
+//   const title = post?.title || ''
+//   const altText = `Image for ${title}`
+
+//   const metadata: Metadata = {
+//     metadataBase: new URL('https://borderless-community-test.vercel.app'),
+//     title,
+//     description,
+//     authors: [{ name: post?.user.username || 'Borderless psp' }],
+//     twitter: {
+//       title: post?.title || '',
+//       description: description || '',
+//       images: [
+//         {
+//           url: img,
+//           alt: altText
+//         }
+//       ]
+//     },
+//     openGraph: {
+//       url: `https://borderless-community-test.vercel.app/api/og/${params.postId}`,
+//       siteName: 'Borderless Community',
+//       title: post?.title || '',
+//       description: description || '',
+//       type: 'website',
+//       images: [
+//         {
+//           url: img,
+//           alt: altText
+//         }
+//       ]
+//     }
+//   }
+//   return metadata
+// }
+
 export async function generateMetadata({
   params
 }: PostPageProps): Promise<Metadata> {
-  const post = await getPost(params.postId)
-  const parsedContent = JSON.parse(post?.content as string)
-  const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
-  const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
-  const title = post?.title || ''
-  const altText = `Image for ${title}`
-
   const metadata: Metadata = {
     metadataBase: new URL('https://borderless-community-test.vercel.app'),
-    title,
-    description,
-    authors: [{ name: post?.user.username || 'Borderless psp' }],
+    title: 'github',
+    description: 'ewg rjkngre gbreknbgrek kgr4ngkkre,g',
     twitter: {
-      title: post?.title || '',
-      description: description || '',
+      title: 'github',
+      description:
+        'GitHub is where over 100 million developers shape the future of software, together. Contribute to the open source community, manage your Git repositories, review code like a pro, track bugs and fea...' ||
+        '',
       images: [
         {
-          url: img,
-          alt: altText
+          url: 'https://github.githubassets.com/assets/campaign-social-031d6161fa10.png',
+          alt: 'alt'
         }
       ]
     },
     openGraph: {
-      url: `https://borderless-community-test.vercel.app/api/og/${params.postId}`,
+      url: `https://github.com`,
       siteName: 'Borderless Community',
-      title: post?.title || '',
-      description: description || '',
+      title: 'github',
+      description: 'description' || '',
       type: 'website',
       images: [
         {
-          url: img,
-          alt: altText
+          url: 'https://github.githubassets.com/assets/campaign-social-031d6161fa10.png',
+          alt: 'alt'
         }
       ]
     }

@@ -46,7 +46,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 const CORS_PATHS = ['/api/og/:path*']
 
-export function middleware(req: NextRequest) {
+export default function middleware(req: NextRequest) {
   const response = NextResponse.next()
 
   const origin = req.headers.get('origin')

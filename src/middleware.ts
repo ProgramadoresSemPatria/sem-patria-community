@@ -17,6 +17,7 @@ export default authMiddleware({
 
     if (userAgent && userAgent.includes('Discordbot/2.0')) {
       if (req.headers.get('authorization') === null) {
+        console.log('req', req)
         const res = new NextResponse(null, {
           status: 200,
           headers: {

@@ -19,6 +19,7 @@ export default authMiddleware({
   ],
   afterAuth(auth, req) {
     const res = NextResponse.next()
+    console.log('req', req)
 
     if (
       CORS_ALLOWED_ROUTES.some(path =>
@@ -43,6 +44,7 @@ export default authMiddleware({
         })
       }
     }
+    console.log('res', res)
 
     return res
   }

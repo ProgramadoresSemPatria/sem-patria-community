@@ -1,52 +1,60 @@
-// import { authMiddleware } from '@clerk/nextjs'
-// import { NextResponse } from 'next/server'
-
-import { type NextRequest, NextResponse } from 'next/server'
-
-// export default authMiddleware({
-//   publicRoutes: [
-//     '/api/webhooks(.*)',
-//     '/api/auth/(.*)',
-//     '/api/uploadthing(.*)',
-//     '/set-password/(.*)',
-//     '/api/password-recovery(.*)',
-//     'api/og/(.*)',
-//     '/forum/(.*)',
-//     '/forum/(.*)/(.*)'
-//   ],
-//   beforeAuth(req, evt) {
-//     const userAgent = req.headers.get('user-agent')
-
-//     if (userAgent && userAgent.includes('Discordbot/2.0')) {
-//       if (req.headers.get('authorization') === null) {
-//         console.log('req', req)
-//         const res = new NextResponse(null, {
-//           status: 200,
-//           headers: {
-//             'Content-Type': 'text/html',
-//             'Access-Control-Allow-Origin': '*',
-//             'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
-//             'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-//             'Access-Control-Max-Age': '86400'
-//           }
-//         })
-//         console.log('res', res)
-
-//         return res
-//       }
-//     }
-//     return NextResponse.next()
-//   },
-
-// })
-
-// export const config = {
-//   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']
-// }
+import { authMiddleware } from '@clerk/nextjs'
+import {
+  type NextFetchEvent,
+  type NextRequest,
+  NextResponse
+} from 'next/server'
 
 const CORS_PATHS = ['/api/og/:path*']
 
-export default function middleware(req: NextRequest) {
+const clerkMiddleware = authMiddleware({
+  publicRoutes: [
+    '/api/webhooks(.*)',
+    '/api/auth/(.*)',
+    '/api/uploadthing(.*)',
+    '/set-password/(.*)',
+    '/api/password-recovery(.*)',
+    'api/og/(.*)',
+    '/forum/(.*)',
+    '/forum/(.*)/(.*)'
+  ],
+  beforeAuth(req, evt) {
+    const userAgent = req.headers.get('user-agent')
+
+    if (userAgent && userAgent.includes('Discordbot/2.0')) {
+      if (req.headers.get('authorization') === null) {
+        console.log('req', req)
+        const res = new NextResponse(null, {
+          status: 200,
+          headers: {
+            'Content-Type': 'text/html',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            'Access-Control-Max-Age': '86400'
+          }
+        })
+        console.log('res', res)
+
+        return res
+      }
+    }
+    return NextResponse.next()
+  }
+})
+export default async function middleware(
+  req: NextRequest,
+  evt: NextFetchEvent
+) {
+  // Apply Clerk's authMiddleware first
+  const authResponse = clerkMiddleware(req, evt)
+
+  // If Clerk's authMiddleware returns a response, return it immediately
+  if (authResponse) {
+    return await authResponse
+  }
+
+  // Create a new response object to modify headers
   const response = NextResponse.next()
 
   const origin = req.headers.get('origin')
@@ -61,6 +69,7 @@ export default function middleware(req: NextRequest) {
     )
   }
 
+  // Handle preflight CORS requests
   if (req.method === 'OPTIONS') {
     return new NextResponse(null, {
       headers: {
@@ -73,4 +82,8 @@ export default function middleware(req: NextRequest) {
   }
 
   return response
+}
+
+export const config = {
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']
 }

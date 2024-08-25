@@ -33,6 +33,7 @@ export default authMiddleware({
         return res
       }
     }
+    return NextResponse.next()
   }
 })
 

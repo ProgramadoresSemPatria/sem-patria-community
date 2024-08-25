@@ -3,9 +3,6 @@ import { NextResponse } from 'next/server'
 
 const CORS_ALLOWED_ROUTES = ['/api/og/(.*)', '/forum/(.*)', '/forum/(.*)/(.*)']
 
-// This example protects all routes including api/trpc routes
-// Please edit this to allow other routes to be public as needed.
-// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
 export default authMiddleware({
   publicRoutes: [
     '/api/webhooks(.*)',
@@ -19,7 +16,20 @@ export default authMiddleware({
   ],
   beforeAuth(req, evt) {
     const res = NextResponse.next()
-    console.log('req', req)
+    const userAgent = req.headers.get('user-agent')
+
+    if (userAgent && userAgent.includes('Discordbot/2.0')) {
+      console.log('Discord bot detected')
+      if (req.headers.get('authorization') === null) {
+        console.log('Returning 200 instead of 401 for Discord bot')
+        return new NextResponse(null, {
+          status: 200,
+          headers: {
+            'Content-Type': 'text/plain'
+          }
+        })
+      }
+    }
 
     if (
       CORS_ALLOWED_ROUTES.some(path =>
@@ -40,10 +50,12 @@ export default authMiddleware({
             'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type, Authorization',
             'Access-Control-Max-Age': '86400'
-          }
+          },
+          status: 200
         })
       }
     }
+
     console.log('res', res)
 
     return res

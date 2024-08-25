@@ -5,8 +5,6 @@ import {
   NextResponse
 } from 'next/server'
 
-const CORS_PATHS = ['/api/og/:path*']
-
 const clerkMiddleware = authMiddleware({
   publicRoutes: [
     '/api/webhooks(.*)',
@@ -18,6 +16,7 @@ const clerkMiddleware = authMiddleware({
     '/forum/(.*)',
     '/forum/(.*)/(.*)'
   ],
+  debug: true,
   beforeAuth(req, evt) {
     const userAgent = req.headers.get('user-agent')
 
@@ -42,6 +41,8 @@ const clerkMiddleware = authMiddleware({
     return NextResponse.next()
   }
 })
+const CORS_PATHS = ['/api/og/(.*)']
+
 export default async function middleware(
   req: NextRequest,
   evt: NextFetchEvent

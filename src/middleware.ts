@@ -1,7 +1,7 @@
 import { authMiddleware } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
 
-const CORS_ALLOWED_ROUTES = ['/api/og/(.*)']
+const CORS_ALLOWED_ROUTES = ['/api/og/(.*)', '/forum/(.*)', '/forum/(.*)/(.*)']
 
 // This example protects all routes including api/trpc routes
 // Please edit this to allow other routes to be public as needed.

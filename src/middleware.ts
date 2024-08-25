@@ -21,7 +21,7 @@ export default authMiddleware({
         const res = new NextResponse(null, {
           status: 200,
           headers: {
-            'Content-Type': 'text/plain',
+            'Content-Type': 'text/html',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type, Authorization',

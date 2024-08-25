@@ -17,7 +17,7 @@ export default authMiddleware({
     '/forum/(.*)',
     '/forum/(.*)/(.*)'
   ],
-  afterAuth(auth, req) {
+  beforeAuth(req, evt) {
     const res = NextResponse.next()
     console.log('req', req)
 

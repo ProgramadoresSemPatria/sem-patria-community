@@ -1,6 +1,8 @@
 // import { authMiddleware } from '@clerk/nextjs'
 // import { NextResponse } from 'next/server'
 
+import { type NextRequest, NextResponse } from 'next/server'
+
 // export default authMiddleware({
 //   publicRoutes: [
 //     '/api/webhooks(.*)',
@@ -41,3 +43,34 @@
 // export const config = {
 //   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']
 // }
+
+const CORS_PATHS = ['/api/og/:path*']
+
+export function middleware(req: NextRequest) {
+  const response = NextResponse.next()
+
+  const origin = req.headers.get('origin')
+
+  // Allow CORS only on specific paths
+  if (CORS_PATHS.some(path => req.nextUrl.pathname.startsWith(path))) {
+    response.headers.set('Access-Control-Allow-Origin', origin || '*')
+    response.headers.set('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+    response.headers.set(
+      'Access-Control-Allow-Headers',
+      'Content-Type, Authorization'
+    )
+  }
+
+  if (req.method === 'OPTIONS') {
+    return new NextResponse(null, {
+      headers: {
+        'Access-Control-Allow-Origin': origin || '*',
+        'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Max-Age': '86400'
+      }
+    })
+  }
+
+  return response
+}

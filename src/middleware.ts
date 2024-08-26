@@ -5,7 +5,7 @@
 //   NextResponse
 // } from 'next/server'
 
-import { authMiddleware } from '@clerk/nextjs'
+import { authMiddleware } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 
 // const clerkMiddleware = authMiddleware({
@@ -104,6 +104,7 @@ export default authMiddleware({
     '/forum/(.*)',
     '/forum/(.*)/(.*)'
   ],
+
   afterAuth(auth, req, evt) {
     const a = auth.isPublicRoute
     console.log('isPublicRoute', a)
@@ -114,6 +115,7 @@ export default authMiddleware({
     ) {
       evt.passThroughOnException()
     }
+    return NextResponse.next()
   },
   debug: true,
   beforeAuth(req, evt) {
@@ -143,9 +145,7 @@ export default authMiddleware({
         })
       }
     }
-    evt.passThroughOnException()
-
-    return res
+    return NextResponse.next()
   }
 })
 

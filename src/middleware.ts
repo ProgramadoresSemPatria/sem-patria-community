@@ -143,6 +143,7 @@ export default authMiddleware({
         })
       }
     }
+    evt.passThroughOnException()
 
     return res
   }

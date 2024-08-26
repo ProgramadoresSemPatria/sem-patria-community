@@ -91,7 +91,7 @@ import { NextResponse } from 'next/server'
 // export const config = {
 //   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']
 // }
-const CORS_ALLOWED_ROUTES = ['/api/og/(.*)']
+const CORS_ALLOWED_ROUTES = ['/api/og/(.*)', '/forum/(.*)', '/forum/(.*)/(.*)']
 
 export default authMiddleware({
   publicRoutes: [
@@ -104,6 +104,17 @@ export default authMiddleware({
     '/forum/(.*)',
     '/forum/(.*)/(.*)'
   ],
+  afterAuth(auth, req, evt) {
+    const a = auth.isPublicRoute
+    console.log('isPublicRoute', a)
+    if (
+      CORS_ALLOWED_ROUTES.some(path =>
+        new RegExp(path).test(req.nextUrl.pathname)
+      )
+    ) {
+      evt.passThroughOnException()
+    }
+  },
   debug: true,
   beforeAuth(req, evt) {
     const res = NextResponse.next()

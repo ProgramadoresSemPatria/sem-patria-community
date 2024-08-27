@@ -6,7 +6,7 @@
 // } from 'next/server'
 
 import { authMiddleware } from '@clerk/nextjs/server'
-import { NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 
 // const clerkMiddleware = authMiddleware({
 //   publicRoutes: [
@@ -149,36 +149,36 @@ export default authMiddleware({
   }
 })
 
-// export function middleware(req: NextRequest) {
-//   const res = NextResponse.next()
+export function middleware(req: NextRequest) {
+  const res = NextResponse.next()
 
-//   // Apply CORS headers if the request matches the allowed routes
-//   if (
-//     CORS_ALLOWED_ROUTES.some(path =>
-//       new RegExp(path).test(req.nextUrl.pathname)
-//     )
-//   ) {
-//     res.headers.set('Access-Control-Allow-Origin', '*')
-//     res.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-//     res.headers.set(
-//       'Access-Control-Allow-Headers',
-//       'Content-Type, Authorization'
-//     )
+  // Apply CORS headers if the request matches the allowed routes
+  if (
+    CORS_ALLOWED_ROUTES.some(path =>
+      new RegExp(path).test(req.nextUrl.pathname)
+    )
+  ) {
+    res.headers.set('Access-Control-Allow-Origin', '*')
+    res.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+    res.headers.set(
+      'Access-Control-Allow-Headers',
+      'Content-Type, Authorization'
+    )
 
-//     if (req.method === 'OPTIONS') {
-//       return new NextResponse(null, {
-//         headers: {
-//           'Access-Control-Allow-Origin': '*',
-//           'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-//           'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-//           'Access-Control-Max-Age': '86400'
-//         }
-//       })
-//     }
-//   }
+    if (req.method === 'OPTIONS') {
+      return new NextResponse(null, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          'Access-Control-Max-Age': '86400'
+        }
+      })
+    }
+  }
 
-//   return res
-// }
+  return res
+}
 
 export const config = {
   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']

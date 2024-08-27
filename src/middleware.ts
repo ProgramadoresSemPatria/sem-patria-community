@@ -5,7 +5,7 @@
 //   NextResponse
 // } from 'next/server'
 
-import { authMiddleware } from '@clerk/nextjs/server'
+// import { authMiddleware } from '@clerk/nextjs/server'
 import { type NextRequest, NextResponse } from 'next/server'
 
 // const clerkMiddleware = authMiddleware({
@@ -93,61 +93,61 @@ import { type NextRequest, NextResponse } from 'next/server'
 // }
 const CORS_ALLOWED_ROUTES = ['/api/og/(.*)', '/forum/(.*)', '/forum/(.*)/(.*)']
 
-export default authMiddleware({
-  publicRoutes: [
-    '/api/webhooks(.*)',
-    '/api/auth/(.*)',
-    '/api/uploadthing(.*)',
-    '/set-password/(.*)',
-    '/api/password-recovery(.*)',
-    'api/og/(.*)',
-    '/forum/(.*)',
-    '/forum/(.*)/(.*)'
-  ],
+// export default authMiddleware({
+//   publicRoutes: [
+//     '/api/webhooks(.*)',
+//     '/api/auth/(.*)',
+//     '/api/uploadthing(.*)',
+//     '/set-password/(.*)',
+//     '/api/password-recovery(.*)',
+//     'api/og/(.*)',
+//     '/forum/(.*)',
+//     '/forum/(.*)/(.*)'
+//   ],
 
-  afterAuth(auth, req, evt) {
-    const a = auth.isPublicRoute
-    console.log('isPublicRoute', a)
-    if (
-      CORS_ALLOWED_ROUTES.some(path =>
-        new RegExp(path).test(req.nextUrl.pathname)
-      )
-    ) {
-      evt.passThroughOnException()
-    }
-    return NextResponse.next()
-  },
-  debug: true,
-  beforeAuth(req, evt) {
-    const res = NextResponse.next()
+//   afterAuth(auth, req, evt) {
+//     const a = auth.isPublicRoute
+//     console.log('isPublicRoute', a)
+//     if (
+//       CORS_ALLOWED_ROUTES.some(path =>
+//         new RegExp(path).test(req.nextUrl.pathname)
+//       )
+//     ) {
+//       evt.passThroughOnException()
+//     }
+//     return NextResponse.next()
+//   },
+//   debug: true,
+//   beforeAuth(req, evt) {
+//     const res = NextResponse.next()
 
-    // Apply CORS headers if the request matches the allowed routes
-    if (
-      CORS_ALLOWED_ROUTES.some(path =>
-        new RegExp(path).test(req.nextUrl.pathname)
-      )
-    ) {
-      res.headers.set('Access-Control-Allow-Origin', '*')
-      res.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-      res.headers.set(
-        'Access-Control-Allow-Headers',
-        'Content-Type, Authorization'
-      )
+//     // Apply CORS headers if the request matches the allowed routes
+//     if (
+//       CORS_ALLOWED_ROUTES.some(path =>
+//         new RegExp(path).test(req.nextUrl.pathname)
+//       )
+//     ) {
+//       res.headers.set('Access-Control-Allow-Origin', '*')
+//       res.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+//       res.headers.set(
+//         'Access-Control-Allow-Headers',
+//         'Content-Type, Authorization'
+//       )
 
-      if (req.method === 'OPTIONS') {
-        return new NextResponse(null, {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-            'Access-Control-Max-Age': '86400'
-          }
-        })
-      }
-    }
-    return NextResponse.next()
-  }
-})
+//       if (req.method === 'OPTIONS') {
+//         return new NextResponse(null, {
+//           headers: {
+//             'Access-Control-Allow-Origin': '*',
+//             'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+//             'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+//             'Access-Control-Max-Age': '86400'
+//           }
+//         })
+//       }
+//     }
+//     return NextResponse.next()
+//   }
+// })
 
 export function middleware(req: NextRequest) {
   const res = NextResponse.next()

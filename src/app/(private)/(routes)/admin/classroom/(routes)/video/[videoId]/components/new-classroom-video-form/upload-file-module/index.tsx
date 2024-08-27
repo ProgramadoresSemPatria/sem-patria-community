@@ -6,6 +6,10 @@ const fileAcceptTypes = {
   'application/pdf': ['.pdf'],
   'application/msword': ['.doc', '.docx'],
   'application/vnd.ms-excel': ['.xls', '.xlsx'],
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
+    '.xlsx'
+  ],
+  'application/vnd.oasis.opendocument.spreadsheet': ['.ods'],
   'application/vnd.openxmlformats-officedocument.presentationml.presentation': [
     '.ppt',
     '.pptx'

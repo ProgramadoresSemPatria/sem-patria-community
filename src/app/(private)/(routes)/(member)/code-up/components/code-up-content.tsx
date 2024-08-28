@@ -1,6 +1,6 @@
 import { appRoutes } from '@/lib/constants'
 import prismadb from '@/lib/prismadb'
-import { currentUser } from '@clerk/nextjs'
+import { currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { EmptyNotes } from './empty-notes'

@@ -1,5 +1,5 @@
 import prismadb from '@/lib/prismadb'
-import { auth, clerkClient } from '@clerk/nextjs'
+import { auth, clerkClient } from '@clerk/nextjs/server'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function DELETE(

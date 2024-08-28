@@ -20,7 +20,9 @@ export default clerkMiddleware(
     const isDiscordBot = userAgent?.toLowerCase().includes('discord')
     console.log('isDiscordBot', isDiscordBot)
 
-    const isForumRoute = req.nextUrl.pathname.includes('/forum')
+    const isForumRoute =
+      req.nextUrl.pathname.includes('/forum') ||
+      req.nextUrl.href.includes('forum')
     console.log('req.nextUrl.pathname', req.nextUrl.pathname)
 
     console.log('isForumRoute', isForumRoute)

@@ -11,19 +11,27 @@ const staticPublicRoutes = [
 
 const isStaticPublicRoute = createRouteMatcher(staticPublicRoutes)
 
-export default clerkMiddleware((auth, req) => {
-  const userAgent = req.headers.get('user-agent')
+export default clerkMiddleware(
+  (auth, req) => {
+    const userAgent = req.headers.get('user-agent')
+    console.log('user agent', userAgent)
+    console.log('req', req)
 
-  const isDiscordBot = userAgent?.toLowerCase().includes('discord')
-  const isForumRoute =
-    req.url.startsWith('/forum/') && /\/forum\/.+\/.+/.test(req.url)
+    const isDiscordBot = userAgent?.toLowerCase().includes('discord')
+    console.log('isDiscordBot', isDiscordBot)
 
-  const isPublic = isStaticPublicRoute(req) || (isDiscordBot && isForumRoute)
+    const isForumRoute = req.url.startsWith('/forum/')
+    console.log('isForumRoute', isForumRoute)
 
-  if (!isPublic) {
-    auth().protect()
-  }
-})
+    const isPublic = isStaticPublicRoute(req) || (isDiscordBot && isForumRoute)
+    console.log('isPublic', isPublic)
+
+    if (!isPublic) {
+      auth().protect()
+    }
+  },
+  { debug: true }
+)
 
 export const config = {
   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']

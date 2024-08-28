@@ -1,23 +1,21 @@
-// // import { authMiddleware } from '@clerk/nextjs'
-// // import {
-// //   type NextFetchEvent,
-// //   type NextRequest,
-// //   NextResponse
-// // } from 'next/server'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-// // import { authMiddleware } from '@clerk/nextjs'
-// import { type NextRequest, NextResponse } from 'next/server'
-import { clerkMiddleware } from '@clerk/nextjs/server'
+const isPublicRoute = createRouteMatcher([
+  '/api/webhooks(.*)',
+  '/api/auth/(.*)',
+  '/api/uploadthing(.*)',
+  '/set-password/(.*)',
+  '/api/password-recovery(.*)',
+  '/api/og/(.*)'
+])
 
-export default clerkMiddleware()
-
+export default clerkMiddleware((auth, req) => {
+  if (!isPublicRoute(req)) {
+    auth().protect()
+  }
+})
 export const config = {
-  matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/(api|trpc)(.*)'
-  ]
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']
 }
 
 // // const clerkMiddleware = authMiddleware({
@@ -104,71 +102,3 @@ export const config = {
 // //   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)']
 // // }
 // const CORS_ALLOWED_ROUTES = ['/api/og/(.*)']
-
-// export default authMiddleware({
-//   publicRoutes: [
-//     '/api/webhooks(.*)',
-//     '/api/auth/(.*)',
-//     '/api/uploadthing(.*)',
-//     '/set-password/(.*)',
-//     '/api/password-recovery(.*)',
-//     'api/og/(.*)',
-//     '/forum/(.*)',
-//     '/forum/(.*)/(.*)'
-//   ],
-//   // debug: true,
-//   beforeAuth(req, evt) {
-//     const userAgent = req.headers.get('user-agent')
-
-//     if (userAgent?.includes('Discordbot/2.0')) {
-//       if (req.headers.get('authorization') === null) {
-//         console.log('req', req)
-//         const res = new NextResponse(null, {
-//           status: 200,
-//           headers: {
-//             'Content-Type': 'text/html',
-//             'Access-Control-Allow-Origin': '*',
-//             'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
-//             'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-//             'Access-Control-Max-Age': '86400'
-//           }
-//         })
-//         console.log('res', res)
-
-//         return res
-//       }
-//     }
-//     return NextResponse.next()
-//   }
-// })
-
-// export function middleware(req: NextRequest) {
-//   const res = NextResponse.next()
-
-//   // Apply CORS headers if the request matches the allowed routes
-//   if (
-//     CORS_ALLOWED_ROUTES.some(path =>
-//       new RegExp(path).test(req.nextUrl.pathname)
-//     )
-//   ) {
-//     res.headers.set('Access-Control-Allow-Origin', '*')
-//     res.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-//     res.headers.set(
-//       'Access-Control-Allow-Headers',
-//       'Content-Type, Authorization'
-//     )
-
-//     if (req.method === 'OPTIONS') {
-//       return new NextResponse(null, {
-//         headers: {
-//           'Access-Control-Allow-Origin': '*',
-//           'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-//           'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-//           'Access-Control-Max-Age': '86400'
-//         }
-//       })
-//     }
-//   }
-
-//   return res
-// }

@@ -1,7 +1,7 @@
 import MainLogo from '@/components/main-logo'
 import { ShortMenu } from '@/components/short-menu'
 import prismadb from '@/lib/prismadb'
-import { auth } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs/server'
 
 type MentorshipHeaderProps = {
   videoTitle: string

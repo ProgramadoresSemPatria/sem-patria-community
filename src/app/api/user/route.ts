@@ -3,7 +3,7 @@ import { sendEmailWithLink } from '@/actions/auth/send-email-with-link'
 import { emailTemplate } from '@/lib/constants'
 import prismadb from '@/lib/prismadb'
 import { Roles } from '@/lib/types'
-import { auth, clerkClient } from '@clerk/nextjs'
+import { auth, clerkClient } from '@clerk/nextjs/server'
 import bcrypt from 'bcrypt'
 import { NextResponse, type NextRequest } from 'next/server'
 

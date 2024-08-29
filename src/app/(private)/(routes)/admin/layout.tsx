@@ -1,6 +1,6 @@
 import { appRoutes } from '@/lib/constants'
 import prismadb from '@/lib/prismadb'
-import { auth } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs/server'
 import { Roles } from '@prisma/client'
 import { redirect } from 'next/navigation'
 

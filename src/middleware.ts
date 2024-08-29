@@ -13,20 +13,20 @@ const isStaticPublicRoute = createRouteMatcher(staticPublicRoutes)
 
 export default clerkMiddleware((auth, req) => {
   const userAgent = req.headers.get('user-agent')
-  console.log('user agent', userAgent)
-  console.log('req', req)
 
-  const isDiscordBot = userAgent?.toLowerCase().includes('discord')
-  console.log('isDiscordBot', isDiscordBot)
+  const isMetadataReq = [
+    'discord',
+    'whatsapp',
+    'slackbot',
+    'twitterbot',
+    'facebook'
+  ].some(keyword => userAgent?.toLowerCase().includes(keyword))
 
   const isForumRoute =
     req.nextUrl.pathname.includes('/forum') ||
     req.nextUrl.href.includes('forum')
-  console.log('req.nextUrl.pathname', req.nextUrl.pathname)
 
-  console.log('isForumRoute', isForumRoute)
-
-  const isPublic = isStaticPublicRoute(req) || (isDiscordBot && isForumRoute)
+  const isPublic = isStaticPublicRoute(req) || (isMetadataReq && isForumRoute)
   console.log('isPublic', isPublic)
 
   if (!isPublic) {

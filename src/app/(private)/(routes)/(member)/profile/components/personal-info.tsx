@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { isObjEmpty } from '@/lib/utils'
 import { useUser } from '@clerk/nextjs'
 import { type User } from '@prisma/client'
 import ImageInput from './image-input'
@@ -175,23 +176,27 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel>Old Password</FormLabel>
                       <FormControl>
                         <Input
-                          type={showPassword ? 'text' : 'password'}
+                          type={showPassword.password ? 'text' : 'password'}
                           disabled={isUpdating}
-                          placeholder="Password"
+                          placeholder="Old Password"
                           {...field}
                           icon={
-                            showPassword ? (
+                            showPassword.password ? (
                               <Icons.eyeOff
                                 className="h-4 w-4 cursor-pointer"
-                                onClick={toggleShowPassword}
+                                onClick={() => {
+                                  toggleShowPassword('password')
+                                }}
                               />
                             ) : (
                               <Icons.eye
                                 className="h-4 w-4 cursor-pointer"
-                                onClick={toggleShowPassword}
+                                onClick={() => {
+                                  toggleShowPassword('password')
+                                }}
                               />
                             )
                           }
@@ -209,19 +214,27 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                       <FormLabel>Confirm Password</FormLabel>
                       <FormControl>
                         <Input
-                          type={showPassword ? 'text' : 'password'}
+                          type={
+                            showPassword.passwordConfirmation
+                              ? 'text'
+                              : 'password'
+                          }
                           disabled={isUpdating}
                           placeholder="Confirm Password"
                           icon={
-                            showPassword ? (
+                            showPassword.passwordConfirmation ? (
                               <Icons.eyeOff
                                 className="h-4 w-4 cursor-pointer"
-                                onClick={toggleShowPassword}
+                                onClick={() => {
+                                  toggleShowPassword('passwordConfirmation')
+                                }}
                               />
                             ) : (
                               <Icons.eye
                                 className="h-4 w-4 cursor-pointer"
-                                onClick={toggleShowPassword}
+                                onClick={() => {
+                                  toggleShowPassword('passwordConfirmation')
+                                }}
                               />
                             )
                           }
@@ -242,19 +255,23 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                       <FormLabel>New Password</FormLabel>
                       <FormControl>
                         <Input
-                          type={showPassword ? 'text' : 'password'}
+                          type={showPassword.newPassword ? 'text' : 'password'}
                           disabled={isUpdating}
-                          placeholder="Confirm Password"
+                          placeholder="New Password"
                           icon={
-                            showPassword ? (
+                            showPassword.newPassword ? (
                               <Icons.eyeOff
                                 className="h-4 w-4 cursor-pointer"
-                                onClick={toggleShowPassword}
+                                onClick={() => {
+                                  toggleShowPassword('newPassword')
+                                }}
                               />
                             ) : (
                               <Icons.eye
                                 className="h-4 w-4 cursor-pointer"
-                                onClick={toggleShowPassword}
+                                onClick={() => {
+                                  toggleShowPassword('newPassword')
+                                }}
                               />
                             )
                           }
@@ -269,7 +286,11 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                   )}
                 />
               </div>
-              <Button type="submit" className="w-fit">
+              <Button
+                type="submit"
+                className="w-fit"
+                disabled={!isObjEmpty(form.formState.errors) || isUpdating}
+              >
                 {isUpdating && (
                   <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
                 )}

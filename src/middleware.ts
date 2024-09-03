@@ -6,7 +6,8 @@ const staticPublicRoutes = [
   '/api/uploadthing(.*)',
   '/set-password/(.*)',
   '/api/password-recovery(.*)',
-  '/api/og/(.*)'
+  '/api/og/(.*)',
+  '/sign-in'
 ]
 
 const isStaticPublicRoute = createRouteMatcher(staticPublicRoutes)
@@ -27,7 +28,6 @@ export default clerkMiddleware((auth, req) => {
     req.nextUrl.href.includes('forum')
 
   const isPublic = isStaticPublicRoute(req) || (isMetadataReq && isForumRoute)
-  console.log('isPublic', isPublic)
 
   if (!isPublic) {
     auth().protect()

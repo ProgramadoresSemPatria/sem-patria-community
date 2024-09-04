@@ -20,10 +20,8 @@ export async function GET(
     const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
     const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
     const title = post?.title || ''
-    const altText = `Imageeeee for ${title}`
+    const altText = `Image for ${title}`
     const fontBold = await interBold
-
-    console.log('ola')
 
     return new ImageResponse(
       (

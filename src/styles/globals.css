@@ -95,10 +95,6 @@
   }
 }
 
-iframe body {
-  background-color: #000;
-}
-
 /* Radix Collapsible */
 .CollapsibleContent {
   overflow: hidden;

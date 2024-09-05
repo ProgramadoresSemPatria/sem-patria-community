@@ -125,3 +125,7 @@ export const toBase64 = async (file: File) => {
     }
   })
 }
+
+export const isObjEmpty = (obj: Record<string, unknown>) => {
+  return Object.keys(obj).length === 0
+}

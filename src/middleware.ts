@@ -28,7 +28,6 @@ export default clerkMiddleware((auth, req) => {
     req.nextUrl.href.includes('forum')
 
   const isPublic = isStaticPublicRoute(req) || (isMetadataReq && isForumRoute)
-  console.log('isPublic', isPublic)
 
   if (!isPublic) {
     auth().protect()

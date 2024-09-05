@@ -5,7 +5,7 @@ import { DefaultLayout } from '@/components/default-layout'
 import NoteEditor from '@/components/editor/editor'
 import { Separator } from '@/components/ui/separator'
 import { type ExtendedPost } from '@/lib/types'
-import { auth } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs/server'
 import format from 'date-fns/format'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -16,7 +16,7 @@ import EditPostButton from '../components/edit-post-button'
 import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
 import { type Metadata } from 'next'
-import Head from 'next/head'
+import appLogo from '@/assets/app-logo-light.png'
 
 type PostPageProps = {
   params: {
@@ -25,41 +25,44 @@ type PostPageProps = {
   }
 }
 
-// export async function getServerSideProps({ params }: PostPageProps) {
-//   const post = await getPost(params.postId)
-//   const parsedContent = JSON.parse(post?.content as string)
-//   const description =
-//     parsedContent.content[0]?.content[0]?.text || 'Default description'
-
-//   const metadata: Metadata = {
-//     title: post?.title || '',
-//     description: description || '',
-//     openGraph: {
-//       title: post?.title || '',
-//       description: description || '',
-//       url: `https://borderless-community-test.vercel.app/forum/${params.postId}/${params.titleSlug}`,
-//       type: 'article'
-//     }
-//   }
-
-//   return {
-//     props: {
-//       post,
-//       metadata
-//     }
-//   }
-// }
-
 export async function generateMetadata({
   params
 }: PostPageProps): Promise<Metadata> {
   const post = await getPost(params.postId)
   const parsedContent = JSON.parse(post?.content as string)
-  const description = parsedContent.content[0].content[0].text
+  const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
+  const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
+  const title = post?.title || ''
+  const altText = `Image for ${title}`
 
   const metadata: Metadata = {
-    title: post?.title,
-    description
+    metadataBase: new URL('https://borderless-community-test.vercel.app'),
+    title,
+    description,
+    authors: [{ name: post?.user.username || 'Borderless psp' }],
+    twitter: {
+      title: post?.title || '',
+      description: description || '',
+      images: [
+        {
+          url: img,
+          alt: altText
+        }
+      ]
+    },
+    openGraph: {
+      url: `https://borderless-community-test.vercel.app/api/og/${params.postId}`,
+      siteName: 'Borderless Community',
+      title: post?.title || '',
+      description: description || '',
+      type: 'website',
+      images: [
+        {
+          url: img,
+          alt: altText
+        }
+      ]
+    }
   }
   return metadata
 }
@@ -78,22 +81,13 @@ export type ExtendedComment = Comment & {
   }
   createdAt: string
 }
+
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
   const post = await getPost(params.postId)
-  const parsedContent = JSON.parse(post?.content as string)
-  const description =
-    parsedContent.content[0]?.content[0]?.text || 'Default description'
 
   return (
     <>
-      <Head>
-        <title>{post?.title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={post?.title} />
-        <meta property="og:description" content={description as string} />
-        <meta property="og:type" content="article" />
-      </Head>
       <DefaultLayout>
         <Suspense fallback={'loading'}>
           <div className="h-full flex flex-col items-center sm:items-start justify-between mt-10 w-full gap-4">

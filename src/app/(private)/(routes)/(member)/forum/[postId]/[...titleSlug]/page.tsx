@@ -5,7 +5,7 @@ import { DefaultLayout } from '@/components/default-layout'
 import NoteEditor from '@/components/editor/editor'
 import { Separator } from '@/components/ui/separator'
 import { type ExtendedPost } from '@/lib/types'
-import { auth } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs/server'
 import format from 'date-fns/format'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -15,12 +15,56 @@ import CommentSection from '../components/comment-section'
 import EditPostButton from '../components/edit-post-button'
 import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
+import { type Metadata } from 'next'
+import appLogo from '@/assets/app-logo-light.png'
 
 type PostPageProps = {
   params: {
     postId: string
     titleSlug: string
   }
+}
+
+export async function generateMetadata({
+  params
+}: PostPageProps): Promise<Metadata> {
+  const post = await getPost(params.postId)
+  const parsedContent = JSON.parse(post?.content as string)
+  const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
+  const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
+  const title = post?.title || ''
+  const altText = `Image for ${title}`
+
+  const metadata: Metadata = {
+    metadataBase: new URL('https://borderless-community-test.vercel.app'),
+    title,
+    description,
+    authors: [{ name: post?.user.username || 'Borderless psp' }],
+    twitter: {
+      title: post?.title || '',
+      description: description || '',
+      images: [
+        {
+          url: img,
+          alt: altText
+        }
+      ]
+    },
+    openGraph: {
+      url: `https://borderless-community-test.vercel.app/api/og/${params.postId}`,
+      siteName: 'Borderless Community',
+      title: post?.title || '',
+      description: description || '',
+      type: 'website',
+      images: [
+        {
+          url: img,
+          alt: altText
+        }
+      ]
+    }
+  }
+  return metadata
 }
 
 export type ExtendedComment = Comment & {
@@ -37,6 +81,7 @@ export type ExtendedComment = Comment & {
   }
   createdAt: string
 }
+
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
   const post = await getPost(params.postId)

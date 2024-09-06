@@ -1,5 +1,5 @@
 import prismadb from '@/lib/prismadb'
-import { clerkClient } from '@clerk/nextjs'
+import { clerkClient } from '@clerk/nextjs/server'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { NextResponse, type NextRequest } from 'next/server'

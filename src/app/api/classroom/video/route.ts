@@ -1,6 +1,6 @@
 import { type VideoOrder } from '@/app/(private)/(routes)/(member)/mentorship/[videoId]/components/mentorship-tab/use-mentorship-tab'
 import prismadb from '@/lib/prismadb'
-import { auth } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs/server'
 import { type Attachment } from '@prisma/client'
 import { NextResponse, type NextRequest } from 'next/server'
 

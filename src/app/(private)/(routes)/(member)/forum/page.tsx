@@ -1,7 +1,7 @@
 import { DefaultLayout } from '@/components/default-layout'
 import Header from '@/components/header'
 import prismadb from '@/lib/prismadb'
-import { currentUser } from '@clerk/nextjs'
+import { currentUser } from '@clerk/nextjs/server'
 import CreatePostCommentComponent from './components/create-post'
 import ForumFilters from './components/filters'
 import ForumFeed from './components/forum-feed'

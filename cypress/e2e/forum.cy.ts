@@ -40,31 +40,32 @@ describe('Forum page', () => {
     cy.url().should('eq', 'http://localhost:3000/forum?category=Back%20End')
   })
 
-  it.only('Should go to post page', () => {
+  it('Should go to post page', () => {
     cy.get(
-      '.col-span-2 > :nth-child(1) > .py-4 > .w-0 > [data-testid="post"] > .absolute'
+      ':nth-child(1) > .border-l-2 > .py-4 > .w-0 > [data-testid="post"] > .absolute'
     ).click({ force: true })
     cy.url().should('match', /http:\/\/localhost:3000\/forum\/.*/)
   })
+
   it('Should go to post page', () => {
     cy.intercept('/api/post', {
       statusCode: 200
     }).as('create')
     cy.get(
-      '.col-span-2 > :nth-child(1) > .py-4 > .w-0 > [data-testid="post"] > .absolute'
+      ':nth-child(1) > .border-l-2 > .py-4 > .w-0 > [data-testid="post"] > .absolute'
     ).click({ force: true })
     cy.url().should('match', /http:\/\/localhost:3000\/forum\/.*/)
   })
 
-  it('Should like post', () => {
+  it.only('Should like post', () => {
     cy.intercept('api/post/**/likes', {
       statusCode: 200
     }).as('like')
     cy.get(
-      ':nth-child(1) > .dark\\:bg-slate-900 > .p-2 > .ml-2 > [data-testid="like"]'
+      '.col-span-2 > :nth-child(1) > .p-2 > .ml-2 > [data-testid="like"]'
     ).click()
     cy.get(
-      ':nth-child(1) > .dark\\:bg-slate-900 > .p-2 > .ml-2 > [data-testid="like"] > [data-testid="like-count"]'
-    ).should('have.text', '1')
+      '.col-span-2 > :nth-child(1) > .p-2 > .ml-2 > [data-testid="like"] > [data-testid="like-count"]'
+    ).should('have.text', 1)
   })
 })

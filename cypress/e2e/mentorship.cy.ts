@@ -64,7 +64,7 @@ describe('Mentorship Page', () => {
     cy.contains('Send').click()
   })
 
-  it.only('Should like a comment', () => {
+  it('Should like a comment', () => {
     cy.visit('/mentorship', {
       failOnStatusCode: false
     })

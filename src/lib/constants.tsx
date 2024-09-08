@@ -47,7 +47,7 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.dashboard className="h-4 w-4" />
   },
   {
-    href: `${appRoutes.forum}?category=All`,
+    href: `${appRoutes.forum}`,
     label: 'Forum',
     icon: <Icons.forum className="h-4 w-4" />
   },

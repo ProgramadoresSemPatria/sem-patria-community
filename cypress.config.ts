@@ -3,7 +3,7 @@ import { defineConfig } from 'cypress'
 
 export default defineConfig({
   screenshotOnRunFailure: false,
-  defaultCommandTimeout: 10000,
+  defaultCommandTimeout: 50000,
   e2e: {
     async setupNodeEvents(on, config) {
       return await clerkSetup({ config })

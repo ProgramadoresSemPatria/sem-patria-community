@@ -101,6 +101,7 @@
     "zustand": "^4.4.6"
   },
   "devDependencies": {
+    "@clerk/testing": "^1.2.18",
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
     "@tailwindcss/typography": "^0.5.12",

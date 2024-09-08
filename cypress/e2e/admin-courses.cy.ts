@@ -1,8 +1,14 @@
 describe('Admin Courses page', () => {
   beforeEach(() => {
-    cy.session('signed-in', () => {
-      cy.signIn()
+    cy.visit(`/sign-in`)
+    cy.clerkLoaded()
+
+    cy.clerkSignIn({
+      strategy: 'password',
+      identifier: Cypress.env('test_email'),
+      password: Cypress.env('test_password')
     })
+
     cy.visit('/dashboard', {
       failOnStatusCode: false,
       onBeforeLoad: win => {
@@ -52,7 +58,7 @@ describe('Admin Courses page', () => {
     cy.visit('/admin/courses', {
       failOnStatusCode: false
     })
-    cy.get('#radix-\\:R2sqlbrquudsukq\\:').click()
+    cy.get(':nth-child(1) > :nth-child(7) > [data-testid="..."]').click()
     cy.contains('Delete').click()
     cy.contains('Delete').click()
     cy.contains('Success').should('exist')
@@ -66,7 +72,7 @@ describe('Admin Courses page', () => {
     cy.visit('/admin/courses', {
       failOnStatusCode: false
     })
-    cy.get('#radix-\\:R2sqlbrquudsukq\\:').click()
+    cy.get(':nth-child(1) > :nth-child(7) > [data-testid="..."]').click()
     cy.contains('Update').click()
     cy.get('[data-testid="name"]').clear().type('advancedddd')
     cy.get('[data-testid="url"]')

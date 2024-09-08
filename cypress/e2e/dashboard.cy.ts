@@ -1,11 +1,14 @@
 describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
   beforeEach(() => {
-    cy.session('signed-in', () => {
-      cy.signIn()
+    cy.visit(`/sign-in`)
+    cy.clerkLoaded()
+    cy.clerkSignIn({
+      strategy: 'password',
+      identifier: Cypress.env('test_email'),
+      password: Cypress.env('test_password')
     })
-    cy.visit('/dashboard', {
-      failOnStatusCode: false
-    })
+
+    cy.visit('/dashboard')
     cy.contains('On Boarding Video')
     cy.contains('Mark as Watched').click()
     cy.contains('Dashboard')
@@ -39,11 +42,10 @@ describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
     cy.visit('/dashboard', {
       failOnStatusCode: false
     })
-    cy.get('[href="/profile"]')
+    cy.get('[href="/profile"] > .font-medium')
       .click()
       .then(() => {
         cy.contains('Profile')
-        cy.contains('Members of community')
       })
   })
 

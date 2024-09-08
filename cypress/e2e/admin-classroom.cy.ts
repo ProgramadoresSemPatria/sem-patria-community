@@ -1,8 +1,14 @@
 describe('Admin Classroom page', () => {
   beforeEach(() => {
-    cy.session('signed-in', () => {
-      cy.signIn()
+    cy.visit(`/sign-in`)
+    cy.clerkLoaded()
+
+    cy.clerkSignIn({
+      strategy: 'password',
+      identifier: Cypress.env('test_email'),
+      password: Cypress.env('test_password')
     })
+
     cy.visit('/dashboard', {
       failOnStatusCode: false,
       onBeforeLoad: win => {

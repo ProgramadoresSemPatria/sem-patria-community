@@ -1,7 +1,11 @@
 describe('Forum page', () => {
   beforeEach(() => {
-    cy.session('signed-in', () => {
-      cy.signIn()
+    cy.visit(`/sign-in`)
+    cy.clerkLoaded()
+    cy.clerkSignIn({
+      strategy: 'password',
+      identifier: Cypress.env('test_email'),
+      password: Cypress.env('test_password')
     })
     cy.visit('/forum?category=All', {
       failOnStatusCode: false,
@@ -36,7 +40,7 @@ describe('Forum page', () => {
     cy.url().should('eq', 'http://localhost:3000/forum?category=Back%20End')
   })
 
-  it('Should go to post page', () => {
+  it.only('Should go to post page', () => {
     cy.get(
       '.col-span-2 > :nth-child(1) > .py-4 > .w-0 > [data-testid="post"] > .absolute'
     ).click({ force: true })
@@ -52,15 +56,15 @@ describe('Forum page', () => {
     cy.url().should('match', /http:\/\/localhost:3000\/forum\/.*/)
   })
 
-  it.only('Should like post', () => {
+  it('Should like post', () => {
     cy.intercept('api/post/**/likes', {
       statusCode: 200
     }).as('like')
     cy.get(
-      '.col-span-2 > :nth-child(1) > .p-2 > .ml-2 > [data-testid="like"]'
+      ':nth-child(1) > .dark\\:bg-slate-900 > .p-2 > .ml-2 > [data-testid="like"]'
     ).click()
     cy.get(
-      '.col-span-2 > :nth-child(1) > .p-2 > .ml-2 > [data-testid="like"] > [data-testid="like-count"]'
+      ':nth-child(1) > .dark\\:bg-slate-900 > .p-2 > .ml-2 > [data-testid="like"] > [data-testid="like-count"]'
     ).should('have.text', '1')
   })
 })

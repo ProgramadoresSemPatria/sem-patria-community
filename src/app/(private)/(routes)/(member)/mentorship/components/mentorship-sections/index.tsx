@@ -3,7 +3,7 @@ import prismadb from '@/lib/prismadb'
 import { Icons } from '@/components/icons'
 import { NoContent } from '@/components/no-content'
 import { SkeletonMentorshipPage } from '@/components/skeletons/skeleton-mentorship-page'
-import { currentUser } from '@clerk/nextjs'
+import { currentUser } from '@clerk/nextjs/server'
 import { Suspense } from 'react'
 import { ModuleCarousel } from '../module-carousel'
 

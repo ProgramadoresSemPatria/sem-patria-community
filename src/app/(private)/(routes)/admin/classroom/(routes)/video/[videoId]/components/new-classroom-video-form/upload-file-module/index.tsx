@@ -6,12 +6,22 @@ const fileAcceptTypes = {
   'application/pdf': ['.pdf'],
   'application/msword': ['.doc', '.docx'],
   'application/vnd.ms-excel': ['.xls', '.xlsx'],
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
+    '.xlsx'
+  ],
+  'application/vnd.oasis.opendocument.spreadsheet': ['.ods'],
   'application/vnd.openxmlformats-officedocument.presentationml.presentation': [
     '.ppt',
     '.pptx'
   ],
   'text/plain': ['.txt'],
-  'application/zip': ['.zip']
+  'application/zip': ['.zip'],
+  'image/jpeg': ['.jpg', '.jpeg'],
+  'image/png': ['.png'],
+  'image/gif': ['.gif'],
+  'image/bmp': ['.bmp'],
+  'image/tiff': ['.tif', '.tiff'],
+  'image/webp': ['.webp']
 }
 
 type UploadImageModuleProps = {

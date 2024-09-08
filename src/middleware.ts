@@ -1,16 +1,37 @@
-import { authMiddleware } from '@clerk/nextjs'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-// This example protects all routes including api/trpc routes
-// Please edit this to allow other routes to be public as needed.
-// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
-export default authMiddleware({
-  publicRoutes: [
-    '/api/webhooks(.*)',
-    '/api/auth/(.*)',
-    '/api/uploadthing(.*)',
-    '/set-password/(.*)',
-    '/api/password-recovery(.*)'
-  ]
+const staticPublicRoutes = [
+  '/api/webhooks(.*)',
+  '/api/auth/(.*)',
+  '/api/uploadthing(.*)',
+  '/set-password/(.*)',
+  '/api/password-recovery(.*)',
+  '/api/og/(.*)',
+  '/sign-in'
+]
+
+const isStaticPublicRoute = createRouteMatcher(staticPublicRoutes)
+
+export default clerkMiddleware((auth, req) => {
+  const userAgent = req.headers.get('user-agent')
+
+  const isMetadataReq = [
+    'discord',
+    'whatsapp',
+    'slackbot',
+    'twitterbot',
+    'facebook'
+  ].some(keyword => userAgent?.toLowerCase().includes(keyword))
+
+  const isForumRoute =
+    req.nextUrl.pathname.includes('/forum') ||
+    req.nextUrl.href.includes('forum')
+
+  const isPublic = isStaticPublicRoute(req) || (isMetadataReq && isForumRoute)
+
+  if (!isPublic) {
+    auth().protect()
+  }
 })
 
 export const config = {

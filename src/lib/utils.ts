@@ -109,3 +109,23 @@ export const checkIsSameDate = (date: string, dateToCompare: string) => {
     postDate.getMinutes() === todayDate.getMinutes()
   )
 }
+
+export const toBase64 = async (file: File) => {
+  return await new Promise((resolve, reject) => {
+    const fileReader = new FileReader()
+
+    fileReader.readAsDataURL(file)
+
+    fileReader.onload = () => {
+      resolve(fileReader.result)
+    }
+
+    fileReader.onerror = error => {
+      reject(error)
+    }
+  })
+}
+
+export const isObjEmpty = (obj: Record<string, unknown>) => {
+  return Object.keys(obj).length === 0
+}

@@ -2,7 +2,7 @@ import { getUser } from '@/actions/user/get-user'
 import OnBoardingModal from '@/components/modals/on-boarding-modal'
 import { appRoutes } from '@/lib/constants'
 import { AbilityProvider } from '@/providers/ability.provider'
-import { currentUser } from '@clerk/nextjs'
+import { currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 
 export default async function PrivateLayout({

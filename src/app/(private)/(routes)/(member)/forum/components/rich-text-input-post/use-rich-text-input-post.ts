@@ -12,9 +12,14 @@ const contentSchema = z.object({
   title: z.string().min(1, {
     message: 'Title is required'
   }),
-  content: z.string().min(1, {
-    message: 'Content is required'
-  }),
+  content: z
+    .string()
+    .min(1, {
+      message: 'Content is required'
+    })
+    .refine(val => val !== '{}', {
+      message: 'Content cannot be empty'
+    }),
   categoryIdForm: z.string().min(1, {
     message: 'Category ID is required'
   })

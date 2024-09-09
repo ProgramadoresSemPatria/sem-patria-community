@@ -46,7 +46,7 @@ id String @id @default(uuid())
 name String
 courseUrl String
 level String
-categoryId String
+categoryId String @default("01991a88-a92c-49df-a78e-6ef36b4e8dfd")
 isPaid Boolean @default(false)
 isPending Boolean @default(false)
 createdAt DateTime @default(now())
@@ -68,9 +68,9 @@ posts Post[]
 
 model CourseCategory {
 courseId String
-categoryId String
-course Course @relation(fields: [courseId], references: [id])
-category Category @relation(fields: [categoryId], references: [id])
+categoryId String @default("01991a88-a92c-49df-a78e-6ef36b4e8dfd")
+course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+category Category @relation(fields: [categoryId], references: [id], onDelete: SetDefault)
 
 @@id([courseId, categoryId])
 }
@@ -147,8 +147,8 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: SetDefault)
+  categoryId String @default("01991a88-a92c-49df-a78e-6ef36b4e8dfd")
 
   user   User   @relation(fields: [userId], references: [id])
   userId String

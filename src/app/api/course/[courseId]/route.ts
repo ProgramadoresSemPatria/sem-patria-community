@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server'
 import { type NextRequest, NextResponse } from 'next/server'
 
 import prismadb from '@/lib/prismadb'
+import { type Category } from '@prisma/client'
 
 export async function PATCH(
   req: NextRequest,
@@ -9,19 +10,12 @@ export async function PATCH(
 ) {
   try {
     const { userId } = auth()
-    const {
-      name,
-      categoryIds,
-      categoryId,
-      courseUrl,
-      isPaid,
-      level,
-      isPending
-    } = await req.json()
+    const { name, category, categories, courseUrl, isPaid, level, isPending } =
+      await req.json()
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
-    if (!categoryId)
+    if (!category.id)
       return new NextResponse('Category id is required', { status: 400 })
 
     if (!courseUrl)
@@ -55,11 +49,11 @@ export async function PATCH(
         level,
         isPaid,
         isPending,
-        categoryId,
+        categoryId: category.id,
         categories: {
-          create: categoryIds.map((categoryId: string) => ({
+          create: categories.map((category: Category) => ({
             category: {
-              connect: { id: categoryId }
+              connect: { id: category.id }
             }
           }))
         }

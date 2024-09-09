@@ -29,11 +29,10 @@ export const ourFileRouter = {
       return { userId: user.userId }
     })
     .onUploadError(error => {
-      console.log('errororororor', error)
+      console.log('Error uploading file', error)
       return error
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      console.log('metadata', metadata)
       return { uploadedBy: metadata.userId, url: file.url }
     })
 } satisfies FileRouter

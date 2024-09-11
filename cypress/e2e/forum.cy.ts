@@ -41,23 +41,13 @@ describe('Forum page', () => {
   })
 
   it('Should go to post page', () => {
-    cy.get(
-      ':nth-child(1) > .border-l-2 > .py-4 > .w-0 > [data-testid="post"] > .absolute'
-    ).click({ force: true })
+    cy.get('.col-span-2 > :nth-child(1) > [data-testid="postt"]').click({
+      force: true
+    })
     cy.url().should('match', /http:\/\/localhost:3000\/forum\/.*/)
   })
 
-  it('Should go to post page', () => {
-    cy.intercept('/api/post', {
-      statusCode: 200
-    }).as('create')
-    cy.get(
-      ':nth-child(1) > .border-l-2 > .py-4 > .w-0 > [data-testid="post"] > .absolute'
-    ).click({ force: true })
-    cy.url().should('match', /http:\/\/localhost:3000\/forum\/.*/)
-  })
-
-  it.only('Should like post', () => {
+  it('Should like post', () => {
     cy.intercept('api/post/**/likes', {
       statusCode: 200
     }).as('like')

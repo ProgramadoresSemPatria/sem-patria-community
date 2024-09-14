@@ -86,7 +86,6 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
       dispatch({ type: likeState.liked ? 'LIKE' : 'UNLIKE' })
     }
   }
-  console.log(comment.userImage)
 
   return (
     <div

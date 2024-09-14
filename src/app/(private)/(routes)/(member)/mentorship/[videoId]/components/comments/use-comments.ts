@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react'
 export type CommentResponse = {
   id: string
   username: string
-  userImg: string
+  userImage: string
   comment: string
   date: string
   likes: string[]

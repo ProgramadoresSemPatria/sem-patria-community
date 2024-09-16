@@ -123,6 +123,7 @@ export const FeedbackModalCourseContent = ({
               <FormLabel>Category</FormLabel>
               <FormControl>
                 <Input
+                  data-testid="category-name"
                   disabled={isPending}
                   placeholder="New category name"
                   {...field}
@@ -147,6 +148,7 @@ export const FeedbackModalCourseContent = ({
             </span>
           </div>
           <Switch
+            data-testid="create-category"
             checked={isNewCategory}
             onCheckedChange={() => {
               setIsNewCategory(prev => !prev)
@@ -163,6 +165,7 @@ export const FeedbackModalCourseContent = ({
                 <FormLabel>Category</FormLabel>
                 <FormControl>
                   <Input
+                    data-testid="category-name"
                     disabled={isPending}
                     placeholder="New category name"
                     {...field}
@@ -225,6 +228,7 @@ export const FeedbackModalCourseContent = ({
                 <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input
+                    data-testid="name"
                     disabled={isPending}
                     placeholder="Course name"
                     {...field}
@@ -242,6 +246,7 @@ export const FeedbackModalCourseContent = ({
                 <FormLabel>Url</FormLabel>
                 <FormControl>
                   <Input
+                    data-testid="url"
                     disabled={isPending}
                     placeholder="Course Url"
                     {...field}
@@ -264,7 +269,7 @@ export const FeedbackModalCourseContent = ({
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger data-testid="trigger">
                       <SelectValue
                         defaultValue={field.value}
                         placeholder="Select a level"
@@ -272,9 +277,15 @@ export const FeedbackModalCourseContent = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="beginner">Beginner</SelectItem>
-                    <SelectItem value="intermediate">Intermediate</SelectItem>
-                    <SelectItem value="advanced">Advanced</SelectItem>
+                    <SelectItem data-testid="beginner" value="beginner">
+                      Beginner
+                    </SelectItem>
+                    <SelectItem data-testid="intermediate" value="intermediate">
+                      Intermediate
+                    </SelectItem>
+                    <SelectItem data-testid="advanced" value="advanced">
+                      Advanced
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -294,6 +305,7 @@ export const FeedbackModalCourseContent = ({
                 </div>
                 <FormControl>
                   <Checkbox
+                    data-testid="isPaid"
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />
@@ -314,6 +326,7 @@ export const FeedbackModalCourseContent = ({
             Cancel
           </Button>
           <Button
+            data-testid="submit"
             disabled={isPending || !categories || isLoadingCategories}
             type="submit"
           >

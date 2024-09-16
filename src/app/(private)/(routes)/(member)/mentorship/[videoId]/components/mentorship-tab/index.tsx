@@ -41,6 +41,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
   })
   const ability = useAbility(AbilityContext)
   const canManageVideos = ability.can('manage', 'all')
+  const canManageAttachments = ability.can('manage', 'all')
 
   const [videos, setVideos] = useState(moduleVideos)
   const [showAddAttachments, setShowAddAttachments] = useState(false)
@@ -202,14 +203,16 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                   >
                     {file.name}
                   </Link>
-                  <Icons.trash
-                    onClick={async e => {
-                      e.stopPropagation()
-                      e.preventDefault()
-                      await onDeleteAttachment(file.id)
-                    }}
-                    className="h-4 w-4 ml-2 text-rose-600 hover:cursor-pointer"
-                  />
+                  {canManageAttachments && (
+                    <Icons.trash
+                      onClick={async e => {
+                        e.stopPropagation()
+                        e.preventDefault()
+                        await onDeleteAttachment(file.id)
+                      }}
+                      className="h-4 w-4 ml-2 text-rose-600 hover:cursor-pointer"
+                    />
+                  )}
                 </div>
               ))}
             </div>

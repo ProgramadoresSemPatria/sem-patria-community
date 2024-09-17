@@ -84,7 +84,8 @@ export const mentorshipSubject = z.tuple([
     z.literal('create'),
     z.literal('update'),
     z.literal('delete'),
-    z.literal('manageAttachments')
+    z.literal('manageAttachments'),
+    z.literal('manageVideos')
   ]),
   z.union([z.literal('Mentorship'), mentorshipSchema])
 ])

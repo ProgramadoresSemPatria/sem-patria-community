@@ -40,7 +40,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
     initialData: videoProps
   })
   const ability = useAbility(AbilityContext)
-  const canManageVideos = ability.can('manage', 'all')
+  const canManageVideos = ability.can('manageVideos', 'Mentorship')
   const canManageAttachments = ability.can('manageAttachments', 'Mentorship')
 
   const [videos, setVideos] = useState(moduleVideos)

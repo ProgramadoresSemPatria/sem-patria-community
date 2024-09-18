@@ -1,5 +1,9 @@
 'use client'
+import { UploadFilesModule } from '@/app/(private)/(routes)/admin/classroom/(routes)/video/[videoId]/components/new-classroom-video-form/upload-file-module'
+import FilesPreview from '@/app/(private)/(routes)/admin/classroom/(routes)/video/[videoId]/components/new-classroom-video-form/upload-file-module/files-preview'
+import { useNewClassroomVideoForm } from '@/app/(private)/(routes)/admin/classroom/(routes)/video/[videoId]/components/new-classroom-video-form/use-new-classroom-video-form'
 import { Icons } from '@/components/icons'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import {
   Tooltip,
@@ -7,19 +11,15 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from '@/components/ui/tooltip'
-import { appRoutes } from '@/lib/constants'
-import { cn } from '@/lib/utils'
-import Link from 'next/link'
-import { TabTypes, useMentorshipTab } from './use-mentorship-tab'
-import { Reorder } from 'framer-motion'
-import { useState } from 'react'
 import { AbilityContext } from '@/hooks/use-ability'
-import { useAbility } from '@casl/react'
-import { Button } from '@/components/ui/button'
+import { appRoutes } from '@/lib/constants'
 import { type VideoWithAttachments } from '@/lib/types'
-import { UploadFilesModule } from '@/app/(private)/(routes)/admin/classroom/(routes)/video/[videoId]/components/new-classroom-video-form/upload-file-module'
-import { useNewClassroomVideoForm } from '@/app/(private)/(routes)/admin/classroom/(routes)/video/[videoId]/components/new-classroom-video-form/use-new-classroom-video-form'
-import FilesPreview from '@/app/(private)/(routes)/admin/classroom/(routes)/video/[videoId]/components/new-classroom-video-form/upload-file-module/files-preview'
+import { cn } from '@/lib/utils'
+import { useAbility } from '@casl/react'
+import { Reorder } from 'framer-motion'
+import Link from 'next/link'
+import { useState } from 'react'
+import { TabTypes, useMentorshipTab } from './use-mentorship-tab'
 
 type MentorshipTabProps = {
   videoProps: VideoWithAttachments
@@ -40,7 +40,8 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
     initialData: videoProps
   })
   const ability = useAbility(AbilityContext)
-  const canManageVideos = ability.can('manage', 'all')
+  const canManageVideos = ability.can('manageVideos', 'Mentorship')
+  const canManageAttachments = ability.can('manageAttachments', 'Mentorship')
 
   const [videos, setVideos] = useState(moduleVideos)
   const [showAddAttachments, setShowAddAttachments] = useState(false)
@@ -202,14 +203,16 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                   >
                     {file.name}
                   </Link>
-                  <Icons.trash
-                    onClick={async e => {
-                      e.stopPropagation()
-                      e.preventDefault()
-                      await onDeleteAttachment(file.id)
-                    }}
-                    className="h-4 w-4 ml-2 text-rose-600 hover:cursor-pointer"
-                  />
+                  {canManageAttachments && (
+                    <Icons.trash
+                      onClick={async e => {
+                        e.stopPropagation()
+                        e.preventDefault()
+                        await onDeleteAttachment(file.id)
+                      }}
+                      className="h-4 w-4 ml-2 text-rose-600 hover:cursor-pointer"
+                    />
+                  )}
                 </div>
               ))}
             </div>

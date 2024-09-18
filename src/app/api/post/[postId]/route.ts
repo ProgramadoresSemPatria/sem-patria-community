@@ -92,7 +92,10 @@ export async function PUT(
         }
       )
 
-      if (!response) throw new Error('Discord webhook failed to send')
+      if (!response) {
+        console.log('[DISCORD_WEBHOOK_ERROR] Discord webhook failed to send')
+        return NextResponse.json(post)
+      }
 
       const webhookMessageID = response.data.id
       await prismadb.post.update({

@@ -1,8 +1,10 @@
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs/server'
-import { NextResponse, type NextRequest } from 'next/server'
-import { z } from 'zod'
+import axios from 'axios'
 import KSUID from 'ksuid'
+import { NextResponse, type NextRequest } from 'next/server'
+import slugify from 'slugify'
+import { z } from 'zod'
 
 async function generateKSUID() {
   return (await KSUID.random()).string
@@ -32,6 +34,31 @@ export async function POST(req: NextRequest) {
         userId
       }
     })
+
+    const discordWebHookURL = process.env.DISCORD_WEBHOOK_URL
+    if (post && discordWebHookURL) {
+      const postSlug = slugify(post.title, { lower: true, strict: true })
+      const postLink = `${process.env.BASE_URL_PRODUCTION}/forum/${post.id}/${postSlug}`
+      const response = await axios.post(`${discordWebHookURL}?wait=true`, {
+        content: `## 🔥 New community post!\n${postLink}`
+      })
+
+      if (!response) {
+        console.log('[DISCORD_WEBHOOK_ERROR] Discord webhook failed to send')
+        return NextResponse.json(post)
+      }
+
+      const webhookMessageID = response.data.id
+
+      await prismadb.post.update({
+        where: {
+          id
+        },
+        data: {
+          discordWebhookMessageID: webhookMessageID
+        }
+      })
+    }
 
     return NextResponse.json(post)
   } catch (error) {

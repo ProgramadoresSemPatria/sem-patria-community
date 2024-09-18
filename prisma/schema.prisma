@@ -42,37 +42,36 @@ model User {
 }
 
 model Course {
-id String @id @default(uuid())
-name String
-courseUrl String
-level String
-categoryId String
-isPaid Boolean @default(false)
-isPending Boolean @default(false)
-createdAt DateTime @default(now())
-updatedAt DateTime @updatedAt
-category Category @relation("CourseToCategory", fields: [categoryId], references: [id])
-categories CourseCategory[]
+  id         String           @id @default(uuid())
+  name       String
+  courseUrl  String
+  level      String
+  categoryId String
+  isPaid     Boolean          @default(false)
+  isPending  Boolean          @default(false)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  category   Category         @relation("CourseToCategory", fields: [categoryId], references: [id])
+  categories CourseCategory[]
 }
 
 model Category {
-id String @id @default(uuid())
-name String
-createdAt DateTime @default(now())
-updatedAt DateTime @updatedAt
-courses Course[] @relation("CourseToCategory")
-courseCategory CourseCategory[]
-posts Post[]
-
+  id             String           @id @default(uuid())
+  name           String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  courses        Course[]         @relation("CourseToCategory")
+  courseCategory CourseCategory[]
+  posts          Post[]
 }
 
 model CourseCategory {
-courseId String
-categoryId String
-course Course @relation(fields: [courseId], references: [id])
-category Category @relation(fields: [categoryId], references: [id])
+  courseId   String
+  categoryId String
+  course     Course   @relation(fields: [courseId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
 
-@@id([courseId, categoryId])
+  @@id([courseId, categoryId])
 }
 
 model Note {
@@ -140,15 +139,15 @@ model Attachment {
 }
 
 model Post {
-  id        String   @id @default(uuid())
-  title     String
-  content   Json
-  isPinned  Boolean? @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String
+  id                      String   @id @default(uuid())
+  title                   String
+  content                 Json
+  isPinned                Boolean? @default(false)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  discordWebhookMessageID String?
+  category                Category @relation(fields: [categoryId], references: [id])
+  categoryId              String
 
   user   User   @relation(fields: [userId], references: [id])
   userId String

@@ -19,7 +19,6 @@ import { cn } from '@/lib/utils'
 import { Check } from 'lucide-react'
 import { useForumFilters } from './use-forum-filters'
 import { Input } from '@/components/ui/input'
-import { type FC } from 'react'
 import { useDebounceSearch } from '@/hooks/shared/use-debounce-search'
 
 export const orderByOptions = [
@@ -40,7 +39,7 @@ export const orderByOptions = [
   }
 ]
 
-const ForumFilters: FC = () => {
+const ForumFilters = () => {
   const {
     categories,
     openCategory,

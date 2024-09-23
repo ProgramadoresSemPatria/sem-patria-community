@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
 export async function GET(req: Request) {
   const url = new URL(req.url)
   try {
-    const { limit, page, categoryName, orderBy } = z
+    const { limit, page, categoryName, orderBy, search } = z
       .object({
         limit: z.string().default('10'),
         page: z.string().default('1'),
@@ -79,13 +79,15 @@ export async function GET(req: Request) {
           .enum(['datenew', 'dateold', 'likes'])
           .nullish()
           .optional()
-          .default('datenew')
+          .default('datenew'),
+        search: z.string().nullish().optional()
       })
       .parse({
         categoryName: url.searchParams.get('category'),
         limit: url.searchParams.get('limit'),
         page: url.searchParams.get('page'),
-        orderBy: url.searchParams.get('orderBy')
+        orderBy: url.searchParams.get('orderBy'),
+        search: url.searchParams.get('search')
       })
 
     let orderByClause = {}
@@ -111,6 +113,15 @@ export async function GET(req: Request) {
 
     if (categoryName !== 'All') {
       whereClause = { category: { name: categoryName } }
+    }
+
+    if (search) {
+      whereClause = {
+        OR: [
+          { title: { contains: search, mode: 'insensitive' } },
+          { content: { contains: search, mode: 'insensitive' } }
+        ]
+      }
     }
 
     const posts = await prismadb.post.findMany({

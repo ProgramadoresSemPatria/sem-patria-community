@@ -12,6 +12,7 @@ export const useForumFilters = () => {
   const [openOrderBy, setOpenOrderBy] = useState(false)
   const [categoryName, setCategoryName] = useState('All')
   const [orderBy, setOrderBy] = useState('')
+  const [search, setSearch] = useState('')
 
   const handleSelect = (selectedId: string) => {
     const selectedOption = orderByOptions.find(
@@ -44,6 +45,19 @@ export const useForumFilters = () => {
     setOrderBy(value)
   }
 
+  const handleSearch = (query: string) => {
+    const normalizedQuery = encodeURI(query)
+    setSearch(normalizedQuery)
+    if (searchParams.get('search') === query) {
+      return
+    }
+    router.push(
+      `/forum?category=${searchParams.get('category')}${
+        query ? `&search=${normalizedQuery}` : ''
+      }`
+    )
+  }
+
   return {
     categories,
     openCategory,
@@ -57,6 +71,8 @@ export const useForumFilters = () => {
     orderBy,
     handleSelect,
     handleSetOrderBy,
-    isLoadingCategories
+    isLoadingCategories,
+    handleSearch,
+    search
   }
 }

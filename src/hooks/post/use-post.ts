@@ -93,7 +93,8 @@ export const usePost = ({ initialPosts, post }: UsePostProps) => {
       'infinite-posts',
       {
         category: searchParams.get('category'),
-        orderBy: searchParams.get('orderBy')
+        orderBy: searchParams.get('orderBy'),
+        search: searchParams.get('search')
       }
     ],
     queryFn: async ({ pageParam = 1 }) => {
@@ -101,6 +102,7 @@ export const usePost = ({ initialPosts, post }: UsePostProps) => {
         params: {
           category: searchParams.get('category'),
           orderBy: searchParams.get('orderBy'),
+          search: searchParams.get('search'),
           page: pageParam,
           limit: 3
         }

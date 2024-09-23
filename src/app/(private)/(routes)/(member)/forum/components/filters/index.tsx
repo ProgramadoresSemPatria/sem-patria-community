@@ -18,6 +18,9 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import { Check } from 'lucide-react'
 import { useForumFilters } from './use-forum-filters'
+import { Input } from '@/components/ui/input'
+import { type FC } from 'react'
+import { useDebounceSearch } from '@/hooks/shared/use-debounce-search'
 
 export const orderByOptions = [
   {
@@ -37,7 +40,7 @@ export const orderByOptions = [
   }
 ]
 
-const ForumFilters = () => {
+const ForumFilters: FC = () => {
   const {
     categories,
     openCategory,
@@ -51,8 +54,16 @@ const ForumFilters = () => {
     orderBy,
     handleSetOrderBy,
     handleSelect,
-    isLoadingCategories
+    isLoadingCategories,
+    search: searchQuery,
+    handleSearch: handleSetSearchQuery
   } = useForumFilters()
+
+  const { searchTerm: localSearchTerm, setSearchTerm: setLocalSearchTerm } =
+    useDebounceSearch({
+      initialValue: searchQuery,
+      onSearch: handleSetSearchQuery
+    })
 
   const categoryOptions =
     categories && categories.length > 0
@@ -65,8 +76,26 @@ const ForumFilters = () => {
         ]
       : []
 
+  const resetSearchTerm = () => {
+    handleSetSearchQuery('')
+    setLocalSearchTerm('')
+  }
+
   return (
-    <div className="flex py-2 gap-x-2">
+    <div className="flex flex-wrap py-2 gap-2 mb-4">
+      <div className="flex-grow min-w-[200px]">
+        <Input
+          type="text"
+          placeholder="🔎 Search posts..."
+          value={localSearchTerm}
+          onChange={e => {
+            setLocalSearchTerm(e.target.value)
+          }}
+          className="w-full"
+          clearable
+        />
+      </div>
+
       {isLoadingCategories ? (
         <Skeleton className="h-9 w-40 rounded-md" />
       ) : (
@@ -105,6 +134,10 @@ const ForumFilters = () => {
                       onOpenCategory(false)
                       router.push(
                         `/forum?category=${category.name}${
+                          searchParams.get('search')
+                            ? `&search=${searchParams.get('search')}`
+                            : ''
+                        }${
                           searchParams.get('orderBy')
                             ? `&orderBy=${searchParams.get('orderBy')}`
                             : ''
@@ -183,6 +216,7 @@ const ForumFilters = () => {
         onClick={() => {
           handleSetCategoryName('All')
           handleSetOrderBy('')
+          resetSearchTerm()
           router.push(`/forum?category=All`)
         }}
         variant="ghost"

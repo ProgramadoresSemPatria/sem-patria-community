@@ -17,6 +17,28 @@ export const useForumFeed = ({ initialPosts }: UseForumFeedProps) => {
 
   const [allPosts, setAllPosts] = useState(initialPosts)
   const [pinnedPosts, setPinnedPosts] = useState<ExtendedPost[]>()
+  const [filteredPosts, setFilteredPosts] =
+    useState<ExtendedPost[]>(initialPosts)
+
+  useEffect(() => {
+    if (data.pages) {
+      const allPosts = data.pages.flatMap(page => page)
+      setAllPosts(allPosts)
+
+      const searchTerm = searchParams.get('search')
+      if (searchTerm) {
+        const filtered = allPosts.filter(
+          post =>
+            post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            post.content.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        setFilteredPosts(filtered)
+      } else {
+        setFilteredPosts(allPosts)
+      }
+    }
+  }, [data.pages, searchParams])
+
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
     threshold: 1
@@ -51,5 +73,12 @@ export const useForumFeed = ({ initialPosts }: UseForumFeedProps) => {
     }
   }, [allPosts, searchParams])
 
-  return { pinnedPosts, ref, searchParams, allPosts, isFetchingNextPage }
+  return {
+    pinnedPosts,
+    ref,
+    searchParams,
+    allPosts,
+    filteredPosts,
+    isFetchingNextPage
+  }
 }

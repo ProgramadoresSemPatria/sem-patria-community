@@ -114,10 +114,7 @@ export async function GET(req: Request) {
 
     if (search) {
       whereClause = {
-        OR: [
-          { title: { contains: search, mode: 'insensitive' } },
-          { content: { contains: search, mode: 'insensitive' } }
-        ]
+        OR: [{ title: { contains: search, mode: 'insensitive' } }]
       }
     }
 

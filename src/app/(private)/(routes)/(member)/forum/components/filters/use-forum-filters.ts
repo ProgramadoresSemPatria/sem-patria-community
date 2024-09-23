@@ -46,16 +46,27 @@ export const useForumFilters = () => {
   }
 
   const handleSearch = (query: string) => {
-    const normalizedQuery = encodeURI(query)
-    setSearch(normalizedQuery)
     if (searchParams.get('search') === query) {
       return
     }
-    router.push(
-      `/forum?category=${searchParams.get('category')}${
-        query ? `&search=${normalizedQuery}` : ''
-      }`
-    )
+    const normalizedQuery = encodeURIComponent(query.trim())
+    setSearch(normalizedQuery)
+
+    const newParams = new URLSearchParams(searchParams)
+    newParams.set('category', searchParams.get('category') || 'All')
+
+    const orderBy = searchParams.get('orderBy')
+    if (orderBy) {
+      newParams.set('orderBy', orderBy)
+    }
+
+    if (query) {
+      newParams.set('search', normalizedQuery)
+    } else {
+      newParams.delete('search')
+    }
+
+    router.push(`/forum?${newParams.toString()}`)
   }
 
   return {

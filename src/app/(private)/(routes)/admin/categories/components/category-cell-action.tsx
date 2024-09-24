@@ -39,7 +39,8 @@ export const CategoryCellAction = ({ data }: CategoryCellActionProps) => {
           description: 'Category deleted successfully.'
         })
       },
-      onError: () => {
+      onError: err => {
+        console.log('Error deleting category', err)
         toast({
           title: 'Error',
           description: 'Something went wrong.',
@@ -52,6 +53,8 @@ export const CategoryCellAction = ({ data }: CategoryCellActionProps) => {
     try {
       await deleteCategory()
     } catch (error) {
+      console.log('Error deleting category', error)
+
       toast({
         title: 'Error',
         description: 'Something went wrong while deleting the category.',

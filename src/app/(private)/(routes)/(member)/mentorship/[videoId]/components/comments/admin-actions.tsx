@@ -34,7 +34,8 @@ export const AdminActions = ({ commentId }: AdminActionsProps) => {
       await queryClient.refetchQueries({ queryKey: ['video-comments'] })
       setIsAlertModalOpen(false)
     },
-    onError: () => {
+    onError: err => {
+      console.log('Error deleting comment', err)
       toast({
         title: 'An error occurred.',
         description: 'Unable to delete the comment',

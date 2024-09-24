@@ -108,6 +108,7 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
       })
     },
     onError: error => {
+      console.log('Error deleting user', error)
       toast({
         title: 'Error',
         description: error.message ?? 'Something went wrong.',
@@ -120,6 +121,7 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
     try {
       await deleteUser()
     } catch (error) {
+      console.log('Error deleting user', error)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -150,6 +152,7 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
       })
     },
     onError: (error: AxiosError) => {
+      console.log('Error creating/updating user', error)
       toast({
         title: 'Error',
         description: error.response?.data

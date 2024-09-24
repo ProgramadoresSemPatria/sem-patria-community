@@ -95,7 +95,8 @@ export const useNewClassroomVideoForm = ({
           description: 'Video deleted successfully.'
         })
       },
-      onError: () => {
+      onError: err => {
+        console.log('Error deleting video', err)
         toast({
           title: 'Error',
           description: 'Something went wrong.',
@@ -118,7 +119,8 @@ export const useNewClassroomVideoForm = ({
         description: 'Attachment deleted successfully.'
       })
     },
-    onError: () => {
+    onError: err => {
+      console.log('Error deleting attachment', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -149,7 +151,8 @@ export const useNewClassroomVideoForm = ({
         description: `${toastMessage}`
       })
     },
-    onError: () => {
+    onError: err => {
+      console.log('Error creating/updating classroom video', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -204,6 +207,7 @@ export const useNewClassroomVideoForm = ({
 
         await createOrUpdateClassroomVideo(props)
       } catch (error) {
+        console.log('Error creating/updating video', error)
         toast({
           title: 'Error',
           description: 'Failed to upload files. Please try again.',
@@ -223,6 +227,8 @@ export const useNewClassroomVideoForm = ({
     try {
       await deleteClassroomVideo()
     } catch (error) {
+      console.log('Error deleting classroom video', error)
+
       toast({
         title: 'Error',
         description: 'Something went wrong.',

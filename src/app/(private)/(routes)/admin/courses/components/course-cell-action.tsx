@@ -40,7 +40,8 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
         description: 'Course deleted successfully.'
       })
     },
-    onError: () => {
+    onError: err => {
+      console.log('Error deleting course', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -64,7 +65,8 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
         description: 'Course approved successfully.'
       })
     },
-    onError: () => {
+    onError: err => {
+      console.log('Error updating course', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -85,6 +87,7 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
     try {
       await deleteCourse()
     } catch (error) {
+      console.log('Error deleting course', error)
       toast({
         title: 'Error',
         description: 'Something went wrong while deleting the course.',
@@ -99,6 +102,7 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
     try {
       await updateCourse()
     } catch (err) {
+      console.log('Error updating course', err)
       toast({
         title: 'Error',
         description: 'Something went wrong while approving the course.',

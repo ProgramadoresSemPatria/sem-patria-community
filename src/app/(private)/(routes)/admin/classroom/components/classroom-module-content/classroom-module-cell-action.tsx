@@ -46,7 +46,8 @@ export const ClassroomModuleCellAction = ({
           description: 'Module deleted successfully.'
         })
       },
-      onError: () => {
+      onError: err => {
+        console.log('Error deleting classroom module', err)
         toast({
           title: 'Error',
           description: 'Something went wrong.',
@@ -64,6 +65,7 @@ export const ClassroomModuleCellAction = ({
       }
       await deleteClassroomModule()
     } catch (error) {
+      console.log('Error deleting clasroom module', error)
       toast({
         title: 'Error',
         description: 'Something went wrong while deleting the Module.',

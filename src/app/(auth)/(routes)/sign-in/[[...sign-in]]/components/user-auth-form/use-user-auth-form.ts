@@ -79,6 +79,7 @@ export const useUserAuthForm = ({ redirectUrl }: UseUserAuthFormProps) => {
       if (error.message === 'Session already exists') {
         router.push(redirectUrl || '/dashboard')
       }
+      console.log('Error authenticating')
       toast({
         title: 'An error ocurred while signing in',
         description: 'Try again later',

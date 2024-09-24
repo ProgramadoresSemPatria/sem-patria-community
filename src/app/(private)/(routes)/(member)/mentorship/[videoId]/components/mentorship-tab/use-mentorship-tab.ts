@@ -38,7 +38,8 @@ export const useMentorshipTab = () => {
         title: 'The order was updated succesfully'
       })
     },
-    onError: () => {
+    onError: err => {
+      console.log('Error ordering videos', err)
       toast({
         title: 'An error occurred while ordering videos'
       })

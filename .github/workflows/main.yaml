@@ -21,6 +21,9 @@ jobs:
 
       - name: Build Next.js app
         run: pnpm run build
+        env:
+          UPLOADTHING_SECRET: ${{ secrets.UPLOADTHING_SECRET }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
 
       - name: Start Next.js server
         run: pnpm run start &

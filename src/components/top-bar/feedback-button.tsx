@@ -21,6 +21,7 @@ export const FeedbackButton = ({ isMobile }: FeedbackButtonProps) => {
 
   return (
     <Button
+      data-testid="recommendation"
       onClick={onOpen}
       size={isMobile ? 'icon' : 'default'}
       variant="outline"

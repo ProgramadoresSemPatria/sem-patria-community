@@ -75,7 +75,7 @@ export const UserCellAction = ({ data }: UserCellActionProps) => {
         loading={isDeleting}
       />
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger data-testid="..." asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
             <span className="sr-only">Open menu</span>
             <Icons.spread className="w-4 h-4" />

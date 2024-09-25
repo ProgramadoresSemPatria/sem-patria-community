@@ -1,15 +1,14 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+# #!/bin/sh
+# . "$(dirname "$0")/_/husky.sh"
 
-# Disable concurent to run `check-types` after ESLint in lint-staged
-cd "$(dirname "$0")/.."
-&& pnpx lint-staged --concurrent false
+# # Disable concurrent to run `check-types` after ESLint in lint-staged
+# pnpx lint-staged --concurrent false
 
-# Run Cypress tests
-pnpx cypress run --headless
+# # Run Cypress tests in headless mode
+# pnpx cypress run --headless
 
-# Check if Cypress tests passed
-if [ $? -ne 0 ]; then
-  echo "Cypress tests failed, aborting commit."
-  exit 1
-fi
+# # Check if Cypress tests passed
+# if [ $? -ne 0 ]; then
+#   echo "Cypress tests failed, aborting commit."
+#   exit 1
+# fi

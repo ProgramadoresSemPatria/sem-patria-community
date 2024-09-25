@@ -15,6 +15,7 @@
     "commit": "cz",
     "check-types": "tsc --noEmit --pretty",
     "cypress:open": "cypress open",
+    "cypress:run": "cypress run --headless",
     "prisma-migrate": "prisma migrate dev"
   },
   "dependencies": {

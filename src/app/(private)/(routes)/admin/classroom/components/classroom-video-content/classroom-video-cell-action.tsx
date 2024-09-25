@@ -44,7 +44,7 @@ export const ClassroomVideoCellAction = ({
         })
       },
       onError: err => {
-        console.log('Error deletin classroom video', err)
+        console.error('Error deletin classroom video', err)
         toast({
           title: 'Error',
           description: 'Something went wrong.',

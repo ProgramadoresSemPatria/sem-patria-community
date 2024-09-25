@@ -108,7 +108,7 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
       })
     },
     onError: err => {
-      console.log('Error deleting course', err)
+      console.error('Error deleting course', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -134,7 +134,7 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
       })
     },
     onError: err => {
-      console.log('Error creating/updating course', err)
+      console.error('Error creating/updating course', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',

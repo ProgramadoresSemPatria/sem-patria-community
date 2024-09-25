@@ -31,7 +31,7 @@ export const useReplyCommentSection = ({
       return await api.put(`/api/comment/like/${commentId}`)
     },
     onError: err => {
-      console.log('Error trying to like comment', err)
+      console.error('Error trying to like comment', err)
       toast({
         title: 'An error occurred.',
         description: 'Unable to like the comment',
@@ -90,7 +90,7 @@ export const useReplyCommentSection = ({
       })
     },
     onError: err => {
-      console.log('Error replying comment', err)
+      console.error('Error replying comment', err)
       toast({
         title: 'An error occurred while sending your reply'
       })

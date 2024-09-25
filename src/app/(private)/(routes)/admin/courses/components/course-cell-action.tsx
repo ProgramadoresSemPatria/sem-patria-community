@@ -41,7 +41,7 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
       })
     },
     onError: err => {
-      console.log('Error deleting course', err)
+      console.error('Error deleting course', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -66,7 +66,7 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
       })
     },
     onError: err => {
-      console.log('Error updating course', err)
+      console.error('Error updating course', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',

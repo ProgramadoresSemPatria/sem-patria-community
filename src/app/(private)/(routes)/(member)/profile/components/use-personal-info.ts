@@ -136,7 +136,7 @@ const usePersonalInfo = ({ userProps }: PersonalInfoProps) => {
       })
     },
     onError: err => {
-      console.log('Error updating profile', err)
+      console.error('Error updating profile', err)
       toast({
         title: 'Error',
         description: 'Something went wrong while updating your profile.',

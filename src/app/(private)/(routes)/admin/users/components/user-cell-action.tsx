@@ -41,7 +41,7 @@ export const UserCellAction = ({ data }: UserCellActionProps) => {
       })
     },
     onError: err => {
-      console.log('Error deleting user', err)
+      console.error('Error deleting user', err)
       toast({
         title: 'Error',
         description: 'Something went wrong while deleting the user.',

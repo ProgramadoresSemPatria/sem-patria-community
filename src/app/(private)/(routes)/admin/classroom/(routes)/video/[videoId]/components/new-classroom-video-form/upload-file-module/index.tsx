@@ -37,7 +37,7 @@ export const UploadFilesModule = ({
       onSetPreviewFiles(acceptedFiles)
     },
     onError: err => {
-      console.log('Error uploading file', err)
+      console.error('Error uploading file', err)
       toast({
         title: 'An error occurred',
         description:

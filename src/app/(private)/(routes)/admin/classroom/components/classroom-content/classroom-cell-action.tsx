@@ -41,7 +41,7 @@ export const ClassroomCellAction = ({ data }: ClassroomCellActionProps) => {
       })
     },
     onError: err => {
-      console.log('Error deleting classroom', err)
+      console.error('Error deleting classroom', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',

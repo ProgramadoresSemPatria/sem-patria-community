@@ -96,7 +96,7 @@ export const useNewClassroomVideoForm = ({
         })
       },
       onError: err => {
-        console.log('Error deleting video', err)
+        console.error('Error deleting video', err)
         toast({
           title: 'Error',
           description: 'Something went wrong.',
@@ -120,7 +120,7 @@ export const useNewClassroomVideoForm = ({
       })
     },
     onError: err => {
-      console.log('Error deleting attachment', err)
+      console.error('Error deleting attachment', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -152,7 +152,7 @@ export const useNewClassroomVideoForm = ({
       })
     },
     onError: err => {
-      console.log('Error creating/updating classroom video', err)
+      console.error('Error creating/updating classroom video', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',

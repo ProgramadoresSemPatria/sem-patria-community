@@ -79,7 +79,7 @@ export const FeedbackModalCourseContent = ({
       router.refresh()
     },
     onError: err => {
-      console.log('Error creating course', err)
+      console.error('Error creating course', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',

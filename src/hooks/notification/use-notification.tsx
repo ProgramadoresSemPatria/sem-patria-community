@@ -15,7 +15,7 @@ export const useNotification = () => {
       await api.put(`/api/notification`, body)
     },
     onError: err => {
-      console.log('Error approving/declining content', err)
+      console.error('Error approving/declining content', err)
       toast({
         title: 'Something went wrong on course approval',
         description: 'Please try again later.',

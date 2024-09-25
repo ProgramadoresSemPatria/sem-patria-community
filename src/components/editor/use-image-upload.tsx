@@ -41,7 +41,7 @@ const useEditorUploadFile = () => {
       })
     },
     onError: err => {
-      console.log('Error uploading file', err)
+      console.error('Error uploading file', err)
       toast({
         title: 'Error!',
         description: 'Something went wrong'
@@ -68,7 +68,7 @@ const useEditorUploadFile = () => {
       })
     },
     onError: err => {
-      console.log('Error deleting image', err)
+      console.error('Error deleting image', err)
       toast({
         title: 'Error',
         description: 'Something went wrong deleting image'

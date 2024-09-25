@@ -56,7 +56,7 @@ export const useNewCategoryForm = ({
       })
     },
     onError: err => {
-      console.log('Error deleting category', err)
+      console.error('Error deleting category', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -82,7 +82,7 @@ export const useNewCategoryForm = ({
       })
     },
     onError: err => {
-      console.log('Error creating/updating user', err)
+      console.error('Error creating/updating user', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',

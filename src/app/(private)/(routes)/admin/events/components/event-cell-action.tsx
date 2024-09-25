@@ -41,7 +41,7 @@ export const EventCellAction = ({ data }: EventCellActionProps) => {
       })
     },
     onError: err => {
-      console.log('Error deleting event', err)
+      console.error('Error deleting event', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',

@@ -42,7 +42,7 @@ export const usePost = ({ initialPosts, post }: UsePostProps) => {
       })
     },
     onError: error => {
-      console.log('Error creating post', error)
+      console.error('Error creating post', error)
       toast({
         title: 'An error ocurred while creating post',
         description: error.message,
@@ -81,7 +81,7 @@ export const usePost = ({ initialPosts, post }: UsePostProps) => {
       })
     },
     onError: error => {
-      console.log('Error updating post', error)
+      console.error('Error updating post', error)
       toast({
         title: 'An error occurred while updating the post',
         description: error.message,
@@ -128,7 +128,7 @@ export const usePost = ({ initialPosts, post }: UsePostProps) => {
       await queryClient.invalidateQueries({ queryKey: ['video-comments'] })
     },
     onError: err => {
-      console.log('Error liking post', err)
+      console.error('Error liking post', err)
       toast({
         title: 'An error occurred.',
         description: 'Unable to like the comment',
@@ -149,7 +149,7 @@ export const usePost = ({ initialPosts, post }: UsePostProps) => {
       })
     },
     onError: err => {
-      console.log('Error deleting post', err)
+      console.error('Error deleting post', err)
       toast({
         title: 'An error occurred.',
         description: 'Unable to delete the post',
@@ -172,7 +172,7 @@ export const usePost = ({ initialPosts, post }: UsePostProps) => {
       })
     },
     onError: err => {
-      console.log('Error pinning post', err)
+      console.error('Error pinning post', err)
       toast({
         title: 'An error occurred.',
         description: 'Unable to pin the post',

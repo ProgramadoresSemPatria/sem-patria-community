@@ -26,7 +26,7 @@ export const useNoteHeader = ({ note }: UseNoteHeaderProps) => {
         router.refresh()
       },
       onError: err => {
-        console.log('Error saving changes', err)
+        console.error('Error saving changes', err)
         toast({
           title: 'Something went wrong',
           description: 'Please try again.',

@@ -16,7 +16,8 @@ export const UploadImageModule = ({
     onDrop(acceptedFiles) {
       onSetPreviewImage(acceptedFiles[0])
     },
-    onError: () => {
+    onError: err => {
+      console.error('Error uploading image', err)
       toast({
         title: 'An error occurred',
         description:

@@ -40,7 +40,7 @@ export const CategoryCellAction = ({ data }: CategoryCellActionProps) => {
         })
       },
       onError: err => {
-        console.log('Error deleting category', err)
+        console.error('Error deleting category', err)
         toast({
           title: 'Error',
           description: 'Something went wrong.',

@@ -39,7 +39,7 @@ export const MembersList = ({ userProps, allUsers }: MembersListProps) => {
       })
     },
     onError: err => {
-      console.log('Error deleting user', err)
+      console.error('Error deleting user', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',

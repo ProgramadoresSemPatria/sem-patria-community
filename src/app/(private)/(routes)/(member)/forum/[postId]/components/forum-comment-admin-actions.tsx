@@ -40,7 +40,7 @@ export const ForumAdminActions = ({ commentId }: ForumAdminActionsProps) => {
       setIsAlertModalOpen(false)
     },
     onError: err => {
-      console.log('Error deleting comment', err)
+      console.error('Error deleting comment', err)
       toast({
         title: 'An error occurred.',
         description: 'Unable to delete the comment',

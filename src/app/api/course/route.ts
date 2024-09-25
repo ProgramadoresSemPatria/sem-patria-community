@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
         isPending: !!isPending,
         categoryId,
         categories: {
-          create: optionalCategories.map((categoryId: string) => ({
+          create: optionalCategories?.map((categoryId: string) => ({
             category: {
               connect: { id: categoryId }
             }

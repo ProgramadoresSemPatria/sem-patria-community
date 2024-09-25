@@ -19,9 +19,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Build Next.js app
+        run: pnpm run build
+
+      - name: Start Next.js server
+        run: pnpm run start &
+        env:
+          NODE_ENV: production
+
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
-        with:
-          start: pnpm run start
-          browser: chrome
-          headless: true

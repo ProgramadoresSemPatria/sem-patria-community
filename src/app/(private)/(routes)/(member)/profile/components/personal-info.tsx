@@ -72,7 +72,14 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                     <FormItem>
                       <FormLabel>Username</FormLabel>
                       <FormControl>
-                        <Input placeholder="Username" {...field} />
+                        <Input
+                          data-1p-ignore
+                          data-lpignore="true"
+                          autoComplete="off"
+                          data-bwignore
+                          placeholder="Username"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                       <FormDescription>
@@ -179,6 +186,10 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                       <FormLabel>Old Password</FormLabel>
                       <FormControl>
                         <Input
+                          data-1p-ignore
+                          data-lpignore="true"
+                          autoComplete="off"
+                          data-bwignore
                           type={showPassword.password ? 'text' : 'password'}
                           disabled={isUpdating}
                           placeholder="Old Password"
@@ -214,6 +225,10 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                       <FormLabel>Confirm Password</FormLabel>
                       <FormControl>
                         <Input
+                          data-1p-ignore
+                          data-lpignore="true"
+                          autoComplete="off"
+                          data-bwignore
                           type={
                             showPassword.passwordConfirmation
                               ? 'text'
@@ -255,6 +270,10 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                       <FormLabel>New Password</FormLabel>
                       <FormControl>
                         <Input
+                          data-1p-ignore
+                          data-lpignore="true"
+                          autoComplete="off"
+                          data-bwignore
                           type={showPassword.newPassword ? 'text' : 'password'}
                           disabled={isUpdating}
                           placeholder="New Password"

@@ -38,18 +38,18 @@ model Course {
   level      String
   categoryId String
   isPaid     Boolean          @default(false)
+  isPending  Boolean          @default(false)
   createdAt  DateTime         @default(now())
   updatedAt  DateTime         @updatedAt
-  isPending  Boolean          @default(false)
   category   Category         @relation("CourseToCategory", fields: [categoryId], references: [id])
   categories CourseCategory[]
 }
 
 model Category {
+  id             String           @id @default(uuid())
   name           String
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
-  id             String           @id @default(uuid())
   courses        Course[]         @relation("CourseToCategory")
   courseCategory CourseCategory[]
   posts          Post[]
@@ -58,8 +58,8 @@ model Category {
 model CourseCategory {
   courseId   String
   categoryId String
-  category   Category @relation(fields: [categoryId], references: [id])
   course     Course   @relation(fields: [courseId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
 
   @@id([courseId, categoryId])
 }
@@ -128,18 +128,21 @@ model Attachment {
 }
 
 model Post {
-  id         String    @id @default(uuid())
-  title      String
-  content    Json
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  categoryId String
-  userId     String
-  isPinned   Boolean?  @default(false)
-  comments   Comment[]
-  likes      Like[]
-  category   Category  @relation(fields: [categoryId], references: [id])
-  user       User      @relation(fields: [userId], references: [id])
+  id                      String   @id @default(uuid())
+  title                   String
+  content                 Json
+  isPinned                Boolean? @default(false)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  discordWebhookMessageID String?
+  category                Category @relation(fields: [categoryId], references: [id])
+  categoryId              String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  comments Comment[]
+  likes    Like[]
 }
 
 model Comment {

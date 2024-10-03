@@ -1,6 +1,8 @@
 'use client'
+import defaultAvatar from '@/assets/avatar.png'
 import NoteEditor from '@/components/editor/editor'
 import { Icons } from '@/components/icons'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
@@ -93,13 +95,17 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
       <div className="flex justify-between">
         <div className="flex gap-2 items-center mb-2">
           <>
-            <Image
-              className="rounded-full w-8 mr-1"
-              alt=""
-              width={500}
-              height={500}
-              src={comment.userImg}
-            />
+            <Avatar className="w-10 h-10 mr-1">
+              <AvatarImage src={comment.userImage} />
+              <AvatarFallback>
+                <Image
+                  src={defaultAvatar}
+                  alt="default_avatar"
+                  width={500}
+                  height={500}
+                />
+              </AvatarFallback>
+            </Avatar>
             <h2 className="font-semibold text-lg dark:text-slate-300 text-black">
               {comment.username}
             </h2>

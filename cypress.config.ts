@@ -8,6 +8,6 @@ export default defineConfig({
     async setupNodeEvents(on, config) {
       return await clerkSetup({ config })
     },
-    baseUrl: 'http://localhost:3000'
+    baseUrl: process.env.BASE_URL_PRODUCTION || process.env.BASE_URL_DEVELOPMENT
   }
 })

@@ -107,7 +107,8 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
         description: 'Course deleted successfully.'
       })
     },
-    onError: () => {
+    onError: err => {
+      console.error('Error deleting course', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -132,7 +133,8 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
         description: `${toastMessage}`
       })
     },
-    onError: () => {
+    onError: err => {
+      console.error('Error creating/updating course', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -149,6 +151,7 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
     try {
       await deleteCourse()
     } catch (error) {
+      console.log('Error deleting course', error)
       toast({
         title: 'Error',
         description: 'Something went wrong.',

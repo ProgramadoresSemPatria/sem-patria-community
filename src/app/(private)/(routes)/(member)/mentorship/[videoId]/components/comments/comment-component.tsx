@@ -52,7 +52,8 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['video-comments'] })
     },
-    onError: () => {
+    onError: err => {
+      console.error('Error when liking comment', err)
       toast({
         title: 'An error occurred.',
         description: 'Unable to like the comment',

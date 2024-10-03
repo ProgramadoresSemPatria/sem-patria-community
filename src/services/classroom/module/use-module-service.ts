@@ -34,7 +34,8 @@ export const useModuleService = ({ initialData }: UseModuleServiceProps) => {
           description: 'Module deleted successfully.'
         })
       },
-      onError: () => {
+      onError: err => {
+        console.error('Error deleting classroom module', err)
         toast({
           title: 'Error',
           description: 'Something went wrong.',
@@ -63,7 +64,8 @@ export const useModuleService = ({ initialData }: UseModuleServiceProps) => {
           description: `${toastMessage}`
         })
       },
-      onError: () => {
+      onError: err => {
+        console.error('Error creating/updating classroom module', err)
         toast({
           title: 'Error',
           description: 'Something went wrong.',

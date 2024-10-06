@@ -91,7 +91,7 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
                 <Input
                   placeholder="Title..."
                   onChange={field.onChange}
-                  content={field.value}
+                  value={field.value}
                   disabled={form.formState.isLoading}
                 />
               </FormControl>

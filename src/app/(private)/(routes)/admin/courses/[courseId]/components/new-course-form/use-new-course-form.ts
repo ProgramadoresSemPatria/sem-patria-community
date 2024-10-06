@@ -1,8 +1,9 @@
 import { useToast } from '@/components/ui/use-toast'
+import type { CreateCourseBody } from '@/hooks/course/type'
 import { api } from '@/lib/api'
 import { appRoutes } from '@/lib/constants'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { type CourseCategory, type Course } from '@prisma/client'
+import { type Course, type CourseCategory } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -73,11 +74,7 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
           ...initialData
         }
       : {
-          name: '',
-          courseUrl: '',
           categoryIds: [],
-          categoryId: '',
-          level: '',
           isPaid: false
         }
   })
@@ -118,7 +115,7 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
   })
 
   const { mutateAsync: createOrUpdateCourse, isPending } = useMutation({
-    mutationFn: async (data: z.infer<typeof formSchema>) => {
+    mutationFn: async (data: CreateCourseBody) => {
       if (initialData) {
         return await api.patch(`/api/course/${params.courseId}`, data)
       }
@@ -144,7 +141,19 @@ export const useNewCourseForm = ({ initialData }: UseNewCourseFormProps) => {
   })
 
   const onSubmit = async (values: NewCourseFormValues) => {
-    await createOrUpdateCourse({ ...values, categoryIds: selectedCategories })
+    if (!values.categoryId) {
+      toast({
+        title: 'Attention',
+        description: 'You need to select a category to create a course.',
+        variant: 'default'
+      })
+      return
+    }
+    await createOrUpdateCourse({
+      ...values,
+      optionalCategories: selectedCategories,
+      isPending: false
+    })
   }
 
   const onDeleteCourse = async () => {

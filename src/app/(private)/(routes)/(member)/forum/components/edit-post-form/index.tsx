@@ -95,7 +95,7 @@ export const EditPostForm = ({ postId, initialValues }: EditPostFormProps) => {
                   placeholder="Title..."
                   defaultValue={initialValues.title}
                   onChange={field.onChange}
-                  content={field.value}
+                  value={field.value}
                   disabled={form.formState.isLoading}
                 />
               </FormControl>

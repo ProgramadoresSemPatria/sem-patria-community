@@ -42,6 +42,7 @@ export const NoteOptions = ({ note }: NoteOptionsProps) => {
     try {
       await deleteNote()
     } catch (error) {
+      console.log('Error deleting note', error)
       toast({
         title: 'Error',
         description: 'Something went wrong.',

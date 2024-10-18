@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server'
 import { type NextRequest, NextResponse } from 'next/server'
 
 import prismadb from '@/lib/prismadb'
+import { type Category } from '@prisma/client'
 
 export async function PATCH(
   req: NextRequest,
@@ -11,8 +12,8 @@ export async function PATCH(
     const { userId } = auth()
     const {
       name,
-      categoryIds,
       categoryId,
+      categories,
       courseUrl,
       isPaid,
       level,
@@ -57,7 +58,7 @@ export async function PATCH(
         isPending,
         categoryId,
         categories: {
-          create: categoryIds.map((categoryId: string) => ({
+          create: categories?.map((category: Category) => ({
             category: {
               connect: { id: categoryId }
             }

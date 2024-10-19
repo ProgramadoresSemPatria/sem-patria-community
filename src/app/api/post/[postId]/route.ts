@@ -1,6 +1,8 @@
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs/server'
+import axios from 'axios'
 import { NextResponse, type NextRequest } from 'next/server'
+import slugify from 'slugify'
 
 export async function DELETE(
   req: NextRequest,
@@ -77,6 +79,34 @@ export async function PUT(
         categoryId
       }
     })
+
+    const discordWebHookURL = process.env.DISCORD_WEBHOOK_URL
+    if (post && discordWebHookURL) {
+      const postSlug = slugify(post.title, { lower: true, strict: true })
+      const postLink = `${process.env.BASE_URL_PRODUCTION}/forum/${post.id}/${postSlug}`
+      const postWebhookMessageID = post.discordWebhookMessageID
+      const response = await axios.patch(
+        `${discordWebHookURL}/messages/${postWebhookMessageID}?wait=true`,
+        {
+          content: `## 🔥 New community post!\n${postLink}`
+        }
+      )
+
+      if (!response) {
+        console.log('[DISCORD_WEBHOOK_ERROR] Discord webhook failed to send')
+        return NextResponse.json(post)
+      }
+
+      const webhookMessageID = response.data.id
+      await prismadb.post.update({
+        where: {
+          id: postId
+        },
+        data: {
+          discordWebhookMessageID: webhookMessageID
+        }
+      })
+    }
 
     return NextResponse.json(post)
   } catch (error) {

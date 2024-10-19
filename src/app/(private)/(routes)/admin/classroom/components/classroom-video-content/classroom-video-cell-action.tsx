@@ -43,7 +43,8 @@ export const ClassroomVideoCellAction = ({
           description: 'Video deleted successfully.'
         })
       },
-      onError: () => {
+      onError: err => {
+        console.error('Error deletin classroom video', err)
         toast({
           title: 'Error',
           description: 'Something went wrong.',
@@ -56,6 +57,7 @@ export const ClassroomVideoCellAction = ({
     try {
       await deleteClassroomVideo()
     } catch (error) {
+      console.log('Error deleting classroom video', error)
       toast({
         title: 'Error',
         description: 'Something went wrong while deleting the Video.',

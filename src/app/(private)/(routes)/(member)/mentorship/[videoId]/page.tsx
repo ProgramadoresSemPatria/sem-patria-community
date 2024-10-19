@@ -44,13 +44,14 @@ const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
       <div className="overflow-y-auto">
         <div className="flex flex-col md:flex-row md:col h-full box-border md:overflow-hidden">
           <div className="flex flex-col flex-1 flex-shrink-0 w-full md:overflow-y-auto transition-[height] overflow-x-hidden">
-            <iframe
-              src={videoSelected.url}
-              title={videoSelected.title}
-              className=" h-full w-full aspect-[16/10.5] 2xl:aspect-[16/10.3]"
-              allowFullScreen
-            />
-
+            <div className="h-full bg-black flex flex-col justify-center">
+              <iframe
+                src={videoSelected.url}
+                title={videoSelected.title}
+                className="w-full aspect-video"
+                allowFullScreen
+              />
+            </div>
             <div className="flex justify-between items-center pl-4 pt-2">
               <Breadcrumb className="p-0">
                 <BreadcrumbList>

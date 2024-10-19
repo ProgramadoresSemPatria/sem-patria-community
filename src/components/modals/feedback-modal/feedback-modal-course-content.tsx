@@ -11,7 +11,6 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -19,14 +18,12 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { Switch } from '@/components/ui/switch'
 import { toast } from '@/components/ui/use-toast'
 import { useCategory } from '@/hooks/category/use-category'
 import { useCourse } from '@/hooks/course/use-course'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -46,8 +43,7 @@ const formSchema = z.object({
   level: z.string().min(1, {
     message: 'Level is required'
   }),
-  categoryId: z.string().optional(),
-  categoryName: z.string().optional(),
+  categoryId: z.string(),
   isPending: z.boolean().default(true)
 })
 
@@ -63,7 +59,6 @@ export const FeedbackModalCourseContent = ({
   const router = useRouter()
   const { categories, isLoadingCategories } = useCategory()
   const { useCreateCourse } = useCourse()
-  const [isNewCategory, setIsNewCategory] = useState(false)
 
   const form = useForm<FeedbackModalCourseContentFormValues>({
     resolver: zodResolver(formSchema)
@@ -78,7 +73,8 @@ export const FeedbackModalCourseContent = ({
       onClose()
       router.refresh()
     },
-    onError: () => {
+    onError: err => {
+      console.error('Error creating course', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -89,7 +85,7 @@ export const FeedbackModalCourseContent = ({
 
   const onSubmit = async (values: FeedbackModalCourseContentFormValues) => {
     const categoriesList = categories ?? []
-    if (categoriesList.length < 1 && !values.categoryName) {
+    if (categoriesList.length < 1) {
       toast({
         title: 'Attention',
         description: 'You need to create a category to create a course.',
@@ -98,7 +94,7 @@ export const FeedbackModalCourseContent = ({
       return
     }
 
-    if (categoriesList.length > 0 && !values.categoryId && !isNewCategory) {
+    if (categoriesList.length > 0 && !values.categoryId) {
       toast({
         title: 'Attention',
         description: 'You need to select a category to create a course.',
@@ -106,114 +102,7 @@ export const FeedbackModalCourseContent = ({
       })
       return
     }
-
-    await createCourse(values)
-  }
-  const handleCategoryInput = () => {
-    if (isLoadingCategories)
-      return <Icons.loader className="w-6 h-6 animate-spin" />
-
-    if (!categories || categories.length < 1)
-      return (
-        <FormField
-          control={form.control}
-          name="categoryName"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Category</FormLabel>
-              <FormControl>
-                <Input
-                  data-testid="category-name"
-                  disabled={isPending}
-                  placeholder="New category name"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      )
-
-    return (
-      <>
-        <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-          <div className="space-y-0.5">
-            <Label>Create a new category</Label>
-            <span className="flex flex-wrap font-medium text-muted-foreground text-sm">
-              Allow this option if there is no category for this course.
-            </span>
-            <span className="flex flex-wrap pt-1 text-slate-300 font-normal text-xs">
-              The category will only appear when the course has been approved.
-            </span>
-          </div>
-          <Switch
-            data-testid="create-category"
-            checked={isNewCategory}
-            onCheckedChange={() => {
-              setIsNewCategory(prev => !prev)
-            }}
-          />
-        </div>
-
-        {isNewCategory ? (
-          <FormField
-            control={form.control}
-            name="categoryName"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Category</FormLabel>
-                <FormControl>
-                  <Input
-                    data-testid="category-name"
-                    disabled={isPending}
-                    placeholder="New category name"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ) : (
-          <FormField
-            control={form.control}
-            name="categoryId"
-            render={({ field }) => (
-              <>
-                <FormItem className="w-full">
-                  <FormLabel>Category</FormLabel>
-                  <Select
-                    disabled={isPending}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a category"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {categories &&
-                        categories.length > 0 &&
-                        categories.map(category => (
-                          <SelectItem key={category.id} value={category.id}>
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              </>
-            )}
-          />
-        )}
-      </>
-    )
+    await createCourse({ ...values, optionalCategories: [] })
   }
 
   return (
@@ -314,7 +203,41 @@ export const FeedbackModalCourseContent = ({
             )}
           />
 
-          {handleCategoryInput()}
+          <FormField
+            control={form.control}
+            name="categoryId"
+            render={({ field }) => (
+              <>
+                <FormItem className="w-full">
+                  <FormLabel>Category</FormLabel>
+                  <Select
+                    disabled={isPending}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select a category"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {categories &&
+                        categories.length > 0 &&
+                        categories.map(category => (
+                          <SelectItem key={category.id} value={category.id}>
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              </>
+            )}
+          />
         </div>
         <div className="flex items-center w-full mt-8 gap-x-4">
           <Button

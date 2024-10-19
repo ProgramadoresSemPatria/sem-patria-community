@@ -1,8 +1,10 @@
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs/server'
-import { NextResponse, type NextRequest } from 'next/server'
-import { z } from 'zod'
+import axios from 'axios'
 import KSUID from 'ksuid'
+import { NextResponse, type NextRequest } from 'next/server'
+import slugify from 'slugify'
+import { z } from 'zod'
 
 async function generateKSUID() {
   return (await KSUID.random()).string
@@ -33,6 +35,31 @@ export async function POST(req: NextRequest) {
       }
     })
 
+    const discordWebHookURL = process.env.DISCORD_WEBHOOK_URL
+    if (post && discordWebHookURL) {
+      const postSlug = slugify(post.title, { lower: true, strict: true })
+      const postLink = `${process.env.BASE_URL_PRODUCTION}/forum/${post.id}/${postSlug}`
+      const response = await axios.post(`${discordWebHookURL}?wait=true`, {
+        content: `## 🔥 New community post!\n${postLink}`
+      })
+
+      if (!response) {
+        console.log('[DISCORD_WEBHOOK_ERROR] Discord webhook failed to send')
+        return NextResponse.json(post)
+      }
+
+      const webhookMessageID = response.data.id
+
+      await prismadb.post.update({
+        where: {
+          id
+        },
+        data: {
+          discordWebhookMessageID: webhookMessageID
+        }
+      })
+    }
+
     return NextResponse.json(post)
   } catch (error) {
     console.log('[POST_POST_ERROR]', error)
@@ -43,7 +70,7 @@ export async function POST(req: NextRequest) {
 export async function GET(req: Request) {
   const url = new URL(req.url)
   try {
-    const { limit, page, categoryName, orderBy } = z
+    const { limit, page, categoryName, orderBy, search } = z
       .object({
         limit: z.string().default('10'),
         page: z.string().default('1'),
@@ -52,13 +79,15 @@ export async function GET(req: Request) {
           .enum(['datenew', 'dateold', 'likes'])
           .nullish()
           .optional()
-          .default('datenew')
+          .default('datenew'),
+        search: z.string().nullish().optional()
       })
       .parse({
         categoryName: url.searchParams.get('category'),
         limit: url.searchParams.get('limit'),
         page: url.searchParams.get('page'),
-        orderBy: url.searchParams.get('orderBy')
+        orderBy: url.searchParams.get('orderBy'),
+        search: url.searchParams.get('search')
       })
 
     let orderByClause = {}
@@ -84,6 +113,12 @@ export async function GET(req: Request) {
 
     if (categoryName !== 'All' && categoryName?.length) {
       whereClause = { category: { name: categoryName } }
+    }
+
+    if (search) {
+      whereClause = {
+        OR: [{ title: { contains: search, mode: 'insensitive' } }]
+      }
     }
 
     const posts = await prismadb.post.findMany({

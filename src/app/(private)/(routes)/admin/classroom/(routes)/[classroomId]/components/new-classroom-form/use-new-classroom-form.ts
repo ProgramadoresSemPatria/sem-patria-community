@@ -59,7 +59,8 @@ export const useNewClassroomForm = ({
         description: 'Classroom deleted successfully.'
       })
     },
-    onError: () => {
+    onError: err => {
+      console.error('Error deleting classroom', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -84,7 +85,8 @@ export const useNewClassroomForm = ({
         description: `${toastMessage}`
       })
     },
-    onError: () => {
+    onError: err => {
+      console.error('Error creating/updating classroom', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',

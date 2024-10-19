@@ -5,13 +5,14 @@ import { z } from 'zod'
 import { permissions } from '../permissions'
 import { type UserAbilityRoles } from '../types'
 import {
+  mentorshipSubject,
   categorySubject,
   classroomSubject,
   cmsSubject,
   courseSubject,
   eventSubject,
-  userSubject,
-  postSubject
+  postSubject,
+  userSubject
 } from './subjects'
 
 const appAbilitiesSchema = z.union([
@@ -22,7 +23,7 @@ const appAbilitiesSchema = z.union([
   classroomSubject,
   cmsSubject,
   postSubject,
-
+  mentorshipSubject,
   z.tuple([z.literal('manage'), z.literal('all')])
 ])
 export type AppAbilities = z.infer<typeof appAbilitiesSchema>

@@ -57,8 +57,15 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const { userId } = auth()
-    const { name, categoryIds, courseUrl, isPaid, level, isPending } =
-      await req.json()
+    const {
+      name,
+      categoryId,
+      optionalCategories,
+      courseUrl,
+      isPaid,
+      level,
+      isPending
+    } = await req.json()
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
@@ -69,18 +76,19 @@ export async function POST(req: NextRequest) {
 
     if (!level) return new NextResponse('Level is required', { status: 400 })
 
-    if (categoryIds?.length) {
+    if (optionalCategories && optionalCategories.length > 0) {
       const categoriesExist = await prismadb.category.findMany({
         where: {
-          id: { in: categoryIds }
+          id: { in: optionalCategories }
         }
       })
-      if (categoriesExist.length !== categoryIds.length) {
+      if (categoriesExist.length !== optionalCategories.length) {
         return new NextResponse('One or more categories are invalid', {
           status: 400
         })
       }
     }
+
     const course = await prismadb.course.create({
       data: {
         name,
@@ -88,9 +96,9 @@ export async function POST(req: NextRequest) {
         level,
         isPaid: !!isPaid,
         isPending: !!isPending,
-        categoryId: categoryIds[0],
+        categoryId,
         categories: {
-          create: categoryIds.map((categoryId: string) => ({
+          create: optionalCategories?.map((categoryId: string) => ({
             category: {
               connect: { id: categoryId }
             }

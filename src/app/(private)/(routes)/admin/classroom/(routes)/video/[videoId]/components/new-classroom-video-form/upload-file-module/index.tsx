@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone'
 const fileAcceptTypes = {
   'application/pdf': ['.pdf'],
   'application/msword': ['.doc', '.docx'],
-  'application/vnd.ms-excel': ['.xls', '.xlsx'],
+  'application/vnd.ms-excel': ['.xls'],
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
     '.xlsx'
   ],
@@ -36,7 +36,8 @@ export const UploadFilesModule = ({
     onDrop(acceptedFiles) {
       onSetPreviewFiles(acceptedFiles)
     },
-    onError: () => {
+    onError: err => {
+      console.error('Error uploading file', err)
       toast({
         title: 'An error occurred',
         description:
@@ -58,7 +59,7 @@ export const UploadFilesModule = ({
       <span className="font-semibold mt-2">Drag and drop your files here</span>
       <span className="text-sm text-muted-foreground">
         Accepted formats: .jpg, .png, .jpeg, .pdf, .doc, .docx, .ppt, .pptx,
-        .txt, .zip
+        .txt, .zip, .xls, .xlsx
       </span>
     </div>
   )

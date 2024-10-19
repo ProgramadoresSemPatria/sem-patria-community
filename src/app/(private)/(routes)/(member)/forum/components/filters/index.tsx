@@ -100,7 +100,7 @@ const ForumFilters = () => {
           <Skeleton className="h-9 w-40 rounded-md" />
         ) : (
           <Popover open={openCategory} onOpenChange={onOpenCategory}>
-            <PopoverTrigger asChild>
+            <PopoverTrigger data-testid="select-category" asChild>
               <Button
                 variant="outline"
                 role="combobox"

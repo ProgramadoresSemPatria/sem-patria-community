@@ -49,7 +49,7 @@ const Post = ({
         'rounded-md dark:bg-slate-900 bg-slate-100 shadow dark:text-white text-black hover:cursor-pointer'
       )}
     >
-      <div className="px-6 py-4 flex justify-between">
+      <div data-testid="postt" className="px-6 py-4 flex justify-between">
         <div className="w-0 flex-1">
           <div className="flex items-center max-h-40 dark:text-gray-300 text-black">
             <Image

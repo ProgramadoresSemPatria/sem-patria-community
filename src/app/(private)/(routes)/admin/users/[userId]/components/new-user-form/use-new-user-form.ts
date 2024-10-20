@@ -130,6 +130,41 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
     }
   }
 
+  const { mutateAsync: enableUser, isPending: isEnablingUser } = useMutation({
+    mutationFn: async () => {
+      return await api.patch(`/api/user/${params.userId}/enable`)
+    },
+    onSuccess: () => {
+      router.push(appRoutes.admin_users)
+      router.refresh()
+      toast({
+        title: 'Success',
+        description: 'User was enabled successfully.'
+      })
+    },
+    onError: error => {
+      toast({
+        title: 'Error',
+        description: error.message ?? 'Something went wrong.',
+        variant: 'destructive'
+      })
+    }
+  })
+
+  const onEnableUser = async () => {
+    try {
+      await enableUser()
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Something went wrong.',
+        variant: 'destructive'
+      })
+    } finally {
+      setIsAlertModalOpen(false)
+    }
+  }
+
   const { mutateAsync: createOrUpdateUser, isPending } = useMutation({
     mutationFn: async (data: z.infer<typeof formSchema>) => {
       if (initialData) {
@@ -192,6 +227,8 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
     onSubmit,
     selectedRoles,
     handleSelectedRoles,
-    action
+    action,
+    onEnableUser,
+    isEnablingUser
   }
 }

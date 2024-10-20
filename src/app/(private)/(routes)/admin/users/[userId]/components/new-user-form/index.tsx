@@ -28,6 +28,7 @@ import { appRoutes } from '@/lib/constants'
 import { Roles } from '@/lib/types'
 import { type User } from '@prisma/client'
 import Image from 'next/image'
+import { useMemo } from 'react'
 import { useNewUserForm } from './use-new-user-form'
 
 type NewUserFormProps = {
@@ -48,19 +49,54 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
     onSubmit,
     selectedRoles,
     handleSelectedRoles,
-    action
+    action,
+    onEnableUser,
+    isEnablingUser
   } = useNewUserForm({ initialData })
+
+  const enableOrDisableUser = useMemo(() => {
+    if (initialData) {
+      return initialData.isDisabled ? (
+        <Button
+          disabled={isPending}
+          onClick={() => {
+            setIsAlertModalOpen(true)
+          }}
+          className="bg-green-500 text-white hover:bg-green-600"
+        >
+          <Icons.userCheck className="h-5 w-5 mr-2" /> Enable user
+        </Button>
+      ) : (
+        <Button
+          disabled={isPending}
+          variant="destructive"
+          onClick={() => {
+            setIsAlertModalOpen(true)
+          }}
+        >
+          <Icons.userX className="h-5 w-5 mr-2" /> Delete user
+        </Button>
+      )
+    }
+  }, [initialData, isPending, setIsAlertModalOpen])
 
   return (
     <>
       <AlertModal
         isOpen={isAlertModalOpen}
-        description="Are you sure you want to delete this user?"
-        loading={isDeletingUser}
+        description={`This action will ${
+          initialData?.isDisabled ? 'enable' : 'disable'
+        } this user account, are you sure?`}
+        confirmationTitle={initialData?.isDisabled ? 'Enable' : 'Delete'}
+        loading={isDeletingUser || isEnablingUser}
         onClose={() => {
           setIsAlertModalOpen(false)
         }}
         onConfirm={async () => {
+          if (initialData?.isDisabled) {
+            await onEnableUser()
+            return
+          }
           await onDeleteUser()
         }}
       />
@@ -84,17 +120,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                   </h2>
                 </div>
               </div>
-
-              <Button
-                disabled={isPending}
-                variant="destructive"
-                size="icon"
-                onClick={() => {
-                  setIsAlertModalOpen(true)
-                }}
-              >
-                <Icons.trash className="h-4 w-4" />
-              </Button>
+              {enableOrDisableUser}
             </div>
           ) : (
             <div className="flex items-center gap-x-4">

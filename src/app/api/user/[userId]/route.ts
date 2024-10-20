@@ -15,9 +15,9 @@ export async function DELETE(
       return new NextResponse('User id required', { status: 400 })
 
     try {
-      await clerkClient.users.deleteUser(params.userId)
+      await clerkClient.users.banUser(params.userId)
     } catch (clerkError) {
-      console.log('[CLERK_USER_DELETE_ERROR]', clerkError)
+      console.log('[CLERK_USER_DISABLE_ERROR]', clerkError)
     }
 
     let user = {}

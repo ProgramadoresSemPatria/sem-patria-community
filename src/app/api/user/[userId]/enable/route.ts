@@ -1,5 +1,5 @@
 import prismadb from '@/lib/prismadb'
-import { auth } from '@clerk/nextjs/server'
+import { auth, clerkClient } from '@clerk/nextjs/server'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function PATCH(
@@ -13,6 +13,12 @@ export async function PATCH(
 
     if (!params.userId)
       return new NextResponse('User id required', { status: 400 })
+
+    try {
+      await clerkClient.users.unbanUser(params.userId)
+    } catch (clerkError) {
+      console.log('[CLERK_USER_ENABLE_ERROR]', clerkError)
+    }
 
     let user = {}
     try {

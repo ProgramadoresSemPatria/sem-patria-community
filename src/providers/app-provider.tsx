@@ -5,6 +5,7 @@ import { ModalProvider } from '@/providers/modal-providers'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import { type ThemeProviderProps } from 'next-themes/dist/types'
+import { SidebarProvider } from '@/components/ui/sidebar'
 
 interface Props {
   children: React.ReactNode
@@ -28,9 +29,11 @@ const AppProviders = ({ children }: Props) => {
         enableSystem
         disableTransitionOnChange
       >
-        <ModalProvider />
-        <Toaster />
-        {children}
+        <SidebarProvider>
+          <ModalProvider />
+          <Toaster />
+          {children}
+        </SidebarProvider>
       </ThemeProvider>
     </QueryClientProvider>
   )

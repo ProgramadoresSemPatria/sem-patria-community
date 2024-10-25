@@ -94,6 +94,7 @@ export const useSetPasswordForm = ({ params }: UseSetPasswordFormProps) => {
         })
       },
       onError: (error: AxiosError) => {
+        console.error('Error changing password', error)
         toast({
           title: 'Error',
           description: error.response?.data

@@ -84,6 +84,7 @@ export const RichTextInput = ({
       onClose()
     },
     onError: error => {
+      console.error('Error creating post', error)
       toast({
         title: 'An error ocurred while creating post',
         description: error.message,
@@ -110,6 +111,7 @@ export const RichTextInput = ({
       await queryClient.invalidateQueries({ queryKey: ['video-comments'] })
     },
     onError: error => {
+      console.error('Error creating comment on video', error)
       toast({
         title: 'An error ocurred while posting comment',
         description: error.message,

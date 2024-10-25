@@ -31,7 +31,11 @@ export async function generateMetadata({
   const post = await getPost(params.postId)
   const parsedContent = JSON.parse(post?.content as string)
   const description = parsedContent.content?.[0]?.content?.[0]?.text || ''
-  const img = parsedContent.content?.[1]?.attrs?.src || appLogo.src
+  const imageItem = parsedContent.content?.find(
+    (item: { type: string; attrs: { src: string } }) =>
+      item.type === 'image' && item.attrs?.src
+  )
+  const img = imageItem?.attrs?.src || appLogo.src
   const title = post?.title || ''
   const altText = `Image for ${title}`
 

@@ -4,6 +4,7 @@ import BackButton from '@/components/back-button'
 import Header from '@/components/header'
 import { Icons } from '@/components/icons'
 import { AlertModal } from '@/components/modals/alert-modal'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -25,9 +26,8 @@ import {
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { appRoutes } from '@/lib/constants'
-import { type CourseCategory, type Category, type Course } from '@prisma/client'
+import { type Category, type Course, type CourseCategory } from '@prisma/client'
 import { useNewCourseForm } from './use-new-course-form'
-import { Badge } from '@/components/ui/badge'
 
 type NewCourseFormProps = {
   initialData:
@@ -56,7 +56,6 @@ export const NewCourseForm = ({
     setSelectedCategory,
     handleSelectedcategories
   } = useNewCourseForm({ initialData })
-  const allCategories = [selectedCategory, ...selectedCategories]
 
   const filteredCategories = categories.filter(
     cat => cat.id !== selectedCategory
@@ -202,7 +201,6 @@ export const NewCourseForm = ({
                 )}
               />
 
-              {/* <div className="flex justify-between w-full"> */}
               <FormField
                 control={form.control}
                 name="categoryId"
@@ -258,7 +256,7 @@ export const NewCourseForm = ({
                               placeholder={
                                 selectedCategories.length > 0
                                   ? `${selectedCategories.length} selected`
-                                  : 'Select categories'
+                                  : 'Select optional categories'
                               }
                             />
                           </SelectTrigger>
@@ -309,25 +307,23 @@ export const NewCourseForm = ({
               </div>
             </div>
             <div className="flex-wrap max-w-full flex flex-col items-end mt-1">
-              <p>Selected categories</p>
-              <div>
-                {allCategories.map(categoryId => {
-                  const category = categories.find(c => c.id === categoryId)
-                  return (
-                    <Badge className="m-1" key={categoryId}>
-                      {category?.name}{' '}
-                      <span
-                        className="ml-2 hover:cursor-pointer"
-                        onClick={() => {
-                          handleSelectedcategories(categoryId as string, form)
-                        }}
-                      >
-                        <Icons.close size={15} />
-                      </span>
-                    </Badge>
-                  )
-                })}
-              </div>
+              <p>Optional Categories Selected</p>
+              {selectedCategories.map(categoryId => {
+                const category = categories.find(c => c.id === categoryId)
+                return (
+                  <Badge className="m-1" key={categoryId}>
+                    {category?.name}
+                    <span
+                      className="ml-2 hover:cursor-pointer"
+                      onClick={() => {
+                        handleSelectedcategories(categoryId, form)
+                      }}
+                    >
+                      <Icons.close size={15} />
+                    </span>
+                  </Badge>
+                )
+              })}
             </div>
             <Button
               data-testid="submit"

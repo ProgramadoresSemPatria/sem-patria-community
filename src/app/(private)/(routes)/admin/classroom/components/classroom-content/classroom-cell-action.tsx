@@ -40,7 +40,8 @@ export const ClassroomCellAction = ({ data }: ClassroomCellActionProps) => {
         description: 'Classroom deleted successfully.'
       })
     },
-    onError: () => {
+    onError: err => {
+      console.error('Error deleting classroom', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -53,6 +54,7 @@ export const ClassroomCellAction = ({ data }: ClassroomCellActionProps) => {
     try {
       await deleteClassroom()
     } catch (error) {
+      console.log('Error deleting classroom', error)
       toast({
         title: 'Error',
         description: 'Something went wrong while deleting the Classroom.',

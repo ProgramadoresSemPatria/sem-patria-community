@@ -25,7 +25,6 @@ model User {
   imageUrl     String?
   lastLogin    DateTime?
   isDisabled   Boolean?      @default(false)
-  notes        Note[]
 
   comments     Comment[]
   commentLikes CommentLike[]

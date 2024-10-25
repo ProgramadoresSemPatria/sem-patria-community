@@ -2,7 +2,7 @@ import prismadb from '@/lib/prismadb'
 import { auth, clerkClient } from '@clerk/nextjs/server'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function DELETE(
+export async function PATCH(
   req: NextRequest,
   { params }: { params: { userId: string } }
 ) {
@@ -15,9 +15,9 @@ export async function DELETE(
       return new NextResponse('User id required', { status: 400 })
 
     try {
-      await clerkClient.users.banUser(params.userId)
+      await clerkClient.users.unbanUser(params.userId)
     } catch (clerkError) {
-      console.log('[CLERK_USER_DISABLE_ERROR]', clerkError)
+      console.log('[CLERK_USER_ENABLE_ERROR]', clerkError)
     }
 
     let user = {}
@@ -27,16 +27,16 @@ export async function DELETE(
           id: params.userId
         },
         data: {
-          isDisabled: true
+          isDisabled: false
         }
       })
     } catch (dbError) {
-      console.log('[DB_USER_DELETE_ERROR]', dbError)
+      console.log('[DB_USER_ENABLE_ERROR]', dbError)
     }
 
     return NextResponse.json(user)
   } catch (error) {
-    console.log('[USER_DELETE_ERROR]', error)
+    console.log('[USER_ENABLE_ERROR]', error)
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }

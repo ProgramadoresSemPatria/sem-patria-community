@@ -24,6 +24,8 @@ model User {
   role         Roles[]       @default([])
   imageUrl     String?
   lastLogin    DateTime?
+  isDisabled   Boolean?      @default(false)
+
   comments     Comment[]
   commentLikes CommentLike[]
   likes        Like[]

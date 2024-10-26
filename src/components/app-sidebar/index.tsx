@@ -21,7 +21,7 @@ import * as React from 'react'
 import { useEffect, useState } from 'react'
 import MainLogo from '../main-logo'
 import UserButton from '../user-button'
-import { SkeletonMainNav } from '../main-nav/components/skeleton-main-nav'
+import { SkeletonMainNav } from './components/skeleton-main-nav'
 
 export function AppSidebar() {
   const [isMounted, setIsMounted] = useState(false)

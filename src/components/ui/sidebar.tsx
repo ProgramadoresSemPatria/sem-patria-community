@@ -34,6 +34,7 @@ type SidebarContext = {
   openMobile: boolean
   setOpenMobile: (open: boolean) => void
   isMobile: boolean
+  setIsMobile: React.Dispatch<React.SetStateAction<boolean | undefined>>
   toggleSidebar: () => void
 }
 
@@ -68,7 +69,7 @@ const SidebarProvider = React.forwardRef<
     },
     ref
   ) => {
-    const isMobile = useIsMobile()
+    const { isMobile, setIsMobile } = useIsMobile()
     const [openMobile, setOpenMobile] = React.useState(false)
 
     // This is the internal state of the sidebar.
@@ -122,6 +123,7 @@ const SidebarProvider = React.forwardRef<
         open,
         setOpen,
         isMobile,
+        setIsMobile,
         openMobile,
         setOpenMobile,
         toggleSidebar

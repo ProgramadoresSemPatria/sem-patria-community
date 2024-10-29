@@ -23,9 +23,13 @@ import MainLogo from '../main-logo'
 import UserButton from '../user-button'
 import { SkeletonMainNav } from './components/skeleton-main-nav'
 
-export function AppSidebar() {
+export type AppSidebarProps = {
+  mentorship?: boolean
+}
+
+export function AppSidebar({ mentorship }: AppSidebarProps) {
   const [isMounted, setIsMounted] = useState(false)
-  const { setOpenMobile, isMobile } = useSidebar()
+  const { setOpenMobile, isMobile, setIsMobile } = useSidebar()
 
   const pathname = usePathname()
 
@@ -49,7 +53,10 @@ export function AppSidebar() {
 
   useEffect(() => {
     setIsMounted(true)
-  }, [])
+    if (mentorship) {
+      setIsMobile(true)
+    }
+  }, [mentorship, setIsMobile])
 
   if (!isMounted) return <SkeletonMainNav />
   return (

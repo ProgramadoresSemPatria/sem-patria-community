@@ -55,6 +55,8 @@ export function AppSidebar({ mentorship }: AppSidebarProps) {
     setIsMounted(true)
     if (mentorship) {
       setIsMobile(true)
+    } else {
+      setIsMobile(undefined)
     }
   }, [mentorship, setIsMobile])
 

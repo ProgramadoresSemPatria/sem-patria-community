@@ -15,7 +15,7 @@ const feedbackLink =
   'https://docs.google.com/forms/d/e/1FAIpQLSc_UTMhjo2-HH6XovqWajs5RKj_2LQMCq2kz8itV-NcheU8oA/viewform'
 
 const TopBar = () => {
-  const isMobile = useIsMobile()
+  const { isMobile } = useIsMobile()
 
   return (
     <div className="flex h-[60px] items-center justify-end border-b border-slate-6 pl-6">

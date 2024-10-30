@@ -18,7 +18,8 @@ export const CreateNoteButton = () => {
         description: 'The note was created successfully.'
       })
     },
-    onError: () => {
+    onError: err => {
+      console.error('Error creating note', err)
       toast({
         title: 'Error',
         description: 'An error occurred while creating the note, try again.',

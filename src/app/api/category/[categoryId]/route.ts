@@ -33,7 +33,6 @@ export async function PATCH(
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }
-
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { categoryId: string } }
@@ -41,33 +40,73 @@ export async function DELETE(
   try {
     const { userId } = auth()
 
-    if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
+    if (!userId) {
+      return new NextResponse('Unauthenticated', { status: 401 })
+    }
 
-    if (!params.categoryId)
+    if (!params.categoryId) {
       return new NextResponse('Category id is required', { status: 400 })
+    }
 
-    const isCoursesVinculated = await prismadb.course.findMany({
+    const vinculatedCourses = await prismadb.course.findMany({
       where: {
         categoryId: params.categoryId
       }
     })
 
-    if (isCoursesVinculated)
-      await prismadb.course.deleteMany({
+    const vinculatedPosts = await prismadb.post.findMany({
+      where: {
+        categoryId: params.categoryId
+      }
+    })
+
+    if (vinculatedCourses.length || vinculatedPosts.length) {
+      let generalCategory = await prismadb.category.findFirst({
         where: {
-          categoryId: params.categoryId
+          name: { contains: 'geral', mode: 'insensitive' }
         }
       })
 
-    const category = await prismadb.category.deleteMany({
+      if (!generalCategory) {
+        generalCategory = await prismadb.category.create({
+          data: {
+            name: 'Geral'
+          }
+        })
+      }
+
+      if (vinculatedCourses.length) {
+        await prismadb.course.updateMany({
+          where: {
+            categoryId: params.categoryId
+          },
+          data: {
+            categoryId: generalCategory.id
+          }
+        })
+      }
+
+      if (vinculatedPosts.length) {
+        await prismadb.post.updateMany({
+          where: {
+            categoryId: params.categoryId
+          },
+          data: {
+            categoryId: generalCategory.id
+          }
+        })
+      }
+    }
+
+    const deletedCategory = await prismadb.category.delete({
       where: {
         id: params.categoryId
       }
     })
 
-    return NextResponse.json(category)
+    return NextResponse.json(deletedCategory)
   } catch (error) {
-    console.log('[CATEGORY_ID_DELETE_ERROR]', error)
+    console.error('[CATEGORY_ID_DELETE_ERROR]', error)
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }

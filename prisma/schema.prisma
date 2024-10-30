@@ -7,16 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Roles {
-  PerfilFechado
-  PortifolioBoostProgram
-  Base
-  ProgramadorSemPatria
-  Prime
-  Builder
-  Admin
-}
-
 model User {
   id            String    @id @default(uuid())
   email         String
@@ -81,62 +71,61 @@ model Note {
   id        String   @id @default(uuid())
   title     String
   content   String?
-  isPublic  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id])
   userId    String
+  isPublic  Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Event {
   id           String   @id @default(uuid())
   title        String
   description  String
-  specialGuest String?
   date         DateTime
   location     String
   externalUrl  String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  specialGuest String?
 }
 
 model Classroom {
   id          String            @id @default(uuid())
   title       String            @unique
-  modules     ClassroomModule[]
   permissions Roles[]           @default([])
   createdAt   DateTime          @default(now())
+  modules     ClassroomModule[]
 }
 
 model ClassroomModule {
   id          String    @id @default(uuid())
   title       String
-  fileUrl     String?
-  videos      Video[]
-  classroom   Classroom @relation(fields: [classroomId], references: [id])
   classroomId String
+  fileUrl     String?
+  classroom   Classroom @relation(fields: [classroomId], references: [id])
+  videos      Video[]
 }
 
 model Video {
   id                String           @id @default(uuid())
-  title             String
-  description       String?
-  url               String
-  comments          Comment[]
   createdAt         DateTime         @default(now())
-  classroomModule   ClassroomModule? @relation(fields: [classroomModuleId], references: [id])
+  description       String?
+  title             String
+  url               String
   classroomModuleId String?
-  attachments       Attachment[]
   order             Int?
+  attachments       Attachment[]
+  comments          Comment[]
+  classroomModule   ClassroomModule? @relation(fields: [classroomModuleId], references: [id])
 }
 
 model Attachment {
-  id   String @id @default(uuid())
-  name String
-  type String
-  size Int
-  url  String
-
+  id      String @id @default(uuid())
+  name    String
+  type    String
+  size    Int
+  url     String
   videoId String
   video   Video  @relation(fields: [videoId], references: [id])
 }
@@ -160,41 +149,47 @@ model Post {
 }
 
 model Comment {
-  id        String   @id @default(uuid())
+  id        String        @id @default(uuid())
   comment   String
-  user      User     @relation(fields: [userId], references: [id])
   userId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  video   Video?  @relation(fields: [videoId], references: [id], onDelete: Cascade)
-  videoId String?
-
-  post   Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId String?
-
-  replyToId String?
-  replyTo   Comment?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  replies   Comment[] @relation("ReplyTo")
-
-  likes     CommentLike[]
+  videoId   String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
   commentId String?
+  postId    String?
+  replyToId String?
+  post      Post?         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  replyTo   Comment?      @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  replies   Comment[]     @relation("ReplyTo")
+  user      User          @relation(fields: [userId], references: [id])
+  video     Video?        @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  likes     CommentLike[]
 }
 
 model Like {
-  user   User   @relation(fields: [userId], references: [id])
   userId String
-  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
 
   @@id([userId, postId])
 }
 
 model CommentLike {
-  user      User    @relation(fields: [userId], references: [id])
   userId    String
-  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User    @relation(fields: [userId], references: [id])
 
   @@id([userId, commentId])
+}
+
+enum Roles {
+  PerfilFechado
+  PortifolioBoostProgram
+  Base
+  ProgramadorSemPatria
+  Prime
+  Builder
+  Admin
 }

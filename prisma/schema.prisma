@@ -18,23 +18,25 @@ enum Roles {
 }
 
 model User {
-  id           String        @id @default(uuid())
-  email        String
-  password     String?
-  name         String
-  username     String
-  level        String?
-  role         Roles[]       @default([])
-  github       String?
-  linkedin     String?
-  instagram    String?
-  imageUrl     String?
-  followers    Int           @default(0)
-  followings   Int           @default(0)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  lastLogin    DateTime?
-  isDisabled   Boolean?      @default(false)
+  id            String    @id @default(uuid())
+  email         String
+  password      String?
+  name          String
+  username      String
+  level         String?
+  role          Roles[]   @default([])
+  github        String?
+  linkedin      String?
+  instagram     String?
+  imageUrl      String?
+  followers     Int       @default(0)
+  followings    Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLogin     DateTime?
+  isDisabled    Boolean?  @default(false)
+  isPublicEmail Boolean?  @default(false)
+
   notes        Note[]
   comments     Comment[]
   likes        Like[]

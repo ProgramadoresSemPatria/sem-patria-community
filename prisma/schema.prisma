@@ -8,23 +8,24 @@ datasource db {
 }
 
 model User {
-  id           String        @id @default(uuid())
-  email        String
-  name         String
-  username     String
-  level        String?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  followers    Int           @default(0)
-  followings   Int           @default(0)
-  github       String?
-  instagram    String?
-  linkedin     String?
-  password     String?
-  role         Roles[]       @default([])
-  imageUrl     String?
-  lastLogin    DateTime?
-  isDisabled   Boolean?      @default(false)
+  id            String    @id @default(uuid())
+  email         String
+  name          String
+  username      String
+  level         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  followers     Int       @default(0)
+  followings    Int       @default(0)
+  github        String?
+  instagram     String?
+  linkedin      String?
+  password      String?
+  role          Roles[]   @default([])
+  imageUrl      String?
+  lastLogin     DateTime?
+  isDisabled    Boolean?  @default(false)
+  isPublicEmail Boolean?  @default(false)
 
   comments     Comment[]
   commentLikes CommentLike[]

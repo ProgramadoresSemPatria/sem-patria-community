@@ -23,7 +23,8 @@ export async function PATCH(req: NextRequest) {
       password,
       passwordConfirmation,
       newPassword,
-      imageUrl
+      imageUrl,
+      isPublicEmail
     } = await req.json()
 
     if (!authUserId) return new NextResponse('Unauthenticated', { status: 401 })
@@ -106,7 +107,8 @@ export async function PATCH(req: NextRequest) {
         instagram,
         level,
         linkedin,
-        role
+        role,
+        isPublicEmail
       }
     })
 

@@ -46,7 +46,8 @@ const formSchema = z.object({
   level: z.string(),
   github: z.string(),
   instagram: z.string(),
-  linkedin: z.string()
+  linkedin: z.string(),
+  position: z.enum(['AMBASSADOR', 'BUILDER', 'PSP', 'BASE', 'ADMIN'])
 })
 
 type NewUserFormValues = z.infer<typeof formSchema>
@@ -81,7 +82,8 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
           level: initialData.level || '',
           github: initialData.github || '',
           linkedin: initialData.linkedin || '',
-          instagram: initialData.instagram || ''
+          instagram: initialData.instagram || '',
+          position: initialData.position || undefined
         }
       : {
           name: '',
@@ -91,7 +93,8 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
           level: '',
           github: '',
           linkedin: '',
-          instagram: ''
+          instagram: '',
+          position: undefined
         }
   })
 

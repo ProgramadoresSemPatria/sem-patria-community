@@ -77,7 +77,11 @@ import {
   Save,
   GripVertical,
   UserX,
-  UserCheck
+  UserCheck,
+  Award,
+  Hammer,
+  BookText,
+  Settings
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -161,5 +165,9 @@ export const Icons = {
   dot: Dot,
   save: Save,
   userX: UserX,
-  userCheck: UserCheck
+  userCheck: UserCheck,
+  award: Award,
+  hammer: Hammer,
+  book: BookText,
+  gear: Settings
 }

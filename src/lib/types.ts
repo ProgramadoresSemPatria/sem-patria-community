@@ -35,6 +35,14 @@ export enum Roles {
   Admin = 'Admin'
 }
 
+export enum Positions {
+  BASE = 'Base',
+  PSP = 'PSP',
+  BUILDER = 'Builder',
+  AMBASSADOR = 'Ambassador',
+  ADMIN = 'Admin'
+}
+
 export type ExtendedPost = Post & {
   category: Category
   likes: Like[]

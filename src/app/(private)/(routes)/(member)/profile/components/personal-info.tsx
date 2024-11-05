@@ -25,6 +25,7 @@ import { isObjEmpty } from '@/lib/utils'
 import { useUser } from '@clerk/nextjs'
 import { type User } from '@prisma/client'
 import ImageInput from './image-input'
+import LocationInput from './location-input'
 import usePersonalInfo from './use-personal-info'
 
 export type PersonalInfoProps = {
@@ -221,6 +222,11 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                     </FormItem>
                   )}
                 />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-2 sm:gap-4 w-full">
+                <div className="sm:col-span-2">
+                  <LocationInput isUpdating={isUpdating} />
+                </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-2 sm:gap-4">
                 <FormField

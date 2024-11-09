@@ -6,6 +6,7 @@ import { eventSchema } from '../entities/event'
 import { mentorshipSchema } from '../entities/mentorship'
 import { postSchema } from '../entities/post'
 import { userSchema } from '../entities/user'
+import { interestSchema } from '../entities/interest'
 
 export const userSubject = z.tuple([
   z.union([
@@ -50,6 +51,17 @@ export const categorySubject = z.tuple([
     z.literal('delete')
   ]),
   z.union([z.literal('Category'), categorySchema])
+])
+
+export const interestSubject = z.tuple([
+  z.union([
+    z.literal('manage'),
+    z.literal('get'),
+    z.literal('create'),
+    z.literal('update'),
+    z.literal('delete')
+  ]),
+  z.union([z.literal('Interest'), interestSchema])
 ])
 
 export const eventSubject = z.tuple([

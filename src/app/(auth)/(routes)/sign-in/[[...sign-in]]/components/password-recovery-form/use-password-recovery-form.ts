@@ -42,7 +42,7 @@ export const usePasswordRecoveryForm = ({
       }, 2000)
     },
     onError: async error => {
-      console.log(JSON.stringify(error, null, 2))
+      console.error(JSON.stringify(error, null, 2))
       toast({
         title: 'An error ocurred while sending the recovery email',
         description: 'Try again later',

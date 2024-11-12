@@ -44,7 +44,8 @@ const CommentSection = ({ postId, comments }: CommentSectionProps) => {
         title: 'Your comment was sent!'
       })
     },
-    onError: () => {
+    onError: err => {
+      console.error('Error sending comment', err)
       toast({
         title: 'An error occurred while sending your comment'
       })

@@ -29,6 +29,7 @@ import { Roles } from '@/lib/types'
 import { type User } from '@prisma/client'
 import Image from 'next/image'
 import { useMemo } from 'react'
+import PositionSelect from './position-select'
 import { useNewUserForm } from './use-new-user-form'
 
 type NewUserFormProps = {
@@ -372,6 +373,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                     </FormItem>
                   )}
                 />
+                <PositionSelect isPending={isPending} />
               </div>
             </div>
           </form>

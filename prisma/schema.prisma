@@ -31,8 +31,17 @@ model User {
   comments     Comment[]
   commentLikes CommentLike[]
   likes        Like[]
-  notes        Note[]
+  notes        Note[] 
   posts        Post[]
+  interests Interest[] 
+}
+
+model Interest {
+  id                      String   @id @default(uuid())
+  interest String @unique
+  users User[]
+  createdAt      DateTime @default(now()) 
+  updatedAt      DateTime @updatedAt  
 }
 
 model Course {
@@ -184,6 +193,8 @@ model CommentLike {
 
   @@id([userId, commentId])
 }
+
+
 
 enum Roles {
   PerfilFechado

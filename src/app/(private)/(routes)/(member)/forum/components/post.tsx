@@ -60,7 +60,13 @@ const Post = ({
               src={post.user.imageUrl || avatarImg.src}
             />
             <div className="flex flex-col ml-2">
-              <span className="font-bold text-base">
+              <span
+                onClick={e => {
+                  e.stopPropagation()
+                  router.push(`/user/${post.user.username}`)
+                }}
+                className="font-bold text-base hover:cursor-pointer hover:underline"
+              >
                 {post.user.username !== ''
                   ? post.user.username
                   : post.user.name}

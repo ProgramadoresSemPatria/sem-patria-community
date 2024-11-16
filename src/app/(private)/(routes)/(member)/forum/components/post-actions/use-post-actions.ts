@@ -37,6 +37,7 @@ export const usePostActions = ({ post }: UsePostActions) => {
         queryKey: ['infinite-posts', { category: searchParams.get('category') }]
       })
     } catch (error) {
+      console.log('Error on pin post', error)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -52,6 +53,7 @@ export const usePostActions = ({ post }: UsePostActions) => {
         queryKey: ['infinite-posts', { category: searchParams.get('category') }]
       })
     } catch (error) {
+      console.log('Error deleting post', error)
       toast({
         title: 'Error',
         description: 'Something went wrong.',

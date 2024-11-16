@@ -104,7 +104,8 @@ export const useNewEventForm = ({ initialData }: UseNewEventFormProps) => {
         description: 'Event was deleted successfully.'
       })
     },
-    onError: () => {
+    onError: err => {
+      console.error('Error deleting event', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -129,7 +130,8 @@ export const useNewEventForm = ({ initialData }: UseNewEventFormProps) => {
         description: `${toastMessage}`
       })
     },
-    onError: () => {
+    onError: err => {
+      console.error('Error creating/updating event', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -149,6 +151,7 @@ export const useNewEventForm = ({ initialData }: UseNewEventFormProps) => {
     try {
       await deleteEvent()
     } catch (error) {
+      console.log('Error deleting event', error)
       toast({
         title: 'Error',
         description: 'Something went wrong.',

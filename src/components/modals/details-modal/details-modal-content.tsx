@@ -32,6 +32,7 @@ const DetailsModalContent = ({
         onClose()
         router.refresh()
       } catch (error) {
+        console.log('Error approving/declining content', error)
         toast({
           title: 'Error',
           description: 'Something went wrong.',

@@ -43,7 +43,7 @@ export const columns: Array<ColumnDef<CourseColumn>> = [
     cell: ({ row }) => (
       <span>
         {row.original.categoryNames.map((cat, index) => (
-          <Badge key={index} className="m-1">
+          <Badge key={index} className="m-1 truncate">
             {cat}
           </Badge>
         ))}

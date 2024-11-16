@@ -38,7 +38,8 @@ export const MembersList = ({ userProps, allUsers }: MembersListProps) => {
         description: 'User deleted successfully.'
       })
     },
-    onError: () => {
+    onError: err => {
+      console.error('Error deleting user', err)
       toast({
         title: 'Error',
         description: 'Something went wrong.',

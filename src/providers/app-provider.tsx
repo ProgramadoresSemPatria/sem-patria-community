@@ -35,9 +35,9 @@ const AppProviders = ({ children }: Props) => {
           disableTransitionOnChange
         >
           <SidebarProvider>
-          <ModalProvider />
-          <Toaster />
-          {children}
+            <ModalProvider />
+            <Toaster />
+            {children}
           </SidebarProvider>
         </ThemeProvider>
       </QueryClientProvider>

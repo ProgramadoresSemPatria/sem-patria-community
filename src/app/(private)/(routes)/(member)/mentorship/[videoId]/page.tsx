@@ -13,18 +13,36 @@ import { ButtonMarkAsWatched } from './components/button-mark-as-watched'
 import { Comments } from './components/comments'
 import { MentorshipHeader } from './components/mentorship-header'
 import MentorshipTab from './components/mentorship-tab'
+import { currentUser } from '@clerk/nextjs/server'
 
 const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
+  const user = await currentUser()
+  const userProps = await prismadb.user.findUnique({
+    where: {
+      id: user?.id
+    }
+  })
+
   const videoSelected = await prismadb.video.findUnique({
     where: {
       id: params.videoId
     },
     include: {
-      attachments: true
+      attachments: true,
+      classroomModule: {
+        include: { classroom: true }
+      }
     }
   })
 
-  if (!videoSelected) redirect(appRoutes.mentorship)
+  const hasPermission = () => {
+    if (!userProps) return false
+    return videoSelected?.classroomModule?.classroom.permissions.some(
+      permission => userProps.role.includes(permission)
+    )
+  }
+
+  if (!videoSelected || !hasPermission()) redirect(appRoutes.mentorship)
 
   const moduleVideos = await prismadb.video.findMany({
     where: {

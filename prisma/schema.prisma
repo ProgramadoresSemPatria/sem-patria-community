@@ -208,3 +208,11 @@ model CommentLike {
 
   @@id([userId, commentId])
 }
+
+model UserFollowersAndFollowing {
+  id        String   @id @default(uuid())
+  targetId  String   @map("follow_user_id")
+  userId    String   @map("user_id")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

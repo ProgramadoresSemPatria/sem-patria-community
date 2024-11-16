@@ -16,7 +16,8 @@ const AdminUsersPage = async () => {
     lastAccess: item.lastLogin,
     level: item.level,
     imageUrl: item.imageUrl,
-    role: item.role
+    role: item.role,
+    isDisabled: item?.isDisabled || false
   }))
 
   return (

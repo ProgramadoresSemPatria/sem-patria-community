@@ -20,10 +20,12 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
 import { isObjEmpty } from '@/lib/utils'
 import { useUser } from '@clerk/nextjs'
 import { type User } from '@prisma/client'
 import ImageInput from './image-input'
+import LocationInput from './location-input'
 import usePersonalInfo from './use-personal-info'
 
 export type PersonalInfoProps = {
@@ -40,6 +42,9 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
         imageUrl: userProps.imageUrl || user?.imageUrl || ''
       }
     })
+
+  const { watch, setValue } = form
+  const isPublicEmail = watch('isPublicEmail')
 
   return (
     <div>
@@ -134,7 +139,7 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                   )}
                 />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 items-start gap-2 sm:gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-2 sm:gap-4">
                 <div className="flex flex-col gap-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -145,6 +150,47 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                     value={user.emailAddresses[0].emailAddress || ''}
                   />
                 </div>
+                <FormField
+                  control={form.control}
+                  name="isPublicEmail"
+                  disabled={isUpdating}
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-y-2 space-y-0">
+                      <FormLabel>Turn Email Public?</FormLabel>
+                      <FormControl>
+                        <div
+                          className="group inline-flex items-center gap-2 h-9 rounded-md border border-input shadow-sm"
+                          data-state={isPublicEmail ? 'checked' : 'unchecked'}
+                        >
+                          <span
+                            id="switch-off-label"
+                            className="flex-1 cursor-pointer text-right text-sm font-medium group-data-[state=checked]:text-muted-foreground/70"
+                            onClick={() => {
+                              setValue('isPublicEmail', false)
+                            }}
+                          >
+                            Off
+                          </span>
+                          <Switch
+                            id="is_public_email"
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                          <span
+                            id="switch-on-label"
+                            className="flex-1 cursor-pointer text-left text-sm font-medium group-data-[state=unchecked]:text-muted-foreground/70"
+                            onClick={() => {
+                              setValue('isPublicEmail', true)
+                            }}
+                          >
+                            On
+                          </span>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="level"
@@ -176,6 +222,11 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                     </FormItem>
                   )}
                 />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-2 sm:gap-4 w-full">
+                <div className="sm:col-span-2">
+                  <LocationInput isUpdating={isUpdating} />
+                </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-2 sm:gap-4">
                 <FormField

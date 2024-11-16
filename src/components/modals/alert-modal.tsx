@@ -12,6 +12,7 @@ type AlertModalProps = {
   description: string
   onConfirm: () => void
   onClose: () => void
+  confirmationTitle?: string
 }
 
 export const AlertModal = ({
@@ -20,7 +21,8 @@ export const AlertModal = ({
   title,
   description,
   onClose,
-  onConfirm
+  onConfirm,
+  confirmationTitle = 'Delete'
 }: AlertModalProps) => {
   const [isMounted, setIsMounted] = useState(false)
 
@@ -59,7 +61,7 @@ export const AlertModal = ({
           }}
         >
           {loading && <Icons.loader className="mr-2 h-4 w-4 animate-spin" />}
-          Delete
+          {confirmationTitle}
         </Button>
       </div>
     </Modal>

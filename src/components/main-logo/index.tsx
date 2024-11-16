@@ -26,7 +26,7 @@ const MainLogo = ({ isMobile }: MainLogoProps) => {
           </Link>
         </div>
       ) : (
-        <div className="hidden md:flex h-[60px] items-center">
+        <div className="md:flex h-[60px] items-center">
           <Link
             href={appRoutes.dashboard}
             className="flex items-center space-x-2 md:flex mr-4"

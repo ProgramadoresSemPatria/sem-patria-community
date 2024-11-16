@@ -69,15 +69,6 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
             <p className="text-gray-500">Points</p>
           </div>
         </div>
-        {/* <div className="space-y-4">
-          <h2 className="text-xl font-semibold">About</h2>
-          <p className="text-gray-600">
-            Role:{' '}
-            <span className="font-semibold">
-              <Badge>{user?.role[0]}</Badge>
-            </span>
-          </p>
-        </div> */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Interests</h3>
           <div className="flex flex-wrap gap-3">

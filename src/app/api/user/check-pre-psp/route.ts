@@ -35,7 +35,6 @@ export async function PATCH(req: NextRequest) {
           role: user.role
         }
       }
-      updatedRoles.push('ProgramadorSemPatria')
 
       await clerkClient.users.updateUser(user.id, {
         publicMetadata: {

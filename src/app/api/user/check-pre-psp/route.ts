@@ -1,4 +1,5 @@
 import prismadb from '@/lib/prismadb'
+import { clerkClient } from '@clerk/nextjs/server'
 import { subDays } from 'date-fns'
 import { NextResponse, type NextRequest } from 'next/server'
 
@@ -35,6 +36,19 @@ export async function PATCH(req: NextRequest) {
         }
       }
       updatedRoles.push('ProgramadorSemPatria')
+
+      await clerkClient.users.updateUser(user.id, {
+        publicMetadata: {
+          github: user.github,
+          instagram: user.instagram,
+          level: user.level,
+          linkedin: user.linkedin,
+          location: user.location,
+          position: user.position,
+          role: updatedRoles
+        }
+      })
+
       return await prismadb.user.update({
         where: { id: user.id },
         data: { role: updatedRoles },

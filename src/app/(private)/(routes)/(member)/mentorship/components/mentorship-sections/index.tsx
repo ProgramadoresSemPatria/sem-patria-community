@@ -3,6 +3,7 @@ import prismadb from '@/lib/prismadb'
 import { Icons } from '@/components/icons'
 import { NoContent } from '@/components/no-content'
 import { SkeletonMentorshipPage } from '@/components/skeletons/skeleton-mentorship-page'
+import { prePspPermissions } from '@/lib/constants'
 import { currentUser } from '@clerk/nextjs/server'
 import { Suspense } from 'react'
 import { ModuleCarousel } from '../module-carousel'
@@ -26,7 +27,7 @@ export const MentorshipSections = async () => {
   })
 
   const formattedData = classrooms.map(classroom => {
-    const modulesWithVideos = classroom.modules.map(module => {
+    let modulesWithVideos = classroom.modules.map(module => {
       const videos = module.videos.map(video => {
         return video
       })
@@ -39,6 +40,27 @@ export const MentorshipSections = async () => {
         videos
       }
     })
+
+    const isPrePsp = userProps?.role.includes('PrePsp')
+
+    if (isPrePsp) {
+      modulesWithVideos = modulesWithVideos.map(module => {
+        const hasPrePspRestriction = prePspPermissions[classroom.title]
+
+        if (hasPrePspRestriction) {
+          const isPrePspAllowed = hasPrePspRestriction.some(
+            permission => module.id === permission
+          )
+
+          return {
+            ...module,
+            isPrePspAllowed
+          }
+        }
+
+        return module
+      })
+    }
 
     const hasPermission = () => {
       if (!userProps) return false

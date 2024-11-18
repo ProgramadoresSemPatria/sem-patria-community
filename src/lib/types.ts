@@ -1,11 +1,11 @@
 import {
   type Attachment,
-  type Video,
   type Category,
   type Comment,
   type Like,
   type Post,
-  type User
+  type User,
+  type Video
 } from '@prisma/client'
 
 export type MenuItemProps = {
@@ -26,6 +26,7 @@ export type MentorshipProgramModuleProps = {
 }
 
 export enum Roles {
+  PrePsp = 'Pre PSP',
   PerfilFechado = 'Perfil Fechado',
   PortifolioBoostProgram = 'Portifólio Boost Program',
   Base = 'Base',

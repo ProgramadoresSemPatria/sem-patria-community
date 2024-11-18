@@ -197,6 +197,7 @@ model CommentLike {
 
 
 enum Roles {
+  PrePsp
   PerfilFechado
   PortifolioBoostProgram
   Base

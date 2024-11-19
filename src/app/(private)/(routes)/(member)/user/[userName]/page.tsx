@@ -37,11 +37,6 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
   return (
     <DefaultLayout>
       <Header user={profileUser} currentUser={user} />
-      {/* <FollowStats
-        followers={profileUser?.followers}
-        followings={profileUser?.followings}
-        points={1999}
-      /> */}
       <UserInterests
         userInterests={profileUser?.interests}
         allInterests={interests}

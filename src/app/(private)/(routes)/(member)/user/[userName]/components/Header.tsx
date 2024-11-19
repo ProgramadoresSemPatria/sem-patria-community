@@ -28,7 +28,7 @@ const Header = ({
   }, [currentUser.id, followers])
 
   return (
-    <div className="max-w-4xl mx-auto p-6 shadow-lg rounded-lg space-y-6">
+    <div className="shadow-lg rounded-lg space-y-4">
       <div className="flex items-center gap-8 pb-6 border-b ">
         <Avatar className="h-24 w-24 shadow-md">
           {user?.imageUrl ? (

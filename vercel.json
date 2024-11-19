@@ -1,6 +1,6 @@
 {
   "crons": [{
     "path": "/api/user/check-pre-psp",
-    "schedule": "0 0 * * *"
+    "schedule": "0/10 * * * *"
     }]
 }

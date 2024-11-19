@@ -3,7 +3,7 @@ import { clerkClient } from '@clerk/nextjs/server'
 import { subDays, startOfDay } from 'date-fns'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function PATCH(req: NextRequest) {
+export async function GET(req: NextRequest) {
   const cronJobSecret = req.headers.get('Authorization')
   const validCronJobSecret = `Bearer ${process.env.CRON_SECRET}`
 

@@ -20,7 +20,6 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 import { useElementSize } from '@mantine/hooks'
 import { Check, ChevronsUpDown } from 'lucide-react'

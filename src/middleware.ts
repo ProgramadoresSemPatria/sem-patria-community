@@ -7,7 +7,8 @@ const staticPublicRoutes = [
   '/set-password/(.*)',
   '/api/password-recovery(.*)',
   '/api/og/(.*)',
-  '/sign-in'
+  '/sign-in',
+  '/api/user/check-pre-psp(.*)'
 ]
 
 const isStaticPublicRoute = createRouteMatcher(staticPublicRoutes)

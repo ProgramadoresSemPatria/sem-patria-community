@@ -203,13 +203,6 @@ enum Roles {
   Admin
 }
 
-enum Positions {
-  AMBASSADOR
-  BUILDER
-  PSP
-  BASE
-  ADMIN
-}
 
 model UserFollowersAndFollowing {
   id        String   @id @default(uuid())

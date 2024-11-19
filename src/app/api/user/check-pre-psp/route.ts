@@ -4,8 +4,8 @@ import { subDays } from 'date-fns'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function PATCH(req: NextRequest) {
-  const cronJobSecret = req.headers.get('x-cron-secret')
-  const validCronJobSecret = process.env.CRON_JOB_SECRET
+  const cronJobSecret = req.headers.get('Authorization')
+  const validCronJobSecret = `Bearer ${process.env.CRON_SECRET}`
 
   if (!cronJobSecret || cronJobSecret !== validCronJobSecret) {
     return new NextResponse('Unauthorized', { status: 401 })

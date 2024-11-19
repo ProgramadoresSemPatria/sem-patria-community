@@ -1,6 +1,6 @@
 import prismadb from '@/lib/prismadb'
 import { clerkClient } from '@clerk/nextjs/server'
-import { subDays } from 'date-fns'
+import { subDays, startOfDay } from 'date-fns'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function PATCH(req: NextRequest) {
@@ -12,7 +12,7 @@ export async function PATCH(req: NextRequest) {
   }
 
   try {
-    const sevenDaysAgo = subDays(new Date(), 7)
+    const sevenDaysAgo = subDays(startOfDay(new Date()), 7)
 
     const users = await prismadb.user.findMany({
       where: {

@@ -27,14 +27,6 @@ export async function PATCH(req: NextRequest) {
 
     const updates = users.map(async user => {
       const updatedRoles = user.role.filter(role => role !== 'PrePsp')
-      if (user.role.includes('ProgramadorSemPatria')) {
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role
-        }
-      }
 
       await clerkClient.users.updateUser(user.id, {
         publicMetadata: {

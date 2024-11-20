@@ -7,19 +7,20 @@ import MainLogo from '../main-logo'
 import { EventsButton } from './events-button'
 import { FeedbackButton } from './feedback-button'
 import { LogoutButton } from './logout-button'
-import { MobileButton } from './mobile-button'
 import NotificationsButton from './notifications-button/index'
-import { useMediaQuery } from '@mantine/hooks'
+import { SidebarTrigger } from '../ui/sidebar'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 const feedbackLink =
   'https://docs.google.com/forms/d/e/1FAIpQLSc_UTMhjo2-HH6XovqWajs5RKj_2LQMCq2kz8itV-NcheU8oA/viewform'
 
 const TopBar = () => {
-  const isMobile = useMediaQuery('only screen and (max-width: 768px)')
+  const { isMobile } = useIsMobile()
 
   return (
     <div className="flex h-[60px] items-center justify-end border-b border-slate-6 pl-6">
-      <MobileButton />
+      {isMobile && <SidebarTrigger className="mr-4" />}
+
       <MainLogo isMobile />
       <div className="flex items-center gap-4">
         <FeedbackButton isMobile={isMobile} />

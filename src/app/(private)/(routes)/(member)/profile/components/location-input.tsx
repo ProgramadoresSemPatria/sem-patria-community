@@ -41,7 +41,6 @@ const LocationInput = ({ isUpdating }: LocationInputProps) => {
   const [value, setValue] = useState(locationValue)
 
   const { ref, width } = useElementSize()
-
   return (
     <FormField
       control={control}

@@ -36,7 +36,6 @@ model User {
   isPublicEmail Boolean?   @default(false)
   position      Positions?
   location      String?
-
   comments     Comment[]
   commentLikes CommentLike[]
   likes        Like[]
@@ -202,4 +201,13 @@ enum Roles {
   Prime
   Builder
   Admin
+}
+
+
+model UserFollowersAndFollowing {
+  id        String   @id @default(uuid())
+  targetId  String   @map("follow_user_id")
+  userId    String   @map("user_id")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

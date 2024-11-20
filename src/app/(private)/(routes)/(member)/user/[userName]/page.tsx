@@ -41,7 +41,7 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
         userId={profileUser?.id}
       /> */}
       <SocialLinks
-        showEmail={profileUser.isPublicEmail || true}
+        // showEmail={profileUser.isPublicEmail || true}
         email={profileUser.email}
         linkedin={profileUser.linkedin || ''}
         github={profileUser.github || ''}

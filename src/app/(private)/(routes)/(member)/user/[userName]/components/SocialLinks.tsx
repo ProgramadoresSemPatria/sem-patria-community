@@ -11,7 +11,7 @@ const SocialLinks = ({
   github: string
   linkedin: string
   email: string
-  showEmail: boolean
+  showEmail?: boolean
 }) => (
   <div className="flex flex-wrap gap-4 pt-4 my-4 border-t-2">
     <Button

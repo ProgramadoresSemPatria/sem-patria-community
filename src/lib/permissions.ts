@@ -13,7 +13,11 @@ export const permissions: Record<UserAbilityRoles, PermissionsByRole> = {
     can('manage', 'all')
   },
   BUILDER: (_, { can }) => {
-    can('get', ['Category', 'Classroom', 'Course', 'Event', 'User'], {})
+    can(
+      'get',
+      ['Category', 'Classroom', 'Course', 'Event', 'User', 'Interest'],
+      {}
+    )
     can('get', 'CMS')
   },
   MEMBER: (user, { can }) => {

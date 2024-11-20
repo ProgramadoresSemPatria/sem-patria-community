@@ -108,8 +108,8 @@ const PostPage = async ({ params }: PostPageProps) => {
               <div className="flex flex-col gap-1">
                 <span className="text-muted-foreground truncate text-lg">
                   <Link
-                    href="#"
-                    className="font-semibold hover:underline transition-all"
+                    href={`/user/${post?.user.username}`}
+                    className="font-semibold hover:underline transition-all hover:cursor-pointer"
                   >
                     {post?.user.username !== ''
                       ? post?.user.username

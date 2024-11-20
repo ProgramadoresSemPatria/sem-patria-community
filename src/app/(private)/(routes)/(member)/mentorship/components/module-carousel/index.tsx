@@ -113,7 +113,7 @@ export const ModuleCarousel = ({
                     />
                     {!hasPermissionCombinated && (
                       <div className="opacity-50 bg-black flex items-center justify-center absolute inset-0">
-                        <Icons.lock className="h-6 w-6 text-white" />
+                        <Icons.lock className="h-14 w-14 text-white" />
                       </div>
                     )}
                   </Link>
@@ -145,7 +145,7 @@ export const ModuleCarousel = ({
                   />
                   {!hasPermissionCombinated && (
                     <div className="opacity-50 bg-black flex items-center justify-center absolute inset-0 z-10">
-                      <Icons.lock className="h-6 w-6 text-white" />
+                      <Icons.lock className="h-14 w-14 text-white" />
                     </div>
                   )}
                 </Link>

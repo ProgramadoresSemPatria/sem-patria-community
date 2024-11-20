@@ -63,7 +63,9 @@ export const personalInfoSchema = z
     newPassword: z
       .string()
       .min(8, { message: 'Password must be at least 8 characters long' })
-      .optional()
+      .optional(),
+    isPublicEmail: z.boolean().optional(),
+    location: z.string().optional()
   })
   .superRefine(({ passwordConfirmation, password, newPassword }, ctx) => {
     if (password && !passwordConfirmation) {
@@ -108,7 +110,9 @@ const usePersonalInfo = ({ userProps }: PersonalInfoProps) => {
       username:
         userProps.username ||
         (userProps.username === '' ? userProps.github ?? undefined : undefined),
-      imageUrl: userProps.imageUrl ?? undefined
+      imageUrl: userProps.imageUrl ?? undefined,
+      isPublicEmail: userProps.isPublicEmail ?? false,
+      location: userProps.location ?? undefined
     },
     values: {
       userId: userProps.id ?? undefined,
@@ -120,7 +124,9 @@ const usePersonalInfo = ({ userProps }: PersonalInfoProps) => {
       username:
         userProps.username ||
         (userProps.username === '' ? userProps.github ?? '' : ''),
-      imageUrl: userProps.imageUrl ?? undefined
+      imageUrl: userProps.imageUrl ?? undefined,
+      isPublicEmail: userProps.isPublicEmail ?? false,
+      location: userProps.location ?? undefined
     }
   })
 

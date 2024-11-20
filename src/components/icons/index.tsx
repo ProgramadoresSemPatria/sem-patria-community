@@ -75,7 +75,13 @@ import {
   Youtube,
   type LucideIcon,
   Save,
-  GripVertical
+  GripVertical,
+  UserX,
+  UserCheck,
+  Award,
+  Hammer,
+  BookText,
+  Settings
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -157,5 +163,11 @@ export const Icons = {
   youtube: Youtube,
   forum: MessageSquare,
   dot: Dot,
-  save: Save
+  save: Save,
+  userX: UserX,
+  userCheck: UserCheck,
+  award: Award,
+  hammer: Hammer,
+  book: BookText,
+  gear: Settings
 }

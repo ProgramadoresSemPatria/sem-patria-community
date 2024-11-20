@@ -45,6 +45,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
 
   const [videos, setVideos] = useState(moduleVideos)
   const [showAddAttachments, setShowAddAttachments] = useState(false)
+  const [showDragger, setShowDragger] = useState(false)
 
   const handleSaveAttachments = async () => {
     await onSubmit({
@@ -104,6 +105,17 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                     </h1>
                     {canManageVideos && (
                       <Button
+                        onClick={() => {
+                          setShowDragger(prev => !prev)
+                        }}
+                        className="bg-slate-950 dark:bg-slate-100"
+                        size="sm"
+                      >
+                        {showDragger ? 'Stop dragging' : 'Start dragging'}
+                      </Button>
+                    )}
+                    {canManageVideos && showDragger && (
+                      <Button
                         onClick={async () => {
                           await handleSaveOrder(videos)
                         }}
@@ -137,7 +149,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                         <Reorder.Item
                           value={video}
                           key={video.id}
-                          drag={canManageVideos}
+                          drag={canManageVideos && showDragger}
                         >
                           <TooltipProvider key={video.url}>
                             <Tooltip>

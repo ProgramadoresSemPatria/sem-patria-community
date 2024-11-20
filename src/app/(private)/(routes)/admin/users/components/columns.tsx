@@ -1,6 +1,7 @@
 'use client'
 
 import { Icons } from '@/components/icons'
+import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Roles } from '@/lib/types'
 import { type ColumnDef } from '@tanstack/react-table'
@@ -19,6 +20,7 @@ export type UserColumn = {
   lastAccess: Date | null
   level: string | null
   role: string[] | null
+  isDisabled?: boolean
 }
 
 export const userColumns: Array<ColumnDef<UserColumn>> = [
@@ -93,6 +95,23 @@ export const userColumns: Array<ColumnDef<UserColumn>> = [
       )
 
       return <UserCellRoles roles={rolesMapped} />
+    }
+  },
+  {
+    accessorKey: 'isDisabled',
+    header: 'Status',
+    cell: cell => {
+      return (
+        <Badge
+          className={
+            cell.getValue()
+              ? 'bg-red-950 text-red-500 border border-red-900 hover:bg-red-900'
+              : 'bg-emerald-950 text-emerald-500 border border-emerald-900 hover:bg-emerald-900'
+          }
+        >
+          {cell.getValue() ? 'Disabled' : 'Active'}
+        </Badge>
+      )
     }
   },
   {

@@ -1,10 +1,11 @@
+import avatarImg from '@/assets/avatar.png'
 import { DefaultLayout } from '@/components/default-layout'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import prismadb from '@/lib/prismadb'
-import { Github, Linkedin, Facebook, Mail } from 'lucide-react'
-import React from 'react'
+import { Facebook, Github, Linkedin, Mail } from 'lucide-react'
+import Image from 'next/image'
 import Post from '../../forum/components/post'
 
 type PublicProfileProps = {
@@ -39,7 +40,14 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
             {user?.imageUrl ? (
               <AvatarImage src={user?.imageUrl} />
             ) : (
-              <AvatarFallback>U</AvatarFallback>
+              <AvatarFallback>
+                <Image
+                  src={avatarImg.src}
+                  alt="avatar"
+                  width={40}
+                  height={40}
+                />
+              </AvatarFallback>
             )}
           </Avatar>
           <div className="space-y-2">

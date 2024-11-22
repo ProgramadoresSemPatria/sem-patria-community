@@ -18,7 +18,6 @@ const InterestsComponent: React.FC<InterestsComponentProps> = ({
   const [showModal, setShowModal] = React.useState(false)
 
   const handleInterestClick = (interest: InterestWithUsers) => {
-    console.log('interest', interest)
     setSelectedInterest(interest.interest)
     setUsers(interest.users)
     setShowModal(true)
@@ -28,7 +27,6 @@ const InterestsComponent: React.FC<InterestsComponentProps> = ({
     setShowModal(false)
     setSelectedInterest('')
   }
-  // console.log(interests)
   return (
     <div className="container">
       <h2 className="title">Explore Interests</h2>

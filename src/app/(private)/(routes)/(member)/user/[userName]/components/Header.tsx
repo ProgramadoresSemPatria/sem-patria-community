@@ -29,12 +29,14 @@ const Header = ({
 
   return (
     <div className="shadow-lg rounded-lg space-y-4">
-      <div className="flex items-center gap-8 pb-6 border-b ">
-        <Avatar className="h-24 w-24 shadow-md">
+      <div className="flex items-center gap-8 pb-6 border-b">
+        <Avatar className="size-24 shadow-md">
           {user?.imageUrl ? (
             <AvatarImage src={user?.imageUrl} />
           ) : (
-            <AvatarFallback>U</AvatarFallback>
+            <AvatarFallback>
+              {user.username.charAt(0).toUpperCase()}
+            </AvatarFallback>
           )}
         </Avatar>
         <div className="flex-1 space-y-3">
@@ -60,7 +62,7 @@ const Header = ({
           <Button>Follow</Button>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-6 text-center md:grid-cols-3">
+      <div className="grid grid-cols-2 gap-6 text-center md:grid-cols-2">
         <div>
           {/* <p className="text-2xl font-semibold">{followers.length}</p> */}
           <p className="text-2xl font-semibold">0</p>

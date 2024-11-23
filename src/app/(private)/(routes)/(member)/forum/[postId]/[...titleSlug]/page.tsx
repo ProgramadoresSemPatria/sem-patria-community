@@ -17,6 +17,7 @@ import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
 import { type Metadata } from 'next'
 import appLogo from '@/assets/app-logo-light.png'
+import { notFound } from 'next/navigation'
 
 type PostPageProps = {
   params: {
@@ -89,6 +90,9 @@ export type ExtendedComment = Comment & {
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
   const post = await getPost(params.postId)
+  if (!post) {
+    notFound()
+  }
 
   return (
     <>

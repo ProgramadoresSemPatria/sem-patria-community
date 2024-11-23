@@ -8,7 +8,7 @@ import { type ExtendedPost } from '@/lib/types'
 import { cn, getStringFromDate } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { notFound, useRouter } from 'next/navigation'
 import { PostActions } from './post-actions'
 import PostLike from './post-likes'
 import slugify from 'slugify'
@@ -36,6 +36,9 @@ const Post = ({
 }: PostProps) => {
   const router = useRouter()
   const titleSlug = slugify(post.title, { lower: true, strict: true })
+  if (!post) {
+    notFound()
+  }
 
   return (
     <div

@@ -24,6 +24,7 @@ export enum appRoutes {
   mentorship = '/mentorship',
   profile = '/profile',
   forum = '/forum',
+  interests = '/interests',
   appearance = '/profile/appearance',
   checklist = '/profile/checklist',
   admin_courses = '/admin/courses',
@@ -31,6 +32,8 @@ export enum appRoutes {
   admin_categories = '/admin/categories',
   admin_categories_new = '/admin/categories/new',
   admin_events = '/admin/events',
+  admin_interests = '/admin/interests',
+  admin_interests_new = '/admin/interests/new',
   admin_events_new = '/admin/events/new',
   admin_classroom = '/admin/classroom',
   admin_classroom_new = '/admin/classroom/new',
@@ -44,6 +47,11 @@ export const menuItems: MenuItemProps[] = [
   {
     href: appRoutes.dashboard,
     label: 'Dashboard',
+    icon: <Icons.dashboard className="h-4 w-4" />
+  },
+  {
+    href: appRoutes.interests,
+    label: 'Interests',
     icon: <Icons.dashboard className="h-4 w-4" />
   },
   {
@@ -84,6 +92,11 @@ export const menuItems: MenuItemProps[] = [
   {
     href: appRoutes.admin_categories,
     label: 'Categories',
+    icon: <Icons.layers className="h-4 w-4" />
+  },
+  {
+    href: appRoutes.admin_interests,
+    label: 'Interests',
     icon: <Icons.layers className="h-4 w-4" />
   },
   {

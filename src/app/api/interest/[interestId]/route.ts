@@ -7,10 +7,6 @@ export async function GET(req: NextRequest) {
     const { userId } = auth()
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
-
-    // const interests = await prismadb.interest.findUnique({wher})
-
-    // return new NextResponse(JSON.stringify(interests), { status: 200 })
   } catch (error) {
     console.log('[CREATE_INTEREST_ERROR]', error)
     return new NextResponse('Internal Server Error', { status: 500 })

@@ -7,11 +7,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Positions {
+  AMBASSADOR
+  BUILDER
+  PSP
+  BASE
+  ADMIN
+}
+
 model User {
   id            String     @id @default(uuid())
   email         String
   name          String
-  username      String
+  username      String     @unique
   level         String?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
@@ -207,13 +215,6 @@ enum Roles {
   Admin
 }
 
-enum Positions {
-  AMBASSADOR
-  BUILDER
-  PSP
-  BASE
-  ADMIN
-}
 
 model UserFollowersAndFollowing {
   id        String   @id @default(uuid())

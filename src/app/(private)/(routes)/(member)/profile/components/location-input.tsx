@@ -20,8 +20,8 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
+import { useElementSize } from '@mantine/hooks'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
@@ -40,6 +40,7 @@ const LocationInput = ({ isUpdating }: LocationInputProps) => {
   const locationValue = watch('location')
   const [value, setValue] = useState(locationValue)
 
+  const { ref, width } = useElementSize()
   return (
     <FormField
       control={control}
@@ -52,6 +53,7 @@ const LocationInput = ({ isUpdating }: LocationInputProps) => {
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Button
+                  ref={ref}
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
@@ -63,7 +65,12 @@ const LocationInput = ({ isUpdating }: LocationInputProps) => {
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-[300px] p-0">
+              <PopoverContent
+                className="max-w-[500px] p-0"
+                style={{
+                  width: width + 'px'
+                }}
+              >
                 <Command>
                   <CommandInput
                     placeholder="Search location"
@@ -72,53 +79,51 @@ const LocationInput = ({ isUpdating }: LocationInputProps) => {
                     }}
                   />
                   <CommandList className="overflow-y-hidden py-1">
-                    <ScrollArea className="h-[150px] w-full pr-2">
-                      {loadingPredictions ? (
-                        <Icons.loader className="animate-spin duration-100 text-muted-foreground mx-auto mt-4 w-5 h-5" />
-                      ) : (
-                        <>
-                          <CommandEmpty>No location was found.</CommandEmpty>
-                          <CommandGroup>
-                            {!predictions?.length && (
-                              <CommandItem className="pointer-events-none justify-center">
-                                No locations was found.
+                    {loadingPredictions ? (
+                      <Icons.loader className="animate-spin duration-100 text-muted-foreground mx-auto my-4 w-5 h-5" />
+                    ) : (
+                      <>
+                        <CommandEmpty>No location was found.</CommandEmpty>
+                        <CommandGroup>
+                          {!predictions?.length && (
+                            <CommandItem className="pointer-events-none justify-center">
+                              No locations was found.
+                            </CommandItem>
+                          )}
+                          {predictions?.length &&
+                            predictions?.map(location => (
+                              <CommandItem
+                                key={location.value}
+                                value={location.value}
+                                onSelect={currentValue => {
+                                  setValue(
+                                    currentValue === location.value
+                                      ? ''
+                                      : location.value
+                                  )
+                                  field.onChange(
+                                    currentValue === location.value
+                                      ? ''
+                                      : location.value
+                                  )
+                                  setOpen(false)
+                                }}
+                                className="flex items-center gap-2"
+                              >
+                                <Check
+                                  className={cn(
+                                    'h-4 w-4 shrink-0',
+                                    value === location.value
+                                      ? 'opacity-100'
+                                      : 'opacity-0'
+                                  )}
+                                />
+                                <p className="truncate">{location.label}</p>
                               </CommandItem>
-                            )}
-                            {predictions?.length &&
-                              predictions?.map(location => (
-                                <CommandItem
-                                  key={location.value}
-                                  value={location.value}
-                                  onSelect={currentValue => {
-                                    setValue(
-                                      currentValue === location.value
-                                        ? ''
-                                        : location.value
-                                    )
-                                    field.onChange(
-                                      currentValue === location.value
-                                        ? ''
-                                        : location.value
-                                    )
-                                    setOpen(false)
-                                  }}
-                                  className="items-start"
-                                >
-                                  <Check
-                                    className={cn(
-                                      'mr-2 h-4 w-4',
-                                      value === location.value
-                                        ? 'opacity-100'
-                                        : 'opacity-0'
-                                    )}
-                                  />
-                                  {location.label}
-                                </CommandItem>
-                              ))}
-                          </CommandGroup>
-                        </>
-                      )}
-                    </ScrollArea>
+                            ))}
+                        </CommandGroup>
+                      </>
+                    )}
                   </CommandList>
                 </Command>
               </PopoverContent>

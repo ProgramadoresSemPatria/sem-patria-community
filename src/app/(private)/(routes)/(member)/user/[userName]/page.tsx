@@ -1,4 +1,3 @@
-
 import { DefaultLayout } from '@/components/default-layout'
 import prismadb from '@/lib/prismadb'
 import React from 'react'

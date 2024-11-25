@@ -12,7 +12,8 @@ import {
   courseSubject,
   eventSubject,
   postSubject,
-  userSubject
+  userSubject,
+  interestSubject
 } from './subjects'
 
 const appAbilitiesSchema = z.union([
@@ -24,6 +25,7 @@ const appAbilitiesSchema = z.union([
   cmsSubject,
   postSubject,
   mentorshipSubject,
+  interestSubject,
   z.tuple([z.literal('manage'), z.literal('all')])
 ])
 export type AppAbilities = z.infer<typeof appAbilitiesSchema>

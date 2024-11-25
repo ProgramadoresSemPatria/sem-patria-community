@@ -34,6 +34,7 @@ const formSchema = z.object({
     }),
   role: z.array(
     z.enum([
+      'PrePsp',
       'PerfilFechado',
       'PortifolioBoostProgram',
       'Base',

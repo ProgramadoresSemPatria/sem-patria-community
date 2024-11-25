@@ -29,6 +29,7 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
       }
     }
   })
+
   const user: User = JSON.parse(JSON.stringify(await currentUser()))
   if (!profileUser || !user) return <Loading />
   return (

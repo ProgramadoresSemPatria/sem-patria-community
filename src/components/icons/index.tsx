@@ -81,7 +81,8 @@ import {
   Award,
   Hammer,
   BookText,
-  Settings
+  Settings,
+  AlignJustify
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -162,6 +163,7 @@ export const Icons = {
   image: Image,
   youtube: Youtube,
   forum: MessageSquare,
+  list: AlignJustify,
   dot: Dot,
   save: Save,
   userX: UserX,

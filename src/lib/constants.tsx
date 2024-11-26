@@ -50,11 +50,6 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.dashboard className="h-4 w-4" />
   },
   {
-    href: appRoutes.interests,
-    label: 'Interests',
-    icon: <Icons.dashboard className="h-4 w-4" />
-  },
-  {
     href: `${appRoutes.forum}?category=All`,
     label: 'Forum',
     icon: <Icons.forum className="h-4 w-4" />
@@ -80,6 +75,11 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.circleUser className="h-4 w-4" />
   },
   {
+    href: appRoutes.interests,
+    label: 'Interests',
+    icon: <Icons.list className="h-4 w-4" />
+  },
+  {
     href: appRoutes.admin_users,
     label: 'Users',
     icon: <Icons.users className="h-4 w-4" />
@@ -97,7 +97,7 @@ export const menuItems: MenuItemProps[] = [
   {
     href: appRoutes.admin_interests,
     label: 'Interests',
-    icon: <Icons.layers className="h-4 w-4" />
+    icon: <Icons.list className="h-4 w-4" />
   },
   {
     href: appRoutes.admin_events,

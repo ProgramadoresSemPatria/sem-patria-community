@@ -24,6 +24,7 @@ type ModuleCarouselProps = {
     classroomId: string
     fileUrl?: string
     videos: Video[]
+    isPrePspAllowed?: boolean
   }>
   hasPermission: boolean
 }
@@ -72,39 +73,50 @@ export const ModuleCarousel = ({
         <CarouselContent>
           {modules.map(module => {
             const hasVideos = module.videos.length
+            const hasPermissionCombinated =
+              module.isPrePspAllowed !== undefined
+                ? module.isPrePspAllowed && hasPermission
+                : hasPermission
+
             if (!hasVideos)
               return (
                 <CarouselItem
                   key={module.id}
                   className={cn(
-                    !hasPermission &&
+                    !hasPermissionCombinated &&
                       'flex flex-col justify-center items-center relative',
                     'xl:basis-1/4 md:basis-1/3 basis-1/2 cursor-pointer',
                     'transition-transform ease-in-out hover:scale-110 hover:-translate-y-1 duration-300 min-h-[300px]'
                   )}
                   onClick={() => {
-                    if (!hasPermission) return
+                    if (!hasPermissionCombinated) return
                     return toast({
                       title: 'No Content!',
                       description: 'This module has no content yet.'
                     })
                   }}
                 >
-                  <Image
-                    src={module.fileUrl ?? DefaultImage.src}
-                    alt={module.title}
-                    width={1920}
-                    height={1080}
-                    className={cn(
-                      hasPermission
-                        ? 'group-hover:opacity-80'
-                        : 'group-hover:opacity-25',
-                      'object-cover w-full rounded max-h-[450px] h-full'
+                  <Link
+                    className={`${
+                      !hasPermissionCombinated &&
+                      'pointer-events-none flex flex-col justify-center items-center relative'
+                    }`}
+                    href="#"
+                    aria-disabled={!hasPermission}
+                  >
+                    <Image
+                      src={module.fileUrl ?? DefaultImage.src}
+                      alt={module.title}
+                      width={1920}
+                      height={1080}
+                      className="object-cover w-fit rounded max-h-[450px] h-full group-hover:opacity-80"
+                    />
+                    {!hasPermissionCombinated && (
+                      <div className="opacity-50 bg-black flex items-center justify-center absolute inset-0">
+                        <Icons.lock className="h-14 w-14 text-white" />
+                      </div>
                     )}
-                  />
-                  {!hasPermission && (
-                    <Icons.lock className="h-6 w-6 absolute hidden group-hover:flex flex-col justify-center" />
-                  )}
+                  </Link>
                 </CarouselItem>
               )
             return (
@@ -114,10 +126,14 @@ export const ModuleCarousel = ({
               >
                 <Link
                   className={`${
-                    !hasPermission &&
+                    !hasPermissionCombinated &&
                     'pointer-events-none flex flex-col justify-center items-center relative'
                   }`}
-                  href={`${appRoutes.mentorship}/${module.videos[0].id}`}
+                  href={
+                    hasPermissionCombinated
+                      ? `${appRoutes.mentorship}/${module.videos[0].id}`
+                      : '#'
+                  }
                   aria-disabled={!hasPermission}
                 >
                   <Image
@@ -125,15 +141,12 @@ export const ModuleCarousel = ({
                     alt={module.title}
                     width={1920}
                     height={1080}
-                    className={cn(
-                      hasPermission
-                        ? 'group-hover:opacity-80'
-                        : 'group-hover:opacity-25',
-                      'object-cover w-fit rounded max-h-[550px] h-full'
-                    )}
+                    className="object-cover w-fit rounded max-h-[550px] h-full"
                   />
-                  {!hasPermission && (
-                    <Icons.lock className="h-6 w-6 absolute hidden group-hover:flex flex-col justify-center" />
+                  {!hasPermissionCombinated && (
+                    <div className="opacity-50 bg-black flex items-center justify-center absolute inset-0 z-10">
+                      <Icons.lock className="h-14 w-14 text-white" />
+                    </div>
                   )}
                 </Link>
               </CarouselItem>

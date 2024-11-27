@@ -30,6 +30,8 @@ export enum appRoutes {
   admin_courses = '/admin/courses',
   admin_courses_new = '/admin/courses/new',
   admin_categories = '/admin/categories',
+  admin_interests = '/admin/interests',
+  admin_interests_new = '/admin/interests/new',
   admin_categories_new = '/admin/categories/new',
   admin_events = '/admin/events',
   admin_interests = '/admin/interests',
@@ -206,3 +208,23 @@ export const passwordRecoveryEmailTemplate = (user: User, url: string) => `
 </p>
 </main>
 `
+
+export const prePspPermissions: Record<string, string[]> = {
+  'Mentoria - A Base': [
+    '10d9700e-8869-4017-a195-fbd9dd1125f4',
+    '26d133a9-a1a6-4367-8d2b-ca391bc8445e',
+    'dea88009-1dc8-46fe-86f8-f81e6954b67c',
+    'df759f6d-7971-4d53-893d-516ce07ca5ff',
+    'f326632b-7a8a-40fb-b60a-8ce9edda8d5a'
+  ],
+  'Portfólio Boost Program': ['6fea989d-ac41-48d2-a916-e5a37464b506'],
+  'Acompanhamento - Programador Sem Pátria': [
+    'ec5260a3-325d-437e-b5cb-02ac88b52959',
+    '5ced2e37-7c35-4cf5-a889-43a1a4ef65ce'
+  ],
+  'Mentoria - Programador Sem Pátria': [
+    'bd4321b5-e9c2-409c-be19-64d584df00a6',
+    '0d01f622-417b-4f31-914f-28ce1bbb1bd9',
+    'fd528cb7-7c93-4cfe-9979-f43e90d6cbf7'
+  ]
+}

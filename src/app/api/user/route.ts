@@ -66,7 +66,9 @@ export async function PATCH(req: NextRequest) {
         instagram,
         level,
         linkedin,
-        role
+        role,
+        location,
+        position
       }
     })
 
@@ -124,8 +126,17 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const { email, name, github, username, instagram, level, linkedin, role } =
-    await req.json()
+  const {
+    email,
+    name,
+    github,
+    username,
+    instagram,
+    level,
+    linkedin,
+    role,
+    position
+  } = await req.json()
 
   const newUserPassword = generatePassword()
 
@@ -164,7 +175,8 @@ export async function POST(req: NextRequest) {
         instagram,
         level,
         linkedin,
-        role
+        role,
+        position
       }
     })
 
@@ -180,7 +192,8 @@ export async function POST(req: NextRequest) {
         instagram,
         level,
         linkedin,
-        role
+        role,
+        position
       }
     })
 

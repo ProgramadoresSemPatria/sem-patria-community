@@ -34,8 +34,6 @@ export enum appRoutes {
   admin_interests_new = '/admin/interests/new',
   admin_categories_new = '/admin/categories/new',
   admin_events = '/admin/events',
-  admin_interests = '/admin/interests',
-  admin_interests_new = '/admin/interests/new',
   admin_events_new = '/admin/events/new',
   admin_classroom = '/admin/classroom',
   admin_classroom_new = '/admin/classroom/new',

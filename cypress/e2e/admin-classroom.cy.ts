@@ -1,12 +1,20 @@
 describe('Admin Classroom page', () => {
   beforeEach(() => {
-    cy.session('signed-in', () => {
-      cy.signIn()
+    cy.visit(`/sign-in`)
+    cy.clerkLoaded()
+
+    cy.clerkSignIn({
+      strategy: 'password',
+      identifier: Cypress.env('test_email'),
+      password: Cypress.env('test_password')
     })
+
     cy.visit('/dashboard', {
-      failOnStatusCode: false
+      failOnStatusCode: false,
+      onBeforeLoad: win => {
+        win.localStorage.setItem('videoWatched', 'true')
+      }
     })
-    cy.contains('CMS Mode').click()
   })
 
   it('Should create classroom', () => {
@@ -18,8 +26,7 @@ describe('Admin Classroom page', () => {
     })
     cy.get('[data-testid="new-classroom"]').click({ force: true })
     cy.get('[data-testid="title"]').type('A base')
-    cy.get('[data-testid="Base"]').click()
-    cy.get('[data-testid="Prime"]').click()
+    cy.get('[data-testid="PerfilFechado"]').click()
     cy.get('[data-testid="submit"]').click()
 
     cy.contains('Success').should('exist')
@@ -39,7 +46,6 @@ describe('Admin Classroom page', () => {
     cy.contains('Update').click()
     cy.get('[data-testid="title"]').type('Test')
     cy.get('[data-testid="Base"]').click()
-    cy.get('[data-testid="Prime"]').click()
     cy.get('[data-testid="submit"]').click()
 
     cy.contains('Success').should('exist')
@@ -75,7 +81,9 @@ describe('Admin Classroom page', () => {
 
     cy.get('[data-testid="title"]').type('Module')
     cy.get('[data-testid="classroom"]').click()
-    cy.get('[data-testid="A Base"]').click()
+    cy.get('[data-testid="nm "]').click()
+    // TODO: test add files
+
     cy.get('[data-testid="submit"]').click()
 
     cy.contains('Success').should('exist')
@@ -90,11 +98,12 @@ describe('Admin Classroom page', () => {
       failOnStatusCode: false
     })
     cy.contains('Modules').click()
-    cy.get('[data-testid="..."]').click()
+    cy.get(':nth-child(1) > :nth-child(5) > [data-testid="..."]').click()
     cy.contains('Update').click()
     cy.get('[data-testid="title"]').clear().type('Fundamentos')
     cy.get('[data-testid="classroom"]').click()
-    cy.get('[data-testid="A Base"]').click()
+    cy.get('[data-testid="reg"]').click()
+
     cy.get('[data-testid="submit"]').click()
 
     cy.contains('Success').should('exist')
@@ -109,7 +118,7 @@ describe('Admin Classroom page', () => {
       failOnStatusCode: false
     })
     cy.contains('Modules').click()
-    cy.get('[data-testid="..."]').click()
+    cy.get(':nth-child(1) > :nth-child(5) > [data-testid="..."]').click()
     cy.contains('Delete').click()
     cy.contains('Delete').click()
 

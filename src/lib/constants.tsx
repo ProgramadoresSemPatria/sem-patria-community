@@ -23,6 +23,7 @@ export enum appRoutes {
   codeUp = '/code-up',
   mentorship = '/mentorship',
   profile = '/profile',
+  interests = '/interests',
   forum = '/forum',
   appearance = '/profile/appearance',
   checklist = '/profile/checklist',
@@ -74,6 +75,11 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.circleUser className="h-4 w-4" />
   },
   {
+    href: appRoutes.interests,
+    label: 'Interests',
+    icon: <Icons.list className="h-4 w-4" />
+  },
+  {
     href: appRoutes.admin_users,
     label: 'Users',
     icon: <Icons.users className="h-4 w-4" />
@@ -89,11 +95,6 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.layers className="h-4 w-4" />
   },
   {
-    href: appRoutes.admin_interests,
-    label: 'Interests',
-    icon: <Icons.layers className="h-4 w-4" />
-  },
-  {
     href: appRoutes.admin_events,
     label: 'Events',
     icon: <Icons.calendarDays className="h-4 w-4" />
@@ -102,6 +103,11 @@ export const menuItems: MenuItemProps[] = [
     href: `${appRoutes.admin_classroom}?tabSelected=classroom`,
     label: 'Classroom',
     icon: <Icons.classroom className="h-4 w-4" />
+  },
+  {
+    href: appRoutes.admin_interests,
+    label: 'Interests',
+    icon: <Icons.list className="h-4 w-4" />
   }
 ]
 

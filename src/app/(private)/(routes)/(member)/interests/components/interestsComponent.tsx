@@ -1,69 +1,50 @@
 'use client'
-import { Badge } from '@/components/ui/badge'
-import { Modal } from '@/components/ui/modal'
+
 import React from 'react'
-import { Button } from '@/components/ui/button'
 import { type InterestWithUsers } from '../page'
-import { type User } from '@prisma/client'
+import InterestModal from './InterestModal'
+import { badgeStyles } from '@/lib/constants'
 
 interface InterestsComponentProps {
   interests: InterestWithUsers[]
+  userId: string
 }
 
 const InterestsComponent: React.FC<InterestsComponentProps> = ({
-  interests
+  interests,
+  userId
 }) => {
-  const [selectedInterest, setSelectedInterest] = React.useState<string>('')
-  const [users, setUsers] = React.useState<User[]>([])
-  const [showModal, setShowModal] = React.useState(false)
+  const [selectedInterest, setSelectedInterest] =
+    React.useState<InterestWithUsers | null>(null)
 
-  const handleInterestClick = (interest: InterestWithUsers) => {
-    setSelectedInterest(interest.interest)
-    setUsers(interest.users)
-    setShowModal(true)
-  }
-
-  const closeModal = () => {
-    setShowModal(false)
-    setSelectedInterest('')
-  }
   return (
-    <div className="container">
-      <h2 className="title">Explore Interests</h2>
-      <div className="interests-grid">
-        {interests.map((interest, index) => (
-          <Badge
-            key={index}
-            onClick={() => {
-              handleInterestClick(interest)
-            }}
-            className="interest-badge hover:cursor-pointer"
-          >
-            {interest.interest}
-          </Badge>
-        ))}
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-center">Explore Interests</h2>
+      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        {interests.map((interest, index) => {
+          const randomStyle =
+            badgeStyles[Math.floor(Math.random() * badgeStyles.length)]
+          return (
+            <p
+              key={index}
+              onClick={() => {
+                setSelectedInterest(interest)
+              }}
+              className={`${randomStyle} hover:cursor-pointer px-4 py-2 text-center justify-between`}
+            >
+              {interest.interest} <span>{interest.users.length}</span>
+            </p>
+          )
+        })}
       </div>
-
-      {showModal && (
-        <Modal
-          description="efef"
-          isOpen={showModal}
-          onClose={closeModal}
-          title={`Users interested in ${selectedInterest}`}
-        >
-          {users.length > 0 ? (
-            <ul className="user-list">
-              {users.map((user, index) => (
-                <li key={index} className="user-item">
-                  {user.name}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="no-users">No users found for this interest.</p>
-          )}
-          <Button onClick={closeModal}>Close</Button>
-        </Modal>
+      {selectedInterest && (
+        <InterestModal
+          interest={selectedInterest}
+          userId={userId}
+          onClose={() => {
+            setSelectedInterest(null)
+          }}
+        />
       )}
     </div>
   )

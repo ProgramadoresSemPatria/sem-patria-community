@@ -68,7 +68,7 @@ export const useNewInterestForm = ({
   const { mutateAsync: createOrUpdateInterest, isPending } = useMutation({
     mutationFn: async (data: z.infer<typeof formSchema>) => {
       if (initialData) {
-        return await api.patch(`/api/interest/${params.interestId}`, data)
+        return await api.put(`/api/interest/${params.interestId}`, data)
       }
 
       return await api.post(`/api/interest`, data)

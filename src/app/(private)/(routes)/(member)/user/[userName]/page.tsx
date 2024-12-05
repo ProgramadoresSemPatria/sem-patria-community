@@ -6,6 +6,7 @@ import Loading from '@/app/loading'
 import SocialLinks from './components/SocialLinks'
 import Header from './components/Header'
 import { currentUser, type User } from '@clerk/nextjs/server'
+import UserInterests from './components/UserInterests'
 
 type PublicProfileProps = {
   params: {
@@ -19,6 +20,7 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
       username: params.userName
     },
     include: {
+      interests: true,
       posts: {
         include: {
           category: true,
@@ -29,16 +31,24 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
       }
     }
   })
+  const interests = await prismadb.interest.findMany()
 
   const user: User = JSON.parse(JSON.stringify(await currentUser()))
   if (!profileUser || !user) return <Loading />
   return (
     <DefaultLayout>
       <Header user={profileUser} currentUser={user} />
+      <UserInterests
+        userInterests={profileUser?.interests}
+        allInterests={interests}
+        profileUserId={profileUser.id}
+        currentUserId={user.id}
+      />
       <SocialLinks
         email={profileUser.email}
         linkedin={profileUser.linkedin || ''}
         github={profileUser.github || ''}
+        showEmail={profileUser.isPublicEmail || false}
       />
       <UserPosts posts={profileUser?.posts} userId={profileUser?.id} />
     </DefaultLayout>

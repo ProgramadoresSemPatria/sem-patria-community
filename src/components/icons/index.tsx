@@ -80,6 +80,7 @@ import {
   UserCheck,
   Award,
   Hammer,
+  ListChecks,
   BookText,
   Settings
 } from 'lucide-react'
@@ -122,6 +123,7 @@ export const Icons = {
   trash: Trash,
   layers: Layers,
   calendar: CalendarCheck2,
+  list: ListChecks,
   mentorship: GraduationCap,
   bell: Bell,
   grip: GripVertical,

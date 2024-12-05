@@ -20,6 +20,23 @@ export async function PATCH(req: NextRequest) {
 
     if (!userTarget) return new NextResponse('User not found', { status: 404 })
 
+    if (userId === targetId) {
+      return new NextResponse('You cannot follow yourself', { status: 400 })
+    }
+
+    const existingFollow = await prismadb.userFollowersAndFollowing.findFirst({
+      where: {
+        userId,
+        targetId: userTarget.id
+      }
+    })
+
+    if (existingFollow) {
+      return new NextResponse('You are already following this user', {
+        status: 400
+      })
+    }
+
     await Promise.all([
       await prismadb.userFollowersAndFollowing.create({
         data: {

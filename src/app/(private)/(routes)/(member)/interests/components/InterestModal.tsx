@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal } from '@/components/ui/modal'
 import { Button } from '@/components/ui/button'
 import { type InterestWithUsers } from '../page'
@@ -14,11 +14,7 @@ interface InterestModalProps {
   onClose: () => void
 }
 
-const InterestModal: React.FC<InterestModalProps> = ({
-  interest,
-  userId,
-  onClose
-}) => {
+const InterestModal = ({ interest, userId, onClose }: InterestModalProps) => {
   const router = useRouter()
   const [searchQuery, setSearchQuery] = useState('')
   const {
@@ -28,6 +24,7 @@ const InterestModal: React.FC<InterestModalProps> = ({
     isAddingInterest,
     isRemovingInterest
   } = useUserInterest(userId)
+  useEffect(() => {}, [addInterest, removeInterest])
 
   const hasInterest = interests?.some(
     userInterest => userInterest.interest === interest.interest
@@ -128,7 +125,11 @@ const InterestModal: React.FC<InterestModalProps> = ({
       )}
 
       <div className="flex justify-end space-x-4 mt-6">
-        <Button onClick={onClose} className="text-black">
+        <Button
+          onClick={onClose}
+          disabled={isAddingInterest || isRemovingInterest}
+          className="text-black"
+        >
           Close
         </Button>
         <Button

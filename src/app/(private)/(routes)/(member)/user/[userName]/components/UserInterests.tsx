@@ -9,7 +9,6 @@ import {
   DropdownMenuItem
 } from '@/components/ui/dropdown-menu'
 import { type Interest } from '@prisma/client'
-import { ChevronDown, PlusCircle, XIcon } from 'lucide-react'
 import { useUserInterest } from './useUserInterests'
 import InterestModal from '../../../interests/components/InterestModal'
 import { type InterestWithUsers } from '../../../interests/page'
@@ -65,7 +64,7 @@ const UserInterests = ({
                 }}
                 className="flex items-center text-gray-500 hover:text-gray-700"
               >
-                <ChevronDown className="ml-1 w-4 h-4" />
+                <Icons.arrowDown className="ml-1 w-4 h-4" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="max-h-64 overflow-y-auto">
@@ -96,7 +95,7 @@ const UserInterests = ({
             >
               {interest.interest}
               {isCurrentUser && (
-                <XIcon
+                <Icons.close
                   size={10}
                   className="cursor-pointer"
                   onClick={async e => {
@@ -125,7 +124,7 @@ const UserInterests = ({
                 'No interests available'
               )}
             </span>
-            {isCurrentUser && <PlusCircle />}
+            {isCurrentUser && <Icons.plusCircle />}
           </p>
         )}
       </div>

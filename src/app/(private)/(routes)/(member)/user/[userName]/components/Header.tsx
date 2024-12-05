@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -17,9 +17,9 @@ const Header = ({
 }) => {
   const { follow, followers, unfollow, following, unfollowing } =
     useFollowersAndFollowings(user.id)
-  const [isFollowed, setIsFollowed] = React.useState(false)
+  const [isFollowed, setIsFollowed] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!followers) return
     const isFollowing = followers?.find(follower => {
       return follower.id === currentUser.id

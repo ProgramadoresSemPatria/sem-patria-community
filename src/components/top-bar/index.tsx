@@ -39,7 +39,7 @@ const feedbackLink =
 
 const TopBar = () => {
   const { isMobile } = useIsMobile()
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const router = useRouter()
   const [searchResults, setSearchResults] = useState<SearchResult[]>([])
 
@@ -145,8 +145,10 @@ const TopBar = () => {
         open={open}
         onClose={() => {
           setOpen(false)
-          setSearchTerm('')
-          setSearchResults([])
+          setTimeout(() => {
+            setSearchTerm('')
+            setSearchResults([])
+          }, 600)
         }}
         className="relative z-50"
       >
@@ -174,7 +176,7 @@ const TopBar = () => {
                 <ComboboxInput
                   autoFocus
                   className="w-full h-12 pl-11 pr-4 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 rounded-t-xl focus:outline-none focus:ring-2 focus:ring-violet-500 dark:focus:ring-violet-400 focus:border-transparent transition-colors duration-200"
-                  placeholder="Search..."
+                  placeholder="Type for search..."
                   onChange={event => {
                     setSearchTerm(event.target.value)
                   }}
@@ -200,8 +202,37 @@ const TopBar = () => {
               ) : (
                 <>
                   {searchTerm === '' && searchResults.length === 0 && (
+                    <div className="text-center px-6 py-14 sm:px-14">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        className="lucide lucide-text-search mx-auto w-8 h-8 text-gray-400"
+                      >
+                        <path d="M21 6H3" />
+                        <path d="M10 12H3" />
+                        <path d="M10 18H3" />
+                        <circle cx="17" cy="15" r="3" />
+                        <path d="m21 19-1.9-1.9" />
+                      </svg>
+                      <h2 className="mt-2 text-base font-semibold text-gray-900">
+                        Search
+                      </h2>
+                      <h6 className="mt-1 text-sm text-gray-500">
+                        Posts and/or users.
+                      </h6>
+                    </div>
+                  )}
+
+                  {searchTerm !== '' && searchResults.length === 0 && (
                     <h6 className="font-medium px-6 py-14 text-center text-sm sm:px-14">
-                      Search for posts or other users
+                      No results found.
                     </h6>
                   )}
 

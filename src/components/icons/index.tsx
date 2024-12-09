@@ -82,7 +82,8 @@ import {
   Hammer,
   ListChecks,
   BookText,
-  Settings
+  Settings,
+  FileSearch
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -171,5 +172,6 @@ export const Icons = {
   award: Award,
   hammer: Hammer,
   book: BookText,
-  gear: Settings
+  gear: Settings,
+  fileSearch: FileSearch
 }

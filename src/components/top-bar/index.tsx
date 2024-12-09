@@ -175,16 +175,31 @@ const TopBar = () => {
               <div className="relative">
                 <ComboboxInput
                   autoFocus
+                  maxLength={300}
                   className="w-full h-12 pl-11 pr-4 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 rounded-t-xl focus:outline-none focus:ring-2 focus:ring-violet-500 dark:focus:ring-violet-400 focus:border-transparent transition-colors duration-200"
                   placeholder="Type for search..."
                   onChange={event => {
                     setSearchTerm(event.target.value)
+                  }}
+                  onBlur={() => {
+                    setSearchTerm('')
                   }}
                 />
                 <MagnifyingGlassIcon
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-500"
                   aria-hidden="true"
                 />
+                {searchTerm && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchTerm('')
+                    }}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
+                  >
+                    ✕
+                  </button>
+                )}
               </div>
 
               {isLoading ? (
@@ -202,32 +217,25 @@ const TopBar = () => {
               ) : (
                 <>
                   {searchTerm === '' && searchResults.length === 0 && (
-                    <div className="text-center px-6 py-14 sm:px-14">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        className="lucide lucide-text-search mx-auto w-8 h-8 text-gray-400"
-                      >
-                        <path d="M21 6H3" />
-                        <path d="M10 12H3" />
-                        <path d="M10 18H3" />
-                        <circle cx="17" cy="15" r="3" />
-                        <path d="m21 19-1.9-1.9" />
-                      </svg>
-                      <h2 className="mt-2 text-base font-semibold text-gray-900">
-                        Search
-                      </h2>
-                      <h6 className="mt-1 text-sm text-gray-500">
-                        Posts and/or users.
-                      </h6>
-                    </div>
+                    <>
+                      <div className="text-center px-6 py-14 sm:px-14">
+                        <Icons.fileSearch className="mx-auto w-8 h-8 text-gray-400" />
+                        <h2 className="mt-2 text-base font-semibold text-gray-900 dark:text-gray-100">
+                          Search for
+                        </h2>
+                        <h6 className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                          posts and users.
+                        </h6>
+                      </div>
+                      <div className="flex flex-wrap items-center border-t bg-gray-50 px-4 py-2.5 text-xs text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+                        <span className="mr-1">Press</span>
+                        <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+                          {isMac ? <span className="text-xs">⌘</span> : 'Ctrl'}{' '}
+                          K
+                        </kbd>
+                        <span className="ml-1">to close</span>
+                      </div>
+                    </>
                   )}
 
                   {searchTerm !== '' && searchResults.length === 0 && (

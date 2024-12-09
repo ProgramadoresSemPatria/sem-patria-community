@@ -43,7 +43,7 @@ export async function POST(request: Request) {
       id: user.id,
       type: 'Users',
       description: user.username,
-      url: user.username
+      url: `/user/${user.username}`
     }))
 
     const formattedPosts = posts.map(post => ({

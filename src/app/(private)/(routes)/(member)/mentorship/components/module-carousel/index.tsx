@@ -12,6 +12,7 @@ import {
 import { toast } from '@/components/ui/use-toast'
 import { appRoutes } from '@/lib/constants'
 import { cn } from '@/lib/utils'
+import { useViewportSize } from '@mantine/hooks'
 import { type Video } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -40,6 +41,7 @@ export const ModuleCarousel = ({
     handleClickBackward,
     handleClickForward
   } = useModuleCarousel()
+  const { width } = useViewportSize()
 
   if (!isMounted) return <SkeletonMentorshipPage />
 
@@ -67,7 +69,7 @@ export const ModuleCarousel = ({
         setApi={setCarouselApi}
         className="w-full overflow-x-hidden"
         opts={{
-          slidesToScroll: 2
+          slidesToScroll: width > 768 ? 2 : 1
         }}
       >
         <CarouselContent>
@@ -85,7 +87,7 @@ export const ModuleCarousel = ({
                   className={cn(
                     !hasPermissionCombinated &&
                       'flex flex-col justify-center items-center relative',
-                    'xl:basis-1/4 md:basis-1/3 basis-1/2 cursor-pointer',
+                    'xl:basis-1/4 md:basis-1/3 basis-full min-[480px]:basis-1/2  cursor-pointer',
                     'transition-transform ease-in-out hover:scale-110 hover:-translate-y-1 duration-300 min-h-[300px]'
                   )}
                   onClick={() => {
@@ -122,7 +124,7 @@ export const ModuleCarousel = ({
             return (
               <CarouselItem
                 key={module.id}
-                className="group xl:basis-1/4 md:basis-1/3 basis-1/2 cursor-pointer transition-transform ease-in-out hover:scale-110 hover:-translate-y-1 duration-300 min-h-[300px]"
+                className="group xl:basis-1/4 md:basis-1/3 basis-full min-[480px]:basis-1/2 cursor-pointer transition-transform ease-in-out hover:scale-110 hover:-translate-y-1 duration-300 min-h-[300px]"
               >
                 <Link
                   className={`${

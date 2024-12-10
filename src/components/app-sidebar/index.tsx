@@ -17,7 +17,6 @@ import { menuItems } from '@/lib/constants'
 import { type MenuItemProps } from '@/lib/types'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import * as React from 'react'
 import { useEffect, useState } from 'react'
 import MainLogo from '../main-logo'
 import UserButton from '../user-button'
@@ -64,13 +63,13 @@ export function AppSidebar({ mentorship }: AppSidebarProps) {
   return (
     <>
       <Sidebar className="px-4">
-        <SidebarHeader>
+        <SidebarHeader className="pl-4 md:pl-0">
           <MainLogo />
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>
-              <SidebarMenu>
+              <SidebarMenu className="pl-3 md:pl-0">
                 {memberRoutes.map(item => (
                   <SidebarMenuItem
                     key={item.label}
@@ -78,7 +77,10 @@ export function AppSidebar({ mentorship }: AppSidebarProps) {
                       if (isMobile) setOpenMobile(false)
                     }}
                   >
-                    <SidebarMenuButton asChild>
+                    <SidebarMenuButton
+                      asChild
+                      className="hover:bg-foreground transition-colors hover:text-accent"
+                    >
                       <Link href={item.href}>
                         <span className="text-base flex items-center gap-x-2">
                           {item.icon}
@@ -94,7 +96,7 @@ export function AppSidebar({ mentorship }: AppSidebarProps) {
           <Can I="get" a="CMS">
             <SidebarGroup>
               <SidebarGroupContent>
-                <SidebarMenu>
+                <SidebarMenu className="pl-3 md:pl-0 ">
                   <SidebarGroupLabel className="text-base">
                     CMS
                   </SidebarGroupLabel>
@@ -105,7 +107,10 @@ export function AppSidebar({ mentorship }: AppSidebarProps) {
                       }}
                       key={item.label}
                     >
-                      <SidebarMenuButton asChild>
+                      <SidebarMenuButton
+                        asChild
+                        className="hover:bg-foreground transition-colors hover:text-accent"
+                      >
                         <Link href={item.href}>
                           <span className="text-base flex items-center gap-x-2">
                             {item.icon}
@@ -120,7 +125,9 @@ export function AppSidebar({ mentorship }: AppSidebarProps) {
             </SidebarGroup>
           </Can>
         </SidebarContent>
-        <UserButton />
+        <div className="pl-4 md:pl-0">
+          <UserButton />
+        </div>
       </Sidebar>
     </>
   )

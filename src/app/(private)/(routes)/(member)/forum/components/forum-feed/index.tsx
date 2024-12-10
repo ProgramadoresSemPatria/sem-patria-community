@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useMemo } from 'react'
-import { Icons } from '@/components/icons'
+import { Skeleton } from '@/components/ui/skeleton'
 import { type ExtendedPost } from '@/lib/types'
+import { useMemo } from 'react'
 import Post from '../post'
 import { useForumFeed } from './use-forum-feed'
 
@@ -103,11 +103,26 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
           )
         }
       })}
-      {isFetchingNextPage && (
-        <li className="flex justify-center">
-          <Icons.loader className="w-6 h-6 text-zinc-500 animate-spin" />
-        </li>
-      )}
+      {isFetchingNextPage &&
+        Array.from({ length: 3 }).map((_, index) => (
+          <div
+            key={index}
+            className="rounded-md dark:bg-slate-900 bg-slate-100 shadow dark:text-white text-black hover:cursor-pointer"
+          >
+            <div className="px-6 py-4 flex flex-col gap-4 justify-between">
+              <div className="flex items-center dark:text-gray-300 text-black">
+                <Skeleton className="rounded-full w-8 h-8" />
+                <div className="flex flex-col ml-1 gap-2">
+                  <Skeleton className="h-3 w-14" />
+                  <Skeleton className="h-3 w-20" />
+                </div>
+              </div>
+              <Skeleton className="h-8 w-full rounded-md" />
+              <Skeleton className="h-40 w-full" />
+              <Skeleton className="h-6 w-20" />
+            </div>
+          </div>
+        ))}
     </ul>
   )
 }

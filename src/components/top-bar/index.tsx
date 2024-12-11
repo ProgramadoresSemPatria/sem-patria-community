@@ -19,7 +19,6 @@ import {
   DialogPanel,
   DialogBackdrop
 } from '@headlessui/react'
-import { Search } from 'lucide-react'
 import { useDebounceSearch } from '@/hooks/shared/use-debounce-search'
 import { Skeleton } from '../ui/skeleton'
 import { useRouter } from 'next/navigation'
@@ -113,7 +112,7 @@ const TopBar = () => {
             size={isMobile ? 'icon' : 'default'}
             className="flex items-center gap-2"
           >
-            <Search className="h-4 w-4" />
+            <Icons.search className="h-4 w-4" />
             {!isMobile && <span>Search</span>}
             {!isMobile && (
               <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">

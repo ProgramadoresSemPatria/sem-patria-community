@@ -133,8 +133,10 @@ export const useNewClassroomForm = ({
 
   const { mutateAsync: saveOrder } = useMutation({
     mutationKey: ['update-order-module-classroom'],
-    mutationFn: async orderedModules => {
-      await api.patch(`/api/classroom/video`, {
+    mutationFn: async (
+      orderedModules: Array<{ id: string; order: number }>
+    ) => {
+      await api.patch(`/api/classroom/module`, {
         order: orderedModules
       })
     },
@@ -144,9 +146,9 @@ export const useNewClassroomForm = ({
       })
     },
     onError: err => {
-      console.error('Error ordering videos', err)
+      console.error('Error ordering modules', err)
       toast({
-        title: 'An error occurred while ordering videos'
+        title: 'An error occurred while ordering modules'
       })
     }
   })

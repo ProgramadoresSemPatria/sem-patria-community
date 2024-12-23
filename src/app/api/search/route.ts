@@ -1,15 +1,15 @@
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs/server'
-import { NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const { userId } = auth()
     if (!userId) {
       return new NextResponse('Unauthenticated', { status: 401 })
     }
 
-    const { searchParams } = new URL(request.url)
+    const { searchParams } = request.nextUrl
     const keyword = searchParams.get('keyword')
 
     if (!keyword) {
@@ -25,6 +25,24 @@ export async function POST(request: Request) {
       },
       orderBy: {
         createdAt: 'desc'
+      },
+      select: {
+        id: true,
+        title: true,
+        createdAt: true,
+        category: {
+          select: {
+            name: true
+          }
+        },
+        user: {
+          select: {
+            username: true
+          }
+        },
+        _count: {
+          select: { likes: true }
+        }
       }
     })
 
@@ -34,28 +52,34 @@ export async function POST(request: Request) {
           contains: keyword,
           mode: 'insensitive'
         }
+      },
+      select: {
+        id: true,
+        username: true,
+        name: true,
+        createdAt: true,
+        imageUrl: true,
+        followers: true
       }
     })
 
     const [posts, users] = await prismadb.$transaction([queryPosts, queryUsers])
 
-    const formattedUsers = users.map(user => ({
-      id: user.id,
-      type: 'Users',
-      description: user.username,
-      url: `/user/${user.username}`
-    }))
-
-    const formattedPosts = posts.map(post => ({
-      id: post.id,
-      type: 'Forum',
-      description: post.title,
-      url: `/forum/${post.id}/${post.title}`
-    }))
-
-    return NextResponse.json([...formattedUsers, ...formattedPosts])
+    return NextResponse.json({
+      data: {
+        items: [...posts, ...users],
+        counts: {
+          posts: posts.length,
+          users: users.length
+        }
+      },
+      meta: {
+        keyword,
+        searchedAt: new Date().toISOString(),
+        totalRecords: posts.length + users.length
+      }
+    })
   } catch (error) {
-    console.error('Error searching posts:', error)
-    return new NextResponse('Internal Server Error', { status: 500 })
+    return new NextResponse('Error searching for keyword', { status: 500 })
   }
 }

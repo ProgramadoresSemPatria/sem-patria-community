@@ -1,6 +1,8 @@
+export type Entity = 'forum' | 'user'
+
 export type SearchDialogResult = {
   id: string
-  entity: 'forum' | 'user'
+  entity: Entity
   url: string
   createdAt: string
   title?: string

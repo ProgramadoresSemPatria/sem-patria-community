@@ -36,7 +36,7 @@ export const PublicNotesCard = async () => {
             </div>
           }
         >
-          <ScrollArea className="max-h-64 overflow-y-auto">
+          <ScrollArea className="max-h-[38rem] overflow-y-auto">
             <CardContent>
               {notes.length === 0 && (
                 <span className="font-medium text-muted-foreground">

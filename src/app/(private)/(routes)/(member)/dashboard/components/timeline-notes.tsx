@@ -22,7 +22,7 @@ export const TimelineNotes = async ({ note, lastNote }: TimelineNotesProps) => {
       <div className="flex items-center relative">
         <div className="w-2 h-2 rounded-full bg-violet-400 dark:bg-violet-600" />
         {!lastNote && (
-          <div className="absolute w-1 h-[72px] rounded-sm bg-slate-100 dark:bg-violet-950 left-[2px] -bottom-[59px]" />
+          <div className="absolute w-1 h-[109px] rounded-sm bg-slate-100 dark:bg-violet-950 left-[2px] -bottom-[91px]" />
         )}
         <Avatar className="ml-4">
           <AvatarImage src={userProps?.imageUrl ? userProps?.imageUrl : ''} />
@@ -42,9 +42,11 @@ export const TimelineNotes = async ({ note, lastNote }: TimelineNotesProps) => {
           {format(note.updatedAt, 'MMMM dd, yyy')}
         </span>
       </div>
-      <div className="w-full flex justify-center pb-3">
-        <TimelineNotesContent content={note.content} noteId={note.id} />
-      </div>
+      <TimelineNotesContent
+        content={note.content}
+        noteId={note.id}
+        updatedAt={note.updatedAt}
+      />
     </div>
   )
 }

@@ -13,6 +13,7 @@ import { useUserInterest } from './useUserInterests'
 import InterestModal from '../../../interests/components/InterestModal'
 import { type InterestWithUsers } from '../../../interests/page'
 import { Icons } from '@/components/icons'
+import { getRandomStyle } from '@/lib/constants'
 
 const UserInterests = ({
   userInterests,
@@ -67,18 +68,21 @@ const UserInterests = ({
                 <Icons.arrowDown className="ml-1 w-4 h-4" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="max-h-64 overflow-y-auto">
-              {availableInterests.map(interest => (
-                <DropdownMenuItem
-                  key={interest.id}
-                  onClick={async () => {
-                    await addInterest(interest.id)
-                    setIsOpen(false)
-                  }}
-                >
-                  {interest.interest}
-                </DropdownMenuItem>
-              ))}
+            <DropdownMenuContent className="max-h-64 overflow-y-auto w-full flex flex-col gap-2">
+              {availableInterests.map(interest => {
+                return (
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    key={interest.id}
+                    onClick={async () => {
+                      await addInterest(interest.id)
+                      setIsOpen(false)
+                    }}
+                  >
+                    {interest.interest}
+                  </DropdownMenuItem>
+                )
+              })}
             </DropdownMenuContent>
           </DropdownMenu>
         )}
@@ -88,7 +92,7 @@ const UserInterests = ({
           newUserInterests.map(interest => (
             <Badge
               key={interest.id}
-              className="bg-slate-800 text-white gap-x-2 cursor-pointer"
+              className={`bg-slate-800 text-white gap-x-2 cursor-pointer ${getRandomStyle()}`}
               onClick={() => {
                 handleBadgeClick(interest)
               }}

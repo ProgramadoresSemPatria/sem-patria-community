@@ -55,7 +55,7 @@ const TimelineNotesContent = ({
   return (
     <>
       <div className="mx-4 flex flex-col justify-start pb-3">
-        <div className="line-clamp-1 text-left">
+        <div className="line-clamp-1 text-left my-2">
           {description?.slice(0, 80)}
         </div>
         <div className="flex flex-col justify-center">

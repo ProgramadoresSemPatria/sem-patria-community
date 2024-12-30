@@ -15,6 +15,9 @@ export const MentorshipSections = async () => {
       modules: {
         include: {
           videos: true
+        },
+        orderBy: {
+          order: 'asc'
         }
       }
     }

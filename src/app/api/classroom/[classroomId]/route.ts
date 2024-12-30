@@ -21,7 +21,11 @@ export async function GET(
         id: params.classroomId
       },
       include: {
-        modules: true
+        modules: {
+          orderBy: {
+            order: 'asc'
+          }
+        }
       }
     })
 

@@ -104,13 +104,14 @@ export const useNewClassroomForm = ({
     }
   })
 
-  const { data: classroomData } = useQuery<ClassroomWithModules>({
-    queryKey: ['getClassroom', params.classroomId],
-    queryFn: async () => {
-      return await api.get(`/api/classroom/${params.classroomId}`)
-    },
-    enabled: !!params.classroomId
-  })
+  const { data: classroomData, isLoading: isLoadingClassroom } =
+    useQuery<ClassroomWithModules>({
+      queryKey: ['getClassroom', params.classroomId],
+      queryFn: async () => {
+        return await api.get(`/api/classroom/${params.classroomId}`)
+      },
+      enabled: !!params.classroomId
+    })
 
   const onSubmit = async (values: NewClassroomFormValues) => {
     values.permissions.push(Roles.Admin)
@@ -131,7 +132,7 @@ export const useNewClassroomForm = ({
     }
   }
 
-  const { mutateAsync: saveOrder } = useMutation({
+  const { mutateAsync: saveOrder, isPending: isSavingOrder } = useMutation({
     mutationKey: ['update-order-module-classroom'],
     mutationFn: async (
       orderedModules: Array<{ id: string; order: number }>
@@ -186,6 +187,8 @@ export const useNewClassroomForm = ({
     roles,
     classroomModules,
     setClassroomModules,
-    handleSaveOrder
+    handleSaveOrder,
+    isLoadingClassroom,
+    isSavingOrder
   }
 }

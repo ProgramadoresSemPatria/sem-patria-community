@@ -64,12 +64,11 @@ export async function PATCH(req: NextRequest) {
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
-    // eslint-disable-next-line @typescript-eslint/promise-function-async
     const updatePromises = order.map(
-      async (module: { id: string; order: number }) => {
-        return await prismadb.classroomModule.update({
+      // eslint-disable-next-line @typescript-eslint/promise-function-async
+      (module: { id: string; order: number }) => {
+        return prismadb.classroomModule.update({
           where: { id: module.id },
-
           data: { order: module.order }
         })
       }

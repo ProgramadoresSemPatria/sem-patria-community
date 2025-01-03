@@ -80,7 +80,7 @@ const Leaderboard = () => {
               }`}
             >
               <span className="relative inline-block mb-1">
-                <Avatar className="h-16 w-16 mx-auto">
+                <Avatar className="h-16 w-16 mx-auto ring-2 ring-gray-500/10">
                   <AvatarImage src={user.avatarURL} alt={user.name} />
                   <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                 </Avatar>
@@ -118,7 +118,7 @@ const Leaderboard = () => {
                 {index + 4}
               </span>
             </div>
-            <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
+            <Avatar className="h-8 w-8 sm:h-10 sm:w-10 ring-2 ring-gray-500/10">
               <AvatarImage src={user.avatarURL} alt={user.name} />
               <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
             </Avatar>

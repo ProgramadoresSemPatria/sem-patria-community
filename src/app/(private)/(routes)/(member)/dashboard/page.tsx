@@ -21,7 +21,7 @@ export default function Dashboard() {
             <div className="my-4" />
           </div>
         </div>
-        <div className="flex flex-col flex-grow">
+        <div className="flex flex-col flex-grow my-4">
           <Checklist isWidget />
         </div>
       </div>

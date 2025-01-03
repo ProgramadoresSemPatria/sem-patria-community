@@ -25,6 +25,7 @@ export enum appRoutes {
   profile = '/profile',
   interests = '/interests',
   forum = '/forum',
+  leaderboard = '/leaderboard',
   appearance = '/profile/appearance',
   checklist = '/profile/checklist',
   admin_courses = '/admin/courses',
@@ -78,6 +79,11 @@ export const menuItems: MenuItemProps[] = [
     href: appRoutes.interests,
     label: 'Interests',
     icon: <Icons.list className="h-4 w-4" />
+  },
+  {
+    href: appRoutes.leaderboard,
+    label: 'Leaderboard',
+    icon: <Icons.trophy className="h-4 w-4" />
   },
   {
     href: appRoutes.admin_users,

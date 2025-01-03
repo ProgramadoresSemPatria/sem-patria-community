@@ -1,9 +1,10 @@
-import { DefaultLayout } from '@/components/default-layout'
 import { EventsCalendar } from '@/components/events-calendar'
-import Header from '@/components/header'
-import { Checklist } from '@/components/checklist'
+import { DefaultLayout } from '@/components/default-layout'
 import ForumWidget from './components/forum-widget'
 import { PublicNotesCard } from './components/public-notes-card'
+import { Checklist } from '@/components/checklist'
+import Header from '@/components/header'
+import LeaderboardWidget from './components/leaderboard-widget'
 
 export default function Dashboard() {
   return (
@@ -13,6 +14,8 @@ export default function Dashboard() {
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-8 overflow-y-visible xl:overflow-hidden">
           <div className="flex flex-col">
             <ForumWidget />
+            <div className="my-4" />
+            <LeaderboardWidget />
           </div>
           <div className="flex flex-col">
             <EventsCalendar isWidget />

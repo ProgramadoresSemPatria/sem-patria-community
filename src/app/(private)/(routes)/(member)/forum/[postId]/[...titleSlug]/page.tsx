@@ -17,6 +17,7 @@ import PostCommentsLink from '../components/post-comments-link'
 import { type Comment } from '@prisma/client'
 import { type Metadata } from 'next'
 import appLogo from '@/assets/app-logo-light.png'
+import { notFound } from 'next/navigation'
 
 type PostPageProps = {
   params: {
@@ -89,6 +90,9 @@ export type ExtendedComment = Comment & {
 const PostPage = async ({ params }: PostPageProps) => {
   const { userId } = auth()
   const post = await getPost(params.postId)
+  if (!post) {
+    notFound()
+  }
 
   return (
     <>
@@ -108,8 +112,8 @@ const PostPage = async ({ params }: PostPageProps) => {
               <div className="flex flex-col gap-1">
                 <span className="text-muted-foreground truncate text-lg">
                   <Link
-                    href="#"
-                    className="font-semibold hover:underline transition-all"
+                    href={`/user/${post?.user.username}`}
+                    className="font-semibold hover:underline transition-all hover:cursor-pointer"
                   >
                     {post?.user.username !== ''
                       ? post?.user.username

@@ -56,6 +56,19 @@ export async function PATCH(req: NextRequest) {
       hashedPassword = await bcrypt.hash(newPassword, salt)
     }
 
+    if (username && username !== currentUser?.username) {
+      const usernameExists = await prismadb.user.findFirst({
+        where: {
+          username: { equals: username, mode: 'insensitive' },
+          NOT: { id: userId }
+        }
+      })
+
+      if (usernameExists) {
+        return new NextResponse('Username is already taken', { status: 400 })
+      }
+    }
+
     // Update user at Clerk
     let updatedUser = await clerkClient.users.updateUser(userId, {
       firstName: name,
@@ -66,7 +79,9 @@ export async function PATCH(req: NextRequest) {
         instagram,
         level,
         linkedin,
-        role
+        role,
+        location,
+        position
       }
     })
 
@@ -124,8 +139,17 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const { email, name, github, username, instagram, level, linkedin, role } =
-    await req.json()
+  const {
+    email,
+    name,
+    github,
+    username,
+    instagram,
+    level,
+    linkedin,
+    role,
+    position
+  } = await req.json()
 
   const newUserPassword = generatePassword()
 
@@ -164,7 +188,8 @@ export async function POST(req: NextRequest) {
         instagram,
         level,
         linkedin,
-        role
+        role,
+        position
       }
     })
 
@@ -180,7 +205,8 @@ export async function POST(req: NextRequest) {
         instagram,
         level,
         linkedin,
-        role
+        role,
+        position
       }
     })
 

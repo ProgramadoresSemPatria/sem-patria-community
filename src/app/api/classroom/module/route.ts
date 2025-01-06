@@ -56,3 +56,29 @@ export async function POST(req: NextRequest) {
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }
+
+export async function PATCH(req: NextRequest) {
+  try {
+    const { userId } = auth()
+    const { order } = await req.json()
+
+    if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
+
+    const updatePromises = order.map(
+      // eslint-disable-next-line @typescript-eslint/promise-function-async
+      (module: { id: string; order: number }) => {
+        return prismadb.classroomModule.update({
+          where: { id: module.id },
+          data: { order: module.order }
+        })
+      }
+    )
+
+    const updatedModules = await prismadb.$transaction(updatePromises)
+
+    return NextResponse.json(updatedModules)
+  } catch (error) {
+    console.log('[VIDEOS_PATCH_ERROR]', error)
+    return new NextResponse('Internal Server Error', { status: 500 })
+  }
+}

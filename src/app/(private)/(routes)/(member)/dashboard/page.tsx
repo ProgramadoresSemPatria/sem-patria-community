@@ -10,7 +10,7 @@ export default function Dashboard() {
     <DefaultLayout className="overflow-hidden">
       <Header title="Dashboard" />
       <div className="flex flex-col w-full h-full overflow-hidden">
-        <div className="grid lg:grid-cols-2 grid-cols-1 gap-8 overflow-y-visible xl:overflow-hidden">
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-8 overflow-y-visible xl:overflow-hidden flex-grow">
           <div className="flex flex-col">
             <ForumWidget />
           </div>
@@ -19,8 +19,10 @@ export default function Dashboard() {
             <div className="my-4" />
             <PublicNotesCard />
             <div className="my-4" />
-            <Checklist isWidget />
           </div>
+        </div>
+        <div className="flex flex-col flex-grow my-4">
+          <Checklist isWidget />
         </div>
       </div>
     </DefaultLayout>

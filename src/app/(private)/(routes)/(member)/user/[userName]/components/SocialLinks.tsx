@@ -44,7 +44,7 @@ const SocialLinks = ({
         variant="outline"
         className="flex items-center space-x-2"
       >
-        <Github className="size-4" />
+        <Github className="w-4 h-4" />
         <span>GitHub</span>
       </Button>
       <Button
@@ -52,7 +52,7 @@ const SocialLinks = ({
         variant="outline"
         className="flex items-center space-x-2"
       >
-        <Linkedin className="size-4" />
+        <Linkedin className="w-4 h-4" />
         <span>LinkedIn</span>
       </Button>
       {showEmail && (
@@ -63,7 +63,7 @@ const SocialLinks = ({
           variant="outline"
           className="flex items-center space-x-2"
         >
-          <Mail className="size-4" />
+          <Mail className="w-4 h-4" />
           <span>Email</span>
         </Button>
       )}

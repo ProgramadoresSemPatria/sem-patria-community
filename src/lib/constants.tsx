@@ -26,6 +26,7 @@ export enum appRoutes {
   interests = '/interests',
   forum = '/forum',
   appearance = '/profile/appearance',
+  publicProfile = '/user',
   checklist = '/profile/checklist',
   admin_courses = '/admin/courses',
   admin_courses_new = '/admin/courses/new',
@@ -110,21 +111,30 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.list className="h-4 w-4" />
   }
 ]
+export const getPublicProfileRoute = (username: string): string => {
+  return `${appRoutes.publicProfile}/${encodeURIComponent(username)}`
+}
 
-export const settingOptions = [
-  {
-    title: 'User',
-    href: appRoutes.profile
-  },
-  {
-    title: 'Appearance',
-    href: appRoutes.appearance
-  },
-  {
-    title: 'Checklist',
-    href: appRoutes.checklist
-  }
-]
+export function getSettingOptions(routes: typeof appRoutes, user: User) {
+  return [
+    {
+      title: 'User',
+      href: routes.profile
+    },
+    {
+      title: 'Appearance',
+      href: routes.appearance
+    },
+    {
+      title: 'Checklist',
+      href: routes.checklist
+    },
+    {
+      title: 'Public profile',
+      href: `${routes.publicProfile}/${user?.username || 'unknown'}`
+    }
+  ]
+}
 
 export const mentorshipPhases: MentorshipPhasesProps[] = [
   {
@@ -236,3 +246,14 @@ export const badgeStyles = [
   'inline-flex items-center rounded-md bg-purple-400/10 px-2 py-1 text-xs font-medium text-purple-400 ring-1 ring-inset ring-purple-400/30',
   'inline-flex items-center rounded-md bg-pink-400/10 px-2 py-1 text-xs font-medium text-pink-400 ring-1 ring-inset ring-pink-400/20'
 ]
+
+export function getRandomStyle() {
+  let remainingStyles = [...badgeStyles]
+  if (remainingStyles.length === 0) {
+    remainingStyles = [...badgeStyles]
+  }
+  const randomIndex = Math.floor(Math.random() * remainingStyles.length)
+  const selectedStyle = remainingStyles[randomIndex]
+  remainingStyles.splice(randomIndex, 1)
+  return selectedStyle
+}

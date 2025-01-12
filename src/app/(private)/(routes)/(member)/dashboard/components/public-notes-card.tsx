@@ -6,15 +6,18 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import prismadb from '@/lib/prismadb'
 import { Suspense } from 'react'
 import { TimelineNotes } from './timeline-notes'
-import { ScrollArea } from '@/components/ui/scroll-area'
 
 export const PublicNotesCard = async () => {
   const notes = await prismadb.note.findMany({
     where: {
       isPublic: true
+    },
+    orderBy: {
+      createdAt: 'desc'
     },
     take: 10
   })
@@ -36,7 +39,7 @@ export const PublicNotesCard = async () => {
             </div>
           }
         >
-          <ScrollArea className="max-h-64 overflow-y-auto">
+          <ScrollArea className="max-h-[38rem] overflow-y-auto">
             <CardContent>
               {notes.length === 0 && (
                 <span className="font-medium text-muted-foreground">

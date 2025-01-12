@@ -56,6 +56,19 @@ export async function PATCH(req: NextRequest) {
       hashedPassword = await bcrypt.hash(newPassword, salt)
     }
 
+    if (username && username !== currentUser?.username) {
+      const usernameExists = await prismadb.user.findFirst({
+        where: {
+          username: { equals: username, mode: 'insensitive' },
+          NOT: { id: userId }
+        }
+      })
+
+      if (usernameExists) {
+        return new NextResponse('Username is already taken', { status: 400 })
+      }
+    }
+
     // Update user at Clerk
     let updatedUser = await clerkClient.users.updateUser(userId, {
       firstName: name,

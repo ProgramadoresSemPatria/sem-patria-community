@@ -57,6 +57,24 @@ const Leaderboard = () => {
     }
   ]
 
+  // Generate additional users to reach 50
+  const positions = ['junior', 'pleno', 'senior']
+  const roles = ['Builder', 'PSP', 'Base']
+
+  for (let i = leaderboardData.length; i < 50; i++) {
+    const firstName = `User${i + 1}`
+    const lastName = `Surname${i + 1}`
+    leaderboardData.push({
+      name: `${firstName} ${lastName}`,
+      points: Math.floor(Math.random() * 100),
+      username: `${firstName.toLowerCase()}${lastName.toLowerCase()}`,
+      position: positions[Math.floor(Math.random() * positions.length)],
+      mainRole: roles[Math.floor(Math.random() * roles.length)],
+      avatarURL: `https://example.com/avatar${i + 1}.jpg`
+    })
+  }
+  leaderboardData.sort((a, b) => b.points - a.points)
+
   const renderTopThree = () => {
     const topThree = leaderboardData
       .slice(0, 3)
@@ -160,9 +178,15 @@ const Leaderboard = () => {
     <DefaultLayout>
       <Card className="mt-4 p-4 w-full max-w-4xl mx-auto">
         <div className="flex items-center justify-between w-full px-2 mb-4">
-          <h1 className="text-primary dark:text-muted-foreground text-lg sm:text-xl font-semibold">
-            Leaderboard
-          </h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-primary dark:text-muted-foreground text-lg sm:text-xl font-semibold">
+              Leaderboard
+            </h1>
+            <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+              <span className="hidden sm:inline">Season 1</span>
+              <span className="sm:hidden">S1</span>
+            </span>
+          </div>
           <Button type="button" variant="ghost" size="icon">
             <Icons.rotateCcw className="w-6 h-6 text-primary dark:text-muted-foreground" />
           </Button>

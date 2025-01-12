@@ -12,6 +12,7 @@ const Leaderboard = () => {
       points: 100,
       username: 'johndoe',
       position: 'senior',
+      mainRole: 'Builder',
       avatarURL: 'https://example.com/john.jpg'
     },
     {
@@ -19,6 +20,7 @@ const Leaderboard = () => {
       points: 85,
       username: 'janesmith',
       position: 'senior',
+      mainRole: 'PSP',
       avatarURL: 'https://example.com/jane.jpg'
     },
     {
@@ -26,6 +28,7 @@ const Leaderboard = () => {
       points: 70,
       username: 'alicejohnson',
       position: 'Pleno',
+      mainRole: 'Builder',
       avatarURL: 'https://example.com/alice.jpg'
     },
     {
@@ -33,6 +36,7 @@ const Leaderboard = () => {
       points: 65,
       username: 'bobbrown',
       position: 'Pleno',
+      mainRole: 'Base',
       avatarURL: 'https://example.com/bob.jpg'
     },
     {
@@ -40,6 +44,7 @@ const Leaderboard = () => {
       points: 50,
       username: 'charliedavis',
       position: 'junior',
+      mainRole: 'Base',
       avatarURL: 'https://example.com/charlie.jpg'
     },
     {
@@ -47,6 +52,7 @@ const Leaderboard = () => {
       points: 45,
       username: 'arthurmorgan',
       position: 'junior',
+      mainRole: 'Base',
       avatarURL: 'https://example.com/arthur.jpg'
     }
   ]
@@ -92,9 +98,15 @@ const Leaderboard = () => {
               <h2 className="text-lg font-bold text-primary dark:text-primary-foreground">
                 {user.name}
               </h2>
-              <span className="capitalize inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
-                {user.position || 'Member'}
-              </span>
+              <div className="flex flex-wrap justify-center gap-2 mt-2">
+                <span className="capitalize inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                  {user.position || 'Member'}
+                </span>
+                <span className="capitalize inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                  {user.mainRole}
+                </span>
+              </div>
+
               <p className="text-2xl font-bold mt-2 text-primary dark:text-primary-foreground">
                 {user.points} pts
               </p>
@@ -126,13 +138,18 @@ const Leaderboard = () => {
               <span className="text-sm sm:text-base text-primary dark:text-muted-foreground font-medium">
                 {user.name}
               </span>
-              <span className="capitalize inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 ring-1 ring-inset ring-gray-400/20">
-                {user.position || 'Member'}
-              </span>
+              <div className="flex flex-wrap gap-1">
+                <span className="capitalize inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 ring-1 ring-inset ring-gray-400/20">
+                  {user.position || 'Member'}
+                </span>
+                <span className="capitalize inline-flex items-center rounded-md bg-blue-400/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-400/30">
+                  {user.mainRole}
+                </span>
+              </div>
             </div>
           </div>
           <span className="text-primary dark:text-muted-foreground text-sm sm:text-base font-bold">
-            {user.points}
+            {user.points} pts
           </span>
         </div>
       ))}

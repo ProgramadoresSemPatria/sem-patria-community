@@ -31,9 +31,9 @@ const Header = ({
   const handleFollowToggle = async () => {
     if (isFollowed) {
       await unfollow(user.id)
-    } else {
-      await follow(user.id)
+      return
     }
+    await follow(user.id)
   }
 
   const isCurrentUser = user.id === currentUser.id

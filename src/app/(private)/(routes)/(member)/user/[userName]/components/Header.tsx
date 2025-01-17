@@ -39,7 +39,7 @@ const Header = ({
           )}
         </Avatar>
         <div className="flex-1 space-y-3">
-          <h1 className="text-3xl font-bold flex items-center gap-x-3">
+          <h1 className="text-3xl font-bold flex items-center gap-3 flex-wrap">
             {user?.name}
             <Badge className="text-sm py-1 px-3">{user?.role[0]}</Badge>
           </h1>

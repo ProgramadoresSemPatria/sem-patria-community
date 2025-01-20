@@ -121,7 +121,7 @@
  
      /* Dark mode secondary using Green */
      --secondary: 162 85% 50%;  /* Green-500 */
-     --secondary-foreground: 162 75% 90%;  /* Green-100 */
+     --secondary-foreground: 162 85% 10%;  /* Green-900*/
  
      /* Dark mode muted using black scale */
      --muted: 0 0% 15%;  /* Black-850 */

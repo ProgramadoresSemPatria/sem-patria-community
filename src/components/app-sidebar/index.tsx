@@ -79,7 +79,7 @@ export function AppSidebar({ mentorship }: AppSidebarProps) {
                   >
                     <SidebarMenuButton
                       asChild
-                      className="hover:bg-foreground transition-colors hover:text-accent"
+                      className="hover:bg-muted transition-colors hover:text-secondary"
                     >
                       <Link href={item.href}>
                         <span className="text-base flex items-center gap-x-2">
@@ -109,7 +109,7 @@ export function AppSidebar({ mentorship }: AppSidebarProps) {
                     >
                       <SidebarMenuButton
                         asChild
-                        className="hover:bg-foreground transition-colors hover:text-accent"
+                        className="hover:bg-muted transition-colors hover:text-secondary"
                       >
                         <Link href={item.href}>
                           <span className="text-base flex items-center gap-x-2">

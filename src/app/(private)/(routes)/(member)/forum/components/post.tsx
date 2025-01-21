@@ -48,7 +48,7 @@ const Post = ({
         router.push(`/forum/${post.id}/${titleSlug}`)
       }}
       className={cn(
-        isPinned && 'border-l-2 border-l-orange-600',
+        isPinned && 'border-l-2 border-l-secondary',
         'rounded-md bg-background shadow dark:text-white text-black hover:cursor-pointer'
       )}
     >
@@ -99,7 +99,7 @@ const Post = ({
         </div>
         <div className="flex gap-x-2 items-start">
           {post.isPinned && isPinned && (
-            <Icons.pin className="my-1 text-primary fill-primary h-5 w-5" />
+            <Icons.pin className="my-1 text-secondary fill-secondary h-5 w-5" />
           )}
           <Can I="delete" a="Post">
             {actions && <PostActions post={post} />}
@@ -117,7 +117,7 @@ const Post = ({
         </Link>
         {!isPinned && post.isPinned && (
           <div className="ml-auto flex items-center gap-2 pr-4">
-            <Icons.pin className="text-primary h-4 w-4" />
+            <Icons.pin className="text-secondary h-4 w-4" />
             <span className="text-sm text-muted-foreground">
               Post is pinned
             </span>

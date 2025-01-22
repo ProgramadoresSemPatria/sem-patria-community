@@ -25,7 +25,7 @@ const NavOptions = ({ options }: NavOptionsProps) => {
         <Link href={option.href} key={option.title}>
           {option.param ? (
             <Button
-              className="p-2"
+              className="p-2 hover:bg-brand-green-700"
               variant={
                 searchParams.get(option.param.key) === option.param.value
                   ? 'secondary'
@@ -36,7 +36,7 @@ const NavOptions = ({ options }: NavOptionsProps) => {
             </Button>
           ) : (
             <Button
-              className="p-2"
+              className="p-2 hover:bg-brand-green-700"
               variant={pathname === option.href ? 'secondary' : 'ghost'}
             >
               {option.title}

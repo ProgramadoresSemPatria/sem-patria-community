@@ -38,7 +38,7 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
             href={`${pathname}?category=${category.name}`}
           >
             <Button
-              className="p-2"
+              className="p-2 hover:bg-brand-green-700"
               variant={
                 searchParams.get('category') === category.name
                   ? 'secondary'

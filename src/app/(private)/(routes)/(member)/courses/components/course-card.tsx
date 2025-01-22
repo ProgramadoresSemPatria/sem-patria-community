@@ -44,7 +44,7 @@ export const CourseCard = ({ courseProps: props }: CourseCardProps) => {
 
   return (
     <div className="relative flex w-full">
-      <div className="flex flex-col w-full justify-start rounded-[10px] dark:hover:bg-slate-900 hover:bg-slate-200 overflow-hidden transition cursor-pointer text-left dark:bg-slate-950 bg-slate-100 border dark:border-slate-800 border-slate-200">
+      <div className="flex flex-col w-full justify-start rounded-[10px] overflow-hidden transition cursor-pointer text-left  border bg-card hover:bg-card/20">
         <Image alt="bg-card" src={BgCardImg} className="absolute" />
         <div className="flex flex-col flex-1 w-full gap-4 p-6">
           <div className="w-full flex items-center justify-between h-11 mb-1">

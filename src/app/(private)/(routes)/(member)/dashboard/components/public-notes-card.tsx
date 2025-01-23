@@ -6,15 +6,18 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import prismadb from '@/lib/prismadb'
 import { Suspense } from 'react'
 import { TimelineNotes } from './timeline-notes'
-import { ScrollArea } from '@/components/ui/scroll-area'
 
 export const PublicNotesCard = async () => {
   const notes = await prismadb.note.findMany({
     where: {
       isPublic: true
+    },
+    orderBy: {
+      createdAt: 'desc'
     },
     take: 10
   })

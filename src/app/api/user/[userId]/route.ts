@@ -13,15 +13,26 @@ export async function DELETE(
 
     if (!params.userId)
       return new NextResponse('User id required', { status: 400 })
-    // Delete user at Clerk
-    await clerkClient.users.deleteUser(params.userId)
 
-    // Delete user at DB
-    const user = await prismadb.user.delete({
-      where: {
-        id: params.userId
-      }
-    })
+    try {
+      await clerkClient.users.banUser(params.userId)
+    } catch (clerkError) {
+      console.log('[CLERK_USER_DISABLE_ERROR]', clerkError)
+    }
+
+    let user = {}
+    try {
+      user = await prismadb.user.update({
+        where: {
+          id: params.userId
+        },
+        data: {
+          isDisabled: true
+        }
+      })
+    } catch (dbError) {
+      console.log('[DB_USER_DELETE_ERROR]', dbError)
+    }
 
     return NextResponse.json(user)
   } catch (error) {

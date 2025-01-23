@@ -24,11 +24,15 @@ export enum appRoutes {
   mentorship = '/mentorship',
   profile = '/profile',
   forum = '/forum?category=All',
+  interests = '/interests',
   appearance = '/profile/appearance',
+  publicProfile = '/user',
   checklist = '/profile/checklist',
   admin_courses = '/admin/courses',
   admin_courses_new = '/admin/courses/new',
   admin_categories = '/admin/categories',
+  admin_interests = '/admin/interests',
+  admin_interests_new = '/admin/interests/new',
   admin_categories_new = '/admin/categories/new',
   admin_events = '/admin/events',
   admin_events_new = '/admin/events/new',
@@ -72,6 +76,11 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.circleUser className="h-4 w-4" />
   },
   {
+    href: appRoutes.interests,
+    label: 'Interests',
+    icon: <Icons.list className="h-4 w-4" />
+  },
+  {
     href: appRoutes.admin_users,
     label: 'Users',
     icon: <Icons.users className="h-4 w-4" />
@@ -95,23 +104,37 @@ export const menuItems: MenuItemProps[] = [
     href: `${appRoutes.admin_classroom}?tabSelected=classroom`,
     label: 'Classroom',
     icon: <Icons.classroom className="h-4 w-4" />
+  },
+  {
+    href: appRoutes.admin_interests,
+    label: 'Interests',
+    icon: <Icons.list className="h-4 w-4" />
   }
 ]
+export const getPublicProfileRoute = (username: string): string => {
+  return `${appRoutes.publicProfile}/${encodeURIComponent(username)}`
+}
 
-export const settingOptions = [
-  {
-    title: 'User',
-    href: appRoutes.profile
-  },
-  {
-    title: 'Appearance',
-    href: appRoutes.appearance
-  },
-  {
-    title: 'Checklist',
-    href: appRoutes.checklist
-  }
-]
+export function getSettingOptions(routes: typeof appRoutes, user: User) {
+  return [
+    {
+      title: 'User',
+      href: routes.profile
+    },
+    {
+      title: 'Appearance',
+      href: routes.appearance
+    },
+    {
+      title: 'Checklist',
+      href: routes.checklist
+    },
+    {
+      title: 'Public profile',
+      href: `${routes.publicProfile}/${user?.username || 'unknown'}`
+    }
+  ]
+}
 
 export const mentorshipPhases: MentorshipPhasesProps[] = [
   {
@@ -193,3 +216,44 @@ export const passwordRecoveryEmailTemplate = (user: User, url: string) => `
 </p>
 </main>
 `
+
+export const prePspPermissions: Record<string, string[]> = {
+  'Mentoria - A Base': [
+    '10d9700e-8869-4017-a195-fbd9dd1125f4',
+    '26d133a9-a1a6-4367-8d2b-ca391bc8445e',
+    'dea88009-1dc8-46fe-86f8-f81e6954b67c',
+    'df759f6d-7971-4d53-893d-516ce07ca5ff',
+    'f326632b-7a8a-40fb-b60a-8ce9edda8d5a'
+  ],
+  'Portfólio Boost Program': ['6fea989d-ac41-48d2-a916-e5a37464b506'],
+  'Acompanhamento - Programador Sem Pátria': [
+    'ec5260a3-325d-437e-b5cb-02ac88b52959',
+    '5ced2e37-7c35-4cf5-a889-43a1a4ef65ce'
+  ],
+  'Mentoria - Programador Sem Pátria': [
+    'bd4321b5-e9c2-409c-be19-64d584df00a6',
+    '0d01f622-417b-4f31-914f-28ce1bbb1bd9',
+    'fd528cb7-7c93-4cfe-9979-f43e90d6cbf7'
+  ]
+}
+export const badgeStyles = [
+  'inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 ring-1 ring-inset ring-gray-400/20',
+  'inline-flex items-center rounded-md bg-red-400/10 px-2 py-1 text-xs font-medium text-red-400 ring-1 ring-inset ring-red-400/20',
+  'inline-flex items-center rounded-md bg-yellow-400/10 px-2 py-1 text-xs font-medium text-yellow-500 ring-1 ring-inset ring-yellow-400/20',
+  'inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400 ring-1 ring-inset ring-green-500/20',
+  'inline-flex items-center rounded-md bg-blue-400/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-400/30',
+  'inline-flex items-center rounded-md bg-indigo-400/10 px-2 py-1 text-xs font-medium text-indigo-400 ring-1 ring-inset ring-indigo-400/30',
+  'inline-flex items-center rounded-md bg-purple-400/10 px-2 py-1 text-xs font-medium text-purple-400 ring-1 ring-inset ring-purple-400/30',
+  'inline-flex items-center rounded-md bg-pink-400/10 px-2 py-1 text-xs font-medium text-pink-400 ring-1 ring-inset ring-pink-400/20'
+]
+
+export function getRandomStyle() {
+  let remainingStyles = [...badgeStyles]
+  if (remainingStyles.length === 0) {
+    remainingStyles = [...badgeStyles]
+  }
+  const randomIndex = Math.floor(Math.random() * remainingStyles.length)
+  const selectedStyle = remainingStyles[randomIndex]
+  remainingStyles.splice(randomIndex, 1)
+  return selectedStyle
+}

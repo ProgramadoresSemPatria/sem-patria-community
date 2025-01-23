@@ -34,6 +34,7 @@ const formSchema = z.object({
     }),
   role: z.array(
     z.enum([
+      'PrePsp',
       'PerfilFechado',
       'PortifolioBoostProgram',
       'Base',
@@ -46,7 +47,8 @@ const formSchema = z.object({
   level: z.string(),
   github: z.string(),
   instagram: z.string(),
-  linkedin: z.string()
+  linkedin: z.string(),
+  position: z.enum(['AMBASSADOR', 'BUILDER', 'PSP', 'BASE', 'ADMIN'])
 })
 
 type NewUserFormValues = z.infer<typeof formSchema>
@@ -81,7 +83,8 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
           level: initialData.level || '',
           github: initialData.github || '',
           linkedin: initialData.linkedin || '',
-          instagram: initialData.instagram || ''
+          instagram: initialData.instagram || '',
+          position: initialData.position || undefined
         }
       : {
           name: '',
@@ -91,7 +94,8 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
           level: '',
           github: '',
           linkedin: '',
-          instagram: ''
+          instagram: '',
+          position: undefined
         }
   })
 
@@ -122,6 +126,41 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
       await deleteUser()
     } catch (error) {
       console.log('Error deleting user', error)
+      toast({
+        title: 'Error',
+        description: 'Something went wrong.',
+        variant: 'destructive'
+      })
+    } finally {
+      setIsAlertModalOpen(false)
+    }
+  }
+
+  const { mutateAsync: enableUser, isPending: isEnablingUser } = useMutation({
+    mutationFn: async () => {
+      return await api.patch(`/api/user/${params.userId}/enable`)
+    },
+    onSuccess: () => {
+      router.push(appRoutes.admin_users)
+      router.refresh()
+      toast({
+        title: 'Success',
+        description: 'User was enabled successfully.'
+      })
+    },
+    onError: error => {
+      toast({
+        title: 'Error',
+        description: error.message ?? 'Something went wrong.',
+        variant: 'destructive'
+      })
+    }
+  })
+
+  const onEnableUser = async () => {
+    try {
+      await enableUser()
+    } catch (error) {
       toast({
         title: 'Error',
         description: 'Something went wrong.',
@@ -195,6 +234,8 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
     onSubmit,
     selectedRoles,
     handleSelectedRoles,
-    action
+    action,
+    onEnableUser,
+    isEnablingUser
   }
 }

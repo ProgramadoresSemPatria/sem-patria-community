@@ -7,28 +7,49 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Positions {
+  AMBASSADOR
+  BUILDER
+  PSP
+  BASE
+  ADMIN
+}
+
 model User {
-  id           String        @id @default(uuid())
-  email        String
-  name         String
-  username     String
-  level        String?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  followers    Int           @default(0)
-  followings   Int           @default(0)
-  github       String?
-  instagram    String?
-  linkedin     String?
-  password     String?
-  role         Roles[]       @default([])
-  imageUrl     String?
-  lastLogin    DateTime?
-  comments     Comment[]
-  commentLikes CommentLike[]
-  likes        Like[]
-  notes        Note[]
-  posts        Post[]
+  id            String        @id @default(uuid())
+  email         String
+  name          String
+  username      String
+  level         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  followers     Int           @default(0)
+  followings    Int           @default(0)
+  github        String?
+  instagram     String?
+  linkedin      String?
+  password      String?
+  role          Roles[]       @default([])
+  imageUrl      String?
+  lastLogin     DateTime?
+  isDisabled    Boolean?      @default(false)
+  isPublicEmail Boolean?      @default(false)
+  position      Positions?
+  location      String?
+  comments      Comment[]
+  commentLikes  CommentLike[]
+  likes         Like[]
+  notes         Note[]
+  posts         Post[]
+  interests     Interest[]
+}
+
+model Interest {
+  id        String   @id @default(uuid())
+  interest  String   @unique
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Course {
@@ -102,6 +123,7 @@ model ClassroomModule {
   fileUrl     String?
   classroom   Classroom @relation(fields: [classroomId], references: [id])
   videos      Video[]
+  order       Int?
 }
 
 model Video {
@@ -182,6 +204,7 @@ model CommentLike {
 }
 
 enum Roles {
+  PrePsp
   PerfilFechado
   PortifolioBoostProgram
   Base
@@ -189,4 +212,12 @@ enum Roles {
   Prime
   Builder
   Admin
+}
+
+model UserFollowersAndFollowing {
+  id        String   @id @default(uuid())
+  targetId  String   @map("follow_user_id")
+  userId    String   @map("user_id")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

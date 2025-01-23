@@ -65,16 +65,60 @@ export const UserCellAction = ({ data }: UserCellActionProps) => {
     }
   }
 
+  const { mutateAsync: enableUser, isPending: isEnablingUser } = useMutation({
+    mutationFn: async () => {
+      return await api.patch(`/api/user/${data.id}/enable`)
+    },
+    onSuccess: () => {
+      router.push(appRoutes.admin_users)
+      router.refresh()
+      toast({
+        title: 'Success',
+        description: 'User was enabled successfully.'
+      })
+    },
+    onError: error => {
+      toast({
+        title: 'Error',
+        description: error.message ?? 'Something went wrong.',
+        variant: 'destructive'
+      })
+    }
+  })
+
+  const onEnableUser = async () => {
+    try {
+      await enableUser()
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Something went wrong.',
+        variant: 'destructive'
+      })
+    } finally {
+      setIsAlertModalOpen(false)
+    }
+  }
+
   return (
     <>
       <AlertModal
         isOpen={isAlertModalOpen}
-        description="Are you sure you want to delete this user?"
+        description={`This action will ${
+          data?.isDisabled ? 'enable' : 'disable'
+        } this user account, are you sure?`}
+        confirmationTitle={data?.isDisabled ? 'Enable' : 'Delete'}
+        loading={isDeleting || isEnablingUser}
         onClose={() => {
           setIsAlertModalOpen(false)
         }}
-        onConfirm={onDeleteUser}
-        loading={isDeleting}
+        onConfirm={async () => {
+          if (data?.isDisabled) {
+            await onEnableUser()
+            return
+          }
+          await onDeleteUser()
+        }}
       />
       <DropdownMenu>
         <DropdownMenuTrigger data-testid="..." asChild>
@@ -98,9 +142,19 @@ export const UserCellAction = ({ data }: UserCellActionProps) => {
               onClick={() => {
                 setIsAlertModalOpen(true)
               }}
+              disabled={data.isDisabled}
             >
               <Icons.trash className="mr-2 h-4 w-4" />
               Delete
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                setIsAlertModalOpen(true)
+              }}
+              disabled={!data.isDisabled}
+            >
+              <Icons.userCheck className="mr-2 h-4 w-4" />
+              Enable
             </DropdownMenuItem>
           </Can>
         </DropdownMenuContent>

@@ -8,7 +8,7 @@ import { type ExtendedPost } from '@/lib/types'
 import { cn, getStringFromDate } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { notFound, useRouter } from 'next/navigation'
 import { PostActions } from './post-actions'
 import PostLike from './post-likes'
 import slugify from 'slugify'
@@ -36,6 +36,9 @@ const Post = ({
 }: PostProps) => {
   const router = useRouter()
   const titleSlug = slugify(post.title, { lower: true, strict: true })
+  if (!post) {
+    notFound()
+  }
 
   return (
     <div
@@ -60,7 +63,13 @@ const Post = ({
               src={post.user.imageUrl || avatarImg.src}
             />
             <div className="flex flex-col ml-2">
-              <span className="font-bold text-base">
+              <span
+                onClick={e => {
+                  e.stopPropagation()
+                  router.push(`/user/${post.user.username}`)
+                }}
+                className="font-bold text-base hover:cursor-pointer hover:underline"
+              >
                 {post.user.username !== ''
                   ? post.user.username
                   : post.user.name}

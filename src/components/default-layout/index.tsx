@@ -1,7 +1,7 @@
-import MainNav from '@/components/main-nav'
 import TopBar from '@/components/top-bar'
 import { cn } from '@/lib/utils'
 import React from 'react'
+import { AppSidebar } from '../app-sidebar'
 
 type DefaultLayoutProps = {
   children: React.ReactNode
@@ -14,8 +14,7 @@ export const DefaultLayout = async ({
 }: DefaultLayoutProps) => {
   return (
     <div className="flex min-h-screen">
-      <MainNav />
-
+      <AppSidebar />
       <main className="w-full">
         <TopBar />
         <div className="pb-10">

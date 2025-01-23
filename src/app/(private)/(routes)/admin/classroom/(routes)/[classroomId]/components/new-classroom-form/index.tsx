@@ -17,8 +17,11 @@ import {
 import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
+import { Skeleton } from '@/components/ui/skeleton'
 import { appRoutes } from '@/lib/constants'
 import { type Classroom } from '@prisma/client'
+import { Reorder } from 'framer-motion'
+import Image from 'next/image'
 import { useNewClassroomForm } from './use-new-classroom-form'
 
 type NewClassroomFormProps = {
@@ -36,7 +39,12 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
     form,
     onSubmit,
     action,
-    roles
+    roles,
+    classroomModules,
+    setClassroomModules,
+    handleSaveOrder,
+    isLoadingClassroom,
+    isSavingOrder
   } = useNewClassroomForm({ initialData })
 
   return (
@@ -151,6 +159,65 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
             </Button>
           </form>
         </Form>
+        <Separator className="mt-8" />
+
+        <div className="mt-8">
+          <div className="flex items-center justify-between">
+            <h1>Modules</h1>
+            <Button
+              variant="default"
+              size="sm"
+              onClick={async () => {
+                await handleSaveOrder(classroomModules)
+              }}
+              disabled={isLoadingClassroom || isSavingOrder}
+            >
+              {isSavingOrder && (
+                <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Save Order
+            </Button>
+          </div>
+          <Separator className="my-4 border-dashed border bg-transparent" />
+          {isLoadingClassroom ? (
+            <div className="flex flex-col space-y-4">
+              <Skeleton className="w-full rounded-md h-16" />
+              <Skeleton className="w-full rounded-md h-16" />
+              <Skeleton className="w-full rounded-md h-16" />
+              <Skeleton className="w-full rounded-md h-16" />
+            </div>
+          ) : (
+            <Reorder.Group
+              values={classroomModules}
+              onReorder={setClassroomModules}
+            >
+              <div className="flex flex-col space-y-6 w-full">
+                {classroomModules.map((module, index) => (
+                  <Reorder.Item value={module} key={module.id} drag="y">
+                    <div className="p-4 bg-muted rounded-md shadow cursor-grab">
+                      <div className="flex items-center w-full">
+                        {module.fileUrl ? (
+                          <Image
+                            src={module.fileUrl}
+                            alt={module.title}
+                            width={40}
+                            height={40}
+                          />
+                        ) : (
+                          <div className="size-10 rounded-md bg-gray-300" />
+                        )}
+                        <span className="font-medium pl-4">
+                          {index + 1} - {module.title}
+                        </span>
+                        <Icons.grip className="ml-auto size-4 cursor-grab" />
+                      </div>
+                    </div>
+                  </Reorder.Item>
+                ))}
+              </div>
+            </Reorder.Group>
+          )}
+        </div>
       </div>
     </>
   )

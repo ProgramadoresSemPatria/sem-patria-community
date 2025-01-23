@@ -23,7 +23,7 @@ export const CourseFilterOptions = () => {
 
   return (
     <div className="hidden lg:block">
-      <div className="flex flex-col gap-6 text-gray-100 __className_f56873">
+      <div className="flex flex-col gap-6 dark:text-gray-100 __className_f56873">
         <div className="flex justify-between gap-3 items-center">
           <h3 className="text-lg font-bold">Filter the content</h3>
         </div>

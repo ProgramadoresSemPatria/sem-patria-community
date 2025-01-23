@@ -60,7 +60,7 @@ export const CourseCard = ({ courseProps: props }: CourseCardProps) => {
                 className={cn(
                   props.isPaid
                     ? 'text-violet-900 border-violet-800'
-                    : 'text-[#29e0a9] border-[#29e0a9]',
+                    : 'text-brand-green-600 border-brand-green-600',
                   'inline-flex justify-center items-center gap-1 flex-shrink-0 w-fit rounded font-bold uppercase box-border  h-6 px-2 text-[10px] leading-4 bg-transparent border border-solid'
                 )}
               >

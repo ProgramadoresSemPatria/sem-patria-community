@@ -19,8 +19,8 @@
      --primary-foreground: 0 0% 100%;  /* White for contrast */
  
      /* Green as secondary color */
-     --secondary: 162 75% 90%;  /* Green-100 */
-     --secondary-foreground: 162 85% 50%;  /* Green-500 */
+     --secondary: 162 85% 40%;  /* Green-800 */
+     --secondary-foreground: 0 0% 100%;  /* White for contrast */
  
      /* Muted using black scale */
      --muted: 0 0% 96%;  /* Black-100 */

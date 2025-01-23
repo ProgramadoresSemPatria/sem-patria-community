@@ -36,7 +36,7 @@ const NavOptions = ({ options }: NavOptionsProps) => {
             </Button>
           ) : (
             <Button
-              className="p-2 hover:bg-brand-green-700"
+              className="p-2"
               variant={pathname === option.href ? 'secondary' : 'ghost'}
             >
               {option.title}

@@ -107,7 +107,7 @@ const InterestModal = ({ interest, userId, onClose }: InterestModalProps) => {
                       className="h-8 w-8 flex-none rounded-full bg-gray-50"
                     />
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-white">
+                      <p className="text-sm font-medium dark:text-white">
                         {person.name}
                       </p>
                       <p className="text-xs text-gray-400">{person.email}</p>

@@ -12,7 +12,7 @@ export default defineConfig({
       console.log('config', config)
       return await clerkSetup({ config })
     },
-    baseUrl: 'http://localhost:3000'
-    // baseUrl: process.env.BASE_URL_PRODUCTION || process.env.BASE_URL_DEVELOPMENT
+    // baseUrl: 'http://localhost:3000'
+    baseUrl: process.env.BASE_URL_PRODUCTION || process.env.BASE_URL_DEVELOPMENT
   }
 })

@@ -7,6 +7,9 @@ dotenv.config()
 export default defineConfig({
   screenshotOnRunFailure: false,
   defaultCommandTimeout: 20000,
+  env: {
+    CLERK_TESTING_TOKEN: process.env.CLERK_TESTING_TOKEN
+  },
   e2e: {
     async setupNodeEvents(on, config) {
       config.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY =
@@ -17,9 +20,10 @@ export default defineConfig({
 
       console.log('Loaded Environment Variables:', {
         NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
-          config.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-        BASE_URL_PRODUCTION: config.env.BASE_URL_PRODUCTION,
-        BASE_URL_DEVELOPMENT: config.env.BASE_URL_DEVELOPMENT
+          process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+        BASE_URL_PRODUCTION: process.env.BASE_URL_PRODUCTION,
+        BASE_URL_DEVELOPMENT: process.env.BASE_URL_DEVELOPMENT,
+        CLERK_TESTING_TOKEN: process.env.CLERK_TESTING_TOKEN
       })
       return await clerkSetup({ config })
     },

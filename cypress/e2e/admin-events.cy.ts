@@ -51,7 +51,7 @@ describe('Admin Events page', () => {
     cy.visit('/admin/events', {
       failOnStatusCode: false
     })
-    cy.get('[data-testid="..."]').type('Front End')
+    cy.get('[data-testid="...0_actions"]').click({ force: true })
     cy.contains('Delete').click()
     cy.contains('Delete').click()
     cy.contains('Success').should('exist')
@@ -65,7 +65,7 @@ describe('Admin Events page', () => {
     cy.visit('/admin/events', {
       failOnStatusCode: false
     })
-    cy.get('[data-testid="..."]').click()
+    cy.get('[data-testid="...0_actions"]').click()
     cy.contains('Update').click()
     cy.get('[data-testid="title"]').clear().type('Live de boas vindas')
     cy.get('[data-testid="description"]')

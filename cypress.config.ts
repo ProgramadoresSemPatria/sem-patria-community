@@ -24,7 +24,8 @@ export default defineConfig({
     },
     baseUrl:
       process.env.NODE_ENV === 'production'
-        ? process.env.BASE_URL_PRODUCTION
-        : process.env.BASE_URL_DEVELOPMENT
+        ? process.env.BASE_URL_PRODUCTION ||
+          'https://community.borderlesscoding.com'
+        : process.env.BASE_URL_DEVELOPMENT || 'http://localhost:3000'
   }
 })

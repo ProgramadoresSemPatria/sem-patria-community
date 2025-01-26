@@ -13,6 +13,7 @@ export default defineConfig({
         process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
       config.env.BASE_URL_PRODUCTION = process.env.BASE_URL_PRODUCTION
       config.env.BASE_URL_DEVELOPMENT = process.env.BASE_URL_DEVELOPMENT
+      config.env.CLERK_TESTING_TOKEN = process.env.CLERK_TESTING_TOKEN
 
       console.log('Loaded Environment Variables:', {
         NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:

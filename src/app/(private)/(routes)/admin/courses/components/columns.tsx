@@ -122,6 +122,8 @@ export const columns: Array<ColumnDef<CourseColumn>> = [
   {
     id: 'actions',
     header: 'Actions',
-    cell: ({ row }) => <CourseCellAction data={row.original} />
+    cell: ({ row, cell }) => (
+      <CourseCellAction data={row.original} cell={cell} />
+    )
   }
 ]

@@ -123,6 +123,7 @@ export const ModuleCarousel = ({
               )
             return (
               <CarouselItem
+                data-testid={module.title}
                 key={module.id}
                 className="group xl:basis-1/4 md:basis-1/3 basis-full min-[480px]:basis-1/2 cursor-pointer transition-transform ease-in-out hover:scale-110 hover:-translate-y-1 duration-300 min-h-[300px]"
               >

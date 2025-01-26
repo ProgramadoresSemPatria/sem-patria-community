@@ -134,9 +134,9 @@ export const eventColumns: Array<ColumnDef<EventColumn>> = [
   {
     id: 'actions',
     header: 'Actions',
-    cell: ({ row }) => (
+    cell: ({ row, cell }) => (
       <div className="max-w-[50px]">
-        <EventCellAction data={row.original} />
+        <EventCellAction data={row.original} cell={cell} />
       </div>
     )
   }

@@ -1,12 +1,19 @@
 describe('Admin Users page', () => {
   beforeEach(() => {
-    cy.session('signed-in', () => {
-      cy.signIn()
+    cy.visit(`/sign-in`)
+    cy.clerkLoaded()
+    cy.clerkSignIn({
+      strategy: 'password',
+      identifier: Cypress.env('test_email'),
+      password: Cypress.env('test_password')
     })
+
     cy.visit('/dashboard', {
-      failOnStatusCode: false
+      failOnStatusCode: false,
+      onBeforeLoad: win => {
+        win.localStorage.setItem('videoWatched', 'true')
+      }
     })
-    cy.contains('CMS Mode').click()
   })
   it('Should hide filters when it is clicked', () => {
     cy.visit('/admin/users', {
@@ -24,7 +31,7 @@ describe('Admin Users page', () => {
     cy.visit('/admin/users', {
       failOnStatusCode: false
     })
-    cy.get('#radix-\\:R5lbnnlttfekq\\:').click()
+    cy.get('[data-testid="...0_actions"]').click()
     cy.contains('Delete').click()
     cy.contains('Delete').click().wait(1000)
     cy.contains('Success')
@@ -50,6 +57,9 @@ describe('Admin Users page', () => {
     cy.get('[data-testid="role"]').click() // roles
     cy.get('[data-testid="Admin"]').click()
     cy.get('[data-testid="Builder"]').click()
+    cy.get('[data-testid="position"]').click()
+    cy.get('[data-testid="0"]').click()
+
     cy.get('[data-testid="submit"]').click({ force: true })
     cy.contains('Success')
     cy.contains('User created successfully')

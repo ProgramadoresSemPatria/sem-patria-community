@@ -20,6 +20,7 @@ const PostLike = ({ userId, post, isPostPage = false }: PostLikeProps) => {
         size="icon"
         onClick={handleLike}
         className="flex items-center gap-x-2 hover:bg-transparent hover:text-orange-800"
+        data-testid="like"
       >
         <Icons.upVote
           data-userliked={likeState.liked}
@@ -31,6 +32,7 @@ const PostLike = ({ userId, post, isPostPage = false }: PostLikeProps) => {
         />
 
         <span
+          data-testid="like-count"
           data-userliked={likeState.liked}
           className="data-[userliked=true]:text-orange-800 font-semibold text-sm"
         >

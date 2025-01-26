@@ -23,8 +23,8 @@ export enum appRoutes {
   codeUp = '/code-up',
   mentorship = '/mentorship',
   profile = '/profile',
+  forum = '/forum?category=All',
   interests = '/interests',
-  forum = '/forum',
   appearance = '/profile/appearance',
   publicProfile = '/user',
   checklist = '/profile/checklist',
@@ -51,7 +51,7 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.dashboard className="h-4 w-4" />
   },
   {
-    href: `${appRoutes.forum}?category=All`,
+    href: `${appRoutes.forum}`,
     label: 'Forum',
     icon: <Icons.forum className="h-4 w-4" />
   },

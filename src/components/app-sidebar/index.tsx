@@ -28,7 +28,8 @@ export type AppSidebarProps = {
 
 export function AppSidebar({ mentorship }: AppSidebarProps) {
   const [isMounted, setIsMounted] = useState(false)
-  const { setOpenMobile, isMobile, setIsMobile } = useSidebar()
+  const { setOpenMobile, isMobile, setIsMentorshipPage, shouldShowSidebar } =
+    useSidebar()
 
   const pathname = usePathname()
 
@@ -52,12 +53,9 @@ export function AppSidebar({ mentorship }: AppSidebarProps) {
 
   useEffect(() => {
     setIsMounted(true)
-    if (mentorship) {
-      setIsMobile(true)
-    } else {
-      setIsMobile(undefined)
-    }
-  }, [mentorship, setIsMobile])
+    setIsMentorshipPage(!!mentorship)
+  }, [mentorship, setIsMentorshipPage])
+  if (!shouldShowSidebar) return null
 
   if (!isMounted) return <SkeletonMainNav />
   return (

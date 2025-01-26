@@ -226,9 +226,9 @@ export const NewCourseForm = ({
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {filteredBaseCategories.map(category => (
+                          {filteredBaseCategories.map((category, index) => (
                             <SelectItem
-                              data-testid={category.name}
+                              data-testid={index}
                               key={category.id}
                               value={category.id}
                             >

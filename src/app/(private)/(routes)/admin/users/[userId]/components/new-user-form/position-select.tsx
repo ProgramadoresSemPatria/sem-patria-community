@@ -45,13 +45,14 @@ const PositionSelect = ({ isPending }: PositionSelectProps) => {
               value={field.value}
             >
               <FormControl>
-                <SelectTrigger data-testid="role">
+                <SelectTrigger data-testid="position">
                   <SelectValue placeholder="Select a position" />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                {Object.entries(Positions).map(([key, value]) => (
+                {Object.entries(Positions).map(([key, value], index) => (
                   <SelectItem
+                    data-testid={index}
                     key={key}
                     value={key}
                     className="flex gap-4 font-medium items-center"

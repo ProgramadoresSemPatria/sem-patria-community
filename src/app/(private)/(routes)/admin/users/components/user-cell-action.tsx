@@ -18,12 +18,14 @@ import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { type UserColumn } from './columns'
+import { type Cell } from '@tanstack/react-table'
 
 type UserCellActionProps = {
   data: UserColumn
+  cell: Cell<UserColumn, unknown>
 }
 
-export const UserCellAction = ({ data }: UserCellActionProps) => {
+export const UserCellAction = ({ data, cell }: UserCellActionProps) => {
   const { toast } = useToast()
   const router = useRouter()
 
@@ -121,7 +123,7 @@ export const UserCellAction = ({ data }: UserCellActionProps) => {
         }}
       />
       <DropdownMenu>
-        <DropdownMenuTrigger data-testid="..." asChild>
+        <DropdownMenuTrigger data-testid={`...${cell.id}`} asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
             <span className="sr-only">Open menu</span>
             <Icons.spread className="w-4 h-4" />

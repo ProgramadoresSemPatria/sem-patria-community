@@ -31,7 +31,7 @@ describe('Admin Users page', () => {
     cy.visit('/admin/users', {
       failOnStatusCode: false
     })
-    cy.get(':nth-child(1) > :nth-child(7) > [data-testid="..."]').click()
+    cy.get('[data-testid="...0_actions"]').click()
     cy.contains('Delete').click()
     cy.contains('Delete').click().wait(1000)
     cy.contains('Success')
@@ -57,6 +57,9 @@ describe('Admin Users page', () => {
     cy.get('[data-testid="role"]').click() // roles
     cy.get('[data-testid="Admin"]').click()
     cy.get('[data-testid="Builder"]').click()
+    cy.get('[data-testid="position"]').click()
+    cy.get('[data-testid="0"]').click()
+
     cy.get('[data-testid="submit"]').click({ force: true })
     cy.contains('Success')
     cy.contains('User created successfully')

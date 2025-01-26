@@ -18,12 +18,17 @@ import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { type ClassroomColumn } from './columns'
+import { type Cell } from '@tanstack/react-table'
 
 type ClassroomCellActionProps = {
   data: ClassroomColumn
+  cell: Cell<ClassroomColumn, unknown>
 }
 
-export const ClassroomCellAction = ({ data }: ClassroomCellActionProps) => {
+export const ClassroomCellAction = ({
+  data,
+  cell
+}: ClassroomCellActionProps) => {
   const { toast } = useToast()
   const router = useRouter()
 
@@ -77,7 +82,7 @@ export const ClassroomCellAction = ({ data }: ClassroomCellActionProps) => {
         loading={isDeleting}
       />
       <DropdownMenu>
-        <DropdownMenuTrigger data-testid="..." asChild>
+        <DropdownMenuTrigger data-testid={`...${cell.id}`} asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
             <span className="sr-only">Open menu</span>
             <Icons.spread className="w-4 h-4" />

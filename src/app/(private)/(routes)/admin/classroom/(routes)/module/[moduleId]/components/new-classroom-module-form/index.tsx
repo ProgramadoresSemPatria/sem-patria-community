@@ -144,9 +144,9 @@ export const NewClassroomModuleForm = ({
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {classrooms.map(value => (
+                            {classrooms.map((value, index) => (
                               <SelectItem
-                                data-testid={value.title}
+                                data-testid={index}
                                 key={value.id}
                                 value={value.id}
                               >

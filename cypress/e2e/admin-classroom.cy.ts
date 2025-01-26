@@ -24,10 +24,14 @@ describe('Admin Classroom page', () => {
     cy.visit('/admin/classroom?tabSelected=classroom', {
       failOnStatusCode: false
     })
-    cy.get('[data-testid="new-classroom"]').click({ force: true })
+    cy.get('[data-testid="new-classroom"]', { timeout: 10000 })
+      .should('exist')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .click()
     cy.get('[data-testid="title"]').type('A base')
     cy.get('[data-testid="PerfilFechado"]').click()
-    cy.get('[data-testid="submit"]').click()
+    cy.get('[data-testid="submit"]').click({ force: true })
 
     cy.contains('Success').should('exist')
     cy.contains('Classroom created successfully').should('exist')
@@ -40,9 +44,11 @@ describe('Admin Classroom page', () => {
     cy.visit('/admin/classroom?tabSelected=classroom', {
       failOnStatusCode: false
     })
-    cy.get(':nth-child(1) > :nth-child(5) > [data-testid="..."]').click({
-      force: true
-    })
+    cy.get('[data-testid="...0_actions"]', { timeout: 10000 })
+      .should('exist')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .click()
     cy.contains('Update').click()
     cy.get('[data-testid="title"]').type('Test')
     cy.get('[data-testid="Base"]').click()
@@ -59,9 +65,12 @@ describe('Admin Classroom page', () => {
     cy.visit('/admin/classroom?tabSelected=classroom', {
       failOnStatusCode: false
     })
-    cy.get(':nth-child(1) > :nth-child(5) > [data-testid="..."]').click({
-      force: true
-    })
+    cy.get('[data-testid="...0_actions"]', { timeout: 10000 })
+      .should('exist')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .click({ force: true })
+
     cy.contains('Delete').click()
     cy.contains('Delete').click()
 
@@ -81,7 +90,7 @@ describe('Admin Classroom page', () => {
 
     cy.get('[data-testid="title"]').type('Module')
     cy.get('[data-testid="classroom"]').click()
-    cy.get('[data-testid="nm "]').click()
+    cy.get('[data-testid="0"]').click()
     // TODO: test add files
 
     cy.get('[data-testid="submit"]').click()
@@ -98,11 +107,15 @@ describe('Admin Classroom page', () => {
       failOnStatusCode: false
     })
     cy.contains('Modules').click()
-    cy.get(':nth-child(1) > :nth-child(5) > [data-testid="..."]').click()
+    cy.get('[data-testid="...0_actions"]', { timeout: 10000 })
+      .should('exist')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .click({ force: true })
     cy.contains('Update').click()
     cy.get('[data-testid="title"]').clear().type('Fundamentos')
     cy.get('[data-testid="classroom"]').click()
-    cy.get('[data-testid="reg"]').click()
+    cy.get('[data-testid="0"]').click()
 
     cy.get('[data-testid="submit"]').click()
 
@@ -118,7 +131,11 @@ describe('Admin Classroom page', () => {
       failOnStatusCode: false
     })
     cy.contains('Modules').click()
-    cy.get(':nth-child(1) > :nth-child(5) > [data-testid="..."]').click()
+    cy.get('[data-testid="...0_actions"]', { timeout: 10000 })
+      .should('exist')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .click({ force: true })
     cy.contains('Delete').click()
     cy.contains('Delete').click()
 

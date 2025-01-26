@@ -56,6 +56,8 @@ export const columns: Array<ColumnDef<ClassroomModuleColumn>> = [
     id: 'actions',
     header: 'Actions',
     maxSize: 50,
-    cell: ({ row }) => <ClassroomModuleCellAction data={row.original} />
+    cell: ({ row, cell }) => (
+      <ClassroomModuleCellAction data={row.original} cell={cell} />
+    )
   }
 ]

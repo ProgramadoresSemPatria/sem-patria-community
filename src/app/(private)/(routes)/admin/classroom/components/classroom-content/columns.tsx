@@ -48,6 +48,8 @@ export const columns: Array<ColumnDef<ClassroomColumn>> = [
     id: 'actions',
     header: 'Actions',
     maxSize: 50,
-    cell: ({ row }) => <ClassroomCellAction data={row.original} />
+    cell: ({ row, cell }) => (
+      <ClassroomCellAction data={row.original} cell={cell} />
+    )
   }
 ]

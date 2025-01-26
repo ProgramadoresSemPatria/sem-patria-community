@@ -28,6 +28,12 @@ jobs:
           BASE_URL_PRODUCTION: ${{ secrets.BASE_URL_PRODUCTION }}
           BASE_URL_DEVELOPMENT: ${{ secrets.BASE_URL_DEVELOPMENT }}
 
+      - name: Debug Environment Variables
+        run: |
+          echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"
+          echo "BASE_URL_PRODUCTION=$BASE_URL_PRODUCTION"
+          echo "BASE_URL_DEVELOPMENT=$BASE_URL_DEVELOPMENT"
+
       - name: Start Next.js server
         run: pnpm run start &
         env:

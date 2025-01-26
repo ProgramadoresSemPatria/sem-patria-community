@@ -2,7 +2,6 @@ import { clerkSetup } from '@clerk/testing/cypress'
 import { defineConfig } from 'cypress'
 import * as dotenv from 'dotenv'
 
-// Load environment variables from .env
 dotenv.config()
 
 export default defineConfig({

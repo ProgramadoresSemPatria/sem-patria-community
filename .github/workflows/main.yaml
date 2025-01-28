@@ -39,8 +39,7 @@ jobs:
       - name: Start Next.js server
         run: pnpm run start &
 
-      - name: Wait for server to start
-        run: pnpx wait-on http://localhost:3000
-
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
+        with:
+          baseUrl: ${{ secrets.BASE_URL_PRODUCTION }}

@@ -44,10 +44,7 @@ export const ForumCommentComponent = ({ comment }: CommentComponentProps) => {
     user?.id === comment.userId || user?.publicMetadata.role === 'Admin'
 
   return (
-    <div
-      key={comment.id}
-      className="border-b last:border-none border-slate-900 rounded-md p-4"
-    >
+    <div key={comment.id} className="border-b last:border-none rounded-md p-4">
       <div className="flex justify-between">
         <div className="flex gap-2 items-center">
           <>

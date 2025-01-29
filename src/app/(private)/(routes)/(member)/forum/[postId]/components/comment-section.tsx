@@ -71,7 +71,7 @@ const CommentSection = ({ postId, comments }: CommentSectionProps) => {
               <CollapsibleTrigger asChild>
                 <Button
                   size="sm"
-                  className="bg-primary-foreground text-primary hover:bg-primary-foreground/50 h-5 ring-1 ring-muted gap-1"
+                  className="h-5 ring-1 bg-secondary hover:bg-secondary/80 text-brand-green-900 ring-muted gap-1"
                   onClick={() => {
                     setIsNewCommentOpen(!isNewCommentOpen)
                   }}

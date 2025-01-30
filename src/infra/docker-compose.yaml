@@ -1,7 +1,7 @@
 services:
-  local_database:
+  sem-patria-local-db:
     image: 'postgres:latest'
-    container_name: 'local_database'
+    container_name: 'sem-patria-local-db'
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}

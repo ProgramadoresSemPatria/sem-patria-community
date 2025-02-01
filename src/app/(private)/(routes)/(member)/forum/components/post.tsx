@@ -48,7 +48,7 @@ const Post = ({
         router.push(`/forum/${post.id}/${titleSlug}`)
       }}
       className={cn(
-        isPinned && 'border-l-2 border-l-secondary',
+        isPinned ? 'border-l-2 border-l-secondary' : 'border border-muted/40',
         'rounded-md bg-background shadow dark:text-white text-black hover:cursor-pointer'
       )}
     >

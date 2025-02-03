@@ -47,7 +47,7 @@ describe('Forum page', () => {
     cy.url().should('match', /http:\/\/localhost:3000\/forum\/.*/)
   })
 
-  it.only('Should like post', () => {
+  it('Should like post', () => {
     cy.intercept('PUT', '/api/post/**/likes', req => {
       req.reply({ statusCode: 200, body: {} })
     }).as('like')

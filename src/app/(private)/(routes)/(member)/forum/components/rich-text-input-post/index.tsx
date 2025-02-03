@@ -71,9 +71,9 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
                 <SelectContent>
                   {categories &&
                     categories.length > 0 &&
-                    categories.map(category => (
+                    categories.map((category, index) => (
                       <SelectItem
-                        data-testid={category.name}
+                        data-testid={index}
                         key={category.id}
                         value={category.id}
                       >

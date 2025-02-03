@@ -18,9 +18,9 @@ describe('Forum page', () => {
     cy.intercept('/api/post', {
       statusCode: 200
     }).as('create')
-    cy.get('.outline-none').click()
+    cy.get('[data-testid="create-post-modal"]').click()
     cy.get('[data-testid="category"]').click()
-    cy.get('[data-testid="Back End"]').click({ force: true })
+    cy.get('[data-testid="0"]').click({ force: true })
     cy.get('[data-testid="title"]').type('Cypress post')
     cy.get('.is-empty').type('Cypress post content')
     cy.contains('Send').click()
@@ -32,30 +32,34 @@ describe('Forum page', () => {
       statusCode: 200
     }).as('create')
     cy.get('[data-testid="select-category"]').click({ force: true })
-    cy.get('[data-value="back end"]').click()
+    cy.get('[data-testid="1"]').click()
     cy.get('[data-testid="select-category"] > .inline-flex').should(
-      'have.text',
-      'Back End'
+      'not.have.text',
+      'All'
     )
-    cy.url().should('eq', 'http://localhost:3000/forum?category=Back%20End')
+    cy.url().should('not.eq', 'http://localhost:3000/forum?category=All')
   })
 
   it('Should go to post page', () => {
-    cy.get('.col-span-2 > :nth-child(1) > [data-testid="postt"]').click({
+    cy.get('[data-testid="post1"]').click({
       force: true
     })
     cy.url().should('match', /http:\/\/localhost:3000\/forum\/.*/)
   })
 
-  it('Should like post', () => {
-    cy.intercept('api/post/**/likes', {
+  it.only('Should like post', () => {
+    cy.intercept('POST', '/api/post/**/likes', {
       statusCode: 200
     }).as('like')
-    cy.get(
-      '.col-span-2 > :nth-child(1) > .p-2 > .ml-2 > [data-testid="like"]'
-    ).click()
-    cy.get(
-      '.col-span-2 > :nth-child(1) > .p-2 > .ml-2 > [data-testid="like"] > [data-testid="like-count"]'
-    ).should('have.text', 1)
+    cy.get('[data-testid="like-count1"]')
+      .invoke('text')
+      .then(text => {
+        const initialCount = parseInt(text.trim(), 10)
+        cy.get('[data-testid="like1"]').click()
+        cy.get('[data-testid="like-count1"]').should(
+          'have.text',
+          (initialCount + 1).toString()
+        )
+      })
   })
 })

@@ -22,6 +22,7 @@ type PostProps = {
   userId: string
   isPinned?: boolean
   actions?: boolean
+  index?: number
 }
 
 const Post = ({
@@ -32,7 +33,8 @@ const Post = ({
   commentAmount,
   userId,
   isPinned,
-  actions = true
+  actions = true,
+  index
 }: PostProps) => {
   const router = useRouter()
   const titleSlug = slugify(post.title, { lower: true, strict: true })
@@ -52,7 +54,10 @@ const Post = ({
         'rounded-md dark:bg-slate-900 bg-slate-100 shadow dark:text-white text-black hover:cursor-pointer'
       )}
     >
-      <div data-testid="postt" className="px-6 py-4 flex justify-between">
+      <div
+        data-testid={`post${index}`}
+        className="px-6 py-4 flex justify-between"
+      >
         <div className="w-0 flex-1">
           <div className="flex items-center max-h-40 dark:text-gray-300 text-black">
             <Image
@@ -107,7 +112,7 @@ const Post = ({
         </div>
       </div>
       <div className="flex items-center text-sm p-2 gap-x-4 w-full">
-        <PostLike post={post} userId={userId} />
+        <PostLike post={post} userId={userId} index={index} />
         <Link
           href={`/${categoryName}/post/${post.id}`}
           className="w-fit flex items-center gap-x-2 hover:text-muted-foreground transition-colors"

@@ -9,8 +9,14 @@ interface PostLikeProps {
   post: ExtendedPost
   userId: string
   isPostPage?: boolean
+  index?: number
 }
-const PostLike = ({ userId, post, isPostPage = false }: PostLikeProps) => {
+const PostLike = ({
+  userId,
+  post,
+  isPostPage = false,
+  index
+}: PostLikeProps) => {
   const { handleLike, likeState } = usePostLikes({ post, userId })
 
   return (
@@ -20,7 +26,7 @@ const PostLike = ({ userId, post, isPostPage = false }: PostLikeProps) => {
         size="icon"
         onClick={handleLike}
         className="flex items-center gap-x-2 hover:bg-transparent hover:text-orange-800"
-        data-testid="like"
+        data-testid={`like${index}`}
       >
         <Icons.upVote
           data-userliked={likeState.liked}
@@ -32,7 +38,7 @@ const PostLike = ({ userId, post, isPostPage = false }: PostLikeProps) => {
         />
 
         <span
-          data-testid="like-count"
+          data-testid={`like-count${index}`}
           data-userliked={likeState.liked}
           className="data-[userliked=true]:text-orange-800 font-semibold text-sm"
         >

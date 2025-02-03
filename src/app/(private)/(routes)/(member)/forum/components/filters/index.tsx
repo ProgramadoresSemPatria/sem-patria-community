@@ -124,8 +124,9 @@ const ForumFilters = () => {
                 <CommandInput placeholder="Search category..." />
                 <CommandEmpty>No framework found.</CommandEmpty>
                 <CommandGroup>
-                  {categoryOptions.map(category => (
+                  {categoryOptions.map((category, index) => (
                     <CommandItem
+                      data-testid={index}
                       className="line-clamp-1"
                       key={category.name}
                       value={category.name}

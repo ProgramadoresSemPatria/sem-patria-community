@@ -16,9 +16,8 @@ export default defineConfig({
     async setupNodeEvents(on, config) {
       return await clerkSetup({ config })
     },
-    baseUrl: 'http://localhost:3000/'
-    // 'http://localhost:3000.com' ||
-    // process.env.BASE_URL_PRODUCTION ||
-    // 'https://community.borderlesscoding.com'
+    baseUrl:
+      process.env.BASE_URL_PRODUCTION ||
+      'https://community.borderlesscoding.com'
   }
 })

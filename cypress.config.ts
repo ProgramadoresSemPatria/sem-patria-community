@@ -18,6 +18,6 @@ export default defineConfig({
     },
     baseUrl:
       process.env.BASE_URL_PRODUCTION ||
-      'https://community.borderlesscoding.com'
+      'https://sem-patria-community-qa.vercel.app/'
   }
 })

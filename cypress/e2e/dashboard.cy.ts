@@ -4,8 +4,8 @@ describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
     cy.clerkLoaded()
     cy.clerkSignIn({
       strategy: 'password',
-      identifier: Cypress.env('test_email'),
-      password: Cypress.env('test_password')
+      identifier: Cypress.env('TEST_EMAIL'),
+      password: Cypress.env('TEST_PASSWORD')
     })
 
     cy.visit('/dashboard')

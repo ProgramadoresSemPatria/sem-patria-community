@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - staging
 
 jobs:
   cypress-run:
@@ -30,16 +31,10 @@ jobs:
       - name: Build Next.js app
         run: pnpm run build
 
-      - name: Debug Environment Variables
-        run: |
-          echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"
-          echo "BASE_URL_PRODUCTION=$BASE_URL_PRODUCTION"
-          echo "BASE_URL_DEVELOPMENT=$BASE_URL_DEVELOPMENT"
-
       - name: Start Next.js server
         run: pnpm run start &
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
-          baseUrl: ${{ secrets.BASE_URL_PRODUCTION }}
+          baseUrl: ${{ secrets.BASE_URL_PRODUCTION  }}

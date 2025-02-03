@@ -29,7 +29,7 @@ export const EventComponent = ({ event }: EventComponentProps) => {
         <Tooltip>
           <TooltipTrigger asChild>
             <PopoverTrigger>
-              <div className="flex items-center text-sm p-1 rounded-md dark:hover:bg-slate-900">
+              <div className="flex items-center text-sm p-1 rounded-md dark:hover:bg-muted">
                 <div className="flex flex-col">
                   <span className="text-left font-semibold text-sm text-ellipsis line-clamp-1">
                     {event.title}
@@ -43,14 +43,14 @@ export const EventComponent = ({ event }: EventComponentProps) => {
                   </span>
                 </div>
               </div>
-              <TooltipContent className="dark:bg-slate-900 bg-white text-foreground">
+              <TooltipContent className="dark:bg-muted bg-white text-foreground">
                 <span>See more details</span>
               </TooltipContent>
             </PopoverTrigger>
           </TooltipTrigger>
         </Tooltip>
       </TooltipProvider>
-      <PopoverContent side="left" align="center" className="dark:bg-slate-900">
+      <PopoverContent side="left" align="center" className="dark:bg-card">
         <div className="flex flex-col gap-2 p-2">
           <div className="flex flex-col">
             <span className="font-semibold text-lg text-ellipsis line-clamp-3">

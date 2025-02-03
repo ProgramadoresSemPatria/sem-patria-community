@@ -85,7 +85,7 @@ const NoteEditor = ({
   return (
     <div
       data-hastoolbar={hasToolbar}
-      className="flex flex-col max-w-full w-[100%] justify-stretch mb-2 gap-1 rounded-lg data-[hastoolbar=true]:p-2 dark:data-[hastoolbar=true]:bg-slate-900 data-[hastoolbar=true]:bg-slate-100"
+      className="flex flex-col max-w-full w-[100%] justify-stretch mb-2 gap-1 rounded-lg data-[hastoolbar=true]:p-2 dark:data-[hastoolbar=true]:bg-card data-[hastoolbar=true]:bg-card"
     >
       {hasToolbar && editable && (
         <Toolbar
@@ -143,7 +143,7 @@ const NoteEditor = ({
           }}
         >
           {variant !== 'postInput' && (
-            <EditorCommand className="z-100 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all scrollbar-thin scrollbar-thumb-slate-900 scrollbar-track-slate-800 scrollbar-thumb-rounded-sm">
+            <EditorCommand className="z-100 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all scrollbar-thin scrollbar-thumb-brand-black-700  scrollbar-track-card scrollbar-thumb-rounded-sm">
               <EditorCommandEmpty className="px-2 text-muted-foreground">
                 No results
               </EditorCommandEmpty>

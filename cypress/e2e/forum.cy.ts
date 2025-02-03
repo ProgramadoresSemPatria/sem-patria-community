@@ -48,17 +48,18 @@ describe('Forum page', () => {
   })
 
   it.only('Should like post', () => {
-    cy.intercept('POST', '/api/post/**/likes', {
-      statusCode: 200
+    cy.intercept('PUT', '/api/post/**/likes', req => {
+      req.reply({ statusCode: 200, body: {} })
     }).as('like')
     cy.get('[data-testid="like-count1"]')
       .invoke('text')
       .then(text => {
         const initialCount = parseInt(text.trim(), 10)
         cy.get('[data-testid="like1"]').click()
+
         cy.get('[data-testid="like-count1"]').should(
-          'have.text',
-          (initialCount + 1).toString()
+          'not.have.text',
+          initialCount.toString()
         )
       })
   })

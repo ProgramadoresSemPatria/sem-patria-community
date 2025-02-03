@@ -9,8 +9,8 @@ export default defineConfig({
   defaultCommandTimeout: 20000,
   env: {
     CLERK_TESTING_TOKEN: process.env.CLERK_TESTING_TOKEN,
-    TEST_EMAIL: process.env.TEST_EMAIL,
-    TEST_PASSWORD: process.env.TEST_PASSWORD
+    TEST_EMAIL: process.env.TEST_EMAIL || 'lucasyule6@gmail.com',
+    TEST_PASSWORD: process.env.TEST_PASSWORD || 'lucasyule'
   },
   e2e: {
     async setupNodeEvents(on, config) {

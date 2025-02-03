@@ -17,6 +17,8 @@ jobs:
       BASE_URL_PRODUCTION: ${{ secrets.BASE_URL_PRODUCTION }}
       BASE_URL_DEVELOPMENT: ${{ secrets.BASE_URL_DEVELOPMENT }}
       CLERK_TESTING_TOKEN: ${{ secrets.CLERK_TESTING_TOKEN }}
+      TEST_EMAIL: lucasyule6@gmail.com
+      TEST_PASSWORD: lucasyule6
 
     steps:
       - name: Checkout

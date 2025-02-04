@@ -3,7 +3,7 @@ name: Cypress Tests
 on:
   pull_request:
     branches:
-      - main
+      # - main
       - staging
 
 jobs:
@@ -37,6 +37,10 @@ jobs:
         run: pnpm run start &
 
       - name: Run Cypress tests
+        run: pnpm run cypress:run
+
+      - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
-          baseUrl: ${{ secrets.BASE_URL_PRODUCTION  }}
+          browser: chrome
+          headless: true

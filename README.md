@@ -102,8 +102,14 @@ This will open Prisma Studio in your default web browser, allowing you to view a
 
 #### Development server
 
+> With the cloud database url
 ```bash
 pnpm dev
+```
+
+> Without the cloud database url (running postgreSQL locally with docker)
+```bash
+pnpm dev:local
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your favorite browser.

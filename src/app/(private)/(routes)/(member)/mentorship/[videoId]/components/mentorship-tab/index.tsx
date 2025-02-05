@@ -64,7 +64,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
         <div
           className={cn(
             'hover:cursor-pointer border-b-2 pb-3 w-full flex justify-center',
-            tab === TabTypes.VIDEOS ? 'border-violet-600' : 'border-gray-600'
+            tab === TabTypes.VIDEOS ? 'border-accent' : 'border-muted'
           )}
           onClick={() => {
             handleSetTab(TabTypes.VIDEOS)
@@ -73,15 +73,13 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
           <Icons.play
             data-testid="videos"
             className="w-5 h-5"
-            color={`${tab === TabTypes.VIDEOS ? '#7c3aed' : '#94a3b8'}`}
+            color={`${tab === TabTypes.VIDEOS ? '#390b8e' : '#94a3b8'}`}
           />
         </div>
         <div
           className={cn(
             'hover:cursor-pointer border-b-2 pb-3 w-full flex justify-center',
-            tab === TabTypes.ATTACHMENTS
-              ? 'border-violet-600'
-              : 'border-gray-600'
+            tab === TabTypes.ATTACHMENTS ? 'border-accent' : 'border-muted'
           )}
           onClick={() => {
             handleSetTab(TabTypes.ATTACHMENTS)
@@ -90,7 +88,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
           <Icons.file
             data-testid="attachments"
             className="w-5 h-5"
-            color={`${tab === TabTypes.ATTACHMENTS ? '#7c3aed' : '#94a3b8'}`}
+            color={`${tab === TabTypes.ATTACHMENTS ? '#390b8e' : '#94a3b8'}`}
           />
         </div>
       </div>
@@ -101,7 +99,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
             <Reorder.Group values={videos} onReorder={setVideos}>
               <Card>
                 <CardContent>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-2">
                     <h1 className="font-light p-4 pl-0 whitespace-nowrap overflow-hidden text-ellipsis">
                       {videoProps.title}
                     </h1>
@@ -110,7 +108,6 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                         onClick={() => {
                           setShowDragger(prev => !prev)
                         }}
-                        className="bg-slate-950 dark:bg-slate-100"
                         size="sm"
                       >
                         {showDragger ? 'Stop dragging' : 'Start dragging'}
@@ -121,7 +118,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                         onClick={async () => {
                           await handleSaveOrder(videos)
                         }}
-                        className="bg-slate-950 dark:bg-slate-100"
+                        variant="secondary"
                         size="sm"
                       >
                         Save order
@@ -157,7 +154,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                             <Tooltip>
                               <TooltipTrigger className="flex w-full">
                                 <Link
-                                  className="flex p-2 w-full items-center justify-between gap-6 cursor-pointer rounded transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 text-success-light hover:text-success-light"
+                                  className="flex p-2 w-full items-center justify-between gap-6 cursor-pointer rounded transition-colors hover:bg-muted text-success-light hover:text-success-light"
                                   href={`${appRoutes.mentorship}/${video.id}`}
                                 >
                                   <div className="flex flex-1 items-center gap-3 overflow-hidden">

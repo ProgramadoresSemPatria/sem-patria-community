@@ -46,18 +46,18 @@ const ReplyCommentSection = ({
             <Button
               variant="ghost"
               size="icon"
-              className="group rounded-full hover:bg-transparent hover:text-orange-800"
+              className="group rounded-full hover:bg-transparent hover:text-accent"
               onClick={handleLike}
             >
               <Icons.upVote
                 data-userliked={likeState.liked}
-                className="h-5 data-[userliked=true]:text-orange-800  "
+                className="h-5 data-[userliked=true]:text-primary"
                 strokeWidth={2}
               />
             </Button>
             <p
               data-userliked={likeState.liked}
-              className="leading-4 data-[userliked=true]:text-orange-900"
+              className="leading-4 data-[userliked=true]:text-primary"
             >
               {likeState.likes}
             </p>
@@ -70,25 +70,25 @@ const ReplyCommentSection = ({
                   data-userreplied={replyState.replied}
                   variant="ghost"
                   size="icon"
-                  className="group rounded-full data-[userreplied=true]:text-orange-900 hover:bg-white dark:hover:bg-transparent"
+                  className="group rounded-full data-[userreplied=true]:text-primary hover:bg-white dark:hover:bg-transparent"
                 >
                   <Icons.forum
                     data-userreplied={replyState.replied}
-                    className="h-5 data-[userreplied=true]:text-orange-900 "
+                    className="h-5 data-[userreplied=true]:text-primary"
                     strokeWidth={2}
                   />
                 </Button>
               </CollapsibleTrigger>
               <p
                 data-userliked={replyState.replied}
-                className="leading-4 data-[userliked=true]:text-orange-900"
+                className="leading-4 data-[userliked=true]:text-primary"
               >
                 {replyState.replies}
               </p>
             </div>
           )}
         </div>
-        <CollapsibleContent className="CollapsibleContent w-full mb-4 p-2 border border-primary-foreground rounded-md shadow-lg">
+        <CollapsibleContent className="CollapsibleContent w-full mb-4 p-2 border border-card rounded-md shadow-lg">
           {replies?.map(comment => (
             <ForumCommentComponent key={comment.id} comment={comment} />
           ))}

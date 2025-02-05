@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "next dev",
+    "dev:local": "pnpm services:up && pnpm dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -16,7 +17,10 @@
     "check-types": "tsc --noEmit --pretty",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --browser chrome --headless",
-    "prisma-migrate": "prisma migrate dev"
+    "prisma-migrate": "prisma migrate dev",
+    "docker:compose": "docker compose -f src/infra/docker-compose.yaml --env-file .env",
+    "services:up": "pnpm docker:compose up -d",
+    "services:down": "pnpm docker:compose down"
   },
   "dependencies": {
     "@blocknote/core": "^0.10.1",

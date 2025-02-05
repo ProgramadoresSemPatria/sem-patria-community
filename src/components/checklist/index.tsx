@@ -101,7 +101,7 @@ export const Checklist = ({ isWidget = false }: ChecklistProps) => {
                 <Link href={appRoutes.checklist}>
                   <Button
                     variant="link"
-                    className="flex items-center gap-x-2 text-violet-700 p-0"
+                    className="flex items-center gap-x-2 text-secondary p-0"
                   >
                     See more <Icons.redirect className="w-4 h-4" />
                   </Button>

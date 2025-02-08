@@ -20,14 +20,11 @@ const InterestExplorer: FC<InterestExplorerProps> = ({ interests, userId }) => {
 
   return (
     <div className="space-y-6">
-      <p className="text-justify text-gray-600">
-        Discover and explore a variety of interests within the community. See
-        what others are passionate about and connect with members who share
-        similar interests. Click on an interest to learn more and find people
-        who are also involved, helping you build connections and collaborate
-        with like-minded individuals.
+      <p className="text-left text-muted-foreground">
+        Discover and explore interests, connect with others who share your
+        interests, and collaborate with those who appreciate the same things.
       </p>
-      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {interests.map((interest, index) => (
           <InterestItem
             key={index}

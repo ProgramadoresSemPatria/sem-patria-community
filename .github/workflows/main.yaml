@@ -36,9 +36,9 @@ jobs:
       - name: Start Next.js server
         run: pnpm run start &
 
-      - name: Wait for Next.js server to be ready
-        run: |
-          pnpx wait-on http://localhost:3000 --timeout 60000
+      # - name: Wait for Next.js server to be ready
+      #   run: |
+      #     pnpx wait-on http://localhost:3000 --timeout 60000
 
       # - name: Run Cypress tests
       #   run: pnpm run cypress:run

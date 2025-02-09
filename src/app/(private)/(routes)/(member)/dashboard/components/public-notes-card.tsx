@@ -15,10 +15,10 @@ export const PublicNotesCard = async () => {
       <Card className="flex flex-col flex-grow">
         <CardHeader className="flex flex-col">
           <CardTitle>
-            <b>#ChallengeCodeUp</b> Public notes
+            <b>#ChallengeCodeUp</b>&#58; Public notes
           </CardTitle>
           <CardDescription>
-            The last notes written by our members.
+            The last notes written by our members
           </CardDescription>
         </CardHeader>
 

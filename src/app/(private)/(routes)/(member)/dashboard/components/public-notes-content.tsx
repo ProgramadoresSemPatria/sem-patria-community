@@ -12,7 +12,7 @@ export const PublicNotesContent = async () => {
 
   return (
     <CardContent className="flex-grow overflow-hidden">
-      <ScrollArea className="h-[calc(100vh-20rem)] max-h-[30rem]">
+      <ScrollArea className="h-[calc(100vh-20rem)] max-h-[30rem] pr-4 -mr-4">
         {notes.length === 0 ? (
           <span className="font-medium text-muted-foreground">
             There are no notes to the challenge for now.

@@ -50,5 +50,5 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
-          headless: true
-          start: http://localhost:3000
+          # headless: true
+          # wait-on: http://localhost:3000

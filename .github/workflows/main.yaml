@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Install Cypress Binary
+        run: pnpm exec cypress install
+
       - name: Build Next.js app
         run: pnpm run build
 

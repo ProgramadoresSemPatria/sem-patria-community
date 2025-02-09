@@ -4,7 +4,7 @@ import { emailTemplate } from '@/lib/constants'
 import prismadb from '@/lib/prismadb'
 import { Roles } from '@/lib/types'
 import { auth, clerkClient } from '@clerk/nextjs/server'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function PATCH(req: NextRequest) {

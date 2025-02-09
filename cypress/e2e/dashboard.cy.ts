@@ -42,7 +42,7 @@ describe('Dashboard/Nav bars (Topbar/MainNav)', () => {
     cy.visit('/dashboard', {
       failOnStatusCode: false
     })
-    cy.get('[href="/profile"] > .font-medium')
+    cy.get('[data-testid="Profile"]')
       .click()
       .then(() => {
         cy.contains('Profile')

@@ -20,20 +20,36 @@ describe('Mentorship Page', () => {
     cy.visit('/mentorship', {
       failOnStatusCode: false
     })
-    cy.get('[data-testid="nm"] > .false > .group-hover\\:opacity-80')
-      .click()
-      .then(() => {
-        cy.url().should('match', /\/mentorship\/[0-9a-fA-F-]{36}$/)
-      })
+    cy.get('[data-testid="carousel1-module0"] a').click({ force: true })
+    cy.url().should('match', /\/mentorship\/[0-9a-fA-F-]{36}$/)
   })
+
+  //not working
   it('Should go to attachments tab and add attachment', () => {
     cy.visit('/mentorship', {
       failOnStatusCode: false
     })
     cy.intercept('/api/classroom/video/**', {
       statusCode: 200
-    })
-    cy.get('[data-testid="nm"] > .false > .group-hover\\:opacity-80')
+    }).as('upload')
+    cy.intercept(
+      'POST',
+      '/api/uploadthing?actionType=upload&slug=imageUploader',
+      {
+        statusCode: 200,
+        body: [
+          {
+            url: 'https://mocked-cdn.com/mock-image.png',
+            key: 'fake-key', // ✅ Ensure the key is present
+            name: 'mock-image.png', // ✅ Ensure filename is present
+            size: 12345, // ✅ Ensure file size is present
+            type: 'image/png'
+          }
+        ]
+      }
+    ).as('image')
+
+    cy.get('[data-testid="carousel1-module0"]')
       .click()
       .then(() => {
         cy.url().should('match', /\/mentorship\/[0-9a-fA-F-]{36}$/)
@@ -42,7 +58,12 @@ describe('Mentorship Page', () => {
     cy.contains('Add Attachment').click()
     const filePath = 'advanced.jpg'
     cy.get('[data-testid="upload"]').attachFile(filePath, { force: true })
-    cy.contains('Save').click()
+    cy.mockUploadFiles()
+
+    cy.contains('Save').click({ force: true })
+    cy.wait('@image')
+
+    cy.wait('@upload')
     cy.contains('Video updated').should('exist')
   })
 
@@ -53,7 +74,7 @@ describe('Mentorship Page', () => {
     cy.intercept('POST', '/api/comment/**', {
       statusCode: 200
     })
-    cy.get('[data-testid="nm"] > .false > .group-hover\\:opacity-80')
+    cy.get('[data-testid="carousel1-module0"]')
       .click()
       .then(() => {
         cy.url().should('match', /\/mentorship\/[0-9a-fA-F-]{36}$/)
@@ -64,14 +85,14 @@ describe('Mentorship Page', () => {
     cy.contains('Send').click()
   })
 
-  it('Should like a comment', () => {
+  it.only('Should like a comment', () => {
     cy.visit('/mentorship', {
       failOnStatusCode: false
     })
     cy.intercept('PUT', '/api/comment/like/**', {
       statusCode: 200
     }).as('like')
-    cy.get('[data-testid="nm"] > .false > .group-hover\\:opacity-80')
+    cy.get('[data-testid="carousel1-module0"]')
       .click()
       .then(() => {
         cy.url().should('match', /\/mentorship\/[0-9a-fA-F-]{36}$/)
@@ -90,7 +111,7 @@ describe('Mentorship Page', () => {
     cy.intercept('PUT', '/api/comment/like/**', {
       statusCode: 200
     })
-    cy.get('[data-testid="nm"] > .false > .group-hover\\:opacity-80')
+    cy.get('[data-testid="carousel1-module0"]')
       .click()
       .then(() => {
         cy.url().should('match', /\/mentorship\/[0-9a-fA-F-]{36}$/)

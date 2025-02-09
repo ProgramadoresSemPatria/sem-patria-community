@@ -94,7 +94,7 @@ export const MentorshipSections = async () => {
             description="Try contacting an admin to add new content."
           />
         )}
-        {formattedData.map(classroom => (
+        {formattedData.map((classroom, index) => (
           <div key={classroom.id} className="relative flex flex-col gap-y-3">
             <div className="flex items-center justify-between w-full">
               <h2 className="font-medium text-lg flex items-center">
@@ -105,6 +105,7 @@ export const MentorshipSections = async () => {
               </h2>
             </div>
             <ModuleCarousel
+              carouselIndex={index}
               modules={classroom.modules}
               hasPermission={classroom.hasPermission}
             />

@@ -36,11 +36,16 @@ jobs:
       - name: Start Next.js server
         run: pnpm run start &
 
-      - name: Run Cypress tests
-        run: pnpm run cypress:run
+      - name: Wait for Next.js server to be ready
+        run: |
+          pnpx wait-on http://localhost:3000 --timeout 60000
+
+      # - name: Run Cypress tests
+      #   run: pnpm run cypress:run
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
           headless: true
+          start: http://localhost:3000

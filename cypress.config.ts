@@ -16,8 +16,6 @@ export default defineConfig({
     async setupNodeEvents(on, config) {
       return await clerkSetup({ config })
     },
-    baseUrl:
-      process.env.BASE_URL_PRODUCTION ||
-      'https://sem-patria-community-qa.vercel.app/'
+    baseUrl: 'http://localhost:3000/'
   }
 })

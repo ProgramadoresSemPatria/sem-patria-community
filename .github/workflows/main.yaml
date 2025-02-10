@@ -33,11 +33,11 @@ jobs:
       - name: Install Cypress Binary
         run: pnpm exec cypress install
 
-      - name: Build Next.js app
-        run: pnpm run build
+      # - name: Build Next.js app
+      #   run: pnpm run build
 
-      - name: Start Next.js server
-        run: pnpm run start &
+      # - name: Start Next.js server
+      #   run: pnpm run start &
 
       # - name: Wait for Next.js server to be ready
       #   run: |

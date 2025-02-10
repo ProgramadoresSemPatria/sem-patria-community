@@ -53,10 +53,5 @@ jobs:
           start: pnpm run start
           browser: chrome
 
-      - name: Print Next.js Logs (if tests fail)
-        if: failure()
-        run:
-          cat nextjs-logs.txt
-
           # headless: true
           # wait-on: http://localhost:3000

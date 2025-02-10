@@ -97,6 +97,7 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
                     <FormLabel>Title</FormLabel>
                     <FormControl>
                       <Input
+                        data-testid="title"
                         disabled={isPending}
                         placeholder="Classroom title"
                         {...field}
@@ -126,6 +127,7 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
                           <FormLabel className="flex items-center gap-2">
                             <FormControl className="flex items-center gap-4">
                               <RadioGroupItem
+                                data-testid={value}
                                 value={value}
                                 checked={
                                   !!form
@@ -144,7 +146,12 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
                 )}
               />
             </div>
-            <Button disabled={isPending} className="ml-auto" type="submit">
+            <Button
+              data-testid="submit"
+              disabled={isPending}
+              className="ml-auto"
+              type="submit"
+            >
               {isPending && (
                 <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
               )}

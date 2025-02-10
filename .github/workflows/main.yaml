@@ -1,0 +1,57 @@
+name: Cypress Tests
+
+on:
+  pull_request:
+    branches:
+      # - main
+      - staging
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-22.04
+
+    env:
+      UPLOADTHING_SECRET: ${{ secrets.UPLOADTHING_SECRET }}
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+      BASE_URL_PRODUCTION: ${{ secrets.BASE_URL_PRODUCTION }}
+      BASE_URL_DEVELOPMENT: ${{ secrets.BASE_URL_DEVELOPMENT }}
+      CLERK_TESTING_TOKEN: ${{ secrets.CLERK_TESTING_TOKEN }}
+      TEST_EMAIL: lucasyule6@gmail.com
+      TEST_PASSWORD: lucasyule6
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install Cypress Binary
+        run: pnpm exec cypress install
+
+      # - name: Build Next.js app
+      #   run: pnpm run build
+
+      # - name: Start Next.js server
+      #   run: pnpm run start &
+
+      # - name: Wait for Next.js server to be ready
+      #   run: |
+      #     pnpx wait-on http://localhost:3000 --timeout 60000
+
+      # - name: Run Cypress tests
+      #   run: pnpm run cypress:run
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          build: pnpm run build
+          start: pnpm run start
+          browser: chrome
+
+          # headless: true
+          # wait-on: http://localhost:3000

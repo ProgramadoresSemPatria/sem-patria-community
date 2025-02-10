@@ -23,7 +23,7 @@ export const SearchInput = ({ isLoading, setSearchTerm }: SearchInputProps) => (
     <ComboboxInput
       autoFocus
       maxLength={300}
-      className="w-full h-12 pl-11 pr-4 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 rounded-t-xl focus:outline-none focus:ring-2 focus:ring-violet-500 dark:focus:ring-violet-400 focus:border-transparent transition-colors duration-200"
+      className="w-full h-12 pl-11 pr-4 text-sm bg-white dark:bg-card text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 rounded-t-xl focus:outline-none focus:ring-2 focus:ring-violet-500 dark:focus:ring-secondary focus:border-transparent transition-colors duration-200"
       placeholder="Search..."
       onChange={event => {
         setSearchTerm(event.target.value)

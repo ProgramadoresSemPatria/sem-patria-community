@@ -9,17 +9,17 @@ import {
   CommandInput,
   CommandItem
 } from '@/components/ui/command'
+import { Input } from '@/components/ui/input'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useDebounceSearch } from '@/hooks/shared/use-debounce-search'
 import { cn } from '@/lib/utils'
 import { Check } from 'lucide-react'
 import { useForumFilters } from './use-forum-filters'
-import { Input } from '@/components/ui/input'
-import { useDebounceSearch } from '@/hooks/shared/use-debounce-search'
 
 export const orderByOptions = [
   {
@@ -100,7 +100,7 @@ const ForumFilters = () => {
           <Skeleton className="h-9 w-40 rounded-md" />
         ) : (
           <Popover open={openCategory} onOpenChange={onOpenCategory}>
-            <PopoverTrigger asChild>
+            <PopoverTrigger data-testid="select-category" asChild>
               <Button
                 variant="outline"
                 role="combobox"
@@ -113,9 +113,7 @@ const ForumFilters = () => {
                   <span className="text-xs text-muted-foreground">|</span>
                 )}
                 {categoryName && (
-                  <Badge className="bg-slate-900 hover:bg-slate-900 text-white">
-                    {searchParams.get('category') || categoryName}
-                  </Badge>
+                  <Badge>{searchParams.get('category') || categoryName}</Badge>
                 )}
               </Button>
             </PopoverTrigger>
@@ -124,8 +122,9 @@ const ForumFilters = () => {
                 <CommandInput placeholder="Search category..." />
                 <CommandEmpty>No framework found.</CommandEmpty>
                 <CommandGroup>
-                  {categoryOptions.map(category => (
+                  {categoryOptions.map((category, index) => (
                     <CommandItem
+                      data-testid={index}
                       className="line-clamp-1"
                       key={category.name}
                       value={category.name}
@@ -175,11 +174,7 @@ const ForumFilters = () => {
               {orderBy && (
                 <span className="text-xs text-muted-foreground">|</span>
               )}
-              {orderBy && (
-                <Badge className="bg-slate-900 hover:bg-slate-900 text-white">
-                  {orderBy}
-                </Badge>
-              )}
+              {orderBy && <Badge>{orderBy}</Badge>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[200px] p-0">

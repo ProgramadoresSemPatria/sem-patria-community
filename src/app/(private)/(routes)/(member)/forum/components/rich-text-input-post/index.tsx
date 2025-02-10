@@ -61,7 +61,7 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
                 defaultValue={field.value}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger data-testid="category">
                     <SelectValue
                       defaultValue={field.value}
                       placeholder="Select a category"
@@ -71,8 +71,12 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
                 <SelectContent>
                   {categories &&
                     categories.length > 0 &&
-                    categories.map(category => (
-                      <SelectItem key={category.id} value={category.id}>
+                    categories.map((category, index) => (
+                      <SelectItem
+                        data-testid={index}
+                        key={category.id}
+                        value={category.id}
+                      >
                         {category.name}
                       </SelectItem>
                     ))}
@@ -89,6 +93,7 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
               <FormLabel>Title</FormLabel>
               <FormControl>
                 <Input
+                  data-testid="title"
                   placeholder="Title..."
                   onChange={field.onChange}
                   value={field.value}
@@ -125,7 +130,7 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
             isPending ||
             isUploadingImage
           }
-          className="self-end w-fit dark:bg-slate-800 bg-slate-200 dark:text-white text-black gap-1 dark:hover:bg-slate-900 hover:bg-slate-100"
+          className="self-end w-fit gap-1"
         >
           {isPending ? (
             <>

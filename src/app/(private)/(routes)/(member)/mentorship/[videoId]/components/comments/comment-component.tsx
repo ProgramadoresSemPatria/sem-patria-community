@@ -89,10 +89,7 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
   }
 
   return (
-    <div
-      key={comment.id}
-      className="border-2 dark:border-slate-600 border-slate-300 rounded-md p-4"
-    >
+    <div key={comment.id} className="border-2 rounded-md p-4">
       <div className="flex justify-between">
         <div className="flex gap-2 items-center mb-2">
           <>
@@ -124,6 +121,7 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
           size="icon"
           className="group rounded-full"
           onClick={handleLike}
+          data-testid="like"
         >
           <Icons.upVote
             data-userliked={likeState.liked}
@@ -132,6 +130,7 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
           />
         </Button>
         <p
+          data-testid="likes-count"
           data-userliked={likeState.liked}
           className="leading-4 data-[userliked=true]:text-violet-900"
         >

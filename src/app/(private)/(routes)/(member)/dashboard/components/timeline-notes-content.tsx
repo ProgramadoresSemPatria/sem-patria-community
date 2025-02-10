@@ -87,7 +87,7 @@ const TimelineNotesContent = ({
               initialValue={parsedContent || '{}'}
               variant="readonly"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-slate-950 from-10% to-50%" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-background from-10% to-50%" />
           </div>
           <Link
             href={`/code-up/${noteId}/public-note`}

@@ -129,7 +129,7 @@ export const ToolbarColorSelector = ({
 
       <PopoverContent
         sideOffset={5}
-        className="my-1 flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl scrollbar-thin scrollbar-thumb-slate-900 scrollbar-track-slate-800 scrollbar-thumb-rounded-sm"
+        className="my-1 flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl scrollbar-thin scrollbar-thumb-brand-black-700 scrollbar-track-card scrollbar-thumb-rounded-sm"
         align="start"
       >
         <div className="flex flex-col">

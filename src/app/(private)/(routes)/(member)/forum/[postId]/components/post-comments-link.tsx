@@ -29,7 +29,10 @@ const PostCommentsLink = ({ comments, postId }: PostCommentsLinkProps) => {
         size="icon"
         className="hover:bg-white dark:hover:bg-transparent rounded-full"
       >
-        <Icons.forum className="h-5 dark:hover:text-white" strokeWidth={2} />
+        <Icons.forum
+          className="h-4 w-4 dark:hover:text-white"
+          strokeWidth={2}
+        />
       </Button>
       <p className="leading-4">{commentsData.length}</p>
     </div>

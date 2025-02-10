@@ -16,11 +16,7 @@ const SendCommentButton = ({
   const loadingPlaceholder = isReply ? 'Sending' : 'Sending comment'
 
   return (
-    <Button
-      disabled={isPending}
-      className="w-fit dark:bg-slate-900 bg-slate-100 dark:text-white text-black gap-1 hover:bg-slate-900/70"
-      onClick={handleSendComment}
-    >
+    <Button disabled={isPending} className="w-fit" onClick={handleSendComment}>
       {isPending ? (
         <>
           <Icons.loader className="h-4 w-4 mr-2 animate-spin" />{' '}

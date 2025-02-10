@@ -23,7 +23,7 @@ export const ButtonMarkAsWatched = ({
             onRemoveVideosWatched(videoProps)
           }}
           variant="ghost"
-          className="flex items-center transition-colors hover:stroke-[#d1d5db] stroke-emerald-400 text-emerald-400 hover:text-primary"
+          className="flex items-center transition-colors stroke-brand-green-400 text-brand-green-400 hover:text-brand-green-400 hover:bg-muted"
         >
           <Icons.check className="h-4 w-4 mr-2" />
           <span>Mark as unwatched</span>
@@ -34,7 +34,7 @@ export const ButtonMarkAsWatched = ({
             onAddVideosWatched(videoProps)
           }}
           variant="ghost"
-          className="flex items-center transition-colors hover:text-emerald-400 stroke-[#d1d5db] hover:stroke-emerald-400"
+          className="flex items-center transition-colors hover:text-brand-green-400 hover:bg-brand-green-950"
         >
           <Icons.check className="h-4 w-4 mr-2" />
           <span>Mark as watched</span>

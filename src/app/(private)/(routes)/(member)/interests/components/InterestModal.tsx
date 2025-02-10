@@ -77,7 +77,7 @@ const InterestModal = ({ interest, userId, onClose }: InterestModalProps) => {
         <input
           type="text"
           placeholder="Search users..."
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+          className="w-full px-4 py-2 border rounded-md focus:outline-none"
           value={searchQuery}
           onChange={e => {
             setSearchQuery(e.target.value)
@@ -89,14 +89,14 @@ const InterestModal = ({ interest, userId, onClose }: InterestModalProps) => {
         <nav aria-label="Directory">
           {Object.keys(filteredUsers).map(letter => (
             <div key={letter} className="relative">
-              <div className="sticky top-0 z-10 bg-gray-800 px-3 py-1 text-sm font-semibold text-gray-200">
+              <div className="sticky top-0 z-10 bg-card px-3 py-1 text-sm font-semibold">
                 {letter}
               </div>
               <ul role="list" className="divide-y divide-gray-100">
                 {filteredUsers[letter].map(person => (
                   <li
                     key={person.email}
-                    className="flex items-center gap-x-4 px-3 py-2 cursor-pointer hover:bg-gray-700"
+                    className="flex items-center gap-x-4 px-3 py-2 cursor-pointer hover:bg-accent/20"
                     onClick={() => {
                       router.push(`/user/${person.username}`)
                     }}
@@ -107,7 +107,7 @@ const InterestModal = ({ interest, userId, onClose }: InterestModalProps) => {
                       className="h-8 w-8 flex-none rounded-full bg-gray-50"
                     />
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-white">
+                      <p className="text-sm font-medium dark:text-white">
                         {person.name}
                       </p>
                       <p className="text-xs text-gray-400">{person.email}</p>
@@ -128,12 +128,11 @@ const InterestModal = ({ interest, userId, onClose }: InterestModalProps) => {
         <Button
           onClick={onClose}
           disabled={isAddingInterest || isRemovingInterest}
-          className="text-black"
         >
           Close
         </Button>
         <Button
-          variant="outline"
+          variant="destructive"
           onClick={handleInterestAction}
           disabled={isAddingInterest || isRemovingInterest}
         >

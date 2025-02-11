@@ -19,20 +19,20 @@ const PostLike = ({ userId, post, isPostPage = false }: PostLikeProps) => {
         variant="ghost"
         size="icon"
         onClick={handleLike}
-        className="flex items-center gap-x-2 hover:bg-transparent hover:text-orange-800"
+        className="flex items-center gap-x-2 hover:bg-transparent hover:text-accent"
       >
         <Icons.upVote
           data-userliked={likeState.liked}
           data-ispostpage={isPostPage}
           className={cn(
-            likeState.liked && 'text-orange-800',
+            likeState.liked && 'text-primary',
             'data-[ispostpage=true]:h-5 data-[ispostpage=true]:w-5 h-4 w-4 '
           )}
         />
 
         <span
           data-userliked={likeState.liked}
-          className="data-[userliked=true]:text-orange-800 font-semibold text-sm"
+          className="data-[userliked=true]:text-primary font-semibold text-sm"
         >
           {likeState.likes}
         </span>

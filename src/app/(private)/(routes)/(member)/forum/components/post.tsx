@@ -48,8 +48,8 @@ const Post = ({
         router.push(`/forum/${post.id}/${titleSlug}`)
       }}
       className={cn(
-        isPinned && 'border-l-2 border-l-orange-600',
-        'rounded-md dark:bg-slate-900 bg-slate-100 shadow dark:text-white text-black hover:cursor-pointer'
+        isPinned ? 'border-l-2 border-l-secondary' : 'border border-muted/40',
+        'rounded-md bg-background shadow dark:text-white text-black hover:cursor-pointer'
       )}
     >
       <div className="px-6 py-4 flex justify-between">
@@ -94,12 +94,12 @@ const Post = ({
               initialValue={JSON.parse(post.content as string)}
               editable={false}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-100 dark:from-slate-900 from-0% to-50% rounded-md shadow-lg" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background from-0% to-50% rounded-md shadow-lg" />
           </div>
         </div>
         <div className="flex gap-x-2 items-start">
           {post.isPinned && isPinned && (
-            <Icons.pin className="my-1 text-orange-600 fill-orange-600 h-5 w-5" />
+            <Icons.pin className="my-1 text-secondary fill-secondary h-5 w-5" />
           )}
           <Can I="delete" a="Post">
             {actions && <PostActions post={post} />}
@@ -117,7 +117,7 @@ const Post = ({
         </Link>
         {!isPinned && post.isPinned && (
           <div className="ml-auto flex items-center gap-2 pr-4">
-            <Icons.pin className="text-orange-600 h-4 w-4" />
+            <Icons.pin className="text-secondary h-4 w-4" />
             <span className="text-sm text-muted-foreground">
               Post is pinned
             </span>

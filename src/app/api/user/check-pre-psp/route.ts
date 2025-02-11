@@ -1,6 +1,6 @@
 import prismadb from '@/lib/prismadb'
 import { clerkClient } from '@clerk/nextjs/server'
-import { subDays, startOfDay } from 'date-fns'
+import { startOfDay, subDays } from 'date-fns'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function GET(req: NextRequest) {
@@ -27,6 +27,10 @@ export async function GET(req: NextRequest) {
 
     const updates = users.map(async user => {
       const updatedRoles = user.role.filter(role => role !== 'PrePsp')
+
+      if (!updatedRoles.includes('ProgramadorSemPatria')) {
+        updatedRoles.push('ProgramadorSemPatria')
+      }
 
       await clerkClient.users.updateUser(user.id, {
         publicMetadata: {

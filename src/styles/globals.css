@@ -4,35 +4,42 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+     /* Using white palette for background and related */
+     --background: 0 0% 100%;
+     --foreground: 0 0% 7%;  /* Black-950 for text */
+ 
+     --card: 0 0% 98%;  /* White-100 for subtle distinction */
+     --card-foreground: 0 0% 7%;  /* Black-950 */
+ 
+     --popover: 0 0% 100%;
+     --popover-foreground: 0 0% 7%;  /* Black-950 */
+ 
+     /* Purple as primary color */
+     --primary: 261 85% 50%;  /* Purple-500 */
+     --primary-foreground: 0 0% 100%;  /* White for contrast */
+ 
+     /* Green as secondary color */
+     --secondary: 162 85% 40%;  /* Green-800 */
+     --secondary-foreground: 0 0% 100%;  /* White for contrast */
+ 
+     /* Muted using black scale */
+     --muted: 0 0% 96%;  /* Black-100 */
+     --muted-foreground: 0 0% 40%;  /* Black-600 */
+ 
+     /* Purple variants for accent */
+     --accent: 261 75% 90%;  /* Purple-100 */
+     --accent-foreground: 261 85% 30%;  /* Purple-700 */
+ 
+     /* Keep destructive red as is since it's a semantic color */
+     --destructive: 0 84.2% 60.2%;
+     --destructive-foreground: 0 0% 100%;
+ 
+     /* Subtle borders using black scale */
+     --border: 0 0% 90%;  /* Black-100 */
+     --input: 0 0% 90%;   /* Black-100 */
+     --ring: 261 85% 50%; /* Purple-500 for focus rings */
+ 
+     --radius: 0.5rem;
 
     --novel-highlight-default: #ffffff;
     --novel-highlight-purple: #f6f3f8;
@@ -43,36 +50,95 @@
     --novel-highlight-orange: #faebdd;
     --novel-highlight-pink: #faf1f5;
     --novel-highlight-gray: #f1f1ef;
+
+     /* Brand Colors - Black */
+     --black-50: 0 0% 98%;
+     --black-100: 0 0% 90%;
+     --black-200: 0 0% 80%;
+     --black-300: 0 0% 70%;
+     --black-400: 0 0% 60%;
+     --black-500: 0 0% 50%;
+     --black-600: 0 0% 40%;
+     --black-700: 0 0% 30%;
+     --black-800: 0 0% 20%;
+     --black-900: 0 0% 10%;
+     --black-950: 0 0% 7%;
+ 
+     /* Brand Colors - Purple */
+     --purple-50: 261 75% 97%;
+     --purple-100: 261 75% 90%;
+     --purple-200: 261 75% 80%;
+     --purple-300: 261 75% 70%;
+     --purple-400: 261 80% 60%;
+     --purple-500: 261 85% 50%;
+     --purple-600: 261 85% 40%;
+     --purple-700: 261 85% 30%;
+     --purple-800: 261 85% 20%;
+     --purple-900: 261 85% 10%;
+     --purple-950: 261 85% 7%;
+ 
+     /* Brand Colors - Green */
+     --green-50: 162 75% 97%;
+     --green-100: 162 75% 90%;
+     --green-200: 162 75% 80%;
+     --green-300: 162 75% 70%;
+     --green-400: 162 80% 60%;
+     --green-500: 162 85% 50%;
+     --green-600: 162 85% 40%;
+     --green-700: 162 85% 30%;
+     --green-800: 162 85% 20%;
+     --green-900: 162 85% 10%;
+     --green-950: 162 85% 7%;
+ 
+     /* Brand Colors - White */
+     --white-50: 0 0% 100%;
+     --white-100: 0 0% 98%;
+     --white-200: 0 0% 96%;
+     --white-300: 0 0% 94%;
+     --white-400: 0 0% 92%;
+     --white-500: 0 0% 90%;
+     --white-600: 0 0% 88%;
+     --white-700: 0 0% 86%;
+     --white-800: 0 0% 84%;
+     --white-900: 0 0% 82%;
+     --white-950: 0 0% 81%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+     /* Using black palette for dark mode background */
+     --background: 0 0% 7%;  /* Black-950 */
+     --foreground: 0 0% 98%;  /* White-100 */
+ 
+     --card: 0 0% 10%;  /* Black-900 */
+     --card-foreground: 0 0% 98%;  /* White-100 */
+ 
+     --popover: 0 0% 7%;  /* Black-950 */
+     --popover-foreground: 0 0% 98%;  /* White-100 */
+ 
+     /* Dark mode primary using Purple */
+     --primary: 261 85% 50%;  /* Purple-500 */
+     --primary-foreground: 0 0% 100%;  /* White */
+ 
+     /* Dark mode secondary using Green */
+     --secondary: 162 85% 50%;  /* Green-500 */
+     --secondary-foreground: 162 85% 10%;  /* Green-900*/
+ 
+     /* Dark mode muted using black scale */
+     --muted: 0 0% 15%;  /* Black-850 */
+     --muted-foreground: 0 0% 60%;  /* Black-400 */
+ 
+     /* Dark mode accent using Purple */
+     --accent: 261 85% 30%;  /* Purple-700 */
+     --accent-foreground: 261 75% 90%;  /* Purple-100 */
+ 
+     /* Keep destructive red as is */
+     --destructive: 0 62.8% 30.6%;
+     --destructive-foreground: 0 0% 98%;
+ 
+     /* Dark mode borders using black scale */
+     --border: 0 0% 20%;  /* Black-800 */
+     --input: 0 0% 20%;   /* Black-800 */
+     --ring: 261 85% 50%; /* Purple-500 */
 
     --novel-highlight-default: #000000;
     --novel-highlight-purple: #3f2c4b;

@@ -45,7 +45,7 @@ const ForumWidget = async () => {
             </div>
           </CardTitle>
         </CardHeader>
-        <CardContent className="flex-grow overflow-hidden">
+        <CardContent className="overflow-hidden">
           <ScrollArea className="h-[calc(100vh-10rem)] max-h-[60rem]">
             <ul className="flex flex-col col-span-2 space-y-6">
               {posts.map(post => (

@@ -66,11 +66,9 @@ export const useUserAuthForm = ({ redirectUrl }: UseUserAuthFormProps) => {
 
       return completeSignIn
     },
-    onSuccess: async data => {
-      const userData = data?.userData
-
+    onSuccess: () => {
       toast({
-        title: `Welcome ${userData?.firstName}!`,
+        title: 'Welcome!',
         description: 'You have successfully signed in'
       })
       router.push(redirectUrl || '/dashboard')
@@ -81,7 +79,7 @@ export const useUserAuthForm = ({ redirectUrl }: UseUserAuthFormProps) => {
       }
       console.error('Error authenticating', error)
       toast({
-        title: 'An error ocurred while signing in',
+        title: 'An error occurred while signing in',
         description: 'Try again later',
         variant: 'destructive'
       })

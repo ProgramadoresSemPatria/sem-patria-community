@@ -68,7 +68,7 @@ const TopBar = () => {
               className="flex items-center gap-x-2"
             >
               {!isMobile && <span>Give your feedback</span>}
-              <Icons.redirect className="w-5 h-5 text-violet-600" />
+              <Icons.redirect className="w-4 h-4 text-violet-600" />
             </Link>
           </Button>
           <NotificationsButton />

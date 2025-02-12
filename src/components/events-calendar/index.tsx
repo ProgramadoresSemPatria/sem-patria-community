@@ -53,7 +53,7 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
       return `We have ${data?.length} events this week`
     }
 
-    return 'No events today.'
+    return 'No events today'
   }, [data, isLoading, selectedDay, selectedDayEvents])
 
   const eventsDisplay = useMemo(() => {

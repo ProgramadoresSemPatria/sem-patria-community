@@ -36,7 +36,7 @@ const NavOptions = ({ options }: NavOptionsProps) => {
             </Button>
           ) : (
             <Button
-              className="p-2"
+              className="p-2 whitespace-normal"
               variant={pathname === option.href ? 'secondary' : 'ghost'}
             >
               {option.title}

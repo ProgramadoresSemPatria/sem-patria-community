@@ -23,6 +23,18 @@ jobs:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
 
+      - name: 📄 Create `.env` File
+        run: |
+          echo "UPLOADTHING_SECRET=${{ secrets.UPLOADTHING_SECRET }}" >> .env
+          echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" >> .env
+          echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}" >> .env
+          echo "BASE_URL_PRODUCTION=${{ secrets.BASE_URL_PRODUCTION }}" >> .env
+          echo "BASE_URL_DEVELOPMENT=${{ secrets.BASE_URL_DEVELOPMENT }}" >> .env
+          echo "CLERK_TESTING_TOKEN=${{ secrets.CLERK_TESTING_TOKEN }}" >> .env
+          echo "TEST_EMAIL=local_user@email.com" >> .env
+          echo "TEST_PASSWORD=sem_patria_password" >> .env
+        shell: bash
+
       - name: 📦 Install pnpm
         run: npm install -g pnpm
 

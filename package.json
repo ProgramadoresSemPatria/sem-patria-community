@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "dev:local": "pnpm services:up && pnpm dev",
+    "dev:local": "pnpm services:up && pnpm prisma-migrate && pnpm seed && pnpm dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -20,7 +20,8 @@
     "prisma-migrate": "prisma migrate dev",
     "docker:compose": "docker compose -f src/infra/docker-compose.yaml --env-file .env",
     "services:up": "pnpm docker:compose up -d",
-    "services:down": "pnpm docker:compose down"
+    "services:down": "pnpm docker:compose down",
+    "seed": "tsx --env-file=.env src/infra/scripts/seed.ts"
   },
   "dependencies": {
     "@blocknote/core": "^0.10.1",
@@ -146,6 +147,7 @@
     "prisma": "^5.10.2",
     "tailwind-scrollbar": "^3.1.0",
     "tailwindcss": "^3.3.5",
+    "tsx": "^4.19.2",
     "typescript": "^5.3.2"
   },
   "config": {

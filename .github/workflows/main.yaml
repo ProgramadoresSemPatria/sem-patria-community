@@ -3,7 +3,6 @@ name: Cypress Tests
 on:
   pull_request:
     branches:
-      # - main
       - staging
 
 jobs:
@@ -17,41 +16,50 @@ jobs:
       BASE_URL_PRODUCTION: ${{ secrets.BASE_URL_PRODUCTION }}
       BASE_URL_DEVELOPMENT: ${{ secrets.BASE_URL_DEVELOPMENT }}
       CLERK_TESTING_TOKEN: ${{ secrets.CLERK_TESTING_TOKEN }}
-      TEST_EMAIL: lucasyule6@gmail.com
-      TEST_PASSWORD: lucasyule6
+      TEST_EMAIL: local_user@email.com
+      TEST_PASSWORD: sem_patria_password
 
     steps:
-      - name: Checkout
+      - name: 📥 Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install pnpm
+      - name: 📦 Install pnpm
         run: npm install -g pnpm
 
-      - name: Install dependencies
+      - name: 📦 Install Dependencies
         run: pnpm install
 
-      - name: Install Cypress Binary
-        run: pnpm exec cypress install
+      - name: 🐳 Start Docker Services
+        run: pnpm services:up
 
-      # - name: Build Next.js app
-      #   run: pnpm run build
+      - name: ⏳ Wait for PostgreSQL to be Ready
+        run: |
+          echo "Waiting for PostgreSQL to be ready..."
+          until docker exec sem-patria-local-db pg_isready -U postgres; do
+            sleep 2
+          done
+          echo "✅ PostgreSQL is ready."
 
-      # - name: Start Next.js server
-      #   run: pnpm run start &
+      - name: 📂 Run Database Migrations
+        run: pnpm prisma-migrate
 
-      # - name: Wait for Next.js server to be ready
-      #   run: |
-      #     pnpx wait-on http://localhost:3000 --timeout 60000
+      - name: 🌱 Seed Database
+        run: pnpm seed
 
-      # - name: Run Cypress tests
-      #   run: pnpm run cypress:run
+      - name: ⚡ Build Next.js App
+        run: pnpm build
 
-      - name: Run Cypress tests
+      - name: 🚀 Start Next.js Server in Docker
+        run: pnpm start &
+
+      - name: ⏳ Wait for Next.js to be Ready
+        run: pnpx wait-on http://localhost:3000 --timeout 60000
+
+      - name: 🧪 Run Cypress Tests
         uses: cypress-io/github-action@v6
         with:
-          build: pnpm run build
-          start: pnpm run start
+          build: pnpm build
+          start: pnpm start
+          wait-on: http://localhost:3000
           browser: chrome
-
-          # headless: true
-          # wait-on: http://localhost:3000
+          headless: true

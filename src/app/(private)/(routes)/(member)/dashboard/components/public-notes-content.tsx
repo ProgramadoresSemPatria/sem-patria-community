@@ -11,8 +11,8 @@ export const PublicNotesContent = async () => {
   })
 
   return (
-    <CardContent className="flex-grow overflow-hidden">
-      <ScrollArea className="h-[calc(100vh-10rem)] max-h-[35rem] pr-4 -mr-4">
+    <ScrollArea className="h-full min-h-[200px] max-h-[calc(100vh-200px)]">
+      <CardContent className="flex-grow overflow-hidden">
         {notes.length === 0 ? (
           <span className="font-medium text-muted-foreground">
             There are no notes to the challenge for now.
@@ -26,7 +26,7 @@ export const PublicNotesContent = async () => {
             />
           ))
         )}
-      </ScrollArea>
-    </CardContent>
+      </CardContent>
+    </ScrollArea>
   )
 }

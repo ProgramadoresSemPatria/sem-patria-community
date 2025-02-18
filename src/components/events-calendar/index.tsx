@@ -80,7 +80,7 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
     return (
       <div className="flex flex-col gap-y-2">
         <h2 className="text-lg font-semibold">Next events of the community</h2>
-        <Card>
+        <Card className="lg:h-44">
           <CardHeader className="flex p-3">
             <CardTitle className="flex items-center justify-between gap-x-2">
               <EventsTitle

@@ -1,5 +1,7 @@
-<h1 align="center">Borderless Coding
-<img src="src/assets/logo.svg" width="36" height="36" alt="Logo" /></h1>
+<div align="center" style="display: flex; align-items: center; justify-content: center;">
+  <h1 style="margin-right: 10px;">Borderless Coding</h1>
+  <img src="public/logo.svg" width="36" height="36" alt="Logo" style="margin-top:12px" />
+</div>
 
 A platform for Borderless members to connect, collaborate, and share knowledge within the community.
 

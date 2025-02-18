@@ -118,18 +118,21 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
             </CardTitle>
           </CardHeader>
           <ScrollArea className="max-h-28 overflow-y-auto">
-            <CardContent
-              className={cn(
-                'flex flex-col gap-2 md:gap-0 justify-start items-start p-0 pb-4'
-              )}
-            >
+            <CardContent className="flex flex-col gap-2 md:gap-0 justify-start items-start p-0 pb-4">
               <section className="flex flex-col gap-4 w-full px-4">
                 {isLoading ? (
                   <Icons.loader className="w-4 h-4 animate-spin" />
-                ) : (
-                  eventsDisplay?.map(event => (
+                ) : eventsDisplay && eventsDisplay.length > 0 ? (
+                  eventsDisplay.map(event => (
                     <EventComponent key={event.id} event={event} />
                   ))
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-4">
+                    <Icons.calendar className="w-8 h-8 text-muted-foreground mb-2" />
+                    <p className="text-sm text-muted-foreground">
+                      No events for this day
+                    </p>
+                  </div>
                 )}
               </section>
             </CardContent>
@@ -152,11 +155,7 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
           Plan your time and don&apos;t miss any event
         </CardDescription>
       </CardHeader>
-      <CardContent
-        className={cn(
-          'flex flex-col gap-2 md:gap-0 md:flex-row justify-start items-start p-4 h-full'
-        )}
-      >
+      <CardContent className="flex flex-col gap-2 md:gap-0 md:flex-row justify-start items-start p-4 h-full">
         <Calendar
           mode="multiple"
           selected={allEvents?.map(d => new Date(d.date))}

@@ -37,7 +37,7 @@ export const CourseFilterOptions = () => {
           <h4 className="text-sm font-bold">Skill Level</h4>
           <div className="flex items-center space-x-2">
             <Link
-              className="h-4"
+              className="h-4 flex items-center"
               href={{
                 query: {
                   category,
@@ -61,7 +61,7 @@ export const CourseFilterOptions = () => {
           </div>
           <div className="flex items-center space-x-2">
             <Link
-              className="h-4"
+              className="h-4 flex items-center"
               href={{
                 query: {
                   category,
@@ -85,7 +85,7 @@ export const CourseFilterOptions = () => {
           </div>
           <div className="flex items-center space-x-2">
             <Link
-              className="h-4"
+              className="h-4 flex items-center"
               href={{
                 query: {
                   category,
@@ -113,7 +113,7 @@ export const CourseFilterOptions = () => {
           <h4 className="text-sm font-bold">Availability</h4>
           <div className="flex items-center space-x-2">
             <Link
-              className="h-4"
+              className="h-4 flex items-center"
               href={{
                 query: {
                   category,

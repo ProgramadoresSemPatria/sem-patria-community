@@ -20,10 +20,11 @@ interface ColorSelectorProps {
 }
 
 export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
-  const { theme } = useTheme()
+  const { resolvedTheme } = useTheme()
   const { editor } = useEditor()
 
-  const TEXT_COLORS = theme === 'light' ? LIGHT_TEXT_COLORS : DARK_TEXT_COLORS
+  const TEXT_COLORS =
+    resolvedTheme === 'light' ? LIGHT_TEXT_COLORS : DARK_TEXT_COLORS
 
   if (!editor) return null
   const activeColorItem = TEXT_COLORS.find(({ color }) =>

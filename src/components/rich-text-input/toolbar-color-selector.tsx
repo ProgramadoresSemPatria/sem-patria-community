@@ -24,8 +24,9 @@ export const ToolbarColorSelector = ({
   onOpenChange,
   editor
 }: ColorSelectorProps) => {
-  const { theme } = useTheme()
-  const TEXT_COLORS = theme === 'light' ? LIGHT_TEXT_COLORS : DARK_TEXT_COLORS
+  const { resolvedTheme } = useTheme()
+  const TEXT_COLORS =
+    resolvedTheme === 'light' ? LIGHT_TEXT_COLORS : DARK_TEXT_COLORS
 
   if (!editor) return null
   const activeColorItem = TEXT_COLORS.find(({ color }) =>

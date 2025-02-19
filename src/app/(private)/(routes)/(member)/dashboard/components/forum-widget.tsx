@@ -24,9 +24,9 @@ const ForumWidget = async () => {
   })
 
   return (
-    <div className="flex flex-col gap-y-2">
+    <div className="flex flex-col gap-y-2 h-full">
       <h2 className="text-lg font-semibold">Forum</h2>
-      <Card className="flex-1">
+      <Card className="flex flex-col flex-grow">
         <CardHeader className="flex flex-col gap-y-2">
           <CardTitle className="flex items-center justify-between">
             <div className="flex items-center gap-x-2">
@@ -45,8 +45,9 @@ const ForumWidget = async () => {
             </div>
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <ScrollArea className="max-h-screen overflow-auto">
+
+        <ScrollArea className="flex-grow min-h-[200px] max-h-[calc(100vh+34px)]">
+          <CardContent className="overflow-hidden">
             <ul className="flex flex-col col-span-2 space-y-6">
               {posts.map(post => (
                 <li key={post.id}>
@@ -61,8 +62,8 @@ const ForumWidget = async () => {
                 </li>
               ))}
             </ul>
-          </ScrollArea>
-        </CardContent>
+          </CardContent>
+        </ScrollArea>
       </Card>
     </div>
   )

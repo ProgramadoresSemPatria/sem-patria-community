@@ -55,7 +55,7 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="w-full max-w-3xl"
           >
-            <div className="flex flex-col gap-y-4 sm:gap-y-6">
+            <div className="flex flex-col gap-y-4">
               <div className="flex items-center">
                 <ImageInput />
                 <span className="ml-3 font-semibold">
@@ -95,7 +95,7 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                   )}
                 />
               )}
-              <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-2 sm:gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-4">
                 <FormField
                   control={form.control}
                   name="github"
@@ -139,7 +139,7 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                   )}
                 />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-2 sm:gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-4">
                 <div className="flex flex-col gap-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -223,12 +223,12 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                   )}
                 />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-2 sm:gap-4 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-4 w-full">
                 <div className="sm:col-span-2">
                   <LocationInput isUpdating={isUpdating} />
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-2 sm:gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-4">
                 <FormField
                   control={form.control}
                   name="password"

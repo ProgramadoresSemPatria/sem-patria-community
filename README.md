@@ -43,7 +43,7 @@ or if you use HTTPS:
 
 Once you have cloned the repository, you need to install the project's dependencies.
 
-**Use the recommended node version which is >=18.x**
+**Use the recommended node version which is >=20.x**
 
 If you have [nvm](https://github.com/nvm-sh/nvm#installing-and-updating):
 

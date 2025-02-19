@@ -2,6 +2,7 @@ import { CardContent } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import prismadb from '@/lib/prismadb'
 import { TimelineNotes } from './timeline-notes'
+import { Icons } from '@/components/icons'
 
 export const PublicNotesContent = async () => {
   const notes = await prismadb.note.findMany({
@@ -14,9 +15,12 @@ export const PublicNotesContent = async () => {
     <ScrollArea className="h-full min-h-[200px] max-h-[calc(100vh-200px)]">
       <CardContent className="flex-grow overflow-hidden">
         {notes.length === 0 ? (
-          <span className="font-medium text-muted-foreground">
-            There are no notes to the challenge for now.
-          </span>
+          <div className="flex flex-col items-center justify-center h-full py-4">
+            <Icons.notebookPen className="w-8 h-8 text-muted-foreground mb-2" />
+            <p className="text-sm text-muted-foreground">
+              No notes have been created yet
+            </p>
+          </div>
         ) : (
           notes.map((note, idx) => (
             <TimelineNotes

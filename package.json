@@ -35,7 +35,6 @@
     "@faker-js/faker": "^9.5.0",
     "@headlessui/react": "^2.2.0",
     "@hookform/resolvers": "^3.3.2",
-    "@mantine/core": "^7.8.0",
     "@mantine/hooks": "^7.8.0",
     "@prisma/client": "^5.14.0",
     "@radix-ui/react-aspect-ratio": "^1.0.3",

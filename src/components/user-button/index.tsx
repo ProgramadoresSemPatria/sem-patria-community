@@ -12,7 +12,10 @@ const UserButton = ({ hiddenName = false }: UserButtonProps) => {
   const { user } = useUser()
 
   return (
-    <Link href="/profile" className="flex items-center gap-x-2 m-2">
+    <Link
+      href="/profile"
+      className="flex items-center gap-x-2 m-2 w-full h-full"
+    >
       <Avatar className="">
         <AvatarImage src={user?.imageUrl || ''} />
         <AvatarFallback>

@@ -31,8 +31,12 @@ jobs:
           echo "BASE_URL_PRODUCTION=${{ secrets.BASE_URL_PRODUCTION }}" >> .env
           echo "BASE_URL_DEVELOPMENT=${{ secrets.BASE_URL_DEVELOPMENT }}" >> .env
           echo "CLERK_TESTING_TOKEN=${{ secrets.CLERK_TESTING_TOKEN }}" >> .env
-          echo "TEST_EMAIL=local_user@email.com" >> .env
-          echo "TEST_PASSWORD=sem_patria_password" >> .env
+          echo "POSTGRES_USER=myuser" >> .env
+          echo "POSTGRES_PASSWORD=mypassword" >> .env
+          echo "POSTGRES_HOST=sem-patria-local-db" >> .env
+          echo "POSTGRES_PORT=5432" >> .env
+          echo "POSTGRES_DB=mydatabase" >> .env
+          echo "DATABASE_URL=postgres://myuser:mypassword@sem-patria-local-db:5432/mydatabase" >> .env
         shell: bash
 
       - name: 📦 Install pnpm
@@ -42,12 +46,20 @@ jobs:
         run: pnpm install
 
       - name: 🐳 Start Docker Services
-        run: pnpm services:up
+        run: |
+          docker network create my_network || true
+          pnpm services:up
+
+      - name: 🔍 Check Running Containers
+        run: docker ps -a
+
+      - name: 📜 Inspect PostgreSQL Logs
+        run: docker logs sem-patria-local-db || true
 
       - name: ⏳ Wait for PostgreSQL to be Ready
         run: |
-          echo "Waiting for PostgreSQL to be ready..."
-          until docker exec sem-patria-local-db pg_isready -U postgres; do
+          echo "Waiting for PostgreSQL..."
+          until docker exec sem-patria-local-db pg_isready -U myuser; do
             sleep 2
           done
           echo "✅ PostgreSQL is ready."

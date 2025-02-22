@@ -38,10 +38,13 @@ jobs:
       - name: 📦 Install Dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: 🔍 Debug Check if `docker-compose.yml` Exists
+        run: ls -al src/infra
+
       - name: 🐳 Start Docker Services
         run: |
           docker network create my_network || true
-          docker compose up -d
+          docker compose -f src/infra/docker-compose.yml up -d
 
       - name: 🔍 Check Running Containers
         run: docker ps -a

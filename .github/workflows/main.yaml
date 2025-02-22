@@ -62,9 +62,6 @@ jobs:
           done
           echo "✅ PostgreSQL is ready."
 
-      - name: 📂 Run Database Migrations
-        run: pnpm prisma migrate deploy
-
       - name: 🌱 Seed Database
         run: pnpm seed
 

@@ -13,6 +13,9 @@ jobs:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
 
+      - name: 🔍 List Repository Files
+        run: ls -al
+
       - name: 📄 Create `.env` File
         run: |
           echo "UPLOADTHING_SECRET=${{ secrets.UPLOADTHING_SECRET }}" >> .env
@@ -33,23 +36,12 @@ jobs:
         run: npm install -g pnpm
 
       - name: 📦 Install Dependencies
-        run: pnpm install
-
-      - name: 🔍 Debug GitHub Actions Environment
-        run: |
-          echo "GitHub Actions Runner Info:"
-          uname -a
-          echo "Node Version:"
-          node -v
-          echo "PNPM Version:"
-          pnpm -v
-          echo "Checking Running Processes:"
-          ps aux
+        run: pnpm install --no-frozen-lockfile
 
       - name: 🐳 Start Docker Services
         run: |
           docker network create my_network || true
-          pnpm services:up
+          docker-compose up -d
 
       - name: 🔍 Check Running Containers
         run: docker ps -a
@@ -66,7 +58,7 @@ jobs:
           echo "✅ PostgreSQL is ready."
 
       - name: 📂 Run Database Migrations
-        run: pnpm prisma-migrate
+        run: pnpm prisma migrate deploy
 
       - name: 🌱 Seed Database
         run: pnpm seed
@@ -84,10 +76,7 @@ jobs:
       - name: 📜 Print Next.js Logs
         run: cat nextjs.log
 
-      - name: 🧪 Run Cypress Tests Manually
-        run: pnpm cypress run --browser chrome --headless
-
-      - name: 🧪 Run Cypress Tests with Debug Logs
+      - name: 🧪 Run Cypress Tests
         uses: cypress-io/github-action@v6
         with:
           build: pnpm build
@@ -95,5 +84,3 @@ jobs:
           wait-on: http://localhost:3000
           browser: chrome
           headless: true
-        env:
-          DEBUG: 'cypress:*'

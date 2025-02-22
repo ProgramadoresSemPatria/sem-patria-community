@@ -15,9 +15,11 @@ services:
       - my_network
 
   app:
-    build:
-      context: .
+    image: node:18-alpine
     container_name: 'sem-patria-app'
+    working_dir: /app
+    volumes:
+      - .:/app
     depends_on:
       - sem-patria-local-db
     environment:
@@ -26,7 +28,7 @@ services:
       - my_network
     ports:
       - '3000:3000'
-    command: ['pnpm', 'start']
+    command: ['sh', '-c', 'pnpm install && pnpm build && pnpm start']
 
 networks:
   my_network:

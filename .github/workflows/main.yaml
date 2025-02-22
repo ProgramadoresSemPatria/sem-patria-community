@@ -61,6 +61,15 @@ jobs:
 
       - name: 🌱 Seed Database
         run: pnpm seed
+        env:
+          DEFAULT_SEM_PATRIA_EMAIL: ${{ secrets.DEFAULT_SEM_PATRIA_EMAIL }}
+          DEFAULT_SEM_PATRIA_PASSWORD: ${{ secrets.DEFAULT_SEM_PATRIA_PASSWORD }}
+          DEFAULT_SEM_PATRIA_NAME: ${{ secrets.DEFAULT_SEM_PATRIA_NAME }}
+          DEFAULT_SEM_PATRIA_USERNAME: ${{ secrets.DEFAULT_SEM_PATRIA_USERNAME }}
+          ADMIN_SEM_PATRIA_EMAIL: ${{ secrets.ADMIN_SEM_PATRIA_EMAIL }}
+          ADMIN_SEM_PATRIA_PASSWORD: ${{ secrets.ADMIN_SEM_PATRIA_PASSWORD }}
+          ADMIN_SEM_PATRIA_NAME: ${{ secrets.ADMIN_SEM_PATRIA_NAME }}
+          ADMIN_SEM_PATRIA_USERNAME: ${{ secrets.ADMIN_SEM_PATRIA_USERNAME }}
 
       - name: ⚡ Build Next.js App
         run: pnpm build

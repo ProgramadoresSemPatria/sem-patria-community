@@ -22,6 +22,7 @@ jobs:
       POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
       POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
 
     steps:
       - name: 📥 Checkout Repository

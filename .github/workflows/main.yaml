@@ -9,6 +9,20 @@ jobs:
   cypress-run:
     runs-on: ubuntu-22.04
 
+    env:
+      UPLOADTHING_SECRET: ${{ secrets.UPLOADTHING_SECRET }}
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+      BASE_URL_PRODUCTION: ${{ secrets.BASE_URL_PRODUCTION }}
+      BASE_URL_DEVELOPMENT: ${{ secrets.BASE_URL_DEVELOPMENT }}
+      CLERK_TESTING_TOKEN: ${{ secrets.CLERK_TESTING_TOKEN }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+      POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
     steps:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
@@ -18,18 +32,18 @@ jobs:
 
       - name: 📄 Create `.env` File
         run: |
-          echo "UPLOADTHING_SECRET=${{ secrets.UPLOADTHING_SECRET }}" >> .env
-          echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" >> .env
-          echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}" >> .env
-          echo "BASE_URL_PRODUCTION=${{ secrets.BASE_URL_PRODUCTION }}" >> .env
-          echo "BASE_URL_DEVELOPMENT=${{ secrets.BASE_URL_DEVELOPMENT }}" >> .env
-          echo "CLERK_TESTING_TOKEN=${{ secrets.CLERK_TESTING_TOKEN }}" >> .env
-          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
-          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
-          echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env
-          echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}" >> .env
-          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "UPLOADTHING_SECRET=$UPLOADTHING_SECRET" >> .env
+           echo "RESEND_API_KEY=$RESEND_API_KEY" >> .env
+           echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" >> .env
+           echo "BASE_URL_PRODUCTION=$BASE_URL_PRODUCTION" >> .env
+           echo "BASE_URL_DEVELOPMENT=$BASE_URL_DEVELOPMENT" >> .env
+           echo "CLERK_TESTING_TOKEN=$CLERK_TESTING_TOKEN" >> .env
+           echo "POSTGRES_USER=$POSTGRES_USER" >> .env
+           echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> .env
+           echo "POSTGRES_HOST=$POSTGRES_HOST" >> .env
+           echo "POSTGRES_PORT=$POSTGRES_PORT" >> .env
+           echo "POSTGRES_DB=$POSTGRES_DB" >> .env
+           echo "DATABASE_URL=$DATABASE_URL" >> .env
         shell: bash
 
       - name: 📦 Install pnpm
@@ -44,18 +58,8 @@ jobs:
       - name: 🐳 Start Docker Services (Without Build)
         run: |
           docker network create my_network || true
-          docker compose -f $GITHUB_WORKSPACE/src/infra/docker-compose.yaml up -d
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
-          DEFAULT_SEM_PATRIA_EMAIL: ${{ secrets.DEFAULT_SEM_PATRIA_EMAIL }}
-          DEFAULT_SEM_PATRIA_PASSWORD: ${{ secrets.DEFAULT_SEM_PATRIA_PASSWORD }}
-          DEFAULT_SEM_PATRIA_NAME: ${{ secrets.DEFAULT_SEM_PATRIA_NAME }}
-          DEFAULT_SEM_PATRIA_USERNAME: ${{ secrets.DEFAULT_SEM_PATRIA_USERNAME }}
-          ADMIN_SEM_PATRIA_EMAIL: ${{ secrets.ADMIN_SEM_PATRIA_EMAIL }}
-          ADMIN_SEM_PATRIA_PASSWORD: ${{ secrets.ADMIN_SEM_PATRIA_PASSWORD }}
-          ADMIN_SEM_PATRIA_NAME: ${{ secrets.ADMIN_SEM_PATRIA_NAME }}
-          ADMIN_SEM_PATRIA_USERNAME: ${{ secrets.ADMIN_SEM_PATRIA_USERNAME }}
+          docker compose --env-file .env -f $GITHUB_WORKSPACE/src/infra/docker-compose.yaml up -d
+
       - name: 🔍 Check Running Containers
         run: docker ps -a
 
@@ -72,17 +76,6 @@ jobs:
 
       - name: 🌱 Seed Database
         run: pnpm seed
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
-          DEFAULT_SEM_PATRIA_EMAIL: ${{ secrets.DEFAULT_SEM_PATRIA_EMAIL }}
-          DEFAULT_SEM_PATRIA_PASSWORD: ${{ secrets.DEFAULT_SEM_PATRIA_PASSWORD }}
-          DEFAULT_SEM_PATRIA_NAME: ${{ secrets.DEFAULT_SEM_PATRIA_NAME }}
-          DEFAULT_SEM_PATRIA_USERNAME: ${{ secrets.DEFAULT_SEM_PATRIA_USERNAME }}
-          ADMIN_SEM_PATRIA_EMAIL: ${{ secrets.ADMIN_SEM_PATRIA_EMAIL }}
-          ADMIN_SEM_PATRIA_PASSWORD: ${{ secrets.ADMIN_SEM_PATRIA_PASSWORD }}
-          ADMIN_SEM_PATRIA_NAME: ${{ secrets.ADMIN_SEM_PATRIA_NAME }}
-          ADMIN_SEM_PATRIA_USERNAME: ${{ secrets.ADMIN_SEM_PATRIA_USERNAME }}
 
       - name: ⚡ Build Next.js App
         run: pnpm build

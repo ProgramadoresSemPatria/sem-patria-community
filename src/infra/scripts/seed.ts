@@ -1,6 +1,6 @@
 import prismadb from '@/lib/prismadb'
 import { clerkClient } from '@clerk/nextjs/server'
-import { hash } from 'bcrypt'
+import { hash } from 'bcryptjs'
 import { faker } from '@faker-js/faker'
 import { Roles } from '@prisma/client'
 import 'dotenv/config'

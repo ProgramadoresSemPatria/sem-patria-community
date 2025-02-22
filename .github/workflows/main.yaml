@@ -44,7 +44,7 @@ jobs:
       - name: 🐳 Start Docker Services
         run: |
           docker network create my_network || true
-          docker compose -f $GITHUB_WORKSPACE/src/infra/docker-compose.yml up -d
+          docker compose -f $GITHUB_WORKSPACE/src/infra/docker-compose.yaml up -d
 
       - name: 🔍 Check Running Containers
         run: docker ps -a

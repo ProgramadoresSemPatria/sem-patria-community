@@ -3,6 +3,7 @@ import { clerkClient } from '@clerk/nextjs/server'
 import { hash } from 'bcrypt'
 import { faker } from '@faker-js/faker'
 import { Roles } from '@prisma/client'
+import 'dotenv/config'
 
 async function seed() {
   console.log('🌱 Starting seed process...')

@@ -38,9 +38,6 @@ jobs:
       - name: 📦 Install Dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: 🔍 Debug Show All Files in GitHub Actions
-        run: find $GITHUB_WORKSPACE
-
       - name: 🔍 Debug Check if `docker-compose.yaml` Exists
         run: ls -al $GITHUB_WORKSPACE/src/infra || echo "🚨 src/infra/ directory not found!"
 

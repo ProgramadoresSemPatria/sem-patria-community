@@ -24,12 +24,12 @@ jobs:
           echo "BASE_URL_PRODUCTION=${{ secrets.BASE_URL_PRODUCTION }}" >> .env
           echo "BASE_URL_DEVELOPMENT=${{ secrets.BASE_URL_DEVELOPMENT }}" >> .env
           echo "CLERK_TESTING_TOKEN=${{ secrets.CLERK_TESTING_TOKEN }}" >> .env
-          echo "POSTGRES_USER=myuser" >> .env
-          echo "POSTGRES_PASSWORD=mypassword" >> .env
-          echo "POSTGRES_HOST=sem-patria-local-db" >> .env
-          echo "POSTGRES_PORT=5432" >> .env
-          echo "POSTGRES_DB=mydatabase" >> .env
-          echo "DATABASE_URL=postgres://myuser:mypassword@sem-patria-local-db:5432/mydatabase" >> .env
+          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
+          echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env
+          echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}" >> .env
+          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
         shell: bash
 
       - name: 📦 Install pnpm

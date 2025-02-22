@@ -9,16 +9,6 @@ jobs:
   cypress-run:
     runs-on: ubuntu-22.04
 
-    env:
-      UPLOADTHING_SECRET: ${{ secrets.UPLOADTHING_SECRET }}
-      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
-      BASE_URL_PRODUCTION: ${{ secrets.BASE_URL_PRODUCTION }}
-      BASE_URL_DEVELOPMENT: ${{ secrets.BASE_URL_DEVELOPMENT }}
-      CLERK_TESTING_TOKEN: ${{ secrets.CLERK_TESTING_TOKEN }}
-      TEST_EMAIL: local_user@email.com
-      TEST_PASSWORD: sem_patria_password
-
     steps:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
@@ -44,6 +34,17 @@ jobs:
 
       - name: 📦 Install Dependencies
         run: pnpm install
+
+      - name: 🔍 Debug GitHub Actions Environment
+        run: |
+          echo "GitHub Actions Runner Info:"
+          uname -a
+          echo "Node Version:"
+          node -v
+          echo "PNPM Version:"
+          pnpm -v
+          echo "Checking Running Processes:"
+          ps aux
 
       - name: 🐳 Start Docker Services
         run: |
@@ -74,12 +75,19 @@ jobs:
         run: pnpm build
 
       - name: 🚀 Start Next.js Server in Docker
-        run: pnpm start &
+        run: |
+          pnpm start > nextjs.log 2>&1 &
 
       - name: ⏳ Wait for Next.js to be Ready
         run: pnpx wait-on http://localhost:3000 --timeout 60000
 
-      - name: 🧪 Run Cypress Tests
+      - name: 📜 Print Next.js Logs
+        run: cat nextjs.log
+
+      - name: 🧪 Run Cypress Tests Manually
+        run: pnpm cypress run --browser chrome --headless
+
+      - name: 🧪 Run Cypress Tests with Debug Logs
         uses: cypress-io/github-action@v6
         with:
           build: pnpm build
@@ -87,3 +95,5 @@ jobs:
           wait-on: http://localhost:3000
           browser: chrome
           headless: true
+        env:
+          DEBUG: 'cypress:*'

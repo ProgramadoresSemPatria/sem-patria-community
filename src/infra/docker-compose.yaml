@@ -15,7 +15,8 @@ services:
       - my_network
 
   app:
-    build: .
+    build:
+      context: src/infra
     container_name: 'sem-patria-app'
     depends_on:
       - sem-patria-local-db

@@ -41,7 +41,7 @@ jobs:
       - name: 🐳 Start Docker Services
         run: |
           docker network create my_network || true
-          docker-compose up -d
+          docker compose up -d
 
       - name: 🔍 Check Running Containers
         run: docker ps -a

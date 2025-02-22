@@ -69,11 +69,18 @@ jobs:
 
       - name: ⏳ Wait for PostgreSQL to be Ready
         run: |
-          echo "Waiting for PostgreSQL..."
-          until docker exec sem-patria-local-db pg_isready -U myuser; do
-            sleep 2
+          echo "Waiting for PostgreSQL to fully initialize..."
+          for i in {1..20}; do
+            if docker exec sem-patria-local-db pg_isready -U postgres; then
+              echo "✅ PostgreSQL is ready."
+              exit 0
+            fi
+            echo "⏳ Waiting for database... ($i/20)"
+            sleep 5
           done
-          echo "✅ PostgreSQL is ready."
+          echo "❌ PostgreSQL did not start in time."
+          docker logs sem-patria-local-db
+          exit 1
 
       - name: ⏳ Ensure Prisma Can Connect to PostgreSQL
         run: |

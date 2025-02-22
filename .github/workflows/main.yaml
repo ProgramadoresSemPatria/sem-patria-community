@@ -45,6 +45,17 @@ jobs:
         run: |
           docker network create my_network || true
           docker compose -f $GITHUB_WORKSPACE/src/infra/docker-compose.yaml up -d
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+          DEFAULT_SEM_PATRIA_EMAIL: ${{ secrets.DEFAULT_SEM_PATRIA_EMAIL }}
+          DEFAULT_SEM_PATRIA_PASSWORD: ${{ secrets.DEFAULT_SEM_PATRIA_PASSWORD }}
+          DEFAULT_SEM_PATRIA_NAME: ${{ secrets.DEFAULT_SEM_PATRIA_NAME }}
+          DEFAULT_SEM_PATRIA_USERNAME: ${{ secrets.DEFAULT_SEM_PATRIA_USERNAME }}
+          ADMIN_SEM_PATRIA_EMAIL: ${{ secrets.ADMIN_SEM_PATRIA_EMAIL }}
+          ADMIN_SEM_PATRIA_PASSWORD: ${{ secrets.ADMIN_SEM_PATRIA_PASSWORD }}
+          ADMIN_SEM_PATRIA_NAME: ${{ secrets.ADMIN_SEM_PATRIA_NAME }}
+          ADMIN_SEM_PATRIA_USERNAME: ${{ secrets.ADMIN_SEM_PATRIA_USERNAME }}
       - name: 🔍 Check Running Containers
         run: docker ps -a
 

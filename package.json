@@ -21,7 +21,7 @@
     "docker:compose": "docker compose -f src/infra/docker-compose.yaml --env-file .env",
     "services:up": "pnpm docker:compose up -d",
     "services:down": "pnpm docker:compose down",
-    "seed": "node -r dotenv/config src/infra/scripts/seed.ts"
+    "seed": "tsx -r dotenv/config src/infra/scripts/seed.ts"
   },
   "dependencies": {
     "@blocknote/core": "^0.10.1",

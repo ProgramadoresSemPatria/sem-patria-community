@@ -1,5 +1,7 @@
-<h1 align="center">Borderless Coding
-<img src="src/assets/logo.svg" width="36" height="36" alt="Logo" /></h1>
+<div align="center" style="display: flex; align-items: center; justify-content: center;">
+  <h1 style="margin-right: 10px;">Borderless Coding</h1>
+  <img src="public/logo.svg" width="36" height="36" alt="Logo" style="margin-top:12px" />
+</div>
 
 A platform for Borderless members to connect, collaborate, and share knowledge within the community.
 
@@ -41,7 +43,7 @@ or if you use HTTPS:
 
 Once you have cloned the repository, you need to install the project's dependencies.
 
-**Use the recommended node version which is >=18.x**
+**Use the recommended node version which is >=20.x**
 
 If you have [nvm](https://github.com/nvm-sh/nvm#installing-and-updating):
 
@@ -103,13 +105,17 @@ This will open Prisma Studio in your default web browser, allowing you to view a
 #### Development server
 
 > With the cloud database url
+
 ```bash
 pnpm dev
 ```
 
 > Without the cloud database url (running postgreSQL locally with docker)
+
 ```bash
 pnpm dev:local
+- **Ensures users set up PostgreSQL correctly** (via Homebrew, Apt, or Docker).
+- **Guides users through creating a Clerk account** and configuring authentication.
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your favorite browser.

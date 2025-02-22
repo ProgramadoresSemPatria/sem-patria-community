@@ -104,7 +104,7 @@ const NoteEditor = ({
             Placeholder.configure({
               placeholder:
                 variant !== 'postInput'
-                  ? "Press '/' to commands"
+                  ? "Write or press '/' for commands..."
                   : 'Start writing...'
             })
           ]}

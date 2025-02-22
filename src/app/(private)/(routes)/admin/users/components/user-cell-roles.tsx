@@ -4,14 +4,20 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
+import { Roles as RolesLabel } from '@/lib/types'
+import { getHighestPriorityRole } from '@/lib/utils'
+import { type Roles } from '@prisma/client'
 
 type UserCellRolesProps = {
   roles: string[]
 }
 const UserCellRoles = ({ roles }: UserCellRolesProps) => {
-  const userRoles = [...roles] ?? []
-  const lastRole = userRoles.pop()
-  const remaningRolesQuantity = userRoles.length
+  const priorityRole = RolesLabel[getHighestPriorityRole(roles as Roles[])]
+  const userMappedRoles = roles
+    .map(role => RolesLabel[role as Roles])
+    .filter(role => role !== priorityRole)
+
+  const remaningRolesQuantity = userMappedRoles.length
 
   return (
     <Popover>
@@ -20,14 +26,14 @@ const UserCellRoles = ({ roles }: UserCellRolesProps) => {
         className="text-xs text-gray-500"
       >
         <Badge>
-          {lastRole ?? 'Not assigned'}{' '}
+          {priorityRole ?? 'Not assigned'}{' '}
           {remaningRolesQuantity > 0 && `+${remaningRolesQuantity}`}
         </Badge>
       </PopoverTrigger>
       <PopoverContent>
         <div className="flex flex-wrap gap-1 max-w-full">
           {remaningRolesQuantity > 0 ? (
-            userRoles.map((role, index) => (
+            userMappedRoles.map((role, index) => (
               <Badge key={index} className="text-xs w-fit text-center">
                 {role}
               </Badge>

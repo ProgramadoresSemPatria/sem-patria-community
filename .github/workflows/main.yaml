@@ -62,6 +62,7 @@ jobs:
       - name: 🌱 Seed Database
         run: pnpm seed
         env:
+          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
           DEFAULT_SEM_PATRIA_EMAIL: ${{ secrets.DEFAULT_SEM_PATRIA_EMAIL }}
           DEFAULT_SEM_PATRIA_PASSWORD: ${{ secrets.DEFAULT_SEM_PATRIA_PASSWORD }}
           DEFAULT_SEM_PATRIA_NAME: ${{ secrets.DEFAULT_SEM_PATRIA_NAME }}

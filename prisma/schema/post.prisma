@@ -1,0 +1,53 @@
+model Post {
+  id                      String   @id @default(uuid())
+  title                   String
+  content                 Json
+  isPinned                Boolean? @default(false)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  discordWebhookMessageID String?
+  category                Category @relation(fields: [categoryId], references: [id])
+  categoryId              String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  comments Comment[]
+  likes    Like[]
+}
+
+model Comment {
+  id        String        @id @default(uuid())
+  comment   String
+  userId    String
+  videoId   String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  commentId String?
+  postId    String?
+  replyToId String?
+  post      Post?         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  replyTo   Comment?      @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  replies   Comment[]     @relation("ReplyTo")
+  user      User          @relation(fields: [userId], references: [id])
+  video     Video?        @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  likes     CommentLike[]
+}
+
+model Like {
+  userId String
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@id([userId, postId])
+}
+
+model CommentLike {
+  userId    String
+  commentId String
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User    @relation(fields: [userId], references: [id])
+
+  @@id([userId, commentId])
+}

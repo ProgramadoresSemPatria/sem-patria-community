@@ -1,0 +1,73 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["prismaSchemaFolder"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Interest {
+  id        String   @id @default(uuid())
+  interest  String   @unique
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Course {
+  id         String           @id @default(uuid())
+  name       String
+  courseUrl  String
+  level      String
+  categoryId String
+  isPaid     Boolean          @default(false)
+  isPending  Boolean          @default(false)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  category   Category         @relation("CourseToCategory", fields: [categoryId], references: [id])
+  categories CourseCategory[]
+}
+
+model Category {
+  id             String           @id @default(uuid())
+  name           String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  courses        Course[]         @relation("CourseToCategory")
+  courseCategory CourseCategory[]
+  posts          Post[]
+}
+
+model CourseCategory {
+  courseId   String
+  categoryId String
+  course     Course   @relation(fields: [courseId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@id([courseId, categoryId])
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  title     String
+  content   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  isPublic  Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Event {
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  date         DateTime
+  location     String
+  externalUrl  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  specialGuest String?
+}

@@ -34,14 +34,9 @@ services:
       - '3000:3000'
     entrypoint:
       [
-        'dockerize',
-        '-wait',
-        'tcp://sem-patria-local-db:5432',
-        '-timeout',
-        '30s',
         'sh',
         '-c',
-        'pnpm install && pnpm build && pnpm start'
+        "apk add --no-cache dockerize && dockerize -wait tcp://sem-patria-local-db:5432 -timeout 30s sh -c 'pnpm install && pnpm build && pnpm start'"
       ]
 
 networks:

@@ -56,7 +56,7 @@ jobs:
         run: ls -al
 
       - name: 🐳 Start Docker Services
-        run: docker compose --env-file .env -f ./src/infra/docker-compose.yml up -d
+        run: docker compose --env-file .env -f ./src/infra/docker-compose.yaml up -d
 
       - name: 🔍 Check Running Containers
         run: docker ps -a

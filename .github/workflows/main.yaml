@@ -63,6 +63,12 @@ jobs:
 
       - name: 📜 Inspect PostgreSQL Logs
         run: docker logs sem-patria-local-db || true
+      - name: 🏗 Install `dockerize`
+        run: |
+          sudo apt-get update && sudo apt-get install -y dockerize
+
+      - name: ⏳ Wait for PostgreSQL to be Ready
+        run: dockerize -wait tcp://sem-patria-local-db:5432 -timeout 30s
 
       - name: 🔍 Test Database Connection
         run: docker exec sem-patria-local-db psql -U $POSTGRES_USER -d $POSTGRES_DB -h sem-patria-local-db -c "SELECT 1;"

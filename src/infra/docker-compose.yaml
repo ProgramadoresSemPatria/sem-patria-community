@@ -32,7 +32,17 @@ services:
       - my_network
     ports:
       - '3000:3000'
-    command: ['sh', '-c', 'pnpm install && pnpm build && pnpm start']
+    entrypoint:
+      [
+        'dockerize',
+        '-wait',
+        'tcp://sem-patria-local-db:5432',
+        '-timeout',
+        '30s',
+        'sh',
+        '-c',
+        'pnpm install && pnpm build && pnpm start'
+      ]
 
 networks:
   my_network:

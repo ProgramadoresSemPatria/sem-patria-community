@@ -114,6 +114,6 @@ export const userColumns: Array<ColumnDef<UserColumn>> = [
   {
     id: 'actions',
     header: 'Actions',
-    cell: ({ row }) => <UserCellAction data={row.original} />
+    cell: ({ row, cell }) => <UserCellAction data={row.original} cell={cell} />
   }
 ]

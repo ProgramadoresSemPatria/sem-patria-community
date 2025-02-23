@@ -111,7 +111,7 @@ export async function GET(req: Request) {
       orderByClause = { id: 'desc' }
     }
 
-    if (categoryName !== 'All') {
+    if (categoryName !== 'All' && categoryName?.length) {
       whereClause = { category: { name: categoryName } }
     }
 
@@ -136,6 +136,7 @@ export async function GET(req: Request) {
 
     return new Response(JSON.stringify(posts))
   } catch (error) {
+    console.log('errorrrrr', error)
     return new Response('Could not fetch posts', { status: 500 })
   }
 }

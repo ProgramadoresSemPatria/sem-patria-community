@@ -92,6 +92,7 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
         } else {
           return (
             <Post
+              index={index}
               userId={userId as string}
               key={post.id}
               commentAmount={post?.comments?.length || 0}

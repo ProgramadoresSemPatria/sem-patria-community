@@ -1,11 +1,15 @@
+import { clerkSetup } from '@clerk/testing/cypress'
 import { defineConfig } from 'cypress'
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 
 export default defineConfig({
   screenshotOnRunFailure: false,
+  defaultCommandTimeout: 20000,
   e2e: {
-    baseUrl: 'http://localhost:3000',
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
+    async setupNodeEvents(on, config) {
+      return await clerkSetup({ config })
     }
   }
 })

@@ -26,8 +26,6 @@ jobs:
     steps:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
-        with:
-          path: sem-patria-community
 
       - name: 🔍 List Repository Files
         run: ls -al

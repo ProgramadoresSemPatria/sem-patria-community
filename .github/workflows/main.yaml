@@ -56,9 +56,11 @@ jobs:
         run: ls -al
       - name: 📜 Inspect PostgreSQL Logs
         run: docker logs sem-patria-local-db || true
-      - name: 🏗 Install `dockerize`
+      - name: 🏗 Install `dockerize` Manually
         run: |
-          sudo apt-get update && sudo apt-get install -y dockerize
+          wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64 -O /usr/local/bin/dockerize
+          chmod +x /usr/local/bin/dockerize
+          dockerize --version
 
       - name: 🐳 Start Docker Services
         run: docker compose --env-file .env -f ./src/infra/docker-compose.yaml up -d

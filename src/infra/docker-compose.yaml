@@ -33,11 +33,11 @@ services:
     ports:
       - '3000:3000'
     entrypoint:
-      [
-        'sh',
-        '-c',
-        "apk add --no-cache dockerize && dockerize -wait tcp://sem-patria-local-db:5432 -timeout 30s sh -c 'pnpm install && pnpm build && pnpm start'"
-      ]
+    [
+      'sh',
+      '-c',
+      'apk add --no-cache wget && wget https://bin.equinox.io/c/4VmDzA7iaHb/dockerize-linux-amd64 -O /usr/local/bin/dockerize && chmod +x /usr/local/bin/dockerize && dockerize -wait tcp://sem-patria-local-db:5432 -timeout 30s pnpm install && pnpm build && pnpm start'
+    ]
 
 networks:
   my_network:

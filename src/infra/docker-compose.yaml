@@ -23,7 +23,7 @@ services:
     depends_on:
       - sem-patria-local-db
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=postgres://postgres:${POSTGRES_PASSWORD}@sem-patria-local-db:5432/${POSTGRES_DB}
     networks:
       - my_network
     ports:

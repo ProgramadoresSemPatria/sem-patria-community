@@ -8,8 +8,8 @@ export async function POST(req: NextRequest) {
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
-    const totalNotes = await prismadb.note.count()
-    const defaultTitle = `${totalNotes + 1} - Untitled`
+    const userNotesCount = await prismadb.note.count({ where: { userId } })
+    const defaultTitle = `${userNotesCount + 1} - Untitled`
 
     const note = await prismadb.note.create({
       data: {

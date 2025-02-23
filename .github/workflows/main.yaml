@@ -52,9 +52,11 @@ jobs:
         run: pnpm install --no-frozen-lockfile
       - name: 🔍 Print Current Directory
         run: pwd
+      - name: 🔍 Debug List Files in the Current Directory
+        run: ls -al
 
       - name: 🐳 Start Docker Services
-        run: docker compose --env-file .env -f $GITHUB_WORKSPACE/src/infra/docker-compose.yml up -d
+        run: docker compose --env-file .env -f ./src/infra/docker-compose.yml up -d
 
       - name: 🔍 Check Running Containers
         run: docker ps -a

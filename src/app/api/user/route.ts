@@ -72,7 +72,7 @@ export async function PATCH(req: NextRequest) {
     // Update user at Clerk
     let updatedUser = await clerkClient.users.updateUser(userId, {
       firstName: name,
-      username: currentUser?.username === username ? undefined : username,
+      username,
       password: newPassword,
       publicMetadata: {
         github,

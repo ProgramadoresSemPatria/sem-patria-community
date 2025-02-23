@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button'
 import { type User } from '@prisma/client'
 import { type User as ClerkUser } from '@clerk/nextjs/server'
 import { useFollowersAndFollowings } from './useFollowersAndFollowings'
+import { Roles } from '@/lib/types'
+import { getHighestPriorityRole } from '@/lib/utils'
 
 const Header = ({
   user,
@@ -51,7 +53,9 @@ const Header = ({
         <div className="flex-1 space-y-3">
           <h1 className="text-3xl font-bold flex items-center gap-3 flex-wrap">
             {user.name}
-            <Badge className="text-sm py-1 px-3">{user.role[0]}</Badge>
+            <Badge className="text-sm py-1 px-3">
+              {Roles[getHighestPriorityRole(user.role)]}
+            </Badge>
           </h1>
           <p className="text-gray-500 text-lg">@{user.username}</p>
           {!isCurrentUser && (

@@ -17,6 +17,9 @@ export const CodeUpContent = async () => {
   const notes = await prismadb.note.findMany({
     where: {
       userId: user.id
+    },
+    orderBy: {
+      createdAt: 'asc'
     }
   })
 

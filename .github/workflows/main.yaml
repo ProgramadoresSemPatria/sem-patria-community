@@ -1,0 +1,125 @@
+name: Cypress Tests
+
+on:
+  pull_request:
+    branches:
+      - staging
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-22.04
+
+    env:
+      UPLOADTHING_SECRET: ${{ secrets.UPLOADTHING_SECRET }}
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+      BASE_URL_PRODUCTION: ${{ secrets.BASE_URL_PRODUCTION }}
+      BASE_URL_DEVELOPMENT: ${{ secrets.BASE_URL_DEVELOPMENT }}
+      CLERK_TESTING_TOKEN: ${{ secrets.CLERK_TESTING_TOKEN }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@sem-patria-local-db:5432/${POSTGRES_DB}
+      CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 List Repository Files
+        run: ls -al
+
+      - name: 📄 Create `.env` File
+        run: |
+          echo "UPLOADTHING_SECRET=$UPLOADTHING_SECRET" >> .env
+          echo "RESEND_API_KEY=$RESEND_API_KEY" >> .env
+          echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" >> .env
+          echo "BASE_URL_PRODUCTION=$BASE_URL_PRODUCTION" >> .env
+          echo "BASE_URL_DEVELOPMENT=$BASE_URL_DEVELOPMENT" >> .env
+          echo "CLERK_TESTING_TOKEN=$CLERK_TESTING_TOKEN" >> .env
+          echo "POSTGRES_USER=$POSTGRES_USER" >> .env
+          echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> .env
+          echo "POSTGRES_PORT=$POSTGRES_PORT" >> .env
+          echo "POSTGRES_DB=$POSTGRES_DB" >> .env
+          echo "DATABASE_URL=postgres://postgres:$POSTGRES_PASSWORD@sem-patria-local-db:5432/$POSTGRES_DB" >> .env
+        shell: bash
+
+      - name: 📦 Install pnpm
+        run: npm install -g pnpm
+
+      - name: 📦 Install Dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: 🔍 Print Current Directory
+        run: pwd
+      - name: 🔍 Debug List Files in the Current Directory
+        run: ls -al
+      - name: 📜 Inspect PostgreSQL Logs
+        run: docker logs sem-patria-local-db || true
+      - name: 🏗 Install `dockerize`
+        run: |
+          wget https://bin.equinox.io/c/4VmDzA7iaHb/dockerize-linux-amd64 -O /usr/local/bin/dockerize
+          chmod +x /usr/local/bin/dockerize
+          dockerize --version
+
+      - name: 🐳 Start Docker Services
+        run: docker compose --env-file .env -f ./src/infra/docker-compose.yaml up -d
+
+      - name: 🔍 Check Running Containers
+        run: docker ps -a
+
+      - name: ⏳ Wait for PostgreSQL to be Ready
+        run: dockerize -wait tcp://sem-patria-local-db:5432 -timeout 30s
+
+      - name: 🔍 Test Database Connection
+        run: docker exec sem-patria-local-db psql -U $POSTGRES_USER -d $POSTGRES_DB -h sem-patria-local-db -c "SELECT 1;"
+
+      - name: ⏳ Wait for PostgreSQL to be Ready
+        run: |
+          for i in {1..20}; do
+            if docker exec sem-patria-local-db pg_isready -U postgres; then
+              echo "✅ PostgreSQL is ready."
+              exit 0
+            fi
+            echo "⏳ Waiting for database... ($i/20)"
+            sleep 5
+          done
+          echo "❌ PostgreSQL did not start in time."
+          docker logs sem-patria-local-db
+          exit 1
+
+      - name: 🔍 Ensure Prisma Can Connect
+        run: |
+          until pnpm exec prisma migrate status --schema=prisma/schema.prisma; do
+            echo "⏳ Waiting for Prisma..."
+            sleep 5
+          done
+          echo "✅ Prisma is ready."
+
+      - name: 🌱 Seed Database
+        run: pnpm seed
+
+      - name: ⚡ Build Next.js App
+        run: pnpm build
+
+      - name: 🚀 Start Next.js Server in Docker
+        run: |
+          nohup pnpm start > nextjs.log 2>&1 &
+
+      - name: ⏳ Wait for Next.js to be Ready
+        run: pnpx wait-on http://localhost:3000 --timeout 60000
+
+      - name: ⌛ Extra Wait Time for Stability
+        run: sleep 10
+
+      - name: 📜 Print Next.js Logs
+        run: cat nextjs.log
+
+      - name: 🧪 Run Cypress Tests
+        uses: cypress-io/github-action@v6
+        with:
+          build: pnpm build
+          start: pnpm start
+          wait-on: http://localhost:3000
+          browser: chrome
+          headless: true

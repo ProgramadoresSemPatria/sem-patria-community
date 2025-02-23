@@ -2,7 +2,7 @@ import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { EditorBubbleItem, useEditor } from 'novel'
-import type { SelectorItem } from './node-selector'
+import { type SelectorItem } from '../types'
 
 export const textItems: SelectorItem[] = [
   {

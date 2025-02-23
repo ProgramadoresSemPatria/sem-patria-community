@@ -13,6 +13,7 @@ import Image from 'next/image'
 import { useReducer } from 'react'
 import { AdminActions } from './admin-actions'
 import { type CommentResponse } from './use-comments'
+import Link from 'next/link'
 
 type CommentComponentProps = {
   comment: CommentResponse
@@ -92,7 +93,10 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
     <div key={comment.id} className="border-2 rounded-md p-4">
       <div className="flex justify-between">
         <div className="flex gap-2 items-center mb-2">
-          <>
+          <Link
+            href={`/user/${comment?.username}`}
+            className="font-semibold hover:underline transition-all hover:cursor-pointer flex items-center"
+          >
             <Avatar className="w-10 h-10 mr-1">
               <AvatarImage src={comment.userImage} />
               <AvatarFallback>
@@ -107,7 +111,7 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
             <h2 className="font-semibold text-lg dark:text-slate-300 text-black">
               {comment.username}
             </h2>
-          </>
+          </Link>
           <p className="text-xs dark:text-slate-500 text-black">
             {getStringFromDate(comment.date)}
           </p>
@@ -121,6 +125,7 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
           size="icon"
           className="group rounded-full"
           onClick={handleLike}
+          data-testid="like"
         >
           <Icons.upVote
             data-userliked={likeState.liked}
@@ -129,6 +134,7 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
           />
         </Button>
         <p
+          data-testid="likes-count"
           data-userliked={likeState.liked}
           className="leading-4 data-[userliked=true]:text-violet-900"
         >

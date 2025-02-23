@@ -1,11 +1,8 @@
 import { type Editor } from '@tiptap/core'
 import { useEffect, useMemo, useState } from 'react'
 import { useSuggestionItems } from './slash-command'
+import { type UseEditorProps } from './types'
 
-type UseEditorProps = {
-  isSubmitting?: boolean
-  variant?: 'note' | 'readonly' | 'videoCommentInput' | 'postInput'
-}
 const useEditorState = ({ isSubmitting, variant }: UseEditorProps) => {
   const [openNode, setOpenNode] = useState(false)
   const [openColor, setOpenColor] = useState(false)

@@ -129,3 +129,20 @@ export const toBase64 = async (file: File) => {
 export const isObjEmpty = (obj: Record<string, unknown>) => {
   return Object.keys(obj).length === 0
 }
+
+export const getHighestPriorityRole = (userRoles: Roles[]): Roles => {
+  const priorityOrder: Roles[] = [
+    Roles.Admin,
+    Roles.Prime,
+    Roles.ProgramadorSemPatria,
+    Roles.Base
+  ]
+
+  for (const role of priorityOrder) {
+    if (userRoles.includes(role)) {
+      return role
+    }
+  }
+
+  return Roles.Base
+}

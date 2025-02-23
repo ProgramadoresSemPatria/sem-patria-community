@@ -42,6 +42,7 @@ export const NoteContent = ({
     <div className="md:max-w-3xl lg:max-w-4xl mt-6 mx-auto group relative">
       {isEditingTitle ? (
         <TextareaAutosize
+          data-testid="title"
           disabled={isPublicView}
           data-isdisabled={isPublicView}
           ref={inputRef}

@@ -33,16 +33,7 @@ const formSchema = z.object({
       message: 'Email is required'
     }),
   role: z.array(
-    z.enum([
-      'PrePsp',
-      'PerfilFechado',
-      'PortifolioBoostProgram',
-      'Base',
-      'ProgramadorSemPatria',
-      'Prime',
-      'Builder',
-      'Admin'
-    ])
+    z.enum(['PrePsp', 'Base', 'ProgramadorSemPatria', 'Prime', 'Admin'])
   ),
   level: z.string(),
   github: z.string(),
@@ -76,27 +67,27 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
     resolver: zodResolver(formSchema),
     defaultValues: initialData
       ? {
-          name: initialData.name || '',
-          username: initialData.username || '',
-          email: initialData.email || '',
-          role: initialData.role || [],
-          level: initialData.level || '',
-          github: initialData.github || '',
-          linkedin: initialData.linkedin || '',
-          instagram: initialData.instagram || '',
-          position: initialData.position || undefined
-        }
+        name: initialData.name || '',
+        username: initialData.username || '',
+        email: initialData.email || '',
+        role: initialData.role || [],
+        level: initialData.level || '',
+        github: initialData.github || '',
+        linkedin: initialData.linkedin || '',
+        instagram: initialData.instagram || '',
+        position: initialData.position || undefined
+      }
       : {
-          name: '',
-          username: '',
-          email: '',
-          role: [],
-          level: '',
-          github: '',
-          linkedin: '',
-          instagram: '',
-          position: undefined
-        }
+        name: '',
+        username: '',
+        email: '',
+        role: [],
+        level: '',
+        github: '',
+        linkedin: '',
+        instagram: '',
+        position: undefined
+      }
   })
 
   const { mutateAsync: deleteUser, isPending: isDeletingUser } = useMutation({

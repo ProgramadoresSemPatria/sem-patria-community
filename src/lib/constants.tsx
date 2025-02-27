@@ -257,3 +257,9 @@ export function getRandomStyle() {
   remainingStyles.splice(randomIndex, 1)
   return selectedStyle
 }
+
+export const SCORE_PONTUATION = {
+  FORUM_POST_LIKE: 1,
+  FORUM_POST_COMMENT_LIKE: 1,
+  COURSE_RECOMMENDATION: 1
+}

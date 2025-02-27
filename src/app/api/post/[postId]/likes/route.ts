@@ -1,5 +1,8 @@
+import { addScore } from '@/actions/addScore'
+import { SCORE_PONTUATION } from '@/lib/constants'
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs/server'
+import { AwardEnum } from '@prisma/client'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function PUT(
@@ -47,9 +50,16 @@ export async function PUT(
       })
     }
 
+    await addScore({
+      userId,
+      points: SCORE_PONTUATION.FORUM_POST_LIKE,
+      resource: AwardEnum.FORUM_POST_LIKE,
+      targetId: post.userId
+    })
+
     return new NextResponse('Like toggled', { status: 200 })
   } catch (error) {
-    console.log('[POST_COMMENTS_ERROR]', error)
+    console.log('[POST_LIKES_ERROR]', error)
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }

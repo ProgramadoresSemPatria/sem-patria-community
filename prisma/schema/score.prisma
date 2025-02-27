@@ -4,6 +4,7 @@ model Season {
   initDate  DateTime
   endDate   DateTime
   isCurrent Boolean // Indica a temporada ativa
+  metadata  Json? // Informações extras da temporada
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

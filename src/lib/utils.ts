@@ -58,7 +58,7 @@ export const formatTitle = (title: string) => {
   const titleHref: Record<string, string> = {
     'a-base': 'A Base',
     psp: 'Programador Sem Pátria',
-    prime: 'Programador Prime',
+    prime: 'Programador Prime'
   }
 
   return titleHref[title]

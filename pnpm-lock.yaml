@@ -45,8 +45,8 @@ importers:
         specifier: ^3.3.2
         version: 3.3.2(react-hook-form@7.48.2(react@18.2.0))
       '@mantine/hooks':
-        specifier: ^7.17.0
-        version: 7.17.0(react@18.2.0)
+        specifier: ^7.17.1
+        version: 7.17.1(react@18.2.0)
       '@prisma/client':
         specifier: ^5.22.0
         version: 5.22.0(prisma@5.22.0)
@@ -930,8 +930,8 @@ packages:
     peerDependencies:
       react: '>=16.8.0'
 
-  '@mantine/hooks@7.17.0':
-    resolution: {integrity: sha512-vo3K49mLy1nJ8LQNb5KDbJgnX0xwt3Y8JOF3ythjB5LEFMptdLSSgulu64zj+QHtzvffFCsMb05DbTLLpVP/JQ==}
+  '@mantine/hooks@7.17.1':
+    resolution: {integrity: sha512-mkHLrXMPd5xdI5WD7UOLwNEpdh/i6A7HaRDTXvjDE2/S0N8VmAE+BlvdyvWRMi7ODp2zVqJdP8cF1tgUn+Z0fA==}
     peerDependencies:
       react: ^18.x || ^19.x
 
@@ -7108,7 +7108,7 @@ snapshots:
     dependencies:
       react: 18.2.0
 
-  '@mantine/hooks@7.17.0(react@18.2.0)':
+  '@mantine/hooks@7.17.1(react@18.2.0)':
     dependencies:
       react: 18.2.0
 

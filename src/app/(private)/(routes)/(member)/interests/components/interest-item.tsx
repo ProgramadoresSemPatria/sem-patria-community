@@ -2,8 +2,6 @@
 
 import { type FC } from 'react'
 import { type InterestWithUsers } from '../page'
-import { getRandomStyle } from '@/lib/constants'
-import { cn } from '@/lib/utils'
 import { Card, CardContent } from '@/components/ui/card'
 
 interface InterestItemProps {
@@ -12,8 +10,6 @@ interface InterestItemProps {
 }
 
 const InterestItem: FC<InterestItemProps> = ({ interest, onClick }) => {
-  const randomStyle = getRandomStyle()
-
   const capitalizeInterest = (interest: string) => {
     return interest
       .split(' ')
@@ -25,27 +21,15 @@ const InterestItem: FC<InterestItemProps> = ({ interest, onClick }) => {
 
   return (
     <Card
-      className="col-span-1 flex rounded-md shadow-sm cursor-pointer"
       onClick={onClick}
+      className="col-span-1 p-1 flex cursor-pointer w-full sm:w-auto hover:bg-sidebar-accent hover:text-secondary"
     >
-      <div
-        className={cn(
-          'flex w-16 shrink-0 items-center justify-center rounded-l-md text-sm font-medium text-white',
-          randomStyle
-        )}
-      >
-        {interest.interest
-          .split(' ')
-          .map(word => word[0])
-          .join('')
-          .toUpperCase()}
-      </div>
-      <CardContent className="p-2 flex flex-1 items-center justify-between truncate rounded-r-md">
-        <div className="flex-1 truncate px-4 py-2 text-sm">
-          <button className="font-medium text-gray-900 hover:text-gray-600 dark:text-white dark:hover:text-gray-300">
+      <CardContent className="p-3 flex flex-col items-center truncate">
+        <div>
+          <h2 className="font-bold text-lg">
             {capitalizeInterest(interest.interest)}
-          </button>
-          <p className="text-gray-500 dark:text-gray-400">
+          </h2>
+          <p className="text-xs">
             {interest.users.length} {memberText}
           </p>
         </div>

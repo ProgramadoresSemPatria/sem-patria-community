@@ -1,115 +1,88 @@
-import prismadb from '@/lib/prismadb'
-
+'use client'
 import { Icons } from '@/components/icons'
 import { NoContent } from '@/components/no-content'
 import { SkeletonMentorshipPage } from '@/components/skeletons/skeleton-mentorship-page'
-import { prePspPermissions } from '@/lib/constants'
-import { currentUser } from '@clerk/nextjs/server'
-import { Suspense } from 'react'
+import { type Video } from '@prisma/client'
+import { Suspense, useEffect, useState } from 'react'
 import { ModuleCarousel } from '../module-carousel'
+import { Reorder } from 'framer-motion'
+import { api } from '@/lib/api'
 
-export const MentorshipSections = async () => {
-  const user = await currentUser()
-  const classrooms = await prismadb.classroom.findMany({
-    include: {
-      modules: {
-        include: {
-          videos: true
-        },
-        orderBy: {
-          order: 'asc'
-        }
-      }
-    }
-  })
-
-  const userProps = await prismadb.user.findUnique({
-    where: {
-      id: user?.id
-    }
-  })
-
-  const formattedData = classrooms.map(classroom => {
-    let modulesWithVideos = classroom.modules.map(module => {
-      const videos = module.videos.map(video => {
-        return video
-      })
-
-      return {
-        id: module.id,
-        title: module.title,
-        fileUrl: module.fileUrl ?? undefined,
-        classroomId: module.classroomId,
-        videos
-      }
-    })
-
-    const isPrePsp = userProps?.role.includes('PrePsp')
-
-    if (isPrePsp) {
-      modulesWithVideos = modulesWithVideos.map(module => {
-        const hasPrePspRestriction = prePspPermissions[classroom.title]
-
-        if (hasPrePspRestriction) {
-          const isPrePspAllowed = hasPrePspRestriction.some(
-            permission => module.id === permission
-          )
-
-          return {
-            ...module,
-            isPrePspAllowed
-          }
-        }
-
-        return module
+interface FormattedModule {
+  id: string
+  title: string
+  fileUrl?: string
+  classroomId: string
+  videos: Video[]
+  isPrePspAllowed?: boolean
+}
+interface FormattedClassroom {
+  id: string
+  title: string
+  modules: FormattedModule[]
+  hasPermission: boolean
+}
+export const MentorshipSections = ({
+  data
+}: {
+  data: FormattedClassroom[]
+}) => {
+  const [items, setItems] = useState(data)
+  useEffect(() => {
+    const updateOrder = async () => {
+      await api.patch('/api/classroom/', {
+        items: items.map((item, index) => ({
+          id: item.id,
+          order: index
+        }))
       })
     }
-
-    const hasPermission = () => {
-      if (!userProps) return false
-
-      if (process.env.NODE_ENV === 'production') {
-        return classroom.permissions.some(permission =>
-          userProps.role.includes(permission)
-        )
-      }
-
-      return true
+    if (
+      JSON.stringify(items.map(i => i.id)) !==
+      JSON.stringify(data.map(i => i.id))
+    ) {
+      void updateOrder()
     }
-
-    return {
-      id: classroom.id,
-      title: classroom.title,
-      modules: modulesWithVideos,
-      hasPermission: hasPermission()
-    }
-  })
+  }, [data, items])
 
   return (
     <div className="flex flex-col gap-y-10">
       <Suspense fallback={<SkeletonMentorshipPage />}>
-        {!formattedData.length && (
+        {!items.length && (
           <NoContent
             title="No classrooms created yet."
             description="Try contacting an admin to add new content."
           />
         )}
-        {formattedData.map(classroom => (
-          <div key={classroom.id} className="relative flex flex-col gap-y-3">
-            <div className="flex items-center justify-between w-full">
-              <h2 className="font-medium text-lg flex items-center">
-                {classroom.title}
-                {!classroom.hasPermission && (
-                  <Icons.lock className="h-4 w-4 ml-2" />
-                )}
-              </h2>
-            </div>
-            <ModuleCarousel
-              modules={classroom.modules}
-              hasPermission={classroom.hasPermission}
-            />
-          </div>
-        ))}
+        <Reorder.Group
+          axis="y"
+          values={items}
+          onReorder={setItems}
+          className="flex flex-col gap-y-10"
+        >
+          {items.map(classroom => (
+            <Reorder.Item
+              key={classroom.id}
+              value={classroom}
+              className="relative flex flex-col gap-y-3 cursor-grab"
+            >
+              <div className="flex items-center justify-between w-full cursor-move">
+                <h2 className="font-medium text-lg flex items-center">
+                  <Icons.grip className="ml-auto size-4 cursor-grab" />
+                  {classroom.title}
+
+                  {!classroom.hasPermission && (
+                    <Icons.lock className="h-4 w-4 ml-2" />
+                  )}
+                </h2>
+              </div>
+              <ModuleCarousel
+                modules={classroom.modules}
+                hasPermission={classroom.hasPermission}
+              />
+            </Reorder.Item>
+          ))}
+        </Reorder.Group>
       </Suspense>
     </div>
   )

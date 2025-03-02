@@ -145,7 +145,7 @@ jobs:
         run: pnpm build
 
       - name: 🚀 Start Next.js Server in Docker
-        run: docker compose up -d app
+        run: docker compose -f ./src/infra/docker-compose.yaml up -d app
 
       - name: ⏳ Wait Extra Time for Next.js
         run: sleep 10

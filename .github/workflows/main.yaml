@@ -24,6 +24,12 @@ jobs:
       CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
 
     steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 List Repository Files
+        run: ls -al
+
       - name: 📄 Create `.env` File
         run: |
           echo "UPLOADTHING_SECRET=$UPLOADTHING_SECRET" >> .env
@@ -39,8 +45,15 @@ jobs:
           echo "DATABASE_URL=postgres://postgres:$POSTGRES_PASSWORD@sem-patria-local-db:5432/$POSTGRES_DB" >> .env
         shell: bash
 
-      - name: 📥 Checkout Repository
-        uses: actions/checkout@v4
+      - name: 📦 Install pnpm
+        run: npm install -g pnpm
+
+      - name: 📦 Install Dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: 🔍 Print Current Directory
+        run: pwd
+      - name: 🔍 Debug List Files in the Current Directory
+        run: ls -al
 
       - name: 🐳 Start Docker Services
         run: docker compose --env-file .env -f ./src/infra/docker-compose.yaml up -d
@@ -48,40 +61,32 @@ jobs:
       - name: 🔍 Check Running Containers
         run: docker ps -a
 
-      - name: 🔍 Ensure PostgreSQL is Ready
+      # - name: 🔍 Test Database Connection
+      #   run: docker exec sem-patria-local-db psql -U $POSTGRES_USER -d $POSTGRES_DB -h sem-patria-local-db -c "SELECT 1;"
+
+      - name: ⏳ Wait for PostgreSQL to be Ready
         run: |
           for i in {1..20}; do
-            STATUS=$(docker inspect --format='{{.State.Health.Status}}' sem-patria-local-db)
-            if [ "$STATUS" == "healthy" ]; then
+            if docker exec sem-patria-local-db pg_isready -U $POSTGRES_USER -d $POSTGRES_DB; then
               echo "✅ PostgreSQL is ready."
               exit 0
             fi
-            echo "⏳ Waiting for PostgreSQL to be ready... ($i/20)"
+            echo "⏳ Waiting for database... ($i/20)"
             sleep 5
           done
           echo "❌ PostgreSQL did not start in time."
           docker logs sem-patria-local-db
           exit 1
-
-      - name: 🔍 Manually Check PostgreSQL Connection
-        run: docker exec sem-patria-local-db pg_isready -U $POSTGRES_USER -d $POSTGRES_DB
-
-      - name: 🔍 Ensure Database Exists
-        run: |
-          docker exec sem-patria-local-db psql -U $POSTGRES_USER -d postgres -c "\l"
+      - name: 📜 Inspect PostgreSQL Logs
+        run: docker logs sem-patria-local-db || true
 
       - name: 🔍 Ensure Prisma Can Connect
         run: |
-          for i in {1..20}; do
-            if pnpm exec prisma migrate status --schema=prisma/schema.prisma; then
-              echo "✅ Prisma is ready."
-              exit 0
-            fi
+          until pnpm exec prisma migrate status --schema=prisma/schema.prisma; do
             echo "⏳ Waiting for Prisma..."
             sleep 5
           done
-          echo "❌ Prisma did not start in time."
-          exit 1
+          echo "✅ Prisma is ready."
 
       - name: 🌱 Seed Database
         run: pnpm seed

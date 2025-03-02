@@ -20,7 +20,7 @@ jobs:
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
       POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@sem-patria-local-db:5432/${POSTGRES_DB}
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@sem-patria-local-db:5432/${POSTGRES_DB}?connect_timeout=300
       CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
 
     steps:
@@ -64,6 +64,9 @@ jobs:
       # - name: 🔍 Test Database Connection
       #   run: docker exec sem-patria-local-db psql -U $POSTGRES_USER -d $POSTGRES_DB -h sem-patria-local-db -c "SELECT 1;"
 
+      - name: 📜 Inspect PostgreSQL Logs
+        run: docker logs sem-patria-local-db || true
+
       - name: ⏳ Wait for PostgreSQL to be Ready
         run: |
           for i in {1..20}; do
@@ -77,8 +80,6 @@ jobs:
           echo "❌ PostgreSQL did not start in time."
           docker logs sem-patria-local-db
           exit 1
-      - name: 📜 Inspect PostgreSQL Logs
-        run: docker logs sem-patria-local-db || true
 
       - name: 🔍 Ensure Prisma Can Connect
         run: |

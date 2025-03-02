@@ -84,6 +84,11 @@ jobs:
       - name: 📜 Show Stored Variables (Masked)
         run: cat /tmp/github_secrets.txt
 
+      - name: 🚨 Force Print Secret Variables
+        run: |
+          echo "::add-mask::$POSTGRES_PASSWORD"
+          echo "Actual POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
+
       - name: 🔍 Test Connection From Inside GitHub Actions
         run: |
           pg_isready -h localhost -p 5432 -U $POSTGRES_USER -d $POSTGRES_DB

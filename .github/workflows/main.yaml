@@ -74,36 +74,12 @@ jobs:
       - name: 🐳 Start Docker Services
         run: docker compose --env-file .env -f ./src/infra/docker-compose.yaml up -d
 
-      - name: 🔍 Check Running Containers
-        run: docker ps -a
-
-      # - name: 🔍 Test Database Connection
-      #   run: docker exec sem-patria-local-db psql -U $POSTGRES_USER -d $POSTGRES_DB -h sem-patria-local-db -c "SELECT 1;"
-
-      - name: 📜 Inspect PostgreSQL Logs
-        run: docker logs sem-patria-local-db || true
-
       - name: 🔍 Debug GitHub Actions Environment Variables
         run: |
           echo "POSTGRES_USER: $POSTGRES_USER"
           echo "POSTGRES_PASSWORD length: ${#POSTGRES_PASSWORD}"
           echo "DATABASE_URL: $DATABASE_URL"
           echo "DATABASE_URL_DOCKER: $DATABASE_URL_DOCKER"
-
-      - name: 📝 Store Environment Variables in a Temporary File
-        run: |
-          echo "POSTGRES_USER=$POSTGRES_USER" > /tmp/github_secrets.txt
-          echo "POSTGRES_PASSWORD length: ${#POSTGRES_PASSWORD}" >> /tmp/github_secrets.txt
-          echo "DATABASE_URL=$DATABASE_URL" >> /tmp/github_secrets.txt
-          echo "DATABASE_URL_DOCKER=$DATABASE_URL_DOCKER" >> /tmp/github_secrets.txt
-
-      - name: 📜 Show Stored Variables (Masked)
-        run: cat /tmp/github_secrets.txt
-
-      - name: 🚨 Force Print Secret Variables
-        run: |
-          echo "::add-mask::$POSTGRES_PASSWORD"
-          echo "Actual POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
 
       - name: 🔍 Test Connection From Inside GitHub Actions
         run: |
@@ -145,9 +121,14 @@ jobs:
         run: |
           unset DATABASE_URL
           pnpm build
-
       - name: 🚀 Start Next.js Server in Docker
-        run: docker compose -f ./src/infra/docker-compose.yaml up -d app
+        run: docker compose up -d app
+
+      - name: 🔍 Check Running Containers
+        run: docker ps -a
+
+      - name: 🔍 Show Next.js Logs
+        run: docker logs sem-patria-app || true
 
       - name: ⏳ Wait Extra Time for Next.js
         run: sleep 10

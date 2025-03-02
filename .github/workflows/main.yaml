@@ -145,17 +145,13 @@ jobs:
         run: pnpm build
 
       - name: 🚀 Start Next.js Server in Docker
-        run: |
-          nohup pnpm start > nextjs.log 2>&1 &
+        run: docker compose up -d app
 
-      - name: ⏳ Wait for Next.js to be Ready
-        run: pnpx wait-on http://localhost:3000 --timeout 60000
-
-      - name: ⌛ Extra Wait Time for Stability
+      - name: ⏳ Wait Extra Time for Next.js
         run: sleep 10
 
-      - name: 📜 Print Next.js Logs
-        run: cat nextjs.log
+      - name: ⏳ Wait for Next.js to be Ready
+        run: pnpx wait-on http://app:3000 --timeout 120000
 
       - name: 🧪 Run Cypress Tests
         uses: cypress-io/github-action@v6

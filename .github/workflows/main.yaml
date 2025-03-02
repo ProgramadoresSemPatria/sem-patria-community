@@ -121,8 +121,8 @@ jobs:
         run: |
           unset DATABASE_URL
           pnpm build
-      - name: 🚀 Start Next.js Server in Docker
-        run: docker compose up -d app
+      # - name: 🚀 Start Next.js Server in Docker
+      #   run: docker compose up -d app
 
       - name: 🔍 Check Running Containers
         run: docker ps -a

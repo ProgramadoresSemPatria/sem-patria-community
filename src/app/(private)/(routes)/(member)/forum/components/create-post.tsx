@@ -9,6 +9,7 @@ function CreatePostComponent() {
   return (
     <div className="flex items-center justify-between py-2">
       <Input
+        data-testid="create-post-modal"
         placeholder="🧠 What is on your mind?"
         onFocus={() => {
           onOpen()

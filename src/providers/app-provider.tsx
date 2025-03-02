@@ -24,6 +24,7 @@ const AppProviders = ({ children }: Props) => {
 
   return (
     <APIProvider
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
       version="beta"
     >

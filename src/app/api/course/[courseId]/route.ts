@@ -10,19 +10,12 @@ export async function PATCH(
 ) {
   try {
     const { userId } = auth()
-    const {
-      name,
-      categoryId,
-      categories,
-      courseUrl,
-      isPaid,
-      level,
-      isPending
-    } = await req.json()
+    const { name, category, categories, courseUrl, isPaid, level, isPending } =
+      await req.json()
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
-    if (!categoryId)
+    if (!category.id)
       return new NextResponse('Category id is required', { status: 400 })
 
     if (!courseUrl)
@@ -56,11 +49,11 @@ export async function PATCH(
         level,
         isPaid,
         isPending,
-        categoryId,
+        categoryId: category.id,
         categories: {
           create: categories?.map((category: Category) => ({
             category: {
-              connect: { id: categoryId }
+              connect: { id: category.id }
             }
           }))
         }

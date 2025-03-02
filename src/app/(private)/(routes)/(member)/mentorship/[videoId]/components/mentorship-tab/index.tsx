@@ -71,6 +71,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
           }}
         >
           <Icons.play
+            data-testid="videos"
             className="w-5 h-5"
             color={`${tab === TabTypes.VIDEOS ? '#390b8e' : '#94a3b8'}`}
           />
@@ -85,6 +86,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
           }}
         >
           <Icons.file
+            data-testid="attachments"
             className="w-5 h-5"
             color={`${tab === TabTypes.ATTACHMENTS ? '#390b8e' : '#94a3b8'}`}
           />

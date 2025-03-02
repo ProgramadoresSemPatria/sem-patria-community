@@ -100,7 +100,7 @@ const ForumFilters = () => {
           <Skeleton className="h-9 w-40 rounded-md" />
         ) : (
           <Popover open={openCategory} onOpenChange={onOpenCategory}>
-            <PopoverTrigger asChild>
+            <PopoverTrigger data-testid="select-category" asChild>
               <Button
                 variant="outline"
                 role="combobox"
@@ -122,8 +122,9 @@ const ForumFilters = () => {
                 <CommandInput placeholder="Search category..." />
                 <CommandEmpty>No framework found.</CommandEmpty>
                 <CommandGroup>
-                  {categoryOptions.map(category => (
+                  {categoryOptions.map((category, index) => (
                     <CommandItem
+                      data-testid={index}
                       className="line-clamp-1"
                       key={category.name}
                       value={category.name}

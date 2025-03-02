@@ -61,7 +61,7 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
                 defaultValue={field.value}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger data-testid="category">
                     <SelectValue
                       defaultValue={field.value}
                       placeholder="Select a category"
@@ -71,8 +71,12 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
                 <SelectContent>
                   {categories &&
                     categories.length > 0 &&
-                    categories.map(category => (
-                      <SelectItem key={category.id} value={category.id}>
+                    categories.map((category, index) => (
+                      <SelectItem
+                        data-testid={index}
+                        key={category.id}
+                        value={category.id}
+                      >
                         {category.name}
                       </SelectItem>
                     ))}
@@ -89,6 +93,7 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
               <FormLabel>Title</FormLabel>
               <FormControl>
                 <Input
+                  data-testid="title"
                   placeholder="Title..."
                   onChange={field.onChange}
                   value={field.value}

@@ -67,10 +67,22 @@ jobs:
       - name: 📜 Inspect PostgreSQL Logs
         run: docker logs sem-patria-local-db || true
 
-      - name: 🔍 Debug Database URL
+      - name: 🔍 Debug GitHub Actions Environment Variables
         run: |
+          echo "POSTGRES_USER: $POSTGRES_USER"
+          echo "POSTGRES_PASSWORD length: ${#POSTGRES_PASSWORD}"
           echo "DATABASE_URL: $DATABASE_URL"
           echo "DATABASE_URL_DOCKER: $DATABASE_URL_DOCKER"
+
+      - name: 📝 Store Environment Variables in a Temporary File
+        run: |
+          echo "POSTGRES_USER=$POSTGRES_USER" > /tmp/github_secrets.txt
+          echo "POSTGRES_PASSWORD length: ${#POSTGRES_PASSWORD}" >> /tmp/github_secrets.txt
+          echo "DATABASE_URL=$DATABASE_URL" >> /tmp/github_secrets.txt
+          echo "DATABASE_URL_DOCKER=$DATABASE_URL_DOCKER" >> /tmp/github_secrets.txt
+
+      - name: 📜 Show Stored Variables (Masked)
+        run: cat /tmp/github_secrets.txt
 
       - name: 🔍 Test Connection From Inside GitHub Actions
         run: |

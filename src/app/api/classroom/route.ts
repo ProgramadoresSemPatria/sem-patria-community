@@ -48,3 +48,29 @@ export async function POST(req: NextRequest) {
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }
+
+export async function PATCH(req: Request) {
+  try {
+    const { userId } = auth()
+    const { items } = await req.json()
+
+    if (!userId) {
+      return new NextResponse('Unauthorized', { status: 401 })
+    }
+
+    const updates = await prismadb.$transaction(
+      items.map(
+        async ({ id, order }: { id: string; order: number }) =>
+          await prismadb.classroom.update({
+            where: { id },
+            data: { order }
+          })
+      )
+    )
+
+    return NextResponse.json(updates)
+  } catch (error) {
+    console.error('[CLASSROOMS_REORDER]', error)
+    return new NextResponse('Internal error', { status: 500 })
+  }
+}

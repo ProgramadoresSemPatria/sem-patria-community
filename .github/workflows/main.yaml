@@ -111,8 +111,13 @@ jobs:
           docker logs sem-patria-local-db
           exit 1
 
+      - name: 🔍 Debug Prisma Connection
+        run: |
+          echo "Prisma is using DATABASE_URL: $DATABASE_URL"
+
       - name: 🔍 Ensure Prisma Can Connect
         run: |
+          export DATABASE_URL="postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}?connect_timeout=10"
           until pnpm exec prisma migrate status --schema=prisma/schema.prisma; do
             echo "⏳ Waiting for Prisma..."
             sleep 5

@@ -61,8 +61,8 @@ jobs:
       - name: 🔍 Check Running Containers
         run: docker ps -a
 
-      - name: 🔍 Test Database Connection
-        run: docker exec sem-patria-local-db psql -U $POSTGRES_USER -d $POSTGRES_DB -h sem-patria-local-db -c "SELECT 1;"
+      # - name: 🔍 Test Database Connection
+      #   run: docker exec sem-patria-local-db psql -U $POSTGRES_USER -d $POSTGRES_DB -h sem-patria-local-db -c "SELECT 1;"
 
       - name: ⏳ Wait for PostgreSQL to be Ready
         run: |

@@ -151,7 +151,7 @@ jobs:
         run: sleep 10
 
       - name: ⏳ Wait for Next.js to be Ready
-        run: pnpx wait-on http://app:3000 --timeout 120000
+        run: pnpx wait-on http://localhost:3000 --timeout 120000
 
       - name: 🧪 Run Cypress Tests
         uses: cypress-io/github-action@v6

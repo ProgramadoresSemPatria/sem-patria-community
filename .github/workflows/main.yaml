@@ -24,6 +24,21 @@ jobs:
       CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
 
     steps:
+      - name: 📄 Create `.env` File
+        run: |
+          echo "UPLOADTHING_SECRET=$UPLOADTHING_SECRET" >> .env
+          echo "RESEND_API_KEY=$RESEND_API_KEY" >> .env
+          echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" >> .env
+          echo "BASE_URL_PRODUCTION=$BASE_URL_PRODUCTION" >> .env
+          echo "BASE_URL_DEVELOPMENT=$BASE_URL_DEVELOPMENT" >> .env
+          echo "CLERK_TESTING_TOKEN=$CLERK_TESTING_TOKEN" >> .env
+          echo "POSTGRES_USER=$POSTGRES_USER" >> .env
+          echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> .env
+          echo "POSTGRES_PORT=$POSTGRES_PORT" >> .env
+          echo "POSTGRES_DB=$POSTGRES_DB" >> .env
+          echo "DATABASE_URL=postgres://postgres:$POSTGRES_PASSWORD@sem-patria-local-db:5432/$POSTGRES_DB" >> .env
+        shell: bash
+
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
 

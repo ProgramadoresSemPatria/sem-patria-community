@@ -22,9 +22,9 @@ const InterestItem: FC<InterestItemProps> = ({ interest, onClick }) => {
   return (
     <Card
       onClick={onClick}
-      className="col-span-1 p-1 flex cursor-pointer w-full sm:w-auto hover:bg-sidebar-accent hover:text-secondary"
+      className="p-2 flex cursor-pointer w-full hover:bg-sidebar-accent hover:text-secondary"
     >
-      <CardContent className="p-3 flex flex-col items-center truncate">
+      <CardContent className="p-2 flex flex-col items-center truncate">
         <div>
           <h2 className="font-bold text-lg">
             {capitalizeInterest(interest.interest)}

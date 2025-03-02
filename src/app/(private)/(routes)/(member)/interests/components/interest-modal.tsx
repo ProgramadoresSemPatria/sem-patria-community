@@ -118,7 +118,7 @@ const InterestModal: React.FC<InterestModalProps> = ({
       onClose={onClose}
       title={`Users Interested in "${interest.interest}"`}
       description=""
-      className="overflow-y-auto max-h-[90vh] w-full max-w-lg mx-auto"
+      className="overflow-y-auto max-h-[90vh] w-full max-w-sm md:max-w-lg mx-auto"
     >
       <div className="flex flex-col h-full">
         <SearchInput value={searchQuery} onChange={setSearchQuery} />

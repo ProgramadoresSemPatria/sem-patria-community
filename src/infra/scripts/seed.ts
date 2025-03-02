@@ -173,7 +173,10 @@ async function seed() {
     createdAt: new Date()
   }))
 
-  await prismadb.classroom.createMany({ data: classrooms })
+  await prismadb.classroom.createMany({
+    data: classrooms,
+    skipDuplicates: true
+  })
   console.log('✅ Inserted mock classrooms')
   const imageUrl = (path: string) => `https://img.clerk.com/${path}`
 

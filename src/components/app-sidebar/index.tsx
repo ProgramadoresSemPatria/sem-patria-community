@@ -82,6 +82,7 @@ export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
               <SidebarMenu className="pl-3 md:pl-0">
                 {memberRoutes.map(item => (
                   <SidebarMenuItem
+                    data-testid={item.label}
                     key={item.label}
                     onClick={() => {
                       if (isMobile) setOpenMobile(false)

@@ -67,6 +67,19 @@ jobs:
       - name: 📜 Inspect PostgreSQL Logs
         run: docker logs sem-patria-local-db || true
 
+      - name: 🔍 Debug Database URL
+        run: |
+          echo "DATABASE_URL: $DATABASE_URL"
+          echo "DATABASE_URL_DOCKER: $DATABASE_URL_DOCKER"
+
+      - name: 🔍 Test Connection From Inside GitHub Actions
+        run: |
+          pg_isready -h localhost -p 5432 -U $POSTGRES_USER -d $POSTGRES_DB
+
+      - name: 🔍 Test Connection From Inside Docker
+        run: |
+          docker exec sem-patria-local-db pg_isready -U $POSTGRES_USER -d $POSTGRES_DB
+
       - name: ⏳ Wait for PostgreSQL to be Ready
         run: |
           for i in {1..20}; do

@@ -74,6 +74,27 @@ async function seed() {
   }))
   await prismadb.course.createMany({ data: courses })
   console.log('✅ Inserted mock courses')
+  console.log('🔍 Checking environment variables for user inputs:')
+  console.log('DEFAULT_SEM_PATRIA_EMAIL:', process.env.DEFAULT_SEM_PATRIA_EMAIL)
+  console.log(
+    'DEFAULT_SEM_PATRIA_PASSWORD length:',
+    process.env.DEFAULT_SEM_PATRIA_PASSWORD?.length || 0
+  )
+  console.log('DEFAULT_SEM_PATRIA_NAME:', process.env.DEFAULT_SEM_PATRIA_NAME)
+  console.log(
+    'DEFAULT_SEM_PATRIA_USERNAME:',
+    process.env.DEFAULT_SEM_PATRIA_USERNAME
+  )
+  console.log('ADMIN_SEM_PATRIA_EMAIL:', process.env.ADMIN_SEM_PATRIA_EMAIL)
+  console.log(
+    'ADMIN_SEM_PATRIA_PASSWORD length:',
+    process.env.ADMIN_SEM_PATRIA_PASSWORD?.length || 0
+  )
+  console.log('ADMIN_SEM_PATRIA_NAME:', process.env.ADMIN_SEM_PATRIA_NAME)
+  console.log(
+    'ADMIN_SEM_PATRIA_USERNAME:',
+    process.env.ADMIN_SEM_PATRIA_USERNAME
+  )
 
   const userInputs = [
     {
@@ -91,6 +112,7 @@ async function seed() {
       role: ['Admin', 'Builder']
     }
   ]
+  console.log('🔍 User inputs:', userInputs)
 
   const clerkUsers = []
   for (const userInput of userInputs) {

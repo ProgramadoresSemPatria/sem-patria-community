@@ -121,7 +121,9 @@ jobs:
           pnpm exec prisma migrate deploy --schema=prisma/schema.prisma
 
       - name: 🌱 Seed Database
-        run: pnpm seed
+        run: |
+          export DATABASE_URL="postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}?connect_timeout=10"
+          pnpm seed
 
       - name: ⚡ Build Next.js App
         run: pnpm build

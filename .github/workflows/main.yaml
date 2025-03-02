@@ -142,7 +142,9 @@ jobs:
           pnpm seed
 
       - name: ⚡ Build Next.js App
-        run: pnpm build
+        run: |
+          unset DATABASE_URL
+          pnpm build
 
       - name: 🚀 Start Next.js Server in Docker
         run: docker compose -f ./src/infra/docker-compose.yaml up -d app

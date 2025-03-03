@@ -1,12 +1,21 @@
 'use client'
 
-import { useState, useCallback, useMemo } from 'react'
-import { Modal } from '@/components/ui/modal'
+import { useState, useCallback, useMemo, type FC } from 'react'
 import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from '@/components/ui/dialog'
 import { type InterestWithUsers } from '../page'
 import { type User } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { useUserInterest } from '../../user/[userName]/components/useUserInterests'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 interface InterestModalProps {
   interest: InterestWithUsers
@@ -14,7 +23,7 @@ interface InterestModalProps {
   onClose: () => void
 }
 
-const InterestModal: React.FC<InterestModalProps> = ({
+const InterestModal: FC<InterestModalProps> = ({
   interest,
   userId,
   onClose
@@ -94,10 +103,10 @@ const InterestModal: React.FC<InterestModalProps> = ({
       <nav aria-label="Directory">
         {Object.entries(filteredUsers).map(([letter, users]) => (
           <div key={letter} className="relative">
-            <div className="sticky top-0 z-10 bg-card px-3 py-1 text-sm font-semibold">
+            <div className="top-0 bg-card px-3 py-1 text-sm font-semibold">
               {letter}
             </div>
-            <ul role="list" className="divide-y divide-gray-100">
+            <ul role="list" className="divide-y">
               {users.map(person => (
                 <UserListItem
                   key={person.email}
@@ -113,28 +122,50 @@ const InterestModal: React.FC<InterestModalProps> = ({
   }
 
   return (
-    <Modal
-      isOpen
-      onClose={onClose}
-      title={`Users Interested in "${interest.interest}"`}
-      description=""
-      className="overflow-y-auto max-h-[90vh] w-full max-w-sm md:max-w-lg mx-auto"
-    >
-      <div className="flex flex-col h-full">
-        <SearchInput value={searchQuery} onChange={setSearchQuery} />
-        <div className="flex-grow overflow-y-auto">{renderUserList()}</div>
-        <ModalActions
-          onClose={onClose}
-          onAction={handleInterestAction}
-          isLoading={isAddingInterest || isRemovingInterest}
-          hasInterest={hasInterest}
-        />
-      </div>
-    </Modal>
+    <Dialog open onOpenChange={onClose}>
+      <DialogContent className="flex flex-col gap-0 p-0 max-w-sm sm:max-w-xl sm:max-h-[min(640px,80vh)]">
+        <div className="flex flex-col h-full">
+          <DialogHeader className="sticky top-0">
+            <DialogTitle className="border-b border-border px-6 py-4 text-base">
+              Users Interested in &quot;{interest.interest}&quot;
+            </DialogTitle>
+          </DialogHeader>
+          <div className="overflow-y-auto">
+            <DialogDescription asChild>
+              <div className="px-6 py-4 text-left">
+                <SearchInput value={searchQuery} onChange={setSearchQuery} />
+                <div className="overflow-y-auto max-h-[30vh]">
+                  {renderUserList()}
+                </div>
+              </div>
+            </DialogDescription>
+          </div>
+          <DialogFooter className="bottom-0 border-t border-border px-6 py-4 gap-y-4">
+            <DialogClose asChild>
+              <Button type="button" onClick={onClose} variant="outline">
+                Close
+              </Button>
+            </DialogClose>
+            <Button
+              type="button"
+              variant={hasInterest ? 'destructive' : 'default'}
+              onClick={handleInterestAction}
+              disabled={isAddingInterest || isRemovingInterest}
+            >
+              {isAddingInterest || isRemovingInterest
+                ? 'Processing...'
+                : hasInterest
+                  ? 'Remove Interest'
+                  : 'Add to Interests'}
+            </Button>
+          </DialogFooter>
+        </div>
+      </DialogContent>
+    </Dialog>
   )
 }
 
-const SearchInput: React.FC<{
+const SearchInput: FC<{
   value: string
   onChange: (value: string) => void
 }> = ({ value, onChange }) => (
@@ -151,7 +182,7 @@ const SearchInput: React.FC<{
   </div>
 )
 
-const UserListItem: React.FC<{
+const UserListItem: FC<{
   person: User
   onClick: (username: string) => void
 }> = ({ person, onClick }) => (
@@ -161,41 +192,15 @@ const UserListItem: React.FC<{
       onClick(person.username)
     }}
   >
-    <img
-      alt={person.name}
-      src={person.imageUrl || '/default-avatar.png'}
-      className="h-8 w-8 flex-none rounded-full bg-gray-50"
-    />
+    <Avatar>
+      <AvatarImage alt={person.name} src={person.imageUrl ?? ''} />
+      <AvatarFallback>{person.name.charAt(0).toUpperCase()}</AvatarFallback>
+    </Avatar>
     <div className="min-w-0">
       <p className="text-sm font-medium dark:text-white">{person.name}</p>
       <p className="text-xs text-gray-400">{person.email}</p>
     </div>
   </li>
-)
-
-const ModalActions: React.FC<{
-  onClose: () => void
-  onAction: () => void
-  isLoading: boolean
-  hasInterest: boolean
-}> = ({ onClose, onAction, isLoading, hasInterest }) => (
-  <div className="flex justify-end space-x-4 mt-6 sticky bottom-0 bg-background p-4 border-t">
-    <Button onClick={onClose} disabled={isLoading} className="w-full sm:w-auto">
-      Close
-    </Button>
-    <Button
-      variant="destructive"
-      onClick={onAction}
-      disabled={isLoading}
-      className="w-full sm:w-auto"
-    >
-      {isLoading
-        ? 'Processing...'
-        : hasInterest
-          ? 'Remove Interest'
-          : 'Add to Interests'}
-    </Button>
-  </div>
 )
 
 export default InterestModal

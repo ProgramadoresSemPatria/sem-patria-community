@@ -1,12 +1,12 @@
 import { EditPostForm } from '@/app/(private)/(routes)/(member)/forum/components/edit-post-form'
 import { Modal } from '@/components/ui/modal'
 import useEditPostModalStore from '@/hooks/modal/use-edit-post'
-import { type JsonValue } from '@prisma/client/runtime/library'
+import { type Prisma } from '@prisma/client'
 
 interface EditPostModalProps {
   postId: string
   title: string
-  content: JsonValue
+  content: Prisma.JsonValue
   categoryId: string
 }
 

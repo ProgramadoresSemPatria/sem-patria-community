@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { type JsonValue } from '@prisma/client/runtime/library'
+import { type Prisma } from '@prisma/client'
 import { useMutationState } from '@tanstack/react-query'
 import { useEditPostForm } from './use-edit-post-form'
 
@@ -24,7 +24,7 @@ interface EditPostFormProps {
   postId: string
   initialValues: {
     title: string
-    content: JsonValue
+    content: Prisma.JsonValue
     categoryId: string
   }
 }

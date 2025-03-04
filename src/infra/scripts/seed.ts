@@ -7,7 +7,7 @@ import { Roles } from '@prisma/client'
 async function seed() {
   console.log('🌱 Starting seed process...')
 
-  const existingUsers = await clerkClient.users.getUserList({
+  const existingUsers = await clerkClient().users.getUserList({
     emailAddress: [
       process.env.DEFAULT_SEM_PATRIA_EMAIL ?? '',
       process.env.ADMIN_SEM_PATRIA_EMAIL ?? ''
@@ -15,7 +15,7 @@ async function seed() {
   })
 
   for (const user of existingUsers.data) {
-    await clerkClient.users.deleteUser(user.id)
+    await clerkClient().users.deleteUser(user.id)
   }
   console.log('✅ Deleted existing users from Clerk')
 
@@ -87,13 +87,13 @@ async function seed() {
       password: process.env.ADMIN_SEM_PATRIA_PASSWORD ?? '',
       name: process.env.ADMIN_SEM_PATRIA_NAME ?? '',
       username: process.env.ADMIN_SEM_PATRIA_USERNAME ?? '',
-      role: ['Admin', 'Builder']
+      role: ['Admin']
     }
   ]
 
   const clerkUsers = []
   for (const userInput of userInputs) {
-    const clerkUser = await clerkClient.users.createUser({
+    const clerkUser = await clerkClient().users.createUser({
       emailAddress: [userInput.email],
       password: userInput.password,
       firstName: userInput.name,

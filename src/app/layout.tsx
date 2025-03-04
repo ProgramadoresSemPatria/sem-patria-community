@@ -43,7 +43,7 @@ export default function RootLayout({
         >
           <AppProviders>
             {children}
-            <Analytics mode={'production'} />
+            <Analytics mode="auto" />
           </AppProviders>
         </body>
       </html>

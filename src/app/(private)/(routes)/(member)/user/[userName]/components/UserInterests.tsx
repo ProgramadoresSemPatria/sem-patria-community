@@ -10,10 +10,10 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { type Interest } from '@prisma/client'
 import { useUserInterest } from './useUserInterests'
-import InterestModal from '../../../interests/components/InterestModal'
 import { type InterestWithUsers } from '../../../interests/page'
 import { Icons } from '@/components/icons'
 import { getRandomStyle } from '@/lib/constants'
+import InterestModal from '../../../interests/components/interest-modal'
 
 const UserInterests = ({
   userInterests,

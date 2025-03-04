@@ -49,7 +49,6 @@ describe('Admin Users page', () => {
     cy.get('[data-testid="instagram"]').type('@johndoe') // instagram
     cy.get('[data-testid="role"]').click() // roles
     cy.get('[data-testid="Admin"]').click()
-    cy.get('[data-testid="Builder"]').click()
     cy.get('[data-testid="submit"]').click({ force: true })
     cy.contains('Success')
     cy.contains('User created successfully')

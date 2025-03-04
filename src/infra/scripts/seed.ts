@@ -87,7 +87,7 @@ async function seed() {
       password: process.env.ADMIN_SEM_PATRIA_PASSWORD ?? '',
       name: process.env.ADMIN_SEM_PATRIA_NAME ?? '',
       username: process.env.ADMIN_SEM_PATRIA_USERNAME ?? '',
-      role: ['Admin', 'Builder']
+      role: ['Admin']
     }
   ]
 

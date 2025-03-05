@@ -27,10 +27,13 @@ const appearanceFormSchema = z.object({
 type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
 
 export const AppearanceForm = () => {
-  const { setTheme } = useTheme()
+  const { setTheme, theme } = useTheme()
 
   const form = useForm<AppearanceFormValues>({
-    resolver: zodResolver(appearanceFormSchema)
+    resolver: zodResolver(appearanceFormSchema),
+    defaultValues: {
+      theme: theme as AppearanceFormValues['theme']
+    }
   })
 
   function onSubmit(data: AppearanceFormValues) {
@@ -90,7 +93,7 @@ export const AppearanceForm = () => {
                     <FormControl>
                       <RadioGroupItem value="dark" className="sr-only" />
                     </FormControl>
-                    <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground">
+                    <div className="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
                       <div className="space-y-2 rounded-sm bg-slate-950 p-2">
                         <div className="space-y-2 rounded-md bg-slate-800 p-2 shadow-sm">
                           <div className="h-2 max-w-[80px] rounded-lg bg-slate-400" />
@@ -116,7 +119,7 @@ export const AppearanceForm = () => {
                     <FormControl>
                       <RadioGroupItem value="system" className="sr-only" />
                     </FormControl>
-                    <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:border-accent">
+                    <div className="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
                       <div className="space-y-2 rounded-sm bg-[#ecedef] p-2">
                         <div className="space-y-2 rounded-md bg-slate-800 p-2 shadow-sm">
                           <div className="h-2 max-w-[80px] rounded-lg bg-slate-400" />

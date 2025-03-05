@@ -58,8 +58,7 @@ export const formatTitle = (title: string) => {
   const titleHref: Record<string, string> = {
     'a-base': 'A Base',
     psp: 'Programador Sem Pátria',
-    prime: 'Programador Prime',
-    'perfil-fechado': 'Perfil Fechado'
+    prime: 'Programador Prime'
   }
 
   return titleHref[title]
@@ -90,10 +89,8 @@ export const getStringFromDate = (date: string) => {
 
 export const defineUserRole = (user: User): UserAbilityRoles => {
   const hasAdmin = user.role.some(role => role === Roles.Admin)
-  const hasBuilder = user.role.some(role => role === Roles.Builder)
 
   if (hasAdmin) return 'ADMIN'
-  if (hasBuilder) return 'BUILDER'
   return 'MEMBER'
 }
 
@@ -128,4 +125,21 @@ export const toBase64 = async (file: File) => {
 
 export const isObjEmpty = (obj: Record<string, unknown>) => {
   return Object.keys(obj).length === 0
+}
+
+export const getHighestPriorityRole = (userRoles: Roles[]): Roles => {
+  const priorityOrder: Roles[] = [
+    Roles.Admin,
+    Roles.Prime,
+    Roles.ProgramadorSemPatria,
+    Roles.Base
+  ]
+
+  for (const role of priorityOrder) {
+    if (userRoles.includes(role)) {
+      return role
+    }
+  }
+
+  return Roles.Base
 }

@@ -10,10 +10,10 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { type Interest } from '@prisma/client'
 import { useUserInterest } from './useUserInterests'
-import InterestModal from '../../../interests/components/InterestModal'
 import { type InterestWithUsers } from '../../../interests/page'
 import { Icons } from '@/components/icons'
 import { getRandomStyle } from '@/lib/constants'
+import InterestModal from '../../../interests/components/interest-modal'
 
 const UserInterests = ({
   userInterests,
@@ -92,7 +92,7 @@ const UserInterests = ({
           newUserInterests.map(interest => (
             <Badge
               key={interest.id}
-              className={`bg-slate-800 text-white gap-x-2 cursor-pointer ${getRandomStyle()}`}
+              className={`text-white gap-x-2 cursor-pointer ${getRandomStyle()}`}
               onClick={() => {
                 handleBadgeClick(interest)
               }}

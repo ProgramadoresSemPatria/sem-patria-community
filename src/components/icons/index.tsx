@@ -87,6 +87,7 @@ import {
   Video,
   X,
   Youtube,
+  NotebookPen,
   type LucideIcon
 } from 'lucide-react'
 
@@ -154,6 +155,7 @@ export const Icons = {
   menu: Menu,
   mentorship: GraduationCap,
   moreMenu: MoreVertical,
+  notebookPen: NotebookPen,
   pin: PinIcon,
   play: Play,
   plus: Plus,

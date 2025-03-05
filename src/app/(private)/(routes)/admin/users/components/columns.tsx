@@ -3,7 +3,6 @@
 import { Icons } from '@/components/icons'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Roles } from '@/lib/types'
 import { type ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -90,9 +89,7 @@ export const userColumns: Array<ColumnDef<UserColumn>> = [
     accessorKey: 'role',
     header: 'Roles',
     cell: cell => {
-      const rolesMapped = (cell.getValue() as string[]).map(
-        (role: string) => Roles[role as keyof typeof Roles]
-      )
+      const rolesMapped = (cell.getValue() as string[]) ?? []
 
       return <UserCellRoles roles={rolesMapped} />
     }

@@ -6,89 +6,12 @@ import {
   PopoverTrigger
 } from '@/components/ui/popover'
 import { type Editor } from '@tiptap/core'
-
-export interface BubbleColorMenuItem {
-  name: string
-  color: string
-}
-
-const TEXT_COLORS: BubbleColorMenuItem[] = [
-  {
-    name: 'Default',
-    color: 'var(--novel-black)'
-  },
-  {
-    name: 'Purple',
-    color: '#9333EA'
-  },
-  {
-    name: 'Red',
-    color: '#E00000'
-  },
-  {
-    name: 'Yellow',
-    color: '#EAB308'
-  },
-  {
-    name: 'Blue',
-    color: '#2563EB'
-  },
-  {
-    name: 'Green',
-    color: '#008A00'
-  },
-  {
-    name: 'Orange',
-    color: '#FFA500'
-  },
-  {
-    name: 'Pink',
-    color: '#BA4081'
-  },
-  {
-    name: 'Gray',
-    color: '#A8A29E'
-  }
-]
-
-const HIGHLIGHT_COLORS: BubbleColorMenuItem[] = [
-  {
-    name: 'Default',
-    color: 'var(--novel-highlight-default)'
-  },
-  {
-    name: 'Purple',
-    color: 'var(--novel-highlight-purple)'
-  },
-  {
-    name: 'Red',
-    color: 'var(--novel-highlight-red)'
-  },
-  {
-    name: 'Yellow',
-    color: 'var(--novel-highlight-yellow)'
-  },
-  {
-    name: 'Blue',
-    color: 'var(--novel-highlight-blue)'
-  },
-  {
-    name: 'Green',
-    color: 'var(--novel-highlight-green)'
-  },
-  {
-    name: 'Orange',
-    color: 'var(--novel-highlight-orange)'
-  },
-  {
-    name: 'Pink',
-    color: 'var(--novel-highlight-pink)'
-  },
-  {
-    name: 'Gray',
-    color: 'var(--novel-highlight-gray)'
-  }
-]
+import {
+  DARK_TEXT_COLORS,
+  HIGHLIGHT_COLORS,
+  LIGHT_TEXT_COLORS
+} from '../editor/colors'
+import { useTheme } from 'next-themes'
 
 interface ColorSelectorProps {
   open: boolean
@@ -101,6 +24,10 @@ export const ToolbarColorSelector = ({
   onOpenChange,
   editor
 }: ColorSelectorProps) => {
+  const { resolvedTheme } = useTheme()
+  const TEXT_COLORS =
+    resolvedTheme === 'light' ? LIGHT_TEXT_COLORS : DARK_TEXT_COLORS
+
   if (!editor) return null
   const activeColorItem = TEXT_COLORS.find(({ color }) =>
     editor.isActive('textStyle', { color })
@@ -129,7 +56,7 @@ export const ToolbarColorSelector = ({
 
       <PopoverContent
         sideOffset={5}
-        className="my-1 flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl scrollbar-thin scrollbar-thumb-slate-900 scrollbar-track-slate-800 scrollbar-thumb-rounded-sm"
+        className="my-1 flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto rounded border p-1 shadow-xl scrollbar-thin scrollbar-thumb-brand-black-700 scrollbar-track-card scrollbar-thumb-rounded-sm"
         align="start"
       >
         <div className="flex flex-col">
@@ -149,7 +76,7 @@ export const ToolbarColorSelector = ({
             >
               <div className="flex items-center gap-2">
                 <div
-                  className="rounded-sm border px-2 py-px font-medium group-hover:bg-slate-950"
+                  className="rounded-sm border px-2 py-px font-medium dark:group-hover:bg-slate-950"
                   style={{ color }}
                 >
                   A

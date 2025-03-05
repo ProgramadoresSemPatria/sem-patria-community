@@ -1,18 +1,11 @@
-import { type LucideIcon } from 'lucide-react'
-import { EditorBubbleItem, useEditor, type EditorInstance } from 'novel'
+import { EditorBubbleItem, useEditor } from 'novel'
 
 import { Button } from '@/components//ui/button'
 import { PopoverContent, PopoverTrigger } from '@/components//ui/popover'
 import { Icons } from '@/components/icons'
 import { Popover } from '@radix-ui/react-popover'
 import { useMemo } from 'react'
-
-export type SelectorItem = {
-  name: string
-  icon: LucideIcon
-  command: (editor: EditorInstance) => void
-  isActive: (editor: EditorInstance) => boolean
-}
+import { type SelectorItem, type NodeSelectorProps } from '../types'
 
 export const nodeItems: SelectorItem[] = [
   {
@@ -81,11 +74,6 @@ export const nodeItems: SelectorItem[] = [
     isActive: editor => editor.isActive('codeBlock')
   }
 ]
-interface NodeSelectorProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  hasTitleEnabled?: boolean
-}
 
 export const NodeSelector = ({
   open,

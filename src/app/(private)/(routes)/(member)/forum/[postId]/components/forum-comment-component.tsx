@@ -12,6 +12,7 @@ import Image from 'next/image'
 import { type ExtendedComment } from '../[...titleSlug]/page'
 import { ForumAdminActions } from './forum-comment-admin-actions'
 import ReplyCommentSection from './reply-comment-section'
+import Link from 'next/link'
 
 type CommentComponentProps = {
   comment: ExtendedComment
@@ -44,25 +45,28 @@ export const ForumCommentComponent = ({ comment }: CommentComponentProps) => {
     user?.id === comment.userId || user?.publicMetadata.role === 'Admin'
 
   return (
-    <div
-      key={comment.id}
-      className="border-b last:border-none border-slate-900 rounded-md p-4"
-    >
+    <div key={comment.id} className="border-b last:border-none rounded-md p-4">
       <div className="flex justify-between">
         <div className="flex gap-2 items-center">
           <>
-            <Image
-              className="rounded-full w-8 h-8 mr-1"
-              alt="User avatar"
-              width={500}
-              height={500}
-              src={comment.user.imageUrl || defaultAvatar}
-            />
-            <h2 className="font-semibold text-lg dark:text-slate-300 text-black">
-              {comment.user.username !== ''
-                ? comment.user.username
-                : comment.user.name}
-            </h2>
+            <Link
+              href={`/user/${comment?.user.username}`}
+              className="font-semibold hover:underline transition-all hover:cursor-pointer flex items-center"
+            >
+              <Image
+                className="rounded-full w-8 h-8 mr-1"
+                alt="User avatar"
+                width={500}
+                height={500}
+                src={comment.user.imageUrl || defaultAvatar}
+              />
+
+              <h2 className="font-semibold text-lg dark:text-slate-300 text-black">
+                {comment.user.username !== ''
+                  ? comment.user.username
+                  : comment.user.name}
+              </h2>
+            </Link>
           </>
           {comment.createdAt && (
             <TooltipProvider>

@@ -210,7 +210,7 @@ export const RichTextInput = ({
             form.formState.isSubmitting ||
             isUploadingImage
           }
-          className="self-end w-fit bg-slate-900 text-white gap-1 hover:bg-slate-900/70"
+          className="self-end w-fit text-white gap-1"
         >
           {isPending ? (
             <>

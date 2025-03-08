@@ -89,6 +89,110 @@ const UserResult = ({ result }: ResultProps) => (
     </div>
   </>
 )
+const ClassroomResult = ({ result }: ResultProps) => (
+  <>
+    <div
+      id="entity-icon"
+      className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-green-500"
+    >
+      <Icons.classroom className="w-6 h-6 text-white" aria-hidden="true" />
+    </div>
+    <div id="title" className="min-w-0 flex-auto overflow-hidden">
+      <p className="truncate capitalize font-medium text-gray-900 dark:text-gray-100">
+        {result.title}
+      </p>
+      <div className="mt-0.5 flex items-center gap-x-2 text-xs/5 text-gray-500 dark:text-gray-400">
+        {result.modules && result.modules.length > 0 && (
+          <div className="flex items-center gap-x-1 text-xs/5 text-gray-500 dark:text-gray-400">
+            <Icons.book className="w-3.5 h-3.5" /> {result.modules?.length}{' '}
+            modules
+          </div>
+        )}
+      </div>
+    </div>
+  </>
+)
+
+const CourseResult = ({ result }: ResultProps) => (
+  <>
+    <div
+      id="entity-icon"
+      className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-yellow-500"
+    >
+      <Icons.code className="w-6 h-6 text-white" aria-hidden="true" />
+    </div>
+    <div id="title" className="min-w-0 flex-auto overflow-hidden">
+      <p className="truncate capitalize font-medium text-gray-900 dark:text-gray-100">
+        {result.name}
+      </p>
+      <div className="mt-0.5 flex items-center gap-x-2 text-xs/5 text-gray-500 dark:text-gray-400">
+        <p className="truncate">
+          Category: <strong>{result.category?.name}</strong>
+        </p>
+        <svg
+          viewBox="0 0 2 2"
+          className="flex-shrink-0 w-0.5 h-0.5 fill-current"
+        >
+          <circle r={1} cx={1} cy={1} />
+        </svg>
+        <p className="truncate">{result.isPaid ? 'Paid' : 'Free'} Course</p>
+      </div>
+    </div>
+  </>
+)
+
+const InterestResult = ({ result }: ResultProps) => (
+  <>
+    <div
+      id="entity-icon"
+      className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-red-500"
+    >
+      <Icons.check className="w-6 h-6 text-white" aria-hidden="true" />
+    </div>
+    <div id="title" className="min-w-0 flex-auto overflow-hidden">
+      <p className="truncate capitalize font-medium text-gray-900 dark:text-gray-100">
+        {result.interest}
+      </p>
+      <div className="mt-0.5 flex items-center gap-x-2 text-xs/5 text-gray-500 dark:text-gray-400">
+        <p className="truncate">
+          <strong>{result.users?.length || 0} users</strong>
+        </p>
+      </div>
+    </div>
+  </>
+)
+
+const EventResult = ({ result }: ResultProps) => (
+  <>
+    <div
+      id="entity-icon"
+      className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-blue-500"
+    >
+      <Icons.calendar className="w-6 h-6 text-white" aria-hidden="true" />
+    </div>
+    <div id="title" className="min-w-0 flex-auto overflow-hidden">
+      <p className="truncate capitalize font-medium text-gray-900 dark:text-gray-100">
+        {result.title}
+      </p>
+      <div className="mt-0.5 flex items-center gap-x-2 text-xs/5 text-gray-500 dark:text-gray-400">
+        <p className="truncate">
+          <strong>{result.location}</strong>
+        </p>
+        <svg
+          viewBox="0 0 2 2"
+          className="flex-shrink-0 w-0.5 h-0.5 fill-current"
+        >
+          <circle r={1} cx={1} cy={1} />
+        </svg>
+        {result.specialGuest && (
+          <p className="truncate">
+            Special Guest: <strong>{result.specialGuest}</strong>
+          </p>
+        )}
+      </div>
+    </div>
+  </>
+)
 
 type ResultComponentMap = {
   [K in SearchDialogResult['entity']]: React.FC<{ result: SearchDialogResult }>
@@ -96,7 +200,11 @@ type ResultComponentMap = {
 
 const resultComponents: ResultComponentMap = {
   forum: ForumResult,
-  user: UserResult
+  user: UserResult,
+  classroom: ClassroomResult,
+  course: CourseResult,
+  interest: InterestResult,
+  event: EventResult
 }
 
 export const ResultsList = ({ searchResults }: ResultsListProps) => (
@@ -108,6 +216,7 @@ export const ResultsList = ({ searchResults }: ResultsListProps) => (
     {searchResults.map(sResult => {
       const ResultComponent =
         resultComponents[sResult.entity as keyof typeof resultComponents]
+
       return (
         <ComboboxOption
           key={sResult.id}
@@ -135,7 +244,13 @@ export const ResultsList = ({ searchResults }: ResultsListProps) => (
                     sResult.entity === 'forum' &&
                       'fill-indigo-500 dark:fill-indigo-400',
                     sResult.entity === 'user' &&
-                      'fill-blue-500 dark:fill-blue-400'
+                      'fill-blue-500 dark:fill-blue-400',
+                    sResult.entity === 'course' &&
+                      'fill-yellow-500 dark:fill-yellow-400',
+                    sResult.entity === 'classroom' &&
+                      'fill-green-500 dark:fill-green-400',
+                    sResult.entity === 'interest' &&
+                      'fill-red-500 dark:fill-red-400'
                   )}
                 >
                   <circle r={3} cx={3} cy={3} />
@@ -144,7 +259,7 @@ export const ResultsList = ({ searchResults }: ResultsListProps) => (
               </span>
 
               <p className="mt-1 text-xs/5 text-gray-500 dark:text-gray-400">
-                {sResult.entity === 'forum' ? 'Posted' : 'Joined'} on{' '}
+                {sResult.entity === 'user' ? 'Joined' : 'Created'} on{' '}
                 {format(new Date(sResult.createdAt), 'MMM dd, yyyy')}
               </p>
             </div>

@@ -1,6 +1,24 @@
 import { useState, useCallback } from 'react'
 import { type SearchDialogResult, type SearchApiResponse } from './types'
 
+function getItemUrl(item: SearchDialogResult): string {
+  console.log('item', item.modules)
+  switch (item.entity) {
+    case 'forum':
+      return `/forum/${item.id}/${item.title
+        ?.toLowerCase()
+        .replace(/\s+/g, '-')}`
+    case 'user':
+      return `/user/${item.username}`
+    case 'classroom':
+      return `/mentorship/${item.modules?.[0].videos?.[0].id}`
+    case 'course':
+      return `/course/${item.id}`
+    default:
+      return '/'
+  }
+}
+
 const useSearch = () => {
   const [searchResults, setSearchResults] = useState<SearchDialogResult[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -25,16 +43,12 @@ const useSearch = () => {
       }
 
       const data: SearchApiResponse = await response.json()
+      console.log('data', data)
       const normalizedResults: SearchDialogResult[] = data.data.items.map(
         item => {
           return {
             ...item,
-            entity: item.title ? 'forum' : 'user',
-            url: item.title
-              ? `/forum/${item.id}/${item.title
-                  .toLowerCase()
-                  .replace(/\s+/g, '-')}`
-              : `/user/${item.username}`
+            url: getItemUrl(item)
           }
         }
       )

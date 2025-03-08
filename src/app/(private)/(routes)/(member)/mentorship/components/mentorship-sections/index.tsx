@@ -7,6 +7,9 @@ import { Suspense, useEffect, useState } from 'react'
 import { ModuleCarousel } from '../module-carousel'
 import { Reorder } from 'framer-motion'
 import { api } from '@/lib/api'
+import { Button } from '@/components/ui/button'
+import { useAbility } from '@casl/react'
+import { AbilityContext } from '@/hooks/use-ability'
 
 interface FormattedModule {
   id: string
@@ -27,27 +30,69 @@ export const MentorshipSections = ({
 }: {
   data: FormattedClassroom[]
 }) => {
+  const ability = useAbility(AbilityContext)
+  const canManageClassroom = ability.can('manage', 'Classroom')
   const [items, setItems] = useState(data)
+  const [hasChanges, setHasChanges] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
+
   useEffect(() => {
-    const updateOrder = async () => {
+    const orderChanged =
+      JSON.stringify(items.map(i => i.id)) !==
+      JSON.stringify(data.map(i => i.id))
+
+    setHasChanges(orderChanged)
+  }, [data, items])
+
+  const saveOrder = async () => {
+    setIsSaving(true)
+    try {
       await api.patch('/api/classroom/', {
         items: items.map((item, index) => ({
           id: item.id,
           order: index
         }))
       })
+      setHasChanges(false)
+    } catch (error) {
+      console.error('Failed to save order:', error)
+    } finally {
+      setIsSaving(false)
     }
-    if (
-      JSON.stringify(items.map(i => i.id)) !==
-      JSON.stringify(data.map(i => i.id))
-    ) {
-      void updateOrder()
+  }
+
+  const handleAutoScroll = (info: { point: { x: number; y: number } }) => {
+    const threshold = 400
+    const scrollSpeed = 15
+    const relativeY = info.point.y - window.scrollY
+
+    if (relativeY < threshold) {
+      window.scrollBy(0, -scrollSpeed)
+    } else if (window.innerHeight - relativeY < threshold) {
+      window.scrollBy(0, scrollSpeed)
     }
-  }, [data, items])
+  }
 
   return (
     <div className="flex flex-col gap-y-10">
       <Suspense fallback={<SkeletonMentorshipPage />}>
+        {hasChanges && (
+          <div className="flex justify-end mb-4">
+            <Button variant="default" onClick={saveOrder} disabled={isSaving}>
+              {isSaving ? (
+                <>
+                  <Icons.loader className="h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Icons.save className="h-4 w-4" />
+                  Save Order
+                </>
+              )}
+            </Button>
+          </div>
+        )}
         {!items.length && (
           <NoContent
             title="No classrooms created yet."
@@ -64,13 +109,18 @@ export const MentorshipSections = ({
             <Reorder.Item
               key={classroom.id}
               value={classroom}
-              className="relative flex flex-col gap-y-3 cursor-grab"
+              className={`relative flex flex-col gap-y-3 ${
+                canManageClassroom ? 'cursor-grab' : ''
+              }`}
+              drag={canManageClassroom}
+              onDrag={(_, info) => {
+                handleAutoScroll(info)
+              }}
             >
-              <div className="flex items-center justify-between w-full cursor-move">
+              <div className="flex items-center justify-between w-full">
                 <h2 className="font-medium text-lg flex items-center">
-                  <Icons.grip className="ml-auto size-4 cursor-grab" />
+                  {canManageClassroom && <Icons.grip className="cursor-grab" />}{' '}
                   {classroom.title}
-
                   {!classroom.hasPermission && (
                     <Icons.lock className="h-4 w-4 ml-2" />
                   )}

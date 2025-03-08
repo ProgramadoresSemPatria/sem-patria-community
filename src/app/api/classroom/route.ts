@@ -1,4 +1,5 @@
 import prismadb from '@/lib/prismadb'
+import { Roles } from '@/lib/types'
 import { auth } from '@clerk/nextjs/server'
 import { NextResponse, type NextRequest } from 'next/server'
 
@@ -57,14 +58,21 @@ export async function PATCH(req: Request) {
     if (!userId) {
       return new NextResponse('Unauthorized', { status: 401 })
     }
+    const user = await prismadb.user.findUnique({
+      where: { id: userId }
+    })
+
+    if (!user || !user.role.includes(Roles.Admin)) {
+      return new NextResponse('Forbidden', { status: 403 })
+    }
 
     const updates = await prismadb.$transaction(
-      items.map(
-        async ({ id, order }: { id: string; order: number }) =>
-          await prismadb.classroom.update({
-            where: { id },
-            data: { order }
-          })
+      // eslint-disable-next-line @typescript-eslint/promise-function-async
+      items.map(({ id, order }: { id: string; order: number }) =>
+        prismadb.classroom.update({
+          where: { id },
+          data: { order }
+        })
       )
     )
 

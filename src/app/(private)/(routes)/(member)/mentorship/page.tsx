@@ -14,7 +14,7 @@ const Mentorship = async () => {
           videos: true
         },
         orderBy: {
-          order: 'asc'
+          order: 'desc'
         }
       }
     }

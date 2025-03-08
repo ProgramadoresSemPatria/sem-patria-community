@@ -6,10 +6,10 @@ import { type Video } from '@prisma/client'
 import { Suspense, useEffect, useState } from 'react'
 import { ModuleCarousel } from '../module-carousel'
 import { Reorder } from 'framer-motion'
-import { api } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { useAbility } from '@casl/react'
 import { AbilityContext } from '@/hooks/use-ability'
+import { useModuleCarousel } from '../module-carousel/use-module-carousel'
 
 interface FormattedModule {
   id: string
@@ -19,7 +19,7 @@ interface FormattedModule {
   videos: Video[]
   isPrePspAllowed?: boolean
 }
-interface FormattedClassroom {
+export interface FormattedClassroom {
   id: string
   title: string
   modules: FormattedModule[]
@@ -34,8 +34,8 @@ export const MentorshipSections = ({
   const canManageClassroom = ability.can('manage', 'Classroom')
   const [items, setItems] = useState(data)
   const [hasChanges, setHasChanges] = useState(false)
-  const [isSaving, setIsSaving] = useState(false)
 
+  const { handleSaveOrder, isSaving, setIsSaving } = useModuleCarousel()
   useEffect(() => {
     const orderChanged =
       JSON.stringify(items.map(i => i.id)) !==
@@ -43,23 +43,6 @@ export const MentorshipSections = ({
 
     setHasChanges(orderChanged)
   }, [data, items])
-
-  const saveOrder = async () => {
-    setIsSaving(true)
-    try {
-      await api.patch('/api/classroom/', {
-        items: items.map((item, index) => ({
-          id: item.id,
-          order: index
-        }))
-      })
-      setHasChanges(false)
-    } catch (error) {
-      console.error('Failed to save order:', error)
-    } finally {
-      setIsSaving(false)
-    }
-  }
 
   const handleAutoScroll = (info: { point: { x: number; y: number } }) => {
     const threshold = 400
@@ -78,7 +61,20 @@ export const MentorshipSections = ({
       <Suspense fallback={<SkeletonMentorshipPage />}>
         {hasChanges && (
           <div className="flex justify-end mb-4">
-            <Button variant="default" onClick={saveOrder} disabled={isSaving}>
+            <Button
+              variant="default"
+              onClick={async () => {
+                setIsSaving(true)
+                await handleSaveOrder(
+                  items.map((item, index) => ({
+                    id: item.id,
+                    order: index
+                  }))
+                )
+                setIsSaving(false)
+              }}
+              disabled={isSaving}
+            >
               {isSaving ? (
                 <>
                   <Icons.loader className="h-4 w-4 animate-spin" />

@@ -63,20 +63,133 @@ export async function POST(request: NextRequest) {
       }
     })
 
-    const [posts, users] = await prismadb.$transaction([queryPosts, queryUsers])
+    const queryClassrooms = prismadb.classroom.findMany({
+      where: {
+        title: {
+          contains: keyword,
+          mode: 'insensitive'
+        }
+      },
+      select: {
+        id: true,
+        title: true,
+        createdAt: true,
+        modules: {
+          select: {
+            videos: {
+              select: {
+                id: true
+              }
+            }
+          }
+        }
+      }
+    })
+
+    const queryCourses = prismadb.course.findMany({
+      where: {
+        name: {
+          contains: keyword,
+          mode: 'insensitive'
+        }
+      },
+      select: {
+        id: true,
+        name: true,
+        createdAt: true,
+        isPaid: true,
+        level: true,
+        category: {
+          select: {
+            name: true
+          }
+        }
+      }
+    })
+
+    const interestsQuery = prismadb.interest.findMany({
+      where: {
+        interest: {
+          contains: keyword,
+          mode: 'insensitive'
+        }
+      },
+      select: {
+        id: true,
+        interest: true,
+        createdAt: true,
+        users: {
+          select: {
+            username: true
+          }
+        }
+      }
+    })
+
+    const queryEvents = prismadb.event.findMany({
+      where: {
+        title: {
+          contains: keyword,
+          mode: 'insensitive'
+        }
+      },
+      select: {
+        id: true,
+        title: true,
+        date: true,
+        location: true,
+        externalUrl: true,
+        specialGuest: true
+      }
+    })
+
+    const [posts, users, classrooms, courses, interests, events] =
+      await prismadb.$transaction([
+        queryPosts,
+        queryUsers,
+        queryClassrooms,
+        queryCourses,
+        interestsQuery,
+        queryEvents
+      ])
 
     return NextResponse.json({
       data: {
-        items: [...posts, ...users],
+        items: [
+          ...posts.map(post => ({ ...post, entity: 'forum' })),
+          ...users.map(user => ({ ...user, entity: 'user' })),
+          ...classrooms.map(classroom => ({
+            ...classroom,
+            entity: 'classroom'
+          })),
+          ...courses.map(course => ({
+            ...course,
+            entity: 'course'
+          })),
+          ...interests.map(interest => ({
+            ...interest,
+            entity: 'interest'
+          })),
+          ...events.map(event => ({
+            ...event,
+            createdAt: event.date,
+            entity: 'event'
+          }))
+        ],
         counts: {
           posts: posts.length,
-          users: users.length
+          users: users.length,
+          classrooms: classrooms.length,
+          courses: courses.length,
+          interests: interests.length,
+          events: events.length
         }
       },
       meta: {
         keyword,
         searchedAt: new Date().toISOString(),
-        totalRecords: posts.length + users.length
+        totalRecords:
+          posts.length + users.length + classrooms.length + courses.length
       }
     })
   } catch (error) {

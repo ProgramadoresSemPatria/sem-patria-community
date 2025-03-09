@@ -2,8 +2,8 @@ import { Icons } from '@/components/icons'
 import { type SearchDialogResult } from '@/hooks/search/types'
 import { cn } from '@/lib/utils'
 import { ComboboxOption, ComboboxOptions } from '@headlessui/react'
-import { format } from 'date-fns'
 import Image from 'next/image'
+import { formatDateText, getEntityColorClass } from './utils'
 
 interface ResultsListProps {
   searchResults: SearchDialogResult[]
@@ -54,7 +54,7 @@ const UserResult = ({ result }: ResultProps) => (
   <>
     <div
       id="entity-icon"
-      className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-purple-500"
+      className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-blue-500"
     >
       {result.imageUrl ? (
         <Image
@@ -166,7 +166,7 @@ const EventResult = ({ result }: ResultProps) => (
   <>
     <div
       id="entity-icon"
-      className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-blue-500"
+      className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-purple-500"
     >
       <Icons.calendar className="w-6 h-6 text-white" aria-hidden="true" />
     </div>
@@ -178,16 +178,18 @@ const EventResult = ({ result }: ResultProps) => (
         <p className="truncate">
           <strong>{result.location}</strong>
         </p>
-        <svg
-          viewBox="0 0 2 2"
-          className="flex-shrink-0 w-0.5 h-0.5 fill-current"
-        >
-          <circle r={1} cx={1} cy={1} />
-        </svg>
         {result.specialGuest && (
-          <p className="truncate">
-            Special Guest: <strong>{result.specialGuest}</strong>
-          </p>
+          <>
+            <svg
+              viewBox="0 0 2 2"
+              className="flex-shrink-0 w-0.5 h-0.5 fill-current"
+            >
+              <circle r={1} cx={1} cy={1} />
+            </svg>
+            <p className="truncate">
+              Special Guest: <strong>{result.specialGuest}</strong>
+            </p>
+          </>
         )}
       </div>
     </div>
@@ -241,16 +243,7 @@ export const ResultsList = ({ searchResults }: ResultsListProps) => (
                   aria-hidden="true"
                   className={cn(
                     'w-1.5 h-1.5 flex-shrink-0',
-                    sResult.entity === 'forum' &&
-                      'fill-indigo-500 dark:fill-indigo-400',
-                    sResult.entity === 'user' &&
-                      'fill-blue-500 dark:fill-blue-400',
-                    sResult.entity === 'course' &&
-                      'fill-yellow-500 dark:fill-yellow-400',
-                    sResult.entity === 'classroom' &&
-                      'fill-green-500 dark:fill-green-400',
-                    sResult.entity === 'interest' &&
-                      'fill-red-500 dark:fill-red-400'
+                    getEntityColorClass(sResult.entity)
                   )}
                 >
                   <circle r={3} cx={3} cy={3} />
@@ -259,8 +252,7 @@ export const ResultsList = ({ searchResults }: ResultsListProps) => (
               </span>
 
               <p className="mt-1 text-xs/5 text-gray-500 dark:text-gray-400">
-                {sResult.entity === 'user' ? 'Joined' : 'Created'} on{' '}
-                {format(new Date(sResult.createdAt), 'MMM dd, yyyy')}
+                {formatDateText(sResult.entity, sResult.createdAt)}
               </p>
             </div>
 

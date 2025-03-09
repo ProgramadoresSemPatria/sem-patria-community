@@ -43,7 +43,6 @@ const useSearch = () => {
       }
 
       const data: SearchApiResponse = await response.json()
-      console.log('data', data)
       const normalizedResults: SearchDialogResult[] = data.data.items.map(
         item => {
           return {

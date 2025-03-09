@@ -99,6 +99,7 @@ export async function POST(request: NextRequest) {
         createdAt: true,
         isPaid: true,
         level: true,
+        courseUrl: true,
         category: {
           select: {
             name: true

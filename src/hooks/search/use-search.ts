@@ -13,7 +13,7 @@ function getItemUrl(item: SearchDialogResult): string {
     case 'classroom':
       return `/mentorship/${item.modules?.[0].videos?.[0].id}`
     case 'course':
-      return `/course/${item.id}`
+      return item.courseUrl || ''
     default:
       return '/'
   }

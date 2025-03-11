@@ -1,13 +1,18 @@
 import { DefaultLayout } from '@/components/default-layout'
 import prismadb from '@/lib/prismadb'
+import { NewSeasonForm } from './components/new-season-form'
+import { type Season } from '../components/columns'
 
-// TODO: Implement new Form component
 const NewSeasonPage = async ({ params }: { params: { seasonId: string } }) => {
-  const season = await prismadb.season.findUnique({
+  const retrievedSeason = (await prismadb.season.findUnique({
     where: { id: params.seasonId }
-  })
+  })) as Season
 
-  return <DefaultLayout>NewForm</DefaultLayout>
+  return (
+    <DefaultLayout>
+      <NewSeasonForm season={retrievedSeason} />
+    </DefaultLayout>
+  )
 }
 
 export default NewSeasonPage

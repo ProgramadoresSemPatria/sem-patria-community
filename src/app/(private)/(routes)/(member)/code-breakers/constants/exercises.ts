@@ -106,14 +106,6 @@ export const exercises: IExercise[] = [
     solution: 'https://neetcode.io/solutions/container-with-most-water'
   },
   {
-    id: 'ex-14',
-    nodeId: '2',
-    problem: 'Trapping Rain Water',
-    link: 'https://leetcode.com/problems/trapping-rain-water/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/trapping-rain-water'
-  },
-  {
     id: 'ex-15',
     nodeId: '3',
     problem: 'Valid Parentheses',
@@ -160,14 +152,6 @@ export const exercises: IExercise[] = [
     link: 'https://leetcode.com/problems/car-fleet/',
     difficulty: 'Medium',
     solution: 'https://neetcode.io/solutions/car-fleet'
-  },
-  {
-    id: 'ex-21',
-    nodeId: '3',
-    problem: 'Largest Rectangle In Histogram',
-    link: 'https://leetcode.com/problems/largest-rectangle-in-histogram/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/largest-rectangle-in-histogram'
   },
   {
     id: 'ex-22',
@@ -219,14 +203,6 @@ export const exercises: IExercise[] = [
     solution: 'https://neetcode.io/solutions/time-based-key-value-store'
   },
   {
-    id: 'ex-28',
-    nodeId: '4',
-    problem: 'Median of Two Sorted Arrays',
-    link: 'https://leetcode.com/problems/median-of-two-sorted-arrays/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/median-of-two-sorted-arrays'
-  },
-  {
     id: 'ex-29',
     nodeId: '5',
     problem: 'Best Time to Buy And Sell Stock',
@@ -259,22 +235,6 @@ export const exercises: IExercise[] = [
     link: 'https://leetcode.com/problems/permutation-in-string/',
     difficulty: 'Medium',
     solution: 'https://neetcode.io/solutions/permutation-in-string'
-  },
-  {
-    id: 'ex-33',
-    nodeId: '5',
-    problem: 'Minimum Window Substring',
-    link: 'https://leetcode.com/problems/minimum-window-substring/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/minimum-window-substring'
-  },
-  {
-    id: 'ex-34',
-    nodeId: '5',
-    problem: 'Sliding Window Maximum',
-    link: 'https://leetcode.com/problems/sliding-window-maximum/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/sliding-window-maximum'
   },
   {
     id: 'ex-35',
@@ -347,22 +307,6 @@ export const exercises: IExercise[] = [
     link: 'https://leetcode.com/problems/lru-cache/',
     difficulty: 'Medium',
     solution: 'https://neetcode.io/solutions/lru-cache'
-  },
-  {
-    id: 'ex-44',
-    nodeId: '6',
-    problem: 'Merge K Sorted Lists',
-    link: 'https://leetcode.com/problems/merge-k-sorted-lists/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/merge-k-sorted-lists'
-  },
-  {
-    id: 'ex-45',
-    nodeId: '6',
-    problem: 'Reverse Nodes In K Group',
-    link: 'https://leetcode.com/problems/reverse-nodes-in-k-group/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/reverse-nodes-in-k-group'
   },
   {
     id: 'ex-46',
@@ -471,23 +415,6 @@ export const exercises: IExercise[] = [
       'https://neetcode.io/solutions/construct-binary-tree-from-preorder-and-inorder-traversal'
   },
   {
-    id: 'ex-59',
-    nodeId: '7',
-    problem: 'Binary Tree Maximum Path Sum',
-    link: 'https://leetcode.com/problems/binary-tree-maximum-path-sum/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/binary-tree-maximum-path-sum'
-  },
-  {
-    id: 'ex-60',
-    nodeId: '7',
-    problem: 'Serialize And Deserialize Binary Tree',
-    link: 'https://leetcode.com/problems/serialize-and-deserialize-binary-tree/',
-    difficulty: 'Hard',
-    solution:
-      'https://neetcode.io/solutions/serialize-and-deserialize-binary-tree'
-  },
-  {
     id: 'ex-61',
     nodeId: '8',
     problem: 'Implement Trie Prefix Tree',
@@ -503,14 +430,6 @@ export const exercises: IExercise[] = [
     difficulty: 'Medium',
     solution:
       'https://neetcode.io/solutions/design-add-and-search-words-data-structure'
-  },
-  {
-    id: 'ex-63',
-    nodeId: '8',
-    problem: 'Word Search II',
-    link: 'https://leetcode.com/problems/word-search-ii/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/word-search-ii'
   },
   {
     id: 'ex-64',
@@ -578,14 +497,6 @@ export const exercises: IExercise[] = [
       'https://neetcode.io/solutions/letter-combinations-of-a-phone-number'
   },
   {
-    id: 'ex-72',
-    nodeId: '9',
-    problem: 'N Queens',
-    link: 'https://leetcode.com/problems/n-queens/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/n-queens'
-  },
-  {
     id: 'ex-73',
     nodeId: '10',
     problem: 'Kth Largest Element In a Stream',
@@ -632,14 +543,6 @@ export const exercises: IExercise[] = [
     link: 'https://leetcode.com/problems/design-twitter/',
     difficulty: 'Medium',
     solution: 'https://neetcode.io/solutions/design-twitter'
-  },
-  {
-    id: 'ex-79',
-    nodeId: '10',
-    problem: 'Find Median From Data Stream',
-    link: 'https://leetcode.com/problems/find-median-from-data-stream/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/find-median-from-data-stream'
   },
   {
     id: 'ex-80',
@@ -737,14 +640,6 @@ export const exercises: IExercise[] = [
     link: 'https://leetcode.com/problems/redundant-connection/',
     difficulty: 'Medium',
     solution: 'https://neetcode.io/solutions/redundant-connection'
-  },
-  {
-    id: 'ex-92',
-    nodeId: '11',
-    problem: 'Word Ladder',
-    link: 'https://leetcode.com/problems/word-ladder/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/word-ladder'
   },
   {
     id: 'ex-93',
@@ -883,15 +778,6 @@ export const exercises: IExercise[] = [
     solution: 'https://neetcode.io/solutions/meeting-rooms-ii'
   },
   {
-    id: 'ex-110',
-    nodeId: '13',
-    problem: 'Minimum Interval to Include Each Query',
-    link: 'https://leetcode.com/problems/minimum-interval-to-include-each-query/',
-    difficulty: 'Hard',
-    solution:
-      'https://neetcode.io/solutions/minimum-interval-to-include-each-query'
-  },
-  {
     id: 'ex-111',
     nodeId: '14',
     problem: 'Maximum Subarray',
@@ -957,14 +843,6 @@ export const exercises: IExercise[] = [
     solution: 'https://neetcode.io/solutions/valid-parenthesis-string'
   },
   {
-    id: 'ex-119',
-    nodeId: '15',
-    problem: 'Reconstruct Itinerary',
-    link: 'https://leetcode.com/problems/reconstruct-itinerary/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/reconstruct-itinerary'
-  },
-  {
     id: 'ex-120',
     nodeId: '15',
     problem: 'Min Cost to Connect All Points',
@@ -979,22 +857,6 @@ export const exercises: IExercise[] = [
     link: 'https://leetcode.com/problems/network-delay-time/',
     difficulty: 'Medium',
     solution: 'https://neetcode.io/solutions/network-delay-time'
-  },
-  {
-    id: 'ex-122',
-    nodeId: '15',
-    problem: 'Swim In Rising Water',
-    link: 'https://leetcode.com/problems/swim-in-rising-water/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/swim-in-rising-water'
-  },
-  {
-    id: 'ex-123',
-    nodeId: '15',
-    problem: 'Alien Dictionary',
-    link: 'https://leetcode.com/problems/alien-dictionary/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/alien-dictionary'
   },
   {
     id: 'ex-124',
@@ -1054,45 +916,12 @@ export const exercises: IExercise[] = [
     solution: 'https://neetcode.io/solutions/interleaving-string'
   },
   {
-    id: 'ex-131',
-    nodeId: '16',
-    problem: 'Longest Increasing Path In a Matrix',
-    link: 'https://leetcode.com/problems/longest-increasing-path-in-a-matrix/',
-    difficulty: 'Hard',
-    solution:
-      'https://neetcode.io/solutions/longest-increasing-path-in-a-matrix'
-  },
-  {
-    id: 'ex-132',
-    nodeId: '16',
-    problem: 'Distinct Subsequences',
-    link: 'https://leetcode.com/problems/distinct-subsequences/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/distinct-subsequences'
-  },
-  {
     id: 'ex-133',
     nodeId: '16',
     problem: 'Edit Distance',
     link: 'https://leetcode.com/problems/edit-distance/',
     difficulty: 'Medium',
     solution: 'https://neetcode.io/solutions/edit-distance'
-  },
-  {
-    id: 'ex-134',
-    nodeId: '16',
-    problem: 'Burst Balloons',
-    link: 'https://leetcode.com/problems/burst-balloons/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/burst-balloons'
-  },
-  {
-    id: 'ex-135',
-    nodeId: '16',
-    problem: 'Regular Expression Matching',
-    link: 'https://leetcode.com/problems/regular-expression-matching/',
-    difficulty: 'Hard',
-    solution: 'https://neetcode.io/solutions/regular-expression-matching'
   },
   {
     id: 'ex-136',

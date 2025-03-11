@@ -41,7 +41,9 @@ export enum appRoutes {
   admin_classroom_module_new = '/admin/classroom/module/new',
   admin_users = '/admin/users',
   admin_users_new = '/admin/users/new',
-  admin_classroom_video_new = '/admin/classroom/video/new'
+  admin_classroom_video_new = '/admin/classroom/video/new',
+  admin_seasons_new = '/admin/seasons/new',
+  admin_seasons = '/admin/seasons'
 }
 
 export const menuItems: MenuItemProps[] = [
@@ -66,7 +68,7 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.code className="h-4 w-4" />
   },
   {
-    href: `${appRoutes.codeUp}`,
+    href: appRoutes.codeUp,
     label: 'Code Up',
     icon: <Icons.calendar className="h-4 w-4" />
   },
@@ -109,6 +111,11 @@ export const menuItems: MenuItemProps[] = [
     href: appRoutes.admin_interests,
     label: 'Interests',
     icon: <Icons.list className="h-4 w-4" />
+  },
+  {
+    href: appRoutes.admin_seasons,
+    label: 'Seasons',
+    icon: <Icons.award className="h-4 w-4" />
   }
 ]
 export const getPublicProfileRoute = (username: string): string => {

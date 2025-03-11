@@ -82,3 +82,32 @@ export async function DELETE(
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }
+// GET - /api/season/:id - get season by id
+export async function GET(req: NextRequest) {
+  const { userId } = auth()
+  if (!userId) {
+    return new NextResponse('Unauthenticated', { status: 401 })
+  }
+
+  const { searchParams } = new URL(req.url)
+  const id = searchParams.get('id')
+
+  if (!id) {
+    return new NextResponse('Season ID is required', { status: 400 })
+  }
+
+  try {
+    const season = await prismadb.season.findUnique({
+      where: { id }
+    })
+
+    if (!season) {
+      return new NextResponse('Season not found', { status: 404 })
+    }
+
+    return NextResponse.json(season)
+  } catch (error) {
+    console.log(error)
+    return new NextResponse('Error retrieving season', { status: 500 })
+  }
+}

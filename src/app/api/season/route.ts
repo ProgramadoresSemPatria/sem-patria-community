@@ -51,3 +51,19 @@ export async function POST(req: NextRequest) {
     return new NextResponse('Error creating season', { status: 500 })
   }
 }
+// GET - /api/season - get all seasons
+export async function GET(req: NextRequest) {
+  try {
+    const { userId } = auth()
+    if (!userId) {
+      return new NextResponse('Unauthenticated', { status: 401 })
+    }
+
+    const seasons = await prismadb.season.findMany()
+
+    return NextResponse.json(seasons)
+  } catch (error) {
+    console.log(error)
+    return new NextResponse('Error retrieving seasons', { status: 500 })
+  }
+}

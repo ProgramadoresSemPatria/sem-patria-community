@@ -7,6 +7,7 @@ import { Analytics } from '@vercel/analytics/react'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../styles/globals.css'
+import { type ReactNode } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,18 +24,14 @@ export const metadata: Metadata = {
   }
 }
 
-export default function RootLayout({
-  children
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <ClerkProvider
-      appearance={{
-        baseTheme: dark
-      }}
-    >
-      <html lang="en">
+    <html lang="en">
+      <ClerkProvider
+        appearance={{
+          baseTheme: dark
+        }}
+      >
         <body
           className={cn(
             'min-h-screen bg-background font-sans antialiased',
@@ -46,7 +43,7 @@ export default function RootLayout({
             <Analytics mode="auto" />
           </AppProviders>
         </body>
-      </html>
-    </ClerkProvider>
+      </ClerkProvider>
+    </html>
   )
 }

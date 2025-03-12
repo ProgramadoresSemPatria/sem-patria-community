@@ -31,14 +31,12 @@ const CoursesPage = async () => {
   )
 
   return (
-    <>
-      <DefaultLayout>
-        <Header title="Courses" />
-        <Suspense fallback={<SkeletonCoursePage />}>
-          <CoursesContent categories={categoriesWithCourses} />
-        </Suspense>
-      </DefaultLayout>
-    </>
+    <DefaultLayout>
+      <Header title="Courses" />
+      <Suspense fallback={<SkeletonCoursePage />}>
+        <CoursesContent categories={categoriesWithCourses} />
+      </Suspense>
+    </DefaultLayout>
   )
 }
 

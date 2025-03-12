@@ -33,16 +33,7 @@ const formSchema = z.object({
       message: 'Email is required'
     }),
   role: z.array(
-    z.enum([
-      'PrePsp',
-      'PerfilFechado',
-      'PortifolioBoostProgram',
-      'Base',
-      'ProgramadorSemPatria',
-      'Prime',
-      'Builder',
-      'Admin'
-    ])
+    z.enum(['PrePsp', 'Base', 'ProgramadorSemPatria', 'Prime', 'Admin'])
   ),
   level: z.string(),
   github: z.string(),

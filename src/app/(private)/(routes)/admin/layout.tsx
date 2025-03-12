@@ -17,8 +17,7 @@ export default async function AdminLayout({
     }
   })
 
-  if (!user?.role.includes(Roles.Admin) && !user?.role.includes(Roles.Builder))
-    return redirect(appRoutes.dashboard)
+  if (!user?.role.includes(Roles.Admin)) return redirect(appRoutes.dashboard)
 
   return <>{children}</>
 }

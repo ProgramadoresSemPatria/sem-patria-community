@@ -114,6 +114,7 @@ model Classroom {
   permissions Roles[]           @default([])
   createdAt   DateTime          @default(now())
   modules     ClassroomModule[]
+  order       Int?
 }
 
 model ClassroomModule {

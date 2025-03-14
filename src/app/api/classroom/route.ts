@@ -1,4 +1,5 @@
 import prismadb from '@/lib/prismadb'
+import { Roles } from '@/lib/types'
 import { auth } from '@clerk/nextjs/server'
 import { NextResponse, type NextRequest } from 'next/server'
 
@@ -46,5 +47,38 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.log('[CLASSROOM_POST_ERROR]', error)
     return new NextResponse('Internal Server Error', { status: 500 })
+  }
+}
+
+export async function PATCH(req: Request) {
+  try {
+    const { userId } = auth()
+    const { items } = await req.json()
+
+    if (!userId) {
+      return new NextResponse('Unauthorized', { status: 401 })
+    }
+    const user = await prismadb.user.findUnique({
+      where: { id: userId }
+    })
+
+    if (!user || !user.role.includes(Roles.Admin)) {
+      return new NextResponse('Forbidden', { status: 403 })
+    }
+
+    const updates = await prismadb.$transaction(
+      // eslint-disable-next-line @typescript-eslint/promise-function-async
+      items.map(({ id, order }: { id: string; order: number }) =>
+        prismadb.classroom.update({
+          where: { id },
+          data: { order }
+        })
+      )
+    )
+
+    return NextResponse.json(updates)
+  } catch (error) {
+    console.error('[CLASSROOMS_REORDER]', error)
+    return new NextResponse('Internal error', { status: 500 })
   }
 }

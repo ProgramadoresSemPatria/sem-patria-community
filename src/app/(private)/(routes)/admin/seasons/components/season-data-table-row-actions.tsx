@@ -10,8 +10,8 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { type Season } from './columns'
 import { appRoutes } from '@/lib/constants'
+import { type Season } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 
 type SeasonDataTableRowActionsProps = {

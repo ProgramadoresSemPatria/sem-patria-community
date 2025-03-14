@@ -6,45 +6,50 @@ import { ptBR } from 'date-fns/locale'
 import { SeasonDataTableRowActions } from './season-data-table-row-actions'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
-
-export interface Season {
-  id: string
-  name: string
-  initDate: Date
-  endDate: Date
-  isCurrent: boolean
-  metadata?: Record<string, unknown>
-  createdAt: Date
-  updatedAt: Date
-}
+import { type Season } from '@prisma/client'
 
 export const seasonsColumns: Array<ColumnDef<Season>> = [
   {
     accessorKey: 'name',
-    header: 'Name'
+    header: 'Name',
+    cell: cell => {
+      if (!cell.getValue()) return '-'
+
+      return (
+        <p className="max-w-[300px] truncate">{cell.getValue() as string}</p>
+      )
+    }
   },
   {
     accessorKey: 'initDate',
     header: 'Start Date',
     cell: cell => {
-      if (!cell.getValue()) return 'No data available'
+      if (!cell.getValue()) return '-'
 
       const date = new Date(cell.getValue() as string)
-      return format(date, 'dd/MM/yyyy', {
-        locale: ptBR
-      })
+      return (
+        <p className="max-w-[160px] line-clamp-1">
+          {format(date, 'dd/MM/yyyy - HH:mm', {
+            locale: ptBR
+          })}
+        </p>
+      )
     }
   },
   {
     accessorKey: 'endDate',
     header: 'End Date',
     cell: cell => {
-      if (!cell.getValue()) return 'No data available'
+      if (!cell.getValue()) return '-'
 
       const date = new Date(cell.getValue() as string)
-      return format(date, 'dd/MM/yyyy', {
-        locale: ptBR
-      })
+      return (
+        <p className="max-w-[160px] line-clamp-1">
+          {format(date, 'dd/MM/yyyy - HH:mm', {
+            locale: ptBR
+          })}
+        </p>
+      )
     }
   },
   {
@@ -53,7 +58,7 @@ export const seasonsColumns: Array<ColumnDef<Season>> = [
     cell: ({ row }) => {
       const isCurrent = row.getValue('isCurrent') as boolean
       return (
-        <div className="flex space-x-2">
+        <div className="max-w-[160px] line-clamp-1">
           <Badge
             variant="outline"
             className={cn(

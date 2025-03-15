@@ -1,23 +1,6 @@
 import { useState, useCallback } from 'react'
 import { type SearchDialogResult, type SearchApiResponse } from './types'
-
-function getItemUrl(item: SearchDialogResult): string {
-  console.log('item', item.modules)
-  switch (item.entity) {
-    case 'forum':
-      return `/forum/${item.id}/${item.title
-        ?.toLowerCase()
-        .replace(/\s+/g, '-')}`
-    case 'user':
-      return `/user/${item.username}`
-    case 'classroom':
-      return `/mentorship/${item.modules?.[0].videos?.[0].id}`
-    case 'course':
-      return item.courseUrl || ''
-    default:
-      return '/'
-  }
-}
+import { getItemUrl } from '@/components/top-bar/search-dialog/utils'
 
 const useSearch = () => {
   const [searchResults, setSearchResults] = useState<SearchDialogResult[]>([])

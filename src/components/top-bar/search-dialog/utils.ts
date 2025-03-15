@@ -1,3 +1,4 @@
+import { type SearchDialogResult } from '@/hooks/search/types'
 import { format } from 'date-fns'
 
 export const formatDateText = (entity: string, createdAt: string) => {
@@ -31,4 +32,31 @@ export const getEntityColorClass = (entity: string) => {
   }
 
   return entityColors[entity as keyof typeof entityColors] || ''
+}
+
+export const getItemUrl = (item: SearchDialogResult): string | null => {
+  if (!item) return null
+
+  if (item.entity === 'classroom') {
+    if (!item.modules?.length || !item.modules[0].videos?.length) {
+      return null
+    }
+  }
+
+  switch (item.entity) {
+    case 'forum':
+      return `/forum/${item.id}/${item.title
+        ?.toLowerCase()
+        .replace(/\s+/g, '-')}`
+    case 'user':
+      return `/user/${item.username}`
+    case 'classroom':
+      return `/mentorship/${item.modules?.[0].videos?.[0].id}`
+    case 'course':
+      return item.courseUrl || ''
+    case 'interest':
+      return `/interests`
+    default:
+      return null
+  }
 }

@@ -33,29 +33,54 @@ export const getEntityColorClass = (entity: string) => {
 
   return entityColors[entity as keyof typeof entityColors] || ''
 }
-
 export const getItemUrl = (item: SearchDialogResult): string | null => {
   if (!item) return null
 
-  if (item.entity === 'classroom') {
-    if (!item.modules?.length || !item.modules[0].videos?.length) {
-      return null
-    }
+  if (
+    item.entity === 'classroom' &&
+    (!Array.isArray(item.modules) ||
+      !item.modules.length ||
+      !Array.isArray(item.modules[0].videos) ||
+      !item.modules[0].videos.length)
+  ) {
+    return null
   }
 
   switch (item.entity) {
-    case 'forum':
-      return `/forum/${item.id}/${item.title
-        ?.toLowerCase()
-        .replace(/\s+/g, '-')}`
-    case 'user':
-      return `/user/${item.username}`
-    case 'classroom':
-      return `/mentorship/${item.modules?.[0].videos?.[0].id}`
-    case 'course':
-      return item.courseUrl || ''
-    case 'interest':
-      return `/interests`
+    case 'forum': {
+      const { id, title } = item
+      if (!id || !title) return null
+      const formattedTitle = encodeURIComponent(
+        title.toLowerCase().replace(/\s+/g, '-')
+      )
+      return `/forum/${id}/${formattedTitle}`
+    }
+
+    case 'user': {
+      if (!item.username) return null
+      return `/user/${encodeURIComponent(item.username)}`
+    }
+
+    case 'classroom': {
+      const videoId = item.modules?.[0].videos?.[0]?.id
+      if (!videoId) return null
+      return `/mentorship/${encodeURIComponent(videoId)}`
+    }
+
+    case 'course': {
+      const category = item.category?.name
+        ? encodeURIComponent(item.category.name)
+        : 'all'
+      const level = item.level ? encodeURIComponent(item.level) : 'all'
+      const availability = item.isPaid ? '' : 'free'
+      return `/courses/?category=${category}&level=${level}&availability=${availability}`
+    }
+
+    case 'interest': {
+      if (!item.id) return null
+      return `/interests?interestId=${encodeURIComponent(item.id)}`
+    }
+
     default:
       return null
   }

@@ -13,6 +13,7 @@ export type SearchDialogResult = {
   createdAt: string
   title?: string
   courseUrl?: string
+  level?: string
   name?: string
   location?: string
   specialGuest?: string

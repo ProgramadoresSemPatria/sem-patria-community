@@ -1,9 +1,10 @@
 'use client'
 
-import { type FC, useState } from 'react'
+import { type FC, useEffect, useState } from 'react'
 import { type InterestWithUsers } from '../page'
 import InterestItem from './interest-item'
 import InterestModal from './interest-modal'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 interface InterestExplorerProps {
   interests: InterestWithUsers[]
@@ -11,8 +12,22 @@ interface InterestExplorerProps {
 }
 
 const InterestExplorer: FC<InterestExplorerProps> = ({ interests, userId }) => {
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [selectedInterest, setSelectedInterest] =
     useState<InterestWithUsers | null>(null)
+
+  useEffect(() => {
+    const interestId = searchParams.get('interestId')
+
+    if (interestId) {
+      const foundInterest = interests.find(i => i.id === interestId)
+      if (foundInterest) {
+        setSelectedInterest(foundInterest)
+        router.replace(`/interests`)
+      }
+    }
+  }, [searchParams, interests, router])
 
   const handleInterestClick = (interest: InterestWithUsers) => {
     setSelectedInterest(interest)

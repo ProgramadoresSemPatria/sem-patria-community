@@ -58,7 +58,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ isOpen, onClose }) => {
         >
           <Combobox
             onChange={(item: SearchDialogResult) => {
-              if (item) {
+              if (item.url) {
                 router.push(item.url)
                 handleClose()
               }

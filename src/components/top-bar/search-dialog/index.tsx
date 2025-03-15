@@ -59,11 +59,11 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ isOpen, onClose }) => {
           <Combobox
             onChange={(item: SearchDialogResult) => {
               if (item) {
-                const isExternal = /^https?:\/\//.test(item.url)
+                const isExternal = /^https?:\/\//.test(item.url || '')
 
-                if (isExternal) {
+                if (isExternal && item.url) {
                   window.open(item.url, '_blank', 'noopener,noreferrer')
-                } else {
+                } else if (item.url) {
                   router.push(item.url)
                 }
 

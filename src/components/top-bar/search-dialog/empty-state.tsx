@@ -11,7 +11,7 @@ export const EmptyState = () => (
         posts and users.
       </h6>
     </div>
-    <div className="flex flex-wrap items-center border-t bg-gray-50 px-4 py-2.5 text-xs text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+    <div className="hidden sm:flex flex-wrap items-center border-t bg-gray-50 px-4 py-2.5 text-xs text-gray-800 dark:bg-card dark:text-gray-100">
       <span className="mr-1">Press</span>
       <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
         esc

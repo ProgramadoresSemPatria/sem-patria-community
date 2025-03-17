@@ -103,7 +103,7 @@ export const ResultsList = ({ searchResults }: ResultsListProps) => (
   <ComboboxOptions
     static
     as="ul"
-    className="p-3 space-y-1 max-h-96 transform-gpu overflow-y-auto py-3 bg-white dark:bg-gray-800"
+    className="p-3 space-y-1 max-h-96 transform-gpu overflow-y-auto py-3 bg-white dark:bg-card"
   >
     {searchResults.map(sResult => {
       const ResultComponent =
@@ -113,7 +113,7 @@ export const ResultsList = ({ searchResults }: ResultsListProps) => (
           key={sResult.id}
           value={sResult}
           as="li"
-          className="flex justify-between rounded-lg cursor-pointer select-none items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150"
+          className="flex justify-between rounded-lg cursor-pointer select-none items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-muted transition-colors duration-150"
         >
           <div className="flex gap-x-4 overflow-hidden">
             <ResultComponent result={sResult} />

@@ -7,13 +7,13 @@ import {
   IconCourseBeginnerLevel,
   IconCourseIntermediateLevel
 } from '@/components/icons/custom-svgs'
+import { Badge } from '@/components/ui/badge'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger
 } from '@/components/ui/tooltip'
-import { cn } from '@/lib/utils'
 import { type Course } from '@prisma/client'
 import Image, { type StaticImageData } from 'next/image'
 import { useMemo } from 'react'
@@ -29,7 +29,7 @@ export const CourseCard = ({ courseProps: props }: CourseCardProps) => {
       intermediate: IntermediateImg,
       advanced: AdvancedImg
     }
-    return levelImage[level]
+    return levelImage[level] || BeginnerImg
   }
 
   const loadCourseIconLevel = useMemo(() => {
@@ -44,28 +44,23 @@ export const CourseCard = ({ courseProps: props }: CourseCardProps) => {
 
   return (
     <div className="relative flex w-full">
-      <div className="flex flex-col w-full justify-start rounded-[10px] dark:hover:bg-slate-900 hover:bg-slate-200 overflow-hidden transition cursor-pointer text-left dark:bg-slate-950 bg-slate-100 border dark:border-slate-800 border-slate-200">
-        <Image alt="bg-card" src={BgCardImg} className="absolute" />
+      <div className="flex flex-col w-full justify-start rounded-[10px] overflow-hidden transition cursor-pointer text-left border bg-card hover:bg-card/20">
+        <Image alt="bg-course-card" src={BgCardImg} className="absolute" />
         <div className="flex flex-col flex-1 w-full gap-4 p-6">
           <div className="w-full flex items-center justify-between h-11 mb-1">
-            <div className="relative w-18 h-16">
+            <div className="relative">
               <Image
                 src={renderLevelImage(props.level)}
                 alt={props.name}
                 className="w-full h-full rounded-md object-cover"
+                width={72}
+                height={64}
               />
             </div>
             <div className="flex gap-2 items-center self-start shrink-0">
-              <span
-                className={cn(
-                  props.isPaid
-                    ? 'text-violet-900 border-violet-800'
-                    : 'text-[#29e0a9] border-[#29e0a9]',
-                  'inline-flex justify-center items-center gap-1 flex-shrink-0 w-fit rounded font-bold uppercase box-border  h-6 px-2 text-[10px] leading-4 bg-transparent border border-solid'
-                )}
-              >
+              <Badge variant={props.isPaid ? 'default' : 'secondary'}>
                 {props.isPaid ? 'PAID' : 'FREE'}
-              </span>
+              </Badge>
             </div>
           </div>
           <div>

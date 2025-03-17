@@ -19,23 +19,28 @@ const feedbackLink =
 const TopBar = () => {
   const { isMobile } = useIsMobile()
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   const isMac =
     typeof window !== 'undefined' &&
     window.navigator.userAgent.toLowerCase().includes('mac')
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setIsSearchOpen(prev => !prev)
-      }
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault()
+      setIsSearchOpen(prev => !prev)
     }
+  }
+
+  useEffect(() => {
+    setIsMounted(true)
     document.addEventListener('keydown', handleKeyDown)
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
     }
   }, [])
+
+  if (!isMounted) return null
 
   return (
     <>
@@ -68,7 +73,7 @@ const TopBar = () => {
               className="flex items-center gap-x-2"
             >
               {!isMobile && <span>Give your feedback</span>}
-              <Icons.redirect className="w-5 h-5 text-violet-600" />
+              <Icons.redirect className="w-4 h-4 text-violet-600" />
             </Link>
           </Button>
           <NotificationsButton />

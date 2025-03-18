@@ -30,6 +30,8 @@ model Scoreboard {
   seasonId String
   season   Season @relation(fields: [seasonId], references: [id])
   user     User   @relation(fields: [userId], references: [id])
+
+  @@unique([userId, seasonId])
 }
 
 model ScoreHistory {

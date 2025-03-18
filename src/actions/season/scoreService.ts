@@ -1,4 +1,5 @@
 import { PrismaClient, type AwardEnum } from '@prisma/client'
+import type { InputJsonValue } from '@prisma/client/runtime/library'
 
 const prisma = new PrismaClient()
 
@@ -6,7 +7,7 @@ export async function awardPoints(
   userId: string,
   resourceType: AwardEnum,
   targetId?: string,
-  metadata?: any
+  metadata?: InputJsonValue
 ) {
   // Buscar a temporada atual
   const currentSeason = await prisma.season.findFirst({

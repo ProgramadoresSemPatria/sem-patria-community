@@ -35,7 +35,7 @@ export async function GET() {
     })
   } catch (error) {
     return NextResponse.json(
-      { error: 'Erro ao obter scoreboard' },
+      { error: 'Error retrieving scoreboard' },
       { status: 500 }
     )
   }

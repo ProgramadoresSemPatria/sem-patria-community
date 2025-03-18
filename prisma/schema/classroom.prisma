@@ -11,9 +11,9 @@ model ClassroomModule {
   title       String
   classroomId String
   fileUrl     String?
+  order       Int?
   classroom   Classroom @relation(fields: [classroomId], references: [id])
   videos      Video[]
-  order       Int?
 }
 
 model Video {

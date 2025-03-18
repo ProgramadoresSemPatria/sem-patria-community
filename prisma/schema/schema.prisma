@@ -11,9 +11,9 @@ datasource db {
 model Interest {
   id        String   @id @default(uuid())
   interest  String   @unique
-  users     User[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  users     User[]   @relation("InterestToUser")
 }
 
 model Course {
@@ -23,18 +23,18 @@ model Course {
   level      String
   categoryId String
   isPaid     Boolean          @default(false)
-  isPending  Boolean          @default(false)
   createdAt  DateTime         @default(now())
   updatedAt  DateTime         @updatedAt
+  isPending  Boolean          @default(false)
   category   Category         @relation("CourseToCategory", fields: [categoryId], references: [id])
   categories CourseCategory[]
 }
 
 model Category {
-  id             String           @id @default(uuid())
   name           String
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+  id             String           @id @default(uuid())
   courses        Course[]         @relation("CourseToCategory")
   courseCategory CourseCategory[]
   posts          Post[]
@@ -43,8 +43,8 @@ model Category {
 model CourseCategory {
   courseId   String
   categoryId String
-  course     Course   @relation(fields: [courseId], references: [id])
   category   Category @relation(fields: [categoryId], references: [id])
+  course     Course   @relation(fields: [courseId], references: [id])
 
   @@id([courseId, categoryId])
 }

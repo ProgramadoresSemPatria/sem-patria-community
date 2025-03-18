@@ -3,6 +3,30 @@ import { auth } from '@clerk/nextjs/server'
 import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+// GET - /api/season - get all seasons
+export async function GET(req: NextRequest) {
+  try {
+    const { userId } = auth()
+
+    if (!userId) {
+      return new NextResponse('Unauthenticated', { status: 401 })
+    }
+
+    const seasons = await prismadb.season.findMany({
+      include: {
+        positionMultipliers: true,
+        scores: true,
+        histories: true
+      }
+    })
+
+    return NextResponse.json({ data: seasons })
+  } catch (error) {
+    console.log(error)
+    return new NextResponse('Error retrieving seasons', { status: 500 })
+  }
+}
+
 const createSeasonSchema = z.object({
   name: z.string(),
   initDate: z.string(),
@@ -49,21 +73,5 @@ export async function POST(req: NextRequest) {
     })
   } catch (error) {
     return new NextResponse('Error creating season', { status: 500 })
-  }
-}
-// GET - /api/season - get all seasons
-export async function GET(req: NextRequest) {
-  try {
-    const { userId } = auth()
-    if (!userId) {
-      return new NextResponse('Unauthenticated', { status: 401 })
-    }
-
-    const seasons = await prismadb.season.findMany()
-
-    return NextResponse.json(seasons)
-  } catch (error) {
-    console.log(error)
-    return new NextResponse('Error retrieving seasons', { status: 500 })
   }
 }

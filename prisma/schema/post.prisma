@@ -1,19 +1,17 @@
 model Post {
-  id                      String   @id @default(uuid())
+  id                      String    @id @default(uuid())
   title                   String
   content                 Json
-  isPinned                Boolean? @default(false)
-  createdAt               DateTime @default(now())
-  updatedAt               DateTime @updatedAt
-  discordWebhookMessageID String?
-  category                Category @relation(fields: [categoryId], references: [id])
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
   categoryId              String
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-
-  comments Comment[]
-  likes    Like[]
+  userId                  String
+  isPinned                Boolean?  @default(false)
+  discordWebhookMessageID String?
+  comments                Comment[]
+  likes                   Like[]
+  category                Category  @relation(fields: [categoryId], references: [id])
+  user                    User      @relation(fields: [userId], references: [id])
 }
 
 model Comment {

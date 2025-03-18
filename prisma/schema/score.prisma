@@ -1,15 +1,26 @@
 model Season {
-  id        String   @id @default(cuid())
-  name      String // Nome da temporada (ex: "Temporada 2025 - Q1")
-  initDate  DateTime
-  endDate   DateTime
-  isCurrent Boolean // Indica a temporada ativa
-  metadata  Json? // Informações extras da temporada
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String               @id @default(cuid())
+  name                String
+  initDate            DateTime
+  endDate             DateTime
+  isCurrent           Boolean
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  metadata            Json?
+  histories           ScoreHistory[]
+  scores              Scoreboard[]
+  positionMultipliers PositionMultiplier[]
+}
 
-  scores    Scoreboard[]
-  histories ScoreHistory[]
+model PositionMultiplier {
+  id         String    @id @default(cuid())
+  seasonId   String
+  position   Positions
+  multiplier Float     @default(1.0)
+
+  season Season @relation(fields: [seasonId], references: [id])
+
+  @@unique([seasonId, position])
 }
 
 model Scoreboard {
@@ -17,34 +28,31 @@ model Scoreboard {
   userId   String @unique
   points   Float  @default(0)
   seasonId String
-
-  season Season @relation(fields: [seasonId], references: [id])
-  user   User   @relation(fields: [userId], references: [id])
+  season   Season @relation(fields: [seasonId], references: [id])
+  user     User   @relation(fields: [userId], references: [id])
 }
 
 model ScoreHistory {
-  id         String   @id @default(cuid())
-  userId     String // Usuário que realizou a ação
-  targetId   String? // Usuário que recebeu a ação (caso aplicável)
-  createdAt  DateTime @default(now())
-  resourceId String // O recurso que gerou os pontos
+  id         String        @id @default(cuid())
+  userId     String
+  targetId   String?
+  createdAt  DateTime      @default(now())
+  resourceId String
   points     Float
-  multiplier Float    @default(1.0)
+  multiplier Float         @default(1.0)
   seasonId   String
-  isManual   Boolean  @default(false) // Se foi uma ação manual do admin
-  metadata   Json? // Armazena dados extras (ex: ID do post curtido)
-
-  season   Season        @relation(fields: [seasonId], references: [id])
-  resource AwardResource @relation(fields: [resourceId], references: [id])
-  user     User          @relation(fields: [userId], references: [id])
+  isManual   Boolean       @default(false)
+  metadata   Json?
+  resource   AwardResource @relation(fields: [resourceId], references: [id])
+  season     Season        @relation(fields: [seasonId], references: [id])
+  user       User          @relation(fields: [userId], references: [id])
 }
 
 model AwardResource {
-  id        String    @id @default(cuid())
-  resource  AwardEnum @unique
-  baseScore Float // Quantos pontos esse recurso gera (sem multiplicador)
-  disabled  Boolean   @default(false)
-
+  id        String         @id @default(cuid())
+  resource  AwardEnum      @unique
+  baseScore Float
+  disabled  Boolean        @default(false)
   histories ScoreHistory[]
 }
 

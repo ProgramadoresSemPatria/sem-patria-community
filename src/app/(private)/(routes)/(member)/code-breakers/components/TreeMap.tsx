@@ -55,7 +55,7 @@ export function TreeMap() {
   }
 
   return (
-    <div className="absolute w-[85dvw] h-[85dvh]">
+    <div className="absolute inset-0 w-full h-full p-4">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -68,17 +68,18 @@ export function TreeMap() {
           type: 'smoothstep'
         }}
         minZoom={0.2}
-        className="bg-transparent"
+        className="bg-transparent rounded-lg"
         nodesDraggable={isDraggable}
         zoomOnScroll={enableZooming}
         zoomOnDoubleClick={enableZooming}
         zoomOnPinch={enableZooming}
         panOnDrag={panOnDrag}
         fitView
+        fitViewOptions={{ padding: 0.2 }}
         onInit={instance => (reactFlowInstance.current = instance)}
       >
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
-        <Panel position="bottom-left">
+        <Panel position="bottom-left" className="m-4">
           <Buttons />
         </Panel>
       </ReactFlow>

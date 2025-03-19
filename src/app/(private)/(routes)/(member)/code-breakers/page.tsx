@@ -4,7 +4,7 @@ import { TreeMap } from './components/TreeMap'
 
 const CodeBreakersPage = () => {
   return (
-    <DefaultLayout className="max-w-none mx-0 px-0 pt-0">
+    <DefaultLayout className="max-w-none w-full h-[calc(100vh-4rem)] mx-0 px-0 pt-0 relative">
       <TreeMap />
     </DefaultLayout>
   )

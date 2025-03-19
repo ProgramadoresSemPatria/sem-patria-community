@@ -2,16 +2,20 @@ import { create } from 'zustand'
 
 type useEventModalProps = {
   isOpen: boolean
-  onOpen: () => void
+  onOpen: (date?: string, eventId?: string) => void
   onClose: () => void
+  initialDate?: string
+  initialEventId?: string
 }
 
 export const useEventModal = create<useEventModalProps>(set => ({
   isOpen: false,
-  onOpen: () => {
-    set({ isOpen: true })
+  onOpen: (date?: string, eventId?: string) => {
+    set({ isOpen: true, initialDate: date, initialEventId: eventId })
   },
   onClose: () => {
     set({ isOpen: false })
-  }
+  },
+  initialDate: undefined,
+  initialEventId: undefined
 }))

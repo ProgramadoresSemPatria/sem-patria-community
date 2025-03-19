@@ -20,15 +20,21 @@ import { type EventApiProps } from '@/hooks/event/types'
 import { useAllEvents, useWeekEvents } from '@/hooks/event/use-event'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { EventComponent } from './event-component'
 import { EventsTitle } from './events-title'
 
 type EventsCalendarProps = {
   isWidget?: boolean
+  initialDate?: string
+  initialEventId?: string
 }
 
-export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
+export const EventsCalendar = ({
+  isWidget = false,
+  initialDate,
+  initialEventId
+}: EventsCalendarProps) => {
   const { data, isLoading } = useWeekEvents()
   const { data: allEvents } = useAllEvents()
 
@@ -75,6 +81,14 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
     },
     [allEvents]
   )
+  useEffect(() => {
+    if (initialEventId && allEvents) {
+      const event = allEvents.find(e => e.id === initialEventId)
+      if (event) {
+        handleClickDay(new Date(event.date))
+      }
+    }
+  }, [initialDate, initialEventId, allEvents, handleClickDay])
 
   if (isWidget) {
     return (
@@ -161,6 +175,7 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
           selected={allEvents?.map(d => new Date(d.date))}
           className="rounded-md border w-fit"
           onDayClick={handleClickDay}
+          month={initialDate ? new Date(initialDate) : undefined}
         />
 
         <section className="flex flex-col gap-4 pl-4 overflow-y-auto max-h-72 max-w-sm">

@@ -4,7 +4,7 @@ import { Separator } from '@/components/ui/separator'
 import { useEventModal } from '@/hooks/modal/use-event-modal'
 
 const EventsModal = () => {
-  const { isOpen, onClose } = useEventModal()
+  const { isOpen, onClose, initialDate, initialEventId } = useEventModal()
 
   return (
     <>
@@ -16,7 +16,10 @@ const EventsModal = () => {
         className="max-w-fit"
       >
         <Separator className="mb-4" />
-        <EventsCalendar />
+        <EventsCalendar
+          initialDate={initialDate}
+          initialEventId={initialEventId}
+        />
       </Modal>
     </>
   )

@@ -10,6 +10,7 @@ export type SearchDialogResult = {
   id: string
   entity: Entity
   url?: string | null
+  date?: string
   createdAt: string
   title?: string
   courseUrl?: string

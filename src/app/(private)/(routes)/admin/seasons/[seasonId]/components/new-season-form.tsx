@@ -29,13 +29,32 @@ import { cn } from '@/lib/utils'
 import { MetadataTable } from './metadata-table'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
+import { AlertModal } from '@/components/modals/alert-modal'
+import { useState } from 'react'
 
 type NewSeasonFormProps = {
   initialData: Season
 }
 
 export const NewSeasonForm = ({ initialData }: NewSeasonFormProps) => {
-  const { action, form, title, onSubmit } = useNewSeasonForm({ initialData })
+  const { action, form, title, onSubmit, deleteSeason } = useNewSeasonForm({
+    initialData
+  })
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
+
+  const handleDelete = async () => {
+    setIsAlertModalOpen(true)
+  }
+
+  const onDeleteSeason = async () => {
+    try {
+      await deleteSeason()
+    } catch (error) {
+      console.error('Error deleting season', error)
+    } finally {
+      setIsAlertModalOpen(false)
+    }
+  }
 
   return (
     <div className="flex flex-col">
@@ -45,7 +64,12 @@ export const NewSeasonForm = ({ initialData }: NewSeasonFormProps) => {
         <div className="flex items-center justify-between w-full">
           <Header title={title} />
           {initialData && (
-            <Button variant="destructive" size="icon">
+            <Button
+              type="button"
+              variant="destructive"
+              size="icon"
+              onClick={handleDelete}
+            >
               <Icons.trash className="h-4 w-4" />
             </Button>
           )}
@@ -120,6 +144,7 @@ export const NewSeasonForm = ({ initialData }: NewSeasonFormProps) => {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
+                            type="button"
                             variant="outline"
                             className={cn(
                               'w-[240px] pl-3 text-left font-normal',
@@ -163,6 +188,7 @@ export const NewSeasonForm = ({ initialData }: NewSeasonFormProps) => {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
+                            type="button"
                             variant="outline"
                             className={cn(
                               'w-[240px] pl-3 text-left font-normal',
@@ -218,6 +244,16 @@ export const NewSeasonForm = ({ initialData }: NewSeasonFormProps) => {
           </Button>
         </form>
       </Form>
+
+      <AlertModal
+        isOpen={isAlertModalOpen}
+        description="This action will delete the season."
+        onClose={() => {
+          setIsAlertModalOpen(false)
+        }}
+        onConfirm={onDeleteSeason}
+        loading={false}
+      />
     </div>
   )
 }

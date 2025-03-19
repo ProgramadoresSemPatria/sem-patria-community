@@ -114,6 +114,32 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
     }
   })
 
+  const { mutateAsync: deleteSeason } = useMutation({
+    mutationFn: async () => {
+      if (initialData) {
+        return await api.delete(
+          `/api/season/${params.seasonId || initialData.id}`
+        )
+      }
+    },
+    onSuccess: () => {
+      router.push(appRoutes.admin_seasons)
+      router.refresh()
+      toast({
+        title: 'Success',
+        description: 'Season deleted successfully.'
+      })
+    },
+    onError: err => {
+      console.error('Error deleting season', err)
+      toast({
+        title: 'Error',
+        description: 'Failed to delete the season.',
+        variant: 'destructive'
+      })
+    }
+  })
+
   const onSubmit = async (values: NewSeasonFormValues) => {
     await createOrUpdateSeason(values)
   }
@@ -126,6 +152,7 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
     onSubmit,
     isPending,
     title,
-    action
+    action,
+    deleteSeason
   }
 }

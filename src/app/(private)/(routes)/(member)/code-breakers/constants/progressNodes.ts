@@ -1,4 +1,4 @@
-import { Node } from '@xyflow/react'
+import type { Node } from '@xyflow/react'
 
 const position = { x: 0, y: 0 }
 

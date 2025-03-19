@@ -1,4 +1,4 @@
-import { IExercise } from '../types/IExercise'
+import type { IExercise } from '../types/IExercise'
 
 export const exercises: IExercise[] = [
   {

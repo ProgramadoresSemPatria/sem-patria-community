@@ -74,7 +74,7 @@ export const menuItems: MenuItemProps[] = [
   {
     href: appRoutes.codeBreakers,
     label: 'Code Breakers',
-    icon: <Icons.code className="h-4 w-4" />,
+    icon: <Icons.code className="h-4 w-4" />
   },
   {
     href: appRoutes.profile,

@@ -18,14 +18,12 @@ import { ProgressNode } from './ProgressNode'
 import { Buttons } from './Buttons'
 import { getLayoutedElements } from '../utils/getLayoutedElements'
 import { useSettingsStore } from '../stores/useSettingsStore'
-import { CourseNode } from './CourseNodes'
 import { progressNodes } from '../constants/progressNodes'
 import { progressEdges } from '../constants/progressEdges'
 import { progressNodeSize } from '../constants/nodeSizes'
 
 const nodeTypes: NodeTypes = {
-  progressNode: ProgressNode,
-  courseNode: CourseNode
+  progressNode: ProgressNode
 }
 
 const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(

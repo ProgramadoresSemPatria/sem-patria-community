@@ -121,21 +121,22 @@ export const MetadataTable = ({
   }
 
   return (
-    <div className="space-y-4">
-      <div className="space-y-2">
+    <div className="space-y-4 border border-border rounded-md p-2">
+      <div className="space-y-2 px-2">
         <h3 className="text-sm font-medium">Description</h3>
+
         <Textarea
-          placeholder="Enter season description (Max. 600 characters)"
+          placeholder="Enter season description (Max. 2000 characters)"
           value={value?.description || ''}
           onChange={e => {
             handleDescriptionChange(e.target.value)
           }}
-          maxLength={600}
+          maxLength={2000}
           className="min-h-[100px]"
         />
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-2 px-2">
         <div className="flex justify-between items-center">
           <h3 className="text-sm font-medium">Awards</h3>
           {(value?.awards || []).length >= 1 && (
@@ -195,7 +196,7 @@ export const MetadataTable = ({
         )}
 
         {(value?.awards || []).length === 0 && editingIndex === null ? (
-          <div className="flex flex-col items-center justify-center py-8 text-center">
+          <div className="flex flex-col items-center justify-center py-4 text-center">
             <div className="rounded-full bg-muted p-3">
               <Icons.award className="h-6 w-6 text-muted-foreground" />
             </div>
@@ -209,7 +210,7 @@ export const MetadataTable = ({
             </Button>
           </div>
         ) : (
-          <Table>
+          <Table id="awards-table">
             <TableHeader>
               <TableRow>
                 <TableHead>Position</TableHead>

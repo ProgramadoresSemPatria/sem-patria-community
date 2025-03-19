@@ -39,3 +39,7 @@ yarn-error.log*
 next-env.d.ts
 
 cypress.env.json
+
+# cursor
+.cursorrules
+.cursorignore

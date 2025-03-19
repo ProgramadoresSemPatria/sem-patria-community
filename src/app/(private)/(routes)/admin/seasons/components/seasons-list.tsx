@@ -6,14 +6,16 @@ import { DataTable } from '@/components/ui/data-table'
 import { Can } from '@/hooks/use-ability'
 import { appRoutes } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
-import { type Season, seasonsColumns } from './columns'
+import { seasonsColumns } from './columns'
 import { api } from '@/lib/api'
 import { useQuery } from '@tanstack/react-query'
 import { SkeletonCmsPage } from '@/components/skeletons/skeleton-cms-page'
+import { type Season } from '@prisma/client'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 
 async function fetchSeasons(): Promise<Season[]> {
   const response = await api.get('/api/season')
-  return response.data
+  return response.data.data
 }
 
 const SeasonsList = () => {
@@ -22,8 +24,7 @@ const SeasonsList = () => {
   const {
     data: seasons = [],
     isLoading,
-    isError,
-    error
+    isError
   } = useQuery({
     queryKey: ['seasons'],
     queryFn: fetchSeasons,
@@ -34,7 +35,16 @@ const SeasonsList = () => {
 
   if (isLoading) return <SkeletonCmsPage />
   if (isError)
-    return <div>Error loading seasons: {error?.message || 'Unknown error'}</div>
+    return (
+      <Card className="m-4">
+        <CardHeader>
+          <CardTitle>Error</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>Failed to load seasons data.</p>
+        </CardContent>
+      </Card>
+    )
 
   return (
     <>

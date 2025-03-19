@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { type Season } from '@prisma/client'
-import { addDays } from 'date-fns'
+import { addMonths } from 'date-fns'
 
 // https://github.com/colinhacks/zod/discussions/2178
 const literalSchema = z.union([z.string(), z.number(), z.boolean(), z.null()])
@@ -25,12 +25,12 @@ const awardSchema = z.object({
 
 const metadataSchema = z
   .object({
-    awards: z.array(awardSchema).optional(),
-    description: z.string().optional()
+    awards: z.array(awardSchema),
+    description: z.string()
   })
   .nullable()
 
-const formSchema = z.object({
+const seasonSchema = z.object({
   name: z.string().min(1, {
     message: 'Name is required'
   }),
@@ -41,7 +41,7 @@ const formSchema = z.object({
 })
 
 type Metadata = z.infer<typeof metadataSchema>
-type NewSeasonFormValues = z.infer<typeof formSchema>
+type NewSeasonFormValues = z.infer<typeof seasonSchema>
 
 type UseNewSeasonFormProps = {
   initialData: Season | null
@@ -53,7 +53,7 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
   const { toast } = useToast()
 
   const form = useForm<NewSeasonFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(seasonSchema),
     defaultValues: initialData
       ? {
           name: initialData.name,
@@ -68,7 +68,7 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
       : {
           name: '',
           initDate: new Date(),
-          endDate: addDays(new Date(), 180),
+          endDate: addMonths(new Date(), 3),
           isCurrent: false,
           metadata: { awards: [], description: '' }
         }

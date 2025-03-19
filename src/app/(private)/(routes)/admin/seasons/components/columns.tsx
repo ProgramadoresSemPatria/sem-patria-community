@@ -29,7 +29,7 @@ export const seasonsColumns: Array<ColumnDef<Season>> = [
       const date = new Date(cell.getValue() as string)
       return (
         <p className="max-w-[160px] line-clamp-1">
-          {format(date, 'dd/MM/yyyy - HH:mm', {
+          {format(date, 'dd/MM/yyyy HH:mm', {
             locale: ptBR
           })}
         </p>
@@ -45,7 +45,7 @@ export const seasonsColumns: Array<ColumnDef<Season>> = [
       const date = new Date(cell.getValue() as string)
       return (
         <p className="max-w-[160px] line-clamp-1">
-          {format(date, 'dd/MM/yyyy - HH:mm', {
+          {format(date, 'dd/MM/yyyy HH:mm', {
             locale: ptBR
           })}
         </p>
@@ -54,7 +54,7 @@ export const seasonsColumns: Array<ColumnDef<Season>> = [
   },
   {
     accessorKey: 'isCurrent',
-    header: 'Status',
+    header: 'Current Season',
     cell: ({ row }) => {
       const isCurrent = row.getValue('isCurrent') as boolean
       return (
@@ -68,7 +68,7 @@ export const seasonsColumns: Array<ColumnDef<Season>> = [
                 : 'bg-red-950 text-red-500 border border-red-900'
             )}
           >
-            {isCurrent ? 'Active' : 'Disabled'}
+            {isCurrent ? 'Yes' : 'No'}
           </Badge>
         </div>
       )

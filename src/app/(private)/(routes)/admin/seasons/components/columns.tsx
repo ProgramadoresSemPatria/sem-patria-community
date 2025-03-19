@@ -5,7 +5,6 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { SeasonDataTableRowActions } from './season-data-table-row-actions'
 import { Badge } from '@/components/ui/badge'
-import { cn } from '@/lib/utils'
 import { type Season } from '@prisma/client'
 
 export const seasonsColumns: Array<ColumnDef<Season>> = [
@@ -59,15 +58,7 @@ export const seasonsColumns: Array<ColumnDef<Season>> = [
       const isCurrent = row.getValue('isCurrent') as boolean
       return (
         <div className="max-w-[160px] line-clamp-1">
-          <Badge
-            variant="outline"
-            className={cn(
-              'capitalize',
-              isCurrent
-                ? 'bg-emerald-950 text-emerald-500 border border-emerald-900'
-                : 'bg-red-950 text-red-500 border border-red-900'
-            )}
-          >
+          <Badge variant={isCurrent ? 'secondary' : 'destructive'}>
             {isCurrent ? 'Yes' : 'No'}
           </Badge>
         </div>

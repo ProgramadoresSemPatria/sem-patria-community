@@ -51,12 +51,13 @@ const SeasonsList = () => {
       <Header title="Seasons">
         <Can I="create" a="Season">
           <Button
+            type="button"
             onClick={() => {
               router.push(appRoutes.admin_seasons_new)
             }}
           >
-            <Icons.plus className="w-4 h-4 mr-2" />
-            Add New
+            <Icons.plus className="w-4 h-4 mr-1" />
+            Create
           </Button>
         </Can>
       </Header>

@@ -14,6 +14,7 @@ import { Icons } from '@/components/icons'
 import { useState } from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
+import { Separator } from '@/components/ui/separator'
 
 type Award = {
   position: string
@@ -136,13 +137,15 @@ export const MetadataTable = ({
         />
       </div>
 
+      <Separator />
+
       <div className="space-y-2 px-2">
         <div className="flex justify-between items-center">
           <h3 className="text-sm font-medium">Awards</h3>
           {(value?.awards || []).length >= 1 && (
-            <Button size="sm" onClick={handleAdd} className="h-8">
-              <Icons.plus className="h-4 w-4 mr-2" />
-              Add Award
+            <Button type="button" size="sm" onClick={handleAdd} className="h-8">
+              <Icons.plus className="h-4 w-4 mr-1" />
+              Add award
             </Button>
           )}
         </div>
@@ -180,16 +183,18 @@ export const MetadataTable = ({
               )}
             </div>
             <div className="flex gap-4 justify-end">
-              <Button size="icon" onClick={handleSave} className="h-8">
-                <Icons.checkSimple className="h-4 w-4" />
+              <Button type="button" size="sm" onClick={handleSave}>
+                <Icons.checkSimple className="h-4 w-4 mr-1" />
+                Save
               </Button>
               <Button
-                size="icon"
+                type="button"
+                size="sm"
                 variant="outline"
                 onClick={handleCancel}
-                className="h-8 hover:bg-transparent hover:text-brand-white-900"
               >
-                <Icons.close className="h-4 w-4" />
+                <Icons.close className="h-4 w-4 mr-1" />
+                Cancel
               </Button>
             </div>
           </div>
@@ -204,9 +209,14 @@ export const MetadataTable = ({
             <p className="mt-1 text-sm text-muted-foreground">
               Add awards to recognize achievements in this season.
             </p>
-            <Button size="sm" onClick={handleAdd} className="mt-4 h-8">
-              <Icons.plus className="h-4 w-4 mr-2" />
-              Add Award
+            <Button
+              type="button"
+              size="sm"
+              onClick={handleAdd}
+              className="mt-4"
+            >
+              <Icons.plus className="h-4 w-4 mr-1" />
+              Add award
             </Button>
           </div>
         ) : (
@@ -222,10 +232,13 @@ export const MetadataTable = ({
               {(value?.awards || []).map((award, index) => (
                 <TableRow key={index}>
                   <TableCell>{award.position}</TableCell>
-                  <TableCell>{award.description}</TableCell>
+                  <TableCell className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[200px] ">
+                    {award.description}
+                  </TableCell>
                   <TableCell>
                     <div className="flex gap-2">
                       <Button
+                        type="button"
                         variant="ghost"
                         size="icon"
                         onClick={() => {
@@ -236,6 +249,7 @@ export const MetadataTable = ({
                         <Icons.edit className="h-4 w-4" />
                       </Button>
                       <Button
+                        type="button"
                         variant="ghost"
                         size="icon"
                         onClick={() => {
@@ -251,6 +265,13 @@ export const MetadataTable = ({
               ))}
             </TableBody>
           </Table>
+        )}
+        {(value?.awards || []).length === 0 && editingIndex === -1 && (
+          <div className="text-center py-4">
+            <p className="text-sm text-muted-foreground">
+              No awards to display.
+            </p>
+          </div>
         )}
       </div>
     </div>

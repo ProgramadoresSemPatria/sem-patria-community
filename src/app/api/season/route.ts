@@ -69,6 +69,14 @@ export async function POST(req: NextRequest) {
 
     const { positionMultipliers, ...seasonData } = parsed.data
 
+    // Se a nova temporada deve ser a atual, desativar qualquer outra temporada ativa
+    if (seasonData.isCurrent) {
+      await prismadb.season.updateMany({
+        where: { isCurrent: true },
+        data: { isCurrent: false }
+      })
+    }
+
     // Criar a temporada
     const season = await prismadb.season.create({
       data: {

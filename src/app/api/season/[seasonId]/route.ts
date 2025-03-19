@@ -49,6 +49,18 @@ export async function PATCH(
 
     const { positionMultipliers, ...seasonData } = parsed.data
 
+    // Verificar se a temporada atual está sendo definida como ativa
+    if (seasonData.isCurrent) {
+      // Desativar qualquer outra temporada ativa, exceto a atual
+      await prismadb.season.updateMany({
+        where: {
+          isCurrent: true,
+          id: { not: params.seasonId }
+        },
+        data: { isCurrent: false }
+      })
+    }
+
     // Atualizar a temporada
     await prismadb.season.update({
       where: {

@@ -7,9 +7,9 @@ export const difficultyColors: Record<TDifficulty, string> = {
 }
 
 export const nodeColors = {
-  background: 'bg-primary hover:bg-primary/90',
+  background: 'bg-primary hover:bg-primary hover:brightness-90',
   progress: {
-    track: 'bg-muted',
+    track: 'bg-brand-purple-400 dark:bg-muted',
     bar: 'bg-secondary'
   }
 } as const

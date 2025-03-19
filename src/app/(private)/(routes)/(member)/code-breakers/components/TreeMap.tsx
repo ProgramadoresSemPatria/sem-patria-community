@@ -36,7 +36,7 @@ export function TreeMap() {
   const { theme, isDraggable, enableZooming, panOnDrag } = useSettingsStore()
   const reactFlowInstance = useRef<ReactFlowInstance | null>(null)
   const [nodes, setNodes] = useState<Node[]>(layoutedNodes)
-  const [edges, setEdges] = useState<Edge[]>(layoutedEdges)
+  const [edges] = useState<Edge[]>(layoutedEdges)
 
   const onNodesChange: OnNodesChange = useCallback(changes => {
     setNodes(nds => applyNodeChanges(changes, nds))

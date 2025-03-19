@@ -9,18 +9,14 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { ExternalLink, MonitorPlay } from 'lucide-react'
-import type { IExercise, TDifficulty } from '../types/IExercise'
+import type { IExercise } from '../types/IExercise'
 import { useDoneExerciseStore } from '../stores/useDoneExerciseStore'
 import { Checkbox } from '@/components/ui/checkbox'
+import { difficultyColors } from '../constants/colors'
+import { cn } from '@/lib/utils'
 
 interface ExercisesTableProps {
   exercises: IExercise[]
-}
-
-const difficultyColors: Record<TDifficulty, string> = {
-  Easy: '#19b181',
-  Medium: '#dfb339',
-  Hard: 'red'
 }
 
 export function ExercisesTable({ exercises }: ExercisesTableProps) {
@@ -79,29 +75,34 @@ export function ExercisesTable({ exercises }: ExercisesTableProps) {
             </TableCell>
             <TableCell>
               <a
-                className="text-xs lg:text-sm dark:text-[#F5F5F5]"
-                target="_blank'"
+                className="text-xs lg:text-sm text-foreground hover:text-foreground/90"
+                target="_blank"
                 href={exercise.link}
+                rel="noreferrer"
               >
                 {exercise.problem}
                 <ExternalLink
-                  className="text-[#5316CC] dark:text-[#9c9c9c] flex-shrink-0 inline-block ml-2 mb-1"
+                  className="text-primary hover:text-primary/90 flex-shrink-0 inline-block ml-2 mb-1"
                   size={16}
                 />
               </a>
             </TableCell>
             <TableCell
-              style={{ color: difficultyColors[exercise.difficulty] }}
-              className="hidden lg:table-cell"
+              className={cn(
+                'hidden lg:table-cell',
+                difficultyColors[exercise.difficulty]
+              )}
             >
               {exercise.difficulty}
             </TableCell>
             <TableCell className="flex items-center justify-center">
-              <a target="_blank" href={exercise.solution} rel="noreferrer">
-                <MonitorPlay
-                  className="dark:text-[#F5F5F5] size-5"
-                  strokeWidth={1.2}
-                />
+              <a
+                target="_blank"
+                href={exercise.solution}
+                rel="noreferrer"
+                className="text-foreground hover:text-foreground/90"
+              >
+                <MonitorPlay className="size-5" strokeWidth={1.2} />
               </a>
             </TableCell>
           </TableRow>

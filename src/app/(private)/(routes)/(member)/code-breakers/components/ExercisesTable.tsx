@@ -92,7 +92,7 @@ export function ExercisesTable({ exercises }: ExercisesTableProps) {
                   href={exercise.link}
                   rel="noreferrer"
                 >
-                  <span className="truncate">{exercise.problem}</span>
+                  <span className="text-wrap">{exercise.problem}</span>
                   <ExternalLink
                     className="text-primary hover:text-primary/90 flex-shrink-0"
                     size={14}

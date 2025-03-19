@@ -14,15 +14,18 @@ interface ISettingsStore {
   setTheme: (theme: Theme) => void
 }
 
+const initialState: Omit<ISettingsStore, 'setTheme'> = {
+  theme: 'system',
+  isDraggable: false,
+  enableZooming: true,
+  panOnDrag: true
+}
+
 export const useSettingsStore = create<ISettingsStore>()(
   persist(
-    set =>
-      ({
-        theme: 'system',
-        isDraggable: false,
-        enableZooming: true,
-        panOnDrag: true,
-
+    set => {
+      return {
+        ...initialState,
         setTheme: (theme: Theme) => {
           const root = window.document.documentElement
           root.classList.remove('light', 'dark')
@@ -39,7 +42,8 @@ export const useSettingsStore = create<ISettingsStore>()(
           root.classList.add(theme)
           set({ theme })
         }
-      }) as ISettingsStore,
+      }
+    },
     {
       name: 'settings-store'
     }

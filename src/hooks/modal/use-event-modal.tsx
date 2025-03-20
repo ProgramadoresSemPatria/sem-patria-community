@@ -14,7 +14,7 @@ export const useEventModal = create<useEventModalProps>(set => ({
     set({ isOpen: true, initialDate: date, initialEventId: eventId })
   },
   onClose: () => {
-    set({ isOpen: false })
+    set({ isOpen: false, initialDate: undefined, initialEventId: undefined })
   },
   initialDate: undefined,
   initialEventId: undefined

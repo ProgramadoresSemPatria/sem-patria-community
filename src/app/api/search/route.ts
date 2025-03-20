@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
       }
     })
   } catch (error) {
-    console.error('Search API Error:', error)
+    console.error('[SEARCH_API_ERROR]', error)
     return new NextResponse(
       JSON.stringify({
         error: 'Error searching for keyword',

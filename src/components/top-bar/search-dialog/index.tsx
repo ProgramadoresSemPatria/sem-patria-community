@@ -61,6 +61,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ isOpen, onClose }) => {
         >
           <Combobox
             onChange={(item: SearchDialogResult) => {
+              if (!item) return
               if (item.entity === 'event') {
                 handleClose()
                 onOpen(item.date, item.id)

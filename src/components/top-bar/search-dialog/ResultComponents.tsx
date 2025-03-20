@@ -124,9 +124,9 @@ const InterestResult = ({ result }: ResultProps) => (
   <>
     <div
       id="entity-icon"
-      className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-red-500"
+      className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-primary"
     >
-      <Icons.check className="w-6 h-6 text-white" aria-hidden="true" />
+      <Icons.list className="w-6 h-6 text-white" aria-hidden="true" />
     </div>
     <div id="title" className="min-w-0 flex-auto overflow-hidden">
       <p className="truncate capitalize font-medium text-gray-900 dark:text-gray-100">
@@ -145,7 +145,7 @@ const EventResult = ({ result }: ResultProps) => (
   <>
     <div
       id="entity-icon"
-      className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-purple-500"
+      className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-sky-500"
     >
       <Icons.calendar className="w-6 h-6 text-white" aria-hidden="true" />
     </div>

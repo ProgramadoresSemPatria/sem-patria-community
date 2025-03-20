@@ -81,6 +81,7 @@ export const EventsCalendar = ({
     },
     [allEvents]
   )
+
   useEffect(() => {
     if (initialEventId && allEvents) {
       const event = allEvents.find(e => e.id === initialEventId)
@@ -166,7 +167,7 @@ export const EventsCalendar = ({
           </div>
         </CardTitle>
         <CardDescription>
-          Plan your time and don&apos;t miss any event
+          Plan your time and don&apos;t miss any event.
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-2 md:gap-0 md:flex-row justify-start items-start p-4 h-full">
@@ -175,7 +176,9 @@ export const EventsCalendar = ({
           selected={allEvents?.map(d => new Date(d.date))}
           className="rounded-md border w-fit"
           onDayClick={handleClickDay}
-          month={initialDate ? new Date(initialDate) : undefined}
+          month={
+            typeof initialDate === 'string' ? new Date(initialDate) : undefined
+          }
         />
 
         <section className="flex flex-col gap-4 pl-4 overflow-y-auto max-h-72 max-w-sm">

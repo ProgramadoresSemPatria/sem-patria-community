@@ -27,8 +27,8 @@ export const getEntityColorClass = (entity: string) => {
     user: 'fill-blue-500 dark:fill-blue-400',
     course: 'fill-yellow-500 dark:fill-yellow-400',
     classroom: 'fill-green-500 dark:fill-green-400',
-    interest: 'fill-red-500 dark:fill-red-400',
-    event: 'fill-purple-500 dark:fill-purple-400'
+    interest: 'fill-primary dark:fill-primary',
+    event: 'fill-sky-500 dark:fill-sky-400'
   }
 
   return entityColors[entity as keyof typeof entityColors] || ''

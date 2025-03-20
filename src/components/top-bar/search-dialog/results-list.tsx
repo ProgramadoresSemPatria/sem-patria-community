@@ -26,11 +26,11 @@ export const ResultsList = ({ searchResults }: ResultsListProps) => (
           as="li"
           className="flex justify-between rounded-lg cursor-pointer select-none items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-muted transition-colors duration-150"
         >
-          <div className="flex gap-x-4 overflow-hidden">
+          <div className="flex gap-x-2 overflow-hidden">
             <ResultComponent result={sResult} />
           </div>
 
-          <div className="flex shrink-0 items-center gap-x-4">
+          <div className="flex shrink-0 items-center gap-x-2">
             <div className="hidden sm:flex sm:flex-col sm:items-end">
               <span
                 className={cn(

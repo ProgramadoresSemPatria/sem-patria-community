@@ -6,20 +6,20 @@ const f = createUploadthing()
 
 export const ourFileRouter = {
   imageUploader: f({
-    image: { maxFileSize: '16MB', maxFileCount: 4 },
-    pdf: { maxFileSize: '64MB', maxFileCount: 4 },
+    image: { maxFileSize: '256MB', maxFileCount: 4 },
+    pdf: { maxFileSize: '256MB', maxFileCount: 4 },
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': {
-      maxFileSize: '64MB',
+      maxFileSize: '256MB',
       maxFileCount: 4
     },
-    'application/vnd.ms-excel': { maxFileSize: '64MB', maxFileCount: 4 },
+    'application/vnd.ms-excel': { maxFileSize: '256MB', maxFileCount: 4 },
     'application/vnd.oasis.opendocument.spreadsheet': {
-      maxFileSize: '64MB',
+      maxFileSize: '256MB',
       maxFileCount: 4
     },
-    'text/csv': { maxFileSize: '64MB', maxFileCount: 4 },
-    'text/tab-separated-values': { maxFileSize: '64MB', maxFileCount: 4 },
-    'application/octet-stream': { maxFileSize: '64MB', maxFileCount: 4 }
+    'text/csv': { maxFileSize: '256MB', maxFileCount: 4 },
+    'text/tab-separated-values': { maxFileSize: '256MB', maxFileCount: 4 },
+    'application/octet-stream': { maxFileSize: '256MB', maxFileCount: 4 }
   })
     .middleware(() => {
       const user = auth()

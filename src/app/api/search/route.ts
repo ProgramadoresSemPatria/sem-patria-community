@@ -1,3 +1,4 @@
+import { type Entity } from '@/hooks/search/types'
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs/server'
 import { type NextRequest, NextResponse } from 'next/server'
@@ -9,77 +10,123 @@ export async function POST(request: NextRequest) {
       return new NextResponse('Unauthenticated', { status: 401 })
     }
 
-    const { searchParams } = request.nextUrl
-    const keyword = searchParams.get('keyword')
-
+    const keyword = request.nextUrl.searchParams.get('keyword')
     if (!keyword) {
       return new NextResponse('Keyword is required', { status: 400 })
     }
 
-    const queryPosts = prismadb.post.findMany({
-      where: {
-        title: {
-          contains: keyword,
-          mode: 'insensitive'
-        }
-      },
-      orderBy: {
-        createdAt: 'desc'
-      },
-      select: {
-        id: true,
-        title: true,
-        createdAt: true,
-        category: {
+    const [posts, users, classrooms, courses, interests, events] =
+      await prismadb.$transaction([
+        prismadb.post.findMany({
+          where: { title: { contains: keyword, mode: 'insensitive' } },
+          orderBy: { createdAt: 'desc' },
           select: {
-            name: true
+            id: true,
+            title: true,
+            createdAt: true,
+            category: { select: { name: true } },
+            user: { select: { username: true } },
+            _count: { select: { likes: true } }
           }
-        },
-        user: {
+        }),
+
+        prismadb.user.findMany({
+          where: { username: { contains: keyword, mode: 'insensitive' } },
           select: {
-            username: true
+            id: true,
+            username: true,
+            name: true,
+            createdAt: true,
+            imageUrl: true,
+            followers: true
           }
-        },
-        _count: {
-          select: { likes: true }
-        }
-      }
-    })
+        }),
 
-    const queryUsers = prismadb.user.findMany({
-      where: {
-        username: {
-          contains: keyword,
-          mode: 'insensitive'
-        }
-      },
-      select: {
-        id: true,
-        username: true,
-        name: true,
-        createdAt: true,
-        imageUrl: true,
-        followers: true
-      }
-    })
+        prismadb.classroom.findMany({
+          where: { title: { contains: keyword, mode: 'insensitive' } },
+          select: {
+            id: true,
+            title: true,
+            createdAt: true,
+            modules: {
+              select: {
+                videos: { select: { id: true } }
+              }
+            }
+          }
+        }),
 
-    const [posts, users] = await prismadb.$transaction([queryPosts, queryUsers])
+        prismadb.course.findMany({
+          where: { name: { contains: keyword, mode: 'insensitive' } },
+          select: {
+            id: true,
+            name: true,
+            createdAt: true,
+            isPaid: true,
+            level: true,
+            courseUrl: true,
+            category: { select: { name: true } }
+          }
+        }),
 
+        prismadb.interest.findMany({
+          where: { interest: { contains: keyword, mode: 'insensitive' } },
+          select: {
+            id: true,
+            interest: true,
+            createdAt: true,
+            users: { select: { username: true } }
+          }
+        }),
+
+        prismadb.event.findMany({
+          where: { title: { contains: keyword, mode: 'insensitive' } },
+          select: {
+            id: true,
+            title: true,
+            date: true,
+            location: true,
+            externalUrl: true,
+            specialGuest: true
+          }
+        })
+      ])
+
+    const addEntityType = <T>(items: T[], entity: Entity) =>
+      items.map(item => ({ ...item, entity }))
+
+    const results = [
+      ...addEntityType(posts, 'forum'),
+      ...addEntityType(users, 'user'),
+      ...addEntityType(classrooms, 'classroom'),
+      ...addEntityType(courses, 'course'),
+      ...addEntityType(interests, 'interest'),
+      ...addEntityType(events, 'event')
+    ]
     return NextResponse.json({
-      data: {
-        items: [...posts, ...users],
-        counts: {
-          posts: posts.length,
-          users: users.length
-        }
+      data: { items: results },
+      counts: {
+        posts: posts.length,
+        users: users.length,
+        classrooms: classrooms.length,
+        courses: courses.length,
+        interests: interests.length,
+        events: events.length
       },
       meta: {
         keyword,
         searchedAt: new Date().toISOString(),
-        totalRecords: posts.length + users.length
+        totalRecords: results.length
       }
     })
   } catch (error) {
-    return new NextResponse('Error searching for keyword', { status: 500 })
+    console.error('[SEARCH_API_ERROR]', error)
+    return new NextResponse(
+      JSON.stringify({
+        error: 'Error searching for keyword',
+        details: (error as Error).message
+      }),
+      { status: 500 }
+    )
   }
 }

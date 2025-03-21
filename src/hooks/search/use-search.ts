@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import { type SearchDialogResult, type SearchApiResponse } from './types'
+import { getItemUrl } from '@/components/top-bar/search-dialog/utils'
 
 const useSearch = () => {
   const [searchResults, setSearchResults] = useState<SearchDialogResult[]>([])
@@ -29,12 +30,7 @@ const useSearch = () => {
         item => {
           return {
             ...item,
-            entity: item.title ? 'forum' : 'user',
-            url: item.title
-              ? `/forum/${item.id}/${item.title
-                  .toLowerCase()
-                  .replace(/\s+/g, '-')}`
-              : `/user/${item.username}`
+            url: getItemUrl(item)
           }
         }
       )

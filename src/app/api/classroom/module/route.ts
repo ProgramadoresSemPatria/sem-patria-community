@@ -1,4 +1,5 @@
 import prismadb from '@/lib/prismadb'
+import { Roles } from '@/lib/types'
 import { auth } from '@clerk/nextjs/server'
 import { NextResponse, type NextRequest } from 'next/server'
 
@@ -63,6 +64,12 @@ export async function PATCH(req: NextRequest) {
     const { order } = await req.json()
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
+    const user = await prismadb.user.findUnique({
+      where: { id: userId }
+    })
+    if (!user || !user.role.includes(Roles.Admin)) {
+      return new NextResponse('Forbidden', { status: 403 })
+    }
 
     const updatePromises = order.map(
       // eslint-disable-next-line @typescript-eslint/promise-function-async

@@ -21,7 +21,9 @@ export const EventsButton = ({ isMobile }: EventsButtonProps) => {
 
   return (
     <Button
-      onClick={onOpen}
+      onClick={() => {
+        onOpen()
+      }}
       variant="ghost"
       size="icon"
       className={isMobile ? 'mr-4' : undefined}

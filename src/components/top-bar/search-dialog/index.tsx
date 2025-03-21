@@ -10,6 +10,7 @@ import useSearch from '@/hooks/search/use-search'
 import { type SearchDialogResult } from '@/hooks/search/types'
 import { SearchInput } from './search-input'
 import { SearchResults } from './search-results'
+import { useEventModal } from '@/hooks/modal/use-event-modal'
 
 interface SearchDialogProps {
   isOpen: boolean
@@ -19,6 +20,8 @@ interface SearchDialogProps {
 
 const SearchDialog: React.FC<SearchDialogProps> = ({ isOpen, onClose }) => {
   const router = useRouter()
+  const { onOpen } = useEventModal()
+
   const { isLoading, searchResults, setSearchResults, handleSearch } =
     useSearch()
 
@@ -58,7 +61,12 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ isOpen, onClose }) => {
         >
           <Combobox
             onChange={(item: SearchDialogResult) => {
-              if (item) {
+              if (!item) return
+              if (item.entity === 'event') {
+                handleClose()
+                onOpen(item.date, item.id)
+              }
+              if (item.url) {
                 router.push(item.url)
                 handleClose()
               }

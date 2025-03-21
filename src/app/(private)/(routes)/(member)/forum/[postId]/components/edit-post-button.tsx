@@ -4,12 +4,12 @@ import { Icons } from '@/components/icons'
 import EditPostModal from '@/components/modals/edit-post-modal'
 import { Button } from '@/components/ui/button'
 import useEditPostModalStore from '@/hooks/modal/use-edit-post'
-import { type JsonValue } from '@prisma/client/runtime/library'
+import { type Prisma } from '@prisma/client'
 
 interface EditPostButtonProps {
   postId: string
   title: string
-  content: JsonValue
+  content: Prisma.JsonValue
   categoryId: string
 }
 

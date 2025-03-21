@@ -7,9 +7,9 @@ import {
   PopoverTrigger
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
-import { type Editor } from '@tiptap/core'
 import { Check, Trash } from 'lucide-react'
 import { useEffect, useRef } from 'react'
+import { type LinkSelectorProps } from '../types'
 
 export function isValidUrl(url: string) {
   try {
@@ -28,12 +28,6 @@ export function getUrlFromString(str: string) {
   } catch (e) {
     return null
   }
-}
-interface LinkSelectorProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  editor: Editor | null
-  isToolbar?: boolean
 }
 
 export const LinkSelector = ({

@@ -14,14 +14,10 @@ export default function Dashboard() {
           <div className="flex flex-col h-full">
             <ForumWidget />
           </div>
-          <div className="flex flex-col h-full">
-            <div className="flex-grow">
-              <EventsCalendar isWidget />
-            </div>
-            <div className="my-4" />
-            <div className="flex-grow">
-              <PublicNotesCard />
-            </div>
+
+          <div className="flex flex-col gap-y-4 flex-grow overflow-hidden">
+            <EventsCalendar isWidget />
+            <PublicNotesCard />
           </div>
         </div>
         <div className="flex flex-col flex-grow my-4">

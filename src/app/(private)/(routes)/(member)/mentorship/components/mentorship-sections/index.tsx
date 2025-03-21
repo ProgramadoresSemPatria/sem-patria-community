@@ -1,115 +1,134 @@
-import prismadb from '@/lib/prismadb'
-
+'use client'
 import { Icons } from '@/components/icons'
 import { NoContent } from '@/components/no-content'
 import { SkeletonMentorshipPage } from '@/components/skeletons/skeleton-mentorship-page'
-import { prePspPermissions } from '@/lib/constants'
-import { currentUser } from '@clerk/nextjs/server'
-import { Suspense } from 'react'
+import { type Video } from '@prisma/client'
+import { Suspense, useEffect, useState } from 'react'
 import { ModuleCarousel } from '../module-carousel'
+import { Reorder } from 'framer-motion'
+import { Button } from '@/components/ui/button'
+import { useAbility } from '@casl/react'
+import { AbilityContext } from '@/hooks/use-ability'
+import { useModuleCarousel } from '../module-carousel/use-module-carousel'
 
-export const MentorshipSections = async () => {
-  const user = await currentUser()
-  const classrooms = await prismadb.classroom.findMany({
-    include: {
-      modules: {
-        include: {
-          videos: true
-        },
-        orderBy: {
-          order: 'asc'
-        }
-      }
+interface FormattedModule {
+  id: string
+  title: string
+  fileUrl?: string
+  classroomId: string
+  videos: Video[]
+  isPrePspAllowed?: boolean
+}
+export interface FormattedClassroom {
+  id: string
+  title: string
+  modules: FormattedModule[]
+  hasPermission: boolean
+}
+export const MentorshipSections = ({
+  data
+}: {
+  data: FormattedClassroom[]
+}) => {
+  const ability = useAbility(AbilityContext)
+  const canManageClassroom = ability.can('manage', 'Classroom')
+  const [items, setItems] = useState(data)
+  const [hasChanges, setHasChanges] = useState(false)
+
+  const { handleSaveOrder, isSaving, setIsSaving } = useModuleCarousel()
+  useEffect(() => {
+    const orderChanged =
+      JSON.stringify(items.map(i => i.id)) !==
+      JSON.stringify(data.map(i => i.id))
+
+    setHasChanges(orderChanged)
+  }, [data, items])
+
+  const handleAutoScroll = (info: { point: { x: number; y: number } }) => {
+    const threshold = 400
+    const scrollSpeed = 15
+    const relativeY = info.point.y - window.scrollY
+
+    if (relativeY < threshold) {
+      window.scrollBy(0, -scrollSpeed)
+    } else if (window.innerHeight - relativeY < threshold) {
+      window.scrollBy(0, scrollSpeed)
     }
-  })
-
-  const userProps = await prismadb.user.findUnique({
-    where: {
-      id: user?.id
-    }
-  })
-
-  const formattedData = classrooms.map(classroom => {
-    let modulesWithVideos = classroom.modules.map(module => {
-      const videos = module.videos.map(video => {
-        return video
-      })
-
-      return {
-        id: module.id,
-        title: module.title,
-        fileUrl: module.fileUrl ?? undefined,
-        classroomId: module.classroomId,
-        videos
-      }
-    })
-
-    const isPrePsp = userProps?.role.includes('PrePsp')
-
-    if (isPrePsp) {
-      modulesWithVideos = modulesWithVideos.map(module => {
-        const hasPrePspRestriction = prePspPermissions[classroom.title]
-
-        if (hasPrePspRestriction) {
-          const isPrePspAllowed = hasPrePspRestriction.some(
-            permission => module.id === permission
-          )
-
-          return {
-            ...module,
-            isPrePspAllowed
-          }
-        }
-
-        return module
-      })
-    }
-
-    const hasPermission = () => {
-      if (!userProps) return false
-
-      if (process.env.NODE_ENV === 'production') {
-        return classroom.permissions.some(permission =>
-          userProps.role.includes(permission)
-        )
-      }
-
-      return true
-    }
-
-    return {
-      id: classroom.id,
-      title: classroom.title,
-      modules: modulesWithVideos,
-      hasPermission: hasPermission()
-    }
-  })
+  }
 
   return (
     <div className="flex flex-col gap-y-10">
       <Suspense fallback={<SkeletonMentorshipPage />}>
-        {!formattedData.length && (
+        {hasChanges && (
+          <div className="flex justify-end mb-4">
+            <Button
+              variant="default"
+              onClick={async () => {
+                setIsSaving(true)
+                await handleSaveOrder(
+                  items.map((item, index) => ({
+                    id: item.id,
+                    order: index
+                  }))
+                )
+                setIsSaving(false)
+              }}
+              disabled={isSaving}
+            >
+              {isSaving ? (
+                <>
+                  <Icons.loader className="h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Icons.save className="h-4 w-4" />
+                  Save Order
+                </>
+              )}
+            </Button>
+          </div>
+        )}
+        {!items.length && (
           <NoContent
             title="No classrooms created yet."
             description="Try contacting an admin to add new content."
           />
         )}
-        {formattedData.map(classroom => (
-          <div key={classroom.id} className="relative flex flex-col gap-y-3">
-            <div className="flex items-center justify-between w-full">
-              <h2 className="font-medium text-lg flex items-center">
-                {classroom.title}
-                {!classroom.hasPermission && (
-                  <Icons.lock className="h-4 w-4 ml-2" />
-                )}
-              </h2>
-            </div>
-            <ModuleCarousel
-              modules={classroom.modules}
-              hasPermission={classroom.hasPermission}
-            />
-          </div>
-        ))}
+        <Reorder.Group
+          axis="y"
+          values={items}
+          onReorder={setItems}
+          className="flex flex-col gap-y-10"
+        >
+          {items.map(classroom => (
+            <Reorder.Item
+              key={classroom.id}
+              value={classroom}
+              className={`relative flex flex-col gap-y-3 ${
+                canManageClassroom ? 'cursor-grab' : ''
+              }`}
+              drag={canManageClassroom}
+              onDrag={(_, info) => {
+                handleAutoScroll(info)
+              }}
+            >
+              <div className="flex items-center justify-between w-full">
+                <h2 className="font-medium text-lg flex items-center">
+                  {canManageClassroom && <Icons.grip className="cursor-grab" />}{' '}
+                  {classroom.title}
+                  {!classroom.hasPermission && (
+                    <Icons.lock className="h-4 w-4 ml-2" />
+                  )}
+                </h2>
+              </div>
+              <ModuleCarousel
+                modules={classroom.modules}
+                hasPermission={classroom.hasPermission}
+              />
+            </Reorder.Item>
+          ))}
+        </Reorder.Group>
       </Suspense>
     </div>
   )

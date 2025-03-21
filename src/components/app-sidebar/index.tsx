@@ -3,6 +3,7 @@
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -13,20 +14,31 @@ import {
   useSidebar
 } from '@/components/ui/sidebar'
 import { Can } from '@/hooks/use-ability'
-import { menuItems } from '@/lib/constants'
+import { appRoutes, menuItems } from '@/lib/constants'
 import { type MenuItemProps } from '@/lib/types'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import MainLogo from '../main-logo'
 import UserButton from '../user-button'
 import { SkeletonMainNav } from './components/skeleton-main-nav'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '../ui/dropdown-menu'
+import { Icons } from '../icons'
+import { useClerk } from '@clerk/nextjs'
 
 export type AppSidebarProps = {
   mentorship?: boolean
+  userName: string
 }
 
-export function AppSidebar({ mentorship }: AppSidebarProps) {
+export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
+  const router = useRouter()
+  const { signOut } = useClerk()
   const [isMounted, setIsMounted] = useState(false)
   const { setOpenMobile, isMobile, setIsMentorshipPage, shouldShowSidebar } =
     useSidebar()
@@ -123,9 +135,46 @@ export function AppSidebar({ mentorship }: AppSidebarProps) {
             </SidebarGroup>
           </Can>
         </SidebarContent>
-        <div className="pl-4 md:pl-0">
-          <UserButton />
-        </div>
+        <SidebarFooter className="h-[54px] p-0 gap-0">
+          <SidebarMenu className="h-[54px]">
+            <SidebarMenuItem className="h-[54px]">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton className="h-full">
+                    <UserButton />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  side="top"
+                  className="w-[--radix-popper-anchor-width]"
+                >
+                  <DropdownMenuItem>
+                    <Link className="w-full h-full" href={`/profile`}>
+                      Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link className="w-full h-full" href={`/user/${userName}`}>
+                      Public profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="gap-x-2 items-center cursor-pointer"
+                    onClick={async () => {
+                      await signOut(() => {
+                        router.push(appRoutes.signIn)
+                      })
+                    }}
+                  >
+                    <Icons.signOut className="w-4 h-4" />
+                    Sign out
+                    {/* <LogoutButton /> */}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
       </Sidebar>
     </>
   )

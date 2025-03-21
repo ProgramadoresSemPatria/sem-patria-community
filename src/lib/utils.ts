@@ -58,8 +58,7 @@ export const formatTitle = (title: string) => {
   const titleHref: Record<string, string> = {
     'a-base': 'A Base',
     psp: 'Programador Sem Pátria',
-    prime: 'Programador Prime',
-    'perfil-fechado': 'Perfil Fechado'
+    prime: 'Programador Prime'
   }
 
   return titleHref[title]
@@ -90,10 +89,8 @@ export const getStringFromDate = (date: string) => {
 
 export const defineUserRole = (user: User): UserAbilityRoles => {
   const hasAdmin = user.role.some(role => role === Roles.Admin)
-  const hasBuilder = user.role.some(role => role === Roles.Builder)
 
   if (hasAdmin) return 'ADMIN'
-  if (hasBuilder) return 'BUILDER'
   return 'MEMBER'
 }
 

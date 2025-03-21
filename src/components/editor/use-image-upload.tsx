@@ -111,10 +111,10 @@ const useEditorUploadFile = () => {
       if (!file.type.includes('image/')) {
         toast({ variant: 'destructive', title: 'File type not supported.' })
         return false
-      } else if (file.size / 1024 / 1024 > 20) {
+      } else if (file.size / 1024 / 1024 > 256) {
         toast({
           variant: 'destructive',
-          title: 'File size too big (max 20MB).'
+          title: 'File size too big (max 256MB).'
         })
         return false
       }

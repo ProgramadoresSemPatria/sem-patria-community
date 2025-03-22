@@ -19,23 +19,28 @@ const feedbackLink =
 const TopBar = () => {
   const { isMobile } = useIsMobile()
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   const isMac =
     typeof window !== 'undefined' &&
     window.navigator.userAgent.toLowerCase().includes('mac')
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setIsSearchOpen(prev => !prev)
-      }
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault()
+      setIsSearchOpen(prev => !prev)
     }
+  }
+
+  useEffect(() => {
+    setIsMounted(true)
     document.addEventListener('keydown', handleKeyDown)
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
     }
   }, [])
+
+  if (!isMounted) return null
 
   return (
     <>

@@ -1,15 +1,36 @@
-export type Entity = 'forum' | 'user'
+export type Entity =
+  | 'forum'
+  | 'user'
+  | 'classroom'
+  | 'course'
+  | 'interest'
+  | 'event'
 
 export type SearchDialogResult = {
   id: string
   entity: Entity
-  url: string
+  url?: string | null
+  date?: string
   createdAt: string
   title?: string
+  courseUrl?: string
+  level?: string
   name?: string
+  location?: string
+  specialGuest?: string
+  interest?: string
+  isPaid?: boolean
   username?: string
   imageUrl?: string
   followers?: string
+  users?: Array<{
+    username: string
+  }>
+  modules?: Array<{
+    videos: Array<{
+      id: string
+    }>
+  }>
   category?: {
     name: string
   }
@@ -27,6 +48,8 @@ export type SearchApiResponse = {
     counts: {
       posts: number
       users: number
+      classrooms: number
+      courses: number
     }
   }
   meta: {

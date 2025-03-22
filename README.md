@@ -11,49 +11,50 @@ A platform for Borderless members to connect, collaborate, and share knowledge w
 - [🚀 Get Started](#-get-started)
   - [🖥 Installation](#-installation)
   - [Configuration](#configuration)
-    - [🪪 Credentials](#-credentials)
   - [Running](#running)
     - [Migrations](#migrations)
     - [Using Prisma Studio](#using-prisma-studio)
-    - [Development server](#development-server)
+    - [Development Server](#development-server)
 
 ## 🚀 Get Started
 
 To clone the repository to your local machine, follow these steps:
 
-1. Open a terminal
-2. Navigate to the directory where you want to clone the repository
-3. Execute the following command:
+1. Open a terminal.
+2. Navigate to your desired directory.
+3. Run the following command:
 
 ```shell
-    git clone git@github.com:ProgramadoresSemPatria/sem-patria-community.git
+git clone git@github.com:ProgramadoresSemPatria/sem-patria-community.git
 ```
 
-or if you use HTTPS:
+Or, if you prefer HTTPS:
 
 ```shell
-    git clone https://github.com/ProgramadoresSemPatria/sem-patria-community.git
+git clone https://github.com/ProgramadoresSemPatria/sem-patria-community.git
 ```
+
+Then, navigate into the project directory:
 
 ```bash
-    cd sem-patria-community
+cd sem-patria-community
 ```
 
 ### 🖥 Installation
 
-Once you have cloned the repository, you need to install the project's dependencies.
+After cloning the repository, install the project's dependencies.
 
-**Use the recommended node version which is >=20.x**
+**Use Node version >=20.x.**
 
 If you have [nvm](https://github.com/nvm-sh/nvm#installing-and-updating):
 
 ```shell
-    nvm use
+nvm use
 ```
 
-Install dependencies:
+Install dependencies using:
 
-> pnpm recommended
+> **Recommended:** pnpm
 
 ```bash
 pnpm i
@@ -61,61 +62,58 @@ pnpm i
 
 ### Configuration
 
-Copy env example:
+Copy the environment example:
 
 ```shell
-    cp .env.example .env
+cp .env.example .env
 ```
 
-Set env values according to your credentials.
+Set the environment variables according to your needs.
 
-#### 🪪 Credentials
-
-1. Generate a personal key in your GitHub
-   1.1 Click in your user -> Settings -> Developer Settings -> Personal access tokens -> Generate a classic token
-2. Change the value of variable `GITHUB_TOKEN` with the created token
-3. Change the value of variable `USERS_WHITELIST` to your github username
-
-> **⚠️ DO NOT COMMIT YOUR PERSONAL TOKEN**
+> **Important:** Do not commit secrets.
 
 ### Running
 
-Before start development server, you need to ensure that database is configured.
+Before starting the development server, ensure your database is configured.
 
 #### Migrations
 
-To set up the database schema and apply any pending migrations, execute the following command:
+To set up the database schema and apply any pending migrations, run:
 
 ```bash
-pnpm migrate dev
+pnpm prisma-migrate
 ```
 
-This command will ensure that your database is up to date with the latest changes defined in your Prisma schema.
+This command updates your database to match the latest changes in your Prisma schema.
 
 #### Using Prisma Studio
 
-To visually explore and interact with your database, you can use [Prisma Studio](https://www.prisma.io/studio). Run the following command:
+To visually explore and interact with your database, use [Prisma Studio](https://www.prisma.io/studio). Run:
 
 ```bash
 pnpm prisma studio
 ```
 
-This will open Prisma Studio in your default web browser, allowing you to view and manipulate your data directly.
+This opens Prisma Studio in your default web browser, allowing you to view and manipulate your data.
 
-#### Development server
+#### Development Server
 
-> With the cloud database url
+You have two options to run the server locally:
+
+1. **With the cloud database URL:**
 
 ```bash
 pnpm dev
 ```
 
-> Without the cloud database url (running postgreSQL locally with docker)
+2. **Without the cloud database URL** (running PostgreSQL locally with Docker):
 
 ```bash
 pnpm dev:local
-- **Ensures users set up PostgreSQL correctly** (via Homebrew, Apt, or Docker).
-- **Guides users through creating a Clerk account** and configuring authentication.
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your favorite browser.
+- Ensure PostgreSQL is set up correctly (via Homebrew, Apt, or Docker).
+- Follow the instructions to create a Clerk account and configure authentication.
+
+Open [http://localhost:3000](http://localhost:3000) in your favorite browser.
+

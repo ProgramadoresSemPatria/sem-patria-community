@@ -160,7 +160,7 @@ export const useNewClassroomVideoForm = ({
       })
     }
   })
-  const MAX_FILE_SIZE = 64 * 1024 * 1024
+  const MAX_FILE_SIZE = 256 * 1024 * 1024
 
   const onSubmit = async (values: NewClassroomVideoFormValues) => {
     if (files.length > 0) {
@@ -171,7 +171,7 @@ export const useNewClassroomVideoForm = ({
         oversizedFiles.forEach(file => {
           toast({
             title: 'File Too Large',
-            description: `File ${file.file.name} is too large. Max file size is 64MB.`,
+            description: `File ${file.file.name} is too large. Max file size is 256MB.`,
             variant: 'destructive'
           })
         })

@@ -3,12 +3,18 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import {
   CourseFilterAvailability,
   CourseFilterLevels,
   useCourseFilterOptions
 } from '@/hooks/course/use-course-filter-options'
 import Link from 'next/link'
-
+import { useRouter } from 'next/navigation'
 export const CourseFilterOptions = () => {
   const {
     clearAllFilters,
@@ -20,98 +26,58 @@ export const CourseFilterOptions = () => {
     navigateToLevelFilter,
     navigateToAvailabilityFilter
   } = useCourseFilterOptions()
+  const router = useRouter()
 
   return (
-    <div className="hidden lg:block">
-      <div className="flex flex-col gap-6 dark:text-gray-100 __className_f56873">
-        <div className="flex justify-between gap-3 items-center">
-          <h3 className="text-lg font-bold">Filter the content</h3>
-        </div>
-        {showClearButton && (
-          <Button onClick={clearAllFilters} variant="outline" className="w-min">
-            Clear all <Icons.close className="ml-2 h-4 w-4" />
-          </Button>
-        )}
+    <div>
+      <div className="flex gap-6 justify-start items-center dark:text-gray-100 __className_f56873">
+        <Select
+          value={
+            filterOptions.levels.length > 0
+              ? filterOptions.levels.join(',')
+              : ''
+          }
+          onValueChange={value => {}}
+        >
+          <SelectTrigger>
+            <SelectValue
+              placeholder="Select levels"
+              defaultValue="Select levels"
+            >
+              {filterOptions.levels.length > 0
+                ? `${filterOptions.levels.length} levels selected`
+                : 'Select levels'}
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            {Object.entries({
+              beginner: CourseFilterLevels.Beginner,
+              intermediate: CourseFilterLevels.Intermediate,
+              advanced: CourseFilterLevels.Advanced
+            }).map(([label, level]) => (
+              <div key={label} className="flex items-center space-x-2">
+                <Checkbox
+                  key={label}
+                  checked={filterOptions.levels.includes(level)}
+                  onCheckedChange={async () => {
+                    navigateToLevelFilter(level)
+                    await onSelectFilterLevel(level)
+                    router.push(
+                      `?category=${category}&level=${navigateToLevelFilter(
+                        level
+                      )}&availability=${filterOptions.availability.join(',')}`
+                    )
+                  }}
+                  value={level}
+                />
+                <Label className="text-sm capitalize">{label}</Label>
+              </div>
+            ))}
+          </SelectContent>
+        </Select>
 
-        <div className="flex flex-col gap-y-2">
-          <h4 className="text-sm font-bold">Skill Level</h4>
-          <div className="flex items-center space-x-2">
-            <Link
-              className="h-4 flex items-center"
-              href={{
-                query: {
-                  category,
-                  level: navigateToLevelFilter(CourseFilterLevels.Beginner),
-                  availability: filterOptions.availability.join(',')
-                }
-              }}
-            >
-              <Checkbox
-                checked={filterOptions.levels.includes(
-                  CourseFilterLevels.Beginner
-                )}
-                onCheckedChange={async () => {
-                  await onSelectFilterLevel(CourseFilterLevels.Beginner)
-                }}
-              />
-            </Link>
-            <Label className="text-sm dark:group-hover:text-gray-100 transition-color">
-              Beginner
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Link
-              className="h-4 flex items-center"
-              href={{
-                query: {
-                  category,
-                  level: navigateToLevelFilter(CourseFilterLevels.Intermediate),
-                  availability: filterOptions.availability.join(',')
-                }
-              }}
-            >
-              <Checkbox
-                checked={filterOptions.levels.includes(
-                  CourseFilterLevels.Intermediate
-                )}
-                onCheckedChange={async () => {
-                  await onSelectFilterLevel(CourseFilterLevels.Intermediate)
-                }}
-              />
-            </Link>
-            <Label className="text-sm dark:group-hover:text-gray-100 transition-color">
-              Intermediate
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Link
-              className="h-4 flex items-center"
-              href={{
-                query: {
-                  category,
-                  level: navigateToLevelFilter(CourseFilterLevels.Advanced),
-                  availability: filterOptions.availability.join(',')
-                }
-              }}
-            >
-              <Checkbox
-                checked={filterOptions.levels.includes(
-                  CourseFilterLevels.Advanced
-                )}
-                onCheckedChange={async () => {
-                  await onSelectFilterLevel(CourseFilterLevels.Advanced)
-                }}
-              />
-            </Link>
-            <Label className="text-sm dark:group-hover:text-gray-100 transition-color">
-              Advanced
-            </Label>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-y-2">
-          <h4 className="text-sm font-bold">Availability</h4>
-          <div className="flex items-center space-x-2">
+        <div className="flex flex-col gap-y-2 w-full">
+          <div className="flex items-center space-x-2 w-full">
             <Link
               className="h-4 flex items-center"
               href={{
@@ -135,11 +101,16 @@ export const CourseFilterOptions = () => {
                 }}
               />
             </Link>
-            <Label className="text-sm dark:group-hover:text-gray-100 transition-color">
-              Only Free
+            <Label className="text-sm w-full whitespace-nowrap dark:group-hover:text-gray-100 transition-color">
+              Free courses
             </Label>
           </div>
         </div>
+        {showClearButton && (
+          <Button onClick={clearAllFilters} variant="outline" className="w-min">
+            Clear all <Icons.close className="ml-2 h-4 w-4" />
+          </Button>
+        )}
       </div>
     </div>
   )

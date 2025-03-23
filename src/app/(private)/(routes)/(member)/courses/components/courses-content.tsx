@@ -2,13 +2,20 @@
 
 import { NoContent } from '@/components/no-content'
 import { SkeletonCourseCards } from '@/components/skeletons/skeleton-course-cards'
-import { Button } from '@/components/ui/button'
 import { useCourseContent } from '@/hooks/course/use-course-content'
 import { useCourseStore } from '@/hooks/course/use-course-store'
 import { type Category } from '@prisma/client'
 import Link from 'next/link'
 import { CourseCard } from './course-card'
 import { CourseFilterOptions } from './course-filter-options'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import { useRouter } from 'next/navigation'
 
 type CoursesContentProps = {
   categories: Category[]
@@ -17,6 +24,7 @@ type CoursesContentProps = {
 const CoursesContent = ({ categories }: CoursesContentProps) => {
   const { pathname, searchParams, isLoading } = useCourseContent()
   const { courseList } = useCourseStore()
+  const router = useRouter()
 
   const categoryOptions =
     categories.length > 0
@@ -29,26 +37,29 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
         ]
       : []
 
+  const handleCategoryChange = (value: string) => {
+    router.push(`${pathname}?category=${value}`)
+  }
+
   return (
     <div>
-      <div className="flex items-center flex-wrap w-full gap-x-2">
-        {categoryOptions.map(category => (
-          <Link
-            key={category.id}
-            href={`${pathname}?category=${category.name}`}
-          >
-            <Button
-              className="p-2 dark:hover:bg-brand-green-700"
-              variant={
-                searchParams.get('category') === category.name
-                  ? 'secondary'
-                  : 'ghost'
-              }
-            >
-              {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
-            </Button>
-          </Link>
-        ))}
+      <div className="flex items-center justify-start flex-wrap w-full gap-2">
+        <Select
+          defaultValue={searchParams.get('category') ?? 'all'}
+          onValueChange={handleCategoryChange}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select category" />
+          </SelectTrigger>
+          <SelectContent>
+            {categoryOptions.map(category => (
+              <SelectItem key={category.id} value={category.name}>
+                {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <CourseFilterOptions />
       </div>
 
       <div className="lg:grid lg:grid-cols-[1fr_280px] items-start lg:gap-8 gap-6 mt-6">
@@ -78,7 +89,6 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
             />
           )}
         </div>
-        <CourseFilterOptions />
       </div>
     </div>
   )

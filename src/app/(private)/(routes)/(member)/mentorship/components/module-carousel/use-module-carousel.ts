@@ -1,5 +1,8 @@
 'use client'
 import { type CarouselApi } from '@/components/ui/carousel'
+import { toast } from '@/components/ui/use-toast'
+import { api } from '@/lib/api'
+import { useMutation } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
 export const useModuleCarousel = () => {
@@ -7,6 +10,7 @@ export const useModuleCarousel = () => {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>()
   const [canScrollPrev, setCanScrollPrev] = useState(false)
   const [canScrollNext, setCanScrollNext] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
 
   useEffect(() => {
     setIsMounted(true)
@@ -45,11 +49,45 @@ export const useModuleCarousel = () => {
     }
   }, [carouselApi, onSelect])
 
+  const { mutateAsync: saveOrder } = useMutation({
+    mutationKey: ['update-order'],
+    mutationFn: async (
+      orderedClassroom: Array<{ id: string; order: number | null }>
+    ) => {
+      await api.patch(`/api/classroom`, {
+        items: orderedClassroom
+      })
+    },
+    onSuccess: async () => {
+      toast({
+        title: 'The order was updated succesfully'
+      })
+    },
+    onError: err => {
+      console.error('Error ordering videos', err)
+      toast({
+        title: 'An error occurred while ordering videos'
+      })
+    }
+  })
+  const handleSaveOrder = async (
+    classrooms: Array<{ id: string; order: number | null }>
+  ) => {
+    try {
+      await saveOrder(classrooms)
+    } catch (error) {
+      console.error('Failed to save order:', error)
+    }
+  }
+
   return {
     isMounted,
     carouselApi,
     setCarouselApi,
     handleClickForward,
-    handleClickBackward
+    handleClickBackward,
+    handleSaveOrder,
+    isSaving,
+    setIsSaving
   }
 }

@@ -8,12 +8,12 @@ import Image from 'next/image'
 import { CreateNoteButton } from './create-note-button'
 
 export const EmptyNotes = () => {
-  const { theme } = useTheme()
+  const { resolvedTheme } = useTheme()
 
   return (
     <Card className="gap-y-4 w-full h-[500px] flex flex-col justify-center items-center">
       <Image
-        src={theme === 'dark' ? EmptyNotesDarkImg : EmptyNotesImg}
+        src={resolvedTheme === 'dark' ? EmptyNotesDarkImg : EmptyNotesImg}
         alt="Empty Note"
         width={300}
         height={300}

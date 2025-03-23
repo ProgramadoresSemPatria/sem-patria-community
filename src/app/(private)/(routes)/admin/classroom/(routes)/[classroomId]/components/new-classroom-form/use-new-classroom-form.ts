@@ -170,7 +170,7 @@ export const useNewClassroomForm = ({
   const { Admin, ...roles } = Roles
 
   useEffect(() => {
-    if (classroomData?.data.modules)
+    if (classroomData?.data?.modules)
       setClassroomModules(classroomData.data.modules)
   }, [classroomData])
 

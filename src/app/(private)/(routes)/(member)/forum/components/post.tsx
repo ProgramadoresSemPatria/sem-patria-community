@@ -48,8 +48,10 @@ const Post = ({
         router.push(`/forum/${post.id}/${titleSlug}`)
       }}
       className={cn(
-        isPinned ? 'border-l-2 border-l-secondary' : 'border border-muted/40',
-        'rounded-md bg-background shadow dark:text-white text-black hover:cursor-pointer'
+        isPinned
+          ? 'border-l-2 border-l-secondary'
+          : 'border border-muted-foreground/20',
+        'rounded-md bg-background shadow dark:text-white text-black cursor-pointer hover:shadow-lg hover:shadow-primary/50 transition-all duration-200 ease-in-out'
       )}
     >
       <div className="px-6 py-4 flex justify-between">

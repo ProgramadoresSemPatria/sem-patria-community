@@ -20,15 +20,21 @@ import { type EventApiProps } from '@/hooks/event/types'
 import { useAllEvents, useWeekEvents } from '@/hooks/event/use-event'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { EventComponent } from './event-component'
 import { EventsTitle } from './events-title'
 
 type EventsCalendarProps = {
   isWidget?: boolean
+  initialDate?: string
+  initialEventId?: string
 }
 
-export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
+export const EventsCalendar = ({
+  isWidget = false,
+  initialDate,
+  initialEventId
+}: EventsCalendarProps) => {
   const { data, isLoading } = useWeekEvents()
   const { data: allEvents } = useAllEvents()
 
@@ -76,11 +82,20 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
     [allEvents]
   )
 
+  useEffect(() => {
+    if (initialEventId && allEvents) {
+      const event = allEvents.find(e => e.id === initialEventId)
+      if (event) {
+        handleClickDay(new Date(event.date))
+      }
+    }
+  }, [initialDate, initialEventId, allEvents, handleClickDay])
+
   if (isWidget) {
     return (
       <div className="flex flex-col gap-y-2">
         <h2 className="text-lg font-semibold">Next events of the community</h2>
-        <Card>
+        <Card className="lg:h-44">
           <CardHeader className="flex p-3">
             <CardTitle className="flex items-center justify-between gap-x-2">
               <EventsTitle
@@ -118,18 +133,21 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
             </CardTitle>
           </CardHeader>
           <ScrollArea className="max-h-28 overflow-y-auto">
-            <CardContent
-              className={cn(
-                'flex flex-col gap-2 md:gap-0 justify-start items-start p-0 pb-4'
-              )}
-            >
+            <CardContent className="flex flex-col gap-2 md:gap-0 justify-start items-start p-0 pb-4">
               <section className="flex flex-col gap-4 w-full px-4">
                 {isLoading ? (
                   <Icons.loader className="w-4 h-4 animate-spin" />
-                ) : (
-                  eventsDisplay?.map(event => (
+                ) : eventsDisplay && eventsDisplay.length > 0 ? (
+                  eventsDisplay.map(event => (
                     <EventComponent key={event.id} event={event} />
                   ))
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-4">
+                    <Icons.calendar className="w-8 h-8 text-muted-foreground mb-2" />
+                    <p className="text-sm text-muted-foreground">
+                      No events for this day
+                    </p>
+                  </div>
                 )}
               </section>
             </CardContent>
@@ -149,19 +167,18 @@ export const EventsCalendar = ({ isWidget = false }: EventsCalendarProps) => {
           </div>
         </CardTitle>
         <CardDescription>
-          Plan your time and don&apos;t miss any event
+          Plan your time and don&apos;t miss any event.
         </CardDescription>
       </CardHeader>
-      <CardContent
-        className={cn(
-          'flex flex-col gap-2 md:gap-0 md:flex-row justify-start items-start p-4 h-full'
-        )}
-      >
+      <CardContent className="flex flex-col gap-2 md:gap-0 md:flex-row justify-start items-start p-4 h-full">
         <Calendar
           mode="multiple"
           selected={allEvents?.map(d => new Date(d.date))}
           className="rounded-md border w-fit"
           onDayClick={handleClickDay}
+          month={
+            typeof initialDate === 'string' ? new Date(initialDate) : undefined
+          }
         />
 
         <section className="flex flex-col gap-4 pl-4 overflow-y-auto max-h-72 max-w-sm">

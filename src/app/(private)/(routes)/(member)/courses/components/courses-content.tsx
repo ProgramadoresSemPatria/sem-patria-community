@@ -51,7 +51,7 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
         ))}
       </div>
 
-      <div className="lg:grid lg:grid-cols-[1fr_280px] items-start lg:gap-8 gap-6 mt-2">
+      <div className="lg:grid lg:grid-cols-[1fr_280px] items-start lg:gap-8 gap-6 mt-6">
         <div className="flex flex-col gap-8">
           {isLoading && <SkeletonCourseCards />}
           <div className="flex flex-col gap-8">

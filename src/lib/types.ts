@@ -52,4 +52,4 @@ export type VideoWithAttachments = Video & {
   attachments: Attachment[]
 }
 
-export type UserAbilityRoles = 'ADMIN' | 'BUILDER' | 'MEMBER'
+export type UserAbilityRoles = 'ADMIN' | 'MEMBER'

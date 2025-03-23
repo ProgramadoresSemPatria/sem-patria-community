@@ -10,6 +10,7 @@ import useSearch from '@/hooks/search/use-search'
 import { type SearchDialogResult } from '@/hooks/search/types'
 import { SearchInput } from './search-input'
 import { SearchResults } from './search-results'
+import { useEventModal } from '@/hooks/modal/use-event-modal'
 
 interface SearchDialogProps {
   isOpen: boolean
@@ -19,6 +20,8 @@ interface SearchDialogProps {
 
 const SearchDialog: React.FC<SearchDialogProps> = ({ isOpen, onClose }) => {
   const router = useRouter()
+  const { onOpen } = useEventModal()
+
   const { isLoading, searchResults, setSearchResults, handleSearch } =
     useSearch()
 
@@ -54,11 +57,16 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ isOpen, onClose }) => {
       <div className="fixed inset-0 z-50 overflow-y-auto p-4 sm:p-6 md:p-20">
         <DialogPanel
           transition
-          className="mx-auto max-w-xl overflow-hidden transform rounded-xl bg-white dark:bg-background shadow-2xl ring-1 ring-black/5 transition-all data-[closed]:scale-95 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
+          className="mx-auto max-w-xl overflow-hidden transform rounded-xl bg-white dark:bg-background ring-1 ring-black/5 transition-all data-[closed]:scale-95 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
         >
           <Combobox
             onChange={(item: SearchDialogResult) => {
-              if (item) {
+              if (!item) return
+              if (item.entity === 'event') {
+                handleClose()
+                onOpen(item.date, item.id)
+              }
+              if (item.url) {
                 router.push(item.url)
                 handleClose()
               }

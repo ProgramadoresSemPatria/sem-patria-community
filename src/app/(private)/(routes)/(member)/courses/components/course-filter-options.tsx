@@ -99,6 +99,7 @@ export const CourseFilterOptions = () => {
                     CourseFilterAvailability.Free
                   )
                 }}
+                className="border-grey-500"
               />
             </Link>
             <Label className="text-sm w-full whitespace-nowrap dark:group-hover:text-gray-100 transition-color">

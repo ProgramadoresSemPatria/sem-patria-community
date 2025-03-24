@@ -46,6 +46,7 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
     <div>
       <div className="flex items-center justify-start flex-wrap w-full gap-2">
         <Select
+          value={searchParams.get('category') ?? 'all'}
           defaultValue={searchParams.get('category') ?? 'all'}
           onValueChange={handleCategoryChange}
         >

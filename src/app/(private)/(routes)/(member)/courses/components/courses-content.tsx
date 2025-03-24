@@ -2,6 +2,7 @@
 
 import { NoContent } from '@/components/no-content'
 import { SkeletonCourseCards } from '@/components/skeletons/skeleton-course-cards'
+
 import { useCourseContent } from '@/hooks/course/use-course-content'
 import { useCourseStore } from '@/hooks/course/use-course-store'
 import { type Category } from '@prisma/client'
@@ -62,7 +63,7 @@ const CoursesContent = ({ categories }: CoursesContentProps) => {
         <CourseFilterOptions />
       </div>
 
-      <div className="lg:grid lg:grid-cols-[1fr_280px] items-start lg:gap-8 gap-6 mt-6">
+      <div className="lg:grid  items-start lg:gap-8 gap-6 mt-6">
         <div className="flex flex-col gap-8">
           {isLoading && <SkeletonCourseCards />}
           <div className="flex flex-col gap-8">

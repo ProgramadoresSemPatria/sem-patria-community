@@ -3,6 +3,7 @@ model Classroom {
   title       String            @unique
   permissions Roles[]           @default([])
   createdAt   DateTime          @default(now())
+  order       Int?
   modules     ClassroomModule[]
 }
 

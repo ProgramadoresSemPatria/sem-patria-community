@@ -29,8 +29,8 @@ export const CourseFilterOptions = () => {
   const router = useRouter()
 
   return (
-    <div>
-      <div className="flex gap-6 justify-start items-center dark:text-gray-100 __className_f56873">
+    <>
+      <div className="flex gap-6 justify-start items-center dark:text-gray-100">
         <Select
           value={
             filterOptions.levels.length > 0
@@ -113,6 +113,6 @@ export const CourseFilterOptions = () => {
           </Button>
         )}
       </div>
-    </div>
+    </>
   )
 }

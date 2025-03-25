@@ -55,22 +55,27 @@ export const CourseFilterOptions = () => {
               intermediate: CourseFilterLevels.Intermediate,
               advanced: CourseFilterLevels.Advanced
             }).map(([label, level]) => (
-              <div key={label} className="flex items-center space-x-2">
+              <div
+                key={label}
+                className="flex items-center space-x-2 cursor-pointer"
+                onClick={async () => {
+                  navigateToLevelFilter(level)
+                  await onSelectFilterLevel(level)
+                  router.push(
+                    `?category=${category}&level=${navigateToLevelFilter(
+                      level
+                    )}&availability=${filterOptions.availability.join(',')}`
+                  )
+                }}
+              >
                 <Checkbox
-                  key={label}
                   checked={filterOptions.levels.includes(level)}
-                  onCheckedChange={async () => {
-                    navigateToLevelFilter(level)
-                    await onSelectFilterLevel(level)
-                    router.push(
-                      `?category=${category}&level=${navigateToLevelFilter(
-                        level
-                      )}&availability=${filterOptions.availability.join(',')}`
-                    )
-                  }}
+                  onCheckedChange={() => {}}
                   value={level}
                 />
-                <Label className="text-sm capitalize">{label}</Label>
+                <Label className="text-sm capitalize cursor-pointer">
+                  {label}
+                </Label>
               </div>
             ))}
           </SelectContent>

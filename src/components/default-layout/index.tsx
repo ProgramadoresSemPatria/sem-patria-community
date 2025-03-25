@@ -31,7 +31,7 @@ export const DefaultLayout = async ({
   return (
     <div className="flex min-h-screen">
       <AppSidebar userName={username} />
-      <main className="w-full">
+      <main className="sidebar-main w-full md:w-[calc(100%-12rem)] lg:w-full">
         <TopBar />
         <div className="pb-10">
           <div className={cn('mx-auto container pt-6', className)}>

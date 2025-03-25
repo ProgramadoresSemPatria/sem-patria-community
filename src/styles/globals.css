@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .sidebar-main {
-    @apply w-full;
-
-    @media (min-width: 768px) {
-      width: calc(100% - 12rem);
-    }
-
-    @media (min-width: 1024px) {
-      width: calc(100% - 16rem);
-    }
-  }
-}
-
 @layer base {
   :root {
     /* Using white palette for background and related */

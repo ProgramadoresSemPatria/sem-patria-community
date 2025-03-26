@@ -34,7 +34,9 @@ import { AlertModal } from '@/components/modals/alert-modal'
 import { useState } from 'react'
 
 type NewSeasonFormProps = {
-  initialData: Season
+  initialData: Season & {
+    positionMultipliers: PositionMultiplier[]
+  }
 }
 
 export const NewSeasonForm = ({ initialData }: NewSeasonFormProps) => {

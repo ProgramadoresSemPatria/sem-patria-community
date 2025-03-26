@@ -7,7 +7,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { type Season, Positions } from '@prisma/client'
+import { type Season, type PositionMultiplier, Positions } from '@prisma/client'
 import { addMonths } from 'date-fns'
 
 // https://github.com/colinhacks/zod/discussions/2178
@@ -23,10 +23,14 @@ const awardSchema = z.object({
   description: z.string().min(1, { message: 'Description is required' })
 })
 
-const positionMultiplierSchema = z.object({
-  position: z.nativeEnum(Positions),
-  multiplier: z.number().min(0).max(100).default(1.0)
-})
+const positionMultiplierSchema = z.array(
+  z.object({
+    id: z.string().optional(), // Add this since your DB model has it
+    seasonId: z.string().optional(), // Add this since your DB model has it
+    position: z.nativeEnum(Positions),
+    multiplier: z.number().min(0).max(100).default(1.0)
+  })
+)
 
 const metadataSchema = z
   .object({
@@ -43,14 +47,18 @@ const seasonSchema = z.object({
   endDate: z.date(),
   isCurrent: z.boolean().default(false),
   metadata: metadataSchema,
-  positionMultipliers: z.array(positionMultiplierSchema).default([])
+  positionMultipliers: positionMultiplierSchema
 })
 
 type Metadata = z.infer<typeof metadataSchema>
 type SeasonFormValues = z.infer<typeof seasonSchema>
 
 type UseNewSeasonFormProps = {
-  initialData: Season | null
+  initialData:
+    | (Season & {
+        positionMultipliers: PositionMultiplier[]
+      })
+    | null
 }
 
 export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
@@ -70,7 +78,7 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
             awards: [],
             description: ''
           },
-          positionMultipliers: initialData.positionMultipliers
+          positionMultipliers: initialData.positionMultipliers || []
         }
       : {
           name: '',

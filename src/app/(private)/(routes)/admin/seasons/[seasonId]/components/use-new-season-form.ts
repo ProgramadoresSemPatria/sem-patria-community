@@ -25,10 +25,14 @@ const awardSchema = z.object({
 
 const positionMultiplierSchema = z.array(
   z.object({
-    id: z.string().optional(), // Add this since your DB model has it
-    seasonId: z.string().optional(), // Add this since your DB model has it
+    id: z.string().optional(),
+    seasonId: z.string().optional(),
     position: z.nativeEnum(Positions),
-    multiplier: z.number().min(0).max(100).default(1.0)
+    multiplier: z
+      .number()
+      .min(0)
+      .max(100, 'Multiplier must be between 0 and 100')
+      .default(1.0)
   })
 )
 
@@ -41,7 +45,7 @@ const metadataSchema = z
 
 const seasonSchema = z.object({
   name: z.string().min(1, {
-    message: 'Name is required'
+    message: 'Season name is required'
   }),
   initDate: z.date(),
   endDate: z.date(),

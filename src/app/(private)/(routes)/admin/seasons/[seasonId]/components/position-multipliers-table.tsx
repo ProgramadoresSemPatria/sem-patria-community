@@ -22,6 +22,7 @@ import {
   DialogHeader,
   DialogTitle
 } from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
 
 type PositionMultiplier = {
   position: Positions
@@ -57,6 +58,9 @@ export const PositionMultipliersTable = ({
     if (editingMultiplier < 0) {
       newErrors.multiplier = 'Multiplier must be greater than or equal to 0'
     }
+    if (editingMultiplier > 100) {
+      newErrors.multiplier = 'Multiplier must be less than or equal to 100'
+    }
 
     setErrors(newErrors)
     if (Object.keys(newErrors).length > 0) return
@@ -86,11 +90,9 @@ export const PositionMultipliersTable = ({
     setErrors({})
   }
 
-  const handleChange = (field: 'multiplier', value: string) => {
-    if (field === 'multiplier') {
-      const numValue = parseFloat(value)
-      setEditingMultiplier(isNaN(numValue) ? 0 : numValue)
-    }
+  const handleChange = (value: string) => {
+    const numValue = parseFloat(value)
+    setEditingMultiplier(isNaN(numValue) ? 0 : numValue)
   }
 
   return (
@@ -100,32 +102,35 @@ export const PositionMultipliersTable = ({
           <DialogHeader>
             <DialogTitle>Edit Position Multiplier</DialogTitle>
             <DialogDescription>
-              Set the multiplier for {editingPosition} position
+              Set the multiplier for <strong>{editingPosition}</strong> position
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
+              <Label>Multiplier</Label>
               <Input
                 type="number"
-                step="0.1"
+                step="1"
                 min="0"
-                placeholder="Multiplier"
+                max="100"
                 value={editingMultiplier}
                 onChange={e => {
-                  handleChange('multiplier', e.target.value)
+                  handleChange(e.target.value)
                 }}
-                className={cn(errors.multiplier && 'border-red-500')}
+                className={cn(errors.multiplier && 'border-destructive')}
               />
               {errors.multiplier && (
-                <p className="text-sm text-red-500">{errors.multiplier}</p>
+                <p className="text-sm text-destructive">{errors.multiplier}</p>
               )}
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={handleCancel}>
+            <Button type="button" variant="outline" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button onClick={handleSave}>Save changes</Button>
+            <Button type="button" onClick={handleSave}>
+              Save changes
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

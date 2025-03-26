@@ -255,13 +255,12 @@ export const NewSeasonForm = ({ initialData }: NewSeasonFormProps) => {
                         onChange={field.onChange}
                       />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
           </div>
-          <Button data-testid="submit" className="ml-auto" type="submit">
+          <Button type="submit" className="ml-auto">
             {action}
           </Button>
         </form>

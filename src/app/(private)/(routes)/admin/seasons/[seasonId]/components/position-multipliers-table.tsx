@@ -70,6 +70,7 @@ export const PositionMultipliersTable = ({
 
     if (existingIndex >= 0) {
       newMultipliers[existingIndex] = {
+        ...newMultipliers[existingIndex],
         position: editingPosition,
         multiplier: editingMultiplier
       }
@@ -91,8 +92,8 @@ export const PositionMultipliersTable = ({
   }
 
   const handleChange = (value: string) => {
-    const numValue = parseFloat(value)
-    setEditingMultiplier(isNaN(numValue) ? 0 : numValue)
+    const formattedValue = Number(parseFloat(value).toFixed(2))
+    setEditingMultiplier(isNaN(formattedValue) ? 0 : formattedValue)
   }
 
   return (
@@ -110,7 +111,7 @@ export const PositionMultipliersTable = ({
               <Label>Multiplier</Label>
               <Input
                 type="number"
-                step="1"
+                step="0.01"
                 min="0"
                 max="100"
                 value={editingMultiplier}

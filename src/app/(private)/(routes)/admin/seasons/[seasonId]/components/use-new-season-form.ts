@@ -7,7 +7,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { type Season } from '@prisma/client'
+import { type Season, Positions } from '@prisma/client'
 import { addMonths } from 'date-fns'
 
 // https://github.com/colinhacks/zod/discussions/2178
@@ -21,6 +21,11 @@ const jsonSchema: z.ZodType<Json> = z.lazy(() =>
 const awardSchema = z.object({
   position: z.string().min(1, { message: 'Position is required' }),
   description: z.string().min(1, { message: 'Description is required' })
+})
+
+const positionMultiplierSchema = z.object({
+  position: z.nativeEnum(Positions),
+  multiplier: z.number().min(0).max(100).default(1.0)
 })
 
 const metadataSchema = z
@@ -37,11 +42,12 @@ const seasonSchema = z.object({
   initDate: z.date(),
   endDate: z.date(),
   isCurrent: z.boolean().default(false),
-  metadata: metadataSchema
+  metadata: metadataSchema,
+  positionMultipliers: z.array(positionMultiplierSchema).default([])
 })
 
 type Metadata = z.infer<typeof metadataSchema>
-type NewSeasonFormValues = z.infer<typeof seasonSchema>
+type SeasonFormValues = z.infer<typeof seasonSchema>
 
 type UseNewSeasonFormProps = {
   initialData: Season | null
@@ -52,7 +58,7 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
   const router = useRouter()
   const { toast } = useToast()
 
-  const form = useForm<NewSeasonFormValues>({
+  const form = useForm<SeasonFormValues>({
     resolver: zodResolver(seasonSchema),
     defaultValues: initialData
       ? {
@@ -63,14 +69,19 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
           metadata: (initialData.metadata as Metadata) || {
             awards: [],
             description: ''
-          }
+          },
+          positionMultipliers: initialData.positionMultipliers
         }
       : {
           name: '',
           initDate: new Date(),
           endDate: addMonths(new Date(), 3),
           isCurrent: false,
-          metadata: { awards: [], description: '' }
+          metadata: { awards: [], description: '' },
+          positionMultipliers: Object.values(Positions).map(position => ({
+            position,
+            multiplier: 1.0
+          }))
         }
   })
 
@@ -84,11 +95,12 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
         'metadata',
         (initialData.metadata as Metadata) || { awards: [], description: '' }
       )
+      form.setValue('positionMultipliers', initialData.positionMultipliers)
     }
   }, [form, initialData])
 
   const { mutateAsync: createOrUpdateSeason, isPending } = useMutation({
-    mutationFn: async (data: NewSeasonFormValues) => {
+    mutationFn: async (data: SeasonFormValues) => {
       if (initialData) {
         return await api.patch(`/api/season/${params.seasonId}`, data)
       }
@@ -140,7 +152,7 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
     }
   })
 
-  const onSubmit = async (values: NewSeasonFormValues) => {
+  const onSubmit = async (values: SeasonFormValues) => {
     await createOrUpdateSeason(values)
   }
 

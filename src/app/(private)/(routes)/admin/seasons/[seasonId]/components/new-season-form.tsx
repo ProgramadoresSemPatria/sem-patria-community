@@ -20,13 +20,14 @@ import {
 } from '@/components/ui/popover'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
-import { type Season } from '@prisma/client'
+import { type Season, type PositionMultiplier } from '@prisma/client'
 import Header from '@/components/header'
 import { Icons } from '@/components/icons'
 import { appRoutes } from '@/lib/constants'
 import { format } from 'date-fns'
 import { cn } from '@/lib/utils'
 import { MetadataTable } from './metadata-table'
+import { PositionMultipliersTable } from './position-multipliers-table'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { AlertModal } from '@/components/modals/alert-modal'
@@ -229,6 +230,25 @@ export const NewSeasonForm = ({ initialData }: NewSeasonFormProps) => {
                     <FormLabel>Metadata</FormLabel>
                     <FormControl>
                       <MetadataTable
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="md:col-span-3">
+              <FormField
+                control={form.control}
+                name="positionMultipliers"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Position Multipliers</FormLabel>
+                    <FormControl>
+                      <PositionMultipliersTable
                         value={field.value}
                         onChange={field.onChange}
                       />

@@ -57,11 +57,9 @@ export const seasonsColumns: Array<ColumnDef<Season>> = [
     cell: ({ row }) => {
       const isCurrent = row.getValue('isCurrent') as boolean
       return (
-        <div className="max-w-[160px] line-clamp-1">
-          <Badge variant={isCurrent ? 'secondary' : 'destructive'}>
-            {isCurrent ? 'Yes' : 'No'}
-          </Badge>
-        </div>
+        <Badge variant={isCurrent ? 'secondary' : 'destructive'}>
+          {isCurrent ? 'Yes' : 'No'}
+        </Badge>
       )
     }
   },

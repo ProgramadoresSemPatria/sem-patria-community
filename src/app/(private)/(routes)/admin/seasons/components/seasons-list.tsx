@@ -57,7 +57,7 @@ const SeasonsList = () => {
             }}
           >
             <Icons.plus className="w-4 h-4 mr-1" />
-            Create
+            New
           </Button>
         </Can>
       </Header>

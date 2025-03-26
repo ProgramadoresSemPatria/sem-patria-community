@@ -1,5 +1,4 @@
-import { addScore } from '@/actions/addScore'
-import { SCORE_PONTUATION } from '@/lib/constants'
+import { awardPoints } from '@/actions/season/scoreService'
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs/server'
 import { AwardEnum } from '@prisma/client'
@@ -53,12 +52,7 @@ export async function PUT(
       })
     }
 
-    await addScore({
-      userId,
-      points: SCORE_PONTUATION.FORUM_POST_COMMENT_LIKE,
-      resource: AwardEnum.FORUM_POST_COMMENT_LIKE,
-      targetId: comment.userId
-    })
+    await awardPoints(userId, AwardEnum.FORUM_POST_COMMENT_LIKE, comment.userId)
 
     return new NextResponse('Like toggled', { status: 200 })
   } catch (error) {

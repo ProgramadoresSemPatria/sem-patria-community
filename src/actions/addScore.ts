@@ -10,6 +10,10 @@ interface AddScoreParams {
   isManual?: boolean
 }
 
+/**
+ * @deprecated
+ * Use awardPoints instead
+ */
 export async function addScore({
   userId,
   targetId,

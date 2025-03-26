@@ -151,7 +151,9 @@ export const PositionMultipliersTable = ({
                     type="button"
                     variant="ghost"
                     size="icon"
-                    onClick={() => handleEdit(position, multiplier)}
+                    onClick={() => {
+                      handleEdit(position, multiplier)
+                    }}
                     className="h-8 w-8"
                   >
                     <Icons.edit className="h-4 w-4" />

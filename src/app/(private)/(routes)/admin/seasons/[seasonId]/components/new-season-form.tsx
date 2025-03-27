@@ -40,7 +40,17 @@ type NewSeasonFormProps = {
 }
 
 export const NewSeasonForm = ({ initialData }: NewSeasonFormProps) => {
-  const { action, form, title, onSubmit, deleteSeason } = useNewSeasonForm({
+  const {
+    action,
+    form,
+    title,
+    onSubmit,
+    deleteSeason,
+    showConfirmDialog,
+    setShowConfirmDialog,
+    handleConfirmSubmit,
+    isConfirmationPending
+  } = useNewSeasonForm({
     initialData
   })
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
@@ -274,6 +284,19 @@ export const NewSeasonForm = ({ initialData }: NewSeasonFormProps) => {
         }}
         onConfirm={onDeleteSeason}
         loading={false}
+      />
+
+      <AlertModal
+        isOpen={showConfirmDialog}
+        title="Override Current Season"
+        description="Another season is currently active. Do you want to make this the current season instead?"
+        onClose={() => {
+          setShowConfirmDialog(false)
+          form.setValue('isCurrent', false)
+        }}
+        confirmationTitle="Yes, change active season"
+        onConfirm={handleConfirmSubmit}
+        loading={isConfirmationPending}
       />
     </div>
   )

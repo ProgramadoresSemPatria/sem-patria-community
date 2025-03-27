@@ -124,15 +124,14 @@ export const MetadataTable = ({
   return (
     <div className="space-y-4 border border-border rounded-md p-2">
       <div className="space-y-2 px-2">
-        <h3 className="text-sm font-medium">Description</h3>
-
+        <h3 className="text-sm font-medium">Season Description</h3>
         <Textarea
-          placeholder="Enter season description (Max. 2000 characters)"
+          placeholder="Enter a detailed description of the season, including key events and prizes."
           value={value?.description || ''}
           onChange={e => {
             handleDescriptionChange(e.target.value)
           }}
-          maxLength={2000}
+          maxLength={50000}
           className="min-h-[100px]"
         />
       </div>
@@ -151,23 +150,26 @@ export const MetadataTable = ({
         </div>
 
         {editingIndex !== null && (
-          <div className="flex flex-col gap-2 p-4 border rounded-md">
+          <div className="flex flex-col gap-4 p-4 border rounded-md">
+            <h3 className="flex items-center gap-2 text-base font-medium">
+              <Icons.edit className="h-4 w-4" /> Editing Award
+            </h3>
             <div className="space-y-1">
               <Input
-                placeholder="Position"
+                placeholder="Enter position (e.g., 1st place, 2nd place)"
                 value={editingAward.position}
                 onChange={e => {
                   handleChange('position', e.target.value)
                 }}
-                className={cn('h-8', errors.position && 'border-red-500')}
+                className={cn('h-8', errors.position && 'border-destructive')}
               />
               {errors.position && (
-                <p className="text-sm text-red-500">{errors.position}</p>
+                <p className="text-sm text-destructive">{errors.position}</p>
               )}
             </div>
             <div className="space-y-1">
               <Textarea
-                placeholder="Description (Max. 300 characters)"
+                placeholder="Enter a description of the award (e.g., 1st place prize)"
                 value={editingAward.description}
                 onChange={e => {
                   handleChange('description', e.target.value)
@@ -175,11 +177,11 @@ export const MetadataTable = ({
                 maxLength={300}
                 className={cn(
                   'min-h-[80px]',
-                  errors.description && 'border-red-500'
+                  errors.description && 'border-destructive'
                 )}
               />
               {errors.description && (
-                <p className="text-sm text-red-500">{errors.description}</p>
+                <p className="text-sm text-destructive">{errors.description}</p>
               )}
             </div>
             <div className="flex gap-4 justify-end">
@@ -255,7 +257,7 @@ export const MetadataTable = ({
                         onClick={() => {
                           handleDelete(index)
                         }}
-                        className="h-8 w-8 text-red-500 hover:bg-transparent hover:text-red-700"
+                        className="h-8 w-8 text-red-600 hover:bg-transparent"
                       >
                         <Icons.trash className="h-4 w-4" />
                       </Button>

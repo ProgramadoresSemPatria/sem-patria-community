@@ -2,9 +2,9 @@ import { useToast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { appRoutes } from '@/lib/constants'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useParams, useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { type Season, type PositionMultiplier, Positions } from '@prisma/client'
@@ -69,6 +69,16 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false)
+  const [isConfirmationPending, setIsConfirmationPending] = useState(false)
+
+  const { data: seasons = [] } = useQuery({
+    queryKey: ['seasons'],
+    queryFn: async () => {
+      const response = await api.get('/api/season')
+      return response.data.data
+    }
+  })
 
   const form = useForm<SeasonFormValues>({
     resolver: zodResolver(seasonSchema),
@@ -123,16 +133,19 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
       router.refresh()
       toast({
         title: 'Success',
-        description: initialData
-          ? 'Season updated successfully.'
-          : 'Season created successfully.'
+        description: `Season ${
+          initialData ? 'updated' : 'created'
+        } successfully.`
       })
     },
     onError: err => {
-      console.error('Error creating/updating season', err)
+      console.error(
+        `Error ${initialData ? 'updating' : 'creating'} season`,
+        err
+      )
       toast({
         title: 'Error',
-        description: 'Something went wrong.',
+        description: `Error ${initialData ? 'updating' : 'creating'} season`,
         variant: 'destructive'
       })
     }
@@ -165,7 +178,28 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
   })
 
   const onSubmit = async (values: SeasonFormValues) => {
+    if (values.isCurrent) {
+      const currentSeason = seasons.find((season: Season) => season.isCurrent)
+      if (
+        currentSeason &&
+        (!initialData || currentSeason.id !== initialData.id)
+      ) {
+        setShowConfirmDialog(true)
+        return
+      }
+    }
     await createOrUpdateSeason(values)
+  }
+
+  const handleConfirmSubmit = async () => {
+    try {
+      setIsConfirmationPending(true)
+      const values = form.getValues()
+      await createOrUpdateSeason(values)
+      setShowConfirmDialog(false)
+    } finally {
+      setIsConfirmationPending(false)
+    }
   }
 
   const title = initialData ? 'Edit season' : 'Create season'
@@ -175,8 +209,12 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
     form,
     onSubmit,
     isPending,
+    isConfirmationPending,
     title,
     action,
-    deleteSeason
+    deleteSeason,
+    showConfirmDialog,
+    setShowConfirmDialog,
+    handleConfirmSubmit
   }
 }

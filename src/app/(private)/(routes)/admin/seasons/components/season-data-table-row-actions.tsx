@@ -79,6 +79,7 @@ export const SeasonDataTableRowActions = ({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
           <DropdownMenuItem
+            className="cursor-pointer"
             onClick={() => {
               router.push(`${appRoutes.admin_seasons}/${data.id}`)
             }}
@@ -88,9 +89,22 @@ export const SeasonDataTableRowActions = ({
               <Icons.edit size={16} />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => {
+              router.push(
+                `${appRoutes.admin_seasons}/${data.id}/score-activities`
+              )
+            }}
+          >
+            Score Activities
+            <DropdownMenuShortcut>
+              <Icons.activity size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            className="!text-red-500"
+            className="!text-red-500 cursor-pointer"
             onClick={() => {
               setIsAlertModalOpen(true)
             }}

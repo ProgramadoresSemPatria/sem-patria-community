@@ -9,6 +9,7 @@ import { type User as ClerkUser } from '@clerk/nextjs/server'
 import { useFollowersAndFollowings } from './useFollowersAndFollowings'
 import { Roles } from '@/lib/types'
 import { getHighestPriorityRole } from '@/lib/utils'
+import { useScoreboard } from '@/hooks/scoreboard/use-scoreboard'
 
 const Header = ({
   user,
@@ -17,8 +18,12 @@ const Header = ({
   user: User
   currentUser: ClerkUser
 }) => {
+  const { useGetScoreboardByUserId } = useScoreboard()
+
   const { follow, followers, unfollow, following, unfollowing } =
     useFollowersAndFollowings(user.id)
+
+  const { data: scoreboard } = useGetScoreboardByUserId(user.id)
   const [isFollowed, setIsFollowed] = useState(false)
 
   useEffect(() => {
@@ -70,9 +75,10 @@ const Header = ({
           )}
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-6 text-center md:grid-cols-2">
+      <div className="grid grid-cols-3 gap-6 text-center md:grid-cols-3">
         <Stat label="Followers" value={followers.length} />
         <Stat label="Following" value={user.followings} />
+        <Stat label="Points" value={scoreboard?.data.points ?? 0} />
       </div>
     </div>
   )

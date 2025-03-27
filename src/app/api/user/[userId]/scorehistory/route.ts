@@ -15,13 +15,21 @@ export async function GET(
     if (!params.userId)
       return new NextResponse('User id required', { status: 400 })
 
+    // Get the current season ordered by createdAt and then by isCurrent
     const userScoreActivity = await prismadb.scoreHistory.findMany({
       where: {
-        userId: params.userId
+        targetId: params.userId
       },
-      orderBy: {
-        createdAt: 'desc'
-      },
+      orderBy: [
+        {
+          season: {
+            isCurrent: 'desc'
+          }
+        },
+        {
+          createdAt: 'desc'
+        }
+      ],
       include: {
         resource: {
           select: {
@@ -29,20 +37,69 @@ export async function GET(
             disabled: true,
             resource: true
           }
+        },
+        user: {
+          select: {
+            id: true,
+            name: true,
+            username: true,
+            position: true,
+            imageUrl: true
+          }
+        },
+        season: {
+          select: {
+            name: true,
+            isCurrent: true,
+            positionMultipliers: true
+          }
         }
       }
     })
 
     if (!userScoreActivity)
-      return NextResponse.json(
-        { error: 'Score Activity not found for this user' },
-        { status: 404 }
-      )
+      return NextResponse.json({
+        data: {
+          userId: params.userId,
+          activities: []
+        }
+      })
+
+    const formattedActivity = userScoreActivity.map(activity => {
+      const positionMultiplier = activity.user.position
+        ? activity.season.positionMultipliers.find(
+            pm => pm.position === activity.user.position
+          )?.multiplier ?? 1.0
+        : 1.0
+
+      const calculatedPoints = activity.resource.baseScore * positionMultiplier
+
+      return {
+        id: activity.id,
+        points: calculatedPoints,
+        date: activity.createdAt,
+        source: {
+          type: activity.resource.resource,
+          baseScore: activity.resource.baseScore
+        },
+        multiplier: positionMultiplier,
+        user: {
+          id: activity.user.id,
+          name: activity.user.name,
+          username: activity.user.username,
+          imageUrl: activity.user.imageUrl
+        },
+        season: {
+          name: activity.season.name,
+          isCurrent: activity.season.isCurrent
+        }
+      }
+    })
 
     return NextResponse.json({
       data: {
         userId: params.userId,
-        activity: userScoreActivity
+        activities: formattedActivity
       }
     })
   } catch (error) {

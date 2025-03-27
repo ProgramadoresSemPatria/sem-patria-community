@@ -25,7 +25,7 @@ model User {
   notes         Note[]
   posts         Post[]
   ScoreHistory  ScoreHistory[]
-  Scoreboard    Scoreboard?
+  Scoreboard    Scoreboard[]
   interests     Interest[]     @relation("InterestToUser")
 }
 

@@ -25,7 +25,7 @@ model PositionMultiplier {
 
 model Scoreboard {
   id       String @id @default(cuid())
-  userId   String @unique
+  userId   String
   points   Float  @default(0)
   seasonId String
   season   Season @relation(fields: [seasonId], references: [id])

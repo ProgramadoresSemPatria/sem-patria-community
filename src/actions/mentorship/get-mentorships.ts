@@ -8,10 +8,14 @@ export const getMentorships = async () => {
     include: {
       modules: {
         include: {
-          videos: true
+          videos: {
+            orderBy: {
+              order: 'asc'
+            }
+          }
         },
         orderBy: {
-          order: 'desc'
+          order: 'asc'
         }
       }
     }

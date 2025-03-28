@@ -5,4 +5,4 @@ ALTER TABLE "Classroom" ADD COLUMN     "order" INTEGER;
 -- ALTER TABLE "_InterestToUser" ADD CONSTRAINT "_InterestToUser_AB_pkey" PRIMARY KEY ("A", "B");
 
 -- DropIndex
-DROP INDEX "_InterestToUser_AB_unique";
+-- DROP INDEX "_InterestToUser_AB_unique";

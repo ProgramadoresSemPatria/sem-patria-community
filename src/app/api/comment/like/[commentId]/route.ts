@@ -1,4 +1,4 @@
-import { awardPoints } from '@/actions/season/scoreService'
+import { awardPoints, removePoints } from '@/actions/season/scoreService'
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs/server'
 import { AwardEnum } from '@prisma/client'
@@ -32,7 +32,12 @@ export async function PUT(
       }
     })
 
+    // Variável para rastrear se estamos adicionando ou removendo um like
+    let isAddingLike = false;
+
     if (!like) {
+      // Adicionando like
+      isAddingLike = true;
       await prismadb.commentLike.create({
         data: {
           userId,
@@ -40,6 +45,8 @@ export async function PUT(
         }
       })
     } else {
+      // Removendo like
+      isAddingLike = false;
       await prismadb.commentLike.delete({
         where: {
           userId_commentId: {
@@ -52,7 +59,28 @@ export async function PUT(
       })
     }
 
-    await awardPoints(userId, AwardEnum.FORUM_POST_COMMENT_LIKE, comment.userId)
+    // Adicionar ou remover pontos com base na ação
+    if (isAddingLike) {
+      const awardResult = await awardPoints(
+        userId,
+        AwardEnum.FORUM_POST_COMMENT_LIKE,
+        comment.userId
+      )
+
+      if (!awardResult.success && 'error' in awardResult) {
+        console.log('[AWARD_POINTS_FAILED]', awardResult.error)
+      }
+    } else {
+      const removeResult = await removePoints(
+        userId,
+        AwardEnum.FORUM_POST_COMMENT_LIKE,
+        comment.userId
+      )
+
+      if (!removeResult.success && 'error' in removeResult) {
+        console.log('[REMOVE_POINTS_FAILED]', removeResult.error)
+      }
+    }
 
     return new NextResponse('Like toggled', { status: 200 })
   } catch (error) {

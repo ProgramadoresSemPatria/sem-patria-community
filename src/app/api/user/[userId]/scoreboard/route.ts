@@ -15,30 +15,57 @@ export async function GET(
     if (!params.userId)
       return new NextResponse('User id required', { status: 400 })
 
-    const userScore = await prismadb.scoreboard.findFirst({
+    // Buscar a temporada ativa primeiro
+    const activeSeason = await prismadb.season.findFirst({
       where: {
-        userId: params.userId
+        isCurrent: true
       },
       select: {
-        points: true
+        id: true
       }
     })
 
-    if (!userScore)
+    if (!activeSeason) {
       return NextResponse.json(
-        { error: 'Score not found for this user' },
+        {
+          error: 'No active season found'
+        },
         { status: 404 }
       )
+    }
+
+    // Use upsert to find or create the scoreboard
+    const userScore = await prismadb.scoreboard.upsert({
+      where: {
+        userId_seasonId: {
+          userId: params.userId,
+          seasonId: activeSeason.id
+        }
+      },
+      update: {}, // Not needed to update anything, just retrieve
+      create: {
+        userId: params.userId,
+        points: 0,
+        seasonId: activeSeason.id
+      },
+      select: {
+        id: true,
+        points: true,
+        seasonId: true
+      }
+    })
 
     return NextResponse.json({
       data: {
         userId: params.userId,
-        points: userScore.points
+        points: userScore.points,
+        seasonId: userScore.seasonId
       }
     })
   } catch (error) {
+    console.error('Error in scoreboard route:', error)
     return NextResponse.json(
-      { error: 'Error fetching scoreboard' },
+      { error: 'Error fetching or creating scoreboard' },
       { status: 500 }
     )
   }

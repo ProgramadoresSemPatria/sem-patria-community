@@ -1,7 +1,7 @@
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs/server'
-import { Positions } from '@prisma/client'
-import { type NextRequest, NextResponse } from 'next/server'
+import { Positions, type AwardEnum } from '@prisma/client'
+import { NextResponse, type NextRequest } from 'next/server'
 import { z } from 'zod'
 
 // Schema para os multiplicadores por posição
@@ -69,7 +69,25 @@ export async function POST(req: NextRequest) {
 
     const { positionMultipliers, ...seasonData } = parsed.data
 
-    // Se a nova temporada deve ser a atual, desativar qualquer outra temporada ativa
+    const awardResources = await prismadb.awardResource.findMany()
+
+    if (awardResources.length === 0) {
+      const defaultScores = {
+        FORUM_POST_LIKE: 1.0,
+        FORUM_POST_COMMENT_LIKE: 1.0,
+        COURSE_RECOMMENDATION: 2.0
+      }
+
+      await prismadb.awardResource.createMany({
+        data: Object.entries(defaultScores).map(([resource, baseScore]) => ({
+          resource: resource as AwardEnum,
+          baseScore,
+          disabled: false
+        }))
+      })
+    }
+
+    // If the new season should be the current, disable any other active season
     if (seasonData.isCurrent) {
       await prismadb.season.updateMany({
         where: { isCurrent: true },
@@ -77,14 +95,14 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    // Criar a temporada
+    // Create the season
     const season = await prismadb.season.create({
       data: {
         ...seasonData
       }
     })
 
-    // Criar os multiplicadores por posição
+    // Create the position multipliers
     if (positionMultipliers && positionMultipliers.length > 0) {
       await prismadb.positionMultiplier.createMany({
         data: positionMultipliers.map(pm => ({
@@ -94,18 +112,18 @@ export async function POST(req: NextRequest) {
         }))
       })
     } else {
-      // Criar multiplicadores padrão para todas as posições
+      // Create default multipliers for all positions
       const positions = Object.values(Positions)
       await prismadb.positionMultiplier.createMany({
         data: positions.map(position => ({
           seasonId: season.id,
           position,
-          multiplier: 1.0 // Valor padrão
+          multiplier: 1.0 // Default value
         }))
       })
     }
 
-    // Buscar a temporada com os multiplicadores
+    // Search for the season with the multipliers
     const seasonWithMultipliers = await prismadb.season.findUnique({
       where: { id: season.id },
       include: {

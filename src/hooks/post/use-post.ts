@@ -41,6 +41,14 @@ export const usePost = ({ initialPosts, post }: UsePostProps) => {
         title
       })
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['getScoreHistoryByUserId', post?.userId]
+      })
+      queryClient.invalidateQueries({
+        queryKey: ['getScoreboardByUserId', post?.userId]
+      })
+    },
     onError: error => {
       console.error('Error creating post', error)
       toast({

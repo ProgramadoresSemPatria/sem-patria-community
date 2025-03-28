@@ -1,4 +1,4 @@
-import { awardPoints } from '@/actions/season/scoreService'
+import { awardPoints, removePoints } from '@/actions/season/scoreService'
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs/server'
 import { AwardEnum } from '@prisma/client'
@@ -31,7 +31,10 @@ export async function PUT(
       }
     })
 
+    let isAddingLike = false;
+
     if (!like) {
+      isAddingLike = true;
       await prismadb.like.create({
         data: {
           userId,
@@ -39,6 +42,7 @@ export async function PUT(
         }
       })
     } else {
+      isAddingLike = false;
       await prismadb.like.delete({
         where: {
           userId_postId: {
@@ -49,7 +53,27 @@ export async function PUT(
       })
     }
 
-    await awardPoints(userId, AwardEnum.FORUM_POST_LIKE, post.userId)
+    if (isAddingLike) {
+      const awardResult = await awardPoints(
+        userId,
+        AwardEnum.FORUM_POST_LIKE,
+        post.userId
+      )
+
+      if (!awardResult.success && 'error' in awardResult) {
+        console.log('[AWARD_POINTS_FAILED]', awardResult.error)
+      }
+    } else {
+      const removeResult = await removePoints(
+        userId,
+        AwardEnum.FORUM_POST_LIKE,
+        post.userId
+      )
+
+      if (!removeResult.success && 'error' in removeResult) {
+        console.log('[REMOVE_POINTS_FAILED]', removeResult.error)
+      }
+    }
 
     return new NextResponse('Like toggled', { status: 200 })
   } catch (error) {

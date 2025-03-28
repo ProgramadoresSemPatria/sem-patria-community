@@ -42,10 +42,10 @@ export const usePost = ({ initialPosts, post }: UsePostProps) => {
       })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: ['getScoreHistoryByUserId', post?.userId]
       })
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: ['getScoreboardByUserId', post?.userId]
       })
     },

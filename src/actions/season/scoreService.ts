@@ -82,7 +82,7 @@ export async function awardPoints(
       // Register the history - userId é quem realizou a ação, targetId é quem recebe os pontos
       await tx.scoreHistory.create({
         data: {
-          userId,  // Quem realizou a ação
+          userId, // Quem realizou a ação
           targetId, // Quem recebeu a ação
           resourceId: resource.id,
           points,
@@ -95,7 +95,7 @@ export async function awardPoints(
       // Buscar o scoreboard do usuário alvo (targetId)
       const existingScoreboard = await tx.scoreboard.findFirst({
         where: {
-          userId: targetId,  // Alterado para targetId
+          userId: targetId, // Alterado para targetId
           seasonId: currentSeason.id
         }
       })
@@ -116,7 +116,7 @@ export async function awardPoints(
         // Criar um novo scoreboard para o usuário alvo
         await tx.scoreboard.create({
           data: {
-            userId: targetId,  // Alterado para targetId
+            userId: targetId, // Alterado para targetId
             seasonId: currentSeason.id,
             points
           }
@@ -132,9 +132,9 @@ export async function awardPoints(
 }
 
 export async function removePoints(
-  userId: string,  // Quem realiza a ação
+  userId: string, // Quem realiza a ação
   resourceType: AwardEnum,
-  targetId?: string  // De quem os pontos serão removidos
+  targetId?: string // De quem os pontos serão removidos
 ) {
   try {
     // Verificar se o targetId existe, pois é de quem os pontos serão removidos
@@ -167,8 +167,8 @@ export async function removePoints(
       // Find the most recent score history for this action
       const scoreHistory = await tx.scoreHistory.findFirst({
         where: {
-          userId,  // Quem realizou a ação
-          targetId,  // Quem recebeu a ação
+          userId, // Quem realizou a ação
+          targetId, // Quem recebeu a ação
           resourceId: resource.id,
           seasonId: currentSeason.id
         },
@@ -191,7 +191,7 @@ export async function removePoints(
       // Find the scoreboard of the target user
       const scoreboard = await tx.scoreboard.findFirst({
         where: {
-          userId: targetId,  // Alterado para targetId
+          userId: targetId, // Alterado para targetId
           seasonId: currentSeason.id
         }
       })

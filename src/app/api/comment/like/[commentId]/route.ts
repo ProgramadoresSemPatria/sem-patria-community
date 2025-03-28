@@ -33,11 +33,11 @@ export async function PUT(
     })
 
     // Variável para rastrear se estamos adicionando ou removendo um like
-    let isAddingLike = false;
+    let isAddingLike = false
 
     if (!like) {
       // Adicionando like
-      isAddingLike = true;
+      isAddingLike = true
       await prismadb.commentLike.create({
         data: {
           userId,
@@ -46,7 +46,7 @@ export async function PUT(
       })
     } else {
       // Removendo like
-      isAddingLike = false;
+      isAddingLike = false
       await prismadb.commentLike.delete({
         where: {
           userId_commentId: {

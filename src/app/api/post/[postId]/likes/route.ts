@@ -31,10 +31,10 @@ export async function PUT(
       }
     })
 
-    let isAddingLike = false;
+    let isAddingLike = false
 
     if (!like) {
-      isAddingLike = true;
+      isAddingLike = true
       await prismadb.like.create({
         data: {
           userId,
@@ -42,7 +42,7 @@ export async function PUT(
         }
       })
     } else {
-      isAddingLike = false;
+      isAddingLike = false
       await prismadb.like.delete({
         where: {
           userId_postId: {

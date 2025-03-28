@@ -12,7 +12,7 @@ import {
   TimelineSeparator,
   TimelineTitle
 } from '@/components/ui/timeline'
-import { ScoreHistoryItem } from '@/hooks/score-history/types'
+import { type ScoreHistoryItem } from '@/hooks/score-history/types'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import useScoreTimeline from './use-score-timeline'

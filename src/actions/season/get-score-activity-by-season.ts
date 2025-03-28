@@ -16,7 +16,8 @@ export const getScoreActivityBySeason = async (seasonId: string) => {
         select: {
           id: true,
           name: true,
-          imageUrl: true
+          imageUrl: true,
+          username: true
         }
       },
       resource: true,
@@ -41,7 +42,8 @@ export const getScoreActivityBySeason = async (seasonId: string) => {
           select: {
             id: true,
             name: true,
-            imageUrl: true
+            imageUrl: true,
+            username: true
           }
         })
       }
@@ -55,7 +57,8 @@ export const getScoreActivityBySeason = async (seasonId: string) => {
         user: {
           id: item.user.id,
           name: item.user.name,
-          imageUrl: item.user.imageUrl
+          imageUrl: item.user.imageUrl,
+          username: item.user.username
         },
         target: targetUser,
         resource: {

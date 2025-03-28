@@ -77,14 +77,14 @@ const ScoreTimeline = ({
                 {item.target ? (
                   <>
                     <Link
-                      href={`/user/${item.user.id}`}
+                      href={`/user/${item.user.username}`}
                       className="font-medium text-primary hover:underline"
                     >
                       {item.user.name}
                     </Link>{' '}
                     generated {item.points} points for{' '}
                     <Link
-                      href={`/user/${item.target.id}`}
+                      href={`/user/${item.target.username}`}
                       className="font-medium text-primary hover:underline"
                     >
                       {item.target.name}

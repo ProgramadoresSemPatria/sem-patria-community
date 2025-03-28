@@ -38,11 +38,13 @@ export type ScoreHistoryItem = {
     id: string
     name: string
     imageUrl?: string | null
+    username: string
   }
   target: {
     id: string
     name: string
     imageUrl?: string | null
+    username: string
   } | null
   resource: {
     id: string

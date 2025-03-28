@@ -1,5 +1,6 @@
 import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs/server'
+import type { Prisma } from '@prisma/client'
 import { NextResponse } from 'next/server'
 
 // GET - /api/season/[seasonId]/scorehistory - get score history of all users of current season
@@ -16,7 +17,7 @@ export async function GET(
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
-    const query: any = {
+    const query: Prisma.ScoreHistoryFindManyArgs = {
       where: {
         seasonId
       },
@@ -28,7 +29,8 @@ export async function GET(
           select: {
             id: true,
             name: true,
-            imageUrl: true
+            imageUrl: true,
+            username: true
           }
         },
         resource: true,
@@ -54,6 +56,7 @@ export async function GET(
 
     // Process the data to include target user information when available
     const formattedScoreHistory = await Promise.all(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       scoreHistoryItems.map(async (item: any) => {
         let targetUser = null
 
@@ -63,7 +66,8 @@ export async function GET(
             select: {
               id: true,
               name: true,
-              imageUrl: true
+              imageUrl: true,
+              username: true
             }
           })
         }
@@ -77,7 +81,8 @@ export async function GET(
           user: {
             id: item.user.id,
             name: item.user.name,
-            imageUrl: item.user.imageUrl
+            imageUrl: item.user.imageUrl,
+            username: item.user.username
           },
           target: targetUser,
           resource: {

@@ -1,6 +1,6 @@
 'use client'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useReducer } from 'react'
+import { useCallback, useReducer, useEffect } from 'react'
 
 export enum CourseFilterLevels {
   Beginner = 'beginner',
@@ -15,6 +15,7 @@ export enum CourseFilterAvailability {
 type FilterOptionsState = {
   levels: CourseFilterLevels[]
   availability: CourseFilterAvailability[]
+  category: string
 }
 
 type Action =
@@ -24,7 +25,8 @@ type Action =
 
 const initialState: FilterOptionsState = {
   levels: [],
-  availability: []
+  availability: [],
+  category: 'all'
 }
 
 const filterOptionsReducer = (
@@ -65,15 +67,53 @@ export const useCourseFilterOptions = () => {
     initialState
   )
 
+  useEffect(() => {
+    const levelParam = searchParams.get('level')
+    const availabilityParam = searchParams.get('availability')
+
+    dispatch({ type: 'CLEAR_ALL_FILTERS' })
+
+    if (levelParam) {
+      levelParam.split(',').forEach(level => {
+        if (
+          Object.values(CourseFilterLevels).includes(
+            level as CourseFilterLevels
+          )
+        ) {
+          dispatch({
+            type: 'SET_FILTER_LEVEL',
+            payload: level as CourseFilterLevels
+          })
+        }
+      })
+    }
+
+    if (availabilityParam) {
+      availabilityParam.split(',').forEach(availability => {
+        if (
+          Object.values(CourseFilterAvailability).includes(
+            availability as CourseFilterAvailability
+          )
+        ) {
+          dispatch({
+            type: 'SET_FILTER_AVAILABILITY',
+            payload: availability as CourseFilterAvailability
+          })
+        }
+      })
+    }
+  }, [searchParams])
+
   const showClearButton =
     (searchParams.get('level') !== '' && searchParams.get('level')) ||
     (searchParams.get('availability') !== '' &&
-      searchParams.get('availability'))
+      searchParams.get('availability')) ||
+    (searchParams.get('category') !== 'all' && searchParams.get('category'))
 
   const clearAllFilters = useCallback(() => {
     dispatch({ type: 'CLEAR_ALL_FILTERS' })
-    router.push(`?category=${category}`)
-  }, [category, router])
+    router.push(`?category=all`)
+  }, [router])
 
   const onSelectFilterLevel = useCallback(async (value: CourseFilterLevels) => {
     dispatch({ type: 'SET_FILTER_LEVEL', payload: value })

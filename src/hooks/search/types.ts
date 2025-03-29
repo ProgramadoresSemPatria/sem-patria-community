@@ -1,10 +1,11 @@
 export type Entity =
   | 'forum'
   | 'user'
-  | 'classroom'
   | 'course'
   | 'interest'
   | 'event'
+  | 'module'
+  | 'video'
 
 export type SearchDialogResult = {
   id: string
@@ -12,6 +13,18 @@ export type SearchDialogResult = {
   url?: string | null
   date?: string
   createdAt: string
+  classroomModule?: {
+    title: string
+    videos: Array<{
+      id: string
+    }>
+  }
+  videos?: Array<{
+    id: string
+  }>
+  classroom?: {
+    title: string
+  }
   title?: string
   courseUrl?: string
   level?: string
@@ -25,11 +38,6 @@ export type SearchDialogResult = {
   followers?: string
   users?: Array<{
     username: string
-  }>
-  modules?: Array<{
-    videos: Array<{
-      id: string
-    }>
   }>
   category?: {
     name: string

@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       return new NextResponse('Keyword is required', { status: 400 })
     }
 
-    const [posts, users, classrooms, courses, interests, events] =
+    const [posts, users, courses, interests, events, modules, videos] =
       await prismadb.$transaction([
         prismadb.post.findMany({
           where: { title: { contains: keyword, mode: 'insensitive' } },
@@ -39,20 +39,6 @@ export async function POST(request: NextRequest) {
             createdAt: true,
             imageUrl: true,
             followers: true
-          }
-        }),
-
-        prismadb.classroom.findMany({
-          where: { title: { contains: keyword, mode: 'insensitive' } },
-          select: {
-            id: true,
-            title: true,
-            createdAt: true,
-            modules: {
-              select: {
-                videos: { select: { id: true } }
-              }
-            }
           }
         }),
 
@@ -89,6 +75,26 @@ export async function POST(request: NextRequest) {
             externalUrl: true,
             specialGuest: true
           }
+        }),
+
+        prismadb.classroomModule.findMany({
+          where: { title: { contains: keyword, mode: 'insensitive' } },
+          select: {
+            id: true,
+            title: true,
+            classroom: { select: { title: true } },
+            videos: { select: { id: true } }
+          }
+        }),
+
+        prismadb.video.findMany({
+          where: { title: { contains: keyword, mode: 'insensitive' } },
+          select: {
+            id: true,
+            title: true,
+            classroomModule: { select: { title: true } },
+            createdAt: true
+          }
         })
       ])
 
@@ -98,20 +104,23 @@ export async function POST(request: NextRequest) {
     const results = [
       ...addEntityType(posts, 'forum'),
       ...addEntityType(users, 'user'),
-      ...addEntityType(classrooms, 'classroom'),
       ...addEntityType(courses, 'course'),
       ...addEntityType(interests, 'interest'),
-      ...addEntityType(events, 'event')
+      ...addEntityType(events, 'event'),
+      ...addEntityType(modules, 'module'),
+      ...addEntityType(videos, 'video')
     ]
+
     return NextResponse.json({
       data: { items: results },
       counts: {
         posts: posts.length,
         users: users.length,
-        classrooms: classrooms.length,
         courses: courses.length,
         interests: interests.length,
-        events: events.length
+        events: events.length,
+        modules: modules.length,
+        videos: videos.length
       },
       meta: {
         keyword,

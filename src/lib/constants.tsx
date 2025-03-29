@@ -21,6 +21,7 @@ export enum appRoutes {
   dashboard = '/dashboard',
   courses = '/courses',
   codeUp = '/code-up',
+  codeBreakers = '/code-breakers',
   mentorship = '/mentorship',
   profile = '/profile',
   interests = '/interests',
@@ -64,12 +65,17 @@ export const menuItems: MenuItemProps[] = [
   {
     href: `${appRoutes.courses}?category=all`,
     label: 'Courses',
-    icon: <Icons.code className="h-4 w-4" />
+    icon: <Icons.book className="h-4 w-4" />
   },
   {
     href: `${appRoutes.codeUp}`,
     label: 'Code Up',
     icon: <Icons.calendar className="h-4 w-4" />
+  },
+  {
+    href: appRoutes.codeBreakers,
+    label: 'Code Breakers',
+    icon: <Icons.code className="h-4 w-4" />
   },
   {
     href: appRoutes.profile,

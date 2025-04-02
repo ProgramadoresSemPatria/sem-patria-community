@@ -10,6 +10,14 @@ import {
   type MenuItemProps
 } from './types'
 
+export const PositionIconMap = {
+  AMBASSADOR: <Icons.award className="w-4 h-4 inline-flex" />,
+  BUILDER: <Icons.hammer className="w-4 h-4 inline-flex" />,
+  PSP: <Icons.globe className="w-4 h-4 inline-flex" />,
+  BASE: <Icons.book className="w-4 h-4 inline-flex" />,
+  ADMIN: <Icons.gear className="w-4 h-4 inline-flex" />
+}
+
 export const appConfig = {
   name: 'Sem pátria - Community',
   description: 'Comunidade programadores sem pátria'

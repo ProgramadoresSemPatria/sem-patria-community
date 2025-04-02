@@ -1,4 +1,3 @@
-import { Icons } from '@/components/icons'
 import {
   FormControl,
   FormField,
@@ -13,20 +12,13 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { PositionIconMap } from '@/lib/constants'
 import { Positions } from '@/lib/types'
 
 import { useFormContext } from 'react-hook-form'
 
 interface PositionSelectProps {
   isPending: boolean
-}
-
-const PositionIconMap = {
-  AMBASSADOR: <Icons.award className="w-4 h-4 inline-flex" />,
-  BUILDER: <Icons.hammer className="w-4 h-4 inline-flex" />,
-  PSP: <Icons.globe className="w-4 h-4 inline-flex" />,
-  BASE: <Icons.book className="w-4 h-4 inline-flex" />,
-  ADMIN: <Icons.gear className="w-4 h-4 inline-flex" />
 }
 
 const PositionSelect = ({ isPending }: PositionSelectProps) => {

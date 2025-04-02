@@ -1,6 +1,5 @@
 import { DefaultLayout } from '@/components/default-layout'
 import prismadb from '@/lib/prismadb'
-import React from 'react'
 import UserPosts from './components/UserPosts'
 import Loading from '@/app/loading'
 import SocialLinks from './components/SocialLinks'

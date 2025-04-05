@@ -29,6 +29,20 @@ import { TextButtons } from './selectors/text-buttons'
 import { useSuggestionItems } from './slash-command'
 import { useEditorState } from './use-editor-state'
 import { useEditorUploadFile } from './use-image-upload'
+import { MentionExtension } from './mention-extension'
+import { useEffect, useState } from 'react'
+import { api } from '@/lib/api'
+import { type User } from '@prisma/client'
+import { Command, CommandItem, CommandList } from '../ui/command'
+
+export type MentionState = {
+  active: boolean
+  query?: string
+  items?: User[]
+  command?: (item: { label: string }) => void
+  clientRect?: DOMRect
+  selectedIndex?: number
+}
 
 interface EditorProp {
   initialValue?: JSONContent
@@ -60,6 +74,10 @@ const NoteEditor = ({
   } = useEditorState({ isSubmitting, variant })
 
   const { uploadFn, handleValidateImageWasDeleted } = useEditorUploadFile()
+  const [mentionState, setMentionState] = useState<MentionState>({
+    active: false,
+    items: []
+  })
 
   const attributeVariants = cva(
     'prose prose-lg dark:prose-invert text-black dark:text-white prose-headings:font-title font-default focus:outline-none max-w-full h-fit prose-ol:m-0 prose-ul:m-0 prose-headings:m-0 prose-code:m-0',
@@ -79,8 +97,39 @@ const NoteEditor = ({
   )
 
   const { slashCommand } = useSuggestionItems()
+  const extensions = [
+    ...defaultExtensions,
+    slashCommand,
+    MentionExtension(setMentionState)
+  ]
+  useEffect(() => {
+    const fetchMentionUsers = async () => {
+      if (!mentionState.active || !mentionState.query) return
 
-  const extensions = [...defaultExtensions, slashCommand]
+      try {
+        const res = await api.get('/api/user', {
+          params: {
+            query: mentionState.query
+          }
+        })
+        const data = await res.data
+        console.log('data', data)
+
+        setMentionState(prev => ({
+          ...prev,
+          items: data || []
+        }))
+      } catch (err) {
+        console.error('Failed to fetch mentions:', err)
+      }
+    }
+
+    const debounce = setTimeout(fetchMentionUsers, 400)
+
+    return () => {
+      clearTimeout(debounce)
+    }
+  }, [mentionState.active, mentionState.query])
 
   return (
     <div
@@ -196,6 +245,69 @@ const NoteEditor = ({
             </EditorBubble>
           )}
         </EditorContent>
+        {/* {mentionState.active && (
+          <div
+            className=" z-50 bg-popover rounded-md shadow-md border p-2"
+            style={{
+              top: mentionState?.clientRect?.top || 0 + 30,
+              left: mentionState?.clientRect?.left || 0
+            }}
+          >
+            {mentionState.items?.map((item, index: number) => (
+              <div
+                key={item.id}
+                className={`cursor-pointer px-2 py-1 rounded hover:bg-accent ${
+                  index === mentionState.selectedIndex
+                    ? 'bg-accent text-white'
+                    : ''
+                }`}
+                onClick={() => {
+                  mentionState.command?.(item)
+                }}
+              >
+                @{item.username}
+              </div>
+            ))}
+          </div>
+        )} */}
+        {mentionState.active && mentionState.clientRect && (
+          <div
+            className="z-50 fixed"
+            style={{
+              top: Math.min(
+                mentionState.clientRect.top + window.scrollY + 30,
+                window.innerHeight - 200
+              ),
+              left: Math.min(
+                mentionState.clientRect.left + window.scrollX,
+                window.innerWidth - 300
+              )
+            }}
+          >
+            <Command className="w-64 rounded-md border shadow-md bg-popover">
+              <CommandList>
+                {mentionState.items?.map((item, index: number) => (
+                  <CommandItem
+                    key={item.id}
+                    onSelect={() => {
+                      if (mentionState.command) {
+                        console.log('item', item)
+                        mentionState.command({ label: item.username })
+                      }
+                    }}
+                    className={
+                      index === mentionState.selectedIndex
+                        ? 'bg-accent text-white'
+                        : ''
+                    }
+                  >
+                    @{item.username}
+                  </CommandItem>
+                ))}
+              </CommandList>
+            </Command>
+          </div>
+        )}
       </EditorRoot>
     </div>
   )

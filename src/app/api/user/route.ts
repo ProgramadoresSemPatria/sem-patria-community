@@ -222,3 +222,20 @@ export async function POST(req: NextRequest) {
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }
+
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url)
+  const query = searchParams.get('query')
+
+  const users = await prismadb.user.findMany({
+    where: {
+      OR: [
+        { username: { contains: query || '', mode: 'insensitive' } },
+        { name: { contains: query || '', mode: 'insensitive' } }
+      ]
+    }
+  })
+  console.log('users', users)
+
+  return NextResponse.json(users)
+}

@@ -33,6 +33,7 @@ import { MentionExtension } from './mention-extension'
 import { useEffect, useState } from 'react'
 import { api } from '@/lib/api'
 import { type User } from '@prisma/client'
+import { useRouter } from 'next/navigation'
 import { Command, CommandItem, CommandList } from '../ui/command'
 
 export type MentionState = {
@@ -60,6 +61,7 @@ const NoteEditor = ({
   isSubmitting = false,
   variant = 'note'
 }: EditorProp) => {
+  const router = useRouter()
   const {
     editor,
     openColor,
@@ -80,7 +82,7 @@ const NoteEditor = ({
   })
 
   const attributeVariants = cva(
-    'prose prose-lg dark:prose-invert text-black dark:text-white prose-headings:font-title font-default focus:outline-none max-w-full h-fit prose-ol:m-0 prose-ul:m-0 prose-headings:m-0 prose-code:m-0',
+    'prose prose-lg dark:prose-invert text-black dark:text-white prose-headings:font-title font-default focus:outline-none max-w-full h-fit prose-ol:m-0 prose-ul:m-0 prose-headings:m-0 prose-code:m-0 [&_.mention]:bg-accent [&_.mention]:text-accent-foreground [&_.mention]:px-1 [&_.mention]:rounded [&_.mention]:cursor-pointer [&_.mention]:hover:bg-accent/80',
     {
       variants: {
         variant: {
@@ -131,10 +133,22 @@ const NoteEditor = ({
     }
   }, [mentionState.active, mentionState.query])
 
+  // Add click handler for mentions
+  const handleMentionClick = (event: React.MouseEvent) => {
+    const target = event.target as HTMLElement
+    if (target.classList.contains('mention')) {
+      const username = target.textContent?.replace('@', '')
+      console.log('Mention clicked:', username)
+
+      router.push(`/user/${username}`)
+    }
+  }
+
   return (
     <div
       data-hastoolbar={hasToolbar}
       className="flex flex-col max-w-full w-[100%] justify-stretch mb-2 gap-1 rounded-lg data-[hastoolbar=true]:p-2 dark:data-[hastoolbar=true]:bg-card data-[hastoolbar=true]:bg-card"
+      onClick={handleMentionClick}
     >
       {hasToolbar && editable && (
         <Toolbar
@@ -245,31 +259,6 @@ const NoteEditor = ({
             </EditorBubble>
           )}
         </EditorContent>
-        {/* {mentionState.active && (
-          <div
-            className=" z-50 bg-popover rounded-md shadow-md border p-2"
-            style={{
-              top: mentionState?.clientRect?.top || 0 + 30,
-              left: mentionState?.clientRect?.left || 0
-            }}
-          >
-            {mentionState.items?.map((item, index: number) => (
-              <div
-                key={item.id}
-                className={`cursor-pointer px-2 py-1 rounded hover:bg-accent ${
-                  index === mentionState.selectedIndex
-                    ? 'bg-accent text-white'
-                    : ''
-                }`}
-                onClick={() => {
-                  mentionState.command?.(item)
-                }}
-              >
-                @{item.username}
-              </div>
-            ))}
-          </div>
-        )} */}
         {mentionState.active && mentionState.clientRect && (
           <div
             className="z-50 fixed"

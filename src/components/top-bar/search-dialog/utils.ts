@@ -1,3 +1,4 @@
+import { toast } from '@/components/ui/use-toast'
 import { type SearchDialogResult } from '@/hooks/search/types'
 import { format } from 'date-fns'
 
@@ -26,7 +27,8 @@ export const getEntityColorClass = (entity: string) => {
     forum: 'fill-indigo-500 dark:fill-indigo-400',
     user: 'fill-blue-500 dark:fill-blue-400',
     course: 'fill-yellow-500 dark:fill-yellow-400',
-    classroom: 'fill-green-500 dark:fill-green-400',
+    module: 'fill-green-500 dark:fill-green-400',
+    video: 'fill-red-500 dark:fill-red-400',
     interest: 'fill-primary dark:fill-primary',
     event: 'fill-sky-500 dark:fill-sky-400'
   }
@@ -35,16 +37,6 @@ export const getEntityColorClass = (entity: string) => {
 }
 export const getItemUrl = (item: SearchDialogResult): string | null => {
   if (!item) return null
-
-  if (
-    item.entity === 'classroom' &&
-    (!Array.isArray(item.modules) ||
-      !item.modules.length ||
-      !Array.isArray(item.modules[0].videos) ||
-      !item.modules[0].videos.length)
-  ) {
-    return null
-  }
 
   switch (item.entity) {
     case 'forum': {
@@ -56,14 +48,26 @@ export const getItemUrl = (item: SearchDialogResult): string | null => {
       return `/forum/${id}/${formattedTitle}`
     }
 
+    case 'video': {
+      const { id } = item
+      if (!id) return null
+      return `/mentorship/${encodeURIComponent(id)}`
+    }
+
     case 'user': {
       if (!item.username) return null
       return `/user/${encodeURIComponent(item.username)}`
     }
 
-    case 'classroom': {
-      const videoId = item.modules?.[0].videos?.[0]?.id
-      if (!videoId) return null
+    case 'module': {
+      const videoId = item.videos?.[0]?.id
+      if (!videoId) {
+        toast({
+          title: 'This module has no videos',
+          description: 'Please try again later'
+        })
+        return null
+      }
       return `/mentorship/${encodeURIComponent(videoId)}`
     }
 

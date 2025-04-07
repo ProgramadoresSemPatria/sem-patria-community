@@ -34,7 +34,7 @@ export const MentorshipSections = ({
   const canManageClassroom = ability.can('manage', 'Classroom')
   const [items, setItems] = useState(data)
   const [hasChanges, setHasChanges] = useState(false)
-
+  const [isDragging, setIsDragging] = useState(false)
   const { handleSaveOrder, isSaving, setIsSaving } = useModuleCarousel()
   useEffect(() => {
     const orderChanged =
@@ -59,9 +59,21 @@ export const MentorshipSections = ({
   return (
     <div className="flex flex-col gap-y-10">
       <Suspense fallback={<SkeletonMentorshipPage />}>
-        {hasChanges && (
-          <div className="flex justify-end mb-4">
+        <div className="flex  absolute top-[6.5rem] right-[1.5rem] gap-x-2 justify-end items-end mb-4">
+          {canManageClassroom && (
             <Button
+              className="w-32"
+              variant="secondary"
+              onClick={() => {
+                setIsDragging(!isDragging)
+              }}
+            >
+              {isDragging ? 'Stop Dragging' : 'Start Dragging'}
+            </Button>
+          )}
+          {hasChanges && (
+            <Button
+              className="w-32"
               variant="default"
               onClick={async () => {
                 setIsSaving(true)
@@ -87,8 +99,8 @@ export const MentorshipSections = ({
                 </>
               )}
             </Button>
-          </div>
-        )}
+          )}
+        </div>
         {!items.length && (
           <NoContent
             title="No classrooms created yet."
@@ -99,23 +111,25 @@ export const MentorshipSections = ({
           axis="y"
           values={items}
           onReorder={setItems}
-          className="flex flex-col gap-y-10"
+          className="flex flex-col gap-y-10 mt-[2rem]"
         >
           {items.map(classroom => (
             <Reorder.Item
               key={classroom.id}
               value={classroom}
               className={`relative flex flex-col gap-y-3 ${
-                canManageClassroom ? 'cursor-grab' : ''
+                canManageClassroom && isDragging ? 'cursor-grab' : ''
               }`}
-              drag={canManageClassroom}
+              drag={canManageClassroom && isDragging}
               onDrag={(_, info) => {
                 handleAutoScroll(info)
               }}
             >
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-medium text-lg flex items-center">
-                  {canManageClassroom && <Icons.grip className="cursor-grab" />}{' '}
+                  {canManageClassroom && isDragging && (
+                    <Icons.grip className="cursor-grab" />
+                  )}{' '}
                   {classroom.title}
                   {!classroom.hasPermission && (
                     <Icons.lock className="h-4 w-4 ml-2" />

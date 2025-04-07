@@ -9,6 +9,7 @@ export type SeasonMetadata = {
 }
 
 export type LeaderboardUser = {
+  id: string
   name: string
   username: string
   level: string | null
@@ -35,3 +36,20 @@ export type CurrentSeasonResponse = {
   metadata: SeasonMetadata | null
   scores: LeaderboardScore[]
 } | null
+
+export interface SearchedUserProps {
+  userId: string
+  points: number
+  user: {
+    id: string
+    name: string
+    username: string
+    level: string
+    position: string | null
+    imageUrl: string | null
+  }
+}
+
+export interface SearchUsersResponse {
+  users: SearchedUserProps[]
+}

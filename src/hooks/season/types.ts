@@ -1,25 +1,10 @@
+import type {
+  CurrentSeasonResponse,
+  SearchUsersResponse
+} from '@/actions/leaderboard/types'
 import type { JsonValue } from '@prisma/client/runtime/library'
 
-export type GetCurrentSeasonApiProps = {
-  id: string
-  name: string
-  startDate: string
-  endDate: string
-  scores: Array<{
-    id: string
-    createdAt: Date
-    metadata: JsonValue | null
-    seasonId: string
-    points: number
-  }>
-  metadata: {
-    description: string
-    awards: Array<{
-      position: string
-      description: string
-    }>
-  }
-}
+export type GetCurrentSeasonApiProps = CurrentSeasonResponse
 
 export type GetAllSeasonsApiProps = {
   data: Array<{
@@ -59,3 +44,5 @@ export type GetAllSeasonsApiProps = {
     }>
   }>
 }
+
+export type SearchLeaderboardUsersApiProps = SearchUsersResponse

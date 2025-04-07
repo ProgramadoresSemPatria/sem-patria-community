@@ -14,6 +14,7 @@ export async function getCurrentSeason(): Promise<CurrentSeasonResponse> {
           include: {
             user: {
               select: {
+                id: true,
                 name: true,
                 username: true,
                 level: true,

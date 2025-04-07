@@ -1,17 +1,10 @@
-import { PrismaClient } from '@prisma/client'
+import { getCurrentSeason } from '@/actions/leaderboard/get-current-season'
 import { NextResponse } from 'next/server'
-
-const prisma = new PrismaClient()
 
 // GET /api/season/current - Get current season
 export async function GET() {
   try {
-    const currentSeason = await prisma.season.findFirst({
-      where: { isCurrent: true },
-      include: {
-        positionMultipliers: true
-      }
-    })
+    const currentSeason = await getCurrentSeason()
 
     if (!currentSeason) {
       return NextResponse.json(
@@ -20,7 +13,7 @@ export async function GET() {
       )
     }
 
-    return NextResponse.json({ data: currentSeason })
+    return NextResponse.json({ ...currentSeason })
   } catch (error) {
     console.error('Error fetching current season:', error)
     return NextResponse.json(

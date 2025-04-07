@@ -1,12 +1,14 @@
-import { getCurrentSeason } from '@/actions/leaderboard/get-current-season'
-import type { CurrentSeasonResponse } from '@/actions/leaderboard/types'
 import { api } from '@/lib/api'
 import { useQuery, type UseQueryOptions } from '@tanstack/react-query'
 import type { AxiosError } from 'axios'
-import type { GetAllSeasonsApiProps, GetCurrentSeasonApiProps } from './types'
+import type {
+  GetAllSeasonsApiProps,
+  GetCurrentSeasonApiProps,
+  SearchLeaderboardUsersApiProps
+} from './types'
 
 export const useSeason = () => {
-  const useGetCurrentSeasonApi = (
+  const useGetCurrentSeason = (
     options?: UseQueryOptions<GetCurrentSeasonApiProps, AxiosError>
   ) =>
     useQuery({
@@ -16,15 +18,6 @@ export const useSeason = () => {
           await api.get<GetCurrentSeasonApiProps>(`/api/season/current`)
         return response.data
       },
-      ...options
-    })
-
-  const useGetCurrentSeasonServer = (
-    options?: UseQueryOptions<CurrentSeasonResponse, AxiosError>
-  ) =>
-    useQuery({
-      queryKey: ['getCurrentSeasonServer'],
-      queryFn: async () => await getCurrentSeason(),
       ...options
     })
 
@@ -40,9 +33,27 @@ export const useSeason = () => {
       ...options
     })
 
+  const useSearchLeaderboardUsers = (
+    searchTerm: string,
+    options?: UseQueryOptions<SearchLeaderboardUsersApiProps, AxiosError>
+  ) =>
+    useQuery({
+      queryKey: ['searchLeaderboardUsers', searchTerm],
+      queryFn: async () => {
+        const response = await api.get<SearchLeaderboardUsersApiProps>(
+          `/api/season/current/scoreboard?search=${encodeURIComponent(
+            searchTerm
+          )}`
+        )
+        return response.data
+      },
+      enabled: !!searchTerm && searchTerm.length >= 2,
+      ...options
+    })
+
   return {
-    useGetCurrentSeasonApi,
-    useGetCurrentSeasonServer,
-    useGetAllSeasons
+    useGetCurrentSeason,
+    useGetAllSeasons,
+    useSearchLeaderboardUsers
   }
 }

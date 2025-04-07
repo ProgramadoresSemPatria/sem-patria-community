@@ -1,15 +1,16 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { type User } from '@prisma/client'
 import { type User as ClerkUser } from '@clerk/nextjs/server'
 import { useFollowersAndFollowings } from './useFollowersAndFollowings'
-import { Roles } from '@/lib/types'
+import { Roles, Positions } from '@/lib/types'
 import { getHighestPriorityRole } from '@/lib/utils'
 
+import { PositionIconMap } from '@/lib/constants'
 const Header = ({
   user,
   currentUser
@@ -56,6 +57,15 @@ const Header = ({
             <Badge className="text-sm py-1 px-3">
               {Roles[getHighestPriorityRole(user.role)]}
             </Badge>
+            {user.position && (
+              <Badge
+                variant="outline"
+                className="text-sm py-1 px-3 flex items-center gap-2"
+              >
+                {PositionIconMap[user.position]}
+                {Positions[user.position]}
+              </Badge>
+            )}
           </h1>
           <p className="text-gray-500 text-lg">@{user.username}</p>
           {!isCurrentUser && (

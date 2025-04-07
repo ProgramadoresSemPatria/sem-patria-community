@@ -1,39 +1,34 @@
 'use client'
 import Header from '@/components/header'
 import { Icons } from '@/components/icons'
+import { SkeletonCmsPage } from '@/components/skeletons/skeleton-cms-page'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { DataTable } from '@/components/ui/data-table'
+import { useSeason } from '@/hooks/season/use-season'
 import { Can } from '@/hooks/use-ability'
 import { appRoutes } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
 import { seasonsColumns } from './columns'
-import { api } from '@/lib/api'
-import { useQuery } from '@tanstack/react-query'
-import { SkeletonCmsPage } from '@/components/skeletons/skeleton-cms-page'
-import { type Season } from '@prisma/client'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-
-async function fetchSeasons(): Promise<Season[]> {
-  const response = await api.get('/api/season')
-  return response.data.data
-}
 
 const SeasonsList = () => {
   const router = useRouter()
+  const { useGetAllSeasons } = useSeason()
 
   const {
-    data: seasons = [],
+    data: seasonsData,
     isLoading,
     isError
-  } = useQuery({
-    queryKey: ['seasons'],
-    queryFn: fetchSeasons,
+  } = useGetAllSeasons({
+    queryKey: ['getAllSeasons'],
     staleTime: 10 * 60 * 1000,
-    retry: 2,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: true
   })
 
+  const seasons = seasonsData?.data || []
+
   if (isLoading) return <SkeletonCmsPage />
+
   if (isError)
     return (
       <Card className="m-4">

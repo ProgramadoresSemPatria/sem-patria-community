@@ -27,6 +27,7 @@ export enum appRoutes {
   forum = '/forum',
   settings = '/settings',
   appearance = '/settings/appearance',
+  leaderboard = '/leaderboard',
   publicProfile = '/user',
   checklist = '/settings/checklist',
   admin_courses = '/admin/courses',
@@ -64,6 +65,11 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.mentorship className="w-4 h-4" />
   },
   {
+    href: appRoutes.leaderboard,
+    label: 'Leaderboard',
+    icon: <Icons.trophy className="h-4 w-4" />
+  },
+  {
     href: `${appRoutes.courses}?category=all`,
     label: 'Courses',
     icon: <Icons.book className="h-4 w-4" />
@@ -88,6 +94,7 @@ export const menuItems: MenuItemProps[] = [
     label: 'Settings',
     icon: <Icons.settings className="w-4 h-4" />
   },
+
   {
     href: appRoutes.admin_users,
     label: 'Users',

@@ -3,7 +3,6 @@ import { DefaultLayout } from '@/components/default-layout'
 import { Icons } from '@/components/icons'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { leaderboardData } from '@/hooks/leaderboard/mock/data'
 import { cn } from '@/lib/utils'
 import { LeaderboardContent } from './content'
 
@@ -21,10 +20,7 @@ const Leaderboard = async () => {
       <div className="mt-4 w-full max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <div className="lg:col-span-3 order-2 lg:order-1">
-            <LeaderboardContent
-              leaderboardData={leaderboardData}
-              data={formattedData}
-            />
+            <LeaderboardContent data={formattedData} />
           </div>
           <div className="order-1 lg:order-2">
             <Card>

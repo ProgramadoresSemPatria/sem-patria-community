@@ -1,12 +1,13 @@
-import { DefaultLayout } from '@/components/default-layout'
-import prismadb from '@/lib/prismadb'
-import React from 'react'
-import UserPosts from './components/UserPosts'
 import Loading from '@/app/loading'
-import SocialLinks from './components/SocialLinks'
-import Header from './components/Header'
+import { DefaultLayout } from '@/components/default-layout'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import prismadb from '@/lib/prismadb'
 import { currentUser, type User } from '@clerk/nextjs/server'
+import Header from './components/Header'
+import ScoreActivity from './components/score-activity'
+import SocialLinks from './components/SocialLinks'
 import UserInterests from './components/UserInterests'
+import UserPosts from './components/UserPosts'
 
 type PublicProfileProps = {
   params: {
@@ -31,15 +32,17 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
       }
     }
   })
+
   const interests = await prismadb.interest.findMany()
 
   const user: User = JSON.parse(JSON.stringify(await currentUser()))
+
   if (!profileUser || !user) return <Loading />
+
   return (
     <DefaultLayout>
       <Header user={profileUser} currentUser={user} />
       <UserInterests
-        userInterests={profileUser?.interests}
         allInterests={interests}
         profileUserId={profileUser.id}
         currentUserId={user.id}
@@ -50,7 +53,26 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
         github={profileUser.github || ''}
         showEmail={profileUser.isPublicEmail || false}
       />
-      <UserPosts posts={profileUser?.posts} userId={profileUser?.id} />
+      {user.id === profileUser.id ? (
+        <Tabs defaultValue="posts">
+          <TabsList>
+            <TabsTrigger value="posts" className="w-32">
+              Posts
+            </TabsTrigger>
+            <TabsTrigger value="score-activity" className="w-32">
+              Score Activity
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="posts">
+            <UserPosts posts={profileUser?.posts} userId={user.id} />
+          </TabsContent>
+          <TabsContent value="score-activity">
+            <ScoreActivity userId={user.id} />
+          </TabsContent>
+        </Tabs>
+      ) : (
+        <UserPosts posts={profileUser?.posts} userId={profileUser?.id} />
+      )}
     </DefaultLayout>
   )
 }

@@ -1,5 +1,6 @@
 import { CaretSortIcon } from '@radix-ui/react-icons'
 import {
+  ActivityIcon,
   AlignVerticalSpaceAround,
   ArrowUpDown,
   ArrowUpRightFromCircle,
@@ -57,6 +58,7 @@ import {
   Moon,
   MoreHorizontal,
   MoreVertical,
+  NotebookPen,
   PinIcon,
   Play,
   Plus,
@@ -87,13 +89,13 @@ import {
   Video,
   X,
   Youtube,
-  NotebookPen,
   type LucideIcon
 } from 'lucide-react'
 
 export type IconType = LucideIcon
 
 export const Icons = {
+  activity: ActivityIcon,
   alignVertSA: AlignVerticalSpaceAround,
   arrowBack: ChevronLeft,
   arrowDown: ChevronDown,

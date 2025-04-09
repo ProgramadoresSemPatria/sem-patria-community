@@ -1,5 +1,14 @@
 'use client'
 
+import { Icons } from '@/components/icons'
+import MainLogo from '@/components/main-logo'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 import {
   Sidebar,
   SidebarContent,
@@ -16,20 +25,12 @@ import {
 import { Can } from '@/hooks/use-ability'
 import { appRoutes, menuItems } from '@/lib/constants'
 import { type MenuItemProps } from '@/lib/types'
+import { useClerk } from '@clerk/nextjs'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import MainLogo from '../main-logo'
 import UserButton from '../user-button'
 import { SkeletonMainNav } from './components/skeleton-main-nav'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from '../ui/dropdown-menu'
-import { Icons } from '../icons'
-import { useClerk } from '@clerk/nextjs'
 
 export type AppSidebarProps = {
   mentorship?: boolean
@@ -148,16 +149,19 @@ export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
                   side="top"
                   className="w-[--radix-popper-anchor-width]"
                 >
-                  <DropdownMenuItem>
-                    <Link className="w-full h-full" href={`/profile`}>
-                      Profile
+                  <DropdownMenuItem className="gap-x-2 items-center cursor-pointer">
+                    <Icons.settings className="w-4 h-4" />
+                    <Link className="w-full h-full" href={appRoutes.settings}>
+                      Settings
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem className="gap-x-2 items-center cursor-pointer">
+                    <Icons.user className="w-4 h-4" />
                     <Link className="w-full h-full" href={`/user/${userName}`}>
-                      Public profile
+                      My profile
                     </Link>
                   </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem
                     className="gap-x-2 items-center cursor-pointer"
                     onClick={async () => {
@@ -168,7 +172,6 @@ export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
                   >
                     <Icons.signOut className="w-4 h-4" />
                     Sign out
-                    {/* <LogoutButton /> */}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

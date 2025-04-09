@@ -5,9 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import { LeaderboardContent } from './content'
+import { mockLeaderboardData } from './mock-data'
 
 const Leaderboard = async () => {
+  // TEMPORARY: Use mock data instead of API call
   const currentSeason = await getCurrentSeason()
+  // const currentSeason = mockLeaderboardData
 
   const formattedData = currentSeason
     ? {
@@ -17,9 +20,9 @@ const Leaderboard = async () => {
 
   return (
     <DefaultLayout>
-      <div className="mt-4 w-full max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-3 order-2 lg:order-1">
+      <div className="mt-4 w-full max-w-7xl mx-auto h-[calc(100vh-8rem)]">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full">
+          <div className="lg:col-span-3 order-2 lg:order-1 h-full">
             <LeaderboardContent data={formattedData} />
           </div>
           <div className="order-1 lg:order-2">

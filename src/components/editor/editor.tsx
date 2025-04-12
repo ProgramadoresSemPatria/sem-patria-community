@@ -263,45 +263,38 @@ const NoteEditor = ({
               <ColorSelector open={openColor} onOpenChange={setOpenColor} />
             </EditorBubble>
           )}
+          {mentionState.active && (
+            <div className="z-50">
+              <Command className="w-64 rounded-md border shadow-md bg-popover">
+                <CommandList>
+                  {mentionState.items?.length > 0 ? (
+                    mentionState.items.map((item, index: number) => (
+                      <CommandItem
+                        key={item.id}
+                        onSelect={() => {
+                          if (mentionState.command) {
+                            mentionState.command({ label: item.username })
+                          }
+                        }}
+                        className={
+                          index === mentionState.selectedIndex
+                            ? 'bg-accent text-accent-foreground'
+                            : ''
+                        }
+                      >
+                        @{item.username}
+                      </CommandItem>
+                    ))
+                  ) : (
+                    <div className="p-2 text-sm text-muted-foreground">
+                      No users found
+                    </div>
+                  )}
+                </CommandList>
+              </Command>
+            </div>
+          )}
         </EditorContent>
-        {mentionState.active && mentionState.clientRect && (
-          <div
-            className="z-50 fixed"
-            style={{
-              top: Math.min(
-                (mentionState.clientRect?.()?.top ?? 0) + window.scrollY + 30,
-                window.innerHeight - 200
-              ),
-              left: Math.min(
-                (mentionState.clientRect?.()?.left ?? 0) + window.scrollX,
-                window.innerWidth - 300
-              )
-            }}
-          >
-            <Command className="w-64 rounded-md border shadow-md bg-popover">
-              <CommandList>
-                {mentionState.items?.map((item, index: number) => (
-                  <CommandItem
-                    key={item.id}
-                    onSelect={() => {
-                      if (mentionState.command) {
-                        console.log('item', item)
-                        mentionState.command({ label: item.username })
-                      }
-                    }}
-                    className={
-                      index === mentionState.selectedIndex
-                        ? 'bg-accent text-white'
-                        : ''
-                    }
-                  >
-                    @{item.username}
-                  </CommandItem>
-                ))}
-              </CommandList>
-            </Command>
-          </div>
-        )}
       </EditorRoot>
     </div>
   )

@@ -31,7 +31,6 @@ export const MentionExtension = (
       render: () => {
         return {
           onStart: (props: SuggestionProps) => {
-            console.log('onStart', props)
             setMentionState((prev: MentionState) => ({
               ...prev,
               command: props.command,
@@ -41,7 +40,6 @@ export const MentionExtension = (
             }))
           },
           onUpdate: (props: SuggestionProps) => {
-            console.log('onUpdate', props)
             setMentionState(prev => ({
               ...prev,
               command: props.command,
@@ -90,7 +88,6 @@ export const MentionExtension = (
             return ['ArrowDown', 'ArrowUp', 'Enter'].includes(event.key)
           },
           onExit: () => {
-            console.log('onExit')
             setMentionState(prev => ({
               ...prev,
               active: false,

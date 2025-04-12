@@ -1,12 +1,11 @@
 import { Mention } from '@tiptap/extension-mention'
 import {
+  type SuggestionProps,
   type SuggestionKeyDownProps
-  //   type SuggestionProps
 } from '@tiptap/suggestion'
-import { type MentionState } from './editor'
 import { type Dispatch, type SetStateAction } from 'react'
 import { type User } from '@prisma/client'
-import { type Editor } from '@tiptap/core'
+import { type MentionState } from './editor'
 
 export const MentionExtension = (
   setMentionState: Dispatch<SetStateAction<MentionState>>
@@ -18,22 +17,22 @@ export const MentionExtension = (
     suggestion: {
       char: '@',
       startOfLine: false,
-      items: ({ query }: { query: string }) => {
-        setMentionState(prev => ({
-          ...prev,
-          query,
-          active: true
-        }))
+      items: ({ query }: { query: string }): User[] => {
+        setMentionState((prev: MentionState) => {
+          return {
+            ...prev,
+            items: [],
+            query,
+            active: true
+          }
+        })
         return []
       },
       render: () => {
         return {
-          onStart: (props: {
-            editor: Editor
-            clientRect: DOMRect
-            command: (item: { label: string }) => void
-          }) => {
-            setMentionState(prev => ({
+          onStart: (props: SuggestionProps) => {
+            console.log('onStart', props)
+            setMentionState((prev: MentionState) => ({
               ...prev,
               command: props.command,
               active: true,
@@ -41,66 +40,64 @@ export const MentionExtension = (
               clientRect: props.clientRect
             }))
           },
-          onUpdate: (props: {
-            editor: Editor
-            clientRect: DOMRect
-            command: (item: { label: string }) => void
-          }) => {
+          onUpdate: (props: SuggestionProps) => {
+            console.log('onUpdate', props)
             setMentionState(prev => ({
               ...prev,
               command: props.command,
               clientRect: props.clientRect
             }))
           },
-          onKeyDown: (
-            props: SuggestionKeyDownProps & {
-              items: User[]
-              selectedIndex: number
-              command: (item: { label: string }) => void
-            }
-          ) => {
-            const { event, items, selectedIndex, command } = props
-            console.log(items)
+          onKeyDown: (props: SuggestionKeyDownProps) => {
+            const { event } = props
 
-            if (event.key === 'ArrowDown') {
-              event.preventDefault()
-              const nextIndex = (selectedIndex + 1) % items.length
-              setMentionState(prev => ({
-                ...prev,
-                selectedIndex: nextIndex
-              }))
-              return true
-            }
+            setMentionState(prev => {
+              const items = prev.items as User[]
+              const selectedIndex = prev.selectedIndex || 0
+              const command = prev.command
 
-            if (event.key === 'ArrowUp') {
-              event.preventDefault()
-              const prevIndex =
-                (selectedIndex - 1 + items.length) % items.length
-              setMentionState(prev => ({
-                ...prev,
-                selectedIndex: prevIndex
-              }))
-              return true
-            }
-
-            if (event.key === 'Enter') {
-              event.preventDefault()
-              if (items[selectedIndex]) {
-                command({ label: items[selectedIndex].username })
+              if (event.key === 'ArrowDown') {
+                event.preventDefault()
+                return {
+                  ...prev,
+                  selectedIndex: items.length
+                    ? (selectedIndex + 1) % items.length
+                    : 0
+                }
               }
-              return true
-            }
 
-            return false
+              if (event.key === 'ArrowUp') {
+                event.preventDefault()
+                return {
+                  ...prev,
+                  selectedIndex: items.length
+                    ? (selectedIndex - 1 + items.length) % items.length
+                    : 0
+                }
+              }
+
+              if (event.key === 'Enter') {
+                event.preventDefault()
+                if (items[selectedIndex]) {
+                  command({ label: items[selectedIndex].username })
+                }
+                return prev
+              }
+
+              return prev
+            })
+
+            return ['ArrowDown', 'ArrowUp', 'Enter'].includes(event.key)
           },
           onExit: () => {
+            console.log('onExit')
             setMentionState(prev => ({
               ...prev,
               active: false,
-              query: undefined,
-              items: undefined,
-              selectedIndex: undefined,
-              clientRect: undefined
+              query: '',
+              items: [],
+              selectedIndex: 0,
+              clientRect: null
             }))
           }
         }

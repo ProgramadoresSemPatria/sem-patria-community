@@ -35,14 +35,12 @@ import { api } from '@/lib/api'
 import { type User } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { Command, CommandItem, CommandList } from '../ui/command'
+import type { SuggestionProps } from '@tiptap/suggestion'
 
-export type MentionState = {
+export type MentionState = SuggestionProps & {
   active: boolean
-  query?: string
-  items?: User[]
-  command?: (item: { label: string }) => void
-  clientRect?: DOMRect
-  selectedIndex?: number
+  items: User[]
+  selectedIndex: number
 }
 
 interface EditorProp {
@@ -77,8 +75,16 @@ const NoteEditor = ({
 
   const { uploadFn, handleValidateImageWasDeleted } = useEditorUploadFile()
   const [mentionState, setMentionState] = useState<MentionState>({
+    editor: editor as Editor,
+    range: { from: 0, to: 0 },
+    query: '',
+    text: '',
     active: false,
-    items: []
+    items: [],
+    command: () => {},
+    clientRect: () => null,
+    decorationNode: null,
+    selectedIndex: 0
   })
 
   const attributeVariants = cva(
@@ -133,7 +139,6 @@ const NoteEditor = ({
     }
   }, [mentionState.active, mentionState.query])
 
-  // Add click handler for mentions
   const handleMentionClick = (event: React.MouseEvent) => {
     const target = event.target as HTMLElement
     if (target.classList.contains('mention')) {
@@ -264,11 +269,11 @@ const NoteEditor = ({
             className="z-50 fixed"
             style={{
               top: Math.min(
-                mentionState.clientRect.top + window.scrollY + 30,
+                (mentionState.clientRect?.()?.top ?? 0) + window.scrollY + 30,
                 window.innerHeight - 200
               ),
               left: Math.min(
-                mentionState.clientRect.left + window.scrollX,
+                (mentionState.clientRect?.()?.left ?? 0) + window.scrollX,
                 window.innerWidth - 300
               )
             }}

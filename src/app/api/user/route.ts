@@ -235,7 +235,6 @@ export async function GET(req: NextRequest) {
       ]
     }
   })
-  console.log('users', users)
 
   return NextResponse.json(users)
 }

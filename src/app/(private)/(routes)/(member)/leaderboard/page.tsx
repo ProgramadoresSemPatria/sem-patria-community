@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import { LeaderboardContent } from './content'
-import { mockLeaderboardData } from './mock-data'
+// import { mockLeaderboardData } from './mock-data'
 
 const Leaderboard = async () => {
   // TEMPORARY: Use mock data instead of API call

@@ -12,9 +12,10 @@ import { useSeason } from '@/hooks/season/use-season'
 import { useDebounce } from '@/hooks/use-debounce'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 import { useCallback, useMemo, useState } from 'react'
 import { LeaderboardSkeleton } from './skeleton'
+import { motion } from 'framer-motion'
 // import { mockLeaderboardData, mockSearchResults } from './mock-data'
 
 interface LeaderboardContentProps {
@@ -22,7 +23,7 @@ interface LeaderboardContentProps {
 }
 
 export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
-  const router = useRouter()
+  // const router = useRouter()
   const { useGetCurrentSeason, useSearchLeaderboardUsers } = useSeason()
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300) // 300ms debounce
@@ -118,7 +119,7 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
     <div className="mb-6 relative">
       <Input
         type="text"
-        className="w-full pr-10"
+        className="w-full pr-10 bg-white/5 backdrop-blur-sm border-primary/20 focus:border-primary/40 transition-all duration-300 focus:scale-[1.01] focus:shadow-lg"
         placeholder="🔎  Search users..."
         value={searchTerm}
         onChange={handleSearchChange}
@@ -126,14 +127,14 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
       {searchTerm && (
         <button
           onClick={handleClearSearch}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors"
         >
           <Icons.close className="h-4 w-4" />
         </button>
       )}
       {isSearchLoading && searchTerm && (
         <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
-          <Icons.loader className="h-4 w-4 animate-spin" />
+          <Icons.loader className="h-4 w-4 animate-spin text-primary" />
         </div>
       )}
     </div>
@@ -161,97 +162,108 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
     }
 
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-6">
-        {topThree.map((score, index) => {
-          const medalIcon =
-            index === 0 ? (
-              <Icons.award className="w-6 h-6 text-yellow-500" />
-            ) : index === 1 ? (
-              <Icons.award className="w-6 h-6 text-gray-400" />
-            ) : (
-              <Icons.award className="w-6 h-6 text-orange-500" />
-            )
-
-          return (
-            <Card
-              key={index}
-              onClick={() => {
-                router.push(`/user/${score.user.username}`)
+      <div className="relative py-6 px-4">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-4">
+          {topThree.map((score, index) => (
+            <motion.div
+              key={score.user.id}
+              className={cn('relative', index === 0 && 'md:z-10 md:scale-110')}
+              initial={{ rotateY: 180 }}
+              animate={{ rotateY: 0 }}
+              whileHover={{
+                scale: index === 0 ? 1.15 : 1.05,
+                y: -10,
+                transition: { type: 'spring', stiffness: 400, damping: 17 }
               }}
-              className={cn(
-                'p-4 text-center transition-all duration-500 ease-in-out hover:shadow-xl cursor-pointer transform',
-                index === 0
-                  ? 'bg-yellow-100 dark:bg-amber-500/20 order-first sm:order-2 sm:scale-110 hover:scale-105 sm:hover:scale-125 hover:bg-yellow-200 dark:hover:bg-amber-500/30'
-                  : index === 1
-                    ? 'bg-gray-100 dark:bg-gray-900/20 order-2 sm:order-1 sm:self-end hover:scale-105 hover:bg-gray-200 dark:hover:bg-gray-900/30'
-                    : 'bg-orange-100 dark:bg-orange-900/20 order-3 sm:order-3 sm:self-end hover:scale-105 hover:bg-orange-200 dark:hover:bg-orange-900/30'
-              )}
+              transition={{
+                delay: index * 0.2,
+                type: 'spring',
+                stiffness: 100
+              }}
             >
-              <span className="relative inline-block mb-1 transition-transform duration-300 hover:scale-110">
-                <Avatar className="h-16 w-16 mx-auto ring-2 ring-gray-500/10 transition-all duration-300 hover:ring-4 hover:ring-primary/20">
-                  <AvatarImage
-                    src={score.user.imageUrl || ''}
-                    alt={score.user.name}
-                  />
-                  <AvatarFallback>{score.user.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <span className="absolute -bottom-1 right-0 block transition-transform duration-300 hover:scale-110">
-                  {medalIcon}
-                </span>
-              </span>
-
-              <div>
-                {isLoading ? (
-                  <Skeleton className="w-24 h-4 rounded-full" />
-                ) : (
-                  <h2 className="text-lg font-bold text-primary transition-colors duration-300 hover:text-primary/80">
-                    {score.user.name}
-                  </h2>
+              <div
+                className={cn(
+                  'relative w-64 h-96 rounded-xl p-4',
+                  'bg-gradient-to-br',
+                  index === 0
+                    ? 'from-yellow-400/20 to-amber-600/20 border-yellow-500/30'
+                    : index === 1
+                      ? 'from-gray-400/20 to-gray-600/20 border-gray-500/30'
+                      : 'from-orange-400/20 to-orange-600/20 border-orange-500/30',
+                  'border-2 backdrop-blur-lg'
                 )}
-              </div>
+              >
+                {/* Holographic Effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-shimmer" />
 
-              <div className="flex flex-wrap justify-center gap-2 mt-2">
-                {isLoading ? (
-                  <>
-                    <Skeleton className="w-24 h-6 rounded-md" />
-                    <Skeleton className="w-14 h-6 rounded-md" />
-                  </>
-                ) : (
-                  <>
-                    <span className="capitalize inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 transition-all duration-300 hover:bg-gray-100">
-                      {score.user.position || 'Member'}
-                    </span>
-                    <span className="capitalize inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 transition-all duration-300 hover:bg-blue-100">
-                      {score.user.level}
-                    </span>
-                  </>
-                )}
-              </div>
+                <div className="relative flex flex-col items-center gap-4">
+                  <div className="text-xs font-mono opacity-50">
+                    #{index + 1}
+                  </div>
+                  <div className="relative">
+                    <Avatar className="w-24 h-24 ring-2 ring-gray-600/20 dark:ring-4 dark:ring-white/10">
+                      <AvatarImage
+                        src={score.user.imageUrl || ''}
+                        alt={score.user.name}
+                      />
+                      <AvatarFallback className="bg-muted">
+                        {score.user.name.slice(0, 2).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div
+                      className={cn(
+                        'absolute -bottom-0 -right-0 p-1 rounded-full',
+                        index === 0
+                          ? 'bg-yellow-500'
+                          : index === 1
+                            ? 'bg-gray-400'
+                            : 'bg-orange-500'
+                      )}
+                    >
+                      <Icons.award className="w-4 h-4 text-white" />
+                    </div>
+                  </div>
+                  <div className="mt-4 text-center">
+                    <div className="font-bold text-xl">{score.user.name}</div>
+                    <div className="text-sm opacity-70">
+                      @{score.user.username}
+                    </div>
+                  </div>
 
-              {isLoading ? (
-                <>
-                  <Skeleton className="w-24 h-6 rounded-md" />
-                  <Skeleton className="w-8 h-4 rounded-md" />
-                </>
-              ) : (
-                <>
-                  <p className="text-2xl font-bold mt-2 text-primary dark:text-primary-foreground transition-all duration-300 hover:scale-105">
-                    {score.points} pts
-                  </p>
-                  <p className="text-sm mt-1 text-muted-foreground dark:text-gray-800 transition-opacity duration-300 hover:opacity-80">
-                    {index + 1}º
-                  </p>
-                </>
-              )}
-            </Card>
-          )
-        })}
+                  <div className="mt-auto">
+                    <div className="text-3xl font-mono font-bold">
+                      {score.points}
+                      <span className="text-sm ml-1 opacity-70">pts</span>
+                    </div>
+                  </div>
+
+                  {/* Stats */}
+                  <div className="w-full mt-4 space-y-2">
+                    <div className="flex justify-between text-xs">
+                      <span>Level</span>
+                      <span>{score.user.level || 'Member'}</span>
+                    </div>
+                    {score.user.position && (
+                      <div className="flex justify-between text-xs">
+                        <span>Position</span>
+                        <span>{score.user.position}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     )
-  }, [seasonData, isLoading, router])
+  }, [seasonData])
 
   const renderRemainingUsers = useMemo(() => {
-    if (!filteredLeaderboardData.length) {
+    if (
+      !filteredLeaderboardData.length ||
+      filteredLeaderboardData.length <= 3
+    ) {
       return (
         <div className="flex flex-col items-center justify-center py-8 text-center">
           <Icons.search className="h-10 w-10 text-muted-foreground/50 mb-3" />
@@ -295,47 +307,67 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
               : index + 4
 
           return (
-            <Link
+            <motion.div
               key={score.user.id}
-              href={`/user/${score.user.username}`}
-              className="flex items-center justify-between p-2 rounded-lg transition-all duration-300 hover:bg-muted/50 group"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              whileHover={{
+                x: 10,
+                scale: 1.02,
+                transition: { type: 'spring', stiffness: 400, damping: 17 }
+              }}
+              transition={{ duration: 0.2, delay: index * 0.05 }}
             >
-              <div className="flex items-center gap-x-3">
-                <div className="h-6 w-6 sm:h-8 sm:w-8 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center transition-all duration-300 group-hover:bg-primary/10 group-hover:scale-110">
-                  <span className="text-xs sm:text-sm text-primary dark:text-muted-foreground font-medium transition-colors duration-300 group-hover:text-primary">
-                    {position}
+              <Link
+                href={`/user/${score.user.username}`}
+                className="flex items-center justify-between p-2 rounded-lg transition-all duration-300 hover:bg-muted/90 group"
+              >
+                <div className="flex items-center gap-x-3">
+                  <div className="h-6 w-6 sm:h-8 sm:w-8 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center transition-all duration-300 group-hover:bg-primary/10 group-hover:scale-110">
+                    <span className="text-xs sm:text-sm text-primary dark:text-muted-foreground font-medium transition-colors duration-300 group-hover:text-primary">
+                      {position}
+                    </span>
+                  </div>
+                  <div className="relative">
+                    <Avatar className="h-8 w-8 sm:h-10 sm:w-10 ring-2 ring-gray-500/10 transition-all duration-300 group-hover:ring-4 group-hover:ring-primary/20 group-hover:scale-105">
+                      <AvatarImage
+                        src={score.user.imageUrl || ''}
+                        alt={score.user.name}
+                      />
+                      <AvatarFallback className="bg-muted">
+                        {score.user.name.slice(0, 2).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    {position <= 10 && (
+                      <div className="absolute -bottom-1 -right-1 p-0.5 rounded-full bg-primary/80">
+                        <Icons.award className="w-3 h-3 text-white" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-sm sm:text-base text-primary dark:text-white font-medium transition-colors duration-300 group-hover:text-primary">
+                      {score.user.name}
+                    </span>
+                    <span className="text-xs text-muted-foreground transition-colors duration-300 group-hover:text-muted-foreground/80">
+                      @{score.user.username}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-x-2">
+                  <div className="flex flex-wrap gap-1 justify-end">
+                    <span className="capitalize inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 ring-1 ring-inset ring-gray-400/20 transition-all duration-300 group-hover:bg-gray-400/20 group-hover:text-gray-300">
+                      {score.user.position || 'Member'}
+                    </span>
+                    <span className="capitalize inline-flex items-center rounded-md bg-blue-400/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-400/30 transition-all duration-300 group-hover:bg-blue-400/20 group-hover:text-blue-300">
+                      {score.user.level}
+                    </span>
+                  </div>
+                  <span className="text-primary dark:text-muted-foreground text-sm sm:text-base font-bold transition-all duration-300 group-hover:scale-105 group-hover:text-primary group-hover:rotate-[2deg]">
+                    {score.points} pts
                   </span>
                 </div>
-                <Avatar className="h-8 w-8 sm:h-10 sm:w-10 ring-2 ring-gray-500/10 transition-all duration-300 group-hover:ring-4 group-hover:ring-primary/20 group-hover:scale-105">
-                  <AvatarImage
-                    src={score.user.imageUrl || ''}
-                    alt={score.user.name}
-                  />
-                  <AvatarFallback>{score.user.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col">
-                  <span className="text-sm sm:text-base text-primary dark:text-muted-foreground font-medium transition-colors duration-300 group-hover:text-primary">
-                    {score.user.name}
-                  </span>
-                  <span className="text-xs text-muted-foreground transition-colors duration-300 group-hover:text-muted-foreground/80">
-                    @{score.user.username}
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-center gap-x-2">
-                <div className="flex flex-wrap gap-1 justify-end">
-                  <span className="capitalize inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 ring-1 ring-inset ring-gray-400/20 transition-all duration-300 group-hover:bg-gray-400/20 group-hover:text-gray-300">
-                    {score.user.position || 'Member'}
-                  </span>
-                  <span className="capitalize inline-flex items-center rounded-md bg-blue-400/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-400/30 transition-all duration-300 group-hover:bg-blue-400/20 group-hover:text-blue-300">
-                    {score.user.level}
-                  </span>
-                </div>
-                <span className="text-primary dark:text-muted-foreground text-sm sm:text-base font-bold transition-all duration-300 group-hover:scale-105 group-hover:text-primary">
-                  {score.points} pts
-                </span>
-              </div>
-            </Link>
+              </Link>
+            </motion.div>
           )
         })}
       </CardContent>

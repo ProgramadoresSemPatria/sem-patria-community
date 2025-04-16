@@ -121,8 +121,8 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
     <div className="mb-6 relative">
       <Input
         type="text"
-        className="w-full pr-10 bg-white/5 backdrop-blur-sm border-primary/20 focus:border-primary/40 transition-all duration-300 focus:scale-[1.01] focus:shadow-lg"
-        placeholder="🔎  Search users..."
+        className="w-full pr-10 bg-white/5 backdrop-blur-sm transition-all duration-300 focus:scale-[1.01] focus:shadow-lg"
+        placeholder="Search users..."
         value={searchTerm}
         onChange={handleSearchChange}
       />
@@ -191,7 +191,7 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
             >
               <div
                 className={cn(
-                  'relative w-[85vw] max-w-[340px] sm:w-[240px] lg:w-64 h-60 lg:h-[21rem] rounded-xl p-3',
+                  'relative w-[85vw] max-w-[340px] sm:w-[240px] lg:w-64 lg:h-[21rem] rounded-xl p-3',
                   'bg-gradient-to-br',
                   index === 0
                     ? 'from-yellow-400/20 to-amber-600/20 border-yellow-500/30'

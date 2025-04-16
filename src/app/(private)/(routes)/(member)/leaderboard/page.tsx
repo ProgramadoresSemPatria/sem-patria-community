@@ -70,6 +70,7 @@ const Leaderboard = async () => {
                       ))}
                     </ul>
 
+                    <Separator />
                     <div className="mt-8 text-sm text-muted-foreground space-y-2">
                       <p>{formattedData.metadata?.description}</p>
                     </div>

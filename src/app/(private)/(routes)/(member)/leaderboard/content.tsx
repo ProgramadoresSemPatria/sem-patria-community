@@ -16,7 +16,7 @@ import Link from 'next/link'
 import { useCallback, useMemo, useState } from 'react'
 import { LeaderboardSkeleton } from './skeleton'
 import { motion } from 'framer-motion'
-// import { mockLeaderboardData, mockSearchResults } from './mock-data'
+import { mockLeaderboardData, mockSearchResults } from './mock-data'
 
 interface LeaderboardContentProps {
   data: CurrentSeasonResponse
@@ -29,43 +29,43 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
   const debouncedSearchTerm = useDebounce(searchTerm, 300) // 300ms debounce
 
   // TEMPORARY: Use mock data instead of API calls
-  const {
-    data: refreshedData,
-    isLoading: isLoadingRefresh,
-    refetch
-  } = useGetCurrentSeason({
-    queryKey: ['getCurrentSeason'],
-    enabled: false
-  })
+  // const {
+  //   data: refreshedData,
+  //   isLoading: isLoadingRefresh,
+  //   refetch
+  // } = useGetCurrentSeason({
+  //   queryKey: ['getCurrentSeason'],
+  //   enabled: false
+  // })
 
   // TEMPORARY: Mock implementation
-  // const refreshedData = null
-  // const isLoadingRefresh = false
-  // const refetch = async () => {
-  //   console.log('Mock refresh called')
-  //   return Promise.resolve()
-  // }
+  const refreshedData = null
+  const isLoadingRefresh = false
+  const refetch = async () => {
+    console.log('Mock refresh called')
+    return Promise.resolve()
+  }
 
   // TEMPORARY: Use mock search results instead of API call
-  const {
-    data: searchResults,
-    isLoading: isLoadingSearch,
-    isFetching: isFetchingSearch
-  } = useSearchLeaderboardUsers(debouncedSearchTerm, {
-    queryKey: ['searchLeaderboardUsers', debouncedSearchTerm],
-    enabled: debouncedSearchTerm.length >= 2
-  })
+  // const {
+  //   data: searchResults,
+  //   isLoading: isLoadingSearch,
+  //   isFetching: isFetchingSearch
+  // } = useSearchLeaderboardUsers(debouncedSearchTerm, {
+  //   queryKey: ['searchLeaderboardUsers', debouncedSearchTerm],
+  //   enabled: debouncedSearchTerm.length >= 2
+  // })
 
   // TEMPORARY: Mock implementation
-  // const searchResults =
-  //   debouncedSearchTerm.length >= 2 ? mockSearchResults : null
-  // const isLoadingSearch = false
-  // const isFetchingSearch = false
+  const searchResults =
+    debouncedSearchTerm.length >= 2 ? mockSearchResults : null
+  const isLoadingSearch = false
+  const isFetchingSearch = false
 
   const seasonData = useMemo(() => {
     // TEMPORARY: Use mock data instead of API data
-    return refreshedData || data
-    // return mockLeaderboardData || data
+    // return refreshedData || data
+    return mockLeaderboardData || data
   }, [refreshedData, data])
 
   const isLoading = isLoadingRefresh || isLoadingSearch || isFetchingSearch
@@ -149,7 +149,7 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
 
     if (topThree.length === 0) {
       return (
-        <div className="flex flex-col items-center justify-center py-12 text-center">
+        <div className="flex flex-col items-center justify-center py-4 text-center">
           <Icons.users className="h-12 w-12 text-muted-foreground/50 mb-4" />
           <h3 className="text-lg font-medium text-muted-foreground">
             Nobody scored
@@ -162,99 +162,102 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
     }
 
     return (
-      <div className="relative py-6 px-4">
-        <div className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-4">
-          {topThree.map((score, index) => (
-            <motion.div
-              key={score.user.id}
-              className={cn('relative', index === 0 && 'md:z-10 md:scale-110')}
-              initial={{ rotateY: 180 }}
-              animate={{ rotateY: 0 }}
-              whileHover={{
-                scale: index === 0 ? 1.15 : 1.05,
-                y: -10,
-                transition: { type: 'spring', stiffness: 400, damping: 17 }
-              }}
-              transition={{
-                delay: index * 0.2,
-                type: 'spring',
-                stiffness: 100
-              }}
+      <div className="flex flex-row gap-4 overflow-x-auto flex-nowrap justify-start items-stretch px-1 py-6 md:justify-center md:items-center md:px-0">
+        {topThree.map((score, index) => (
+          <motion.div
+            key={score.user.id}
+            className={cn(
+              'relative flex-shrink-0',
+              index === 0 && 'md:z-10 md:scale-110'
+            )}
+            initial={{ rotateY: 180 }}
+            animate={{ rotateY: 0 }}
+            whileHover={{
+              scale: 1.05,
+              y: -10,
+              transition: { type: 'spring', stiffness: 400, damping: 17 }
+            }}
+            transition={{
+              delay: index * 0.2,
+              type: 'spring',
+              stiffness: 100
+            }}
+          >
+            <div
+              className={cn(
+                'relative w-[85vw] max-w-[340px] sm:w-[240px] lg:w-64 h-60 lg:h-96 rounded-xl p-3',
+                'bg-gradient-to-br',
+                index === 0
+                  ? 'from-yellow-400/20 to-amber-600/20 border-yellow-500/30'
+                  : index === 1
+                    ? 'from-gray-400/20 to-gray-600/20 border-gray-500/30'
+                    : 'from-orange-400/20 to-orange-600/20 border-orange-500/30',
+                'border-2 backdrop-blur-lg'
+              )}
             >
-              <div
-                className={cn(
-                  'relative w-64 h-96 rounded-xl p-4',
-                  'bg-gradient-to-br',
-                  index === 0
-                    ? 'from-yellow-400/20 to-amber-600/20 border-yellow-500/30'
-                    : index === 1
-                      ? 'from-gray-400/20 to-gray-600/20 border-gray-500/30'
-                      : 'from-orange-400/20 to-orange-600/20 border-orange-500/30',
-                  'border-2 backdrop-blur-lg'
-                )}
-              >
-                {/* Holographic Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-shimmer" />
+              {/* Holographic Effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-shimmer" />
 
-                <div className="relative flex flex-col items-center gap-4">
-                  <div className="text-xs font-mono opacity-50">
-                    #{index + 1}
-                  </div>
-                  <div className="relative">
-                    <Avatar className="w-24 h-24 ring-2 ring-gray-600/20 dark:ring-4 dark:ring-white/10">
-                      <AvatarImage
-                        src={score.user.imageUrl || ''}
-                        alt={score.user.name}
-                      />
-                      <AvatarFallback className="bg-muted">
-                        {score.user.name.slice(0, 2).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div
-                      className={cn(
-                        'absolute -bottom-0 -right-0 p-1 rounded-full',
-                        index === 0
-                          ? 'bg-yellow-500'
-                          : index === 1
-                            ? 'bg-gray-400'
-                            : 'bg-orange-500'
-                      )}
-                    >
-                      <Icons.award className="w-4 h-4 text-white" />
-                    </div>
-                  </div>
-                  <div className="mt-4 text-center">
-                    <div className="font-bold text-xl">{score.user.name}</div>
-                    <div className="text-sm opacity-70">
-                      @{score.user.username}
-                    </div>
-                  </div>
-
-                  <div className="mt-auto">
-                    <div className="text-3xl font-mono font-bold">
-                      {score.points}
-                      <span className="text-sm ml-1 opacity-70">pts</span>
-                    </div>
-                  </div>
-
-                  {/* Stats */}
-                  <div className="w-full mt-4 space-y-2">
-                    <div className="flex justify-between text-xs">
-                      <span>Level</span>
-                      <span>{score.user.level || 'Member'}</span>
-                    </div>
-                    {score.user.position && (
-                      <div className="flex justify-between text-xs">
-                        <span>Position</span>
-                        <span>{score.user.position}</span>
-                      </div>
+              <div className="relative flex flex-col items-center gap-3">
+                <div className="text-xs font-mono opacity-50">#{index + 1}</div>
+                <div className="relative">
+                  <Avatar className="w-16 h-16 md:w-24 md:h-24 ring-2 ring-gray-600/20 dark:ring-4 dark:ring-white/10">
+                    <AvatarImage
+                      src={score.user.imageUrl || ''}
+                      alt={score.user.name}
+                    />
+                    <AvatarFallback className="bg-muted">
+                      {score.user.name.slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div
+                    className={cn(
+                      'absolute -bottom-0 -right-0 p-1 rounded-full',
+                      index === 0
+                        ? 'bg-yellow-500'
+                        : index === 1
+                          ? 'bg-gray-400'
+                          : 'bg-orange-500'
                     )}
+                  >
+                    <Icons.award className="w-4 h-4 text-white" />
                   </div>
                 </div>
+                <div className="mt-2 text-center">
+                  <div className="font-bold text-base md:text-xl">
+                    {score.user.name}
+                  </div>
+                  <div className="text-xs md:text-sm opacity-70">
+                    @{score.user.username}
+                  </div>
+                </div>
+
+                <div className="mt-auto">
+                  <div className="text-2xl md:text-3xl font-mono font-bold">
+                    {score.points}
+                    <span className="text-xs md:text-sm ml-1 opacity-70">
+                      pts
+                    </span>
+                  </div>
+                </div>
+
+                {/* Stats */}
+                <div className="w-full mt-4 space-y-2">
+                  <div className="flex justify-between text-xs">
+                    <span>Level</span>
+                    <span>{score.user.level || 'Member'}</span>
+                  </div>
+                  {score.user.position && (
+                    <div className="flex justify-between text-xs">
+                      <span>Position</span>
+                      <span>{score.user.position}</span>
+                    </div>
+                  )}
+                </div>
               </div>
-            </motion.div>
-          ))}
-        </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     )
   }, [seasonData])
@@ -265,7 +268,7 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
       filteredLeaderboardData.length <= 3
     ) {
       return (
-        <div className="flex flex-col items-center justify-center py-8 text-center">
+        <div className="flex flex-col items-center justify-center py-4 text-center">
           <Icons.search className="h-10 w-10 text-muted-foreground/50 mb-3" />
           <h3 className="text-base font-medium text-muted-foreground">
             {searchTerm ? 'No users found' : 'No data available'}
@@ -285,7 +288,7 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
 
     if (usersToShow.length === 0 && searchTerm) {
       return (
-        <div className="flex flex-col items-center justify-center py-8 text-center">
+        <div className="flex flex-col items-center justify-center py-4 text-center">
           <Icons.search className="h-10 w-10 text-muted-foreground/50 mb-3" />
           <h3 className="text-base font-medium text-muted-foreground">
             No users found
@@ -320,9 +323,9 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
             >
               <Link
                 href={`/user/${score.user.username}`}
-                className="flex items-center justify-between p-2 rounded-lg transition-all duration-300 hover:bg-muted/90 group"
+                className="flex items-center justify-between p-2 rounded-lg transition-all duration-300 hover:bg-muted/90 group flex-wrap"
               >
-                <div className="flex items-center gap-x-3">
+                <div className="flex items-center gap-x-2 sm:gap-x-3 min-w-0">
                   <div className="h-6 w-6 sm:h-8 sm:w-8 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center transition-all duration-300 group-hover:bg-primary/10 group-hover:scale-110">
                     <span className="text-xs sm:text-sm text-primary dark:text-muted-foreground font-medium transition-colors duration-300 group-hover:text-primary">
                       {position}
@@ -344,11 +347,11 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-sm sm:text-base text-primary dark:text-white font-medium transition-colors duration-300 group-hover:text-primary">
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-sm sm:text-base text-primary dark:text-white font-medium transition-colors duration-300 group-hover:text-primary truncate">
                       {score.user.name}
                     </span>
-                    <span className="text-xs text-muted-foreground transition-colors duration-300 group-hover:text-muted-foreground/80">
+                    <span className="text-xs text-muted-foreground transition-colors duration-300 group-hover:text-muted-foreground/80 truncate">
                       @{score.user.username}
                     </span>
                   </div>
@@ -383,8 +386,8 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
   }
 
   return (
-    <Card className="p-4 h-full flex flex-col">
-      <div className="flex items-center justify-between w-full px-2">
+    <Card className="p-2 sm:p-4 h-full flex flex-col w-full max-w-full">
+      <div className="flex items-center justify-between w-full px-1 sm:px-2">
         <div className="flex items-center gap-2">
           <h1 className="text-primary dark:text-muted-foreground text-lg sm:text-xl font-semibold">
             Leaderboard
@@ -415,9 +418,9 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
           />
         </Button>
       </div>
-      <Separator className="my-4" />
+      <Separator className="my-2 sm:my-4" />
       {renderTopThree}
-      <Separator className="my-4" />
+      <Separator className="my-2 sm:my-4" />
       {renderSearchInput()}
       <div className="overflow-y-auto flex-1">{renderRemainingUsers}</div>
     </Card>

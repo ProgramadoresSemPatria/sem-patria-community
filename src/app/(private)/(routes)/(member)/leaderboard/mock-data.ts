@@ -145,6 +145,146 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         position: Positions.BASE,
         level: 'Beginner'
       }
+    },
+    {
+      id: 'score-9',
+      userId: 'user-9',
+      seasonId: 'season-1',
+      points: 450,
+      user: {
+        id: 'user-9',
+        name: 'Chris Evans',
+        username: 'chrise',
+        imageUrl: 'https://placekitten.com/208/208',
+        position: Positions.BASE,
+        level: 'Beginner'
+      }
+    },
+    {
+      id: 'score-10',
+      userId: 'user-10',
+      seasonId: 'season-1',
+      points: 400,
+      user: {
+        id: 'user-10',
+        name: 'Emma Watson',
+        username: 'emmaw',
+        imageUrl: 'https://placekitten.com/209/209',
+        position: Positions.BASE,
+        level: 'Beginner'
+      }
+    },
+    {
+      id: 'score-11',
+      userId: 'user-11',
+      seasonId: 'season-1',
+      points: 350,
+      user: {
+        id: 'user-11',
+        name: 'Robert Downey Jr.',
+        username: 'robertd',
+        imageUrl: 'https://placekitten.com/210/210',
+        position: Positions.BASE,
+        level: 'Beginner'
+      }
+    },
+    {
+      id: 'score-12',
+      userId: 'user-12',
+      seasonId: 'season-1',
+      points: 300,
+      user: {
+        id: 'user-12',
+        name: 'Scarlett Johansson',
+        username: 'scarlettj',
+        imageUrl: 'https://placekitten.com/211/211',
+        position: Positions.BASE,
+        level: 'Beginner'
+      }
+    },
+    {
+      id: 'score-13',
+      userId: 'user-13',
+      seasonId: 'season-1',
+      points: 250,
+      user: {
+        id: 'user-13',
+        name: 'Tom Holland',
+        username: 'tomh',
+        imageUrl: 'https://placekitten.com/212/212',
+        position: Positions.BASE,
+        level: 'Beginner'
+      }
+    },
+    {
+      id: 'score-14',
+      userId: 'user-14',
+      seasonId: 'season-1',
+      points: 200,
+      user: {
+        id: 'user-14',
+        name: 'Natalie Portman',
+        username: 'nataliep',
+        imageUrl: 'https://placekitten.com/213/213',
+        position: Positions.BASE,
+        level: 'Beginner'
+      }
+    },
+    {
+      id: 'score-15',
+      userId: 'user-15',
+      seasonId: 'season-1',
+      points: 150,
+      user: {
+        id: 'user-15',
+        name: 'Chris Hemsworth',
+        username: 'chrish',
+        imageUrl: 'https://placekitten.com/214/214',
+        position: Positions.BASE,
+        level: 'Beginner'
+      }
+    },
+    {
+      id: 'score-16',
+      userId: 'user-16',
+      seasonId: 'season-1',
+      points: 100,
+      user: {
+        id: 'user-16',
+        name: 'Gal Gadot',
+        username: 'galg',
+        imageUrl: 'https://placekitten.com/215/215',
+        position: Positions.BASE,
+        level: 'Beginner'
+      }
+    },
+    {
+      id: 'score-17',
+      userId: 'user-17',
+      seasonId: 'season-1',
+      points: 50,
+      user: {
+        id: 'user-17',
+        name: 'Dwayne Johnson',
+        username: 'dwaynej',
+        imageUrl: 'https://placekitten.com/216/216',
+        position: Positions.BASE,
+        level: 'Beginner'
+      }
+    },
+    {
+      id: 'score-18',
+      userId: 'user-18',
+      seasonId: 'season-1',
+      points: 25,
+      user: {
+        id: 'user-18',
+        name: 'Jennifer Lawrence',
+        username: 'jenniferl',
+        imageUrl: 'https://placekitten.com/217/217',
+        position: Positions.BASE,
+        level: 'Beginner'
+      }
     }
   ]
 }

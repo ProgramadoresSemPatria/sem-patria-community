@@ -28,7 +28,7 @@ const Leaderboard = async () => {
           <div className="order-1 lg:order-2">
             <Card>
               <CardHeader>
-                <CardTitle className="text-primary dark:text-muted-foreground text-lg sm:text-xl font-semibold">
+                <CardTitle className="text-gray-900 dark:text-muted-foreground text-lg sm:text-xl font-semibold">
                   Prizes
                 </CardTitle>
               </CardHeader>

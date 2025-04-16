@@ -261,6 +261,17 @@ export const badgeStyles = [
   'inline-flex items-center rounded-md bg-pink-400/10 px-2 py-1 text-xs font-medium text-pink-400 ring-1 ring-inset ring-pink-400/20 hover:bg-pink-400/20'
 ]
 
+export const TRAIL_LABELS = {
+  FULL_STACK_JS_FRONT: 'Full Stack JS - Frontend focus',
+  FULL_STACK_JS_NODE: 'Full Stack JS - Node focus',
+  FULL_STACK_PY_BE: 'Full Stack PY BE',
+  BE_NODEJS: 'BE NodeJS',
+  BE_PYTHON: 'BE Python',
+  DATA_SCIENCE: 'Data Science',
+  DATA_ENGINEER: 'Data Engineer',
+  AI_ENGINEER: 'AI Engineer'
+}
+
 export function getRandomStyle() {
   let remainingStyles = [...badgeStyles]
   if (remainingStyles.length === 0) {

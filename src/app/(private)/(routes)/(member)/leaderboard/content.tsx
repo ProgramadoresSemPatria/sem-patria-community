@@ -12,10 +12,16 @@ import { useSeason } from '@/hooks/season/use-season'
 import { useDebounce } from '@/hooks/use-debounce'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import { useCallback, useMemo, useState, useEffect } from 'react'
+import {
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+  type ChangeEvent
+} from 'react'
 import { LeaderboardSkeleton } from './skeleton'
 import { motion } from 'framer-motion'
-import { mockLeaderboardData, mockSearchResults } from './mock-data'
+// import { mockLeaderboardData, mockSearchResults } from './mock-data'
 import { TopThree } from './components/top-three'
 
 interface LeaderboardContentProps {
@@ -30,43 +36,43 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
   const USERS_PER_PAGE = 7 // Since we show 3 in top, this makes it 10 total
 
   // TEMPORARY: Use mock data instead of API calls
-  // const {
-  //   data: refreshedData,
-  //   isLoading: isLoadingRefresh,
-  //   refetch
-  // } = useGetCurrentSeason({
-  //   queryKey: ['getCurrentSeason'],
-  //   enabled: false
-  // })
+  const {
+    data: refreshedData,
+    isLoading: isLoadingRefresh,
+    refetch
+  } = useGetCurrentSeason({
+    queryKey: ['getCurrentSeason'],
+    enabled: false
+  })
 
   // TEMPORARY: Mock implementation
-  const refreshedData = null
-  const isLoadingRefresh = false
-  const refetch = async () => {
-    console.log('Mock refresh called')
-    return Promise.resolve()
-  }
+  // const refreshedData = null
+  // const isLoadingRefresh = false
+  // const refetch = async () => {
+  //   console.log('Mock refresh called')
+  //   return Promise.resolve()
+  // }
 
   // TEMPORARY: Use mock search results instead of API call
-  // const {
-  //   data: searchResults,
-  //   isLoading: isLoadingSearch,
-  //   isFetching: isFetchingSearch
-  // } = useSearchLeaderboardUsers(debouncedSearchTerm, {
-  //   queryKey: ['searchLeaderboardUsers', debouncedSearchTerm],
-  //   enabled: debouncedSearchTerm.length >= 2
-  // })
+  const {
+    data: searchResults,
+    isLoading: isLoadingSearch,
+    isFetching: isFetchingSearch
+  } = useSearchLeaderboardUsers(debouncedSearchTerm, {
+    queryKey: ['searchLeaderboardUsers', debouncedSearchTerm],
+    enabled: debouncedSearchTerm.length >= 2
+  })
 
   // TEMPORARY: Mock implementation
-  const searchResults =
-    debouncedSearchTerm.length >= 2 ? mockSearchResults : null
-  const isLoadingSearch = false
-  const isFetchingSearch = false
+  // const searchResults =
+  //   debouncedSearchTerm.length >= 2 ? mockSearchResults : null
+  // const isLoadingSearch = false
+  // const isFetchingSearch = false
 
   const seasonData = useMemo(() => {
     // TEMPORARY: Use mock data instead of API data
-    // return refreshedData || data
-    return mockLeaderboardData || data
+    return refreshedData || data
+    // return mockLeaderboardData || data
   }, [refreshedData, data])
 
   const isLoading = isLoadingRefresh || isLoadingSearch || isFetchingSearch
@@ -102,12 +108,9 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
     return seasonData.scores
   }, [searchTerm, debouncedSearchTerm, seasonData, displayData])
 
-  const handleSearchChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(e.target.value)
-    },
-    []
-  )
+  const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value)
+  }, [])
 
   const handleClearSearch = useCallback(() => {
     setSearchTerm('')

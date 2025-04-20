@@ -156,7 +156,7 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
     ) {
       return (
         <div className="flex flex-col items-center justify-center py-4 text-center">
-          <Icons.search className="h-10 w-10 text-muted-foreground/50 mb-3" />
+          <Icons.search className="h-10 w-10 text-muted-foreground mb-4" />
           <h3 className="text-base font-medium text-muted-foreground">
             {searchTerm ? 'No users found' : 'No data available'}
           </h3>

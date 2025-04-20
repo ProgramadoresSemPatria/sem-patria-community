@@ -12,18 +12,17 @@ import { useSeason } from '@/hooks/season/use-season'
 import { useDebounce } from '@/hooks/use-debounce'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
-// import { useRouter } from 'next/navigation'
 import { useCallback, useMemo, useState, useEffect } from 'react'
 import { LeaderboardSkeleton } from './skeleton'
 import { motion } from 'framer-motion'
-// import { mockLeaderboardData, mockSearchResults } from './mock-data'
+import { mockLeaderboardData, mockSearchResults } from './mock-data'
+import { TopThree } from './components/top-three'
 
 interface LeaderboardContentProps {
   data: CurrentSeasonResponse
 }
 
 export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
-  // const router = useRouter()
   const { useGetCurrentSeason, useSearchLeaderboardUsers } = useSeason()
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300) // 300ms debounce
@@ -31,43 +30,43 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
   const USERS_PER_PAGE = 7 // Since we show 3 in top, this makes it 10 total
 
   // TEMPORARY: Use mock data instead of API calls
-  const {
-    data: refreshedData,
-    isLoading: isLoadingRefresh,
-    refetch
-  } = useGetCurrentSeason({
-    queryKey: ['getCurrentSeason'],
-    enabled: false
-  })
+  // const {
+  //   data: refreshedData,
+  //   isLoading: isLoadingRefresh,
+  //   refetch
+  // } = useGetCurrentSeason({
+  //   queryKey: ['getCurrentSeason'],
+  //   enabled: false
+  // })
 
   // TEMPORARY: Mock implementation
-  // const refreshedData = null
-  // const isLoadingRefresh = false
-  // const refetch = async () => {
-  //   console.log('Mock refresh called')
-  //   return Promise.resolve()
-  // }
+  const refreshedData = null
+  const isLoadingRefresh = false
+  const refetch = async () => {
+    console.log('Mock refresh called')
+    return Promise.resolve()
+  }
 
   // TEMPORARY: Use mock search results instead of API call
-  const {
-    data: searchResults,
-    isLoading: isLoadingSearch,
-    isFetching: isFetchingSearch
-  } = useSearchLeaderboardUsers(debouncedSearchTerm, {
-    queryKey: ['searchLeaderboardUsers', debouncedSearchTerm],
-    enabled: debouncedSearchTerm.length >= 2
-  })
+  // const {
+  //   data: searchResults,
+  //   isLoading: isLoadingSearch,
+  //   isFetching: isFetchingSearch
+  // } = useSearchLeaderboardUsers(debouncedSearchTerm, {
+  //   queryKey: ['searchLeaderboardUsers', debouncedSearchTerm],
+  //   enabled: debouncedSearchTerm.length >= 2
+  // })
 
   // TEMPORARY: Mock implementation
-  // const searchResults =
-  //   debouncedSearchTerm.length >= 2 ? mockSearchResults : null
-  // const isLoadingSearch = false
-  // const isFetchingSearch = false
+  const searchResults =
+    debouncedSearchTerm.length >= 2 ? mockSearchResults : null
+  const isLoadingSearch = false
+  const isFetchingSearch = false
 
   const seasonData = useMemo(() => {
     // TEMPORARY: Use mock data instead of API data
-    return refreshedData || data
-    // return mockLeaderboardData || data
+    // return refreshedData || data
+    return mockLeaderboardData || data
   }, [refreshedData, data])
 
   const isLoading = isLoadingRefresh || isLoadingSearch || isFetchingSearch
@@ -144,130 +143,7 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
 
   const renderTopThree = useMemo(() => {
     if (!seasonData?.scores) return null
-
-    const topThree = [...seasonData.scores]
-      .slice(0, 3)
-      .sort((a, b) => b.points - a.points)
-
-    if (topThree.length === 0) {
-      return (
-        <div className="flex flex-col items-center justify-center py-4 text-center">
-          <Icons.users className="h-12 w-12 text-muted-foreground/50 mb-4" />
-          <h3 className="text-lg font-medium text-muted-foreground">
-            Nobody scored
-          </h3>
-          <p className="text-sm text-muted-foreground/70 mt-1">
-            Be the first to join the leaderboard
-          </p>
-        </div>
-      )
-    }
-
-    return (
-      <div className="flex flex-row gap-3 overflow-x-auto flex-nowrap justify-start items-stretch px-1 py-3 md:justify-center md:items-center md:px-0">
-        {topThree.map((score, index) => (
-          <Link
-            href={`/user/${score.user.username}`}
-            key={score.user.id}
-            className="group cursor-pointer"
-          >
-            <motion.div
-              key={score.user.id}
-              className={cn(
-                'relative flex-shrink-0',
-                index === 0 && 'md:z-10 md:scale-105'
-              )}
-              initial={{ rotateY: 180 }}
-              animate={{ rotateY: 0 }}
-              whileHover={{
-                scale: 1.05,
-                transition: { type: 'spring', stiffness: 200, damping: 15 }
-              }}
-              transition={{
-                delay: index * 0.2,
-                type: 'spring',
-                stiffness: 200
-              }}
-            >
-              <div
-                className={cn(
-                  'relative w-[85vw] max-w-[340px] sm:w-[240px] lg:w-64 lg:h-[21rem] rounded-xl p-3',
-                  'bg-gradient-to-br',
-                  index === 0
-                    ? 'from-yellow-400/20 to-amber-600/20 border-yellow-500/30'
-                    : index === 1
-                      ? 'from-gray-400/20 to-gray-600/20 border-gray-500/30'
-                      : 'from-orange-400/20 to-orange-600/20 border-orange-500/30',
-                  'border-2 backdrop-blur-lg'
-                )}
-              >
-                {/* Holographic Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-shimmer" />
-
-                <div className="relative flex flex-col items-center gap-3">
-                  <div className="text-xs font-bold opacity-50">
-                    #{index + 1}
-                  </div>
-                  <div className="relative">
-                    <Avatar className="w-16 h-16 md:w-24 md:h-24 ring-2 ring-gray-600/20 dark:ring-4 dark:ring-white/10">
-                      <AvatarImage
-                        src={score.user.imageUrl || ''}
-                        alt={score.user.name}
-                      />
-                      <AvatarFallback className="bg-muted">
-                        {score.user.name.slice(0, 2).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div
-                      className={cn(
-                        'absolute -bottom-0 -right-0 p-1 rounded-full',
-                        index === 0
-                          ? 'bg-yellow-500'
-                          : index === 1
-                            ? 'bg-gray-400'
-                            : 'bg-orange-500'
-                      )}
-                    >
-                      <Icons.award className="w-4 h-4 text-white" />
-                    </div>
-                  </div>
-                  <div className="mt-2 text-center">
-                    <div className="font-bold text-base md:text-xl">
-                      {score.user.name}
-                    </div>
-                    <div className="text-xs md:text-sm opacity-70">
-                      @{score.user.username}
-                    </div>
-                  </div>
-
-                  <div className="mt-auto">
-                    <div className="text-2xl md:text-3xl font-mono font-bold">
-                      {score.points}
-                      <span className="text-xs md:text-sm ml-1 opacity-70">
-                        pts
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Stats */}
-                  <div className="w-full mt-4 space-y-2">
-                    <div className="flex justify-between text-xs">
-                      <span>Level</span>
-                      <span>{score.user.level || 'Member'}</span>
-                    </div>
-
-                    <div className="flex justify-between text-xs">
-                      <span>Position</span>
-                      <span>{score.user.position || '-'}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </Link>
-        ))}
-      </div>
-    )
+    return <TopThree scores={seasonData.scores} />
   }, [seasonData])
 
   const renderRemainingUsers = useMemo(() => {

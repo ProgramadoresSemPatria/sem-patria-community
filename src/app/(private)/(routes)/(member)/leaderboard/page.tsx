@@ -20,7 +20,7 @@ const Leaderboard = async () => {
 
   return (
     <DefaultLayout>
-      <div className="mt-4 w-full max-w-7xl mx-auto h-[calc(100vh-8rem)]">
+      <div className="mt-4 w-full max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full">
           <div className="lg:col-span-3 order-2 lg:order-1 h-full">
             <LeaderboardContent data={formattedData} />

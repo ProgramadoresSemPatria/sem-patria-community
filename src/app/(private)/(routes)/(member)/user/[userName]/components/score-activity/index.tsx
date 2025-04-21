@@ -64,13 +64,13 @@ const ScoreActivity = ({ userId }: ScoreActivityProps) => {
                 </Badge>
                 <Link href={`/user/${item.user.id}`}>{item.user.name}</Link>
               </TimelineTitle>
-              <TimelineIndicator className="bg-primary/10 group-data-completed/timeline-item:bg-primary group-data-completed/timeline-item:text-primary-foreground flex size-6 items-center justify-center border-none group-data-[orientation=vertical]/timeline:-left-7">
+              <TimelineIndicator className="bg-primary/10 w-8 h-8 group-data-completed/timeline-item:bg-primary group-data-completed/timeline-item:text-primary-foreground flex items-center justify-center border-none group-data-[orientation=vertical]/timeline:-left-7">
                 <Image
                   src={item.user.imageUrl ?? AvatarPlaceholder}
                   alt={item.user.name}
-                  className="h-9 w-9 rounded-full"
-                  width={36}
-                  height={36}
+                  className="size-full rounded-full"
+                  width={56}
+                  height={56}
                 />
               </TimelineIndicator>
             </TimelineHeader>

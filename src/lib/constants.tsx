@@ -94,7 +94,6 @@ export const menuItems: MenuItemProps[] = [
     label: 'Settings',
     icon: <Icons.settings className="w-4 h-4" />
   },
-
   {
     href: appRoutes.admin_users,
     label: 'Users',

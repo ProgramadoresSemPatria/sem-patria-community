@@ -72,11 +72,9 @@ export async function GET(
           )?.multiplier ?? 1.0
         : 1.0
 
-      const calculatedPoints = activity.resource.baseScore * positionMultiplier
-
       return {
         id: activity.id,
-        points: calculatedPoints,
+        points: activity.points,
         date: activity.createdAt,
         source: {
           type: activity.resource.resource,

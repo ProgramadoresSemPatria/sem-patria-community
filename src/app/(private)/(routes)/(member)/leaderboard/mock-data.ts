@@ -43,7 +43,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-1',
         name: 'Alex Johnson',
         username: 'alexj',
-        imageUrl: 'https://placekitten.com/200/200',
+        imageUrl: '',
         position: Positions.ADMIN,
         level: 'Expert'
       }
@@ -57,7 +57,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-2',
         name: 'Sam Rodriguez',
         username: 'samr',
-        imageUrl: 'https://placekitten.com/201/201',
+        imageUrl: '',
         position: Positions.AMBASSADOR,
         level: 'Advanced'
       }
@@ -71,7 +71,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-3',
         name: 'Jordan Lee',
         username: 'jordanl',
-        imageUrl: 'https://placekitten.com/202/202',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Intermediate'
       }
@@ -85,7 +85,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-4',
         name: 'Taylor Kim',
         username: 'taylork',
-        imageUrl: 'https://placekitten.com/203/203',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Intermediate'
       }
@@ -99,7 +99,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-5',
         name: 'Morgan Patel',
         username: 'morganp',
-        imageUrl: 'https://placekitten.com/204/204',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Intermediate'
       }
@@ -113,7 +113,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-6',
         name: 'Casey Wong',
         username: 'caseyw',
-        imageUrl: 'https://placekitten.com/205/205',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Beginner'
       }
@@ -127,7 +127,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-7',
         name: 'Riley Garcia',
         username: 'rileyg',
-        imageUrl: 'https://placekitten.com/206/206',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Beginner'
       }
@@ -141,7 +141,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-8',
         name: 'Jamie Chen',
         username: 'jamiec',
-        imageUrl: 'https://placekitten.com/207/207',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Beginner'
       }
@@ -155,7 +155,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-9',
         name: 'Chris Evans',
         username: 'chrise',
-        imageUrl: 'https://placekitten.com/208/208',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Beginner'
       }
@@ -169,7 +169,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-10',
         name: 'Emma Watson',
         username: 'emmaw',
-        imageUrl: 'https://placekitten.com/209/209',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Beginner'
       }
@@ -183,7 +183,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-11',
         name: 'Robert Downey Jr.',
         username: 'robertd',
-        imageUrl: 'https://placekitten.com/210/210',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Beginner'
       }
@@ -197,7 +197,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-12',
         name: 'Scarlett Johansson',
         username: 'scarlettj',
-        imageUrl: 'https://placekitten.com/211/211',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Beginner'
       }
@@ -211,7 +211,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-13',
         name: 'Tom Holland',
         username: 'tomh',
-        imageUrl: 'https://placekitten.com/212/212',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Beginner'
       }
@@ -225,7 +225,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-14',
         name: 'Natalie Portman',
         username: 'nataliep',
-        imageUrl: 'https://placekitten.com/213/213',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Beginner'
       }
@@ -239,7 +239,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-15',
         name: 'Chris Hemsworth',
         username: 'chrish',
-        imageUrl: 'https://placekitten.com/214/214',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Beginner'
       }
@@ -253,7 +253,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-16',
         name: 'Gal Gadot',
         username: 'galg',
-        imageUrl: 'https://placekitten.com/215/215',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Beginner'
       }
@@ -267,7 +267,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-17',
         name: 'Dwayne Johnson',
         username: 'dwaynej',
-        imageUrl: 'https://placekitten.com/216/216',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Beginner'
       }
@@ -281,7 +281,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         id: 'user-18',
         name: 'Jennifer Lawrence',
         username: 'jenniferl',
-        imageUrl: 'https://placekitten.com/217/217',
+        imageUrl: '',
         position: Positions.BASE,
         level: 'Beginner'
       }
@@ -298,7 +298,7 @@ export const mockSearchResults: SearchUsersResponse = {
         id: 'user-1',
         name: 'Alex Johnson',
         username: 'alexj',
-        imageUrl: 'https://placekitten.com/200/200',
+        imageUrl: '',
         position: 'ADMIN',
         level: 'Expert'
       }
@@ -310,7 +310,7 @@ export const mockSearchResults: SearchUsersResponse = {
         id: 'user-6',
         name: 'Casey Wong',
         username: 'caseyw',
-        imageUrl: 'https://placekitten.com/205/205',
+        imageUrl: '',
         position: 'BASE',
         level: 'Beginner'
       }

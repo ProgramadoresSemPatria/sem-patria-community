@@ -1,28 +1,23 @@
 'use client'
 
-import type { CurrentSeasonResponse } from '@/actions/leaderboard/types'
+import type {
+  CurrentSeasonResponse,
+  LeaderboardScore
+} from '@/actions/leaderboard/types'
 import { Icons } from '@/components/icons'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSeason } from '@/hooks/season/use-season'
 import { useDebounce } from '@/hooks/use-debounce'
 import { cn } from '@/lib/utils'
-import Link from 'next/link'
-import {
-  useCallback,
-  useMemo,
-  useState,
-  useEffect,
-  type ChangeEvent
-} from 'react'
+import { useCallback, useMemo, useState, type ChangeEvent } from 'react'
 import { LeaderboardSkeleton } from './skeleton'
-import { motion } from 'framer-motion'
 // import { mockLeaderboardData, mockSearchResults } from './mock-data'
 import { TopThree } from './components/top-three'
+import { UserListItem } from './components/user-list-item'
+import { SearchInput } from './components/search-input'
 
 interface LeaderboardContentProps {
   data: CurrentSeasonResponse
@@ -32,8 +27,6 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
   const { useGetCurrentSeason, useSearchLeaderboardUsers } = useSeason()
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300) // 300ms debounce
-  const [currentPage, setCurrentPage] = useState(1)
-  const USERS_PER_PAGE = 7 // Since we show 3 in top, this makes it 10 total
 
   // TEMPORARY: Use mock data instead of API calls
   const {
@@ -119,31 +112,6 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
   const isSearchLoading = isLoadingSearch || isFetchingSearch
   const isRefreshLoading = isLoadingRefresh
 
-  const renderSearchInput = () => (
-    <div className="mb-6 relative">
-      <Input
-        type="text"
-        className="w-full pr-10 bg-white/5 backdrop-blur-sm transition-all duration-300 focus:scale-[1.01] focus:shadow-lg"
-        placeholder="Search users..."
-        value={searchTerm}
-        onChange={handleSearchChange}
-      />
-      {searchTerm && (
-        <button
-          onClick={handleClearSearch}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors"
-        >
-          <Icons.close className="h-4 w-4" />
-        </button>
-      )}
-      {isSearchLoading && searchTerm && (
-        <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
-          <Icons.loader className="h-4 w-4 animate-spin text-primary" />
-        </div>
-      )}
-    </div>
-  )
-
   const renderTopThree = useMemo(() => {
     if (!seasonData?.scores) return null
     return <TopThree scores={seasonData.scores} />
@@ -187,18 +155,10 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
       )
     }
 
-    // Pagination logic
-    const totalPages = Math.ceil(usersToShow.length / USERS_PER_PAGE)
-    const startIndex = (currentPage - 1) * USERS_PER_PAGE
-    const paginatedUsers = usersToShow.slice(
-      startIndex,
-      startIndex + USERS_PER_PAGE
-    )
-
     return (
       <div className="flex flex-col h-full">
-        <CardContent className="px-2 py-0 pb-2 flex flex-col gap-y-4 overflow-y-auto overflow-x-hidden flex-1">
-          {paginatedUsers.map((score, index) => {
+        <CardContent className="px-0 py-0 flex flex-col gap-y-4 overflow-y-auto overflow-x-hidden flex-1">
+          {usersToShow.map((score, index) => {
             const position =
               searchTerm && seasonData?.scores
                 ? seasonData.scores.findIndex(
@@ -207,109 +167,17 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
                 : index + 4
 
             return (
-              <motion.div
+              <UserListItem
                 key={score.user.id}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                whileHover={{
-                  x: 5,
-                  scale: 1.01,
-                  transition: { type: 'spring', stiffness: 300, damping: 25 }
-                }}
-                transition={{ duration: 0.15, delay: index * 0.03 }}
-              >
-                <Link
-                  href={`/user/${score.user.username}`}
-                  className="flex items-center justify-between p-2 rounded-lg transition-all duration-200 hover:bg-muted/90 group flex-wrap"
-                >
-                  <div className="flex items-center gap-x-2 sm:gap-x-3 min-w-0">
-                    <div className="h-6 w-6 sm:h-8 sm:w-8 bg-slate-400 dark:bg-slate-800/20 rounded-full flex items-center justify-center transition-all duration-200 group-hover:bg-primary/10">
-                      <span className="text-xs sm:text-sm text-white dark:text-muted-foreground transition-colors duration-200 group-hover:text-primary">
-                        {position}
-                      </span>
-                    </div>
-                    <div className="relative">
-                      <Avatar className="h-8 w-8 sm:h-10 sm:w-10 ring-2 ring-gray-500/10 transition-all duration-200 group-hover:ring-2 group-hover:ring-primary/20">
-                        <AvatarImage
-                          src={score.user.imageUrl || ''}
-                          alt={score.user.name}
-                        />
-                        <AvatarFallback className="bg-muted">
-                          {score.user.name.slice(0, 2).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                      {position <= 10 && (
-                        <div className="absolute -bottom-1 -right-1 p-0.5 rounded-full bg-primary/80">
-                          <Icons.award className="w-3 h-3 text-white" />
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-sm sm:text-base text-gray-900 dark:text-white font-medium transition-colors duration-200 group-hover:text-primary truncate">
-                        {score.user.name}
-                      </span>
-                      <span className="text-xs text-muted-foreground transition-colors duration-200 group-hover:text-muted-foreground/80 truncate">
-                        @{score.user.username}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-x-2">
-                    <div className="flex flex-wrap gap-1 justify-end">
-                      <span className="capitalize inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-400/20 transition-all duration-200 group-hover:bg-gray-400/20 group-hover:text-gray-600 dark:group-hover:text-gray-300">
-                        {score.user.position || 'Member'}
-                      </span>
-                      <span className="capitalize inline-flex items-center rounded-md bg-blue-400/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-400/30 transition-all duration-200 group-hover:bg-blue-400/20 group-hover:text-blue-300">
-                        {score.user.level}
-                      </span>
-                    </div>
-                    <span className="text-gray-900 dark:text-muted-foreground text-sm sm:text-base font-bold font-mono transition-all duration-200 group-hover:text-primary">
-                      {score.points}
-                      <span className="text-xs ml-1 opacity-70">pts</span>
-                    </span>
-                  </div>
-                </Link>
-              </motion.div>
+                score={score as LeaderboardScore}
+                position={position}
+              />
             )
           })}
         </CardContent>
-
-        {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 py-4 mt-2 border-t">
-            {currentPage > 1 && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setCurrentPage(p => Math.max(1, p - 1))
-                }}
-              >
-                <Icons.arrowBack className="h-4 w-4" />
-              </Button>
-            )}
-            <span className="text-sm">
-              Page {currentPage} of {totalPages}
-            </span>
-            {currentPage < totalPages && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setCurrentPage(p => Math.min(totalPages, p + 1))
-                }}
-              >
-                <Icons.arrowRight className="h-4 w-4" />
-              </Button>
-            )}
-          </div>
-        )}
       </div>
     )
-  }, [seasonData, filteredLeaderboardData, searchTerm, currentPage])
-
-  // Add this effect to reset pagination when search changes
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [searchTerm])
+  }, [seasonData, filteredLeaderboardData, searchTerm])
 
   const handleRefresh = async () => {
     await refetch()
@@ -355,7 +223,12 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
       <Separator className="my-2 sm:my-4" />
       {renderTopThree}
       <Separator className="my-2 sm:my-4" />
-      {renderSearchInput()}
+      <SearchInput
+        value={searchTerm}
+        onChange={handleSearchChange}
+        onClear={handleClearSearch}
+        isLoading={isSearchLoading}
+      />
       <div className="overflow-y-auto flex-1">{renderRemainingUsers}</div>
     </Card>
   )

@@ -26,7 +26,8 @@ export async function PATCH(req: NextRequest) {
       imageUrl,
       isPublicEmail,
       location,
-      position
+      position,
+      trail
     } = await req.json()
 
     if (!authUserId) return new NextResponse('Unauthenticated', { status: 401 })
@@ -81,7 +82,8 @@ export async function PATCH(req: NextRequest) {
         linkedin,
         role,
         location,
-        position
+        position,
+        trail
       }
     })
 
@@ -127,7 +129,8 @@ export async function PATCH(req: NextRequest) {
         role,
         isPublicEmail,
         location,
-        position
+        position,
+        trail
       }
     })
 

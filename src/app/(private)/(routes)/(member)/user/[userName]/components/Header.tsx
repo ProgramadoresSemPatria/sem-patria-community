@@ -8,9 +8,10 @@ import { type User } from '@prisma/client'
 import { type User as ClerkUser } from '@clerk/nextjs/server'
 import { useFollowersAndFollowings } from './useFollowersAndFollowings'
 import { Roles, Positions } from '@/lib/types'
+import { TRAIL_LABELS, PositionIconMap } from '@/lib/constants'
 import { getHighestPriorityRole } from '@/lib/utils'
+import { Icons } from '@/components/icons'
 
-import { PositionIconMap } from '@/lib/constants'
 const Header = ({
   user,
   currentUser
@@ -54,20 +55,33 @@ const Header = ({
         <div className="flex-1 space-y-3">
           <h1 className="text-3xl font-bold flex items-center gap-3 flex-wrap">
             {user.name}
-            <Badge className="text-sm py-1 px-3">
-              {Roles[getHighestPriorityRole(user.role)]}
-            </Badge>
-            {user.position && (
-              <Badge
-                variant="outline"
-                className="text-sm py-1 px-3 flex items-center gap-2"
-              >
-                {PositionIconMap[user.position]}
-                {Positions[user.position]}
+            <div className="flex items-center gap-2">
+              <Badge className="text-sm py-1 px-3">
+                {Roles[getHighestPriorityRole(user.role)]}
               </Badge>
-            )}
+              {user.position && (
+                <Badge
+                  variant="outline"
+                  className="text-sm py-1 px-3 flex items-center gap-2"
+                >
+                  {PositionIconMap[user.position]}
+                  {Positions[user.position]}
+                </Badge>
+              )}
+            </div>
           </h1>
           <p className="text-gray-500 text-lg">@{user.username}</p>
+          {user.trail && (
+            <Badge
+              variant="outline"
+              className="py-1 px-3 flex items-center gap-2 w-fit  rounded-full border-secondary bg-secondary/20 text-secondary text-xs"
+            >
+              <Icons.bookOpen className="h-3 w-3 shrink-0" />
+              <span className="truncate">
+                {TRAIL_LABELS[user.trail as keyof typeof TRAIL_LABELS]}
+              </span>
+            </Badge>
+          )}
           {!isCurrentUser && (
             <Button
               disabled={following || unfollowing}

@@ -15,6 +15,17 @@ enum Positions {
   ADMIN
 }
 
+enum Trail {
+  FULL_STACK_JS_FRONT
+  FULL_STACK_JS_NODE
+  FULL_STACK_PY_BE
+  BE_NODEJS
+  BE_PYTHON
+  DATA_SCIENCE
+  DATA_ENGINEER
+  AI_ENGINEER
+}
+
 model User {
   id            String        @id @default(uuid())
   email         String
@@ -36,6 +47,7 @@ model User {
   isPublicEmail Boolean?      @default(false)
   position      Positions?
   location      String?
+  trail         Trail?
   comments      Comment[]
   commentLikes  CommentLike[]
   likes         Like[]

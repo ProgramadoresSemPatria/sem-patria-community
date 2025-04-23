@@ -1,17 +1,19 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Icons } from '@/components/icons'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { type User } from '@prisma/client'
-import { type User as ClerkUser } from '@clerk/nextjs/server'
-import { useFollowersAndFollowings } from './useFollowersAndFollowings'
-import { Roles, Positions } from '@/lib/types'
-import { TRAIL_LABELS, PositionIconMap } from '@/lib/constants'
+import { PositionIconMap, TRAIL_LABELS } from '@/lib/constants'
+import { Positions, Roles } from '@/lib/types'
 import { getHighestPriorityRole } from '@/lib/utils'
-import { Icons } from '@/components/icons'
+import { type User as ClerkUser } from '@clerk/nextjs/server'
+import { type User } from '@prisma/client'
+import { useFollowersAndFollowings } from './useFollowersAndFollowings'
 
+import { useEffect, useState } from 'react'
+
+import { FollowersAndFollowingModal } from './FollowersAndFollowingModal'
 const Header = ({
   user,
   currentUser
@@ -19,7 +21,7 @@ const Header = ({
   user: User
   currentUser: ClerkUser
 }) => {
-  const { follow, followers, unfollow, following, unfollowing } =
+  const { follow, followers, unfollow, following, unfollowing, followedUsers } =
     useFollowersAndFollowings(user.id)
   const [isFollowed, setIsFollowed] = useState(false)
 
@@ -95,8 +97,19 @@ const Header = ({
         </div>
       </div>
       <div className="grid grid-cols-2 gap-6 text-center md:grid-cols-2">
-        <Stat label="Followers" value={followers.length} />
-        <Stat label="Following" value={user.followings} />
+        <FollowersAndFollowingModal
+          title="Followers"
+          followersOrFollowing={followers}
+        >
+          <Stat label="Followers" value={followers.length} />
+        </FollowersAndFollowingModal>
+
+        <FollowersAndFollowingModal
+          title="Following"
+          followersOrFollowing={followedUsers}
+        >
+          <Stat label="Following" value={user.followings} />
+        </FollowersAndFollowingModal>
       </div>
     </div>
   )

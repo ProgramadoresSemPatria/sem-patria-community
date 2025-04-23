@@ -2,16 +2,19 @@
 
 import { toast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
-import { type Interest } from '@prisma/client'
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { type User } from '@prisma/client'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { AxiosError, type AxiosResponse } from 'axios'
+
+export type Followers = Array<Pick<User, 'id' | 'imageUrl' | 'username'>>
+export type Followings = Array<Pick<User, 'id' | 'imageUrl' | 'username'>>
 
 export const useFollowersAndFollowings = (userId: string) => {
   const {
     data: followers = [],
     isLoading: isLoadingFollowers,
     refetch: refetchFollowers
-  } = useQuery<Interest[], AxiosError>({
+  } = useQuery<Followers, AxiosError>({
     queryKey: ['followers', userId],
     queryFn: async () => {
       try {
@@ -30,6 +33,28 @@ export const useFollowersAndFollowings = (userId: string) => {
       }
     }
   })
+
+  const { data: followedUsers = [], isLoading: isLoadingFollowedUsers } =
+    useQuery<Followings, AxiosError>({
+      queryKey: ['followings', userId],
+      queryFn: async () => {
+        try {
+          const response = await api.get(`/api/user/${userId}/following`)
+          return response.data.users
+        } catch (error) {
+          if (error instanceof AxiosError) {
+            console.error('Error fetching followings:', error)
+            toast({
+              title: 'Error',
+              description: 'Failed to load followings.',
+              variant: 'destructive'
+            })
+          }
+          throw error
+        }
+      }
+    })
+
   const { mutateAsync: follow, isPending: following } = useMutation<
     AxiosResponse<void>,
     AxiosError,
@@ -82,6 +107,8 @@ export const useFollowersAndFollowings = (userId: string) => {
     refetchFollowers,
     unfollowing,
     follow,
-    unfollow
+    unfollow,
+    followedUsers,
+    isLoadingFollowedUsers
   }
 }

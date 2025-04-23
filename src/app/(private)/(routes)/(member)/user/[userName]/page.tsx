@@ -4,6 +4,7 @@ import UserPosts from './components/UserPosts'
 import Loading from '@/app/loading'
 import SocialLinks from './components/SocialLinks'
 import Header from './components/Header'
+import CreatePostCommentComponent from '@/app/(private)/(routes)/(member)/forum/components/create-post'
 import { currentUser, type User } from '@clerk/nextjs/server'
 import UserInterests from './components/UserInterests'
 
@@ -37,6 +38,7 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
   return (
     <DefaultLayout>
       <Header user={profileUser} currentUser={user} />
+
       <UserInterests
         userInterests={profileUser?.interests}
         allInterests={interests}
@@ -49,6 +51,7 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
         github={profileUser.github || ''}
         showEmail={profileUser.isPublicEmail || false}
       />
+      <CreatePostCommentComponent />
       <UserPosts posts={profileUser?.posts} userId={profileUser?.id} />
     </DefaultLayout>
   )

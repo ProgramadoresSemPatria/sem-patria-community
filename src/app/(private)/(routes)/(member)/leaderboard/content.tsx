@@ -119,8 +119,8 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
     }
 
     const usersToShow = searchTerm
-      ? filteredLeaderboardData
-      : filteredLeaderboardData.slice(3)
+      ? filteredLeaderboardData.slice(0, 5)
+      : filteredLeaderboardData.slice(3, 8)
 
     if (usersToShow.length === 0 && searchTerm) {
       return (
@@ -138,7 +138,7 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
 
     return (
       <div className="flex flex-col h-full">
-        <CardContent className="px-0 py-0 flex flex-col gap-y-4 overflow-y-auto overflow-x-hidden flex-1">
+        <CardContent className="px-0 py-0 flex flex-col gap-y-4 overflow-y-auto overflow-x-hidden flex-1 max-h-[400px]">
           {usersToShow.map((score, index) => {
             const position =
               searchTerm && seasonData?.scores
@@ -155,6 +155,14 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
               />
             )
           })}
+          {(searchTerm
+            ? filteredLeaderboardData.length > 5
+            : filteredLeaderboardData.length > 8) && (
+            <div className="flex items-center justify-center gap-2 py-2 text-muted-foreground/70">
+              <Icons.arrowDown className="h-4 w-4 animate-bounce" />
+              <span className="text-xs">Scroll to see more</span>
+            </div>
+          )}
         </CardContent>
       </div>
     )
@@ -204,12 +212,14 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
       <Separator className="my-2 sm:my-4" />
       {renderTopThree}
       <Separator className="my-2 sm:my-4" />
-      <SearchInput
-        value={searchTerm}
-        onChange={handleSearchChange}
-        onClear={handleClearSearch}
-        isLoading={isSearchLoading}
-      />
+      {filteredLeaderboardData.length > 3 && (
+        <SearchInput
+          value={searchTerm}
+          onChange={handleSearchChange}
+          onClear={handleClearSearch}
+          isLoading={isSearchLoading}
+        />
+      )}
       <div className="overflow-y-auto flex-1">{renderRemainingUsers}</div>
     </Card>
   )

@@ -14,7 +14,6 @@ import { useDebounce } from '@/hooks/use-debounce'
 import { cn } from '@/lib/utils'
 import { useCallback, useMemo, useState, type ChangeEvent } from 'react'
 import { LeaderboardSkeleton } from './skeleton'
-// import { mockLeaderboardData, mockSearchResults } from './mock-data'
 import { TopThree } from './components/top-three'
 import { UserListItem } from './components/user-list-item'
 import { SearchInput } from './components/search-input'
@@ -26,9 +25,8 @@ interface LeaderboardContentProps {
 export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
   const { useGetCurrentSeason, useSearchLeaderboardUsers } = useSeason()
   const [searchTerm, setSearchTerm] = useState('')
-  const debouncedSearchTerm = useDebounce(searchTerm, 300) // 300ms debounce
+  const debouncedSearchTerm = useDebounce(searchTerm, 600)
 
-  // TEMPORARY: Use mock data instead of API calls
   const {
     data: refreshedData,
     isLoading: isLoadingRefresh,
@@ -38,15 +36,6 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
     enabled: false
   })
 
-  // TEMPORARY: Mock implementation
-  // const refreshedData = null
-  // const isLoadingRefresh = false
-  // const refetch = async () => {
-  //   console.log('Mock refresh called')
-  //   return Promise.resolve()
-  // }
-
-  // TEMPORARY: Use mock search results instead of API call
   const {
     data: searchResults,
     isLoading: isLoadingSearch,
@@ -56,16 +45,8 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
     enabled: debouncedSearchTerm.length >= 2
   })
 
-  // TEMPORARY: Mock implementation
-  // const searchResults =
-  //   debouncedSearchTerm.length >= 2 ? mockSearchResults : null
-  // const isLoadingSearch = false
-  // const isFetchingSearch = false
-
   const seasonData = useMemo(() => {
-    // TEMPORARY: Use mock data instead of API data
     return refreshedData || data
-    // return mockLeaderboardData || data
   }, [refreshedData, data])
 
   const isLoading = isLoadingRefresh || isLoadingSearch || isFetchingSearch

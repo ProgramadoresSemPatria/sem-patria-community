@@ -9,8 +9,8 @@ import { LeaderboardContent } from './content'
 
 const Leaderboard = async () => {
   // TEMPORARY: Use mock data instead of API call
-  const currentSeason = await getCurrentSeason()
   // const currentSeason = mockLeaderboardData
+  const currentSeason = await getCurrentSeason()
 
   const formattedData = currentSeason
     ? {

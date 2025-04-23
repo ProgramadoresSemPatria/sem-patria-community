@@ -6,6 +6,7 @@ import { Icons } from '@/components/icons'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import { type LeaderboardScore } from '@/actions/leaderboard/types'
+import { getLevelStyle, getPositionStyle } from './utils'
 
 interface LeaderboardCardProps {
   score: LeaderboardScore
@@ -88,12 +89,31 @@ const LeaderboardCard = ({ score, index }: LeaderboardCardProps) => {
               </div>
             </div>
             <div className="w-full flex flex-wrap gap-2 justify-center">
-              <span className="capitalize inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-400/20">
-                {score.user.level || 'Member'}
-              </span>
-              <span className="capitalize inline-flex items-center rounded-md bg-blue-400/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-400/30">
-                {score.user.position || 'Member'}
-              </span>
+              {score.user.level && (
+                <span
+                  className={cn(
+                    'capitalize inline-flex items-center rounded-md px-2 py-1',
+                    'text-xs font-medium ring-1 ring-inset',
+                    'transition-all duration-200',
+                    getLevelStyle(score.user.level)
+                  )}
+                >
+                  {score.user.level}
+                </span>
+              )}
+              {score.user.position && (
+                <span
+                  className={cn(
+                    'inline-flex items-center rounded-md px-1.5 sm:px-2 py-0.5 sm:py-1',
+                    'text-[10px] sm:text-xs font-medium ring-1 ring-inset',
+                    'transition-all duration-200',
+                    getPositionStyle(score.user.position)
+                  )}
+                >
+                  {score.user.position?.charAt(0).toUpperCase() +
+                    score.user.position?.toLowerCase().slice(1)}
+                </span>
+              )}
             </div>
           </div>
         </div>

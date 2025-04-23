@@ -44,8 +44,8 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         name: 'Alex Johnson',
         username: 'alexj',
         imageUrl: '',
-        position: Positions.ADMIN,
-        level: 'Expert'
+        position: Positions.BUILDER,
+        level: 'senior'
       }
     },
     {
@@ -59,7 +59,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         username: 'samr',
         imageUrl: '',
         position: Positions.AMBASSADOR,
-        level: 'Advanced'
+        level: 'pleno'
       }
     },
     {
@@ -72,22 +72,22 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         name: 'Jordan Lee',
         username: 'jordanl',
         imageUrl: '',
-        position: Positions.BASE,
-        level: 'Intermediate'
+        position: Positions.PSP,
+        level: 'junior'
       }
     },
     {
       id: 'score-4',
       userId: 'user-4',
       seasonId: 'season-1',
-      points: 720,
+      points: 875,
       user: {
         id: 'user-4',
         name: 'Taylor Kim',
         username: 'taylork',
         imageUrl: '',
-        position: Positions.BASE,
-        level: 'Intermediate'
+        position: Positions.PSP,
+        level: 'junior'
       }
     },
     {
@@ -100,8 +100,8 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         name: 'Morgan Patel',
         username: 'morganp',
         imageUrl: '',
-        position: Positions.BASE,
-        level: 'Intermediate'
+        position: Positions.BUILDER,
+        level: 'junior'
       }
     },
     {
@@ -114,8 +114,8 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         name: 'Casey Wong',
         username: 'caseyw',
         imageUrl: '',
-        position: Positions.BASE,
-        level: 'Beginner'
+        position: Positions.PSP,
+        level: 'senior'
       }
     },
     {
@@ -129,7 +129,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         username: 'rileyg',
         imageUrl: '',
         position: Positions.BASE,
-        level: 'Beginner'
+        level: 'senior'
       }
     },
     {
@@ -143,7 +143,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         username: 'jamiec',
         imageUrl: '',
         position: Positions.BASE,
-        level: 'Beginner'
+        level: 'senior'
       }
     },
     {
@@ -156,8 +156,8 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         name: 'Chris Evans',
         username: 'chrise',
         imageUrl: '',
-        position: Positions.BASE,
-        level: 'Beginner'
+        position: Positions.AMBASSADOR,
+        level: 'pleno'
       }
     },
     {
@@ -170,8 +170,8 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         name: 'Emma Watson',
         username: 'emmaw',
         imageUrl: '',
-        position: Positions.BASE,
-        level: 'Beginner'
+        position: Positions.BUILDER,
+        level: 'pleno'
       }
     },
     {
@@ -185,7 +185,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         username: 'robertd',
         imageUrl: '',
         position: Positions.BASE,
-        level: 'Beginner'
+        level: 'pleno'
       }
     },
     {
@@ -199,7 +199,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         username: 'scarlettj',
         imageUrl: '',
         position: Positions.BASE,
-        level: 'Beginner'
+        level: 'pleno'
       }
     },
     {
@@ -213,7 +213,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         username: 'tomh',
         imageUrl: '',
         position: Positions.BASE,
-        level: 'Beginner'
+        level: 'pleno'
       }
     },
     {
@@ -227,7 +227,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         username: 'nataliep',
         imageUrl: '',
         position: Positions.BASE,
-        level: 'Beginner'
+        level: 'junior'
       }
     },
     {
@@ -241,7 +241,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         username: 'chrish',
         imageUrl: '',
         position: Positions.BASE,
-        level: 'Beginner'
+        level: 'junior'
       }
     },
     {
@@ -255,7 +255,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         username: 'galg',
         imageUrl: '',
         position: Positions.BASE,
-        level: 'Beginner'
+        level: 'junior'
       }
     },
     {
@@ -269,7 +269,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         username: 'dwaynej',
         imageUrl: '',
         position: Positions.BASE,
-        level: 'Beginner'
+        level: 'junior'
       }
     },
     {
@@ -283,7 +283,7 @@ export const mockLeaderboardData: CurrentSeasonResponse = {
         username: 'jenniferl',
         imageUrl: '',
         position: Positions.BASE,
-        level: 'Beginner'
+        level: 'junior'
       }
     }
   ]
@@ -300,7 +300,7 @@ export const mockSearchResults: SearchUsersResponse = {
         username: 'alexj',
         imageUrl: '',
         position: 'ADMIN',
-        level: 'Expert'
+        level: 'senior'
       }
     },
     {
@@ -312,7 +312,7 @@ export const mockSearchResults: SearchUsersResponse = {
         username: 'caseyw',
         imageUrl: '',
         position: 'BASE',
-        level: 'Beginner'
+        level: 'junior'
       }
     }
   ]

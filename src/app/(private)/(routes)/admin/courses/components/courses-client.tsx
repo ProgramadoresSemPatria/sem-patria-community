@@ -29,7 +29,9 @@ const CoursesClient = ({ courses }: CoursesClientProps) => {
           </Button>
         </Can>
       </Header>
-      <DataTable searchKey="name" columns={columns} data={courses} />
+      <div className="overflow-x-auto">
+        <DataTable searchKey="name" columns={columns} data={courses} />
+      </div>
     </>
   )
 }

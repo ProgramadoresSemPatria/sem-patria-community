@@ -7,6 +7,7 @@ import { validateCourseLevelColor, validateIsPendingColor } from '@/lib/utils'
 import { type ColumnDef } from '@tanstack/react-table'
 import { CourseCellAction } from './course-cell-action'
 import { type Category } from '@prisma/client'
+import Link from 'next/link'
 
 export type CourseColumn = {
   id: string
@@ -53,7 +54,14 @@ export const columns: Array<ColumnDef<CourseColumn>> = [
   {
     accessorKey: 'courseUrl',
     id: 'url',
-    header: 'Url'
+    header: 'Url',
+    cell: ({ row }) => (
+      <div className="max-w-[250px] truncate">
+        <Link href={row.original.courseUrl} target="_blank" className="">
+          {row.original.courseUrl}
+        </Link>
+      </div>
+    )
   },
   {
     accessorKey: 'level',

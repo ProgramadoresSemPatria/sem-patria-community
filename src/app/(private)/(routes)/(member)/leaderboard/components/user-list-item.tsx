@@ -1,7 +1,6 @@
 import { memo } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Icons } from '@/components/icons'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { type LeaderboardScore } from '@/actions/leaderboard/types'
 import { cn } from '@/lib/utils'

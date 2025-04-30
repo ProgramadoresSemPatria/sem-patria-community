@@ -2,7 +2,9 @@ import prismadb from '@/lib/prismadb'
 import { type SearchedUserProps } from './types'
 
 export async function getLeaderboardUsers(
-  searchTerm?: string
+  searchTerm?: string,
+  page: number = 0,
+  pageSize: number = 10
 ): Promise<SearchedUserProps[]> {
   try {
     // Buscar a temporada atual
@@ -31,6 +33,8 @@ export async function getLeaderboardUsers(
       orderBy: {
         points: 'desc'
       },
+      skip: page * pageSize,
+      take: pageSize,
       include: {
         user: {
           select: {

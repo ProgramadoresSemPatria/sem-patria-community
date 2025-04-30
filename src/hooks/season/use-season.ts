@@ -1,5 +1,9 @@
 import { api } from '@/lib/api'
-import { useQuery, type UseQueryOptions } from '@tanstack/react-query'
+import {
+  type UseQueryOptions,
+  useInfiniteQuery,
+  useQuery
+} from '@tanstack/react-query'
 import type { AxiosError } from 'axios'
 import type {
   GetAllSeasonsApiProps,
@@ -51,9 +55,33 @@ export const useSeason = () => {
       ...options
     })
 
+  const useInfiniteLeaderboardUsers = (
+    searchTerm: string,
+    pageSize: number = 10,
+    options?: unknown
+  ) =>
+    useInfiniteQuery({
+      queryKey: ['infiniteLeaderboardUsers', searchTerm],
+      queryFn: async ({ pageParam = 0 }) => {
+        const response = await api.get<SearchLeaderboardUsersApiProps>(
+          `/api/season/current/scoreboard?search=${encodeURIComponent(
+            searchTerm
+          )}&page=${pageParam}&pageSize=${pageSize}`
+        )
+        return response.data
+      },
+      getNextPageParam: (lastPage, allPages) => {
+        if (lastPage.users.length < pageSize) return undefined
+        return allPages.length
+      },
+      initialPageParam: 0,
+      ...(options as Record<string, unknown>)
+    })
+
   return {
     useGetCurrentSeason,
     useGetAllSeasons,
-    useSearchLeaderboardUsers
+    useSearchLeaderboardUsers,
+    useInfiniteLeaderboardUsers
   }
 }

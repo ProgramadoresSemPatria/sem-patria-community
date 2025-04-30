@@ -6,8 +6,10 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
     const searchTerm = searchParams.get('search') || undefined
+    const page = parseInt(searchParams.get('page') || '0')
+    const pageSize = parseInt(searchParams.get('pageSize') || '10')
 
-    const users = await getLeaderboardUsers(searchTerm)
+    const users = await getLeaderboardUsers(searchTerm, page, pageSize)
 
     return NextResponse.json({ users })
   } catch (error) {

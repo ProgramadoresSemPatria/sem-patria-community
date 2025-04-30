@@ -18,14 +18,14 @@ const Leaderboard = async () => {
   return (
     <DefaultLayout>
       <div className="mt-4 w-full max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-3 order-2 lg:order-1">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full">
+          <div className="lg:col-span-3 order-2 lg:order-1 h-full">
             <LeaderboardContent data={formattedData} />
           </div>
           <div className="order-1 lg:order-2">
             <Card>
               <CardHeader>
-                <CardTitle className="text-primary dark:text-muted-foreground text-lg sm:text-xl font-semibold">
+                <CardTitle className="text-gray-900 dark:text-muted-foreground text-lg sm:text-xl font-semibold">
                   Prizes
                 </CardTitle>
               </CardHeader>
@@ -67,6 +67,7 @@ const Leaderboard = async () => {
                       ))}
                     </ul>
 
+                    <Separator />
                     <div className="mt-8 text-sm text-muted-foreground space-y-2">
                       <p>{formattedData.metadata?.description}</p>
                     </div>

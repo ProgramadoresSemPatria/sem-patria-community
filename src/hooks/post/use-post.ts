@@ -52,7 +52,7 @@ export const usePost = ({ initialPosts, post }: UsePostProps) => {
     onError: error => {
       console.error('Error creating post', error)
       toast({
-        title: 'An error ocurred while creating post',
+        title: 'An error occurred while creating post',
         description: error.message,
         variant: 'destructive'
       })

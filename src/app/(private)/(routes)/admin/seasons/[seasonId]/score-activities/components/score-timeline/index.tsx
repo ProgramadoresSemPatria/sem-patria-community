@@ -16,6 +16,9 @@ import { type ScoreHistoryItem } from '@/hooks/score-history/types'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import useScoreTimeline from './use-score-timeline'
+import { Button } from '@/components/ui/button'
+import { Icons } from '@/components/icons'
+import { appRoutes } from '@/lib/constants'
 
 type ScoreTimelineProps = {
   seasonId: string
@@ -43,7 +46,17 @@ const ScoreTimeline = ({
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-bold">Score Activities</h2>
+      <Button variant="outline" asChild>
+        <Link
+          href={appRoutes.admin_seasons}
+          className="flex items-center gap-2"
+        >
+          <Icons.arrowBack className="h-4 w-4" /> Back to Seasons
+        </Link>
+      </Button>
+      <div className="flex items-center">
+        <h2 className="text-2xl font-bold">Score Activities</h2>
+      </div>
 
       {data.length === 0 ? (
         <div className="flex h-full items-center">

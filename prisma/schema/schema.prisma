@@ -1,6 +1,5 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["prismaSchemaFolder"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -9,11 +8,20 @@ datasource db {
 }
 
 model Interest {
-  id        String   @id @default(uuid())
-  interest  String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  users     User[]   @relation("InterestToUser")
+  id        String         @id @default(uuid())
+  interest  String         @unique
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  users     UserInterest[]
+}
+
+model UserInterest {
+  userId     String
+  interestId String
+  user       User     @relation(fields: [userId], references: [id])
+  interest   Interest @relation(fields: [interestId], references: [id])
+
+  @@id([userId, interestId])
 }
 
 model Course {

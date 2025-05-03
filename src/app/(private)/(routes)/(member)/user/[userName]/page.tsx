@@ -1,3 +1,4 @@
+import CreatePostCommentComponent from '@/app/(private)/(routes)/(member)/forum/components/create-post'
 import Loading from '@/app/loading'
 import { DefaultLayout } from '@/components/default-layout'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -42,6 +43,7 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
   return (
     <DefaultLayout>
       <Header user={profileUser} currentUser={user} />
+
       <UserInterests
         allInterests={interests}
         profileUserId={profileUser.id}
@@ -64,6 +66,7 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="posts">
+            <CreatePostCommentComponent />
             <UserPosts posts={profileUser?.posts} userId={user.id} />
           </TabsContent>
           <TabsContent value="score-activity">
@@ -71,7 +74,10 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
           </TabsContent>
         </Tabs>
       ) : (
-        <UserPosts posts={profileUser?.posts} userId={profileUser?.id} />
+        <>
+          <CreatePostCommentComponent />
+          <UserPosts posts={profileUser?.posts} userId={profileUser?.id} />
+        </>
       )}
     </DefaultLayout>
   )

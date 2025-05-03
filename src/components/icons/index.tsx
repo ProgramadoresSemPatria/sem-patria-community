@@ -9,6 +9,7 @@ import {
   Bell,
   BellDot,
   Bold,
+  BookOpen,
   BookText,
   Bot,
   Braces,
@@ -65,6 +66,7 @@ import {
   PlusCircle,
   Quote,
   Rocket,
+  RotateCcw,
   Save,
   Search,
   Send,
@@ -76,9 +78,8 @@ import {
   Sun,
   ThumbsUp,
   Trash,
-  Type,
   Trophy,
-  RotateCcw,
+  Type,
   Underline,
   UploadCloud,
   User,
@@ -185,5 +186,6 @@ export const Icons = {
   userX: UserX,
   users: Users,
   video: Video,
-  youtube: Youtube
+  youtube: Youtube,
+  bookOpen: BookOpen
 }

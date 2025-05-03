@@ -19,6 +19,7 @@ model User {
   isPublicEmail Boolean?       @default(false)
   location      String?
   position      Positions?
+  trail         Trail?
   comments      Comment[]
   commentLikes  CommentLike[]
   likes         Like[]
@@ -26,7 +27,7 @@ model User {
   posts         Post[]
   ScoreHistory  ScoreHistory[]
   Scoreboard    Scoreboard[]
-  interests     Interest[]     @relation("InterestToUser")
+  interests     UserInterest[]
 }
 
 model UserFollowersAndFollowing {
@@ -51,4 +52,15 @@ enum Positions {
   PSP
   BASE
   ADMIN
+}
+
+enum Trail {
+  FULL_STACK_JS_FRONT
+  FULL_STACK_JS_NODE
+  FULL_STACK_PY_BE
+  BE_NODEJS
+  BE_PYTHON
+  DATA_SCIENCE
+  DATA_ENGINEER
+  AI_ENGINEER
 }

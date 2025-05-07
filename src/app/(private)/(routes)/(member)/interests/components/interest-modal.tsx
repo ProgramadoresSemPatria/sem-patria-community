@@ -4,7 +4,6 @@ import { useState, useCallback, useMemo, type FC } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -16,6 +15,10 @@ import { type User } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { useUserInterest } from '../../user/[userName]/components/useUserInterests'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { useQuery } from '@tanstack/react-query'
+import { api } from '@/lib/api'
+import { useAllInterests } from '../hooks/use-all-interests'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface InterestModalProps {
   interest: InterestWithUsers
@@ -24,7 +27,7 @@ interface InterestModalProps {
 }
 
 const InterestModal: FC<InterestModalProps> = ({
-  interest,
+  interest: initialInterest,
   userId,
   onClose
 }) => {
@@ -35,20 +38,32 @@ const InterestModal: FC<InterestModalProps> = ({
     interests,
     removeInterest,
     isAddingInterest,
-    isRemovingInterest
+    isRemovingInterest,
+    refetchInterests,
+    isLoadingInterests: isInterestsLoading
   } = useUserInterest(userId)
+  const { updateInterestOptimistically } = useAllInterests()
 
-  const hasInterest = useMemo(
-    () =>
-      interests?.some(
-        userInterest => userInterest.interest === interest.interest
-      ),
-    [interests, interest]
+  const {
+    data: interest = initialInterest,
+    refetch: refetchInterest,
+    isLoading: isInterestLoading
+  } = useQuery({
+    queryKey: ['interest', initialInterest.id],
+    queryFn: async () => {
+      const response = await api.get(`/api/interest/${initialInterest.id}`)
+      return response.data
+    },
+    initialData: initialInterest
+  })
+
+  const hasInterest = interests?.some(
+    userInterest => userInterest.interest === interest.interest
   )
 
   const groupedUsers = useMemo(
     () =>
-      interest.users.reduce((acc: Record<string, User[]>, user) => {
+      interest.users.reduce((acc: Record<string, User[]>, user: User) => {
         const firstLetter = user.name.charAt(0).toUpperCase()
         if (!acc[firstLetter]) acc[firstLetter] = []
         acc[firstLetter].push(user)
@@ -61,7 +76,7 @@ const InterestModal: FC<InterestModalProps> = ({
     if (!searchQuery) return groupedUsers
     return Object.keys(groupedUsers).reduce(
       (acc: Record<string, User[]>, letter) => {
-        const filtered = groupedUsers[letter].filter(user =>
+        const filtered = groupedUsers[letter].filter((user: User) =>
           user.name.toLowerCase().includes(searchQuery.toLowerCase())
         )
         if (filtered.length > 0) acc[letter] = filtered
@@ -73,15 +88,30 @@ const InterestModal: FC<InterestModalProps> = ({
 
   const handleInterestAction = useCallback(async () => {
     try {
+      // Optimistically update the UI
+      updateInterestOptimistically(interest.id, userId, !hasInterest)
+
       if (hasInterest) {
         await removeInterest(interest.id)
-        return
+      } else {
+        await addInterest(interest.id)
       }
-      await addInterest(interest.id)
+      await Promise.all([refetchInterests(), refetchInterest()])
     } catch (error) {
       console.error('Failed to update interest:', error)
+      // Revert optimistic update on error
+      updateInterestOptimistically(interest.id, userId, hasInterest)
     }
-  }, [hasInterest, removeInterest, addInterest, interest.id])
+  }, [
+    hasInterest,
+    removeInterest,
+    addInterest,
+    interest.id,
+    refetchInterests,
+    refetchInterest,
+    updateInterestOptimistically,
+    userId
+  ])
 
   const handleUserClick = useCallback(
     (username: string) => {
@@ -107,7 +137,7 @@ const InterestModal: FC<InterestModalProps> = ({
               {letter}
             </div>
             <ul role="list" className="divide-y">
-              {users.map(person => (
+              {(users as User[]).map(person => (
                 <UserListItem
                   key={person.email}
                   person={person}
@@ -120,6 +150,12 @@ const InterestModal: FC<InterestModalProps> = ({
       </nav>
     )
   }
+
+  const isLoading =
+    isInterestLoading ||
+    isInterestsLoading ||
+    isAddingInterest ||
+    isRemovingInterest
 
   return (
     <Dialog open onOpenChange={onClose}>
@@ -141,23 +177,26 @@ const InterestModal: FC<InterestModalProps> = ({
             </DialogDescription>
           </div>
           <DialogFooter className="bottom-0 border-t border-border px-6 py-4 gap-y-4">
-            <DialogClose asChild>
-              <Button type="button" onClick={onClose} variant="outline">
-                Close
-              </Button>
-            </DialogClose>
             <Button
               type="button"
-              variant={hasInterest ? 'destructive' : 'default'}
-              onClick={handleInterestAction}
-              disabled={isAddingInterest || isRemovingInterest}
+              onClick={onClose}
+              variant="outline"
+              disabled={isLoading}
             >
-              {isAddingInterest || isRemovingInterest
-                ? 'Processing...'
-                : hasInterest
-                  ? 'Remove Interest'
-                  : 'Add to Interests'}
+              Close
             </Button>
+            {isLoading || hasInterest === undefined ? (
+              <Skeleton className="h-9 w-24" />
+            ) : (
+              <Button
+                type="button"
+                variant={hasInterest ? 'destructive' : 'default'}
+                onClick={handleInterestAction}
+                className="min-w-[120px]"
+              >
+                {hasInterest ? 'Remove Interest' : 'Add to Interests'}
+              </Button>
+            )}
           </DialogFooter>
         </div>
       </DialogContent>

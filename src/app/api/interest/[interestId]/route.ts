@@ -2,13 +2,28 @@ import prismadb from '@/lib/prismadb'
 import { auth } from '@clerk/nextjs/server'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function GET(req: NextRequest) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { interestId: string } }
+) {
   try {
     const { userId } = auth()
+    if (!userId) {
+      return new NextResponse('Unauthenticated', { status: 401 })
+    }
 
-    if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
+    const interest = await prismadb.interest.findUnique({
+      where: { id: params.interestId },
+      include: { users: true }
+    })
+
+    if (!interest) {
+      return new NextResponse('Interest not found', { status: 404 })
+    }
+
+    return new NextResponse(JSON.stringify(interest), { status: 200 })
   } catch (error) {
-    console.log('[CREATE_INTEREST_ERROR]', error)
+    console.log('[GET_INTEREST_ERROR]', error)
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }
@@ -44,12 +59,23 @@ export async function DELETE(
 ) {
   try {
     const { userId } = auth()
-    const { interestId } = params
+    if (!userId) {
+      return new NextResponse('Unauthenticated', { status: 401 })
+    }
 
-    if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
+    const user = await prismadb.user.findUnique({
+      where: { id: userId },
+      select: { role: true }
+    })
+
+    if (!user || !user.role.includes('Admin')) {
+      return new NextResponse('Forbidden: Only admins can delete interests', {
+        status: 403
+      })
+    }
 
     await prismadb.interest.delete({
-      where: { id: interestId }
+      where: { id: params.interestId }
     })
 
     return new NextResponse('Interest deleted', { status: 200 })

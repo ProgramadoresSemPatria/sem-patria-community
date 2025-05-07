@@ -51,7 +51,7 @@ const Post = ({
         isPinned
           ? 'border-l-2 border-l-secondary'
           : 'border border-muted-foreground/20',
-        'rounded-md bg-background shadow dark:text-white text-black cursor-pointer hover:shadow-lg hover:shadow-primary/50 transition-all duration-200 ease-in-out'
+        'rounded-md bg-background shadow dark:text-white text-black cursor-pointer hover:shadow-md hover:shadow-primary/30 transition-all duration-200 ease-in-out'
       )}
     >
       <div className="px-6 py-4 flex justify-between">

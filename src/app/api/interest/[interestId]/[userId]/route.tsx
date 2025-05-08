@@ -13,12 +13,10 @@ export async function POST(
       return new NextResponse('Don`t have permission', { status: 401 })
     }
 
-    await prismadb.user.update({
-      where: { id: params.userId },
+    await prismadb.userInterest.create({
       data: {
-        interests: {
-          connect: { id: params.interestId }
-        }
+        userId: params.userId,
+        interestId: params.interestId
       }
     })
 
@@ -43,11 +41,11 @@ export async function PATCH(
     if (!(params.userId === userId)) {
       return new NextResponse('Don`t have permission', { status: 401 })
     }
-    await prismadb.user.update({
-      where: { id: userId },
-      data: {
-        interests: {
-          disconnect: { id: params.interestId }
+    await prismadb.userInterest.delete({
+      where: {
+        userId_interestId: {
+          userId: params.userId,
+          interestId: params.interestId
         }
       }
     })

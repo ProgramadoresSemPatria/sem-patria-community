@@ -45,7 +45,9 @@ const SeasonsList = () => {
             ? error.message
             : 'An unexpected error occurred'
         }
-        retry={() => window.location.reload()}
+        retry={() => {
+          window.location.reload()
+        }}
       />
     )
   }

@@ -192,7 +192,9 @@ export const MetadataTable = ({
         <Textarea
           placeholder="Enter a detailed description of the season, including key events and prizes."
           value={value?.description || ''}
-          onChange={e => handleDescriptionChange(e.target.value)}
+          onChange={e => {
+            handleDescriptionChange(e.target.value)
+          }}
           maxLength={MAX_DESCRIPTION_LENGTH}
           className="min-h-[100px]"
         />
@@ -229,7 +231,9 @@ export const MetadataTable = ({
               <Input
                 placeholder="Enter position (e.g., 1st place, 2nd place)"
                 value={editingAward.position}
-                onChange={e => handleChange('position', e.target.value)}
+                onChange={e => {
+                  handleChange('position', e.target.value)
+                }}
                 className={cn('h-8', errors.position && 'border-destructive')}
                 maxLength={100}
               />
@@ -241,7 +245,9 @@ export const MetadataTable = ({
               <Textarea
                 placeholder="Enter a description of the award (e.g., 1st place prize)"
                 value={editingAward.description}
-                onChange={e => handleChange('description', e.target.value)}
+                onChange={e => {
+                  handleChange('description', e.target.value)
+                }}
                 maxLength={300}
                 className={cn(
                   'min-h-[80px]',
@@ -314,7 +320,9 @@ export const MetadataTable = ({
                         type="button"
                         variant="ghost"
                         size="icon"
-                        onClick={() => handleEdit(index)}
+                        onClick={() => {
+                          handleEdit(index)
+                        }}
                         className="h-8 w-8"
                       >
                         <Icons.edit className="h-4 w-4" />
@@ -323,7 +331,9 @@ export const MetadataTable = ({
                         type="button"
                         variant="ghost"
                         size="icon"
-                        onClick={() => handleDelete(index)}
+                        onClick={() => {
+                          handleDelete(index)
+                        }}
                         className="h-8 w-8 text-red-600 hover:bg-transparent"
                       >
                         <Icons.trash className="h-4 w-4" />

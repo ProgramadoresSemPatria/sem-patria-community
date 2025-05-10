@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils'
 import { LeaderboardSkeleton } from './skeleton'
 import { TopThree } from './components/top-three'
 import { InfiniteLeaderboard } from './components/infinite-leaderboard'
+import { useCallback, useMemo } from 'react'
 
 interface LeaderboardContentProps {
   data: CurrentSeasonResponse
@@ -32,29 +33,50 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
   })
 
   const seasonData = refreshedData || data
-  const isRefreshLoading = isLoadingRefresh
 
   const handleRefresh = async () => {
     await refetch()
   }
 
-  const convertToSearchedUserProps = (
-    score: LeaderboardScore
-  ): SearchedUserProps => ({
-    userId: score.userId,
-    points: score.points,
-    user: {
-      id: score.user.id,
-      name: score.user.name,
-      username: score.user.username,
-      level: score.user.level || '',
-      position: score.user.position,
-      imageUrl: score.user.imageUrl || null
-    }
-  })
+  const convertToSearchedUserProps = useCallback(
+    (score: LeaderboardScore): SearchedUserProps => ({
+      userId: score.userId,
+      points: score.points,
+      user: {
+        id: score.user.id,
+        name: score.user.name,
+        username: score.user.username,
+        level: score.user.level || '',
+        position: score.user.position,
+        imageUrl: score.user.imageUrl || null
+      }
+    }),
+    []
+  )
+
+  const initialLeaderboardData = useMemo(
+    () => ({
+      users: seasonData?.scores?.slice(3).map(convertToSearchedUserProps) || []
+    }),
+    [seasonData?.scores, convertToSearchedUserProps]
+  )
 
   if (isLoadingRefresh) {
     return <LeaderboardSkeleton />
+  }
+
+  if (!seasonData) {
+    return (
+      <div className="flex flex-col items-center justify-center py-8 text-center">
+        <Icons.help className="h-10 w-10 text-destructive mb-4" />
+        <h3 className="text-base font-medium text-destructive">
+          Error loading leaderboard
+        </h3>
+        <p className="text-sm text-muted-foreground/70 mt-1">
+          Please try again later
+        </p>
+      </div>
+    )
   }
 
   return (
@@ -65,12 +87,12 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
             Leaderboard
           </h1>
           <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-            {isRefreshLoading ? (
+            {isLoadingRefresh ? (
               <Skeleton className="w-8 h-4 rounded-full" />
             ) : (
               <>
-                <span className="hidden sm:inline">{seasonData?.name}</span>
-                <span className="sm:hidden">{seasonData?.name}</span>
+                <span className="hidden sm:inline">{seasonData.name}</span>
+                <span className="sm:hidden">{seasonData.name}</span>
               </>
             )}
           </span>
@@ -79,26 +101,26 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
           type="button"
           variant="ghost"
           size="icon"
-          disabled={isRefreshLoading}
+          disabled={isLoadingRefresh}
           onClick={handleRefresh}
+          aria-label="Refresh leaderboard"
         >
           <Icons.rotateCcw
             className={cn(
               'w-5 h-5 text-gray-900 dark:text-muted-foreground',
-              isRefreshLoading && 'animate-spin'
+              isLoadingRefresh && 'animate-spin'
             )}
           />
         </Button>
       </div>
       <Separator className="my-2 sm:my-4" />
-      {seasonData?.scores && <TopThree scores={seasonData.scores} />}
-      <Separator className="my-2 sm:my-4" />
-      <InfiniteLeaderboard
-        initialData={{
-          users:
-            seasonData?.scores?.slice(3).map(convertToSearchedUserProps) || []
-        }}
-      />
+      {seasonData.scores && <TopThree scores={seasonData.scores} />}
+      {initialLeaderboardData.users.length > 0 && (
+        <>
+          <Separator className="my-2 sm:my-4" />
+          <InfiniteLeaderboard initialData={initialLeaderboardData} />
+        </>
+      )}
     </Card>
   )
 }

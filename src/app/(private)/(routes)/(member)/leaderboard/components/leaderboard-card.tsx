@@ -83,8 +83,13 @@ const LeaderboardCard = ({ score, index }: LeaderboardCardProps) => {
               </div>
             </div>
             <div className="mt-auto">
-              <div className="text-2xl md:text-3xl font-mono font-bold">
-                {score.points}
+              <div className="text-xl md:text-2xl font-mono font-bold">
+                {score.points >= 1000000
+                  ? new Intl.NumberFormat('pt-BR', {
+                      notation: 'compact',
+                      maximumFractionDigits: 1
+                    }).format(score.points)
+                  : new Intl.NumberFormat('pt-BR').format(score.points)}
                 <span className="text-xs md:text-sm ml-1 opacity-70">pts</span>
               </div>
             </div>

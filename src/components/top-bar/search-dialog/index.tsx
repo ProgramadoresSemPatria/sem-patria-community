@@ -11,6 +11,7 @@ import { type SearchDialogResult } from '@/hooks/search/types'
 import { SearchInput } from './search-input'
 import { SearchResults } from './search-results'
 import { useEventModal } from '@/hooks/modal/use-event-modal'
+import { toast } from '@/components/ui/use-toast'
 
 interface SearchDialogProps {
   isOpen: boolean
@@ -69,6 +70,13 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ isOpen, onClose }) => {
               if (item.url) {
                 router.push(item.url)
                 handleClose()
+              }
+              if (item.entity === 'module' && !item.url) {
+                toast({
+                  title: 'This module has no videos',
+                  description: 'Please try again later'
+                })
+                return
               }
             }}
           >

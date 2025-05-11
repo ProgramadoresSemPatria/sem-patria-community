@@ -12,7 +12,7 @@ import { SearchInput } from './search-input'
 import { SearchResults } from './search-results'
 import { useEventModal } from '@/hooks/modal/use-event-modal'
 import { toast } from '@/components/ui/use-toast'
-import { FC } from 'react'
+import type { FC } from 'react'
 
 interface SearchDialogProps {
   isOpen: boolean

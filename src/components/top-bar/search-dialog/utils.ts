@@ -1,4 +1,3 @@
-import { toast } from '@/components/ui/use-toast'
 import { type SearchDialogResult } from '@/hooks/search/types'
 import { format } from 'date-fns'
 
@@ -62,10 +61,6 @@ export const getItemUrl = (item: SearchDialogResult): string | null => {
     case 'module': {
       const videoId = item.videos?.[0]?.id
       if (!videoId) {
-        toast({
-          title: 'This module has no videos',
-          description: 'Please try again later'
-        })
         return null
       }
       return `/mentorship/${encodeURIComponent(videoId)}`

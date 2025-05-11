@@ -12,6 +12,7 @@ import { SearchInput } from './search-input'
 import { SearchResults } from './search-results'
 import { useEventModal } from '@/hooks/modal/use-event-modal'
 import { toast } from '@/components/ui/use-toast'
+import { FC } from 'react'
 
 interface SearchDialogProps {
   isOpen: boolean
@@ -19,7 +20,7 @@ interface SearchDialogProps {
   isMac: boolean
 }
 
-const SearchDialog: React.FC<SearchDialogProps> = ({ isOpen, onClose }) => {
+const SearchDialog: FC<SearchDialogProps> = ({ isOpen, onClose }) => {
   const router = useRouter()
   const { onOpen } = useEventModal()
 
@@ -76,7 +77,6 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ isOpen, onClose }) => {
                   title: 'This module has no videos',
                   description: 'Please try again later'
                 })
-                return
               }
             }}
           >

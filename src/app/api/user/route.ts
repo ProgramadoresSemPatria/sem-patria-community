@@ -26,7 +26,8 @@ export async function PATCH(req: NextRequest) {
       imageUrl,
       isPublicEmail,
       location,
-      position
+      position,
+      trail
     } = await req.json()
 
     if (!authUserId) return new NextResponse('Unauthenticated', { status: 401 })
@@ -81,7 +82,8 @@ export async function PATCH(req: NextRequest) {
         linkedin,
         role,
         location,
-        position
+        position,
+        trail
       }
     })
 
@@ -127,7 +129,8 @@ export async function PATCH(req: NextRequest) {
         role,
         isPublicEmail,
         location,
-        position
+        position,
+        trail
       }
     })
 
@@ -221,4 +224,20 @@ export async function POST(req: NextRequest) {
     console.log('[USER_LEVEL_POST_ERROR]', error)
     return new NextResponse('Internal Server Error', { status: 500 })
   }
+}
+
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url)
+  const query = searchParams.get('query')
+
+  const users = await prismadb.user.findMany({
+    where: {
+      OR: [
+        { username: { contains: query || '', mode: 'insensitive' } },
+        { name: { contains: query || '', mode: 'insensitive' } }
+      ]
+    }
+  })
+
+  return NextResponse.json(users)
 }

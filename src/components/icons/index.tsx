@@ -86,7 +86,8 @@ import {
   X,
   Youtube,
   NotebookPen,
-  type LucideIcon
+  type LucideIcon,
+  BookOpen
 } from 'lucide-react'
 
 export type IconType = LucideIcon
@@ -179,5 +180,6 @@ export const Icons = {
   userX: UserX,
   users: Users,
   video: Video,
-  youtube: Youtube
+  youtube: Youtube,
+  bookOpen: BookOpen
 }

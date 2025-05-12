@@ -21,9 +21,10 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
+import { TRAIL_LABELS } from '@/lib/constants'
 import { isObjEmpty } from '@/lib/utils'
 import { useUser } from '@clerk/nextjs'
-import { type User } from '@prisma/client'
+import { Roles, type User } from '@prisma/client'
 import ImageInput from './image-input'
 import LocationInput from './location-input'
 import usePersonalInfo from './use-personal-info'
@@ -45,6 +46,7 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
 
   const { watch, setValue } = form
   const isPublicEmail = watch('isPublicEmail')
+  const showTrailSelector = userProps.role?.includes(Roles.Base)
 
   return (
     <div>
@@ -223,6 +225,45 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
                   )}
                 />
               </div>
+              {showTrailSelector && (
+                <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-4">
+                  <FormField
+                    control={form.control}
+                    name="trail"
+                    disabled={isUpdating}
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col sm:col-span-2 gap-y-2 space-y-0">
+                        <FormLabel>Learning Path</FormLabel>
+                        <FormControl>
+                          <Select
+                            disabled={isUpdating}
+                            onValueChange={field.onChange}
+                            value={field.value}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue
+                                defaultValue={field.value}
+                                placeholder="Select your learning path"
+                              />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {Object.entries(TRAIL_LABELS).map(
+                                ([value, label]) => (
+                                  <SelectItem key={value} value={value}>
+                                    {label}
+                                  </SelectItem>
+                                )
+                              )}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
               <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-4 w-full">
                 <div className="sm:col-span-2">
                   <LocationInput isUpdating={isUpdating} />

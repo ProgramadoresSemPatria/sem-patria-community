@@ -30,12 +30,12 @@ type TimelineNotesContentProps = {
 }
 
 function getFirstParagraphWithText(content: Content): string | null {
-  if (!content) return null
+  if (!content || !content?.content?.length) return null
 
   for (const node of content.content) {
-    if (node.type === 'paragraph' && node.content) {
+    if (node?.type === 'paragraph' && Array.isArray(node?.content)) {
       for (const child of node.content) {
-        if (child.type === 'text' && child.text) {
+        if (child?.type === 'text' && typeof child?.text === 'string') {
           return child.text
         }
       }
@@ -50,8 +50,29 @@ const TimelineNotesContent = ({
   updatedAt
 }: TimelineNotesContentProps) => {
   const [isOpen, setIsOpen] = useState(false)
-  const parsedContent = JSON.parse(content as string)
-  const description = getFirstParagraphWithText(parsedContent)
+
+  let parsedContent: Content | null = null
+  try {
+    parsedContent = content ? JSON.parse(content) : null
+  } catch (e) {
+    console.error('Failed to parse note content:', e)
+  }
+
+  const description = parsedContent
+    ? getFirstParagraphWithText(parsedContent)
+    : null
+
+  // Early return if no valid content
+  if (!parsedContent || !description) {
+    return (
+      <div className="mx-4 flex flex-col justify-start pb-3">
+        <div className="text-left my-2 text-muted-foreground">
+          No content available
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
       <div className="mx-4 flex flex-col justify-start pb-3">

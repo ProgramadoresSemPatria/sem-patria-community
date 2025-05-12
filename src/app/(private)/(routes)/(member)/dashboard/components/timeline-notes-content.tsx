@@ -30,7 +30,7 @@ type TimelineNotesContentProps = {
 }
 
 function getFirstParagraphWithText(content: Content): string | null {
-  if (!content || !content?.content?.length) return null
+  if (!content?.content?.length) return null
 
   for (const node of content.content) {
     if (node?.type === 'paragraph' && Array.isArray(node?.content)) {

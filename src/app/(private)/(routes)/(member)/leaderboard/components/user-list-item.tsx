@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { type LeaderboardScore } from '@/actions/leaderboard/types'
 import { cn } from '@/lib/utils'
-import { getLevelStyle, getPositionStyle } from './utils'
+import { formatPoints, getLevelStyle, getPositionStyle } from './utils'
 
 interface UserListItemProps {
   score: LeaderboardScore
@@ -40,9 +40,6 @@ export const UserListItem = memo(({ score, position }: UserListItemProps) => (
               {score.user.name.slice(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          {/* <div className="absolute -bottom-1 -right-1 p-0.5 rounded-full">
-            <Icons.award className="w-3 h-3" />
-          </div> */}
         </div>
         <div className="flex flex-col min-w-0">
           <span className="text-sm sm:text-base text-slate-900 dark:text-white font-semibold tracking-tight truncate">
@@ -82,10 +79,10 @@ export const UserListItem = memo(({ score, position }: UserListItemProps) => (
           )}
         </div>
         <span
-          className="text-slate-900 dark:text-slate-200 text-xs sm:text-base font-mono font-medium
+          className="text-slate-900 dark:text-slate-200 text-xs sm:text-base font-mono font-bold
           transition-all duration-200 group-hover:text-slate-900 dark:group-hover:text-white whitespace-nowrap"
         >
-          {score.points}
+          {formatPoints(score.points)}
           <span className="text-[10px] sm:text-xs ml-1 opacity-70 font-normal">
             pts
           </span>

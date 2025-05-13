@@ -1,42 +1,20 @@
+'use client'
+
 import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { appRoutes } from '@/lib/constants'
 import { Icons } from '@/components/icons'
+import type { SearchedUserProps } from '@/actions/leaderboard/types'
+import { cn } from '@/lib/utils'
+import { formatPoints } from '../../leaderboard/components/utils'
 
-const LeaderboardWidget = () => {
-  const topUsers = [
-    {
-      name: 'John Doe',
-      points: 100,
-      username: 'johndoe',
-      position: 'senior',
-      avatarURL: 'https://example.com/john.jpg'
-    },
-    {
-      name: 'Jane Smith',
-      points: 85,
-      username: 'janesmith',
-      position: 'senior',
-      avatarURL: 'https://example.com/jane.jpg'
-    },
-    {
-      name: 'Alice Johnson',
-      points: 70,
-      username: 'alicejohnson',
-      position: 'Pleno',
-      avatarURL: 'https://example.com/alice.jpg'
-    },
-    {
-      name: 'Bob Brown',
-      points: 65,
-      username: 'bobbrown',
-      position: 'Pleno',
-      avatarURL: 'https://example.com/bob.jpg'
-    }
-  ]
+interface LeaderboardWidgetProps {
+  topUsers: SearchedUserProps[]
+}
 
+const LeaderboardWidget = ({ topUsers }: LeaderboardWidgetProps) => {
   return (
     <Card className="w-full">
       <CardContent className="p-4">
@@ -51,20 +29,45 @@ const LeaderboardWidget = () => {
             </Button>
           </Link>
         </div>
-        <div className="space-y-4">
-          {topUsers.map((user, index) => (
-            <div key={index} className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <span className="text-sm font-medium w-4">{index + 1}.</span>
-                <Avatar className="h-8 w-8 ring-2 ring-gray-500/10">
-                  <AvatarImage src={user.avatarURL} alt={user.name} />
-                  <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <span className="text-sm font-medium">{user.name}</span>
-              </div>
-              <span className="text-sm font-semibold">{user.points} pts</span>
+        <div className="space-y-1">
+          {topUsers.length > 0 ? (
+            topUsers.map((user, index) => (
+              <Link
+                key={user.userId}
+                href={`/user/${user.user.username}`}
+                className={cn(
+                  'flex items-center justify-between p-2 rounded-md transition-colors duration-150 ease-in-out',
+                  'hover:bg-gray-100 dark:hover:bg-gray-800'
+                )}
+              >
+                <div className="flex items-center space-x-3">
+                  <span className="text-sm font-medium w-5 text-center">
+                    {index + 1}.
+                  </span>
+                  <Avatar className="h-8 w-8 ring-2 ring-gray-500/10">
+                    <AvatarImage
+                      src={user.user.imageUrl || ''}
+                      alt={user.user.name}
+                    />
+                    <AvatarFallback>{user.user.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <span className="text-sm font-medium truncate">
+                    {user.user.name}
+                  </span>
+                </div>
+                <span className="text-sm font-mono font-bold">
+                  {formatPoints(user.points)}
+                  <span className="text-[10px] sm:text-xs ml-1 opacity-70 font-normal">
+                    pts
+                  </span>
+                </span>
+              </Link>
+            ))
+          ) : (
+            <div className="text-center text-sm text-gray-500 py-4">
+              No users to display yet.
             </div>
-          ))}
+          )}
         </div>
       </CardContent>
     </Card>

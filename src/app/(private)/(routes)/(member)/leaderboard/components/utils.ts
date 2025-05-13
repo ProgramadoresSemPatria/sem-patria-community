@@ -39,3 +39,12 @@ export const getLevelStyle = (level?: string): string => {
     LEVEL_STYLES[normalizedLevel as keyof typeof LEVEL_STYLES] || DEFAULT_STYLE
   )
 }
+
+export const formatPoints = (points: number): string => {
+  return points >= 1000000
+    ? new Intl.NumberFormat('pt-BR', {
+        notation: 'standard',
+        maximumFractionDigits: 1
+      }).format(points)
+    : new Intl.NumberFormat('pt-BR').format(points)
+}

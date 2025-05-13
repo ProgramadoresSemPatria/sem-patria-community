@@ -55,14 +55,7 @@ const SeasonsList = () => {
   if (seasons.length === 0) {
     return (
       <>
-        <Header title="Seasons">
-          <Can I="create" a="Season">
-            <Button type="button" onClick={handleNewSeason}>
-              <Icons.plus className="w-4 h-4 mr-1" />
-              New Season
-            </Button>
-          </Can>
-        </Header>
+        <Header title="Seasons" />
         <EmptyState
           title="No seasons found"
           description="Create a new season to get started"

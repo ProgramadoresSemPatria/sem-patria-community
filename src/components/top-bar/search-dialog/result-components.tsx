@@ -68,30 +68,43 @@ export const UserResult = ({ result }: ResultProps) => (
   </>
 )
 
-const ClassroomResult = ({ result }: ResultProps) => (
-  <>
-    <div
-      id="entity-icon"
-      className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-green-500"
-    >
-      <Icons.classroom className="w-6 h-6 text-white" aria-hidden="true" />
-    </div>
-    <div id="title" className="min-w-0 flex-auto overflow-hidden">
-      <p className="truncate capitalize font-medium text-gray-900 dark:text-gray-100">
-        {result.title}
-      </p>
-      <div className="mt-0.5 flex items-center gap-x-2 text-xs/5 text-gray-500 dark:text-gray-400">
-        {result.modules && result.modules.length > 0 && (
-          <div className="flex items-center gap-x-1 text-xs/5 text-gray-500 dark:text-gray-400">
-            <Icons.book className="w-3.5 h-3.5" /> {result.modules?.length}{' '}
-            modules
-          </div>
-        )}
+const ModulesResult = ({ result }: ResultProps) => {
+  return (
+    <>
+      <div
+        id="entity-icon"
+        className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-green-500"
+      >
+        <Icons.classroom className="w-6 h-6 text-white" aria-hidden="true" />
       </div>
-    </div>
-  </>
-)
-
+      <div id="title" className="min-w-0 flex-auto overflow-hidden">
+        <p className="truncate capitalize font-medium text-gray-900 dark:text-gray-100">
+          {result.title}
+        </p>
+        <div className="mt-0.5 flex items-center gap-x-2 text-xs/5 text-gray-500 dark:text-gray-400">
+          {result.classroom && (
+            <p className="truncate">
+              <strong>Classroom:</strong> {result.classroom.title}
+            </p>
+          )}
+          {result.videos && result.videos.length > 0 && (
+            <>
+              <svg
+                viewBox="0 0 2 2"
+                className="flex-shrink-0 w-0.5 h-0.5 fill-current"
+              >
+                <circle r={1} cx={1} cy={1} />
+              </svg>
+              <div className="flex items-center gap-x-1 text-xs/5 text-gray-500 dark:text-gray-400">
+                <Icons.video className="w-3.5 h-3.5" /> {result.videos?.length}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </>
+  )
+}
 const CourseResult = ({ result }: ResultProps) => (
   <>
     <div
@@ -174,14 +187,33 @@ const EventResult = ({ result }: ResultProps) => (
     </div>
   </>
 )
+
+const VideoResult = ({ result }: ResultProps) => (
+  <>
+    <div className="flex flex-shrink-0 items-center justify-center rounded-lg mr-2 w-12 h-12 bg-red-500">
+      <Icons.video className="w-6 h-6 text-white" aria-hidden="true" />
+    </div>
+    <div id="title" className="min-w-0 flex-auto gap-x-2 overflow-hidden">
+      <p className="truncate capitalize font-medium text-gray-900 dark:text-gray-100">
+        {result.title}
+      </p>
+      <div className="mt-0.5 flex items-center text-xs/5 text-gray-500 dark:text-gray-400">
+        <p className="truncate">
+          <strong>Module:</strong> {result.classroomModule?.title}
+        </p>
+      </div>
+    </div>
+  </>
+)
 type ResultComponentMap = {
   [K in SearchDialogResult['entity']]: React.FC<{ result: SearchDialogResult }>
 }
 export const resultComponents: ResultComponentMap = {
   forum: ForumResult,
   user: UserResult,
-  classroom: ClassroomResult,
+  module: ModulesResult,
   course: CourseResult,
   interest: InterestResult,
-  event: EventResult
+  event: EventResult,
+  video: VideoResult
 }

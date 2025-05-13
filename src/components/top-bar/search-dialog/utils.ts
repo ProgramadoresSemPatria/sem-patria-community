@@ -36,16 +36,6 @@ export const getEntityColorClass = (entity: string) => {
 export const getItemUrl = (item: SearchDialogResult): string | null => {
   if (!item) return null
 
-  if (
-    item.entity === 'classroom' &&
-    (!Array.isArray(item.modules) ||
-      !item.modules.length ||
-      !Array.isArray(item.modules[0].videos) ||
-      !item.modules[0].videos.length)
-  ) {
-    return null
-  }
-
   switch (item.entity) {
     case 'forum': {
       const { id, title } = item
@@ -56,14 +46,22 @@ export const getItemUrl = (item: SearchDialogResult): string | null => {
       return `/forum/${id}/${formattedTitle}`
     }
 
+    case 'video': {
+      const { id } = item
+      if (!id) return null
+      return `/mentorship/${encodeURIComponent(id)}`
+    }
+
     case 'user': {
       if (!item.username) return null
       return `/user/${encodeURIComponent(item.username)}`
     }
 
-    case 'classroom': {
-      const videoId = item.modules?.[0].videos?.[0]?.id
-      if (!videoId) return null
+    case 'module': {
+      const videoId = item.videos?.[0]?.id
+      if (!videoId) {
+        return null
+      }
       return `/mentorship/${encodeURIComponent(videoId)}`
     }
 

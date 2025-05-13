@@ -6,7 +6,7 @@ import { Icons } from '@/components/icons'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import { type LeaderboardScore } from '@/actions/leaderboard/types'
-import { getLevelStyle, getPositionStyle } from './utils'
+import { formatPoints, getLevelStyle, getPositionStyle } from './utils'
 
 interface LeaderboardCardProps {
   score: LeaderboardScore
@@ -41,7 +41,7 @@ const LeaderboardCard = ({ score, index }: LeaderboardCardProps) => {
             'relative w-full rounded-xl p-3',
             'bg-gradient-to-br',
             index === 0
-              ? 'from-yellow-400/20 to-amber-600/20 border-yellow-500/30'
+              ? 'from-yellow-400/30 to-amber-600/30 border-yellow-500/40 shadow-lg shadow-yellow-500/20'
               : index === 1
                 ? 'from-gray-400/20 to-gray-600/20 border-gray-500/30'
                 : 'from-orange-400/20 to-orange-600/20 border-orange-500/30',
@@ -50,7 +50,9 @@ const LeaderboardCard = ({ score, index }: LeaderboardCardProps) => {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-shimmer" />
           <div className="relative flex flex-col items-center gap-3">
-            <div className="text-xs font-bold opacity-50">#{index + 1}</div>
+            <div className="text-sm font-semibold opacity-50">
+              &#35;{index + 1}
+            </div>
             <div className="relative">
               <Avatar className="w-16 h-16 md:w-24 md:h-24 ring-2 ring-gray-600/20 dark:ring-4 dark:ring-white/10">
                 <AvatarImage
@@ -79,13 +81,15 @@ const LeaderboardCard = ({ score, index }: LeaderboardCardProps) => {
                 {score.user.name}
               </div>
               <div className="text-xs md:text-sm opacity-70">
-                @{score.user.username}
+                &#64;{score.user.username}
               </div>
             </div>
             <div className="mt-auto">
-              <div className="text-2xl md:text-3xl font-mono font-bold">
-                {score.points}
-                <span className="text-xs md:text-sm ml-1 opacity-70">pts</span>
+              <div className="text-xl md:text-2xl font-mono font-bold">
+                {formatPoints(score.points)}
+                <span className="text-[10px] md:text-sm ml-1 opacity-70">
+                  pts
+                </span>
               </div>
             </div>
             <div className="w-full flex flex-wrap gap-2 justify-center">

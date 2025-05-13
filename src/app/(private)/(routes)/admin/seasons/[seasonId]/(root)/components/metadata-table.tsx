@@ -11,15 +11,27 @@ import {
 } from '@/components/ui/table'
 import { Input } from '@/components/ui/input'
 import { Icons } from '@/components/icons'
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
+import { z } from 'zod'
 
-type Award = {
-  position: string
-  description: string
-}
+const MAX_AWARDS = 10
+const MAX_DESCRIPTION_LENGTH = 50000
+
+const awardSchema = z.object({
+  position: z
+    .string()
+    .min(1, 'Position is required')
+    .max(100, 'Position is too long'),
+  description: z
+    .string()
+    .min(1, 'Description is required')
+    .max(300, 'Description is too long')
+})
+
+type Award = z.infer<typeof awardSchema>
 
 type Metadata = {
   awards?: Award[]
@@ -29,11 +41,15 @@ type Metadata = {
 type MetadataTableProps = {
   value: Metadata | null
   onChange: (value: Metadata) => void
+  isLoading?: boolean
+  maxAwards?: number
 }
 
 export const MetadataTable = ({
   value = { awards: [], description: '' },
-  onChange
+  onChange,
+  isLoading = false,
+  maxAwards = MAX_AWARDS
 }: MetadataTableProps) => {
   const [editingIndex, setEditingIndex] = useState<number | null>(null)
   const [editingAward, setEditingAward] = useState<Award>({
@@ -45,52 +61,78 @@ export const MetadataTable = ({
     description?: string
   }>({})
 
-  const handleAdd = () => {
+  const awards = useMemo(() => value?.awards || [], [value?.awards])
+
+  const handleAdd = useCallback(() => {
+    if (awards.length >= maxAwards) {
+      setErrors({ position: `Maximum of ${maxAwards} awards allowed` })
+      return
+    }
     setEditingIndex(-1)
     setEditingAward({ position: '', description: '' })
     setErrors({})
-  }
+  }, [awards.length, maxAwards])
 
-  const handleEdit = (index: number) => {
-    if (!value?.awards?.[index]) return
-    setEditingIndex(index)
-    setEditingAward(value.awards[index])
-    setErrors({})
-  }
+  const handleEdit = useCallback(
+    (index: number) => {
+      if (!awards[index]) return
+      setEditingIndex(index)
+      setEditingAward(awards[index])
+      setErrors({})
+    },
+    [awards]
+  )
 
-  const handleDelete = (index: number) => {
-    onChange({
-      ...value,
-      awards: value?.awards?.filter((_, i) => i !== index)
-    })
-  }
+  const handleDelete = useCallback(
+    (index: number) => {
+      onChange({
+        ...value,
+        awards: awards.filter((_, i) => i !== index)
+      })
+    },
+    [awards, onChange, value]
+  )
 
-  const validateAward = (award: Award) => {
-    const newErrors: { position?: string; description?: string } = {}
+  const validateAward = useCallback(
+    (award: Award) => {
+      try {
+        awardSchema.parse(award)
+        // Check for duplicate positions
+        const isDuplicate = awards.some(
+          (a, i) => a.position === award.position && i !== editingIndex
+        )
+        if (isDuplicate) {
+          setErrors({ position: 'Position already exists' })
+          return false
+        }
+        setErrors({})
+        return true
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          const newErrors: { position?: string; description?: string } = {}
+          error.errors.forEach(err => {
+            if (err.path[0] === 'position') newErrors.position = err.message
+            if (err.path[0] === 'description')
+              newErrors.description = err.message
+          })
+          setErrors(newErrors)
+        }
+        return false
+      }
+    },
+    [awards, editingIndex]
+  )
 
-    if (!award.position.trim()) {
-      newErrors.position = 'Position is required'
-    }
+  const handleSave = useCallback(() => {
+    if (!validateAward(editingAward)) return
 
-    if (!award.description.trim()) {
-      newErrors.description = 'Description is required'
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSave = () => {
-    if (!validateAward(editingAward) || !value?.awards) {
-      return
-    }
     if (editingIndex === -1) {
       onChange({
         ...value,
-        awards: [...value.awards, editingAward]
+        awards: [...awards, editingAward]
       })
     } else if (editingIndex !== null) {
-      const newAwards = [...value.awards]
+      const newAwards = [...awards]
       newAwards[editingIndex] = editingAward
       onChange({
         ...value,
@@ -99,26 +141,48 @@ export const MetadataTable = ({
     }
     setEditingIndex(null)
     setErrors({})
-  }
+  }, [editingAward, editingIndex, onChange, validateAward, value, awards])
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     setEditingIndex(null)
     setErrors({})
-  }
+  }, [])
 
-  const handleChange = (field: keyof Award, newValue: string) => {
-    setEditingAward(prev => ({ ...prev, [field]: newValue }))
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: undefined }))
-    }
-  }
+  const handleChange = useCallback(
+    (field: keyof Award, newValue: string) => {
+      setEditingAward(prev => ({ ...prev, [field]: newValue }))
+      if (errors[field]) {
+        setErrors(prev => ({ ...prev, [field]: undefined }))
+      }
+    },
+    [errors]
+  )
 
-  const handleDescriptionChange = (newValue: string) => {
-    onChange({
-      ...value,
-      description: newValue
-    })
+  const handleDescriptionChange = useCallback(
+    (newValue: string) => {
+      if (newValue.length > MAX_DESCRIPTION_LENGTH) return
+      onChange({
+        ...value,
+        description: newValue
+      })
+    },
+    [onChange, value]
+  )
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4 border border-border rounded-md p-2 animate-pulse">
+        <div className="space-y-2 px-2">
+          <div className="h-4 w-32 bg-muted rounded" />
+          <div className="h-[100px] bg-muted rounded" />
+        </div>
+        <Separator />
+        <div className="space-y-2 px-2">
+          <div className="h-4 w-24 bg-muted rounded" />
+          <div className="h-[200px] bg-muted rounded" />
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -131,9 +195,12 @@ export const MetadataTable = ({
           onChange={e => {
             handleDescriptionChange(e.target.value)
           }}
-          maxLength={50000}
+          maxLength={MAX_DESCRIPTION_LENGTH}
           className="min-h-[100px]"
         />
+        <p className="text-xs text-muted-foreground">
+          {value?.description?.length || 0}/{MAX_DESCRIPTION_LENGTH} characters
+        </p>
       </div>
 
       <Separator />
@@ -141,8 +208,14 @@ export const MetadataTable = ({
       <div className="space-y-2 px-2">
         <div className="flex justify-between items-center">
           <h3 className="text-sm font-medium">Awards</h3>
-          {(value?.awards || []).length >= 1 && (
-            <Button type="button" size="sm" onClick={handleAdd} className="h-8">
+          {awards.length >= 1 && (
+            <Button
+              type="button"
+              size="sm"
+              onClick={handleAdd}
+              className="h-8"
+              disabled={awards.length >= maxAwards}
+            >
               <Icons.plus className="h-4 w-4 mr-1" />
               Add award
             </Button>
@@ -162,6 +235,7 @@ export const MetadataTable = ({
                   handleChange('position', e.target.value)
                 }}
                 className={cn('h-8', errors.position && 'border-destructive')}
+                maxLength={100}
               />
               {errors.position && (
                 <p className="text-sm text-destructive">{errors.position}</p>
@@ -183,6 +257,9 @@ export const MetadataTable = ({
               {errors.description && (
                 <p className="text-sm text-destructive">{errors.description}</p>
               )}
+              <p className="text-xs text-muted-foreground">
+                {editingAward.description.length}/300 characters
+              </p>
             </div>
             <div className="flex gap-4 justify-end">
               <Button type="button" size="sm" onClick={handleSave}>
@@ -202,7 +279,7 @@ export const MetadataTable = ({
           </div>
         )}
 
-        {(value?.awards || []).length === 0 && editingIndex === null ? (
+        {awards.length === 0 && editingIndex === null ? (
           <div className="flex flex-col items-center justify-center py-4 text-center">
             <div className="rounded-full bg-muted p-3">
               <Icons.award className="h-6 w-6 text-muted-foreground" />
@@ -231,10 +308,10 @@ export const MetadataTable = ({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {(value?.awards || []).map((award, index) => (
+              {awards.map((award, index) => (
                 <TableRow key={index}>
                   <TableCell>{award.position}</TableCell>
-                  <TableCell className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[200px] ">
+                  <TableCell className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[200px]">
                     {award.description}
                   </TableCell>
                   <TableCell>
@@ -268,7 +345,7 @@ export const MetadataTable = ({
             </TableBody>
           </Table>
         )}
-        {(value?.awards || []).length === 0 && editingIndex === -1 && (
+        {awards.length === 0 && editingIndex === -1 && (
           <div className="text-center py-4">
             <p className="text-sm text-muted-foreground">
               No awards to display.

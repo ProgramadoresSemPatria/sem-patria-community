@@ -10,20 +10,23 @@ import {
 } from '@/components/ui/carousel'
 import LeaderboardCard from './leaderboard-card'
 import TopThreeEmptyState from './top-three-empty-state'
+import { useMemo } from 'react'
 
 interface TopThreeProps {
   scores: LeaderboardScore[]
 }
 
 export const TopThree = ({ scores }: TopThreeProps) => {
-  if (!scores) return null
+  const { topThree, reorderedTopThree } = useMemo(() => {
+    if (!scores?.length) return { topThree: [], reorderedTopThree: [] }
 
-  const topThree = [...scores].slice(0, 3).sort((a, b) => b.points - a.points)
-  const reorderedTopThree = [topThree[1], topThree[0], topThree[2]].filter(
-    Boolean
-  )
+    const sorted = [...scores].slice(0, 3).sort((a, b) => b.points - a.points)
+    const reordered = [sorted[1], sorted[0], sorted[2]].filter(Boolean)
 
-  if (topThree.length === 0) {
+    return { topThree: sorted, reorderedTopThree: reordered }
+  }, [scores])
+
+  if (!scores?.length) {
     return <TopThreeEmptyState />
   }
 

@@ -3,7 +3,8 @@ import {
   useCallback,
   useEffect,
   useRef,
-  useState
+  useState,
+  useMemo
 } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useSeason } from '@/hooks/season/use-season'
@@ -34,7 +35,8 @@ export const InfiniteLeaderboard = ({
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isError
+    isError,
+    error
   } = useInfiniteLeaderboardUsers(debouncedSearchTerm, 10, {
     initialData: {
       pages: [initialData],
@@ -61,8 +63,38 @@ export const InfiniteLeaderboard = ({
     setSearchTerm('')
   }, [])
 
-  const allUsers = data?.pages.flatMap(page => page.users) || []
-  const usersToShow = searchTerm ? allUsers : allUsers.slice(3)
+  const allUsers = useMemo(
+    () => data?.pages.flatMap(page => page.users) || [],
+    [data?.pages]
+  )
+
+  const usersToShow = useMemo(
+    () => (searchTerm ? allUsers : allUsers.slice(3)),
+    [searchTerm, allUsers]
+  )
+
+  const renderSkeleton = useCallback(() => {
+    return (
+      <div className="flex flex-col gap-y-4">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div
+            key={i}
+            className="flex items-center justify-between p-2 rounded-lg"
+          >
+            <div className="flex items-center gap-x-2 sm:gap-x-3 min-w-0 flex-1">
+              <Skeleton className="h-6 w-6 sm:h-8 sm:w-8 rounded-full" />
+              <Skeleton className="h-8 w-8 sm:h-10 sm:w-10 rounded-full" />
+              <div className="flex flex-col gap-2">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-3 w-16" />
+              </div>
+            </div>
+            <Skeleton className="h-4 w-12" />
+          </div>
+        ))}
+      </div>
+    )
+  }, [])
 
   if (isError) {
     return (
@@ -72,7 +104,7 @@ export const InfiniteLeaderboard = ({
           Error loading leaderboard
         </h3>
         <p className="text-sm text-muted-foreground/70 mt-1">
-          Please try again later
+          {error instanceof Error ? error.message : 'Please try again later'}
         </p>
       </div>
     )
@@ -106,26 +138,7 @@ export const InfiniteLeaderboard = ({
             position={index + (searchTerm ? 1 : 4)}
           />
         ))}
-        {isFetchingNextPage && (
-          <div className="flex flex-col gap-y-4">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-between p-2 rounded-lg"
-              >
-                <div className="flex items-center gap-x-2 sm:gap-x-3 min-w-0 flex-1">
-                  <Skeleton className="h-6 w-6 sm:h-8 sm:w-8 rounded-full" />
-                  <Skeleton className="h-8 w-8 sm:h-10 sm:w-10 rounded-full" />
-                  <div className="flex flex-col gap-2">
-                    <Skeleton className="h-4 w-24" />
-                    <Skeleton className="h-3 w-16" />
-                  </div>
-                </div>
-                <Skeleton className="h-4 w-12" />
-              </div>
-            ))}
-          </div>
-        )}
+        {isFetchingNextPage && renderSkeleton()}
         <div
           ref={ref}
           className={cn(

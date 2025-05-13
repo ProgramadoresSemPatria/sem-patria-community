@@ -98,7 +98,7 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
           name: '',
           initDate: new Date(),
           endDate: addMonths(new Date(), 3),
-          isCurrent: false,
+          isCurrent: seasons.length === 0,
           metadata: { awards: [], description: '' },
           positionMultipliers: Object.values(Positions).map(position => ({
             position,

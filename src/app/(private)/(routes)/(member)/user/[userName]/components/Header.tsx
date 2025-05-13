@@ -1,17 +1,18 @@
 'use client'
 
-import { Icons } from '@/components/icons'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { PositionIconMap, TRAIL_LABELS } from '@/lib/constants'
-import { Positions, Roles } from '@/lib/types'
+import { useScoreboard } from '@/hooks/scoreboard/use-scoreboard'
 import { getHighestPriorityRole } from '@/lib/utils'
 import { type User as ClerkUser } from '@clerk/nextjs/server'
 import { type User } from '@prisma/client'
+import { useEffect, useState } from 'react'
 import { useFollowersAndFollowings } from './useFollowersAndFollowings'
 
-import { useEffect, useState } from 'react'
+import { Icons } from '@/components/icons'
+import { PositionIconMap, TRAIL_LABELS } from '@/lib/constants'
+import { Positions, Roles } from '@/lib/types'
 
 import { FollowersAndFollowingModal } from './FollowersAndFollowingModal'
 const Header = ({
@@ -21,8 +22,11 @@ const Header = ({
   user: User
   currentUser: ClerkUser
 }) => {
+  const { useGetScoreboardByUserId } = useScoreboard()
   const { follow, followers, unfollow, following, unfollowing, followedUsers } =
     useFollowersAndFollowings(user.id)
+  const { data: scoreboard } = useGetScoreboardByUserId(user.id)
+
   const [isFollowed, setIsFollowed] = useState(false)
 
   useEffect(() => {
@@ -96,20 +100,20 @@ const Header = ({
           )}
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-6 text-center md:grid-cols-2">
+      <div className="grid grid-cols-3 gap-6 text-center">
         <FollowersAndFollowingModal
           title="Followers"
           followersOrFollowing={followers}
         >
           <Stat label="Followers" value={followers.length} />
         </FollowersAndFollowingModal>
-
         <FollowersAndFollowingModal
           title="Following"
           followersOrFollowing={followedUsers}
         >
           <Stat label="Following" value={user.followings} />
         </FollowersAndFollowingModal>
+        <Stat label="Points" value={scoreboard?.data.points ?? 0} />
       </div>
     </div>
   )

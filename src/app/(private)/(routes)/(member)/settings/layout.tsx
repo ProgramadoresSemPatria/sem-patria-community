@@ -18,7 +18,7 @@ export default async function ProfileLayout({ children }: ProfileLayoutProps) {
   return (
     <>
       <DefaultLayout>
-        <Header title="Profile" />
+        <Header title="Settings" />
 
         <NavOptions options={getSettingOptions(appRoutes, user)} />
         <div className="mt-8">{children}</div>

@@ -6,15 +6,15 @@ import type {
   SearchedUserProps
 } from '@/actions/leaderboard/types'
 import { Icons } from '@/components/icons'
+import { InfiniteLeaderboard } from '@/components/leaderboard/infinite-leaderboard'
+import { LeaderboardSkeleton } from '@/components/leaderboard/skeleton'
+import { TopThree } from '@/components/leaderboard/top-three'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSeason } from '@/hooks/season/use-season'
 import { cn } from '@/lib/utils'
-import { LeaderboardSkeleton } from './skeleton'
-import { TopThree } from './components/top-three'
-import { InfiniteLeaderboard } from './components/infinite-leaderboard'
 import { useCallback, useMemo } from 'react'
 
 interface LeaderboardContentProps {

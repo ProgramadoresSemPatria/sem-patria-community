@@ -1,12 +1,16 @@
 import { getCurrentSeason } from '@/actions/leaderboard/get-current-season'
+import { getAwardResources } from '@/actions/leaderboard/get-award-resources'
+import { getPositionMultipliers } from '@/actions/leaderboard/get-position-multipliers'
 import { DefaultLayout } from '@/components/default-layout'
 import { Icons } from '@/components/icons'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import { LeaderboardContent } from './content'
 import { Suspense } from 'react'
-import { LeaderboardSkeleton } from './skeleton'
+import { LeaderboardSkeleton } from '@/components/leaderboard/skeleton'
+import { LeaderboardContent } from '@/components/leaderboard/content'
+import { PointSystemInfoCard } from '@/components/leaderboard/point-system-info-card'
+import { SeasonDates } from '@/components/leaderboard/season-dates'
 
 const Leaderboard = async () => {
   const currentSeason = await getCurrentSeason()
@@ -29,6 +33,9 @@ const Leaderboard = async () => {
     )
   }
 
+  const awardResources = await getAwardResources()
+  const positionMultipliers = await getPositionMultipliers(currentSeason.id)
+
   return (
     <DefaultLayout>
       <div className="mt-6 w-full max-w-7xl mx-auto px-4">
@@ -38,7 +45,7 @@ const Leaderboard = async () => {
               <LeaderboardContent data={currentSeason} />
             </Suspense>
           </div>
-          <div className="order-1 lg:order-2">
+          <div className="order-1 lg:order-2 space-y-8">
             <Card>
               <CardHeader className="px-6 pb-4">
                 <CardTitle className="text-gray-900 dark:text-muted-foreground text-lg sm:text-xl font-semibold">
@@ -91,14 +98,22 @@ const Leaderboard = async () => {
                         <h4 className="text-gray-900 dark:text-muted-foreground text-lg sm:text-xl font-semibold">
                           Description
                         </h4>
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-sm text-muted-foreground space-y-4">
                           <p>{currentSeason.metadata.description}</p>
+                          <SeasonDates
+                            initDate={currentSeason.initDate}
+                            endDate={currentSeason.endDate}
+                          />
                         </div>
                       </div>
                     </>
                   )}
               </CardContent>
             </Card>
+            <PointSystemInfoCard
+              awardResources={awardResources}
+              positionMultipliers={positionMultipliers}
+            />
           </div>
         </div>
       </div>

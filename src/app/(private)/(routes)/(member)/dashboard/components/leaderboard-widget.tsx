@@ -8,7 +8,7 @@ import { appRoutes } from '@/lib/constants'
 import { Icons } from '@/components/icons'
 import type { SearchedUserProps } from '@/actions/leaderboard/types'
 import { cn } from '@/lib/utils'
-import { formatPoints } from '../../leaderboard/components/utils'
+import { formatPoints } from '@/components/leaderboard/utils'
 
 interface LeaderboardWidgetProps {
   topUsers: SearchedUserProps[]

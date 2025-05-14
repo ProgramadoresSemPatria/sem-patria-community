@@ -4,9 +4,9 @@ import { Icons } from '@/components/icons'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import { LeaderboardContent } from './content'
 import { Suspense } from 'react'
-import { LeaderboardSkeleton } from './skeleton'
+import { LeaderboardSkeleton } from '@/components/leaderboard/skeleton'
+import { LeaderboardContent } from '@/components/leaderboard/content'
 
 const Leaderboard = async () => {
   const currentSeason = await getCurrentSeason()

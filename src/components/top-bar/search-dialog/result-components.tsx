@@ -96,8 +96,7 @@ const ModulesResult = ({ result }: ResultProps) => {
                 <circle r={1} cx={1} cy={1} />
               </svg>
               <div className="flex items-center gap-x-1 text-xs/5 text-gray-500 dark:text-gray-400">
-                <Icons.book className="w-3.5 h-3.5" /> {result.videos?.length}{' '}
-                videos
+                <Icons.video className="w-3.5 h-3.5" /> {result.videos?.length}
               </div>
             </>
           )}

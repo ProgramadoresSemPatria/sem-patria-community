@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useMemo, type FC } from 'react'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -10,15 +10,15 @@ import {
   DialogHeader,
   DialogTitle
 } from '@/components/ui/dialog'
-import { type InterestWithUsers } from '../page'
 import { type User } from '@prisma/client'
 import { useRouter } from 'next/navigation'
+import { useCallback, useMemo, useState, type FC } from 'react'
 import { useUserInterest } from '../../user/[userName]/components/useUserInterests'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import { useAllInterests } from '../hooks/use-all-interests'
 import { Skeleton } from '@/components/ui/skeleton'
+import { type InterestWithUsers } from '../page'
 
 interface InterestModalProps {
   interest: InterestWithUsers

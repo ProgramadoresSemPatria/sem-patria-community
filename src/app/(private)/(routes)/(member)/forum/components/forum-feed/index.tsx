@@ -33,7 +33,19 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
     return []
   }, [initialPosts, searchParams, searchTerm])
 
-  const postsToRender = searchTerm ? filteredPosts : allPosts
+  const postsToRender = useMemo(() => {
+    const posts = searchTerm ? filteredPosts : allPosts
+    return posts.filter(post => {
+      const isInTopPosts =
+        searchParams.get('category') === 'All' &&
+        topPosts.some(topPost => topPost.id === post.id)
+
+      const isPinnedInNonAllCategory =
+        searchParams.get('category') !== 'All' && post.isPinned
+
+      return !isInTopPosts && !isPinnedInNonAllCategory
+    })
+  }, [searchTerm, filteredPosts, allPosts, topPosts, searchParams])
 
   return (
     <ul className="flex flex-col col-span-2 space-y-6">

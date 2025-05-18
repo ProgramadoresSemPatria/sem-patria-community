@@ -25,8 +25,9 @@ const Header = ({
   const { useGetScoreboardByUserId } = useScoreboard()
   const { follow, followers, unfollow, following, unfollowing, followedUsers } =
     useFollowersAndFollowings(user.id)
-  const { data: scoreboard } = useGetScoreboardByUserId(user.id)
 
+  const { data: scoreboard, refetch: refetchScoreboard } =
+    useGetScoreboardByUserId(user.id)
   const [isFollowed, setIsFollowed] = useState(false)
 
   useEffect(() => {
@@ -38,12 +39,20 @@ const Header = ({
     }
   }, [currentUser.id, followers])
 
+  useEffect(() => {}, [scoreboard?.data.points])
+
   const handleFollowToggle = async () => {
-    if (isFollowed) {
-      await unfollow(user.id)
-      return
+    try {
+      if (isFollowed) {
+        await unfollow(user.id)
+      } else {
+        await follow(user.id)
+      }
+
+      await refetchScoreboard()
+    } catch (error) {
+      console.error('Error during follow/unfollow operation:', error)
     }
-    await follow(user.id)
   }
 
   const isCurrentUser = user.id === currentUser.id
@@ -95,7 +104,13 @@ const Header = ({
               variant="outline"
               className="text-sm mt-2 hover:bg-gray-400"
             >
-              {isFollowed ? 'Unfollow' : 'Follow'}
+              {following
+                ? 'Following...'
+                : unfollowing
+                  ? 'Unfollowing...'
+                  : isFollowed
+                    ? 'Unfollow'
+                    : 'Follow'}
             </Button>
           )}
         </div>
@@ -115,15 +130,24 @@ const Header = ({
         </FollowersAndFollowingModal>
         <Stat label="Points" value={scoreboard?.data.points ?? 0} />
       </div>
+
+      {/* Debug info - remove in production */}
+      <div className="text-xs text-gray-400 mt-2">
+        Last updated:{' '}
+        {scoreboard ? new Date().toLocaleTimeString() : 'loading...'}
+      </div>
     </div>
   )
 }
 
-const Stat = ({ label, value }: { label: string; value: number }) => (
-  <div>
-    <p className="text-2xl font-semibold">{value}</p>
-    <p className="text-gray-500">{label}</p>
-  </div>
-)
+const Stat = ({ label, value }: { label: string; value: number }) => {
+  // console.log(`Rendering Stat: ${label} = ${value}`)
+  return (
+    <div>
+      <p className="text-2xl font-semibold">{value}</p>
+      <p className="text-gray-500">{label}</p>
+    </div>
+  )
+}
 
 export default Header

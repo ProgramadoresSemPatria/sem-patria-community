@@ -16,6 +16,7 @@ export const useScoreboard = () => {
         )
         return response.data
       },
+      staleTime: 0,
       ...options
     })
 

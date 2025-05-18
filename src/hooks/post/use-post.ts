@@ -136,6 +136,14 @@ export const usePost = ({ initialPosts, post }: UsePostProps) => {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['video-comments'] })
+      await queryClient.invalidateQueries({ queryKey: ['post', post?.id] })
+      await queryClient.invalidateQueries({ queryKey: ['infinite-posts'] })
+      await queryClient.invalidateQueries({
+        queryKey: ['getScoreHistoryByUserId', post?.userId]
+      })
+      await queryClient.invalidateQueries({
+        queryKey: ['getScoreboardByUserId', post?.userId]
+      })
     },
     onError: err => {
       console.error('Error liking post', err)

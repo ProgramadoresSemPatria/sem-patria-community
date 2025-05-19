@@ -7,11 +7,18 @@ import { usePostLikes } from './use-post-likes'
 
 interface PostLikeProps {
   post: ExtendedPost
-  userId: string
+  loggedInUserId: string
   isPostPage?: boolean
 }
-const PostLike = ({ userId, post, isPostPage = false }: PostLikeProps) => {
-  const { handleLike, likeState } = usePostLikes({ post, userId })
+const PostLike = ({
+  loggedInUserId,
+  post,
+  isPostPage = false
+}: PostLikeProps) => {
+  const { handleLike, likeState } = usePostLikes({
+    post,
+    loggedInUserId
+  })
 
   return (
     <div className="flex ml-2 items-center w-fit space-x-1 font-bold transition-colors dark:text-white text-black text-sm">

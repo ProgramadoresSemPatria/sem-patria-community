@@ -55,7 +55,7 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
           <li key={post.id}>
             <Post
               post={post}
-              userId={userId as string}
+              loggedInUserId={userId as string}
               commentAmount={post.comments.length}
               categoryName={post.category.name}
               likesAmount={post.likes.length}
@@ -71,7 +71,7 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
           <li key={post.id}>
             <Post
               post={post}
-              userId={userId as string}
+              loggedInUserId={userId as string}
               commentAmount={post.comments.length}
               categoryName={post.category.name}
               likesAmount={post.likes.length}
@@ -92,7 +92,7 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
           return (
             <li key={post.id} ref={ref}>
               <Post
-                userId={userId as string}
+                loggedInUserId={userId as string}
                 commentAmount={post?.comments?.length || 0}
                 post={post}
                 categoryName={post?.category?.name || ''}
@@ -104,7 +104,7 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
         } else {
           return (
             <Post
-              userId={userId as string}
+              loggedInUserId={userId as string}
               key={post.id}
               commentAmount={post?.comments?.length || 0}
               post={post}

@@ -9,12 +9,11 @@ import { type User as ClerkUser } from '@clerk/nextjs/server'
 import { type User } from '@prisma/client'
 import { useEffect, useState } from 'react'
 import { useFollowersAndFollowings } from './useFollowersAndFollowings'
-
 import { Icons } from '@/components/icons'
 import { PositionIconMap, TRAIL_LABELS } from '@/lib/constants'
 import { Positions, Roles } from '@/lib/types'
-
 import { FollowersAndFollowingModal } from './FollowersAndFollowingModal'
+
 const Header = ({
   user,
   currentUser
@@ -25,8 +24,9 @@ const Header = ({
   const { useGetScoreboardByUserId } = useScoreboard()
   const { follow, followers, unfollow, following, unfollowing, followedUsers } =
     useFollowersAndFollowings(user.id)
-  const { data: scoreboard } = useGetScoreboardByUserId(user.id)
 
+  const { data: scoreboard, refetch: refetchScoreboard } =
+    useGetScoreboardByUserId(user.id)
   const [isFollowed, setIsFollowed] = useState(false)
 
   useEffect(() => {
@@ -41,9 +41,11 @@ const Header = ({
   const handleFollowToggle = async () => {
     if (isFollowed) {
       await unfollow(user.id)
-      return
+    } else {
+      await follow(user.id)
     }
-    await follow(user.id)
+
+    await refetchScoreboard()
   }
 
   const isCurrentUser = user.id === currentUser.id
@@ -95,7 +97,13 @@ const Header = ({
               variant="outline"
               className="text-sm mt-2 hover:bg-gray-400"
             >
-              {isFollowed ? 'Unfollow' : 'Follow'}
+              {following
+                ? 'Following...'
+                : unfollowing
+                  ? 'Unfollowing...'
+                  : isFollowed
+                    ? 'Unfollow'
+                    : 'Follow'}
             </Button>
           )}
         </div>
@@ -119,11 +127,13 @@ const Header = ({
   )
 }
 
-const Stat = ({ label, value }: { label: string; value: number }) => (
-  <div>
-    <p className="text-2xl font-semibold">{value}</p>
-    <p className="text-gray-500">{label}</p>
-  </div>
-)
+const Stat = ({ label, value }: { label: string; value: number }) => {
+  return (
+    <div>
+      <p className="text-2xl font-semibold">{value}</p>
+      <p className="text-gray-500">{label}</p>
+    </div>
+  )
+}
 
 export default Header

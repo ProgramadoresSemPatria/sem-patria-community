@@ -67,7 +67,7 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
           </TabsList>
           <TabsContent value="posts">
             <CreatePostCommentComponent />
-            <UserPosts posts={profileUser?.posts} userId={user.id} />
+            <UserPosts posts={profileUser?.posts} loggedInUserId={user.id} />
           </TabsContent>
           <TabsContent value="score-activity">
             <ScoreActivity userId={user.id} />
@@ -76,7 +76,7 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
       ) : (
         <>
           <CreatePostCommentComponent />
-          <UserPosts posts={profileUser?.posts} userId={profileUser?.id} />
+          <UserPosts posts={profileUser?.posts} loggedInUserId={user.id} />
         </>
       )}
     </DefaultLayout>

@@ -52,7 +52,7 @@ const ForumWidget = async () => {
               {posts.map(post => (
                 <li key={post.id}>
                   <Post
-                    userId={user?.id || ''}
+                    loggedInUserId={user?.id || ''}
                     commentAmount={post.comments.length}
                     post={post}
                     categoryName={post.category.name}

@@ -5,10 +5,10 @@ import { useReducer } from 'react'
 
 type UsePostLikesProps = {
   post: ExtendedPost
-  userId: string
+  loggedInUserId: string
 }
 
-export const usePostLikes = ({ post, userId }: UsePostLikesProps) => {
+export const usePostLikes = ({ post, loggedInUserId }: UsePostLikesProps) => {
   const { onLikePost } = usePost({ post })
 
   const [likeState, dispatch] = useReducer(
@@ -24,7 +24,7 @@ export const usePostLikes = ({ post, userId }: UsePostLikesProps) => {
     },
     {
       liked: post.likes.some(
-        like => like.userId === userId && like.postId === post.id
+        like => like.userId === loggedInUserId && like.postId === post.id
       ),
       likes: post.likes.length
     }

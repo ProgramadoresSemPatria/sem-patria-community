@@ -8,11 +8,17 @@ type UseScoreActivityProps = {
 export const useScoreActivity = ({ userId }: UseScoreActivityProps) => {
   const { useGetScoreHistoryByUserId } = useScoreHistory()
 
-  const { data: scoreActivity, isLoading: isLoadingScoreActivity } =
-    useGetScoreHistoryByUserId(userId, {
-      refetchOnWindowFocus: true,
-      queryKey: ['getScoreHistoryByUserId', userId]
-    })
+  const {
+    data: scoreActivity,
+    isLoading: isLoadingScoreActivity,
+    refetch: refetchScoreActivity,
+    isRefetching,
+    dataUpdatedAt
+  } = useGetScoreHistoryByUserId(userId, {
+    refetchOnWindowFocus: true,
+    queryKey: ['getScoreHistoryByUserId', userId],
+    staleTime: 0
+  })
 
   const formatSourceType = (sourceType: string) => {
     const sourceTypeMap: Record<AwardEnum, string> = {
@@ -27,6 +33,9 @@ export const useScoreActivity = ({ userId }: UseScoreActivityProps) => {
   return {
     scoreActivity,
     isLoadingScoreActivity,
-    formatSourceType
+    isRefetching,
+    formatSourceType,
+    refetchScoreActivity,
+    lastUpdated: dataUpdatedAt
   }
 }

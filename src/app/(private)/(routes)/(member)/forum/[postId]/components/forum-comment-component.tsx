@@ -48,7 +48,6 @@ export const ForumCommentComponent = ({ comment }: CommentComponentProps) => {
     try {
       return JSON.parse(jsonString)
     } catch (error) {
-      console.error('Error parsing JSON:', error)
       return {
         type: 'doc',
         content: [

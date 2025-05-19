@@ -9,12 +9,11 @@ import { type User as ClerkUser } from '@clerk/nextjs/server'
 import { type User } from '@prisma/client'
 import { useEffect, useState } from 'react'
 import { useFollowersAndFollowings } from './useFollowersAndFollowings'
-
 import { Icons } from '@/components/icons'
 import { PositionIconMap, TRAIL_LABELS } from '@/lib/constants'
 import { Positions, Roles } from '@/lib/types'
-
 import { FollowersAndFollowingModal } from './FollowersAndFollowingModal'
+
 const Header = ({
   user,
   currentUser
@@ -39,20 +38,14 @@ const Header = ({
     }
   }, [currentUser.id, followers])
 
-  useEffect(() => {}, [scoreboard?.data.points])
-
   const handleFollowToggle = async () => {
-    try {
-      if (isFollowed) {
-        await unfollow(user.id)
-      } else {
-        await follow(user.id)
-      }
-
-      await refetchScoreboard()
-    } catch (error) {
-      console.error('Error during follow/unfollow operation:', error)
+    if (isFollowed) {
+      await unfollow(user.id)
+    } else {
+      await follow(user.id)
     }
+
+    await refetchScoreboard()
   }
 
   const isCurrentUser = user.id === currentUser.id
@@ -130,18 +123,11 @@ const Header = ({
         </FollowersAndFollowingModal>
         <Stat label="Points" value={scoreboard?.data.points ?? 0} />
       </div>
-
-      {/* Debug info - remove in production */}
-      <div className="text-xs text-gray-400 mt-2">
-        Last updated:{' '}
-        {scoreboard ? new Date().toLocaleTimeString() : 'loading...'}
-      </div>
     </div>
   )
 }
 
 const Stat = ({ label, value }: { label: string; value: number }) => {
-  // console.log(`Rendering Stat: ${label} = ${value}`)
   return (
     <div>
       <p className="text-2xl font-semibold">{value}</p>

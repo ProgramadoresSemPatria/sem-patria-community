@@ -29,7 +29,7 @@ const InterestsClient = ({ interests }: InterestClientProps) => {
           </Button>
         </Can>
       </Header>
-      <DataTable searchKey="name" columns={columns} data={interests} />
+      <DataTable searchKey="interest" columns={columns} data={interests} />
     </>
   )
 }

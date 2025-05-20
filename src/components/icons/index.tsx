@@ -1,5 +1,6 @@
 import { CaretSortIcon } from '@radix-ui/react-icons'
 import {
+  ActivityIcon,
   AlignVerticalSpaceAround,
   ArrowUpDown,
   ArrowUpRightFromCircle,
@@ -8,6 +9,7 @@ import {
   Bell,
   BellDot,
   Bold,
+  BookOpen,
   BookText,
   Bot,
   Braces,
@@ -57,12 +59,14 @@ import {
   Moon,
   MoreHorizontal,
   MoreVertical,
+  NotebookPen,
   PinIcon,
   Play,
   Plus,
   PlusCircle,
   Quote,
   Rocket,
+  RotateCcw,
   Save,
   Search,
   Send,
@@ -74,6 +78,7 @@ import {
   Sun,
   ThumbsUp,
   Trash,
+  Trophy,
   Type,
   Underline,
   UploadCloud,
@@ -85,14 +90,13 @@ import {
   Video,
   X,
   Youtube,
-  NotebookPen,
-  type LucideIcon,
-  BookOpen
+  type LucideIcon
 } from 'lucide-react'
 
 export type IconType = LucideIcon
 
 export const Icons = {
+  activity: ActivityIcon,
   alignVertSA: AlignVerticalSpaceAround,
   arrowBack: ChevronLeft,
   arrowDown: ChevronDown,
@@ -162,6 +166,7 @@ export const Icons = {
   quote: Quote,
   redirect: ExternalLink,
   rocket: Rocket,
+  rotateCcw: RotateCcw,
   save: Save,
   search: Search,
   send: Send,
@@ -173,6 +178,7 @@ export const Icons = {
   strike: Strikethrough,
   text: Type,
   trash: Trash,
+  trophy: Trophy,
   underline: Underline,
   upVote: ThumbsUp,
   user: User,

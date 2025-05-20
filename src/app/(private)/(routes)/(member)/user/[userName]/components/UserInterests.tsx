@@ -14,14 +14,13 @@ import { type InterestWithUsers } from '../../../interests/page'
 import { Icons } from '@/components/icons'
 import { getRandomStyle } from '@/lib/constants'
 import InterestModal from '../../../interests/components/interest-modal'
+import { cn } from '@/lib/utils'
 
 const UserInterests = ({
-  userInterests,
   allInterests,
   profileUserId,
   currentUserId
 }: {
-  userInterests: Interest[]
   allInterests?: Interest[]
   profileUserId: string
   currentUserId: string
@@ -92,7 +91,10 @@ const UserInterests = ({
           newUserInterests.map(interest => (
             <Badge
               key={interest.id}
-              className={`text-white gap-x-2 cursor-pointer ${getRandomStyle()}`}
+              className={cn(
+                'text-white gap-x-2 cursor-pointer',
+                getRandomStyle()
+              )}
               onClick={() => {
                 handleBadgeClick(interest)
               }}

@@ -61,7 +61,15 @@ export async function POST(request: NextRequest) {
             id: true,
             interest: true,
             createdAt: true,
-            users: { select: { username: true } }
+            users: {
+              select: {
+                user: {
+                  select: {
+                    username: true
+                  }
+                }
+              }
+            }
           }
         }),
 

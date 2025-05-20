@@ -10,14 +10,6 @@ import {
   type MenuItemProps
 } from './types'
 
-export const PositionIconMap = {
-  AMBASSADOR: <Icons.award className="w-4 h-4 inline-flex" />,
-  BUILDER: <Icons.hammer className="w-4 h-4 inline-flex" />,
-  PSP: <Icons.globe className="w-4 h-4 inline-flex" />,
-  BASE: <Icons.book className="w-4 h-4 inline-flex" />,
-  ADMIN: <Icons.gear className="w-4 h-4 inline-flex" />
-}
-
 export const appConfig = {
   name: 'Sem pátria - Community',
   description: 'Comunidade programadores sem pátria'
@@ -31,12 +23,13 @@ export enum appRoutes {
   codeUp = '/code-up',
   codeBreakers = '/code-breakers',
   mentorship = '/mentorship',
-  profile = '/profile',
   interests = '/interests',
   forum = '/forum',
-  appearance = '/profile/appearance',
+  settings = '/settings',
+  appearance = '/settings/appearance',
+  leaderboard = '/leaderboard',
   publicProfile = '/user',
-  checklist = '/profile/checklist',
+  checklist = '/settings/checklist',
   admin_courses = '/admin/courses',
   admin_courses_new = '/admin/courses/new',
   admin_categories = '/admin/categories',
@@ -50,24 +43,31 @@ export enum appRoutes {
   admin_classroom_module_new = '/admin/classroom/module/new',
   admin_users = '/admin/users',
   admin_users_new = '/admin/users/new',
-  admin_classroom_video_new = '/admin/classroom/video/new'
+  admin_classroom_video_new = '/admin/classroom/video/new',
+  admin_seasons_new = '/admin/seasons/new',
+  admin_seasons = '/admin/seasons'
 }
 
 export const menuItems: MenuItemProps[] = [
   {
     href: appRoutes.dashboard,
     label: 'Dashboard',
-    icon: <Icons.dashboard className="h-4 w-4" />
+    icon: <Icons.dashboard className="w-4 h-4" />
   },
   {
     href: `${appRoutes.forum}?category=All`,
     label: 'Forum',
-    icon: <Icons.forum className="h-4 w-4" />
+    icon: <Icons.forum className="w-4 h-4" />
   },
   {
     href: appRoutes.mentorship,
     label: 'Mentorship',
-    icon: <Icons.mentorship className="h-4 w-4" />
+    icon: <Icons.mentorship className="w-4 h-4" />
+  },
+  {
+    href: appRoutes.leaderboard,
+    label: 'Leaderboard',
+    icon: <Icons.trophy className="h-4 w-4" />
   },
   {
     href: `${appRoutes.courses}?category=all`,
@@ -75,7 +75,7 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.book className="h-4 w-4" />
   },
   {
-    href: `${appRoutes.codeUp}`,
+    href: appRoutes.codeUp,
     label: 'Code Up',
     icon: <Icons.calendar className="h-4 w-4" />
   },
@@ -85,44 +85,49 @@ export const menuItems: MenuItemProps[] = [
     icon: <Icons.code className="h-4 w-4" />
   },
   {
-    href: appRoutes.profile,
-    label: 'Profile',
-    icon: <Icons.circleUser className="h-4 w-4" />
-  },
-  {
     href: appRoutes.interests,
     label: 'Interests',
-    icon: <Icons.list className="h-4 w-4" />
+    icon: <Icons.list className="w-4 h-4" />
+  },
+  {
+    href: appRoutes.settings,
+    label: 'Settings',
+    icon: <Icons.settings className="w-4 h-4" />
   },
   {
     href: appRoutes.admin_users,
     label: 'Users',
-    icon: <Icons.users className="h-4 w-4" />
+    icon: <Icons.users className="w-4 h-4" />
   },
   {
     href: appRoutes.admin_courses,
     label: 'Courses',
-    icon: <Icons.codeSandbox className="h-4 w-4" />
+    icon: <Icons.codeSandbox className="w-4 h-4" />
   },
   {
     href: appRoutes.admin_categories,
     label: 'Categories',
-    icon: <Icons.layers className="h-4 w-4" />
+    icon: <Icons.layers className="w-4 h-4" />
   },
   {
     href: appRoutes.admin_events,
     label: 'Events',
-    icon: <Icons.calendarDays className="h-4 w-4" />
+    icon: <Icons.calendarDays className="w-4 h-4" />
   },
   {
     href: `${appRoutes.admin_classroom}?tabSelected=classroom`,
     label: 'Classroom',
-    icon: <Icons.classroom className="h-4 w-4" />
+    icon: <Icons.classroom className="w-4 h-4" />
   },
   {
     href: appRoutes.admin_interests,
     label: 'Interests',
-    icon: <Icons.list className="h-4 w-4" />
+    icon: <Icons.list className="w-4 h-4" />
+  },
+  {
+    href: appRoutes.admin_seasons,
+    label: 'Seasons',
+    icon: <Icons.award className="w-4 h-4" />
   }
 ]
 export const getPublicProfileRoute = (username: string): string => {
@@ -133,7 +138,7 @@ export function getSettingOptions(routes: typeof appRoutes, user: User) {
   return [
     {
       title: 'User',
-      href: routes.profile
+      href: routes.settings
     },
     {
       title: 'Appearance',
@@ -144,7 +149,7 @@ export function getSettingOptions(routes: typeof appRoutes, user: User) {
       href: routes.checklist
     },
     {
-      title: 'Public profile',
+      title: 'My Profile',
       href: `${routes.publicProfile}/${user?.username || 'unknown'}`
     }
   ]
@@ -281,4 +286,12 @@ export function getRandomStyle() {
   const selectedStyle = remainingStyles[randomIndex]
   remainingStyles.splice(randomIndex, 1)
   return selectedStyle
+}
+
+export const PositionIconMap = {
+  AMBASSADOR: <Icons.award className="w-4 h-4 inline-flex" />,
+  BUILDER: <Icons.hammer className="w-4 h-4 inline-flex" />,
+  PSP: <Icons.globe className="w-4 h-4 inline-flex" />,
+  BASE: <Icons.book className="w-4 h-4 inline-flex" />,
+  ADMIN: <Icons.gear className="w-4 h-4 inline-flex" />
 }

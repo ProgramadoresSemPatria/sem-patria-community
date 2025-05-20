@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useMemo, type FC } from 'react'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -11,11 +11,11 @@ import {
   DialogHeader,
   DialogTitle
 } from '@/components/ui/dialog'
-import { type InterestWithUsers } from '../page'
 import { type User } from '@prisma/client'
 import { useRouter } from 'next/navigation'
+import { useCallback, useMemo, useState, type FC } from 'react'
 import { useUserInterest } from '../../user/[userName]/components/useUserInterests'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { type InterestWithUsers } from '../page'
 
 interface InterestModalProps {
   interest: InterestWithUsers
@@ -48,10 +48,10 @@ const InterestModal: FC<InterestModalProps> = ({
 
   const groupedUsers = useMemo(
     () =>
-      interest.users.reduce((acc: Record<string, User[]>, user) => {
-        const firstLetter = user.name.charAt(0).toUpperCase()
+      interest.users.reduce((acc: Record<string, User[]>, item) => {
+        const firstLetter = item.user.name.charAt(0).toUpperCase()
         if (!acc[firstLetter]) acc[firstLetter] = []
-        acc[firstLetter].push(user)
+        acc[firstLetter].push(item.user)
         return acc
       }, {}),
     [interest.users]

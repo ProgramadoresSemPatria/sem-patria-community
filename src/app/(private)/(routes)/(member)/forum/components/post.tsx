@@ -19,7 +19,7 @@ type PostProps = {
   categoryName: string
   currentLike?: boolean
   commentAmount: number
-  userId: string
+  loggedInUserId: string
   isPinned?: boolean
   actions?: boolean
 }
@@ -30,7 +30,7 @@ const Post = ({
   currentLike: _currentLike,
   categoryName,
   commentAmount,
-  userId,
+  loggedInUserId,
   isPinned,
   actions = true
 }: PostProps) => {
@@ -109,7 +109,7 @@ const Post = ({
         </div>
       </div>
       <div className="flex items-center text-sm p-2 gap-x-4 w-full">
-        <PostLike post={post} userId={userId} />
+        <PostLike post={post} loggedInUserId={loggedInUserId} />
         <Link
           href={`/${categoryName}/post/${post.id}`}
           className="w-fit flex items-center gap-x-2 hover:text-muted-foreground transition-colors"

@@ -213,7 +213,7 @@ const PointsStat = ({
                 <div className="pt-2 mt-2 border-t border-border/50">
                   <h3 className="text-foreground font-semibold mb-1">Awards</h3>
                   <ul className="space-y-1">
-                    {season.metadata.awards.map(award => (
+                    {season.metadata.awards.slice(0, 3).map(award => (
                       <li
                         key={award.position}
                         className="grid grid-cols-[0.5fr_1fr] gap-x-2"
@@ -224,6 +224,11 @@ const PointsStat = ({
                         </span>
                       </li>
                     ))}
+                    {season.metadata.awards.length > 3 && (
+                      <li className="text-gray-400 pt-1">
+                        +{season.metadata.awards.length - 3} more
+                      </li>
+                    )}
                   </ul>
                 </div>
               )}

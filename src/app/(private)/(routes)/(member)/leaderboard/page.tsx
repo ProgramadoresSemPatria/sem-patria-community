@@ -53,10 +53,10 @@ const Leaderboard = async () => {
                 </CardTitle>
               </CardHeader>
 
-              <CardContent className="px-6 pt-4 space-y-8">
+              <CardContent className="px-6 space-y-8">
                 {currentSeason.metadata?.awards?.length === 0 && (
-                  <div className="text-muted-foreground py-2">
-                    No prizes available for this season
+                  <div className="text-muted-foreground/70 py-2">
+                    No prizes available for this season yet. Stay tuned!
                   </div>
                 )}
 

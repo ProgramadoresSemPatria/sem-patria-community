@@ -108,7 +108,7 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
         >
           <Icons.rotateCcw
             className={cn(
-              'w-5 h-5 text-gray-900 dark:text-muted-foreground',
+              'w-4 h-4 text-gray-900 dark:text-muted-foreground',
               isLoadingRefresh && 'animate-spin'
             )}
           />

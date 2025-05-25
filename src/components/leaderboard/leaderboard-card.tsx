@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { Icons } from '@/components/icons'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
@@ -19,32 +18,22 @@ const LeaderboardCard = ({ score, index }: LeaderboardCardProps) => {
       href={`/user/${score.user.username}`}
       className="group cursor-pointer"
     >
-      <motion.div
+      <div
         className={cn(
-          'relative flex-shrink-0',
+          'relative flex-shrink-0 transition-transform duration-200 ease-out',
+          'hover:translate-y-[-4px]',
           index === 0 && 'md:z-10 md:scale-105'
         )}
-        initial={{ rotateY: 180 }}
-        animate={{ rotateY: 0 }}
-        whileHover={{
-          scale: 1.05,
-          transition: { type: 'spring', stiffness: 200, damping: 15 }
-        }}
-        transition={{
-          delay: index * 0.2,
-          type: 'spring',
-          stiffness: 200
-        }}
       >
         <div
           className={cn(
             'relative w-full rounded-xl p-3',
-            'bg-gradient-to-br',
+            'bg-gradient-to-br transition-colors duration-200',
             index === 0
-              ? 'from-yellow-400/30 to-amber-600/30 border-yellow-500/40 shadow-lg shadow-yellow-500/20'
+              ? 'from-yellow-400/30 to-amber-600/30 border-yellow-500/40 shadow-lg shadow-yellow-500/20 group-hover:from-yellow-400/40 group-hover:to-amber-600/40'
               : index === 1
-                ? 'from-gray-400/20 to-gray-600/20 border-gray-500/30'
-                : 'from-orange-400/20 to-orange-600/20 border-orange-500/30',
+                ? 'from-gray-400/20 to-gray-600/20 border-gray-500/30 group-hover:from-gray-400/30 group-hover:to-gray-600/30'
+                : 'from-orange-400/20 to-orange-600/20 border-orange-500/30 group-hover:from-orange-400/30 group-hover:to-orange-600/30',
             'border-2 backdrop-blur-lg'
           )}
         >
@@ -98,7 +87,6 @@ const LeaderboardCard = ({ score, index }: LeaderboardCardProps) => {
                   className={cn(
                     'capitalize inline-flex items-center rounded-md px-2 py-1',
                     'text-xs font-medium ring-1 ring-inset',
-                    'transition-all duration-200',
                     getLevelStyle(score.user.level)
                   )}
                 >
@@ -110,7 +98,6 @@ const LeaderboardCard = ({ score, index }: LeaderboardCardProps) => {
                   className={cn(
                     'inline-flex items-center rounded-md px-1.5 sm:px-2 py-0.5 sm:py-1',
                     'text-[10px] sm:text-xs font-medium ring-1 ring-inset',
-                    'transition-all duration-200',
                     getPositionStyle(score.user.position)
                   )}
                 >
@@ -121,7 +108,7 @@ const LeaderboardCard = ({ score, index }: LeaderboardCardProps) => {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </Link>
   )
 }

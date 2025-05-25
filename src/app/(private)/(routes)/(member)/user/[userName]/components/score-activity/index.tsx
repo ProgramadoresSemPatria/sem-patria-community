@@ -75,7 +75,8 @@ const ScoreActivity = ({ userId }: ScoreActivityProps) => {
               </TimelineIndicator>
             </TimelineHeader>
             <TimelineContent className="text-foreground mt-2 rounded-lg border px-4 py-3">
-              You received {item.points} points for{' '}
+              You received {item.points}{' '}
+              {item.points === 1 ? 'point' : 'points'} for{' '}
               {formatSourceType(item.source.type)}
               <TimelineDate className="mt-1 mb-0">
                 {formatDistanceToNow(new Date(item.date), {

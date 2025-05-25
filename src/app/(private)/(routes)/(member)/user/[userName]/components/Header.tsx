@@ -31,13 +31,24 @@ const Header = ({
   currentUser: ClerkUser
 }) => {
   const { useGetScoreboardByUserId } = useScoreboard()
-  const { follow, followers, unfollow, following, unfollowing, followedUsers } =
-    useFollowersAndFollowings(user.id)
+  const {
+    follow,
+    followers,
+    unfollow,
+    following,
+    unfollowing,
+    followedUsers,
+    isLoadingFollowers: isFollowersLoading
+  } = useFollowersAndFollowings(user.id)
   const { useGetCurrentSeason } = useSeason()
 
-  const { data: scoreboard, refetch: refetchScoreboard } =
-    useGetScoreboardByUserId(user.id)
-  const { data: currentSeason } = useGetCurrentSeason()
+  const {
+    data: scoreboard,
+    isLoading: isScoreboardLoading,
+    refetch: refetchScoreboard
+  } = useGetScoreboardByUserId(user.id)
+  const { data: currentSeason, isLoading: isSeasonLoading } =
+    useGetCurrentSeason()
   const [isFollowed, setIsFollowed] = useState(false)
 
   useEffect(() => {
@@ -124,25 +135,56 @@ const Header = ({
           title="Followers"
           followersOrFollowing={followers}
         >
-          <Stat label="Followers" value={followers.length} />
+          <div className={followers.length === 0 ? '' : 'cursor-pointer'}>
+            <Stat
+              label="Followers"
+              value={followers?.length ?? 0}
+              isLoading={isFollowersLoading}
+            />
+          </div>
         </FollowersAndFollowingModal>
         <FollowersAndFollowingModal
           title="Following"
           followersOrFollowing={followedUsers}
         >
-          <Stat label="Following" value={user.followings} />
+          <div className={user.followings === 0 ? '' : 'cursor-pointer'}>
+            <Stat
+              label="Following"
+              value={user.followings}
+              isLoading={isFollowersLoading}
+            />
+          </div>
         </FollowersAndFollowingModal>
         <PointsStat
           label="Points"
           value={scoreboard?.data.points ?? 0}
           season={currentSeason}
+          isLoading={isScoreboardLoading || isSeasonLoading}
         />
       </div>
     </div>
   )
 }
 
-const Stat = ({ label, value }: { label: string; value: number }) => {
+const Stat = ({
+  label,
+  value,
+  isLoading
+}: {
+  label: string
+  value: number
+  isLoading?: boolean
+}) => {
+  if (isLoading) {
+    return (
+      <div>
+        <div className="h-8 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-auto" />
+        <p className="text-gray-500">{label}</p>
+        <div className="h-5" />
+      </div>
+    )
+  }
+
   return (
     <div>
       <p className="text-2xl font-semibold">{value}</p>
@@ -155,12 +197,24 @@ const Stat = ({ label, value }: { label: string; value: number }) => {
 const PointsStat = ({
   label,
   value,
-  season
+  season,
+  isLoading
 }: {
   label: string
   value: number
   season: CurrentSeasonResponse | undefined
+  isLoading?: boolean
 }) => {
+  if (isLoading) {
+    return (
+      <div className="cursor-help w-fit mx-auto">
+        <div className="h-8 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-auto" />
+        <div className="h-4 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-auto mt-2" />
+        <div className="h-3 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-auto mt-2" />
+      </div>
+    )
+  }
+
   return (
     <TooltipProvider>
       <Tooltip delayDuration={100}>

@@ -7,6 +7,7 @@ import type {
 } from '@/actions/leaderboard/types'
 import { Icons } from '@/components/icons'
 import { InfiniteLeaderboard } from '@/components/leaderboard/infinite-leaderboard'
+import { InfiniteLeaderboardEmptyState } from '@/components/leaderboard/infinite-leaderboard-empty-state'
 import { LeaderboardSkeleton } from '@/components/leaderboard/skeleton'
 import { TopThree } from '@/components/leaderboard/top-three'
 import { Button } from '@/components/ui/button'
@@ -107,19 +108,21 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
         >
           <Icons.rotateCcw
             className={cn(
-              'w-5 h-5 text-gray-900 dark:text-muted-foreground',
+              'w-4 h-4 text-gray-900 dark:text-muted-foreground',
               isLoadingRefresh && 'animate-spin'
             )}
           />
         </Button>
       </div>
       <Separator className="my-2 sm:my-4" />
-      {seasonData.scores && <TopThree scores={seasonData.scores} />}
-      {initialLeaderboardData.users.length > 0 && (
+      <TopThree scores={seasonData.scores} />
+      {initialLeaderboardData.users.length > 0 ? (
         <>
           <Separator className="my-2 sm:my-4" />
           <InfiniteLeaderboard initialData={initialLeaderboardData} />
         </>
+      ) : (
+        <InfiniteLeaderboardEmptyState />
       )}
     </Card>
   )

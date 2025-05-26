@@ -102,7 +102,7 @@ export const menuItems: MenuItemProps[] = [
   {
     href: appRoutes.admin_courses,
     label: 'Courses',
-    icon: <Icons.codeSandbox className="w-4 h-4" />
+    icon: <Icons.book className="w-4 h-4" />
   },
   {
     href: appRoutes.admin_categories,

@@ -15,12 +15,16 @@ export async function GET(
       where: {
         users: {
           some: {
-            id: params.userId
+            userId: params.userId
           }
         }
       },
       include: {
-        users: true
+        users: {
+          include: {
+            user: true
+          }
+        }
       }
     })
 

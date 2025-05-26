@@ -7,7 +7,6 @@ import {
   PopoverTrigger
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
-import { Check, Trash } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import { type LinkSelectorProps } from '../types'
 
@@ -92,11 +91,11 @@ export const LinkSelector = ({
                 editor.chain().focus().unsetLink().run()
               }}
             >
-              <Trash className="h-4 w-4" />
+              <Icons.trash className="h-4 w-4" />
             </Button>
           ) : (
             <Button size="icon" className="h-8">
-              <Check className="h-4 w-4" />
+              <Icons.check className="h-4 w-4" />
             </Button>
           )}
         </form>

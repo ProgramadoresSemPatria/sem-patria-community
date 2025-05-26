@@ -143,3 +143,16 @@ export const getHighestPriorityRole = (userRoles: Roles[]): Roles => {
 
   return Roles.Base
 }
+
+export function calculateMultiplier(userPosition: string): number {
+  switch (userPosition.toLowerCase()) {
+    case 'base':
+      return 1.1
+    case 'psp':
+    case 'builder':
+    case 'ambassador':
+      return 1.3
+    default:
+      return 1.0
+  }
+}

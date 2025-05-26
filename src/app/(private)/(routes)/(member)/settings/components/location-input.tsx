@@ -22,7 +22,6 @@ import {
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 import { useElementSize } from '@mantine/hooks'
-import { Check, ChevronsUpDown } from 'lucide-react'
 import { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import useLocationInput from './use-location-input'
@@ -62,7 +61,7 @@ const LocationInput = ({ isUpdating }: LocationInputProps) => {
                   <span className="truncate">
                     {value && value !== '' ? value : 'Select your location'}
                   </span>
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  <Icons.chevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent
@@ -110,7 +109,7 @@ const LocationInput = ({ isUpdating }: LocationInputProps) => {
                                 }}
                                 className="flex items-center gap-2"
                               >
-                                <Check
+                                <Icons.check
                                   className={cn(
                                     'h-4 w-4 shrink-0',
                                     value === location.value

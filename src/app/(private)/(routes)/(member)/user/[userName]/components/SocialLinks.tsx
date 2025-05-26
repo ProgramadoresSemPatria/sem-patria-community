@@ -1,16 +1,17 @@
 'use client'
+
+import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
-import { Github, Linkedin, Mail } from 'lucide-react'
 
 const SocialLinks = ({
   github,
-  linkedin,
+  linkedIn,
   email,
   showEmail
 }: {
   github: string
-  linkedin: string
+  linkedIn: string
   email: string
   showEmail?: boolean
 }) => {
@@ -34,9 +35,9 @@ const SocialLinks = ({
       input
     )
   }
-  const linkedinLink = isLinkedInUrl(linkedin)
-    ? linkedin
-    : `https://www.linkedin.com/in/${linkedin}`
+  const linkedInLink = isLinkedInUrl(linkedIn)
+    ? linkedIn
+    : `https://www.linkedin.com/in/${linkedIn}`
   return (
     <div className="flex flex-wrap gap-4 pt-4 my-4 border-t-2">
       <Button
@@ -44,15 +45,15 @@ const SocialLinks = ({
         variant="outline"
         className="flex items-center space-x-2"
       >
-        <Github className="w-4 h-4" />
+        <Icons.github className="w-4 h-4" />
         <span>GitHub</span>
       </Button>
       <Button
-        onClick={() => window.open(linkedinLink, '_blank')}
+        onClick={() => window.open(linkedInLink, '_blank')}
         variant="outline"
         className="flex items-center space-x-2"
       >
-        <Linkedin className="w-4 h-4" />
+        <Icons.linkedIn className="w-4 h-4" />
         <span>LinkedIn</span>
       </Button>
       {showEmail && (
@@ -63,7 +64,7 @@ const SocialLinks = ({
           variant="outline"
           className="flex items-center space-x-2"
         >
-          <Mail className="w-4 h-4" />
+          <Icons.mail className="w-4 h-4" />
           <span>Email</span>
         </Button>
       )}

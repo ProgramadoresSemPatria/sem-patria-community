@@ -3,7 +3,7 @@ import { type SearchDialogResult } from '@/hooks/search/types'
 import { cn } from '@/lib/utils'
 import { ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { formatDateText, getEntityColorClass } from './utils'
-import { resultComponents } from './ResultComponents'
+import { resultComponents } from './result-components'
 
 interface ResultsListProps {
   searchResults: SearchDialogResult[]

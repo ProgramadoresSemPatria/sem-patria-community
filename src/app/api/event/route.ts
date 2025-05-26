@@ -52,9 +52,6 @@ export async function GET(req: NextRequest) {
     const events = await prismadb.event.findMany({
       where: {
         ...filter
-      },
-      orderBy: {
-        date: 'asc'
       }
     })
 

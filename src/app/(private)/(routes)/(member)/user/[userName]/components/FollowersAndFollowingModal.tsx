@@ -23,6 +23,10 @@ export const FollowersAndFollowingModal = ({
   title,
   followersOrFollowing
 }: FollowersAndFollowingModalProps) => {
+  if (!followersOrFollowing?.length) {
+    return children
+  }
+
   return (
     <Dialog>
       <DialogTrigger>{children}</DialogTrigger>

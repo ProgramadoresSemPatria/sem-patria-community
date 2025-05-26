@@ -88,7 +88,7 @@ export type ExtendedComment = Comment & {
 }
 
 const PostPage = async ({ params }: PostPageProps) => {
-  const { userId } = auth()
+  const { userId: loggedInUserId } = auth()
   const post = await getPost(params.postId)
   if (!post) {
     notFound()
@@ -134,11 +134,11 @@ const PostPage = async ({ params }: PostPageProps) => {
               </div>
             </div>
             <div className="flex gap-6 mt-4 px-4 text-muted-foreground w-full font-semibold text-md items-center">
-              {post && userId && (
+              {post && loggedInUserId && (
                 <>
                   <PostLike
                     post={post as unknown as ExtendedPost}
-                    userId={userId}
+                    loggedInUserId={loggedInUserId}
                     isPostPage
                   />
 
@@ -150,7 +150,7 @@ const PostPage = async ({ params }: PostPageProps) => {
               )}
               <Separator decorative orientation="vertical" className="h-5" />
               <p className="font-normal">at {post?.category.name}</p>
-              {post?.userId === userId && (
+              {post?.userId === loggedInUserId && (
                 <EditPostButton
                   postId={post?.id}
                   title={post.title}

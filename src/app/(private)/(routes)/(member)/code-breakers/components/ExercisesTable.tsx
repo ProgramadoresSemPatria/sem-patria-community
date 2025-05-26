@@ -8,12 +8,12 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { ExternalLink, MonitorPlay } from 'lucide-react'
 import type { IExercise } from '../types/IExercise'
 import { useDoneExerciseStore } from '../stores/useDoneExerciseStore'
 import { Checkbox } from '@/components/ui/checkbox'
 import { difficultyColors } from '../constants/colors'
 import { cn } from '@/lib/utils'
+import { Icons } from '@/components/icons'
 import {
   Tooltip,
   TooltipContent,
@@ -93,7 +93,7 @@ export function ExercisesTable({ exercises }: ExercisesTableProps) {
                   rel="noreferrer"
                 >
                   <span className="text-wrap">{exercise.problem}</span>
-                  <ExternalLink
+                  <Icons.redirect
                     className="text-primary hover:text-primary/90 flex-shrink-0"
                     size={14}
                   />
@@ -126,7 +126,7 @@ export function ExercisesTable({ exercises }: ExercisesTableProps) {
                       rel="noreferrer"
                       className="flex items-center justify-center text-foreground hover:text-foreground/90 group-hover:scale-110 transition-transform"
                     >
-                      <MonitorPlay
+                      <Icons.monitorPlay
                         className="size-4 sm:size-5"
                         strokeWidth={1.2}
                       />

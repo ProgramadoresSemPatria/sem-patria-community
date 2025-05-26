@@ -1,0 +1,82 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["prismaSchemaFolder"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Interest {
+  id        String         @id @default(uuid())
+  interest  String         @unique
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  users     UserInterest[]
+}
+
+model UserInterest {
+  userId     String
+  interestId String
+  user       User     @relation(fields: [userId], references: [id])
+  interest   Interest @relation(fields: [interestId], references: [id])
+
+  @@id([userId, interestId])
+}
+
+model Course {
+  id         String           @id @default(uuid())
+  name       String
+  courseUrl  String
+  level      String
+  categoryId String
+  isPaid     Boolean          @default(false)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  isPending  Boolean          @default(false)
+  category   Category         @relation("CourseToCategory", fields: [categoryId], references: [id])
+  categories CourseCategory[]
+}
+
+model Category {
+  name           String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  id             String           @id @default(uuid())
+  courses        Course[]         @relation("CourseToCategory")
+  courseCategory CourseCategory[]
+  posts          Post[]
+}
+
+model CourseCategory {
+  courseId   String
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+  course     Course   @relation(fields: [courseId], references: [id])
+
+  @@id([courseId, categoryId])
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  title     String
+  content   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  isPublic  Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Event {
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  date         DateTime
+  location     String
+  externalUrl  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  specialGuest String?
+}

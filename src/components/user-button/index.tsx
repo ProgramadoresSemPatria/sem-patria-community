@@ -1,7 +1,6 @@
 import avatarImg from '@/assets/avatar.png'
 import { useUser } from '@clerk/nextjs'
 import Image from 'next/image'
-import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 
 type UserButtonProps = {
@@ -12,10 +11,7 @@ const UserButton = ({ hiddenName = false }: UserButtonProps) => {
   const { user } = useUser()
 
   return (
-    <Link
-      href="/profile"
-      className="flex items-center gap-x-2 m-2 w-full h-full"
-    >
+    <div className="flex items-center gap-x-2 m-2 w-full h-full">
       <Avatar className="">
         <AvatarImage src={user?.imageUrl || ''} />
         <AvatarFallback>
@@ -27,7 +23,7 @@ const UserButton = ({ hiddenName = false }: UserButtonProps) => {
           {user?.fullName || user?.username}
         </span>
       )}
-    </Link>
+    </div>
   )
 }
 

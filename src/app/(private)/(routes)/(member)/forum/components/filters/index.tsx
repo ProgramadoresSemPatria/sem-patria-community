@@ -18,7 +18,6 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { useDebounceSearch } from '@/hooks/shared/use-debounce-search'
 import { cn } from '@/lib/utils'
-import { Check } from 'lucide-react'
 import { useForumFilters } from './use-forum-filters'
 
 export const orderByOptions = [
@@ -143,7 +142,7 @@ const ForumFilters = () => {
                         )
                       }}
                     >
-                      <Check
+                      <Icons.check
                         className={cn(
                           'mr-2 h-4 w-4',
                           categoryName === category.name
@@ -189,7 +188,7 @@ const ForumFilters = () => {
                       onOpenOrderBy(false)
                     }}
                   >
-                    <Check
+                    <Icons.check
                       className={cn(
                         'mr-2 h-4 w-4',
                         orderBy === orderByOption.value

@@ -45,7 +45,7 @@ export const exercises: IExercise[] = [
     id: 'ex-6',
     nodeId: '1',
     problem: 'Encode and Decode Strings',
-    link: 'https://leetcode.com/problems/encode-and-decode-strings/',
+    link: 'https://neetcode.io/problems/string-encode-and-decode/',
     difficulty: 'Medium',
     solution: 'https://neetcode.io/solutions/encode-and-decode-strings'
   },

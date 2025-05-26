@@ -3,7 +3,6 @@
 import { useReactFlow } from '@xyflow/react'
 import { exercises } from '../constants/exercises'
 import { useDoneExerciseStore } from '../stores/useDoneExerciseStore'
-import { Maximize, Minus, Plus } from 'lucide-react'
 import {
   Tooltip,
   TooltipContent,
@@ -11,6 +10,7 @@ import {
 } from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { Icons } from '@/components/icons'
 
 export function Buttons() {
   const { zoomIn, zoomOut, fitView } = useReactFlow()
@@ -37,7 +37,7 @@ export function Buttons() {
             className={cn(buttonBaseClass, 'animate-left-to-right')}
             onClick={async () => await zoomIn({ duration: 300 })}
           >
-            <Plus className={iconBaseClass} />
+            <Icons.plus className={iconBaseClass} />
           </Button>
         </TooltipTrigger>
         <TooltipContent
@@ -57,7 +57,7 @@ export function Buttons() {
             style={{ animationDelay: '100ms' }}
             onClick={async () => await zoomOut({ duration: 300 })}
           >
-            <Minus className={iconBaseClass} />
+            <Icons.minus className={iconBaseClass} />
           </Button>
         </TooltipTrigger>
         <TooltipContent
@@ -77,7 +77,7 @@ export function Buttons() {
             style={{ animationDelay: '200ms' }}
             onClick={async () => await fitView({ duration: 1000 })}
           >
-            <Maximize className={iconBaseClass} />
+            <Icons.maximize className={iconBaseClass} />
           </Button>
         </TooltipTrigger>
         <TooltipContent

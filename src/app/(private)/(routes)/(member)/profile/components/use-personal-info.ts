@@ -129,7 +129,7 @@ const usePersonalInfo = ({ userProps }: PersonalInfoProps) => {
       imageUrl: userProps.imageUrl ?? undefined,
       isPublicEmail: userProps.isPublicEmail ?? false,
       location: userProps.location ?? undefined,
-      trail: (userProps.trail as string) ?? ''
+      trail: (userProps.trail as string) ?? undefined
     }
   })
 

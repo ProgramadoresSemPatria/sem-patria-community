@@ -216,7 +216,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                             value={field.value ?? ''}
                           >
                             <SelectTrigger>
-                              <SelectValue placeholder="Select your learning path" />
+                              <SelectValue placeholder="Select user's learning path" />
                             </SelectTrigger>
                             <SelectContent>
                               {Object.entries(TRAIL_LABELS).map(

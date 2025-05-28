@@ -24,7 +24,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import { appRoutes } from '@/lib/constants'
+import { appRoutes, TRAIL_LABELS } from '@/lib/constants'
 import { Roles } from '@/lib/types'
 import { type User } from '@prisma/client'
 import Image from 'next/image'
@@ -85,9 +85,8 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
     <>
       <AlertModal
         isOpen={isAlertModalOpen}
-        description={`This action will ${
-          initialData?.isDisabled ? 'enable' : 'disable'
-        } this user account, are you sure?`}
+        description={`This action will ${initialData?.isDisabled ? 'enable' : 'disable'
+          } this user account, are you sure?`}
         confirmationTitle={initialData?.isDisabled ? 'Enable' : 'Delete'}
         loading={isDeletingUser || isEnablingUser}
         onClose={() => {
@@ -199,6 +198,42 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                       <FormMessage />
                     </FormItem>
                   )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="trail"
+                  render={({ field }) => {
+                    const isBase = selectedRoles.includes('Base')
+                    return (
+                      <FormItem>
+                        <FormLabel>Learning Path</FormLabel>
+                        <FormControl>
+                          <Select
+                            disabled={isPending || !isBase}
+                            onValueChange={field.onChange}
+                            value={field.value ?? ''}
+                            >
+                            <SelectTrigger>
+                              <SelectValue
+                                placeholder="Select your learning path"
+                              />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {Object.entries(TRAIL_LABELS).map(
+                                ([value, label]) => (
+                                  <SelectItem key={value} value={value}>
+                                    {label}
+                                  </SelectItem>
+                                )
+                              )}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )
+                  }}
                 />
 
                 <FormField

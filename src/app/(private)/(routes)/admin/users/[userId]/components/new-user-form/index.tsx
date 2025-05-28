@@ -85,8 +85,9 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
     <>
       <AlertModal
         isOpen={isAlertModalOpen}
-        description={`This action will ${initialData?.isDisabled ? 'enable' : 'disable'
-          } this user account, are you sure?`}
+        description={`This action will ${
+          initialData?.isDisabled ? 'enable' : 'disable'
+        } this user account, are you sure?`}
         confirmationTitle={initialData?.isDisabled ? 'Enable' : 'Delete'}
         loading={isDeletingUser || isEnablingUser}
         onClose={() => {
@@ -213,11 +214,9 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                             disabled={isPending || !isBase}
                             onValueChange={field.onChange}
                             value={field.value ?? ''}
-                            >
+                          >
                             <SelectTrigger>
-                              <SelectValue
-                                placeholder="Select your learning path"
-                              />
+                              <SelectValue placeholder="Select your learning path" />
                             </SelectTrigger>
                             <SelectContent>
                               {Object.entries(TRAIL_LABELS).map(

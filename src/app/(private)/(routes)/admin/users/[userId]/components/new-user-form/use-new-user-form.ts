@@ -215,7 +215,7 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
   const onSubmit = async (values: NewUserFormValues) => {
     const formData = {
       ...values,
-      role: selectedRoles,
+      role: selectedRoles
     }
     await createOrUpdateUser(formData)
   }

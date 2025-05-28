@@ -62,7 +62,9 @@ const ScoreActivity = ({ userId }: ScoreActivityProps) => {
                 >
                   {item.season.name}
                 </Badge>
-                <Link href={`/user/${item.user.id}`}>{item.user.name}</Link>
+                <Link href={`/user/${item.user.username}`}>
+                  {item.user.name}
+                </Link>
               </TimelineTitle>
               <TimelineIndicator className="bg-primary/10 w-8 h-8 group-data-completed/timeline-item:bg-primary group-data-completed/timeline-item:text-primary-foreground flex items-center justify-center border-none group-data-[orientation=vertical]/timeline:-left-7">
                 <Image

@@ -39,7 +39,8 @@ const formSchema = z.object({
   github: z.string(),
   instagram: z.string(),
   linkedin: z.string(),
-  position: z.enum(['AMBASSADOR', 'BUILDER', 'PSP', 'BASE', 'ADMIN'])
+  position: z.enum(['AMBASSADOR', 'BUILDER', 'PSP', 'BASE', 'ADMIN']),
+  trail: z.string().optional().nullable()
 })
 
 type NewUserFormValues = z.infer<typeof formSchema>
@@ -75,7 +76,8 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
           github: initialData.github || '',
           linkedin: initialData.linkedin || '',
           instagram: initialData.instagram || '',
-          position: initialData.position || undefined
+          position: initialData.position || undefined,
+          trail: (initialData.trail as string) || undefined
         }
       : {
           name: '',
@@ -86,7 +88,8 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
           github: '',
           linkedin: '',
           instagram: '',
-          position: undefined
+          position: undefined,
+          trail: undefined
         }
   })
 
@@ -171,14 +174,14 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
         })
       }
 
-      return await api.post(`/api/user`, data)
+      return await api.post('/api/user', data)
     },
     onSuccess: () => {
       router.push(appRoutes.admin_users)
       router.refresh()
       toast({
         title: 'Success',
-        description: `${toastMessage}`
+        description: toastMessage
       })
     },
     onError: (error: AxiosError) => {
@@ -201,11 +204,20 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
     } else {
       newSelectedRoles.push(role as Role)
     }
+
+    if (!newSelectedRoles.includes('Base')) {
+      form.setValue('trail', null)
+    }
+
     setSelectedRoles(newSelectedRoles)
   }
 
   const onSubmit = async (values: NewUserFormValues) => {
-    await createOrUpdateUser({ ...values, role: selectedRoles })
+    const formData = {
+      ...values,
+      role: selectedRoles
+    }
+    await createOrUpdateUser(formData)
   }
 
   useEffect(() => {

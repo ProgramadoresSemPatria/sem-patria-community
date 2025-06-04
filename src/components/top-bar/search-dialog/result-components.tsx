@@ -77,13 +77,13 @@ const ModulesResult = ({ result }: ResultProps) => {
       >
         <Icons.classroom className="w-6 h-6 text-white" aria-hidden="true" />
       </div>
-      <div id="title" className="min-w-0 flex-auto overflow-hidden">
-        <p className="truncate capitalize font-medium text-gray-900 dark:text-gray-100">
+      <div id="title" className="min-w-0 flex-auto">
+        <p className="truncate text-sm font-medium text-gray-900 dark:text-gray-100">
           {result.title}
         </p>
-        <div className="mt-0.5 flex items-center gap-x-2 text-xs/5 text-gray-500 dark:text-gray-400">
+        <div className="mt-0.5 flex items-center gap-x-2">
           {result.classroom && (
-            <p className="truncate">
+            <p className="truncate text-xs text-gray-500 dark:text-gray-400 max-w-[300px]">
               <strong>Classroom:</strong> {result.classroom.title}
             </p>
           )}
@@ -91,11 +91,11 @@ const ModulesResult = ({ result }: ResultProps) => {
             <>
               <svg
                 viewBox="0 0 2 2"
-                className="flex-shrink-0 w-0.5 h-0.5 fill-current"
+                className="flex-shrink-0 w-0.5 h-0.5 fill-current text-gray-500 dark:text-gray-400"
               >
                 <circle r={1} cx={1} cy={1} />
               </svg>
-              <div className="flex items-center gap-x-1 text-xs/5 text-gray-500 dark:text-gray-400">
+              <div className="flex items-center gap-x-1 text-xs text-gray-500 dark:text-gray-400 shrink-0">
                 <Icons.video className="w-3.5 h-3.5" /> {result.videos?.length}
               </div>
             </>

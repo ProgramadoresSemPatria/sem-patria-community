@@ -105,7 +105,7 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
             <FormItem>
               <FormLabel>Content</FormLabel>
               <FormControl>
-                <div className="max-h-[300px] overflow-y-auto rounded-md">
+                <div className="max-h-[300px] max-w-[90vw] md:max-w-[526px] lg:max-w-[705px] overflow-y-auto rounded-md">
                   <NoteEditor
                     onChange={field.onChange}
                     hasToolbar

@@ -172,7 +172,13 @@ const NoteEditor = ({
           {!hasToolbar && (
             <EditorBubble
               tippyOptions={{
-                placement: 'top'
+                placement: 'top',
+                onCreate: (instance) => {
+                  instance.popper.firstChild?.addEventListener('blur', (event) => {
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                  })
+                },
               }}
               className="flex w-fit max-w-[90vw] overflow-hidden rounded-md border border-muted bg-background shadow-xl"
             >

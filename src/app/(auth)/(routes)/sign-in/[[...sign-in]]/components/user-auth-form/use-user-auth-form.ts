@@ -66,7 +66,14 @@ export const useUserAuthForm = ({ redirectUrl }: UseUserAuthFormProps) => {
 
       return completeSignIn
     },
-    onSuccess: () => {
+    onSuccess: async data => {
+      try {
+        await fetch(`/api/user/${data?.id}/set-username-cookie`, {
+          method: 'POST'
+        })
+      } catch (err) {
+        console.warn('Could not set username cookie', err)
+      }
       toast({
         title: 'Welcome!',
         description: 'You have successfully signed in'

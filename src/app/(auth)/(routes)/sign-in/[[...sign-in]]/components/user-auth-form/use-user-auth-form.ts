@@ -1,4 +1,5 @@
 import { toast } from '@/components/ui/use-toast'
+import { api } from '@/lib/api'
 import { useSignIn } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
@@ -68,9 +69,10 @@ export const useUserAuthForm = ({ redirectUrl }: UseUserAuthFormProps) => {
     },
     onSuccess: async data => {
       try {
-        await fetch(`/api/user/${data?.id}/set-username-cookie`, {
-          method: 'POST'
-        })
+        const response = await api.post(
+          `/api/user/${data?.id}/set-username-cookie`
+        )
+        console.log('response', response)
       } catch (err) {
         console.warn('Could not set username cookie', err)
       }

@@ -35,7 +35,7 @@ export const useMentorshipTab = () => {
     },
     onSuccess: async () => {
       toast({
-        title: 'The order was updated succesfully'
+        title: 'The order was updated successfully'
       })
     },
     onError: err => {

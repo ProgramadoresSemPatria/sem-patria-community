@@ -19,12 +19,12 @@ const SendCommentButton = ({
     <Button disabled={isPending} className="w-fit" onClick={handleSendComment}>
       {isPending ? (
         <>
-          <Icons.loader className="h-4 w-4 mr-2 animate-spin" />{' '}
+          <Icons.loader className="h-4 w-4 mr-1 animate-spin" />{' '}
           {loadingPlaceholder}
         </>
       ) : (
         <>
-          <Icons.send className="w-4 h-4" /> {placeholder}
+          <Icons.send className="w-4 h-4 mr-1" /> {placeholder}
         </>
       )}
     </Button>

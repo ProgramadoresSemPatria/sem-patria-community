@@ -18,7 +18,7 @@ model PositionMultiplier {
   position   Positions
   multiplier Float     @default(1.0)
 
-  season Season @relation(fields: [seasonId], references: [id])
+  season Season @relation(fields: [seasonId], references: [id], onDelete: Cascade)
 
   @@unique([seasonId, position])
 }
@@ -28,7 +28,7 @@ model Scoreboard {
   userId   String
   points   Float  @default(0)
   seasonId String
-  season   Season @relation(fields: [seasonId], references: [id])
+  season   Season @relation(fields: [seasonId], references: [id], onDelete: Cascade)
   user     User   @relation(fields: [userId], references: [id])
 
   @@unique([userId, seasonId])
@@ -46,7 +46,7 @@ model ScoreHistory {
   isManual   Boolean       @default(false)
   metadata   Json?
   resource   AwardResource @relation(fields: [resourceId], references: [id])
-  season     Season        @relation(fields: [seasonId], references: [id])
+  season     Season        @relation(fields: [seasonId], references: [id], onDelete: Cascade)
   user       User          @relation(fields: [userId], references: [id])
 }
 

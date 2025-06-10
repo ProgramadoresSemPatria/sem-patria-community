@@ -8,12 +8,15 @@ import { useRouter } from 'next/navigation'
 
 export const LogoutButton = () => {
   const router = useRouter()
-  const { signOut } = useClerk()
+  const { signOut, user } = useClerk()
   return (
     <Button
       variant="ghost"
       className="gap-x-2 items-center"
       onClick={async () => {
+        await fetch(`/api/user/${user?.id}/remove-username-cookie`, {
+          method: 'POST'
+        })
         await signOut(() => {
           router.push(appRoutes.signIn)
         })

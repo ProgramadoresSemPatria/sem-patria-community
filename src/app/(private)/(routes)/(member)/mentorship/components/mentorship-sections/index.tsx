@@ -56,6 +56,14 @@ export const MentorshipSections = ({
     }
   }
 
+  const handleDragToggle = () => {
+    if (showDragger) {
+      setItems(data)
+      setHasChanges(false)
+    }
+    setShowDragger(!showDragger)
+  }
+
   return (
     <div className="flex flex-col gap-y-10">
       <Suspense fallback={<SkeletonMentorshipPage />}>
@@ -64,9 +72,7 @@ export const MentorshipSections = ({
             <Button
               className="w-32"
               variant="secondary"
-              onClick={() => {
-                setShowDragger(!showDragger)
-              }}
+              onClick={handleDragToggle}
             >
               {showDragger ? 'Stop Dragging' : 'Start Dragging'}
             </Button>

@@ -69,10 +69,7 @@ export const useUserAuthForm = ({ redirectUrl }: UseUserAuthFormProps) => {
     },
     onSuccess: async data => {
       try {
-        const response = await api.post(
-          `/api/user/${data?.id}/set-username-cookie`
-        )
-        console.log('response', response)
+        await api.post(`/api/user/${data?.id}/set-username-cookie`)
       } catch (err) {
         console.warn('Could not set username cookie', err)
       }

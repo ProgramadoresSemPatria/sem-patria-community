@@ -18,15 +18,25 @@ const Leaderboard = async () => {
   if (!currentSeason) {
     return (
       <DefaultLayout>
-        <div className="mt-4 w-full max-w-7xl mx-auto">
-          <div className="flex flex-col items-center justify-center py-8 text-center">
-            <Icons.help className="h-10 w-10 text-destructive mb-4" />
-            <h3 className="text-base font-medium text-destructive">
-              No active season found
-            </h3>
-            <p className="text-sm text-muted-foreground/70 mt-1">
-              Please try again later
-            </p>
+        <div className="mt-4 w-full max-w-7xl mx-auto px-4">
+          <div className="relative overflow-hidden border border-border/30 rounded-xl shadow-sm">
+            <div className="relative flex flex-col items-center justify-center py-16 text-center px-4">
+              <div className="relative z-10 flex flex-col items-center space-y-8">
+                <div className="relative animate-bounce-slow">
+                  <div className="relative rounded-full p-4">
+                    <Icons.calendarClock className="h-10 w-10 text-primary" />
+                  </div>
+                </div>
+                <div className="max-w-md animate-fade-in">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground pb-1">
+                    No Active Season
+                  </h2>
+                  <p className="text-base text-muted-foreground mt-2 max-w-md">
+                    Check back soon for the next competition round.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </DefaultLayout>

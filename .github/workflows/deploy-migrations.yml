@@ -1,0 +1,25 @@
+# .github/workflows/deploy-migrations.yml
+name: Deploy Prisma Migrations
+
+on:
+  push:
+    branches:
+      - staging
+      - main
+
+jobs:
+  prisma-migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run Prisma Migrations
+        env:
+          DATABASE_URL: ${{ github.ref == 'refs/heads/main' && secrets.DATABASE_URL_PRODUCTION || secrets.DATABASE_URL_STAGING }}
+        run: pnpm prisma migrate deploy

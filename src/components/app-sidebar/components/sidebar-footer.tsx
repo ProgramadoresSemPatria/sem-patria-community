@@ -26,7 +26,7 @@ type SidebarFooterProps = {
 
 export function SidebarFooterComponent({ userName }: SidebarFooterProps) {
   const router = useRouter()
-  const { signOut } = useClerk()
+  const { signOut, user } = useClerk()
 
   return (
     <SidebarFooter className="h-[54px] p-0 gap-0">
@@ -58,6 +58,9 @@ export function SidebarFooterComponent({ userName }: SidebarFooterProps) {
               <DropdownMenuItem
                 className="gap-x-2 items-center cursor-pointer"
                 onClick={async () => {
+                  await fetch(`/api/user/${user?.id}/remove-username-cookie`, {
+                    method: 'POST'
+                  })
                   await signOut(() => {
                     router.push(appRoutes.signIn)
                   })

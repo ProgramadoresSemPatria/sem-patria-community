@@ -38,7 +38,7 @@ export const TopThree = ({ scores }: TopThreeProps) => {
           loop: false,
           dragFree: true
         }}
-        className="md:hidden"
+        className="md:hidden relative"
       >
         <CarouselContent>
           {reorderedTopThree.map((score, index) => {
@@ -55,8 +55,8 @@ export const TopThree = ({ scores }: TopThreeProps) => {
             )
           })}
         </CarouselContent>
-        <CarouselPrevious className="md:hidden" />
-        <CarouselNext className="md:hidden" />
+        <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10" />
+        <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10" />
       </Carousel>
 
       <div className="hidden md:flex flex-row gap-4 justify-center">

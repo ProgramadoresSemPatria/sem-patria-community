@@ -19,9 +19,10 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from '@/components/ui/tooltip'
-import { useSeason } from '@/hooks/season/use-season'
 import { format } from 'date-fns'
 import type { CurrentSeasonResponse } from '@/actions/leaderboard/types'
+import { getCurrentSeason } from '@/actions/leaderboard/get-current-season'
+import { useQuery } from '@tanstack/react-query'
 
 const Header = ({
   user,
@@ -40,18 +41,18 @@ const Header = ({
     followedUsers,
     isLoadingFollowers: isFollowersLoading
   } = useFollowersAndFollowings(user.id)
-  const { useGetCurrentSeason } = useSeason()
 
   const {
     data: scoreboard,
     isLoading: isScoreboardLoading,
     refetch: refetchScoreboard
   } = useGetScoreboardByUserId(user.id)
-  const { data: currentSeason, isLoading: isSeasonLoading } =
-    useGetCurrentSeason({
-      staleTime: 0,
-      queryKey: ['getCurrentSeason']
-    })
+
+  const { data: currentSeason, isLoading: isSeasonLoading } = useQuery({
+    queryKey: ['getCurrentSeason-publicProfile'],
+    queryFn: async () => await getCurrentSeason()
+  })
+
   const [isFollowed, setIsFollowed] = useState(false)
 
   useEffect(() => {

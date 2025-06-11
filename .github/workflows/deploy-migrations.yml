@@ -19,7 +19,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Run Prisma DB Pull and Generate
+        env:
+          DATABASE_URL: ${{ github.ref == 'refs/heads/main' && secrets.DATABASE_URL_PRODUCTION || secrets.DATABASE_URL_STAGING }}
+        run: pnpm prisma db pull && pnpm prisma generate --schema=./prisma/schema/schema.prisma
+
       - name: Run Prisma Migrations
         env:
           DATABASE_URL: ${{ github.ref == 'refs/heads/main' && secrets.DATABASE_URL_PRODUCTION || secrets.DATABASE_URL_STAGING }}
-        run: pnpm prisma migrate deploy
+        run: pnpm prisma migrate deploy --schema=./prisma/schema/schema.prisma

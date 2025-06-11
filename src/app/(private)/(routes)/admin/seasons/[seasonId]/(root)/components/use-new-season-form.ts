@@ -128,7 +128,7 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
       }
       return await api.post(`/api/season`, data)
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       router.push(appRoutes.admin_seasons)
       router.refresh()
       toast({

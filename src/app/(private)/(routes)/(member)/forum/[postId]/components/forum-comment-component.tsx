@@ -44,6 +44,22 @@ export const ForumCommentComponent = ({ comment }: CommentComponentProps) => {
   const isOwnerOrAdmin =
     user?.id === comment.userId || user?.publicMetadata.role === 'Admin'
 
+  const safeJsonParse = (jsonString: string) => {
+    try {
+      return JSON.parse(jsonString)
+    } catch (error) {
+      return {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: jsonString }]
+          }
+        ]
+      }
+    }
+  }
+
   return (
     <div key={comment.id} className="border-b last:border-none rounded-md p-4">
       <div className="flex justify-between">
@@ -91,7 +107,7 @@ export const ForumCommentComponent = ({ comment }: CommentComponentProps) => {
       <NoteEditor
         variant="readonly"
         editable={false}
-        initialValue={JSON.parse(comment.comment)}
+        initialValue={safeJsonParse(comment.comment)}
       />
       <ReplyCommentSection
         commentId={comment.id}

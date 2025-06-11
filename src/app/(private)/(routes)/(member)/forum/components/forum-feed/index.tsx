@@ -33,7 +33,19 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
     return []
   }, [initialPosts, searchParams, searchTerm])
 
-  const postsToRender = searchTerm ? filteredPosts : allPosts
+  const postsToRender = useMemo(() => {
+    const posts = searchTerm ? filteredPosts : allPosts
+    return posts.filter(post => {
+      const isInTopPosts =
+        searchParams.get('category') === 'All' &&
+        topPosts.some(topPost => topPost.id === post.id)
+
+      const isPinnedInNonAllCategory =
+        searchParams.get('category') !== 'All' && post.isPinned
+
+      return !isInTopPosts && !isPinnedInNonAllCategory
+    })
+  }, [searchTerm, filteredPosts, allPosts, topPosts, searchParams])
 
   return (
     <ul className="flex flex-col col-span-2 space-y-6">
@@ -43,7 +55,7 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
           <li key={post.id}>
             <Post
               post={post}
-              userId={userId as string}
+              loggedInUserId={userId as string}
               commentAmount={post.comments.length}
               categoryName={post.category.name}
               likesAmount={post.likes.length}
@@ -59,7 +71,7 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
           <li key={post.id}>
             <Post
               post={post}
-              userId={userId as string}
+              loggedInUserId={userId as string}
               commentAmount={post.comments.length}
               categoryName={post.category.name}
               likesAmount={post.likes.length}
@@ -80,7 +92,7 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
           return (
             <li key={post.id} ref={ref}>
               <Post
-                userId={userId as string}
+                loggedInUserId={userId as string}
                 commentAmount={post?.comments?.length || 0}
                 post={post}
                 categoryName={post?.category?.name || ''}
@@ -92,7 +104,7 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
         } else {
           return (
             <Post
-              userId={userId as string}
+              loggedInUserId={userId as string}
               key={post.id}
               commentAmount={post?.comments?.length || 0}
               post={post}

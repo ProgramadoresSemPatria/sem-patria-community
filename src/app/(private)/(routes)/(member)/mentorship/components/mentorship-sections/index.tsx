@@ -34,7 +34,7 @@ export const MentorshipSections = ({
   const canManageClassroom = ability.can('manage', 'Classroom')
   const [items, setItems] = useState(data)
   const [hasChanges, setHasChanges] = useState(false)
-  const [isDragging, setIsDragging] = useState(false)
+  const [showDragger, setShowDragger] = useState(false)
   const { handleSaveOrder, isSaving, setIsSaving } = useModuleCarousel()
   useEffect(() => {
     const orderChanged =
@@ -56,6 +56,14 @@ export const MentorshipSections = ({
     }
   }
 
+  const handleDragToggle = () => {
+    if (showDragger) {
+      setItems(data)
+      setHasChanges(false)
+    }
+    setShowDragger(!showDragger)
+  }
+
   return (
     <div className="flex flex-col gap-y-10">
       <Suspense fallback={<SkeletonMentorshipPage />}>
@@ -64,14 +72,12 @@ export const MentorshipSections = ({
             <Button
               className="w-32"
               variant="secondary"
-              onClick={() => {
-                setIsDragging(!isDragging)
-              }}
+              onClick={handleDragToggle}
             >
-              {isDragging ? 'Stop Dragging' : 'Start Dragging'}
+              {showDragger ? 'Stop Dragging' : 'Start Dragging'}
             </Button>
           )}
-          {hasChanges && (
+          {hasChanges && showDragger && (
             <Button
               className="w-32"
               variant="default"
@@ -84,6 +90,7 @@ export const MentorshipSections = ({
                   }))
                 )
                 setIsSaving(false)
+                setShowDragger(false)
               }}
               disabled={isSaving}
             >
@@ -118,16 +125,16 @@ export const MentorshipSections = ({
               key={classroom.id}
               value={classroom}
               className={`relative flex flex-col gap-y-3 ${
-                canManageClassroom && isDragging ? 'cursor-grab' : ''
+                canManageClassroom && showDragger ? 'cursor-grab' : ''
               }`}
-              drag={canManageClassroom && isDragging}
+              drag={canManageClassroom && showDragger}
               onDrag={(_, info) => {
                 handleAutoScroll(info)
               }}
             >
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-medium text-lg flex items-center">
-                  {canManageClassroom && isDragging && (
+                  {canManageClassroom && showDragger && (
                     <Icons.grip className="cursor-grab" />
                   )}{' '}
                   {classroom.title}

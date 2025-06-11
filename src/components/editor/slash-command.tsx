@@ -135,7 +135,7 @@ const useSuggestionItems = () => {
       title: 'Youtube Embed',
       description: 'Embed a youtube video.',
       searchTerms: ['youtube', 'video'],
-      icon: <Icons.youtube size={18} />,
+      icon: <Icons.squarePlay size={18} />,
       command: ({ editor, range }) => {
         editor
           .chain()

@@ -79,7 +79,7 @@ export const NoteOptions = ({ note }: NoteOptionsProps) => {
               router.push(`${appRoutes.codeUp}/${note.id}`)
             }}
           >
-            <Icons.arrowUpRighCircle className="mr-2 h-4 w-4" />
+            <Icons.arrowUpRightCircle className="mr-2 h-4 w-4" />
             View Note
           </DropdownMenuItem>
           <DropdownMenuItem

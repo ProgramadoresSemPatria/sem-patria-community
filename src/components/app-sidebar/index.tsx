@@ -1,9 +1,9 @@
 'use client'
 
+import MainLogo from '@/components/main-logo'
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -14,22 +14,13 @@ import {
   useSidebar
 } from '@/components/ui/sidebar'
 import { Can } from '@/hooks/use-ability'
-import { appRoutes, menuItems } from '@/lib/constants'
-import { type MenuItemProps } from '@/lib/types'
+import { menuItems } from '@/lib/constants'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import MainLogo from '../main-logo'
-import UserButton from '../user-button'
+import { usePathname } from 'next/navigation'
+import { useEffect, useMemo, useState } from 'react'
 import { SkeletonMainNav } from './components/skeleton-main-nav'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from '../ui/dropdown-menu'
-import { Icons } from '../icons'
-import { useClerk } from '@clerk/nextjs'
+import { cn } from '@/lib/utils'
+import { SidebarFooterComponent } from './components/sidebar-footer'
 
 export type AppSidebarProps = {
   mentorship?: boolean
@@ -37,39 +28,49 @@ export type AppSidebarProps = {
 }
 
 export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
-  const router = useRouter()
-  const { signOut } = useClerk()
   const [isMounted, setIsMounted] = useState(false)
   const { setOpenMobile, isMobile, setIsMentorshipPage, shouldShowSidebar } =
     useSidebar()
 
   const pathname = usePathname()
 
-  const memberRoutes: MenuItemProps[] = menuItems
-    .filter(item => !item.href.includes('admin'))
-    .map(item => {
-      return {
-        ...item,
-        active: pathname.includes(item.href)
-      }
-    })
+  const { memberRoutes, adminRoutes } = useMemo(() => {
+    const isRouteActive = (route: string) => {
+      const currentPath = pathname.split('?')[0]
+      if (route === '/') return currentPath === '/'
+      return (
+        currentPath === route ||
+        currentPath === route.split('?')[0] ||
+        currentPath.startsWith(route)
+      )
+    }
 
-  const adminRoutes: MenuItemProps[] = menuItems
-    .filter(item => item.href.includes('admin'))
-    .map(item => {
-      return {
+    const memberItems = menuItems
+      .filter(item => !item.href.includes('admin'))
+      .map(item => ({
         ...item,
-        active: pathname.includes(item.href)
-      }
-    })
+        active: isRouteActive(item.href)
+      }))
+
+    const adminItems = menuItems
+      .filter(item => item.href.includes('admin'))
+      .map(item => ({
+        ...item,
+        active: isRouteActive(item.href)
+      }))
+
+    return { memberRoutes: memberItems, adminRoutes: adminItems }
+  }, [pathname])
 
   useEffect(() => {
     setIsMounted(true)
     setIsMentorshipPage(!!mentorship)
   }, [mentorship, setIsMentorshipPage])
+
   if (!shouldShowSidebar) return null
 
   if (!isMounted) return <SkeletonMainNav />
+
   return (
     <>
       <Sidebar className="px-4">
@@ -86,10 +87,19 @@ export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
                     onClick={() => {
                       if (isMobile) setOpenMobile(false)
                     }}
+                    className={cn(
+                      'transition-all duration-200',
+                      item.active && 'bg-primary/70 text-white rounded-md'
+                    )}
                   >
                     <SidebarMenuButton
                       asChild
-                      className="hover:bg-muted transition-colors hover:text-secondary"
+                      className={cn(
+                        'hover:bg-muted transition-colors hover:text-secondary',
+                        item.active && 'font-medium text-primary'
+                      )}
+                      isActive={item.active}
+                      aria-current={item.active ? 'page' : undefined}
                     >
                       <Link href={item.href}>
                         <span className="text-base flex items-center gap-x-2">
@@ -116,10 +126,19 @@ export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
                         if (isMobile) setOpenMobile(false)
                       }}
                       key={item.label}
+                      className={cn(
+                        'transition-all duration-200',
+                        item.active && 'bg-primary/70 rounded-md'
+                      )}
                     >
                       <SidebarMenuButton
                         asChild
-                        className="hover:bg-muted transition-colors hover:text-secondary"
+                        className={cn(
+                          'hover:bg-muted transition-colors hover:text-secondary',
+                          item.active && 'font-medium text-primary'
+                        )}
+                        isActive={item.active}
+                        aria-current={item.active ? 'page' : undefined}
                       >
                         <Link href={item.href}>
                           <span className="text-base flex items-center gap-x-2">
@@ -135,46 +154,8 @@ export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
             </SidebarGroup>
           </Can>
         </SidebarContent>
-        <SidebarFooter className="h-[54px] p-0 gap-0">
-          <SidebarMenu className="h-[54px]">
-            <SidebarMenuItem className="h-[54px]">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton className="h-full">
-                    <UserButton />
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  side="top"
-                  className="w-[--radix-popper-anchor-width]"
-                >
-                  <DropdownMenuItem>
-                    <Link className="w-full h-full" href={`/profile`}>
-                      Profile
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link className="w-full h-full" href={`/user/${userName}`}>
-                      Public profile
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="gap-x-2 items-center cursor-pointer"
-                    onClick={async () => {
-                      await signOut(() => {
-                        router.push(appRoutes.signIn)
-                      })
-                    }}
-                  >
-                    <Icons.signOut className="w-4 h-4" />
-                    Sign out
-                    {/* <LogoutButton /> */}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarFooter>
+
+        <SidebarFooterComponent userName={userName} />
       </Sidebar>
     </>
   )

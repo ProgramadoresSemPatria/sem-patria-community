@@ -29,19 +29,6 @@ import { TextButtons } from './selectors/text-buttons'
 import { useSuggestionItems } from './slash-command'
 import { useEditorState } from './use-editor-state'
 import { useEditorUploadFile } from './use-image-upload'
-import { MentionExtension } from './mention-extension'
-import { useEffect, useState } from 'react'
-import { api } from '@/lib/api'
-import { type User } from '@prisma/client'
-import { useRouter } from 'next/navigation'
-import { Command, CommandItem, CommandList } from '../ui/command'
-import type { SuggestionProps } from '@tiptap/suggestion'
-
-export type MentionState = SuggestionProps & {
-  active: boolean
-  items: User[]
-  selectedIndex: number
-}
 
 interface EditorProp {
   initialValue?: JSONContent
@@ -59,7 +46,6 @@ const NoteEditor = ({
   isSubmitting = false,
   variant = 'note'
 }: EditorProp) => {
-  const router = useRouter()
   const {
     editor,
     openColor,
@@ -74,21 +60,9 @@ const NoteEditor = ({
   } = useEditorState({ isSubmitting, variant })
 
   const { uploadFn, handleValidateImageWasDeleted } = useEditorUploadFile()
-  const [mentionState, setMentionState] = useState<MentionState>({
-    editor: editor as Editor,
-    range: { from: 0, to: 0 },
-    query: '',
-    text: '',
-    active: false,
-    items: [],
-    command: () => {},
-    clientRect: () => null,
-    decorationNode: null,
-    selectedIndex: 0
-  })
 
   const attributeVariants = cva(
-    'prose prose-lg dark:prose-invert text-black dark:text-white prose-headings:font-title font-default focus:outline-none max-w-full h-fit prose-ol:m-0 prose-ul:m-0 prose-headings:m-0 prose-code:m-0 [&_.mention]:bg-accent [&_.mention]:text-accent-foreground [&_.mention]:px-1 [&_.mention]:rounded [&_.mention]:cursor-pointer [&_.mention]:hover:bg-accent/80',
+    'prose prose-lg dark:prose-invert text-black dark:text-white prose-headings:font-title font-default focus:outline-none max-w-full h-fit prose-ol:m-0 prose-ul:m-0 prose-headings:m-0 prose-code:m-0',
     {
       variants: {
         variant: {
@@ -105,55 +79,13 @@ const NoteEditor = ({
   )
 
   const { slashCommand } = useSuggestionItems()
-  const extensions = [
-    ...defaultExtensions,
-    slashCommand,
-    MentionExtension(setMentionState)
-  ]
-  useEffect(() => {
-    const fetchMentionUsers = async () => {
-      if (!mentionState.active || !mentionState.query) return
 
-      try {
-        const res = await api.get('/api/user', {
-          params: {
-            query: mentionState.query
-          }
-        })
-        const data = await res.data
-        console.log('data', data)
-
-        setMentionState(prev => ({
-          ...prev,
-          items: data || []
-        }))
-      } catch (err) {
-        console.error('Failed to fetch mentions:', err)
-      }
-    }
-
-    const debounce = setTimeout(fetchMentionUsers, 400)
-
-    return () => {
-      clearTimeout(debounce)
-    }
-  }, [mentionState.active, mentionState.query])
-
-  const handleMentionClick = (event: React.MouseEvent) => {
-    const target = event.target as HTMLElement
-    if (target.classList.contains('mention')) {
-      const username = target.textContent?.replace('@', '')
-      console.log('Mention clicked:', username)
-
-      router.push(`/user/${username}`)
-    }
-  }
+  const extensions = [...defaultExtensions, slashCommand]
 
   return (
     <div
       data-hastoolbar={hasToolbar}
       className="flex flex-col max-w-full w-[100%] justify-stretch mb-2 gap-1 rounded-lg data-[hastoolbar=true]:p-2 dark:data-[hastoolbar=true]:bg-card data-[hastoolbar=true]:bg-card"
-      onClick={handleMentionClick}
     >
       {hasToolbar && editable && (
         <Toolbar
@@ -240,7 +172,16 @@ const NoteEditor = ({
           {!hasToolbar && (
             <EditorBubble
               tippyOptions={{
-                placement: 'top'
+                placement: 'top',
+                onCreate: instance => {
+                  instance.popper.firstChild?.addEventListener(
+                    'blur',
+                    event => {
+                      event.preventDefault()
+                      event.stopImmediatePropagation()
+                    }
+                  )
+                }
               }}
               className="flex w-fit max-w-[90vw] overflow-hidden rounded-md border border-muted bg-background shadow-xl"
             >
@@ -262,37 +203,6 @@ const NoteEditor = ({
               <Separator orientation="vertical" />
               <ColorSelector open={openColor} onOpenChange={setOpenColor} />
             </EditorBubble>
-          )}
-          {mentionState.active && (
-            <div className="z-50">
-              <Command className="w-64 rounded-md border shadow-md bg-popover">
-                <CommandList>
-                  {mentionState.items?.length > 0 ? (
-                    mentionState.items.map((item, index: number) => (
-                      <CommandItem
-                        key={item.id}
-                        onSelect={() => {
-                          if (mentionState.command) {
-                            mentionState.command({ label: item.username })
-                          }
-                        }}
-                        className={
-                          index === mentionState.selectedIndex
-                            ? 'bg-accent text-accent-foreground'
-                            : ''
-                        }
-                      >
-                        @{item.username}
-                      </CommandItem>
-                    ))
-                  ) : (
-                    <div className="p-2 text-sm text-muted-foreground">
-                      No users found
-                    </div>
-                  )}
-                </CommandList>
-              </Command>
-            </div>
           )}
         </EditorContent>
       </EditorRoot>

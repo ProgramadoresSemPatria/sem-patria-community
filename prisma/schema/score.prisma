@@ -1,0 +1,65 @@
+model Season {
+  id                  String               @id @default(cuid())
+  name                String
+  initDate            DateTime
+  endDate             DateTime
+  isCurrent           Boolean
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  metadata            Json?
+  histories           ScoreHistory[]
+  scores              Scoreboard[]
+  positionMultipliers PositionMultiplier[]
+}
+
+model PositionMultiplier {
+  id         String    @id @default(cuid())
+  seasonId   String
+  position   Positions
+  multiplier Float     @default(1.0)
+
+  season Season @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+
+  @@unique([seasonId, position])
+}
+
+model Scoreboard {
+  id       String @id @default(cuid())
+  userId   String
+  points   Float  @default(0)
+  seasonId String
+  season   Season @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  user     User   @relation(fields: [userId], references: [id])
+
+  @@unique([userId, seasonId])
+}
+
+model ScoreHistory {
+  id         String        @id @default(cuid())
+  userId     String
+  targetId   String?
+  createdAt  DateTime      @default(now())
+  resourceId String
+  points     Float
+  multiplier Float         @default(1.0)
+  seasonId   String
+  isManual   Boolean       @default(false)
+  metadata   Json?
+  resource   AwardResource @relation(fields: [resourceId], references: [id])
+  season     Season        @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  user       User          @relation(fields: [userId], references: [id])
+}
+
+model AwardResource {
+  id        String         @id @default(cuid())
+  resource  AwardEnum      @unique
+  baseScore Float
+  disabled  Boolean        @default(false)
+  histories ScoreHistory[]
+}
+
+enum AwardEnum {
+  FORUM_POST_LIKE
+  FORUM_POST_COMMENT_LIKE
+  COURSE_RECOMMENDATION
+}

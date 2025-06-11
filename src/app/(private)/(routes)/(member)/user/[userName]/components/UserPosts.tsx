@@ -5,10 +5,10 @@ import Post from '../../../forum/components/post'
 
 const UserPosts = ({
   posts = [],
-  userId
+  loggedInUserId
 }: {
   posts: ExtendedPost[]
-  userId: string
+  loggedInUserId: string
 }) => {
   return (
     <div className="space-y-4">
@@ -16,12 +16,15 @@ const UserPosts = ({
       <div className="space-y-6">
         {posts.map(post => (
           <Post
+            currentLike={
+              !!post.likes.find(like => like.userId === loggedInUserId)
+            }
             key={post.id}
             categoryName={post.category.name}
             commentAmount={post.comments.length}
             likesAmount={post.likes.length}
             post={post}
-            userId={userId}
+            loggedInUserId={loggedInUserId}
           />
         ))}
       </div>

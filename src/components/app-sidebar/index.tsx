@@ -4,6 +4,7 @@ import MainLogo from '@/components/main-logo'
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -16,11 +17,11 @@ import {
 import { Can } from '@/hooks/use-ability'
 import { menuItems } from '@/lib/constants'
 import Link from 'next/link'
+import { NavUser } from './components/nav-user'
 import { usePathname } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 import { SkeletonMainNav } from './components/skeleton-main-nav'
 import { cn } from '@/lib/utils'
-import { SidebarFooterComponent } from './components/sidebar-footer'
 
 export type AppSidebarProps = {
   mentorship?: boolean
@@ -64,99 +65,102 @@ export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
 
   useEffect(() => {
     setIsMounted(true)
-    setIsMentorshipPage(!!mentorship)
-  }, [mentorship, setIsMentorshipPage])
+    // setIsMentorshipPage(!!mentorship)
+  }, [])
 
   if (!shouldShowSidebar) return null
 
   if (!isMounted) return <SkeletonMainNav />
 
   return (
-    <>
-      <Sidebar className="px-4">
-        <SidebarHeader className="pl-4 md:pl-0">
-          <MainLogo />
-        </SidebarHeader>
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupContent>
-              <SidebarMenu className="pl-3 md:pl-0">
-                {memberRoutes.map(item => (
-                  <SidebarMenuItem
-                    key={item.label}
-                    onClick={() => {
-                      if (isMobile) setOpenMobile(false)
-                    }}
-                    className={cn(
-                      'transition-all duration-200',
-                      item.active && 'bg-primary/70 text-white rounded-md'
-                    )}
-                  >
-                    <SidebarMenuButton
-                      asChild
-                      className={cn(
-                        'hover:bg-muted transition-colors hover:text-secondary',
-                        item.active && 'font-medium text-primary'
-                      )}
-                      isActive={item.active}
-                      aria-current={item.active ? 'page' : undefined}
-                    >
-                      <Link href={item.href}>
-                        <span className="text-base flex items-center gap-x-2">
-                          {item.icon}
-                          {item.label}
-                        </span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-          <Can I="get" a="CMS">
-            <SidebarGroup>
-              <SidebarGroupContent>
-                <SidebarMenu className="pl-3 md:pl-0 ">
-                  <SidebarGroupLabel className="text-base">
-                    CMS
-                  </SidebarGroupLabel>
-                  {adminRoutes.map(item => (
-                    <SidebarMenuItem
-                      onClick={() => {
-                        if (isMobile) setOpenMobile(false)
-                      }}
-                      key={item.label}
-                      className={cn(
-                        'transition-all duration-200',
-                        item.active && 'bg-primary/70 rounded-md'
-                      )}
-                    >
-                      <SidebarMenuButton
-                        asChild
-                        className={cn(
-                          'hover:bg-muted transition-colors hover:text-secondary',
-                          item.active && 'font-medium text-primary'
-                        )}
-                        isActive={item.active}
-                        aria-current={item.active ? 'page' : undefined}
-                      >
-                        <Link href={item.href}>
-                          <span className="text-base flex items-center gap-x-2">
-                            {item.icon}
-                            {item.label}
-                          </span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </Can>
-        </SidebarContent>
+    <Sidebar>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <MainLogo />
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarMenu>
+            {memberRoutes.map(item => (
+              <SidebarMenuItem
+                key={item.label}
+                onClick={() => {
+                  if (isMobile) setOpenMobile(false)
+                }}
+                className={cn(
+                  'transition-all duration-200',
+                  item.active && 'bg-primary rounded-md hover:bg-primary/80'
+                )}
+              >
+                <SidebarMenuButton
+                  asChild
+                  className={cn(
+                    'transition-colors relative group',
+                    item.active
+                      ? 'font-medium text-primary'
+                      : 'hover:bg-muted hover:text-secondary'
+                  )}
+                  isActive={item.active}
+                  aria-current={item.active ? 'page' : undefined}
+                >
+                  <Link href={item.href}>
+                    <span className="text-base flex items-center gap-x-2">
+                      {item.icon}
+                      {item.label}
+                    </span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
 
-        <SidebarFooterComponent userName={userName} />
-      </Sidebar>
-    </>
+        <Can I="get" a="CMS">
+          <SidebarGroup>
+            <SidebarGroupLabel>CMS</SidebarGroupLabel>
+            <SidebarMenu>
+              {adminRoutes.map(item => (
+                <SidebarMenuItem
+                  onClick={() => {
+                    if (isMobile) setOpenMobile(false)
+                  }}
+                  key={item.label}
+                  className={cn(
+                    'transition-all duration-200',
+                    item.active && 'bg-primary rounded-md hover:bg-primary/80'
+                  )}
+                >
+                  <SidebarMenuButton
+                    asChild
+                    className={cn(
+                      'transition-colors relative group',
+                      item.active
+                        ? 'font-medium text-primary'
+                        : 'hover:bg-muted hover:text-secondary'
+                    )}
+                    isActive={item.active}
+                    aria-current={item.active ? 'page' : undefined}
+                  >
+                    <Link href={item.href}>
+                      <span className="text-base flex items-center gap-x-2">
+                        {item.icon}
+                        {item.label}
+                      </span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroup>
+        </Can>
+      </SidebarContent>
+
+      <SidebarFooter>
+        <NavUser userName={userName} />
+      </SidebarFooter>
+    </Sidebar>
   )
 }

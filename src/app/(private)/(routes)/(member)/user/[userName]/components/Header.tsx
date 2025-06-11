@@ -53,8 +53,6 @@ const Header = ({
     queryFn: async () => await getCurrentSeason()
   })
 
-  console.log({ currentSeason })
-
   const [isFollowed, setIsFollowed] = useState(false)
 
   useEffect(() => {

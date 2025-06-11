@@ -49,8 +49,11 @@ const Header = ({
   } = useGetScoreboardByUserId(user.id)
   const { data: currentSeason, isLoading: isSeasonLoading } =
     useGetCurrentSeason({
-      staleTime: 0,
-      queryKey: ['getCurrentSeason']
+      queryKey: ['getCurrentSeason'],
+      refetchOnWindowFocus: true,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      enabled: true
     })
   const [isFollowed, setIsFollowed] = useState(false)
 

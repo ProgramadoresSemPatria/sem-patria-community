@@ -50,7 +50,7 @@ const Header = ({
   const { data: currentSeason, isLoading: isSeasonLoading } =
     useGetCurrentSeason({
       staleTime: 0,
-      queryKey: ['getCurrentSeason'],
+      queryKey: ['getCurrentSeason']
     })
   const [isFollowed, setIsFollowed] = useState(false)
 

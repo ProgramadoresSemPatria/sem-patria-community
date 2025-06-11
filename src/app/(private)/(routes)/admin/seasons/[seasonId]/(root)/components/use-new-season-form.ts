@@ -2,7 +2,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { appRoutes } from '@/lib/constants'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -71,6 +71,7 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
   const { toast } = useToast()
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
   const [isConfirmationPending, setIsConfirmationPending] = useState(false)
+  const queryClient = useQueryClient()
 
   const { data: seasons = [] } = useQuery({
     queryKey: ['seasons'],
@@ -128,7 +129,8 @@ export const useNewSeasonForm = ({ initialData }: UseNewSeasonFormProps) => {
       }
       return await api.post(`/api/season`, data)
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['getCurrentSeason'] })
       router.push(appRoutes.admin_seasons)
       router.refresh()
       toast({

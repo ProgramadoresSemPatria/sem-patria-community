@@ -48,7 +48,10 @@ const Header = ({
     refetch: refetchScoreboard
   } = useGetScoreboardByUserId(user.id)
   const { data: currentSeason, isLoading: isSeasonLoading } =
-    useGetCurrentSeason()
+    useGetCurrentSeason({
+      staleTime: 0,
+      queryKey: ['getCurrentSeason']
+    })
   const [isFollowed, setIsFollowed] = useState(false)
 
   useEffect(() => {
@@ -215,6 +218,16 @@ const PointsStat = ({
     )
   }
 
+  if (!season) {
+    return (
+      <div>
+        <p className="text-2xl font-semibold">{value}</p>
+        <p className="text-gray-500">{label}</p>
+        <div className="h-5" />
+      </div>
+    )
+  }
+
   return (
     <TooltipProvider>
       <Tooltip delayDuration={100}>
@@ -224,71 +237,67 @@ const PointsStat = ({
             <p className="text-gray-500 border-b border-dashed border-gray-600 w-fit mx-auto">
               {label}
             </p>
-            {season && (
-              <p className="text-xs text-gray-600 mt-1">{season.name}</p>
-            )}
+            <p className="text-xs text-gray-600 mt-1">{season.name}</p>
           </div>
         </TooltipTrigger>
-        {season && (
-          <TooltipContent
-            side="bottom"
-            className="font-mono text-left p-4 shadow-xl max-w-xs bg-background border border-border/50"
-          >
-            <h3 className="text-foreground font-semibold mb-1 flex items-center gap-2">
-              Current Season{' '}
-              <Icons.award className="w-[14px] h-[14px]" strokeWidth={2.5} />
-            </h3>
-            <div className="space-y-2 pt-2">
-              <div className="grid grid-cols-[0.5fr_1fr] gap-x-2 items-center">
-                <span className="text-gray-400">Season</span>
-                <span className="text-foreground">{season.name}</span>
-              </div>
-              <div className="grid grid-cols-[0.5fr_1fr] gap-x-2 items-center">
-                <span className="text-gray-400">Starts</span>
-                <span className="text-foreground">
-                  {format(new Date(season.initDate), 'MMM dd, yyyy')}
-                </span>
-              </div>
-              <div className="grid grid-cols-[0.5fr_1fr] gap-x-2 items-center">
-                <span className="text-gray-400">Ends</span>
-                <span className="text-foreground">
-                  {format(new Date(season.endDate), 'MMM dd, yyyy')}
-                </span>
-              </div>
-              {season.metadata?.description && (
-                <div className="grid grid-cols-[0.5fr_1fr] gap-x-2 items-start">
-                  <span className="text-gray-400">Description</span>
-                  <span className="text-foreground whitespace-pre-wrap truncate line-clamp-2">
-                    {season.metadata.description}
-                  </span>
-                </div>
-              )}
-              {season.metadata?.awards && season.metadata.awards.length > 0 && (
-                <div className="pt-2 mt-2 border-t border-border/50">
-                  <h3 className="text-foreground font-semibold mb-1">Awards</h3>
-                  <ul className="space-y-1">
-                    {season.metadata.awards.slice(0, 3).map(award => (
-                      <li
-                        key={award.position}
-                        className="grid grid-cols-[0.5fr_1fr] gap-x-2"
-                      >
-                        <span className="text-gray-400">{award.position}</span>
-                        <span className="text-foreground truncate line-clamp-1">
-                          {award.description}
-                        </span>
-                      </li>
-                    ))}
-                    {season.metadata.awards.length > 3 && (
-                      <li className="text-gray-400 pt-1">
-                        +{season.metadata.awards.length - 3} more
-                      </li>
-                    )}
-                  </ul>
-                </div>
-              )}
+        <TooltipContent
+          side="bottom"
+          className="font-mono text-left p-4 shadow-xl max-w-xs bg-background border border-border/50"
+        >
+          <h3 className="text-foreground font-semibold mb-1 flex items-center gap-2">
+            Current Season{' '}
+            <Icons.award className="w-[14px] h-[14px]" strokeWidth={2.5} />
+          </h3>
+          <div className="space-y-2 pt-2">
+            <div className="grid grid-cols-[0.5fr_1fr] gap-x-2 items-center">
+              <span className="text-gray-400">Season</span>
+              <span className="text-foreground">{season.name}</span>
             </div>
-          </TooltipContent>
-        )}
+            <div className="grid grid-cols-[0.5fr_1fr] gap-x-2 items-center">
+              <span className="text-gray-400">Starts</span>
+              <span className="text-foreground">
+                {format(new Date(season.initDate), 'MMM dd, yyyy')}
+              </span>
+            </div>
+            <div className="grid grid-cols-[0.5fr_1fr] gap-x-2 items-center">
+              <span className="text-gray-400">Ends</span>
+              <span className="text-foreground">
+                {format(new Date(season.endDate), 'MMM dd, yyyy')}
+              </span>
+            </div>
+            {season.metadata?.description && (
+              <div className="grid grid-cols-[0.5fr_1fr] gap-x-2 items-start">
+                <span className="text-gray-400">Description</span>
+                <span className="text-foreground whitespace-pre-wrap truncate line-clamp-2">
+                  {season.metadata.description}
+                </span>
+              </div>
+            )}
+            {season.metadata?.awards && season.metadata.awards.length > 0 && (
+              <div className="pt-2 mt-2 border-t border-border/50">
+                <h3 className="text-foreground font-semibold mb-1">Awards</h3>
+                <ul className="space-y-1">
+                  {season.metadata.awards.slice(0, 3).map(award => (
+                    <li
+                      key={award.position}
+                      className="grid grid-cols-[0.5fr_1fr] gap-x-2"
+                    >
+                      <span className="text-gray-400">{award.position}</span>
+                      <span className="text-foreground truncate line-clamp-1">
+                        {award.description}
+                      </span>
+                    </li>
+                  ))}
+                  {season.metadata.awards.length > 3 && (
+                    <li className="text-gray-400 pt-1">
+                      +{season.metadata.awards.length - 3} more
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
+          </div>
+        </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   )

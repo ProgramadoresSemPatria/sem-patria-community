@@ -99,24 +99,26 @@ export const PointSystemInfoCard = ({
             Your current position can grant you a multiplier on earned points:
           </p>
           <ul className="space-y-2">
-            {sortedPositionMultipliers.map(pm => (
-              <li
-                key={pm.id}
-                className="flex justify-between items-center text-xs sm:text-sm"
-              >
-                <span className="text-muted-foreground">
-                  {formatEnumKey(pm.position)}
-                </span>
-                <span
-                  className={cn('font-semibold', {
-                    'text-blue-500': pm.multiplier > 1,
-                    'text-gray-500 dark:text-gray-400': pm.multiplier === 1
-                  })}
+            {sortedPositionMultipliers
+              .filter(pm => pm.position !== Positions.ADMIN)
+              .map(pm => (
+                <li
+                  key={pm.id}
+                  className="flex justify-between items-center text-xs sm:text-sm"
                 >
-                  x{pm.multiplier.toFixed(1)}
-                </span>
-              </li>
-            ))}
+                  <span className="text-muted-foreground">
+                    {formatEnumKey(pm.position)}
+                  </span>
+                  <span
+                    className={cn('font-semibold', {
+                      'text-blue-500': pm.multiplier > 1,
+                      'text-gray-500 dark:text-gray-400': pm.multiplier === 1
+                    })}
+                  >
+                    x{pm.multiplier.toFixed(1)}
+                  </span>
+                </li>
+              ))}
           </ul>
         </div>
       )}

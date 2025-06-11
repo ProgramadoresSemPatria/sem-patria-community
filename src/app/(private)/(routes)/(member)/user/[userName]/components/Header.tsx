@@ -55,6 +55,9 @@ const Header = ({
       refetchOnReconnect: true,
       enabled: true
     })
+  
+  console.log({currentSeason});
+  
   const [isFollowed, setIsFollowed] = useState(false)
 
   useEffect(() => {

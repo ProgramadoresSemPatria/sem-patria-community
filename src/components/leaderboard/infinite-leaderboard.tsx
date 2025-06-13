@@ -32,12 +32,14 @@ export const InfiniteLeaderboard = ({
     useSeason()
   const containerRef = useRef<HTMLDivElement>(null)
 
+  const isSearchMode = searchTerm.length > 0
+  const isSearchActive = debouncedSearchTerm.length > 0
+
   const {
     data: infiniteData,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading: isInfiniteLoading,
     isError: isInfiniteError,
     error: infiniteError
   } = useInfiniteLeaderboardUsers('', 10, {
@@ -45,7 +47,7 @@ export const InfiniteLeaderboard = ({
       pages: [initialData],
       pageParams: [0]
     },
-    enabled: !debouncedSearchTerm
+    enabled: !isSearchActive
   })
 
   const {
@@ -61,16 +63,10 @@ export const InfiniteLeaderboard = ({
   })
 
   useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage && !debouncedSearchTerm) {
+    if (inView && hasNextPage && !isFetchingNextPage && !isSearchActive) {
       void fetchNextPage()
     }
-  }, [
-    inView,
-    hasNextPage,
-    isFetchingNextPage,
-    fetchNextPage,
-    debouncedSearchTerm
-  ])
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, isSearchActive])
 
   const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
@@ -80,21 +76,50 @@ export const InfiniteLeaderboard = ({
     setSearchTerm('')
   }, [])
 
-  const allUsers = useMemo(() => {
-    if (debouncedSearchTerm) {
-      return searchData?.users || []
-    }
-    return infiniteData?.pages.flatMap(page => page.users) || []
-  }, [debouncedSearchTerm, searchData?.users, infiniteData?.pages])
+  const { usersToShow, isLoading, isError, error, showEmptyState } =
+    useMemo(() => {
+      if (isSearchActive) {
+        const users = searchData?.users || []
+        return {
+          usersToShow: users,
+          isLoading: isSearchLoading,
+          isError: isSearchError,
+          error: searchError,
+          showEmptyState: !isSearchLoading && users.length === 0
+        }
+      }
 
-  const usersToShow = useMemo(
-    () => (searchTerm ? allUsers : allUsers.slice(3)),
-    [searchTerm, allUsers]
-  )
+      if (isSearchMode && !isSearchActive) {
+        return {
+          usersToShow: [],
+          isLoading: true,
+          isError: false,
+          error: null,
+          showEmptyState: false
+        }
+      }
 
-  const isLoading = debouncedSearchTerm ? isSearchLoading : isInfiniteLoading
-  const isError = debouncedSearchTerm ? isSearchError : isInfiniteError
-  const error = debouncedSearchTerm ? searchError : infiniteError
+      const allUsers = infiniteData?.pages.flatMap(page => page.users) || []
+      const usersWithoutTop3 = allUsers.slice(3)
+
+      return {
+        usersToShow: usersWithoutTop3,
+        isLoading: false,
+        isError: isInfiniteError,
+        error: infiniteError,
+        showEmptyState: usersWithoutTop3.length === 0
+      }
+    }, [
+      isSearchMode,
+      isSearchActive,
+      searchData?.users,
+      isSearchLoading,
+      isSearchError,
+      searchError,
+      infiniteData,
+      isInfiniteError,
+      infiniteError
+    ])
 
   const renderSkeleton = useCallback(() => {
     return (
@@ -145,8 +170,13 @@ export const InfiniteLeaderboard = ({
         ref={containerRef}
         className="flex flex-col gap-y-4 overflow-y-auto overflow-x-hidden flex-1"
       >
-        {isLoading && debouncedSearchTerm && <SearchUsersSkeleton />}
+        {/* Skeleton to search */}
+        {isLoading && isSearchMode && <SearchUsersSkeleton />}
 
+        {/* Skeleton to infinite scroll */}
+        {isLoading && !isSearchMode && renderSkeleton()}
+
+        {/* Users list */}
         {!isLoading &&
           usersToShow.map((score, index) => (
             <UserListItem
@@ -161,17 +191,19 @@ export const InfiniteLeaderboard = ({
                   position: score.user.position as Positions | null
                 }
               }}
-              position={index + (searchTerm ? 1 : 4)}
+              position={index + (isSearchActive ? 1 : 4)}
             />
           ))}
 
-        {isFetchingNextPage && !debouncedSearchTerm && renderSkeleton()}
+        {/* Loading to next page of infinite scroll */}
+        {isFetchingNextPage && !isSearchMode && renderSkeleton()}
 
+        {/* Scroll indicator */}
         <div
           ref={ref}
           className={cn(
             'flex items-center justify-center py-4',
-            !hasNextPage && 'hidden'
+            (!hasNextPage || isSearchMode) && 'hidden'
           )}
         >
           {hasNextPage && !isFetchingNextPage && (
@@ -181,14 +213,17 @@ export const InfiniteLeaderboard = ({
             </div>
           )}
         </div>
-        {!hasNextPage && usersToShow.length > 0 && !debouncedSearchTerm && (
+
+        {/* End of list for infinite scroll */}
+        {!hasNextPage && usersToShow.length > 0 && !isSearchMode && (
           <div className="flex items-center justify-center py-4 text-muted-foreground/70">
             <span className="text-xs">No more users to load</span>
           </div>
         )}
-        {!isLoading &&
-          usersToShow.length === 0 &&
-          (searchTerm ? (
+
+        {/* Empty states */}
+        {showEmptyState &&
+          (isSearchActive ? (
             <div className="flex flex-col items-center justify-center py-8 text-center">
               <Icons.search className="h-10 w-10 text-muted-foreground mb-4" />
               <h3 className="text-base font-medium text-muted-foreground">

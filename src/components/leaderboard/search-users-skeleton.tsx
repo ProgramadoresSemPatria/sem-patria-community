@@ -5,7 +5,7 @@ export const SearchUsersSkeleton = () => {
     <div className="flex flex-col gap-y-4">
       {Array.from({ length: 3 }).map((_, i) => (
         <div
-          key={i + i}
+          key={i}
           className="flex items-center justify-between p-2 rounded-lg animate-pulse"
         >
           <div className="flex items-center gap-x-2 sm:gap-x-3 min-w-0 flex-1">

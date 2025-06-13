@@ -1,21 +1,23 @@
+import { Icons } from '@/components/icons'
+import { Skeleton } from '@/components/ui/skeleton'
+import type { SearchLeaderboardUsersApiProps } from '@/hooks/season/types'
+import { useSeason } from '@/hooks/season/use-season'
+import { useDebounce } from '@/hooks/use-debounce'
+import { cn } from '@/lib/utils'
+import type { Positions } from '@prisma/client'
 import {
   type ChangeEvent,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
-  useState,
-  useMemo
+  useState
 } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useSeason } from '@/hooks/season/use-season'
-import { useDebounce } from '@/hooks/use-debounce'
-import { UserListItem } from './user-list-item'
+import { InfiniteLeaderboardEmptyState } from './infinite-leaderboard-empty-state'
 import { SearchInput } from './search-input'
-import { Icons } from '@/components/icons'
-import { Skeleton } from '@/components/ui/skeleton'
-import { cn } from '@/lib/utils'
-import type { SearchLeaderboardUsersApiProps } from '@/hooks/season/types'
-import type { Positions } from '@prisma/client'
+import { SearchUsersSkeleton } from './search-users-skeleton'
+import { UserListItem } from './user-list-item'
 
 interface InfiniteLeaderboardProps {
   initialData: SearchLeaderboardUsersApiProps
@@ -26,23 +28,32 @@ export const InfiniteLeaderboard = ({
 }: InfiniteLeaderboardProps) => {
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 600)
-  const { useInfiniteLeaderboardUsers } = useSeason()
+  const { useInfiniteLeaderboardUsers, useSearchUsersInCurrentSeason } =
+    useSeason()
   const containerRef = useRef<HTMLDivElement>(null)
 
   const {
-    data,
+    data: infiniteData,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading,
-    isError,
-    error
-  } = useInfiniteLeaderboardUsers(debouncedSearchTerm, 10, {
+    isLoading: isInfiniteLoading,
+    isError: isInfiniteError,
+    error: infiniteError
+  } = useInfiniteLeaderboardUsers('', 10, {
     initialData: {
       pages: [initialData],
       pageParams: [0]
-    }
+    },
+    enabled: !debouncedSearchTerm
   })
+
+  const {
+    data: searchData,
+    isLoading: isSearchLoading,
+    isError: isSearchError,
+    error: searchError
+  } = useSearchUsersInCurrentSeason(debouncedSearchTerm)
 
   const { ref, inView } = useInView({
     threshold: 0,
@@ -50,10 +61,16 @@ export const InfiniteLeaderboard = ({
   })
 
   useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
+    if (inView && hasNextPage && !isFetchingNextPage && !debouncedSearchTerm) {
       void fetchNextPage()
     }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
+  }, [
+    inView,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+    debouncedSearchTerm
+  ])
 
   const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
@@ -63,15 +80,21 @@ export const InfiniteLeaderboard = ({
     setSearchTerm('')
   }, [])
 
-  const allUsers = useMemo(
-    () => data?.pages.flatMap(page => page.users) || [],
-    [data?.pages]
-  )
+  const allUsers = useMemo(() => {
+    if (debouncedSearchTerm) {
+      return searchData?.users || []
+    }
+    return infiniteData?.pages.flatMap(page => page.users) || []
+  }, [debouncedSearchTerm, searchData?.users, infiniteData?.pages])
 
   const usersToShow = useMemo(
     () => (searchTerm ? allUsers : allUsers.slice(3)),
     [searchTerm, allUsers]
   )
+
+  const isLoading = debouncedSearchTerm ? isSearchLoading : isInfiniteLoading
+  const isError = debouncedSearchTerm ? isSearchError : isInfiniteError
+  const error = debouncedSearchTerm ? searchError : infiniteError
 
   const renderSkeleton = useCallback(() => {
     return (
@@ -122,23 +145,28 @@ export const InfiniteLeaderboard = ({
         ref={containerRef}
         className="flex flex-col gap-y-4 overflow-y-auto overflow-x-hidden flex-1"
       >
-        {usersToShow.map((score, index) => (
-          <UserListItem
-            key={`${score.user.id}-${index}`}
-            score={{
-              id: score.userId,
-              userId: score.userId,
-              points: score.points,
-              seasonId: '',
-              user: {
-                ...score.user,
-                position: score.user.position as Positions | null
-              }
-            }}
-            position={index + (searchTerm ? 1 : 4)}
-          />
-        ))}
-        {isFetchingNextPage && renderSkeleton()}
+        {isLoading && debouncedSearchTerm && <SearchUsersSkeleton />}
+
+        {!isLoading &&
+          usersToShow.map((score, index) => (
+            <UserListItem
+              key={`${score.user.id}-${index}`}
+              score={{
+                id: score.userId,
+                userId: score.userId,
+                points: score.points,
+                seasonId: '',
+                user: {
+                  ...score.user,
+                  position: score.user.position as Positions | null
+                }
+              }}
+              position={index + (searchTerm ? 1 : 4)}
+            />
+          ))}
+
+        {isFetchingNextPage && !debouncedSearchTerm && renderSkeleton()}
+
         <div
           ref={ref}
           className={cn(
@@ -153,22 +181,26 @@ export const InfiniteLeaderboard = ({
             </div>
           )}
         </div>
-        {!hasNextPage && usersToShow.length > 0 && (
+        {!hasNextPage && usersToShow.length > 0 && !debouncedSearchTerm && (
           <div className="flex items-center justify-center py-4 text-muted-foreground/70">
             <span className="text-xs">No more users to load</span>
           </div>
         )}
-        {!isLoading && usersToShow.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-8 text-center">
-            <Icons.search className="h-10 w-10 text-muted-foreground mb-4" />
-            <h3 className="text-base font-medium text-muted-foreground">
-              No users found
-            </h3>
-            <p className="text-sm text-muted-foreground/70 mt-1">
-              Try a different search term
-            </p>
-          </div>
-        )}
+        {!isLoading &&
+          usersToShow.length === 0 &&
+          (searchTerm ? (
+            <div className="flex flex-col items-center justify-center py-8 text-center">
+              <Icons.search className="h-10 w-10 text-muted-foreground mb-4" />
+              <h3 className="text-base font-medium text-muted-foreground">
+                User not found
+              </h3>
+              <p className="text-sm text-muted-foreground/70 mt-1">
+                Try a different search term
+              </p>
+            </div>
+          ) : (
+            <InfiniteLeaderboardEmptyState />
+          ))}
       </div>
     </div>
   )

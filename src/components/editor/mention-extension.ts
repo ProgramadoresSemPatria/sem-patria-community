@@ -21,7 +21,6 @@ export const MentionExtension = (
         setMentionState((prev: MentionState) => {
           return {
             ...prev,
-            items: [],
             query,
             active: true
           }
@@ -34,7 +33,6 @@ export const MentionExtension = (
             setMentionState((prev: MentionState) => ({
               ...prev,
               command: props.command,
-              active: true,
               selectedIndex: 0,
               clientRect: props.clientRect
             }))

@@ -41,6 +41,7 @@ export type MentionState = SuggestionProps & {
   active: boolean
   items: User[]
   selectedIndex: number
+  isLoading?: boolean
 }
 
 interface EditorProp {
@@ -114,7 +115,14 @@ const NoteEditor = ({
 
   useEffect(() => {
     const fetchMentionUsers = async () => {
-      if (!mentionState.active || !mentionState.query) return
+      if (!mentionState.query) return
+
+      setMentionState(prev => ({
+        ...prev,
+        isLoading: true,
+        items: [],
+        selectedIndex: 0
+      }))
 
       try {
         const res = await api.get('/api/user', {
@@ -126,10 +134,19 @@ const NoteEditor = ({
 
         setMentionState(prev => ({
           ...prev,
-          items: data || []
+          items: data || [],
+          isLoading: false,
+          selectedIndex: 0,
+          active: true
         }))
       } catch (err) {
         console.error('Failed to fetch mentions:', err)
+        setMentionState(prev => ({
+          ...prev,
+          isLoading: false,
+          items: [],
+          selectedIndex: 0
+        }))
       }
     }
     const debounce = setTimeout(fetchMentionUsers, 400)
@@ -137,7 +154,7 @@ const NoteEditor = ({
     return () => {
       clearTimeout(debounce)
     }
-  }, [mentionState.active, mentionState.query])
+  }, [mentionState.query])
 
   const handleMentionClick = (event: React.MouseEvent) => {
     const target = event.target as HTMLElement
@@ -275,7 +292,12 @@ const NoteEditor = ({
             <div className="z-50">
               <Command className="w-64 rounded-md border shadow-md bg-popover">
                 <CommandList>
-                  {mentionState.items?.length > 0 ? (
+                  {mentionState.isLoading ? (
+                    <div className="flex items-center justify-center p-2 text-sm text-muted-foreground">
+                      <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                      Searching users...
+                    </div>
+                  ) : mentionState.items?.length > 0 ? (
                     mentionState.items.map((item, index: number) => (
                       <CommandItem
                         key={item.id}
@@ -284,18 +306,18 @@ const NoteEditor = ({
                             mentionState.command({ label: item.username })
                           }
                         }}
-                        className={
-                          index === mentionState.selectedIndex
-                            ? 'bg-accent text-accent-foreground'
-                            : ''
-                        }
+                        aria-selected={index === mentionState.selectedIndex}
                       >
                         @{item.username}
                       </CommandItem>
                     ))
-                  ) : (
+                  ) : mentionState.query ? (
                     <div className="p-2 text-sm text-muted-foreground">
                       No users found
+                    </div>
+                  ) : (
+                    <div className="p-2 text-sm text-muted-foreground">
+                      Start typing to search users...
                     </div>
                   )}
                 </CommandList>

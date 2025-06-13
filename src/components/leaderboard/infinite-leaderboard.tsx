@@ -120,7 +120,7 @@ export const InfiniteLeaderboard = ({
       />
       <div
         ref={containerRef}
-        className="flex flex-col gap-y-4 overflow-y-auto overflow-x-hidden flex-1 max-h-[400px]"
+        className="flex flex-col gap-y-4 overflow-y-auto overflow-x-hidden flex-1"
       >
         {usersToShow.map((score, index) => (
           <UserListItem

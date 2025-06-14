@@ -1,3 +1,4 @@
+import type { SearchUsersInCurrentSeasonResponse } from '@/actions/leaderboard/get-leaderboard-users'
 import { api } from '@/lib/api'
 import {
   type UseQueryOptions,
@@ -37,24 +38,6 @@ export const useSeason = () => {
       ...options
     })
 
-  const useSearchLeaderboardUsers = (
-    searchTerm: string,
-    options?: UseQueryOptions<SearchLeaderboardUsersApiProps, AxiosError>
-  ) =>
-    useQuery({
-      queryKey: ['searchLeaderboardUsers', searchTerm],
-      queryFn: async () => {
-        const response = await api.get<SearchLeaderboardUsersApiProps>(
-          `/api/season/current/scoreboard?search=${encodeURIComponent(
-            searchTerm
-          )}`
-        )
-        return response.data
-      },
-      enabled: !!searchTerm && searchTerm.length >= 2,
-      ...options
-    })
-
   const useInfiniteLeaderboardUsers = (
     searchTerm: string,
     pageSize: number = 10,
@@ -78,10 +61,28 @@ export const useSeason = () => {
       ...(options as Record<string, unknown>)
     })
 
+  const useSearchUsersInCurrentSeason = (
+    searchTerm: string,
+    options?: UseQueryOptions<SearchUsersInCurrentSeasonResponse, AxiosError>
+  ) =>
+    useQuery({
+      queryKey: ['searchUsersInCurrentSeason', searchTerm],
+      queryFn: async () => {
+        const response = await api.get<SearchUsersInCurrentSeasonResponse>(
+          `/api/season/current/scoreboard/users?search=${encodeURIComponent(
+            searchTerm
+          )}`
+        )
+        return response.data
+      },
+      enabled: !!searchTerm && searchTerm.length >= 2,
+      ...options
+    })
+
   return {
     useGetCurrentSeason,
     useGetAllSeasons,
-    useSearchLeaderboardUsers,
-    useInfiniteLeaderboardUsers
+    useInfiniteLeaderboardUsers,
+    useSearchUsersInCurrentSeason
   }
 }

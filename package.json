@@ -145,12 +145,12 @@
     "tsx": "^4.19.4",
     "typescript": "^5.3.2"
   },
+  "prisma": {
+    "schema": "./prisma"
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "prisma": {
-    "schema": "./prisma/schema/schema.prisma"
   }
 }

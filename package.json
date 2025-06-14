@@ -149,5 +149,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "prisma": {
+    "schema": "./prisma/schema/schema.prisma"
   }
 }

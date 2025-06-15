@@ -74,10 +74,7 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
           </TabsContent>
         </Tabs>
       ) : (
-        <>
-          <CreatePostCommentComponent />
-          <UserPosts posts={profileUser?.posts} loggedInUserId={user.id} />
-        </>
+        <UserPosts posts={profileUser?.posts} loggedInUserId={user.id} />
       )}
     </DefaultLayout>
   )

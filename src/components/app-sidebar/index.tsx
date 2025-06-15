@@ -6,7 +6,6 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
@@ -30,8 +29,7 @@ export type AppSidebarProps = {
 
 export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
   const [isMounted, setIsMounted] = useState(false)
-  const { setOpenMobile, isMobile, setIsMentorshipPage, shouldShowSidebar } =
-    useSidebar()
+  const { setOpenMobile, isMobile, shouldShowSidebar } = useSidebar()
 
   const pathname = usePathname()
 

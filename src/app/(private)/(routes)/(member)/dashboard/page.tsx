@@ -9,11 +9,7 @@ import { getLeaderboardUsers } from '@/actions/leaderboard/get-leaderboard-users
 import type { SearchedUserProps } from '@/actions/leaderboard/types'
 
 export default async function Dashboard() {
-  const topUsers: SearchedUserProps[] = await getLeaderboardUsers(
-    undefined,
-    0,
-    5
-  )
+  const topUsers: SearchedUserProps[] = await getLeaderboardUsers(0, 5)
 
   return (
     <DefaultLayout className="overflow-hidden">

@@ -4,16 +4,16 @@ import { Icons } from '@/components/icons'
 
 export const InfiniteLeaderboardEmptyState = () => {
   return (
-    <div className="flex-1 flex flex-col items-center justify-center py-8 mt-2 rounded-lg px-4">
+    <div className="flex-1 flex flex-col items-center justify-start pt-0 pb-8 rounded-lg px-4 mt-2">
       <Icons.trophy className="w-16 h-16 text-muted-foreground" />
-      <h3 className="text-lg font-medium text-muted-foreground mt-4 text-center">
+      <h3 className="text-lg font-medium text-muted-foreground mt-2 text-center">
         Legends are being made! Will you be next?
       </h3>
       <p className="text-sm text-muted-foreground/70 mt-1 max-w-md text-center">
         Earn points through community engagement and contributions to rank on
         this season&apos;s leaderboard.
       </p>
-      <div className="mt-8 grid grid-cols-3 gap-4 opacity-30">
+      <div className="mt-6 grid grid-cols-3 gap-4 opacity-30">
         {[...Array(3)].map((_, i) => (
           <div
             key={i}

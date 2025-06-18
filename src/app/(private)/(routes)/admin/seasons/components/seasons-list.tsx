@@ -8,7 +8,7 @@ import { useSeason } from '@/hooks/season/use-season'
 import { Can } from '@/hooks/use-ability'
 import { appRoutes } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
-import { seasonsColumns } from './columns'
+import { createSeasonsColumns } from './columns'
 import { useCallback } from 'react'
 import { ErrorState } from './error-state'
 import { EmptyState } from './empty-state'
@@ -21,7 +21,8 @@ const SeasonsList = () => {
     data: seasonsData,
     isLoading,
     isError,
-    error
+    error,
+    refetch
   } = useGetAllSeasons({
     queryKey: ['getAllSeasons'],
     staleTime: 10 * 60 * 1000,
@@ -82,7 +83,11 @@ const SeasonsList = () => {
           </Button>
         </Can>
       </Header>
-      <DataTable searchKey="name" columns={seasonsColumns} data={seasons} />
+      <DataTable
+        searchKey="name"
+        columns={createSeasonsColumns(refetch)}
+        data={seasons}
+      />
     </>
   )
 }

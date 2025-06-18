@@ -7,7 +7,9 @@ import { SeasonDataTableRowActions } from './season-data-table-row-actions'
 import { Badge } from '@/components/ui/badge'
 import { type Season } from '@prisma/client'
 
-export const seasonsColumns: Array<ColumnDef<Season>> = [
+export const createSeasonsColumns = (
+  refetch: () => void
+): Array<ColumnDef<Season>> => [
   {
     accessorKey: 'name',
     header: 'Name',
@@ -66,6 +68,8 @@ export const seasonsColumns: Array<ColumnDef<Season>> = [
   {
     id: 'actions',
     header: 'Actions',
-    cell: ({ row }) => <SeasonDataTableRowActions data={row.original} />
+    cell: ({ row }) => (
+      <SeasonDataTableRowActions data={row.original} refetch={refetch} />
+    )
   }
 ]

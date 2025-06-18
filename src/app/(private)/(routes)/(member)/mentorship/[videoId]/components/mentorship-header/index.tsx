@@ -16,7 +16,7 @@ export const MentorshipHeader = async ({
 
   return (
     <header className="grid grid-cols-3 h-[72px] px-4 lg:pr-8 bg-gray-850 border border-transparent items-center border-b-muted">
-      <div className="flex items-center">
+      <div className="flex items-center gap-x-4">
         <SidebarTrigger />
         <AppSidebar userName={user?.username} mentorship />
         <MainLogo />

@@ -33,6 +33,9 @@ export function NavUser({ userName }: SidebarFooterProps) {
   const { isMobile } = useSidebar()
   const { user } = useUser()
 
+  const feedbackFormLink =
+    'https://docs.google.com/forms/d/e/1FAIpQLSc_UTMhjo2-HH6XovqWajs5RKj_2LQMCq2kz8itV-NcheU8oA/viewform'
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -107,6 +110,24 @@ export function NavUser({ userName }: SidebarFooterProps) {
                 </div>
               </div>
             </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+
+            <DropdownMenuGroup>
+              <DropdownMenuItem className="gap-x-2 items-center cursor-pointer hover:bg-muted/80 active:bg-muted transition-all duration-200">
+                <Icons.messageSquareShare className="w-4 h-4" />
+
+                <Link
+                  className="w-full h-full flex items-center justify-between"
+                  href={feedbackFormLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Feedback
+                  <Icons.redirect className="w-4 h-4 ml-2" />
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>

@@ -29,7 +29,8 @@ export type AppSidebarProps = {
 
 export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
   const [isMounted, setIsMounted] = useState(false)
-  const { setOpenMobile, isMobile, shouldShowSidebar } = useSidebar()
+  const { setOpenMobile, isMobile, shouldShowSidebar, setIsMentorshipPage } =
+    useSidebar()
 
   const pathname = usePathname()
 
@@ -63,8 +64,8 @@ export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
 
   useEffect(() => {
     setIsMounted(true)
-    // setIsMentorshipPage(!!mentorship)
-  }, [])
+    setIsMentorshipPage(!!mentorship)
+  }, [mentorship, setIsMentorshipPage])
 
   if (!shouldShowSidebar) return null
 
@@ -90,7 +91,8 @@ export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
                 }}
                 className={cn(
                   'transition-all duration-200',
-                  item.active && 'bg-primary rounded-md hover:bg-primary/80'
+                  item.active &&
+                    'bg-primary rounded-md hover:bg-primary/80 text-white'
                 )}
               >
                 <SidebarMenuButton
@@ -98,8 +100,8 @@ export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
                   className={cn(
                     'transition-colors relative group',
                     item.active
-                      ? 'font-medium text-primary'
-                      : 'hover:bg-muted hover:text-secondary'
+                      ? ''
+                      : 'hover:bg-muted hover:text-primary dark:hover:text-secondary'
                   )}
                   isActive={item.active}
                   aria-current={item.active ? 'page' : undefined}
@@ -128,7 +130,8 @@ export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
                   key={item.label}
                   className={cn(
                     'transition-all duration-200',
-                    item.active && 'bg-primary rounded-md hover:bg-primary/80'
+                    item.active &&
+                      'bg-primary rounded-md hover:bg-primary/80 text-white'
                   )}
                 >
                   <SidebarMenuButton
@@ -136,8 +139,8 @@ export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
                     className={cn(
                       'transition-colors relative group',
                       item.active
-                        ? 'font-medium text-primary'
-                        : 'hover:bg-muted hover:text-secondary'
+                        ? ''
+                        : 'hover:bg-muted hover:text-primary dark:hover:text-secondary'
                     )}
                     isActive={item.active}
                     aria-current={item.active ? 'page' : undefined}

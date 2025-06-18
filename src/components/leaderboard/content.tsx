@@ -29,7 +29,9 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
     refetch
   } = useGetCurrentSeason({
     queryKey: ['getCurrentSeason'],
-    enabled: false
+    enabled: false,
+    staleTime: 0,
+    gcTime: 0
   })
 
   const seasonData = refreshedData || data

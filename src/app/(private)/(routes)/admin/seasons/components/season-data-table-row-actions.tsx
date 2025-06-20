@@ -21,14 +21,17 @@ import { api } from '@/lib/api'
 
 type SeasonDataTableRowActionsProps = {
   data: Season
+  refetch: () => void
 }
 
 export const SeasonDataTableRowActions = ({
-  data
+  data,
+  refetch
 }: SeasonDataTableRowActionsProps) => {
   const router = useRouter()
   const { toast } = useToast()
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
+  const [isSetCurrentModalOpen, setIsSetCurrentModalOpen] = useState(false)
 
   const { mutateAsync: deleteSeason, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
@@ -50,10 +53,43 @@ export const SeasonDataTableRowActions = ({
     }
   })
 
+  const { mutateAsync: toggleCurrent, isPending: isTogglingCurrent } =
+    useMutation({
+      mutationFn: async () => {
+        return await api.patch(`/api/season/${data.id}`, {
+          ...data,
+          isCurrent: !data.isCurrent
+        })
+      },
+      onSuccess: () => {
+        toast({
+          title: 'Success',
+          description: data.isCurrent
+            ? 'The season has been disabled as current.'
+            : 'The season has been set as current successfully.'
+        })
+      },
+      onError: err => {
+        console.error('Error toggling season current state', err)
+        toast({
+          title: 'Error',
+          description: 'Something went wrong.',
+          variant: 'destructive'
+        })
+      }
+    })
+
   const handleDelete = async () => {
     await deleteSeason()
     router.refresh()
     setIsAlertModalOpen(false)
+  }
+
+  const handleToggleCurrent = async () => {
+    await toggleCurrent()
+    router.refresh()
+    setIsSetCurrentModalOpen(false)
+    refetch()
   }
 
   return (
@@ -66,6 +102,23 @@ export const SeasonDataTableRowActions = ({
         }}
         onConfirm={handleDelete}
         loading={isDeleting}
+      />
+      <AlertModal
+        isOpen={isSetCurrentModalOpen}
+        title={
+          data.isCurrent ? 'Disable Current Season' : 'Set as Current Season'
+        }
+        description={
+          data.isCurrent
+            ? 'This will disable this season as the current active season.'
+            : 'This will make this season the current active season.'
+        }
+        onClose={() => {
+          setIsSetCurrentModalOpen(false)
+        }}
+        onConfirm={handleToggleCurrent}
+        loading={isTogglingCurrent}
+        confirmationTitle={data.isCurrent ? 'Disable' : 'Set as Current'}
       />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
@@ -100,6 +153,17 @@ export const SeasonDataTableRowActions = ({
             Score Activities
             <DropdownMenuShortcut>
               <Icons.activity size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => {
+              setIsSetCurrentModalOpen(true)
+            }}
+          >
+            {data.isCurrent ? 'Disable Current' : 'Set as Current'}
+            <DropdownMenuShortcut>
+              <Icons.trophy size={16} />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuSeparator />

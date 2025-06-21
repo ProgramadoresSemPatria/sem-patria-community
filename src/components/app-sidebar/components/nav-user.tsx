@@ -17,6 +17,7 @@ import {
   SidebarMenuButton,
   useSidebar
 } from '@/components/ui/sidebar'
+import { useFeedbackModal } from '@/hooks/modal/use-feedback-modal'
 import { appRoutes } from '@/lib/constants'
 import { useClerk, useUser } from '@clerk/nextjs'
 import { ChevronsUpDown } from 'lucide-react'
@@ -32,6 +33,7 @@ export function NavUser({ userName }: SidebarFooterProps) {
   const { signOut } = useClerk()
   const { isMobile } = useSidebar()
   const { user } = useUser()
+  const { onOpen } = useFeedbackModal()
 
   const feedbackFormLink =
     'https://docs.google.com/forms/d/e/1FAIpQLSc_UTMhjo2-HH6XovqWajs5RKj_2LQMCq2kz8itV-NcheU8oA/viewform'
@@ -115,7 +117,6 @@ export function NavUser({ userName }: SidebarFooterProps) {
             <DropdownMenuGroup>
               <DropdownMenuItem className="gap-x-2 items-center cursor-pointer hover:bg-muted/80 active:bg-muted transition-all duration-200">
                 <Icons.messageSquareShare className="w-4 h-4" />
-
                 <Link
                   className="w-full h-full flex items-center justify-between"
                   href={feedbackFormLink}
@@ -123,8 +124,19 @@ export function NavUser({ userName }: SidebarFooterProps) {
                   rel="noopener noreferrer"
                 >
                   Feedback
-                  <Icons.redirect className="w-4 h-4 ml-2" />
+                  <Icons.redirect className="w-3 h-3 ml-2" />
                 </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="gap-x-2 items-center cursor-pointer hover:bg-muted/80 active:bg-muted transition-all duration-200"
+                onClick={() => {
+                  onOpen()
+                }}
+              >
+                <Icons.monitorCheck className="w-4 h-4" />
+                <span className="w-full h-full flex items-center justify-between">
+                  Recommend
+                </span>
               </DropdownMenuItem>
             </DropdownMenuGroup>
 

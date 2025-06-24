@@ -10,10 +10,12 @@ import { PublicNotesContent } from './public-notes-content'
 
 export const PublicNotesCard = async () => {
   return (
-    <div className="flex flex-col gap-y-2 h-full">
-      <h2 className="text-lg font-semibold">Recent notes of our members</h2>
-      <Card className="flex flex-col flex-grow">
-        <CardHeader className="flex flex-col">
+    <div className="flex flex-col h-full">
+      <h2 className="text-lg font-semibold mb-2">
+        Recent notes of our members
+      </h2>
+      <Card className="flex flex-col flex-1">
+        <CardHeader>
           <CardTitle>
             <b>#ChallengeCodeUp</b>&#58; Public notes
           </CardTitle>
@@ -24,7 +26,7 @@ export const PublicNotesCard = async () => {
 
         <Suspense
           fallback={
-            <div className="mx-6 flex-grow">
+            <div className="mx-6 flex-1">
               <SkeletonDefault />
             </div>
           }

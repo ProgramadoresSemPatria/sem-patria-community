@@ -75,16 +75,16 @@ const TimelineNotesContent = ({
 
   return (
     <>
-      <div className="mx-4 flex flex-col justify-start pb-3">
-        <div className="line-clamp-1 text-left my-2">
-          {description?.slice(0, 80)}
-        </div>
+      <div className="mx-4 pb-3 max-w-72 md:max-w-[500px]">
+        <p className="line-clamp-1 truncate text-left my-2 text-muted-foreground">
+          {description}
+        </p>
         <div className="flex flex-col justify-center">
           <Button
             onClick={() => {
               setIsOpen(prev => !prev)
             }}
-            className="p-2 gap-1"
+            className="gap-1"
             variant="ghost"
           >
             Preview note

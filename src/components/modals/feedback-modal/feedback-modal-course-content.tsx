@@ -115,11 +115,15 @@ export const FeedbackModalCourseContent = ({
             name="name"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Course Name</FormLabel>
                 <FormControl>
                   <Input
+                    data-1p-ignore
+                    data-lpignore="true"
+                    autoComplete="off"
+                    data-bwignore
                     disabled={isPending}
-                    placeholder="Course name"
+                    placeholder="Course Name"
                     {...field}
                   />
                 </FormControl>
@@ -132,11 +136,11 @@ export const FeedbackModalCourseContent = ({
             name="courseUrl"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Url</FormLabel>
+                <FormLabel>URL</FormLabel>
                 <FormControl>
                   <Input
                     disabled={isPending}
-                    placeholder="Course Url"
+                    placeholder="Course URL"
                     {...field}
                   />
                 </FormControl>
@@ -199,41 +203,39 @@ export const FeedbackModalCourseContent = ({
             control={form.control}
             name="categoryId"
             render={({ field }) => (
-              <>
-                <FormItem className="w-full">
-                  <FormLabel>Category</FormLabel>
-                  <Select
-                    disabled={isPending}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a category"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {categories &&
-                        categories.length > 0 &&
-                        categories.map(category => (
-                          <SelectItem key={category.id} value={category.id}>
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              </>
+              <FormItem className="w-full">
+                <FormLabel>Category</FormLabel>
+                <Select
+                  disabled={isPending}
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue
+                        defaultValue={field.value}
+                        placeholder="Select a category"
+                      />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {categories &&
+                      categories.length > 0 &&
+                      categories.map(category => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
             )}
           />
         </div>
         <div className="flex items-center w-full mt-8 gap-x-4">
           <Button
-            variant="secondary"
+            variant="outline"
             className="ml-auto"
             type="button"
             onClick={onClose}
@@ -243,6 +245,7 @@ export const FeedbackModalCourseContent = ({
           <Button
             disabled={isPending || !categories || isLoadingCategories}
             type="submit"
+            className="bg-primary hover:bg-primary/90"
           >
             {isPending && (
               <Icons.loader className="mr-2 h-4 w-4 animate-spin" />

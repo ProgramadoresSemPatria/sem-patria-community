@@ -12,8 +12,8 @@ export const PublicNotesContent = async () => {
   })
 
   return (
-    <ScrollArea className="flex-1 h-[calc(100vh-300px)]">
-      <CardContent className="flex flex-col gap-6 py-6">
+    <ScrollArea className="flex-1 h-full min-h-[200px] max-h-[calc(100vh+160px)]">
+      <CardContent className="h-full">
         {notes.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full py-4">
             <Icons.notebookPen className="w-8 h-8 text-muted-foreground mb-2" />

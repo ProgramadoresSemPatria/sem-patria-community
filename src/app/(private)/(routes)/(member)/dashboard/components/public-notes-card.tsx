@@ -10,7 +10,7 @@ import { PublicNotesContent } from './public-notes-content'
 
 export const PublicNotesCard = async () => {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col gap-y-2 h-full">
       <h2 className="text-lg font-semibold mb-2">
         Recent notes of our members
       </h2>
@@ -31,7 +31,9 @@ export const PublicNotesCard = async () => {
             </div>
           }
         >
-          <PublicNotesContent />
+          <div className="flex-1 flex flex-col">
+            <PublicNotesContent />
+          </div>
         </Suspense>
       </Card>
     </div>

@@ -25,6 +25,7 @@ const UserPosts = ({
             likesAmount={post.likes.length}
             post={post}
             loggedInUserId={loggedInUserId}
+            actions={post.userId !== loggedInUserId}
           />
         ))}
       </div>

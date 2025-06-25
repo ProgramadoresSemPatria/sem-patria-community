@@ -104,7 +104,9 @@ const Post = ({
             <Icons.pin className="my-1 text-secondary fill-secondary h-5 w-5" />
           )}
           <Can I="delete" a="Post">
-            {actions && <PostActions post={post} />}
+            {actions && post.userId === loggedInUserId && (
+              <PostActions post={post} />
+            )}
           </Can>
         </div>
       </div>

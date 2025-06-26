@@ -23,7 +23,7 @@ const OnBoardingModal = () => {
       >
         <div className="relative pb-[64.63195691202873%] h-0">
           <iframe
-            src="https://www.loom.com/embed/cd2c80c4fcb24b18b923d1e2ff70aabc?sid=05e24991-9efd-4a00-b3cb-134647bcd439"
+            src="https://www.loom.com/share/d46844f4d5ab4040b5dd915caa82ecf8?sid=67b383f5-0c48-46ff-ad66-0eb5bdba337b"
             allowFullScreen
             className="absolute top-0 left-0 w-full h-full"
           />

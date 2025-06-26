@@ -22,11 +22,11 @@ export const useOnBoarding = create<State & Actions>(set => ({
     set({ isOpen: false })
   },
   markVideoAsWatched: () => {
-    localStorage.setItem('videoWatched', 'true')
+    localStorage.setItem('onboarding-video-watched', 'true')
     set({ videoWatched: true, isOpen: false })
   },
   initializeWatchedStatus: () => {
-    const videoWatched = !!localStorage.getItem('videoWatched')
+    const videoWatched = !!localStorage.getItem('onboarding-video-watched')
     set({ videoWatched, isOpen: !videoWatched })
   }
 }))

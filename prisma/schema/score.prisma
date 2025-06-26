@@ -29,7 +29,7 @@ model Scoreboard {
   points   Float  @default(0)
   seasonId String
   season   Season @relation(fields: [seasonId], references: [id], onDelete: Cascade)
-  user     User   @relation(fields: [userId], references: [id])
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, seasonId])
 }

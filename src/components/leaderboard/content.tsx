@@ -9,15 +9,10 @@ import { Icons } from '@/components/icons'
 import { InfiniteLeaderboard } from '@/components/leaderboard/infinite-leaderboard'
 import { LeaderboardSkeleton } from '@/components/leaderboard/skeleton'
 import { TopThree } from '@/components/leaderboard/top-three'
-import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
-import { type GetCurrentSeasonApiProps } from '@/hooks/season/types'
-// import { useSeason } from '@/hooks/season/use-season'
-import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
-import { useQuery } from '@tanstack/react-query'
+import { useSeason } from '@/hooks/season/use-season'
 import { useCallback, useMemo } from 'react'
 
 interface LeaderboardContentProps {
@@ -25,26 +20,17 @@ interface LeaderboardContentProps {
 }
 
 export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
-  // const { useGetCurrentSeason } = useSeason()
+  const { useGetCurrentSeason } = useSeason()
 
-  const {
-    data: refreshedData,
-    isLoading: isLoadingRefresh,
-    refetch
-  } = useQuery({
-    queryKey: ['getCurrentSeason'],
-    queryFn: async () => {
-      const response =
-        await api.get<GetCurrentSeasonApiProps>(`/api/season/current`)
-      return response.data
-    }
-  })
+  const { data: refreshedData, isLoading: isLoadingRefresh } =
+    useGetCurrentSeason({
+      queryKey: ['getCurrentSeason'],
+      enabled: true,
+      staleTime: 0,
+      gcTime: 0
+    })
 
   const seasonData = refreshedData || data
-
-  const handleRefresh = async () => {
-    await refetch()
-  }
 
   const convertToSearchedUserProps = useCallback(
     (score: LeaderboardScore): SearchedUserProps => ({
@@ -105,21 +91,6 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
             )}
           </span>
         </div>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          disabled={isLoadingRefresh}
-          onClick={handleRefresh}
-          aria-label="Refresh leaderboard"
-        >
-          <Icons.rotateCcw
-            className={cn(
-              'w-4 h-4 text-gray-900 dark:text-muted-foreground',
-              isLoadingRefresh && 'animate-spin'
-            )}
-          />
-        </Button>
       </div>
       <Separator className="my-2 sm:my-4" />
       <TopThree scores={seasonData.scores} />

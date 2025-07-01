@@ -1,5 +1,6 @@
 'use client'
 
+import { getCurrentSeason } from '@/actions/leaderboard/get-current-season'
 import type {
   CurrentSeasonResponse,
   LeaderboardScore,
@@ -12,7 +13,7 @@ import { TopThree } from '@/components/leaderboard/top-three'
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useSeason } from '@/hooks/season/use-season'
+import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 
 interface LeaderboardContentProps {
@@ -20,10 +21,10 @@ interface LeaderboardContentProps {
 }
 
 export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
-  const { useGetCurrentSeason } = useSeason()
-
-  const { data: refreshedData, isLoading: isLoadingRefresh } =
-    useGetCurrentSeason()
+  const { data: refreshedData, isLoading: isLoadingRefresh } = useQuery({
+    queryKey: ['getCurrentSeason-leaderboard'],
+    queryFn: async () => await getCurrentSeason()
+  })
 
   const seasonData = refreshedData || data
 

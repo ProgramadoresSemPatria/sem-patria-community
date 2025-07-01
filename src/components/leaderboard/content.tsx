@@ -13,8 +13,11 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useSeason } from '@/hooks/season/use-season'
+import { type GetCurrentSeasonApiProps } from '@/hooks/season/types'
+// import { useSeason } from '@/hooks/season/use-season'
+import { api } from '@/lib/api'
 import { cn } from '@/lib/utils'
+import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 
 interface LeaderboardContentProps {
@@ -22,16 +25,19 @@ interface LeaderboardContentProps {
 }
 
 export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
-  const { useGetCurrentSeason } = useSeason()
+  // const { useGetCurrentSeason } = useSeason()
+
   const {
     data: refreshedData,
     isLoading: isLoadingRefresh,
     refetch
-  } = useGetCurrentSeason({
+  } = useQuery({
     queryKey: ['getCurrentSeason'],
-    enabled: false,
-    staleTime: Infinity,
-    gcTime: 0
+    queryFn: async () => {
+      const response =
+        await api.get<GetCurrentSeasonApiProps>(`/api/season/current`)
+      return response.data
+    }
   })
 
   const seasonData = refreshedData || data

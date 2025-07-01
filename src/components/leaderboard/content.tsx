@@ -23,12 +23,7 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
   const { useGetCurrentSeason } = useSeason()
 
   const { data: refreshedData, isLoading: isLoadingRefresh } =
-    useGetCurrentSeason({
-      queryKey: ['getCurrentSeason'],
-      enabled: true,
-      staleTime: 0,
-      gcTime: 0
-    })
+    useGetCurrentSeason()
 
   const seasonData = refreshedData || data
 

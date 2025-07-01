@@ -1,5 +1,6 @@
 'use client'
 
+import { getCurrentSeason } from '@/actions/leaderboard/get-current-season'
 import type {
   CurrentSeasonResponse,
   LeaderboardScore,
@@ -9,12 +10,10 @@ import { Icons } from '@/components/icons'
 import { InfiniteLeaderboard } from '@/components/leaderboard/infinite-leaderboard'
 import { LeaderboardSkeleton } from '@/components/leaderboard/skeleton'
 import { TopThree } from '@/components/leaderboard/top-three'
-import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useSeason } from '@/hooks/season/use-season'
-import { cn } from '@/lib/utils'
+import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 
 interface LeaderboardContentProps {
@@ -22,23 +21,12 @@ interface LeaderboardContentProps {
 }
 
 export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
-  const { useGetCurrentSeason } = useSeason()
-  const {
-    data: refreshedData,
-    isLoading: isLoadingRefresh,
-    refetch
-  } = useGetCurrentSeason({
-    queryKey: ['getCurrentSeason'],
-    enabled: false,
-    staleTime: 0,
-    gcTime: 0
+  const { data: refreshedData, isLoading: isLoadingRefresh } = useQuery({
+    queryKey: ['getCurrentSeason-leaderboard'],
+    queryFn: async () => await getCurrentSeason()
   })
 
   const seasonData = refreshedData || data
-
-  const handleRefresh = async () => {
-    await refetch()
-  }
 
   const convertToSearchedUserProps = useCallback(
     (score: LeaderboardScore): SearchedUserProps => ({
@@ -99,21 +87,6 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
             )}
           </span>
         </div>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          disabled={isLoadingRefresh}
-          onClick={handleRefresh}
-          aria-label="Refresh leaderboard"
-        >
-          <Icons.rotateCcw
-            className={cn(
-              'w-4 h-4 text-gray-900 dark:text-muted-foreground',
-              isLoadingRefresh && 'animate-spin'
-            )}
-          />
-        </Button>
       </div>
       <Separator className="my-2 sm:my-4" />
       <TopThree scores={seasonData.scores} />

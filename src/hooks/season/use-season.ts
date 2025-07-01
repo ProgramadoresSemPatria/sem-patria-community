@@ -19,10 +19,12 @@ export const useSeason = () => {
     useQuery({
       queryKey: ['getCurrentSeason'],
       queryFn: async () => {
-        const response =
-          await api.get<GetCurrentSeasonApiProps>(`/api/season/current`)
+        const response = await api.get<GetCurrentSeasonApiProps>(
+          '/api/season/current'
+        )
         return response.data
       },
+      staleTime: 0,
       ...options
     })
 

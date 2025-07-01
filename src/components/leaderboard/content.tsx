@@ -30,7 +30,7 @@ export const LeaderboardContent = ({ data }: LeaderboardContentProps) => {
   } = useGetCurrentSeason({
     queryKey: ['getCurrentSeason'],
     enabled: false,
-    staleTime: 0,
+    staleTime: Infinity,
     gcTime: 0
   })
 

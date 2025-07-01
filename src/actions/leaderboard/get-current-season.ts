@@ -1,5 +1,3 @@
-'use server'
-
 import prismadb from '@/lib/prismadb'
 import { type CurrentSeasonResponse, type SeasonMetadata } from './types'
 

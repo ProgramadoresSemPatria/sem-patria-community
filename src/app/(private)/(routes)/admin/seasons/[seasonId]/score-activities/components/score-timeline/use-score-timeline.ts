@@ -1,52 +1,33 @@
 'use client'
 
-import {
-  type GetScoreHistoryBySeasonApiProps,
-  type ScoreHistoryItem
-} from '@/hooks/score-history/types'
-import { useScoreHistory } from '@/hooks/score-history/use-score-history'
-import type { InfiniteData } from '@tanstack/react-query'
+import type { ScoreHistoryItem } from '@/hooks/score-history/types'
 import { formatDistanceToNow } from 'date-fns'
 import { enUS } from 'date-fns/locale'
-import { useEffect } from 'react'
-import { useInView } from 'react-intersection-observer'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback } from 'react'
 
 export const useScoreTimeline = (
-  seasonId: string,
   initialData: ScoreHistoryItem[] = [],
-  initialDataCount: number = 0
+  page: number,
+  limit: number,
+  total: number
 ) => {
-  const { useGetScoreHistoryBySeason } = useScoreHistory()
-  const { ref, inView } = useInView()
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
-  // Fetch more data if we have more than 20 items
-  const shouldFetchMore = initialDataCount >= 20
+  const pageCount = Math.ceil(total / limit)
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError
-  } = useGetScoreHistoryBySeason(
-    { seasonId, limit: 20 },
-    {
-      enabled: shouldFetchMore, // Only enable the query if we need to fetch more
-      initialData: shouldFetchMore
-        ? undefined
-        : {
-            pages: [{ data: initialData, nextCursor: null }],
-            pageParams: [null]
-          }
-    }
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      if (newPage < 1 || newPage > pageCount) return
+
+      const params = new URLSearchParams(searchParams.toString())
+      params.set('page', newPage.toString())
+      router.push(`${pathname}?${params.toString()}`)
+    },
+    [pageCount, pathname, router, searchParams]
   )
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage && shouldFetchMore) {
-      void fetchNextPage()
-    }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, shouldFetchMore])
 
   const formatSourceType = (type: string) => {
     const types: Record<string, string> = {
@@ -65,23 +46,11 @@ export const useScoreTimeline = (
     })
   }
 
-  // If we don't need to fetch more, just use the initial data
-  const allActivities = shouldFetchMore
-    ? [
-        ...initialData,
-        ...((
-          data as unknown as InfiniteData<GetScoreHistoryBySeasonApiProps>
-        )?.pages.flatMap(page => page.data) || [])
-      ]
-    : initialData
-
   return {
-    data: allActivities,
-    isLoading,
-    isError,
-    isFetchingNextPage,
-    hasNextPage: shouldFetchMore ? hasNextPage : false,
-    ref,
+    data: initialData,
+    page,
+    pageCount,
+    handlePageChange,
     formatSourceType,
     formatTimeAgo
   }

@@ -1,27 +1,27 @@
 import { getScoreActivityBySeason } from '@/actions/season/get-score-activity-by-season'
 import { DefaultLayout } from '@/components/default-layout'
-import { Suspense } from 'react'
 import ScoreTimeline from './components/score-timeline'
-import ScoreTimelineSkeleton from './components/skeleton'
 
 const ScoreActivitiesPage = async ({
-  params
+  params,
+  searchParams
 }: {
   params: { seasonId: string }
+  searchParams: { page?: string }
 }) => {
-  const formattedScoreActivities = await getScoreActivityBySeason(
-    params.seasonId
-  )
+  const page = Number(searchParams.page) || 1
+  const limit = 10
+
+  const data = await getScoreActivityBySeason(params.seasonId, page, limit)
 
   return (
     <DefaultLayout>
-      <Suspense fallback={<ScoreTimelineSkeleton />}>
-        <ScoreTimeline
-          initialData={formattedScoreActivities}
-          initialDataCount={formattedScoreActivities.length}
-          seasonId={params.seasonId}
-        />
-      </Suspense>
+      <ScoreTimeline
+        initialData={data.activities}
+        page={page}
+        limit={limit}
+        total={data.total}
+      />
     </DefaultLayout>
   )
 }

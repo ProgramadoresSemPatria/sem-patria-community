@@ -2,34 +2,46 @@
 import type { ScoreHistoryItem } from '@/hooks/score-history/types'
 import prismadb from '@/lib/prismadb'
 
-export const getScoreActivityBySeason = async (seasonId: string) => {
-  // Search the first 20 score history items
-  const scoreHistoryItems = await prismadb.scoreHistory.findMany({
-    where: {
-      seasonId
-    },
-    orderBy: {
-      createdAt: 'desc'
-    },
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          imageUrl: true,
-          username: true
+export const getScoreActivityBySeason = async (
+  seasonId: string,
+  page = 1,
+  limit = 10
+) => {
+  const skip = (page - 1) * limit
+  const [scoreHistoryItems, totalActivities] = await Promise.all([
+    prismadb.scoreHistory.findMany({
+      where: {
+        seasonId
+      },
+      orderBy: {
+        createdAt: 'desc'
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            imageUrl: true,
+            username: true
+          }
+        },
+        resource: true,
+        season: {
+          select: {
+            id: true,
+            name: true
+          }
         }
       },
-      resource: true,
-      season: {
-        select: {
-          id: true,
-          name: true
-        }
+      skip,
+      take: limit
+    }),
+    prismadb.scoreHistory.count({
+      where: {
+        seasonId
       }
-    },
-    take: 20
-  })
+    })
+  ])
 
   // Processar os dados para incluir informações do usuário alvo quando disponível
   const formattedScoreActivities: ScoreHistoryItem[] = await Promise.all(
@@ -75,5 +87,8 @@ export const getScoreActivityBySeason = async (seasonId: string) => {
     })
   )
 
-  return formattedScoreActivities
+  return {
+    activities: formattedScoreActivities,
+    total: totalActivities
+  }
 }

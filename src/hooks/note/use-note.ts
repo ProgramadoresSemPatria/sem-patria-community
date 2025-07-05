@@ -1,8 +1,13 @@
 import { api } from '@/lib/api'
 import { type Note } from '@prisma/client'
-import { useMutation, type UseMutationOptions } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQuery,
+  UseQueryOptions,
+  type UseMutationOptions
+} from '@tanstack/react-query'
 import { type AxiosError, type AxiosResponse } from 'axios'
-import { type SaveChangesNoteBody } from './types'
+import { GetNotesDates, type SaveChangesNoteBody } from './types'
 
 export const useNote = () => {
   const useCreateNewNote = (options?: UseMutationOptions<Note, AxiosError>) =>
@@ -36,9 +41,22 @@ export const useNote = () => {
       ...options
     })
 
+  const useGetUserNotes = (
+    options?: UseQueryOptions<GetNotesDates, AxiosError>
+  ) =>
+    useQuery({
+      queryKey: ['getUserNotes'],
+      queryFn: async () => {
+        const response = await api.get<string[]>('/api/note')
+        return { data: response.data }
+      },
+      ...options
+    })
+
   return {
     useCreateNewNote,
     useSaveChangesNote,
-    useDeleteNote
+    useDeleteNote,
+    useGetUserNotes
   }
 }

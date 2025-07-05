@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton'
 
-export const GitHubContributionSkeleton = () => {
+export const CodeUpContributionSkeleton = () => {
   const weeks = Array.from({ length: 53 })
   const days = Array.from({ length: 7 })
 

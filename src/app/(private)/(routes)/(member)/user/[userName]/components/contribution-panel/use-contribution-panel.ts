@@ -22,7 +22,7 @@ const useContributionPanel = () => {
     staleTime: 0
   })
 
-  const rawNotes = response?.data ?? []
+  const rawNotes = Array.isArray(response) ? response : []
 
   const activeDates: string[] = Array.from(
     new Set(rawNotes.map((note: { createdAt: string }) => note.createdAt))

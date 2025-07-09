@@ -14,5 +14,14 @@ export const permissions: Record<UserAbilityRoles, PermissionsByRole> = {
   },
   MEMBER: (user, { can }) => {
     can('delete', 'Post', { userId: { equals: user.id } })
+    can('create', 'Post')
+    can('get', 'Post')
+    can('like', 'Post')
+    can('comment', 'Post')
+    can('view_comment', 'Post')
+  },
+  PRE_BASE: (user, { can }) => {
+    can('get', 'Post')
+    can('view_comment', 'Post')
   }
 }

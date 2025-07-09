@@ -8,6 +8,8 @@ import {
   CollapsibleTrigger
 } from '@/components/ui/collapsible'
 import { toast } from '@/components/ui/use-toast'
+import { Can } from '@/hooks/use-ability'
+import { usePermissionModal } from '@/hooks/modal/use-modal'
 import { api } from '@/lib/api'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -15,6 +17,7 @@ import { type ExtendedComment } from '../[...titleSlug]/page'
 import { ForumCommentComponent } from './forum-comment-component'
 import SendCommentButton from './send-comment-button'
 import { usePostComments } from './use-post-comments'
+
 interface CommentSectionProps {
   postId?: string
   comments?: ExtendedComment[]
@@ -23,6 +26,7 @@ interface CommentSectionProps {
 const CommentSection = ({ postId, comments }: CommentSectionProps) => {
   const [commentContent, setCommentContent] = useState('{}')
   const [isNewCommentOpen, setIsNewCommentOpen] = useState(false)
+  const { onOpen: openPermissionModal } = usePermissionModal()
 
   const { commentsData, isFetching, refetch } = usePostComments({
     comments,
@@ -56,8 +60,43 @@ const CommentSection = ({ postId, comments }: CommentSectionProps) => {
     await mutateAsync()
   }
 
+  const renderNewCommentButton = (onClick: () => void, disabled?: boolean) => (
+    <Button
+      size="sm"
+      className="h-5 ring-1 bg-secondary hover:bg-secondary/80 text-brand-green-900 ring-muted gap-1"
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {isNewCommentOpen ? (
+        <>
+          Close <Icons.close className="w-3 h-3" />
+        </>
+      ) : (
+        <>
+          New comment <Icons.plus className="w-3 h-3" />
+        </>
+      )}
+    </Button>
+  )
+
+  const renderCommentForm = () => (
+    <CollapsibleContent className="CollapsibleContent w-full mb-4">
+      <NoteEditor
+        variant="videoCommentInput"
+        hasToolbar
+        onChange={setCommentContent}
+        editable={!isPending}
+        initialValue={JSON.parse(commentContent)}
+      />
+      <SendCommentButton
+        isPending={isPending}
+        handleSendComment={handleSendComment}
+      />
+    </CollapsibleContent>
+  )
+
   return (
-    <>
+    <Can I="view_comment" a="Post">
       {commentsData.length > 0 ? (
         <div className="flex flex-col w-full">
           <Collapsible
@@ -69,41 +108,26 @@ const CommentSection = ({ postId, comments }: CommentSectionProps) => {
                 Comments
               </h2>
               <CollapsibleTrigger asChild>
-                <Button
-                  size="sm"
-                  className="h-5 ring-1 bg-secondary hover:bg-secondary/80 text-brand-green-900 ring-muted gap-1"
-                  onClick={() => {
-                    setIsNewCommentOpen(!isNewCommentOpen)
-                  }}
-                >
-                  {isNewCommentOpen ? (
-                    <>
-                      Close <Icons.close className="w-3 h-3" />
-                    </>
-                  ) : (
-                    <>
-                      New comment <Icons.plus className="w-3 h-3" />
-                    </>
-                  )}
-                </Button>
+                <>
+                  <Can I="comment" a="Post">
+                    {renderNewCommentButton(() => {
+                      setIsNewCommentOpen(!isNewCommentOpen)
+                    })}
+                  </Can>
+                  <Can not I="comment" a="Post">
+                    {renderNewCommentButton(() => {
+                      openPermissionModal()
+                    }, true)}
+                  </Can>
+                </>
               </CollapsibleTrigger>
 
               {isFetching && <Icons.loader className="h-4 w-4 animate-spin" />}
             </div>
 
-            <CollapsibleContent className="CollapsibleContent w-full mb-4">
-              <NoteEditor
-                variant="videoCommentInput"
-                hasToolbar
-                onChange={setCommentContent}
-                editable={!isPending}
-                initialValue={JSON.parse(commentContent)}
-              />
-              <SendCommentButton
-                isPending={isPending}
-                handleSendComment={handleSendComment}
-              />
-            </CollapsibleContent>
+            <Can I="comment" a="Post">
+              {renderCommentForm()}
+            </Can>
           </Collapsible>
           {commentsData.map(comment => (
             <ForumCommentComponent key={comment.id} comment={comment} />
@@ -119,33 +143,36 @@ const CommentSection = ({ postId, comments }: CommentSectionProps) => {
               No comments yet,
             </p>
             <CollapsibleTrigger asChild>
-              <Button
-                className="underline text-muted-foreground px-1 py-0 h-fit leading-relaxed"
-                variant="link"
-                onClick={() => {
-                  setIsNewCommentOpen(!isNewCommentOpen)
-                }}
-              >
-                be the first!
-              </Button>
+              <>
+                <Can I="comment" a="Post">
+                  <Button
+                    className="underline text-muted-foreground px-1 py-0 h-fit leading-relaxed"
+                    variant="link"
+                    onClick={() => {
+                      setIsNewCommentOpen(!isNewCommentOpen)
+                    }}
+                  >
+                    be the first!
+                  </Button>
+                </Can>
+                <Can not I="comment" a="Post">
+                  <Button
+                    className="underline text-muted-foreground px-1 py-0 h-fit leading-relaxed opacity-50 cursor-not-allowed"
+                    variant="link"
+                    onClick={openPermissionModal}
+                  >
+                    be the first!
+                  </Button>
+                </Can>
+              </>
             </CollapsibleTrigger>
           </div>
-          <CollapsibleContent className="CollapsibleContent w-full mb-4">
-            <NoteEditor
-              variant="videoCommentInput"
-              hasToolbar
-              onChange={setCommentContent}
-              editable={!isPending}
-              initialValue={JSON.parse(commentContent)}
-            />
-            <SendCommentButton
-              isPending={isPending}
-              handleSendComment={handleSendComment}
-            />
-          </CollapsibleContent>
+          <Can I="comment" a="Post">
+            {renderCommentForm()}
+          </Can>
         </Collapsible>
       )}
-    </>
+    </Can>
   )
 }
 

@@ -89,8 +89,10 @@ export const getStringFromDate = (date: string) => {
 
 export const defineUserRole = (user: User): UserAbilityRoles => {
   const hasAdmin = user.role.some(role => role === Roles.Admin)
+  const hasPreBase = user.role.some(role => role === Roles.PreBase)
 
   if (hasAdmin) return 'ADMIN'
+  if (hasPreBase) return 'PRE_BASE'
   return 'MEMBER'
 }
 

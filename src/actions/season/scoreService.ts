@@ -54,7 +54,7 @@ export async function awardPoints(
     // Buscar o usuário alvo (targetId) para aplicar o multiplicador correto
     const targetUser = await prisma.user.findUnique({
       where: { id: targetId },
-      select: { position: true }
+      select: { position: true, role: true }
     })
 
     if (!targetUser) {
@@ -62,20 +62,32 @@ export async function awardPoints(
       return { success: false, error: 'Target user not found' }
     }
 
-    let multiplier = 1.0 // Default value
+    // Check for PrePsp/PreBase roles and set points to 0 if present
+    const hasRestrictedRole =
+      targetUser.role.includes('PrePsp') || targetUser.role.includes('PreBase')
 
-    if (targetUser.position) {
-      const positionMultiplier = currentSeason.positionMultipliers.find(
-        pm => pm.position === targetUser.position
-      )
+    // let multiplier = 1.0 // Default value
 
-      if (positionMultiplier) {
-        multiplier = positionMultiplier.multiplier
-      }
-    }
+    // if (targetUser.position) {
+    //   const positionMultiplier = currentSeason.positionMultipliers.find(
+    //     pm => pm.position === targetUser.position
+    //   )
+
+    //   if (positionMultiplier) {
+    //     multiplier = positionMultiplier.multiplier
+    //   }
+    // }
 
     // Calculate the points
-    const points = resource.baseScore * multiplier
+    const points = hasRestrictedRole
+      ? 0
+      : resource.baseScore *
+        (targetUser.position
+          ? currentSeason.positionMultipliers.find(
+              pm => pm.position === targetUser.position
+            )?.multiplier ?? 1.0
+          : 1.0)
+    // const points = resource.baseScore * multiplier
 
     // Use transaction to ensure atomicity
     return await prisma.$transaction(async tx => {
@@ -86,7 +98,13 @@ export async function awardPoints(
           targetId, // Quem recebeu a ação
           resourceId: resource.id,
           points,
-          multiplier,
+          multiplier: hasRestrictedRole
+            ? 0
+            : targetUser.position
+              ? currentSeason.positionMultipliers.find(
+                  pm => pm.position === targetUser.position
+                )?.multiplier ?? 1.0
+              : 1.0,
           seasonId: currentSeason.id,
           metadata
         }
@@ -123,7 +141,11 @@ export async function awardPoints(
         })
       }
 
-      return { success: true, points, multiplier }
+      return {
+        success: true,
+        points,
+        multiplier: hasRestrictedRole ? 0 : 1.0
+      }
     })
   } catch (error) {
     console.error('[AWARD_POINTS_ERROR]', error)
@@ -160,6 +182,23 @@ export async function removePoints(
     if (!resource || resource.disabled) {
       console.error('Resource not found or disabled:', resourceType)
       return { success: false, error: 'Resource not found or disabled' }
+    }
+
+    const targetUser = await prisma.user.findUnique({
+      where: { id: targetId },
+      select: { role: true }
+    })
+
+    if (!targetUser) {
+      console.error('Target user not found:', targetId)
+      return { success: false, error: 'Target user not found' }
+    }
+
+    // Check for PrePsp/PreBase roles - if present, no points to remove
+    const hasRestrictedRole =
+      targetUser.role.includes('PrePsp') || targetUser.role.includes('PreBase')
+    if (hasRestrictedRole) {
+      return { success: true, pointsRemoved: 0 }
     }
 
     // Use transaction to ensure atomicity

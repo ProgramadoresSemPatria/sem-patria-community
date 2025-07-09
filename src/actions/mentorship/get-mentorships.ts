@@ -66,6 +66,10 @@ export const getMentorships = async () => {
     const hasPermission = () => {
       if (!userProps) return false
 
+      if (userProps.role.includes('PreBase')) {
+        return classroom.permissions.includes('Base')
+      }
+
       if (process.env.NODE_ENV === 'production') {
         return classroom.permissions.some(permission =>
           userProps.role.includes(permission)

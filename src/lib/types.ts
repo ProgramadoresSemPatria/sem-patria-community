@@ -27,6 +27,7 @@ export type MentorshipProgramModuleProps = {
 
 export enum Roles {
   PrePsp = 'Pre PSP',
+  PreBase = 'Pre Base',
   Base = 'Base',
   ProgramadorSemPatria = 'Programador Sem Pátria',
   Prime = 'Prime',

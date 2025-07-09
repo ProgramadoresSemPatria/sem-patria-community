@@ -1,6 +1,6 @@
 import { currentUser } from '@clerk/nextjs/server'
 import prismadb from '@/lib/prismadb'
-import { prePspPermissions } from '@/lib/constants'
+import { preBasePermissions, prePspPermissions } from '@/lib/constants'
 
 export const getMentorships = async () => {
   const user = await currentUser()
@@ -43,6 +43,26 @@ export const getMentorships = async () => {
     })
 
     const isPrePsp = userProps?.role.includes('PrePsp')
+    const isPreBase = userProps?.role.includes('PreBase')
+
+    if (isPreBase) {
+      modulesWithVideos = modulesWithVideos.map(module => {
+        const hasPreBaseRestriction = preBasePermissions[classroom.title]
+
+        if (hasPreBaseRestriction) {
+          const isPreBaseAllowed = hasPreBaseRestriction.some(
+            permission => module.id === permission
+          )
+
+          return {
+            ...module,
+            isPreBaseAllowed
+          }
+        }
+
+        return module
+      })
+    }
 
     if (isPrePsp) {
       modulesWithVideos = modulesWithVideos.map(module => {

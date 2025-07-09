@@ -1,6 +1,6 @@
 import prismadb from '@/lib/prismadb'
 import type { Prisma } from '@prisma/client'
-import { type SearchedUserProps } from './types'
+import { type LeaderboardScore, type SearchedUserProps } from './types'
 
 export interface SearchUserInCurrentSeasonProps {
   userId: string
@@ -33,11 +33,11 @@ export async function getLeaderboardUsers(
       return []
     }
 
-    const queryOptions = {
+    const queryOptions: Prisma.ScoreboardFindManyArgs = {
       where: {
         seasonId: currentSeason.id
       },
-      orderBy: { points: 'desc' } as const,
+      orderBy: [{ points: 'desc' }, { userId: 'asc' }],
       skip: page * pageSize,
       take: pageSize,
       include: {
@@ -54,7 +54,9 @@ export async function getLeaderboardUsers(
       }
     }
 
-    const scoreboardEntries = await prismadb.scoreboard.findMany(queryOptions)
+    const scoreboardEntries = (await prismadb.scoreboard.findMany(
+      queryOptions
+    )) as LeaderboardScore[]
 
     return scoreboardEntries.map(entry => ({
       userId: entry.user.id,

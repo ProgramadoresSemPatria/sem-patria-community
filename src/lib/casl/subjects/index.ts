@@ -94,7 +94,10 @@ export const postSubject = z.tuple([
     z.literal('create'),
     z.literal('update'),
     z.literal('delete'),
-    z.literal('pin')
+    z.literal('pin'),
+    z.literal('like'),
+    z.literal('comment'),
+    z.literal('view_comment')
   ]),
   z.union([z.literal('Post'), postSchema])
 ])

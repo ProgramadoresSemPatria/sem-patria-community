@@ -27,6 +27,7 @@ export type MentorshipProgramModuleProps = {
 
 export enum Roles {
   PrePsp = 'Pre PSP',
+  PreBase = 'Pre Base',
   Base = 'Base',
   ProgramadorSemPatria = 'Programador Sem Pátria',
   Prime = 'Prime',
@@ -52,4 +53,4 @@ export type VideoWithAttachments = Video & {
   attachments: Attachment[]
 }
 
-export type UserAbilityRoles = 'ADMIN' | 'MEMBER'
+export type UserAbilityRoles = 'ADMIN' | 'MEMBER' | 'PRE_BASE' | 'PRE_PSP'

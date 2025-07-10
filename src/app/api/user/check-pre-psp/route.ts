@@ -14,22 +14,41 @@ export async function GET(req: NextRequest) {
   try {
     const sevenDaysAgo = subDays(startOfDay(new Date()), 7)
 
-    const users = await prismadb.user.findMany({
+    const usersToUpdate = await prismadb.user.findMany({
       where: {
-        role: {
-          has: 'PrePsp'
-        },
         createdAt: {
           lte: sevenDaysAgo
-        }
+        },
+        OR: [
+          {
+            role: {
+              has: 'PrePsp'
+            }
+          },
+          {
+            role: {
+              has: 'PreBase'
+            }
+          }
+        ]
       }
     })
 
-    const updates = users.map(async user => {
-      const updatedRoles = user.role.filter(role => role !== 'PrePsp')
+    const updates = usersToUpdate.map(async user => {
+      let updatedRoles = [...user.role]
 
-      if (!updatedRoles.includes('ProgramadorSemPatria')) {
-        updatedRoles.push('ProgramadorSemPatria')
+      if (user.role.includes('PrePsp')) {
+        updatedRoles = updatedRoles.filter(role => role !== 'PrePsp')
+        if (!updatedRoles.includes('ProgramadorSemPatria')) {
+          updatedRoles.push('ProgramadorSemPatria')
+        }
+      }
+
+      if (user.role.includes('PreBase')) {
+        updatedRoles = updatedRoles.filter(role => role !== 'PreBase')
+        if (!updatedRoles.includes('Base')) {
+          updatedRoles.push('Base')
+        }
       }
 
       await clerkClient.users.updateUser(user.id, {

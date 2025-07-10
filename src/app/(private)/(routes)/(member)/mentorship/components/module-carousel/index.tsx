@@ -26,6 +26,7 @@ type ModuleCarouselProps = {
     fileUrl?: string
     videos: Video[]
     isPrePspAllowed?: boolean
+    isPreBaseAllowed?: boolean
   }>
   hasPermission: boolean
 }
@@ -76,8 +77,9 @@ export const ModuleCarousel = ({
           {modules.map(module => {
             const hasVideos = module.videos.length
             const hasPermissionCombinated =
-              module.isPrePspAllowed !== undefined
-                ? module.isPrePspAllowed && hasPermission
+              module.isPrePspAllowed !== undefined ||
+              module.isPreBaseAllowed !== undefined
+                ? module.isPrePspAllowed || module.isPreBaseAllowed
                 : hasPermission
 
             if (!hasVideos)

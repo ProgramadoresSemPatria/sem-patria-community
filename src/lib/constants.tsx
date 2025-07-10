@@ -257,7 +257,10 @@ export const prePspPermissions: Record<string, string[]> = {
 }
 
 export const preBasePermissions: Record<string, string[]> = {
-  'Mentoria - A Base': ['10d9700e-8869-4017-a195-fbd9dd1125f4'],
+  'Mentoria - A Base': [
+    'f67d2a36-8644-436c-8f39-5b97b492b556',
+    '10d9700e-8869-4017-a195-fbd9dd1125f4'
+  ],
   'Portfólio Boost Program': ['6fea989d-ac41-48d2-a916-e5a37464b506']
 }
 

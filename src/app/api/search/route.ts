@@ -15,6 +15,13 @@ export async function POST(request: NextRequest) {
       return new NextResponse('Keyword is required', { status: 400 })
     }
 
+    // Get user roles for event access filtering
+    const user = await prismadb.user.findUnique({
+      where: { id: userId },
+      select: { role: true }
+    })
+    const userRoles = user?.role || []
+
     const [posts, users, courses, interests, events, modules, videos] =
       await prismadb.$transaction([
         prismadb.post.findMany({
@@ -81,7 +88,8 @@ export async function POST(request: NextRequest) {
             date: true,
             location: true,
             externalUrl: true,
-            specialGuest: true
+            specialGuest: true,
+            allowedRoles: true
           }
         }),
 
@@ -106,6 +114,17 @@ export async function POST(request: NextRequest) {
         })
       ])
 
+    // Filter externalUrl from events based on user roles
+    const filteredEvents = events.map(event => ({
+      ...event,
+      externalUrl:
+        userRoles.includes('Admin') ||
+        (event.allowedRoles &&
+          event.allowedRoles.some(role => userRoles.includes(role)))
+          ? event.externalUrl
+          : ''
+    }))
+
     const addEntityType = <T>(items: T[], entity: Entity) =>
       items.map(item => ({ ...item, entity }))
 
@@ -114,7 +133,7 @@ export async function POST(request: NextRequest) {
       ...addEntityType(users, 'user'),
       ...addEntityType(courses, 'course'),
       ...addEntityType(interests, 'interest'),
-      ...addEntityType(events, 'event'),
+      ...addEntityType(filteredEvents, 'event'),
       ...addEntityType(modules, 'module'),
       ...addEntityType(videos, 'video')
     ]

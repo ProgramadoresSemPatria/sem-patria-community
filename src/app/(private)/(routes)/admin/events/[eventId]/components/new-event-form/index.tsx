@@ -4,6 +4,7 @@ import BackButton from '@/components/back-button'
 import Header from '@/components/header'
 import { Icons } from '@/components/icons'
 import { AlertModal } from '@/components/modals/alert-modal'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -32,6 +33,7 @@ import {
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { appRoutes } from '@/lib/constants'
+import { Roles } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { type Event } from '@prisma/client'
 import { format } from 'date-fns'
@@ -40,6 +42,8 @@ import { useNewEventForm } from './use-new-event-form'
 type NewEventFormProps = {
   initialData: Event | null
 }
+
+type Role = keyof typeof Roles
 
 export const NewEventForm = ({ initialData }: NewEventFormProps) => {
   const {
@@ -61,7 +65,9 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
     hasExternalUrl,
     setHasExternalUrl,
     hasSpecialGuest,
-    setHasSpecialGuest
+    setHasSpecialGuest,
+    selectedRoles,
+    handleSelectedRoles
   } = useNewEventForm({ initialData })
 
   return (
@@ -323,6 +329,71 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
                   </FormItem>
                 )}
               />
+
+              <div className="flex flex-col gap-y-2 w-full">
+                <FormField
+                  control={form.control}
+                  name="allowedRoles"
+                  render={() => (
+                    <FormItem>
+                      <FormLabel>Allowed Roles</FormLabel>
+                      <FormDescription>
+                        Select which roles can see this event.
+                      </FormDescription>
+                      {Roles && (
+                        <Select disabled={isPending}>
+                          <FormControl>
+                            <SelectTrigger data-testid="allowedRoles">
+                              <SelectValue
+                                placeholder={
+                                  selectedRoles.length > 0
+                                    ? `${selectedRoles.length} selected`
+                                    : 'Select roles'
+                                }
+                              />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {Object.entries(Roles).map(([key, value]) => (
+                              <div
+                                key={key}
+                                className="flex gap-x-2 items-center"
+                              >
+                                <Checkbox
+                                  data-testid={key}
+                                  onCheckedChange={() => {
+                                    handleSelectedRoles(key)
+                                  }}
+                                  key={key}
+                                  value={key}
+                                  checked={selectedRoles.includes(key as Role)}
+                                />
+                                <label>{value}</label>
+                              </div>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex flex-wrap gap-1 max-w-full">
+                  {selectedRoles.map(role => (
+                    <Badge key={role}>
+                      {Roles[role]}
+                      <span
+                        className="ml-2 hover:cursor-pointer"
+                        onClick={() => {
+                          handleSelectedRoles(role)
+                        }}
+                      >
+                        <Icons.close size={15} />
+                      </span>
+                    </Badge>
+                  ))}
+                </div>
+              </div>
             </div>
             <Button
               data-testid="submit"

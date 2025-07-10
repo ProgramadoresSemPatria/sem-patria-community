@@ -8,8 +8,15 @@ export async function POST(req: NextRequest) {
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
-    const { title, description, date, location, externalUrl, specialGuest } =
-      await req.json()
+    const {
+      title,
+      description,
+      date,
+      location,
+      externalUrl,
+      specialGuest,
+      allowedRoles
+    } = await req.json()
 
     const newEvent = await prismadb.event.create({
       data: {
@@ -18,7 +25,8 @@ export async function POST(req: NextRequest) {
         date,
         location,
         externalUrl,
-        specialGuest
+        specialGuest,
+        allowedRoles
       }
     })
 
@@ -34,6 +42,9 @@ export async function GET(req: NextRequest) {
     const { userId } = auth()
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
+
+    const user = await prismadb.user.findUnique({ where: { id: userId } })
+    const userRoles = user?.role || []
 
     const { searchParams } = req.nextUrl
     const startDate = searchParams.get('startDate')
@@ -55,7 +66,18 @@ export async function GET(req: NextRequest) {
       }
     })
 
-    return NextResponse.json(events)
+    // For each event, check access and filter externalUrl based on user roles
+    const filteredEvents = events.map(event => ({
+      ...event,
+      externalUrl:
+        userRoles.includes('Admin') ||
+        (event.allowedRoles &&
+          event.allowedRoles.some(role => userRoles.includes(role)))
+          ? event.externalUrl
+          : ''
+    }))
+
+    return NextResponse.json(filteredEvents)
   } catch (error) {
     console.log('[EVENT_GET_ERROR]', error)
     return new NextResponse('Internal Server Error', { status: 500 })

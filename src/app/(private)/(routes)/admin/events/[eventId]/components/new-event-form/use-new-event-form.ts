@@ -1,11 +1,12 @@
 import { useToast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 import { appRoutes } from '@/lib/constants'
+import type { Roles } from '@/lib/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { type Event } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -23,10 +24,15 @@ const formSchema = z.object({
     message: 'Location is required'
   }),
   externalUrl: z.string().optional(),
-  specialGuest: z.string().optional()
+  specialGuest: z.string().optional(),
+  allowedRoles: z.array(z.string()).min(1, {
+    message: 'At least one role must be selected'
+  })
 })
 
 type NewEventFormValues = z.infer<typeof formSchema>
+
+type Role = keyof typeof Roles
 
 type UseNewEventFormProps = {
   initialData: Event | null
@@ -54,12 +60,13 @@ export const useNewEventForm = ({ initialData }: UseNewEventFormProps) => {
   ]
 
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false)
+  const [selectedRoles, setSelectedRoles] = useState<Role[]>([])
 
   const [hasExternalUrl, setHasExternalUrl] = useState(
-    !!initialData?.externalUrl ?? false
+    !!initialData?.externalUrl
   )
   const [hasSpecialGuest, setHasSpecialGuest] = useState(
-    !!initialData?.specialGuest ?? false
+    !!initialData?.specialGuest
   )
   const [hour, setHour] = useState(
     initialData ? new Date(initialData.date).getUTCHours() : '18'
@@ -79,8 +86,9 @@ export const useNewEventForm = ({ initialData }: UseNewEventFormProps) => {
     defaultValues: initialData
       ? {
           ...initialData,
-          externalUrl: initialData.externalUrl ?? undefined,
-          specialGuest: initialData.specialGuest ?? undefined
+          externalUrl: initialData.externalUrl || undefined,
+          specialGuest: initialData.specialGuest || undefined,
+          allowedRoles: initialData.allowedRoles || ['ProgramadorSemPatria']
         }
       : {
           title: '',
@@ -88,7 +96,8 @@ export const useNewEventForm = ({ initialData }: UseNewEventFormProps) => {
           date: new Date(),
           location: '',
           externalUrl: '',
-          specialGuest: ''
+          specialGuest: '',
+          allowedRoles: ['ProgramadorSemPatria']
         }
   })
 
@@ -140,11 +149,27 @@ export const useNewEventForm = ({ initialData }: UseNewEventFormProps) => {
     }
   })
 
+  const handleSelectedRoles = (role: string) => {
+    const newSelectedRoles = [...selectedRoles]
+    const index = newSelectedRoles.indexOf(role as Role)
+    if (index > -1) {
+      newSelectedRoles.splice(index, 1)
+    } else {
+      newSelectedRoles.push(role as Role)
+    }
+    setSelectedRoles(newSelectedRoles)
+  }
+
   const onSubmit = async (values: NewEventFormValues) => {
     values.date.setUTCHours(Number(hour))
     values.date.setUTCMinutes(Number(minute))
 
-    await createOrUpdateEvent(values)
+    const formData = {
+      ...values,
+      allowedRoles: selectedRoles
+    }
+
+    await createOrUpdateEvent(formData)
   }
 
   const onDeleteEvent = async () => {
@@ -161,6 +186,12 @@ export const useNewEventForm = ({ initialData }: UseNewEventFormProps) => {
       setIsAlertModalOpen(false)
     }
   }
+
+  useEffect(() => {
+    if (initialData) {
+      setSelectedRoles(initialData.allowedRoles || ['ProgramadorSemPatria'])
+    }
+  }, [initialData])
 
   return {
     isAlertModalOpen,
@@ -181,6 +212,8 @@ export const useNewEventForm = ({ initialData }: UseNewEventFormProps) => {
     hasExternalUrl,
     setHasExternalUrl,
     hasSpecialGuest,
-    setHasSpecialGuest
+    setHasSpecialGuest,
+    selectedRoles,
+    handleSelectedRoles
   }
 }

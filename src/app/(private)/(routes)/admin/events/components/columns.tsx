@@ -18,8 +18,10 @@ export type EventColumn = {
   title: string
   description: string
   date: Date
+  location: string
   externalUrl: string
   specialGuest: string
+  allowedRoles: string[]
 }
 
 export const eventColumns: Array<ColumnDef<EventColumn>> = [
@@ -126,6 +128,25 @@ export const eventColumns: Array<ColumnDef<EventColumn>> = [
               </span>
             </TooltipTrigger>
             <TooltipContent>{row.getValue('Guest')}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )
+    }
+  },
+  {
+    accessorKey: 'allowedRoles',
+    header: 'Allowed Roles',
+    cell: ({ row }) => {
+      const roles: string[] = row.getValue('allowedRoles')
+      const rolesText =
+        roles && roles.length > 0 ? roles.join(', ') : 'No roles set'
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="max-w-[150px] line-clamp-1">{rolesText}</span>
+            </TooltipTrigger>
+            <TooltipContent>{rolesText}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       )

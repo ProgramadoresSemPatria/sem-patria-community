@@ -15,7 +15,8 @@ const AdminEventsPage = async () => {
     date: item.date,
     location: item.location,
     externalUrl: item.externalUrl ?? '',
-    specialGuest: item.specialGuest ?? ''
+    specialGuest: item.specialGuest ?? '',
+    allowedRoles: item.allowedRoles ?? []
   }))
 
   return (

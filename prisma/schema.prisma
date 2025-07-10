@@ -272,6 +272,7 @@ model Event {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   specialGuest String?
+  allowedRoles Roles[]  @default([ProgramadorSemPatria])
 }
 
 enum Roles {

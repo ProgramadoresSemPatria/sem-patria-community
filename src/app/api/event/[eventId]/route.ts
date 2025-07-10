@@ -9,8 +9,15 @@ export async function PATCH(
 ) {
   try {
     const { userId } = auth()
-    const { title, description, location, date, externalUrl, specialGuest } =
-      await req.json()
+    const {
+      title,
+      description,
+      location,
+      date,
+      externalUrl,
+      specialGuest,
+      allowedRoles
+    } = await req.json()
 
     if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
 
@@ -39,7 +46,8 @@ export async function PATCH(
         location,
         date,
         externalUrl,
-        specialGuest
+        specialGuest,
+        allowedRoles
       }
     })
 

@@ -20,7 +20,11 @@ export const permissions: Record<UserAbilityRoles, PermissionsByRole> = {
     can('comment', 'Post')
     can('view_comment', 'Post')
   },
-  PRE_BASE: (user, { can }) => {
+  PRE_BASE: (_, { can }) => {
+    can('get', 'Post')
+    can('view_comment', 'Post')
+  },
+  PRE_PSP: (_, { can }) => {
     can('get', 'Post')
     can('view_comment', 'Post')
   }

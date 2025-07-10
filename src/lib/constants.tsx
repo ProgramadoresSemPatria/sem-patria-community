@@ -255,6 +255,12 @@ export const prePspPermissions: Record<string, string[]> = {
     'fd528cb7-7c93-4cfe-9979-f43e90d6cbf7'
   ]
 }
+
+export const preBasePermissions: Record<string, string[]> = {
+  'Mentoria - A Base': ['10d9700e-8869-4017-a195-fbd9dd1125f4'],
+  'Portfólio Boost Program': ['6fea989d-ac41-48d2-a916-e5a37464b506']
+}
+
 export const badgeStyles = [
   'inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 ring-1 ring-inset ring-gray-400/20 hover:bg-gray-400/20',
   'inline-flex items-center rounded-md bg-red-400/10 px-2 py-1 text-xs font-medium text-red-400 ring-1 ring-inset ring-red-400/20 hover:bg-red-400/20',

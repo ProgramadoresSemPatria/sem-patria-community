@@ -38,10 +38,10 @@ const ForumFeed = ({ initialPosts, userId }: ForumFeedProps) => {
     return posts.filter(post => {
       const isInTopPosts =
         searchParams.get('category') === 'All' &&
-        topPosts.some(topPost => topPost.id === post.id)
+        topPosts.some(topPost => topPost.id === post?.id)
 
       const isPinnedInNonAllCategory =
-        searchParams.get('category') !== 'All' && post.isPinned
+        searchParams.get('category') !== 'All' && post?.isPinned
 
       return !isInTopPosts && !isPinnedInNonAllCategory
     })

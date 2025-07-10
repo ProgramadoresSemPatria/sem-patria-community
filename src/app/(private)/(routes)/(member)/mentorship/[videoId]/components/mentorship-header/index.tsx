@@ -26,9 +26,6 @@ export const MentorshipHeader = async ({
           {videoTitle}
         </h1>
       </div>
-      <div className="flex justify-end">
-        <div className="h-3 w-3 bg-muted-foreground rounded-full" />
-      </div>
     </header>
   )
 }

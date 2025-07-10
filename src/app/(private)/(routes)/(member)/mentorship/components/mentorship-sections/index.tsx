@@ -17,7 +17,6 @@ interface FormattedModule {
   fileUrl?: string
   classroomId: string
   videos: Video[]
-  isPrePspAllowed?: boolean
 }
 export interface FormattedClassroom {
   id: string

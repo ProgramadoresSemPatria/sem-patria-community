@@ -276,6 +276,7 @@ model Event {
 
 enum Roles {
   PrePsp
+  PreBase
   Base
   ProgramadorSemPatria
   Prime

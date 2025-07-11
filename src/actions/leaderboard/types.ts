@@ -15,6 +15,7 @@ export type LeaderboardUser = {
   level: string | null
   position: Positions | null
   imageUrl?: string | null
+  isDisabled?: boolean | null
 }
 
 export type LeaderboardScore = {
@@ -47,6 +48,7 @@ export interface SearchedUserProps {
     level: string
     position: string | null
     imageUrl: string | null
+    isDisabled?: boolean | null
   }
 }
 

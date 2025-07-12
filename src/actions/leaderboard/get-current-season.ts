@@ -9,6 +9,11 @@ export async function getCurrentSeason(): Promise<CurrentSeasonResponse> {
       where: { isCurrent: true },
       include: {
         scores: {
+          where: {
+            user: {
+              isDisabled: false
+            }
+          },
           orderBy: {
             points: 'desc'
           },
@@ -21,7 +26,8 @@ export async function getCurrentSeason(): Promise<CurrentSeasonResponse> {
                 username: true,
                 level: true,
                 position: true,
-                imageUrl: true
+                imageUrl: true,
+                isDisabled: true
               }
             }
           }

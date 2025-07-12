@@ -12,6 +12,7 @@ export interface SearchUserInCurrentSeasonProps {
     level: string
     position: string | null
     imageUrl: string | null
+    isDisabled: boolean | null
   }
 }
 
@@ -35,7 +36,10 @@ export async function getLeaderboardUsers(
 
     const queryOptions: Prisma.ScoreboardFindManyArgs = {
       where: {
-        seasonId: currentSeason.id
+        seasonId: currentSeason.id,
+        user: {
+          isDisabled: false
+        }
       },
       orderBy: [{ points: 'desc' }, { userId: 'asc' }],
       skip: page * pageSize,
@@ -48,7 +52,8 @@ export async function getLeaderboardUsers(
             username: true,
             level: true,
             position: true,
-            imageUrl: true
+            imageUrl: true,
+            isDisabled: true
           }
         }
       }
@@ -67,7 +72,8 @@ export async function getLeaderboardUsers(
         username: entry.user.username,
         level: entry.user.level || '',
         position: entry.user.position || null,
-        imageUrl: entry.user.imageUrl || null
+        imageUrl: entry.user.imageUrl || null,
+        isDisabled: entry.user.isDisabled || false
       }
     }))
   } catch (error) {
@@ -98,7 +104,8 @@ export async function getSearchUsersInCurrentSeason(
       OR: [
         { name: { contains: searchTerm, mode: 'insensitive' } },
         { username: { contains: searchTerm, mode: 'insensitive' } }
-      ]
+      ],
+      isDisabled: false
     }
 
     const users = await prismadb.user.findMany({
@@ -112,6 +119,7 @@ export async function getSearchUsersInCurrentSeason(
         level: true,
         position: true,
         imageUrl: true,
+        isDisabled: true,
         Scoreboard: {
           where: {
             seasonId: currentSeason.id
@@ -148,7 +156,8 @@ export async function getSearchUsersInCurrentSeason(
             username: user.username,
             level: user.level || '',
             position: user.position || null,
-            imageUrl: user.imageUrl || null
+            imageUrl: user.imageUrl || null,
+            isDisabled: user.isDisabled || false
           }
         }
       })

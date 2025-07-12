@@ -38,7 +38,10 @@ export async function POST(request: NextRequest) {
         }),
 
         prismadb.user.findMany({
-          where: { username: { contains: keyword, mode: 'insensitive' } },
+          where: {
+            username: { contains: keyword, mode: 'insensitive' },
+            isDisabled: false
+          },
           select: {
             id: true,
             username: true,

@@ -138,7 +138,7 @@ model Attachment {
   size    Int
   url     String
   videoId String
-  video   Video  @relation(fields: [videoId], references: [id])
+  video   Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
 }
 
 model Season {

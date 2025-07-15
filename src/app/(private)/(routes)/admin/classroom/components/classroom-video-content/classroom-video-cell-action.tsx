@@ -72,7 +72,7 @@ export const ClassroomVideoCellAction = ({
     <>
       <AlertModal
         isOpen={isAlertModalOpen}
-        description="Are you sure you want to delete this video?"
+        description="Are you sure you want to delete this video? This action will delete all the attachments associated with this video and cannot be undone."
         onClose={() => {
           setIsAlertModalOpen(false)
         }}

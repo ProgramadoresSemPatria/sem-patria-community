@@ -70,10 +70,20 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
             handleSetTab(TabTypes.VIDEOS)
           }}
         >
-          <Icons.play
-            className="w-5 h-5"
-            color={`${tab === TabTypes.VIDEOS ? '#390b8e' : '#94a3b8'}`}
-          />
+          <div className="flex flex-col items-center gap-1">
+            <Icons.play
+              className="w-5 h-5"
+              color={`${tab === TabTypes.VIDEOS ? '#390b8e' : '#94a3b8'}`}
+            />
+            <p
+              className={cn(
+                'text-xs',
+                tab === TabTypes.VIDEOS ? 'text-primary' : 'text-primary-light'
+              )}
+            >
+              Videos
+            </p>
+          </div>
         </div>
         <div
           className={cn(
@@ -84,10 +94,22 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
             handleSetTab(TabTypes.ATTACHMENTS)
           }}
         >
-          <Icons.file
-            className="w-5 h-5"
-            color={`${tab === TabTypes.ATTACHMENTS ? '#390b8e' : '#94a3b8'}`}
-          />
+          <div className="flex flex-col items-center gap-1">
+            <Icons.file
+              className="w-5 h-5"
+              color={`${tab === TabTypes.ATTACHMENTS ? '#390b8e' : '#94a3b8'}`}
+            />
+            <p
+              className={cn(
+                'text-xs',
+                tab === TabTypes.ATTACHMENTS
+                  ? 'text-primary'
+                  : 'text-primary-light'
+              )}
+            >
+              Attachments
+            </p>
+          </div>
         </div>
       </div>
       <div className="flex flex-col p-3 gap-y-3">

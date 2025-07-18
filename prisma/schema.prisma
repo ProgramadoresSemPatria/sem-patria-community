@@ -37,6 +37,7 @@ model User {
   ScoreHistory  ScoreHistory[]
   Scoreboard    Scoreboard[]
   interests     UserInterest[]
+  noteSupports  NoteSupport[]
 }
 
 model UserFollowersAndFollowing {
@@ -260,6 +261,16 @@ model Note {
   userId    String
   isPublic  Boolean  @default(false)
   user      User     @relation(fields: [userId], references: [id])
+  supports  NoteSupport[]
+}
+
+model NoteSupport {
+  userId    String
+  noteId    String
+  note      Note     @relation(fields: [noteId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@id([userId, noteId])
 }
 
 model Event {

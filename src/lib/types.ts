@@ -46,7 +46,7 @@ export enum Positions {
 
 export type ExtendedNote = Note & {
   supports: NoteSupport[]
-} 
+}
 
 export type ExtendedPost = Post & {
   category: Category

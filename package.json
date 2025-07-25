@@ -12,15 +12,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate && husky install",
-    "commit": "cz",
+    "lint:fix": "next lint --fix",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,mdx,css}\" --cache",
+    "format:write": "prettier --write \"**/*.{ts,tsx,js,mdx,css}\" --cache",
     "check-types": "tsc --noEmit --pretty",
     "cypress:open": "cypress open",
     "prisma-migrate": "prisma migrate dev",
     "docker:compose": "docker compose -f src/infra/docker-compose.yaml --env-file .env",
     "services:up": "pnpm docker:compose up -d",
     "services:down": "pnpm docker:compose down",
-    "seed": "tsx --env-file=.env src/infra/scripts/seed.ts"
+    "seed": "tsx --env-file=.env src/infra/scripts/seed.ts",
+    "prepare": "husky"
   },
   "dependencies": {
     "@casl/ability": "^6.7.3",
@@ -28,7 +30,6 @@
     "@casl/react": "^3.1.0",
     "@clerk/nextjs": "^5.3.6",
     "@clerk/themes": "^1.7.19",
-    "@clerk/types": "^3.63.1",
     "@dagrejs/dagre": "^1.1.4",
     "@headlessui/react": "^2.2.4",
     "@hookform/resolvers": "^3.3.2",
@@ -109,8 +110,8 @@
     "zustand": "^4.5.7"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.4.3",
-    "@commitlint/config-conventional": "^18.4.3",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@faker-js/faker": "^9.8.0",
     "@tailwindcss/typography": "^0.5.12",
     "@tanstack/eslint-plugin-query": "^5.8.4",
@@ -134,8 +135,8 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.1.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
     "postcss": "^8.4.31",
     "postcss-nesting": "^12.1.5",
     "prettier": "^3.1.0",
@@ -144,6 +145,18 @@
     "tailwindcss": "^3.3.5",
     "tsx": "^4.19.4",
     "typescript": "^5.3.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{jsx,js,ts,tsx,css}": [
+      "eslint --cache --fix",
+      "prettier --write --no-error-on-unmatched-pattern",
+      "git add"
+    ]
   },
   "prisma": {
     "schema": "./prisma/schema.prisma"

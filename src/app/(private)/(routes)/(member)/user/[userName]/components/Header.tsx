@@ -222,7 +222,9 @@ const PointsStat = ({
   if (!season) {
     return (
       <div>
-        <p className="text-2xl font-semibold">{value}</p>
+        <p className="text-2xl font-semibold">
+          {Number.isInteger(value) ? value : Math.floor(value * 10) / 10}
+        </p>
         <p className="text-gray-500">{label}</p>
         <div className="h-5" />
       </div>
@@ -234,7 +236,9 @@ const PointsStat = ({
       <Tooltip delayDuration={100}>
         <TooltipTrigger asChild>
           <div className="cursor-help w-fit mx-auto">
-            <p className="text-2xl font-semibold">{value}</p>
+            <p className="text-2xl font-semibold">
+              {Number.isInteger(value) ? value : Math.floor(value * 10) / 10}
+            </p>
             <p className="text-gray-500 border-b border-dashed border-gray-600 w-fit mx-auto">
               {label}
             </p>

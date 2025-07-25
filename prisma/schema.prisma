@@ -265,12 +265,15 @@ model Note {
 }
 
 model NoteSupport {
+  id        String   @id @default(uuid())
   userId    String
   noteId    String
   note      Note     @relation(fields: [noteId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@id([userId, noteId])
+  @@unique([userId, noteId])
 }
 
 model Event {

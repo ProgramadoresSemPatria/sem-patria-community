@@ -87,7 +87,7 @@
     "ksuid": "^3.0.0",
     "lowlight": "^3.1.0",
     "lucide-react": "^0.468.0",
-    "next": "14.2.6",
+    "next": "14.2.25",
     "next-themes": "^0.2.1",
     "novel": "^0.3.1",
     "react": "^18.3.1",

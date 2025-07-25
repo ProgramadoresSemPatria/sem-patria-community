@@ -12,6 +12,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "postinstall": "prisma generate",
     "lint:fix": "next lint --fix",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,mdx,css}\" --cache",
     "format:write": "prettier --write \"**/*.{ts,tsx,js,mdx,css}\" --cache",

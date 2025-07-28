@@ -33,6 +33,7 @@ import Image from 'next/image'
 import { useMemo } from 'react'
 import PositionSelect from './position-select'
 import { useNewUserForm } from './use-new-user-form'
+import { CurrencyInput } from '@/components/ui/currency-input'
 
 type NewUserFormProps = {
   initialData: User | null
@@ -418,6 +419,30 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                   )}
                 />
                 <PositionSelect isPending={isPending} />
+
+                <FormField
+                  control={form.control}
+                  name="referralCreditsBalance"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Referral Credits Balance</FormLabel>
+                      <FormControl>
+                        <CurrencyInput
+                          data-testid="referralCreditsBalance"
+                          disabled={isPending}
+                          placeholder="0.00"
+                          value={field.value || 0}
+                          onChange={field.onChange}
+                          decimalScale={2}
+                          fixedDecimalScale={false}
+                          allowNegative={false}
+                          className={isPending ? 'text-muted-foreground' : ''}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
           </form>

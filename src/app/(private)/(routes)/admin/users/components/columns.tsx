@@ -20,6 +20,7 @@ export type UserColumn = {
   level: string | null
   role: string[] | null
   isDisabled?: boolean
+  referralCreditsBalance?: number | null
 }
 
 export const userColumns: Array<ColumnDef<UserColumn>> = [

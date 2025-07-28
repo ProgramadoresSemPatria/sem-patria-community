@@ -77,7 +77,7 @@ const Header = ({
   const isCurrentUser = user.id === currentUser.id
 
   return (
-    <div className="dark:shadow-lg rounded-lg space-y-4">
+    <div className="dark:shadow-lg rounded-lg space-y-4 mb-4">
       <div className="flex items-center gap-8 pb-6 border-b">
         <Avatar className="h-24 w-24 shadow-md">
           {user.imageUrl ? (
@@ -134,7 +134,13 @@ const Header = ({
           )}
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-6 text-center">
+      <div
+        className={`grid gap-4 sm:gap-6 text-center ${
+          user.referralCreditsBalance && user.referralCreditsBalance > 0
+            ? 'grid-cols-2 sm:grid-cols-4'
+            : 'grid-cols-3'
+        }`}
+      >
         <FollowersAndFollowingModal
           title="Followers"
           followersOrFollowing={followers}
@@ -165,6 +171,13 @@ const Header = ({
           season={currentSeason}
           isLoading={isScoreboardLoading || isSeasonLoading}
         />
+        {user.referralCreditsBalance && user.referralCreditsBalance > 0 && (
+          <ReferralCreditsStat
+            label="Referral Credits"
+            value={user.referralCreditsBalance}
+            isLoading={false}
+          />
+        )}
       </div>
     </div>
   )
@@ -181,20 +194,80 @@ const Stat = ({
 }) => {
   if (isLoading) {
     return (
-      <div>
-        <div className="h-8 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-auto" />
-        <p className="text-gray-500">{label}</p>
-        <div className="h-5" />
+      <div className="min-w-0">
+        <div className="h-6 sm:h-8 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-auto" />
+        <p className="text-gray-500 text-sm sm:text-base truncate">{label}</p>
+        <div className="h-3 sm:h-5" />
       </div>
     )
   }
 
   return (
-    <div>
-      <p className="text-2xl font-semibold">{value}</p>
-      <p className="text-gray-500">{label}</p>
-      <div className="h-5" />
+    <div className="min-w-0">
+      <p className="text-xl sm:text-2xl font-semibold">{value}</p>
+      <p className="text-gray-500 text-sm sm:text-base truncate">{label}</p>
+      <div className="h-3 sm:h-5" />
     </div>
+  )
+}
+
+const ReferralCreditsStat = ({
+  label,
+  value,
+  isLoading
+}: {
+  label: string
+  value: number
+  isLoading?: boolean
+}) => {
+  if (isLoading) {
+    return (
+      <div className="min-w-0">
+        <div className="h-6 sm:h-8 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-auto" />
+        <p className="text-gray-500 text-sm sm:text-base truncate">{label}</p>
+        <div className="h-3 sm:h-5" />
+      </div>
+    )
+  }
+
+  return (
+    <TooltipProvider>
+      <Tooltip delayDuration={100}>
+        <TooltipTrigger asChild>
+          <div className="cursor-help w-fit mx-auto min-w-0">
+            <p className="text-xl sm:text-2xl font-semibold truncate">
+              R${' '}
+              {Number.isInteger(value)
+                ? value.toLocaleString('pt-BR')
+                : value.toLocaleString('pt-BR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  })}
+            </p>
+            <p className="text-gray-500 border-b border-dashed border-gray-600 w-fit mx-auto text-sm sm:text-base truncate">
+              {label}
+            </p>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent
+          side="bottom"
+          className="font-mono text-left p-4 shadow-xl max-w-xs bg-background border border-border/50"
+        >
+          <h3 className="text-foreground font-semibold mb-1 flex items-center gap-2">
+            Referral Credits{' '}
+            <Icons.users className="w-[14px] h-[14px]" strokeWidth={2.5} />
+          </h3>
+          <div className="space-y-2 pt-2">
+            <p className="text-gray-600 dark:text-gray-400">
+              Credits acquired by referring friends to the mentorship program
+            </p>
+            <p className="text-xxs text-gray-400 dark:text-gray-600 mt-1 truncate">
+              Currency: Brazilian Reais - R$
+            </p>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 
@@ -211,22 +284,22 @@ const PointsStat = ({
 }) => {
   if (isLoading) {
     return (
-      <div className="cursor-help w-fit mx-auto">
-        <div className="h-8 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-auto" />
-        <div className="h-4 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-auto mt-2" />
-        <div className="h-3 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-auto mt-2" />
+      <div className="cursor-help w-fit mx-auto min-w-0">
+        <div className="h-6 sm:h-8 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-auto" />
+        <div className="h-3 sm:h-4 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-auto mt-2" />
+        <div className="h-3 w-20 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mx-auto mt-2" />
       </div>
     )
   }
 
   if (!season) {
     return (
-      <div>
-        <p className="text-2xl font-semibold">
+      <div className="min-w-0">
+        <p className="text-xl sm:text-2xl font-semibold">
           {Number.isInteger(value) ? value : Math.floor(value * 10) / 10}
         </p>
-        <p className="text-gray-500">{label}</p>
-        <div className="h-5" />
+        <p className="text-gray-500 text-sm sm:text-base truncate">{label}</p>
+        <div className="h-3 sm:h-5" />
       </div>
     )
   }
@@ -235,14 +308,14 @@ const PointsStat = ({
     <TooltipProvider>
       <Tooltip delayDuration={100}>
         <TooltipTrigger asChild>
-          <div className="cursor-help w-fit mx-auto">
-            <p className="text-2xl font-semibold">
+          <div className="cursor-help w-fit mx-auto min-w-0">
+            <p className="text-xl sm:text-2xl font-semibold">
               {Number.isInteger(value) ? value : Math.floor(value * 10) / 10}
             </p>
-            <p className="text-gray-500 border-b border-dashed border-gray-600 w-fit mx-auto">
+            <p className="text-gray-500 border-b border-dashed border-gray-600 w-fit mx-auto text-sm sm:text-base truncate">
               {label}
             </p>
-            <p className="text-xs text-gray-600 mt-1">{season.name}</p>
+            <p className="text-xs text-gray-600 mt-1 truncate">{season.name}</p>
           </div>
         </TooltipTrigger>
         <TooltipContent

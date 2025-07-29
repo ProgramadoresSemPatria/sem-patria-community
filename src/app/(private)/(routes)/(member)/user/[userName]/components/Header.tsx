@@ -175,7 +175,7 @@ const Header = ({
           <ReferralCreditsStat
             label="Referral Credits"
             value={user.referralCreditsBalance}
-            isLoading={false}
+            isLoading={isFollowersLoading || isScoreboardLoading}
           />
         )}
       </div>

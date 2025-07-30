@@ -1,45 +1,64 @@
-<div align="center" style="display: flex; align-items: center; justify-content: center;">
-  <h1 style="margin-right: 10px;">Borderless Coding</h1>
-  <img src="public/logo.svg" width="36" height="36" alt="Logo" style="margin-top:12px" />
+# Borderless Coding
+
+<div align="center">
+  <img src="public/logo.svg" width="100" height="100" alt="Borderless Coding Logo" />
 </div>
 
-A platform for Borderless members to connect, collaborate, and share knowledge within the community.
+A collaborative platform for the Borderless community to connect, share knowledge, and collaborate on coding projects. Features include user profiles, content sharing, leaderboards, and an educational system with classrooms and modules.
 
-## 📌 Table of Contents
+## Technical Stack
 
-- [📌 Table of Contents](#-table-of-contents)
-- [🚀 Get Started](#-get-started)
-  - [🖥 Installation](#-installation)
-  - [Configuration](#configuration)
-    - [🪪 Credentials](#-credentials)
-  - [Running](#running)
-    - [Migrations](#migrations)
-    - [Using Prisma Studio](#using-prisma-studio)
-    - [Development server](#development-server)
+### Core Technologies
 
-## 🚀 Get Started
+- [Next.js](https://nextjs.org/) - React framework with App Router
+- [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript
+- [Prisma](https://www.prisma.io/) - Type-safe ORM with migrations
+- [TailwindCSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [Shadcn UI](https://ui.shadcn.com/) - Accessible component system
 
-To clone the repository to your local machine, follow these steps:
+### Notable Implementations
 
-1. Open a terminal
-2. Navigate to the directory where you want to clone the repository
-3. Execute the following command:
+- [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions) for data operations
+- [CASL](https://casl.js.org/) for permissions management
+- [TipTap](https://tiptap.dev/) for rich text editing
+- [Discord Webhooks](https://discord.com/developers/docs/resources/webhook) for notifications
+- [Inter Font](https://fonts.google.com/specimen/Inter) for typography
 
-```shell
-    git clone git@github.com:ProgramadoresSemPatria/sem-patria-community.git
+## Project Structure
+
+```
+sem-patria-community/
+├── actions/             # Server actions for data operations
+├── app/                 # Next.js app router structure
+│   ├── (auth)/          # Authentication routes
+│   ├── (private)/       # Protected routes
+│   ├── (root)/          # Public routes
+│   └── api/             # API endpoints
+├── assets/              # Static assets and fonts
+├── components/          # Reusable UI components
+│   ├── editor/          # Rich text editor components
+│   ├── leaderboard/     # Leaderboard components
+│   ├── modals/          # Modal dialog components
+│   └── ui/              # Base UI components
+├── hooks/               # Custom React hooks
+├── lib/                 # Utility functions and configurations
+├── prisma/              # Database schema and migrations
+├── providers/           # React context providers
+└── services/            # External service integrations
 ```
 
-or if you use HTTPS:
+- **[actions/](./actions/)** - Server-side logic using [Next.js Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions)
+- **[prisma/migrations/](./prisma/migrations/)** - Database schema evolution history with 40+ migrations
+- **[components/editor/](./components/editor/)** - Custom rich text editor implementation with [TipTap](https://tiptap.dev/)
+- **[hooks/](./hooks/)** - Domain-specific custom React hooks organized by feature
 
-```shell
-    git clone https://github.com/ProgramadoresSemPatria/sem-patria-community.git
-```
+## Installation
 
 ```bash
-    cd sem-patria-community
-```
+git clone https://github.com/ProgramadoresSemPatria/sem-patria-community.git
 
-### 🖥 Installation
+cd sem-patria-community
+```
 
 Once you have cloned the repository, you need to install the project's dependencies.
 
@@ -47,36 +66,20 @@ Once you have cloned the repository, you need to install the project's dependenc
 
 If you have [nvm](https://github.com/nvm-sh/nvm#installing-and-updating):
 
-```shell
+```bash
     nvm use
 ```
 
-Install dependencies:
+Install dependencies (Node >=20.x recommended)
 
-> pnpm recommended
+`pnpm i`
 
-```bash
-pnpm i
-```
+### Configure environment
 
-### Configuration
+`cp .env.example .env`
 
-Copy env example:
-
-```shell
-    cp .env.example .env
-```
-
-Set env values according to your credentials.
-
-#### 🪪 Credentials
-
-1. Generate a personal key in your GitHub
-   1.1 Click in your user -> Settings -> Developer Settings -> Personal access tokens -> Generate a classic token
-2. Change the value of variable `GITHUB_TOKEN` with the created token
-3. Change the value of variable `USERS_WHITELIST` to your github username
-
-> **⚠️ DO NOT COMMIT YOUR PERSONAL TOKEN**
+> [!NOTE]
+> If you have any doubts about the values, please contact any of the builders on Discord. Look for the `Builder` role badge.
 
 ### Running
 
@@ -87,7 +90,7 @@ Before start development server, you need to ensure that database is configured.
 To set up the database schema and apply any pending migrations, execute the following command:
 
 ```bash
-pnpm migrate dev
+pnpm prisma-migrate
 ```
 
 This command will ensure that your database is up to date with the latest changes defined in your Prisma schema.
@@ -104,18 +107,19 @@ This will open Prisma Studio in your default web browser, allowing you to view a
 
 #### Development server
 
+- **Ensures users set up PostgreSQL correctly** (via Homebrew, Apt, or Docker).
+- **Guides users through creating a Clerk account** and configuring authentication.
+
 > With the cloud database url
 
 ```bash
 pnpm dev
 ```
 
-> Without the cloud database url (running postgreSQL locally with docker)
+> Without the cloud database url (running PostgreSQL locally with docker)
 
 ```bash
 pnpm dev:local
-- **Ensures users set up PostgreSQL correctly** (via Homebrew, Apt, or Docker).
-- **Guides users through creating a Clerk account** and configuring authentication.
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your favorite browser.

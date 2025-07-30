@@ -425,12 +425,14 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                   name="referralCreditsBalance"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Referral Credits Balance</FormLabel>
+                      <FormLabel>Referral Credits Balance - BRL</FormLabel>
                       <FormControl>
                         <CurrencyInput
                           data-testid="referralCreditsBalance"
                           disabled={isPending}
-                          placeholder="0.00"
+                          placeholder="0,0"
+                          thousandSeparator="."
+                          decimalSeparator=","
                           value={field.value || 0}
                           onChange={field.onChange}
                           decimalScale={2}

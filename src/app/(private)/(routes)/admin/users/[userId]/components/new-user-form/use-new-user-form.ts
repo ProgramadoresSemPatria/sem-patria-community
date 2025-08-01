@@ -47,7 +47,13 @@ const formSchema = z.object({
   instagram: z.string(),
   linkedin: z.string(),
   position: z.enum(['AMBASSADOR', 'BUILDER', 'PSP', 'BASE', 'ADMIN']),
-  trail: z.string().optional().nullable()
+  trail: z.string().optional().nullable(),
+  referralCreditsBalance: z
+    .number()
+    .min(0, {
+      message: 'Credit balance must be a positive number'
+    })
+    .optional()
 })
 
 type NewUserFormValues = z.infer<typeof formSchema>
@@ -84,7 +90,8 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
           linkedin: initialData.linkedin || '',
           instagram: initialData.instagram || '',
           position: initialData.position || undefined,
-          trail: (initialData.trail as string) || undefined
+          trail: (initialData.trail as string) || undefined,
+          referralCreditsBalance: initialData.referralCreditsBalance || 0
         }
       : {
           name: '',
@@ -96,7 +103,8 @@ export const useNewUserForm = ({ initialData }: UseNewUserFormProps) => {
           linkedin: '',
           instagram: '',
           position: undefined,
-          trail: undefined
+          trail: undefined,
+          referralCreditsBalance: 0
         }
   })
 

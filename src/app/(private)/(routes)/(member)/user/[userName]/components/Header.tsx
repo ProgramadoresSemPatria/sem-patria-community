@@ -171,13 +171,15 @@ const Header = ({
           season={currentSeason}
           isLoading={isScoreboardLoading || isSeasonLoading}
         />
-        {user.referralCreditsBalance && user.referralCreditsBalance > 0 && (
-          <ReferralCreditsStat
-            label="Referral Credits"
-            value={user.referralCreditsBalance}
-            isLoading={isFollowersLoading || isScoreboardLoading}
-          />
-        )}
+        {user.referralCreditsBalance !== null &&
+          user.referralCreditsBalance !== undefined &&
+          user.referralCreditsBalance > 0 && (
+            <ReferralCreditsStat
+              label="Referral Credits"
+              value={user.referralCreditsBalance}
+              isLoading={false}
+            />
+          )}
       </div>
     </div>
   )

@@ -29,6 +29,7 @@ model User {
   location      String?
   position      Positions?
   trail         Trail?
+  referralCreditsBalance Float?         @default(0)
   comments      Comment[]
   commentLikes  CommentLike[]
   likes         Like[]

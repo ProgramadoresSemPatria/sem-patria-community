@@ -4,6 +4,7 @@ import BackButton from '@/components/back-button'
 import Header from '@/components/header'
 import { Icons } from '@/components/icons'
 import { AlertModal } from '@/components/modals/alert-modal'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -27,10 +28,12 @@ import { Separator } from '@/components/ui/separator'
 import { appRoutes, TRAIL_LABELS } from '@/lib/constants'
 import { Roles } from '@/lib/types'
 import { type User } from '@prisma/client'
+import avatarImg from '@/assets/avatar.png'
 import Image from 'next/image'
 import { useMemo } from 'react'
 import PositionSelect from './position-select'
 import { useNewUserForm } from './use-new-user-form'
+import { CurrencyInput } from '@/components/ui/currency-input'
 
 type NewUserFormProps = {
   initialData: User | null
@@ -109,13 +112,21 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                 <BackButton route={appRoutes.admin_users} />
 
                 <div className="flex gap-2 items-center space-x-2">
-                  <Image
-                    src={initialData.imageUrl || ''}
-                    width={50}
-                    height={50}
-                    alt={initialData.name || ''}
-                    className="rounded-full"
-                  />
+                  <Avatar className="h-[50px] w-[50px]">
+                    <AvatarImage src={initialData.imageUrl || ''} />
+                    <AvatarFallback>
+                      {initialData.name ? (
+                        initialData.name.charAt(0).toUpperCase()
+                      ) : (
+                        <Image
+                          src={avatarImg.src}
+                          alt="User Avatar Image"
+                          width={50}
+                          height={50}
+                        />
+                      )}
+                    </AvatarFallback>
+                  </Avatar>
                   <h2 className="text-2xl font-bold tracking-tight">
                     {initialData.name || ''}
                   </h2>
@@ -408,6 +419,32 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
                   )}
                 />
                 <PositionSelect isPending={isPending} />
+
+                <FormField
+                  control={form.control}
+                  name="referralCreditsBalance"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Referral Credits Balance - BRL</FormLabel>
+                      <FormControl>
+                        <CurrencyInput
+                          data-testid="referralCreditsBalance"
+                          disabled={isPending}
+                          placeholder="0,0"
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          value={field.value || 0}
+                          onChange={field.onChange}
+                          decimalScale={2}
+                          fixedDecimalScale={false}
+                          allowNegative={false}
+                          className={isPending ? 'text-muted-foreground' : ''}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
           </form>

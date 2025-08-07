@@ -97,7 +97,8 @@ import {
   Video,
   X,
   SquarePlay,
-  type LucideIcon
+  type LucideIcon,
+  DollarSign
 } from 'lucide-react'
 import { IconLinkedIn, IconsGithub } from './custom-svgs'
 
@@ -204,5 +205,6 @@ export const Icons = {
   panelLeft: PanelLeft,
   squarePlay: SquarePlay,
   github: IconsGithub,
-  linkedIn: IconLinkedIn
+  linkedIn: IconLinkedIn,
+  dollarSign: DollarSign
 }

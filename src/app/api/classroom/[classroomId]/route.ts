@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server'
 import { NextResponse, type NextRequest } from 'next/server'
 
 import prismadb from '@/lib/prismadb'
+import { checkClassroomPermission } from '@/lib/classroom-permissions'
 
 // GET /api/classroom/[classroomId] => Get classroom by id
 export async function GET(
@@ -15,6 +16,15 @@ export async function GET(
 
     if (!params.classroomId)
       return new NextResponse('Classroom id is required', { status: 400 })
+
+    // Check if user has permission to access this classroom
+    const permissionResult = await checkClassroomPermission(params.classroomId)
+
+    if (!permissionResult.hasAccess) {
+      return new NextResponse('Forbidden: Insufficient permissions', {
+        status: 403
+      })
+    }
 
     const classroom = await prismadb.classroom.findFirst({
       where: {

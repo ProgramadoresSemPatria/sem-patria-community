@@ -9,12 +9,20 @@ import {
 import { appRoutes } from '@/lib/constants'
 import prismadb from '@/lib/prismadb'
 import { redirect } from 'next/navigation'
+import { checkVideoPermission } from '@/lib/classroom-permissions'
 import { ButtonMarkAsWatched } from './components/button-mark-as-watched'
 import { Comments } from './components/comments'
 import { MentorshipHeader } from './components/mentorship-header'
 import MentorshipTab from './components/mentorship-tab'
 
 const ProgramPage = async ({ params }: { params: { videoId: string } }) => {
+  // Check permission before fetching video data
+  const permissionResult = await checkVideoPermission(params.videoId)
+
+  if (!permissionResult.hasAccess) {
+    redirect(appRoutes.mentorship)
+  }
+
   const videoSelected = await prismadb.video.findUnique({
     where: {
       id: params.videoId

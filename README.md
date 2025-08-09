@@ -87,7 +87,7 @@ Before start development server, you need to ensure that database is configured.
 To set up the database schema and apply any pending migrations, execute the following command:
 
 ```bash
-pnpm migrate dev
+pnpm prisma-migrate
 ```
 
 This command will ensure that your database is up to date with the latest changes defined in your Prisma schema.

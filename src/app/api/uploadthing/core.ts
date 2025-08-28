@@ -19,6 +19,11 @@ export const ourFileRouter = {
     },
     'text/csv': { maxFileSize: '256MB', maxFileCount: 4 },
     'text/tab-separated-values': { maxFileSize: '256MB', maxFileCount: 4 },
+    'application/msword': { maxFileSize: '256MB', maxFileCount: 4 },
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': {
+      maxFileSize: '256MB',
+      maxFileCount: 4
+    },
     'application/octet-stream': { maxFileSize: '256MB', maxFileCount: 4 }
   })
     .middleware(() => {

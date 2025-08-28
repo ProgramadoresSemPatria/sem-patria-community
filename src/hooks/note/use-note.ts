@@ -36,7 +36,19 @@ export const useNote = () => {
       ...options
     })
 
+  const useSupportNote = (
+    noteId: string,
+    options?: UseMutationOptions<AxiosResponse<void>, AxiosError>
+  ) =>
+    useMutation({
+      mutationFn: async () => {
+        return await api.patch(`/api/note/${noteId}/supports`)
+      },
+      ...options
+    })
+
   return {
+    useSupportNote,
     useCreateNewNote,
     useSaveChangesNote,
     useDeleteNote

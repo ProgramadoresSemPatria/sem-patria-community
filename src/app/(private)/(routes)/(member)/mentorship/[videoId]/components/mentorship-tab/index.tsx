@@ -159,7 +159,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                     </span>
                   </div>
 
-                  <div className="flex flex-col">
+                  <div className="flex flex-col gap-0.5">
                     {videos.map((video, index) => {
                       const isVideoWatched = videosAlreadyWatched.some(
                         item => item === video.id
@@ -174,7 +174,10 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                             <Tooltip>
                               <TooltipTrigger className="flex w-full">
                                 <Link
-                                  className="flex p-2 w-full items-center justify-between gap-6 cursor-pointer rounded transition-colors hover:bg-muted text-success-light hover:text-success-light"
+                                  className={cn(
+                                    'flex p-2 w-full items-center justify-between gap-6 cursor-pointer rounded transition-colors hover:bg-muted text-success-light hover:text-success-light',
+                                    videoProps.id === video.id && 'bg-muted'
+                                  )}
                                   href={`${appRoutes.mentorship}/${video.id}`}
                                 >
                                   <div className="flex flex-1 items-center gap-3 overflow-hidden">

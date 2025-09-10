@@ -2,7 +2,7 @@
 import NoteEditor from '@/components/editor/editor'
 import { useNoteStore } from '@/hooks/note/use-note-store'
 import { type Note } from '@prisma/client'
-import { useRef, useState, type ElementRef } from 'react'
+import { useRef, useState, useEffect, type ElementRef } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 
 type NoteContentProps = {
@@ -14,10 +14,15 @@ export const NoteContent = ({
   note,
   isPublicView = false
 }: NoteContentProps) => {
-  const { title, onChangeContent, onChangeTitle } = useNoteStore()
+  const { title, onChangeContent, onChangeTitle, initializeNote } =
+    useNoteStore()
 
   const inputRef = useRef<ElementRef<'textarea'>>(null)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
+
+  useEffect(() => {
+    initializeNote(note.title ?? '', note.content ?? '')
+  }, [note.id, note.title, note.content, initializeNote])
 
   const enableInput = () => {
     setIsEditingTitle(true)

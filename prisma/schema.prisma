@@ -8,36 +8,37 @@ datasource db {
 }
 
 model User {
-  id                     String         @id @default(uuid())
-  email                  String
-  name                   String
-  username               String
-  level                  String?
-  createdAt              DateTime       @default(now())
-  updatedAt              DateTime       @updatedAt
-  followers              Int            @default(0)
-  followings             Int            @default(0)
-  github                 String?
-  instagram              String?
-  linkedin               String?
-  password               String?
-  role                   Roles[]        @default([])
-  imageUrl               String?
-  lastLogin              DateTime?
-  isDisabled             Boolean?       @default(false)
-  isPublicEmail          Boolean?       @default(false)
-  location               String?
-  position               Positions?
-  trail                  Trail?
+  id            String         @id @default(uuid())
+  email         String
+  name          String
+  username      String
+  level         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  followers     Int            @default(0)
+  followings    Int            @default(0)
+  github        String?
+  instagram     String?
+  linkedin      String?
+  password      String?
+  role          Roles[]        @default([])
+  imageUrl      String?
+  lastLogin     DateTime?
+  isDisabled    Boolean?       @default(false)
+  isPublicEmail Boolean?       @default(false)
+  location      String?
+  position      Positions?
+  trail         Trail?
   referralCreditsBalance Float?         @default(0)
-  comments               Comment[]
-  commentLikes           CommentLike[]
-  likes                  Like[]
-  notes                  Note[]
-  posts                  Post[]
-  ScoreHistory           ScoreHistory[]
-  Scoreboard             Scoreboard[]
-  interests              UserInterest[]
+  comments      Comment[]
+  commentLikes  CommentLike[]
+  likes         Like[]
+  notes         Note[]
+  posts         Post[]
+  ScoreHistory  ScoreHistory[]
+  Scoreboard    Scoreboard[]
+  interests     UserInterest[]
+  noteSupports  NoteSupport[]
 }
 
 model UserFollowersAndFollowing {
@@ -261,6 +262,19 @@ model Note {
   userId    String
   isPublic  Boolean  @default(false)
   user      User     @relation(fields: [userId], references: [id])
+  supports  NoteSupport[]
+}
+
+model NoteSupport {
+  id        String   @id @default(uuid())
+  userId    String
+  noteId    String
+  note      Note     @relation(fields: [noteId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, noteId])
 }
 
 model Event {

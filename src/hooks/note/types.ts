@@ -3,3 +3,7 @@ export type SaveChangesNoteBody = {
   content?: string
   isPublic: boolean
 }
+
+export type GetNotesData = {
+  createdAt: string
+}

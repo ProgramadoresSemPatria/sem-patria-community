@@ -252,7 +252,8 @@ export const prePspPermissions: Record<string, string[]> = {
   'Mentoria - Programador Sem Pátria': [
     'bd4321b5-e9c2-409c-be19-64d584df00a6',
     '0d01f622-417b-4f31-914f-28ce1bbb1bd9',
-    'fd528cb7-7c93-4cfe-9979-f43e90d6cbf7'
+    'fd528cb7-7c93-4cfe-9979-f43e90d6cbf7',
+    'e1f88324-09ff-4923-b268-f0d85a96d31a'
   ]
 }
 

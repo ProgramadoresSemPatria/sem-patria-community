@@ -24,3 +24,26 @@ export async function POST(req: NextRequest) {
     return new NextResponse('Internal Server Error', { status: 500 })
   }
 }
+
+export async function GET(req: NextRequest) {
+  const { userId } = auth()
+  if (!userId) return new NextResponse('Unauthenticated', { status: 401 })
+
+  try {
+    const notes = await prismadb.note.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      select: {
+        createdAt: true
+      }
+    })
+    const formattedNotes = notes.map(note => ({
+      createdAt: note.createdAt.toISOString().split('T')[0]
+    }))
+
+    return NextResponse.json(formattedNotes)
+  } catch (error) {
+    console.log('[NOTE_GET_ERROR]', error)
+    return new NextResponse('Internal Server Error', { status: 500 })
+  }
+}

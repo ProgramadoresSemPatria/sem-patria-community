@@ -236,31 +236,29 @@ export const passwordRecoveryEmailTemplate = (user: User, url: string) => `
 </main>
 `
 
+// whitelist of allowed module IDs for PrePsp inside specific classrooms
 export const prePspPermissions: Record<string, string[]> = {
   'Mentoria - A Base': [
-    '10d9700e-8869-4017-a195-fbd9dd1125f4',
-    '26d133a9-a1a6-4367-8d2b-ca391bc8445e',
-    'dea88009-1dc8-46fe-86f8-f81e6954b67c',
-    'df759f6d-7971-4d53-893d-516ce07ca5ff',
-    'f326632b-7a8a-40fb-b60a-8ce9edda8d5a'
+    '26d133a9-a1a6-4367-8d2b-ca391bc8445e', // Mentorias Gravadas
+    'dea88009-1dc8-46fe-86f8-f81e6954b67c', // Roadmap
+    'df759f6d-7971-4d53-893d-516ce07ca5ff', // Desenvolvimento Técnico
+    'f326632b-7a8a-40fb-b60a-8ce9edda8d5a' // Impressionando os recrutadores
   ],
   'Portfólio Boost Program': ['6fea989d-ac41-48d2-a916-e5a37464b506'],
   'Acompanhamento - Programador Sem Pátria': [
-    'ec5260a3-325d-437e-b5cb-02ac88b52959',
-    '5ced2e37-7c35-4cf5-a889-43a1a4ef65ce'
+    'ec5260a3-325d-437e-b5cb-02ac88b52959', // Cases de Sucesso
+    '5ced2e37-7c35-4cf5-a889-43a1a4ef65ce' // Mentorias com convidados
   ],
   'Mentoria - Programador Sem Pátria': [
-    'bd4321b5-e9c2-409c-be19-64d584df00a6',
-    '0d01f622-417b-4f31-914f-28ce1bbb1bd9',
-    'fd528cb7-7c93-4cfe-9979-f43e90d6cbf7',
-    'e1f88324-09ff-4923-b268-f0d85a96d31a'
+    'e1f88324-09ff-4923-b268-f0d85a96d31a' // The Foundation
   ]
 }
 
+// whitelist of allowed module IDs for PreBase inside specific classrooms
 export const preBasePermissions: Record<string, string[]> = {
   'Mentoria - A Base': [
-    'f67d2a36-8644-436c-8f39-5b97b492b556',
-    '10d9700e-8869-4017-a195-fbd9dd1125f4'
+    'f67d2a36-8644-436c-8f39-5b97b492b556', // Comece por aqui
+    '10d9700e-8869-4017-a195-fbd9dd1125f4' // Fundamentos
   ],
   'Portfólio Boost Program': ['6fea989d-ac41-48d2-a916-e5a37464b506']
 }

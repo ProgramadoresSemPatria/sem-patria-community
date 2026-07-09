@@ -106,7 +106,6 @@ const FaqWizard = () => {
                     >
                       {supportEmail}
                     </a>
-                    .
                   </span>
                 </li>
               </ul>

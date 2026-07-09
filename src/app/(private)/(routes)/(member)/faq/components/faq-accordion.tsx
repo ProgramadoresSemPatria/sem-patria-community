@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/collapsible'
 import { Icons } from '@/components/icons'
 import { faqItems } from '@/lib/constants'
+import { cn } from '@/lib/utils'
 
 const FaqAccordion = () => {
   return (
@@ -14,7 +15,12 @@ const FaqAccordion = () => {
       {faqItems.map(item => (
         <Collapsible
           key={item.question}
-          className="rounded-lg border border-border bg-card transition-colors hover:border-foreground/20"
+          className={cn(
+            'rounded-lg border transition-colors',
+            item.highlight
+              ? 'border-amber-400 bg-amber-50 hover:border-amber-500 dark:border-amber-500/40 dark:bg-amber-500/10 dark:hover:border-amber-500/60'
+              : 'border-border bg-card hover:border-foreground/20'
+          )}
         >
           <CollapsibleTrigger className="group flex w-full items-center justify-between gap-4 rounded-lg px-5 py-4 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
             <span className="text-base font-semibold leading-snug">

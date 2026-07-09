@@ -1,6 +1,7 @@
 import { CaretSortIcon } from '@radix-ui/react-icons'
 import {
   ActivityIcon,
+  AlertTriangle,
   AlignVerticalSpaceAround,
   ArrowUpDown,
   ArrowUpRightFromCircle,
@@ -26,6 +27,7 @@ import {
   Code,
   Copy,
   Dot,
+  Download,
   Edit,
   ExternalLink,
   Eye,
@@ -106,6 +108,7 @@ export type IconType = LucideIcon
 
 export const Icons = {
   activity: ActivityIcon,
+  alertTriangle: AlertTriangle,
   alignVertSA: AlignVerticalSpaceAround,
   arrowBack: ChevronLeft,
   arrowDown: ChevronDown,
@@ -139,6 +142,7 @@ export const Icons = {
   darkMode: Moon,
   dashboard: LayoutDashboard,
   dot: Dot,
+  download: Download,
   edit: Edit,
   eye: Eye,
   eyeOff: EyeOff,

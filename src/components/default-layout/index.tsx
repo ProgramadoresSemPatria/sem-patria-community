@@ -4,6 +4,7 @@ import React from 'react'
 import { AppSidebar } from '../app-sidebar'
 import Loading from '@/app/loading'
 import { ensureUsernameCookie } from './ensureUsernameCookie'
+import DiscontinuationBanner from '@/components/discontinuation-banner'
 
 type DefaultLayoutProps = {
   children: React.ReactNode
@@ -20,8 +21,9 @@ export const DefaultLayout = async ({
   return (
     <div className="flex min-h-screen">
       <AppSidebar userName={username} />
-      <main className="w-full md:w-[calc(100%-12rem)] lg:w-full">
+      <main className="flex min-w-0 flex-1 flex-col">
         <TopBar />
+        <DiscontinuationBanner />
         <div className="pb-10">
           <div className={cn('mx-auto container pt-6', className)}>
             {children}

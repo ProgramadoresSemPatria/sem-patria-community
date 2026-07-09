@@ -29,6 +29,7 @@ export const platformMigration = {
 export type FaqItem = {
   question: string
   answer: string
+  highlight?: boolean
 }
 
 export const faqItems: readonly FaqItem[] = [
@@ -38,12 +39,19 @@ export const faqItems: readonly FaqItem[] = [
       'Estamos unificando toda a experiência de aprendizado na nova plataforma Borderless Coding, que reúne cursos, mentoria e comunidade em um só lugar, sobre uma base mais moderna, rápida e estável.'
   },
   {
+    question: 'Tenho uma assinatura ativa. Como ela fica?',
+    answer:
+      'Basta criar sua conta na nova plataforma com o mesmo e-mail cadastrado aqui na Community: sua assinatura será reconhecida e respeitada integralmente, sem nenhum pagamento adicional por causa da migração.',
+    highlight: true
+  },
+  {
     question: `O que acontece no dia ${platformMigration.discontinuationDate}?`,
     answer: `A partir de ${platformMigration.discontinuationDate}, a Community deixa de receber novas atualizações e conteúdos. Para não perder continuidade, recomendamos migrar para a nova plataforma o quanto antes.`
   },
   {
     question: 'Como faço para acessar a nova plataforma?',
-    answer: `Se você ainda não tem conta: crie uma na nova plataforma usando o mesmo e-mail cadastrado na Community. Se já tem conta, mas seu acesso ainda não foi liberado automaticamente, fale com o suporte por e-mail.`
+    answer: `Se você ainda não tem conta: crie uma na nova plataforma usando o mesmo e-mail cadastrado na Community. Se já tem conta, mas seu acesso ainda não foi liberado automaticamente, fale com o suporte por e-mail.`,
+    highlight: true
   },
   {
     question: 'Vou perder meu progresso nos cursos?',
@@ -53,16 +61,6 @@ export const faqItems: readonly FaqItem[] = [
   {
     question: 'O que acontece com minhas notas do CodeUp?',
     answer: `Suas notas do CodeUp não serão migradas para a nova plataforma. Antes de ${platformMigration.discontinuationDate}, baixe um backup do seu conteúdo: na página do CodeUp (ou na última etapa aqui) clique em "Baixar backup do CodeUp" para gerar, na hora, um arquivo com todas as suas notas. É opcional e não é necessário para migrar, mas garante que você não perca nada.`
-  },
-  {
-    question: 'Ainda vou conseguir falar com a mentoria?',
-    answer:
-      'Sim. O programa de mentoria segue na nova plataforma, com o mesmo time e novos recursos de acompanhamento.'
-  },
-  {
-    question: 'Tenho uma assinatura ativa. Como ela fica?',
-    answer:
-      'Basta criar sua conta na nova plataforma com o mesmo e-mail cadastrado aqui na Community: sua assinatura será reconhecida e respeitada integralmente, sem nenhum pagamento adicional por causa da migração.'
   },
   {
     question: 'Com quem falo se tiver problemas no acesso?',

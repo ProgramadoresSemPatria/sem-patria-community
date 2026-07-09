@@ -17,6 +17,7 @@ import { Can } from '@/hooks/use-ability'
 import { menuItems } from '@/lib/constants'
 import Link from 'next/link'
 import { NavUser } from './components/nav-user'
+import MigrationCard from './components/migration-card'
 import { usePathname } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 import { SkeletonMainNav } from './components/skeleton-main-nav'
@@ -160,6 +161,7 @@ export function AppSidebar({ mentorship, userName }: AppSidebarProps) {
       </SidebarContent>
 
       <SidebarFooter>
+        <MigrationCard />
         <NavUser userName={userName} />
       </SidebarFooter>
     </Sidebar>

@@ -15,6 +15,59 @@ export const appConfig = {
   description: 'Comunidade programadores sem pátria'
 }
 
+export const platformMigration = {
+  platformUrl: 'https://platform.borderlesscoding.com/sign-in',
+  discontinuationDate: '15 de julho',
+  bannerMessage: 'A Borderless Community será descontinuada em {date}.',
+  faqMessage:
+    'A Borderless Community será descontinuada em {date}. A partir dessa data ela não receberá mais atualizações e, em breve, será totalmente desativada. Toda a experiência de cursos, mentoria e comunidade continua na nova plataforma.',
+  linkLabel: 'Acesse a nova plataforma',
+  faqLinkLabel: 'O que preciso fazer?',
+  supportEmail: 'ops@borderlesscoding.com'
+} as const
+
+export type FaqItem = {
+  question: string
+  answer: string
+  highlight?: boolean
+}
+
+export const faqItems: readonly FaqItem[] = [
+  {
+    question: 'Por que a Borderless Community será descontinuada?',
+    answer:
+      'Estamos unificando toda a experiência de aprendizado na nova plataforma Borderless Coding, que reúne cursos, mentoria e comunidade em um só lugar, sobre uma base mais moderna, rápida e estável.'
+  },
+  {
+    question: 'Tenho uma assinatura ativa. Como ela fica?',
+    answer:
+      'Basta criar sua conta na nova plataforma com o mesmo e-mail cadastrado aqui na Community: sua assinatura será reconhecida e respeitada integralmente, sem nenhum pagamento adicional por causa da migração.',
+    highlight: true
+  },
+  {
+    question: `O que acontece no dia ${platformMigration.discontinuationDate}?`,
+    answer: `A partir de ${platformMigration.discontinuationDate}, a Community deixa de receber novas atualizações e conteúdos. Para não perder continuidade, recomendamos migrar para a nova plataforma o quanto antes.`
+  },
+  {
+    question: 'Como faço para acessar a nova plataforma?',
+    answer: `Se você ainda não tem conta: crie uma na nova plataforma usando o mesmo e-mail cadastrado na Community. Se já tem conta, mas seu acesso ainda não foi liberado automaticamente, fale com o suporte por e-mail.`,
+    highlight: true
+  },
+  {
+    question: 'Vou perder meu progresso nos cursos?',
+    answer:
+      'O progresso dos cursos não será migrado, mas todo o conteúdo continua disponível na nova plataforma. Você mantém o acesso às aulas e materiais — apenas o histórico de progresso recomeça.'
+  },
+  {
+    question: 'O que acontece com minhas notas do CodeUp?',
+    answer: `Suas notas do CodeUp não serão migradas para a nova plataforma. Antes de ${platformMigration.discontinuationDate}, baixe um backup do seu conteúdo: na página do CodeUp (ou na última etapa aqui) clique em "Baixar backup do CodeUp" para gerar, na hora, um arquivo com todas as suas notas. É opcional e não é necessário para migrar, mas garante que você não perca nada.`
+  },
+  {
+    question: 'Com quem falo se tiver problemas no acesso?',
+    answer: `Se tiver qualquer dúvida ou dificuldade de acesso, fale com nossa equipe pelos canais oficiais de suporte da Borderless Coding — por e-mail (${platformMigration.supportEmail}) ou Discord — e nós ajudamos você.`
+  }
+] as const
+
 export enum appRoutes {
   signIn = '/sign-in',
   root = '/',
@@ -30,6 +83,7 @@ export enum appRoutes {
   leaderboard = '/leaderboard',
   publicProfile = '/user',
   checklist = '/settings/checklist',
+  faq = '/faq',
   admin_courses = '/admin/courses',
   admin_courses_new = '/admin/courses/new',
   admin_categories = '/admin/categories',

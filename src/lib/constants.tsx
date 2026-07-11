@@ -50,7 +50,7 @@ export const faqItems: readonly FaqItem[] = [
   },
   {
     question: 'Como faço para acessar a nova plataforma?',
-    answer: `Se você ainda não tem conta, acesse https://borderless-lookup.vercel.app/ e digite exatamente o seu e-mail COMPLETO para verificar qual e-mail está cadastrado no Banco de Dados e use esse mesmo e-mail para acesasr a sua conta na Platform (https://platform.borderlesscoding.com/). Se já tem conta mas seu acesso ainda não foi liberado automaticamente, fale com o suporte por e-mail ops@bordercoding.com ou pelo Discord ops.borderless`,
+    answer: `Se você ainda não tem conta, acesse https://borderless-lookup.vercel.app/ e digite exatamente o seu e-mail COMPLETO para verificar qual e-mail está cadastrado no Banco de Dados e use esse mesmo e-mail para acesasr a sua conta na Platform (https://platform.borderlesscoding.com/). Se já tem conta mas seu acesso ainda não foi liberado automaticamente, fale com o suporte por e-mail ops@borderlesscoding.com ou pelo Discord ops.borderless`,
     highlight: true
   },
   {

@@ -105,7 +105,7 @@ const FaqWizard = () => {
                       className="font-medium text-foreground underline underline-offset-4 hover:text-primary"
                     >
                       {supportEmail}
-                    </a>
+                    </a> ou pelo Discord ops.borderless
                   </span>
                 </li>
               </ul>

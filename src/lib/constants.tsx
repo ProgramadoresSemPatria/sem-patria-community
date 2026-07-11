@@ -41,7 +41,7 @@ export const faqItems: readonly FaqItem[] = [
   {
     question: 'Tenho uma assinatura ativa. Como ela fica?',
     answer:
-      'Basta criar sua conta na nova plataforma com o mesmo e-mail cadastrado aqui na Community: sua assinatura será reconhecida e respeitada integralmente, sem nenhum pagamento adicional por causa da migração.',
+      'Quem tem assinatura ativa e ainda não havia feito cadastro recebeu um e-mail com o assunto "Welcome to Borderless | Set your password". Este e-mail contém um link com convite para acesso ao ecossistema completo da mentoria. Basta aceitar o convite, realizar o login e redefinir sua senha para começar.',
     highlight: true
   },
   {
@@ -50,7 +50,7 @@ export const faqItems: readonly FaqItem[] = [
   },
   {
     question: 'Como faço para acessar a nova plataforma?',
-    answer: `Se você ainda não tem conta: crie uma na nova plataforma usando o mesmo e-mail cadastrado na Community. Se já tem conta, mas seu acesso ainda não foi liberado automaticamente, fale com o suporte por e-mail.`,
+    answer: `Se você ainda não tem conta, acesse https://borderless-lookup.vercel.app/ e digite exatamente o seu e-mail COMPLETO para verificar qual e-mail está cadastrado no Banco de Dados e use esse mesmo e-mail para acesasr a sua conta na Platform (https://platform.borderlesscoding.com/). Se já tem conta mas seu acesso ainda não foi liberado automaticamente, fale com o suporte por e-mail ops@bordercoding.com ou pelo Discord ops.borderless`,
     highlight: true
   },
   {

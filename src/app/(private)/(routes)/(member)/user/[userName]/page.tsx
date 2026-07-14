@@ -9,6 +9,7 @@ import ScoreActivity from './components/score-activity'
 import SocialLinks from './components/SocialLinks'
 import UserInterests from './components/UserInterests'
 import UserPosts from './components/UserPosts'
+import ContributionPanel from './components/contribution-panel'
 
 type PublicProfileProps = {
   params: {
@@ -64,6 +65,9 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
             <TabsTrigger value="score-activity" className="w-32">
               Score Activity
             </TabsTrigger>
+            <TabsTrigger value="code-up-panel" className="w-34">
+              Code Up Panel
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="posts">
             <CreatePostCommentComponent />
@@ -71,6 +75,9 @@ const PublicProfile = async ({ params }: PublicProfileProps) => {
           </TabsContent>
           <TabsContent value="score-activity">
             <ScoreActivity userId={user.id} />
+          </TabsContent>
+          <TabsContent value="code-up-panel">
+            <ContributionPanel />
           </TabsContent>
         </Tabs>
       ) : (

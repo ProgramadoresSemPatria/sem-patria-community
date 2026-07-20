@@ -13,6 +13,7 @@ import { toast } from '@/components/ui/use-toast'
 import { useNote } from '@/hooks/note/use-note'
 import { useNoteStore } from '@/hooks/note/use-note-store'
 import { appRoutes } from '@/lib/constants'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { type Note } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -83,7 +84,7 @@ export const NoteOptions = ({ note }: NoteOptionsProps) => {
             View Note
           </DropdownMenuItem>
           <DropdownMenuItem
-            disabled={isDeleting}
+            disabled={isDeleting || IS_READ_ONLY}
             onClick={() => {
               setIsDeleteModalOpen(true)
             }}

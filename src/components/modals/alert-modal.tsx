@@ -3,6 +3,7 @@
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/modal'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { useEffect, useState } from 'react'
 
 type AlertModalProps = {
@@ -53,7 +54,10 @@ export const AlertModal = ({
         </Button>
         <Button
           variant="destructive"
-          disabled={loading}
+          disabled={loading || IS_READ_ONLY}
+          title={
+            IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+          }
           onClick={e => {
             e.preventDefault()
             e.stopPropagation()

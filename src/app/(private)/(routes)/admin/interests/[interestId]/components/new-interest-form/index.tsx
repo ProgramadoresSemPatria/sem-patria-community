@@ -16,6 +16,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { appRoutes } from '@/lib/constants'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { type Interest } from '@prisma/client'
 import { useNewInterestForm } from './use-new-interest-form'
 
@@ -57,7 +58,7 @@ export const NewInterestForm = ({ initialData }: NewInterestFormProps) => {
             <Header title={title} />
             {initialData && (
               <Button
-                disabled={isPending}
+                disabled={isPending || IS_READ_ONLY}
                 variant="destructive"
                 size="icon"
                 onClick={() => {
@@ -94,7 +95,14 @@ export const NewInterestForm = ({ initialData }: NewInterestFormProps) => {
                 )}
               />
             </div>
-            <Button disabled={isPending} className="ml-auto" type="submit">
+            <Button
+              disabled={isPending || IS_READ_ONLY}
+              title={
+                IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+              }
+              className="ml-auto"
+              type="submit"
+            >
               {isPending && (
                 <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
               )}

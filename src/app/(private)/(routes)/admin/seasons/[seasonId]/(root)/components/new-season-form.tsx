@@ -24,6 +24,7 @@ import { type Season, type PositionMultiplier } from '@prisma/client'
 import Header from '@/components/header'
 import { Icons } from '@/components/icons'
 import { appRoutes } from '@/lib/constants'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { format } from 'date-fns'
 import { cn } from '@/lib/utils'
 import { MetadataTable } from './metadata-table'
@@ -79,6 +80,7 @@ export const NewSeasonForm = ({ initialData }: NewSeasonFormProps) => {
           {initialData && (
             <Button
               type="button"
+              disabled={IS_READ_ONLY}
               variant="destructive"
               size="icon"
               onClick={handleDelete}
@@ -270,7 +272,14 @@ export const NewSeasonForm = ({ initialData }: NewSeasonFormProps) => {
               />
             </div>
           </div>
-          <Button type="submit" className="ml-auto">
+          <Button
+            type="submit"
+            disabled={IS_READ_ONLY}
+            title={
+              IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+            }
+            className="ml-auto"
+          >
             {action}
           </Button>
         </form>

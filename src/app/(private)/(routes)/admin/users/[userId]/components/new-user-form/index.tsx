@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { appRoutes, TRAIL_LABELS } from '@/lib/constants'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { Roles } from '@/lib/types'
 import { type User } from '@prisma/client'
 import avatarImg from '@/assets/avatar.png'
@@ -62,7 +63,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
     if (initialData) {
       return initialData.isDisabled ? (
         <Button
-          disabled={isPending}
+          disabled={isPending || IS_READ_ONLY}
           onClick={() => {
             setIsAlertModalOpen(true)
           }}
@@ -72,7 +73,7 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
         </Button>
       ) : (
         <Button
-          disabled={isPending}
+          disabled={isPending || IS_READ_ONLY}
           variant="destructive"
           onClick={() => {
             setIsAlertModalOpen(true)
@@ -267,7 +268,12 @@ export const NewUserForm = ({ initialData }: NewUserFormProps) => {
 
                 <Button
                   data-testid="submit"
-                  disabled={isPending}
+                  disabled={isPending || IS_READ_ONLY}
+                  title={
+                    IS_READ_ONLY
+                      ? 'Somente leitura durante a migração'
+                      : undefined
+                  }
                   className="mr-auto mt-2"
                   type="submit"
                 >

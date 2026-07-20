@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input'
 import { Icons } from '@/components/icons'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { Positions } from '@prisma/client'
 import {
   Dialog,
@@ -129,7 +130,14 @@ export const PositionMultipliersTable = ({
             <Button type="button" variant="outline" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button type="button" onClick={handleSave}>
+            <Button
+              type="button"
+              disabled={IS_READ_ONLY}
+              title={
+                IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+              }
+              onClick={handleSave}
+            >
               Save changes
             </Button>
           </DialogFooter>

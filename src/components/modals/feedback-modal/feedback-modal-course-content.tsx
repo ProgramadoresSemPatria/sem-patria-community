@@ -21,6 +21,7 @@ import {
 import { toast } from '@/components/ui/use-toast'
 import { useCategory } from '@/hooks/category/use-category'
 import { useCourse } from '@/hooks/course/use-course'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 
@@ -243,7 +244,12 @@ export const FeedbackModalCourseContent = ({
             Cancel
           </Button>
           <Button
-            disabled={isPending || !categories || isLoadingCategories}
+            disabled={
+              isPending || !categories || isLoadingCategories || IS_READ_ONLY
+            }
+            title={
+              IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+            }
             type="submit"
             className="bg-primary hover:bg-primary/90"
           >

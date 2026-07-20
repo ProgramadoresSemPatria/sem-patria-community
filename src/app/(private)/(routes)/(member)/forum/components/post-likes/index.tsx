@@ -3,6 +3,7 @@ import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Can } from '@/hooks/use-ability'
 import { usePermissionModal } from '@/hooks/modal/use-modal'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { type ExtendedPost } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { usePostLikes } from './use-post-likes'
@@ -33,7 +34,8 @@ const PostLike = ({
         variant="ghost"
         size="icon"
         onClick={onClick}
-        disabled={disabled}
+        disabled={disabled || IS_READ_ONLY}
+        title={IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined}
         className={cn(
           'flex items-center gap-x-2 hover:bg-transparent hover:text-accent',
           disabled && 'cursor-not-allowed opacity-50'

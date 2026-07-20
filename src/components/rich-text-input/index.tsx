@@ -8,6 +8,7 @@ import {
 import { useCategory } from '@/hooks/category/use-category'
 import useCreatePostModalStore from '@/hooks/modal/use-create-post'
 import { api } from '@/lib/api'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   useMutation,
@@ -208,7 +209,11 @@ export const RichTextInput = ({
           disabled={
             !form.formState.isValid ||
             form.formState.isSubmitting ||
-            isUploadingImage
+            isUploadingImage ||
+            IS_READ_ONLY
+          }
+          title={
+            IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
           }
           className="self-end w-fit text-white gap-1"
         >

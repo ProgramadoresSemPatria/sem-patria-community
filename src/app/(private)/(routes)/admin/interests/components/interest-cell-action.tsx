@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useToast } from '@/components/ui/use-toast'
 import { Can } from '@/hooks/use-ability'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { appRoutes } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -86,6 +87,7 @@ export const InterestCellAction = ({ data }: InterestCellActionProps) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
+            disabled={IS_READ_ONLY}
             onClick={() => {
               router.push(`${appRoutes.admin_interests}/${data.id}`)
             }}
@@ -95,6 +97,7 @@ export const InterestCellAction = ({ data }: InterestCellActionProps) => {
           </DropdownMenuItem>
           <Can I="delete" a="Interest">
             <DropdownMenuItem
+              disabled={IS_READ_ONLY}
               onClick={() => {
                 setIsAlertModalOpen(true)
               }}

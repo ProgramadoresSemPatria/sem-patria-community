@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/tooltip'
 import { AbilityContext } from '@/hooks/use-ability'
 import { appRoutes } from '@/lib/constants'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { type VideoWithAttachments } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { useAbility } from '@casl/react'
@@ -140,6 +141,12 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                         }}
                         variant="secondary"
                         size="sm"
+                        disabled={IS_READ_ONLY}
+                        title={
+                          IS_READ_ONLY
+                            ? 'Somente leitura durante a migração'
+                            : undefined
+                        }
                       >
                         Save order
                       </Button>
@@ -221,6 +228,12 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                   onClick={() => {
                     setShowAddAttachments(true)
                   }}
+                  disabled={IS_READ_ONLY}
+                  title={
+                    IS_READ_ONLY
+                      ? 'Somente leitura durante a migração'
+                      : undefined
+                  }
                 >
                   Add Attachment
                 </Button>
@@ -240,6 +253,7 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
                   {canManageAttachments && (
                     <Icons.trash
                       onClick={async e => {
+                        if (IS_READ_ONLY) return
                         e.stopPropagation()
                         e.preventDefault()
                         await onDeleteAttachment(file.id)
@@ -261,7 +275,13 @@ const MentorshipTab = ({ videoProps, moduleVideos }: MentorshipTabProps) => {
             onRemoveFile={onRemoveFile}
             uploadingFiles={uploadingFiles}
           />
-          <Button disabled={uploadingFiles} onClick={handleSaveAttachments}>
+          <Button
+            disabled={uploadingFiles || IS_READ_ONLY}
+            title={
+              IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+            }
+            onClick={handleSaveAttachments}
+          >
             {uploadingFiles ? 'Saving' : 'Save'}
           </Button>
         </div>

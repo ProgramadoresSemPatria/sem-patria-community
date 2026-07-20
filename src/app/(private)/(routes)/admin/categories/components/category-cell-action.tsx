@@ -13,6 +13,7 @@ import {
 import { useToast } from '@/components/ui/use-toast'
 import { useCategory } from '@/hooks/category/use-category'
 import { Can } from '@/hooks/use-ability'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { appRoutes } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -86,6 +87,7 @@ export const CategoryCellAction = ({ data }: CategoryCellActionProps) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
+            disabled={IS_READ_ONLY}
             onClick={() => {
               router.push(`${appRoutes.admin_categories}/${data.id}`)
             }}
@@ -95,6 +97,7 @@ export const CategoryCellAction = ({ data }: CategoryCellActionProps) => {
           </DropdownMenuItem>
           <Can I="delete" a="Category">
             <DropdownMenuItem
+              disabled={IS_READ_ONLY}
               onClick={() => {
                 setIsAlertModalOpen(true)
               }}

@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { useAuth } from '@clerk/nextjs'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
@@ -124,6 +125,10 @@ export const CommentComponent = ({ comment }: CommentComponentProps) => {
           variant="ghost"
           size="icon"
           className="group rounded-full"
+          disabled={IS_READ_ONLY}
+          title={
+            IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+          }
           onClick={handleLike}
         >
           <Icons.upVote

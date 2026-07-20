@@ -19,6 +19,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { appRoutes } from '@/lib/constants'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { type Classroom } from '@prisma/client'
 import { Reorder } from 'framer-motion'
 import Image from 'next/image'
@@ -70,7 +71,7 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
             <Header title={title} />
             {initialData && (
               <Button
-                disabled={isPending}
+                disabled={isPending || IS_READ_ONLY}
                 variant="destructive"
                 size="icon"
                 onClick={() => {
@@ -144,7 +145,14 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
                 )}
               />
             </div>
-            <Button disabled={isPending} className="ml-auto" type="submit">
+            <Button
+              disabled={isPending || IS_READ_ONLY}
+              title={
+                IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+              }
+              className="ml-auto"
+              type="submit"
+            >
               {isPending && (
                 <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
               )}
@@ -163,7 +171,10 @@ export const NewClassroomForm = ({ initialData }: NewClassroomFormProps) => {
               onClick={async () => {
                 await handleSaveOrder(classroomModules)
               }}
-              disabled={isLoadingClassroom || isSavingOrder}
+              disabled={isLoadingClassroom || isSavingOrder || IS_READ_ONLY}
+              title={
+                IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+              }
             >
               {isSavingOrder && (
                 <Icons.loader className="mr-2 h-4 w-4 animate-spin" />

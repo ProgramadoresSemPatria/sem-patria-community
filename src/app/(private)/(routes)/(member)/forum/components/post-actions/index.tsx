@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Can } from '@/hooks/use-ability'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { type Post } from '@prisma/client'
 import { usePostActions } from './use-post-actions'
 
@@ -49,7 +50,7 @@ export const PostActions = ({ post }: PostActionsProps) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
-            disabled={isDeleting}
+            disabled={isDeleting || IS_READ_ONLY}
             onClick={e => {
               e.stopPropagation()
               e.preventDefault()
@@ -65,7 +66,7 @@ export const PostActions = ({ post }: PostActionsProps) => {
           </DropdownMenuItem>
           <Can I="pin" an="Post">
             <DropdownMenuItem
-              disabled={isPinning}
+              disabled={isPinning || IS_READ_ONLY}
               onClick={e => {
                 e.stopPropagation()
                 void onPinPost()

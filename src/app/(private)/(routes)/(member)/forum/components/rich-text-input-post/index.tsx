@@ -18,6 +18,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { useMutationState } from '@tanstack/react-query'
 import { useRichTextInputPost } from './use-rich-text-input-post'
 
@@ -123,7 +124,11 @@ export const RichTextInput = ({ isCommentsLoading }: RichTextInputProps) => {
             !form.formState.isValid ||
             form.formState.isSubmitting ||
             isPending ||
-            isUploadingImage
+            isUploadingImage ||
+            IS_READ_ONLY
+          }
+          title={
+            IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
           }
           className="self-end w-fit gap-1"
         >

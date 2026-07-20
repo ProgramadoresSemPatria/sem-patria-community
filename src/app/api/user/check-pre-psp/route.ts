@@ -1,4 +1,5 @@
 import prismadb from '@/lib/prismadb'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { clerkClient } from '@clerk/nextjs/server'
 import { startOfDay, subDays } from 'date-fns'
 import { NextResponse, type NextRequest } from 'next/server'
@@ -9,6 +10,15 @@ export async function GET(req: NextRequest) {
 
   if (!cronJobSecret || cronJobSecret !== validCronJobSecret) {
     return new NextResponse('Unauthorized', { status: 401 })
+  }
+
+  // Read-only migration lock: this cron promotes user roles (a DB + Clerk
+  // write). No-op while the platform is frozen so no state changes are pushed.
+  if (IS_READ_ONLY) {
+    return NextResponse.json({
+      message: 'Skipped: platform is in read-only mode',
+      updatedUsers: []
+    })
   }
 
   try {

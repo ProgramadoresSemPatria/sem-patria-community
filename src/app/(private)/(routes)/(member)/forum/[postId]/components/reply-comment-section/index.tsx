@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/collapsible'
 import { Can } from '@/hooks/use-ability'
 import { usePermissionModal } from '@/hooks/modal/use-modal'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { type ReactElement } from 'react'
 import { type ExtendedComment } from '../../[...titleSlug]/page'
 import { ForumCommentComponent } from '../forum-comment-component'
@@ -48,7 +49,8 @@ const ReplyCommentSection = ({
         size="icon"
         className="group rounded-full hover:bg-transparent hover:text-accent"
         onClick={onClick}
-        disabled={disabled}
+        disabled={disabled || IS_READ_ONLY}
+        title={IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined}
       >
         <Icons.upVote
           data-userliked={likeState.liked}
@@ -72,7 +74,10 @@ const ReplyCommentSection = ({
           data-userreplied={replyState.replied}
           variant="ghost"
           size="icon"
-          disabled={disabled}
+          disabled={disabled || IS_READ_ONLY}
+          title={
+            IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+          }
           className="group rounded-full data-[userreplied=true]:text-primary hover:bg-white dark:hover:bg-transparent"
         >
           <Icons.forum

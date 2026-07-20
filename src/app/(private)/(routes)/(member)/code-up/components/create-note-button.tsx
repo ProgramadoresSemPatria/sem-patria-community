@@ -3,6 +3,7 @@ import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
 import { useNote } from '@/hooks/note/use-note'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { usePathname, useRouter } from 'next/navigation'
 
 export const CreateNoteButton = () => {
@@ -31,7 +32,8 @@ export const CreateNoteButton = () => {
   const handleCreateNewNote = async () => await createNewNote()
   return (
     <Button
-      disabled={isPending}
+      disabled={isPending || IS_READ_ONLY}
+      title={IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined}
       onClick={async () => await handleCreateNewNote()}
     >
       {isPending ? (

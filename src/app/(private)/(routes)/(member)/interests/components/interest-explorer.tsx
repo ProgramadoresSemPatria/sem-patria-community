@@ -5,6 +5,7 @@ import { type InterestWithUsers } from '../page'
 import InterestItem from './interest-item'
 import InterestModal from './interest-modal'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { IS_READ_ONLY } from '@/lib/read-only'
 
 interface InterestExplorerProps {
   interests: InterestWithUsers[]
@@ -30,6 +31,7 @@ const InterestExplorer: FC<InterestExplorerProps> = ({ interests, userId }) => {
   }, [searchParams, interests, router])
 
   const handleInterestClick = (interest: InterestWithUsers) => {
+    if (IS_READ_ONLY) return
     setSelectedInterest(interest)
   }
 

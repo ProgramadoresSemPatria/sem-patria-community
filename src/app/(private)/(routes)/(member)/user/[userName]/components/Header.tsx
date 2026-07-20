@@ -23,6 +23,7 @@ import { format } from 'date-fns'
 import type { CurrentSeasonResponse } from '@/actions/leaderboard/types'
 import { getCurrentSeason } from '@/actions/leaderboard/get-current-season'
 import { useQuery } from '@tanstack/react-query'
+import { IS_READ_ONLY } from '@/lib/read-only'
 
 const Header = ({
   user,
@@ -118,7 +119,10 @@ const Header = ({
           )}
           {!isCurrentUser && (
             <Button
-              disabled={following || unfollowing}
+              disabled={following || unfollowing || IS_READ_ONLY}
+              title={
+                IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+              }
               onClick={handleFollowToggle}
               variant="outline"
               className="text-sm mt-2 hover:bg-gray-400"

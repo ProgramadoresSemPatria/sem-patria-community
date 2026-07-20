@@ -11,6 +11,7 @@ import { toast } from '@/components/ui/use-toast'
 import { Can } from '@/hooks/use-ability'
 import { usePermissionModal } from '@/hooks/modal/use-modal'
 import { api } from '@/lib/api'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { type ExtendedComment } from '../[...titleSlug]/page'
@@ -65,7 +66,8 @@ const CommentSection = ({ postId, comments }: CommentSectionProps) => {
       size="sm"
       className="h-5 ring-1 bg-secondary hover:bg-secondary/80 text-brand-green-900 ring-muted gap-1"
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || IS_READ_ONLY}
+      title={IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined}
     >
       {isNewCommentOpen ? (
         <>
@@ -148,6 +150,12 @@ const CommentSection = ({ postId, comments }: CommentSectionProps) => {
                   <Button
                     className="underline text-muted-foreground px-1 py-0 h-fit leading-relaxed"
                     variant="link"
+                    disabled={IS_READ_ONLY}
+                    title={
+                      IS_READ_ONLY
+                        ? 'Somente leitura durante a migração'
+                        : undefined
+                    }
                     onClick={() => {
                       setIsNewCommentOpen(!isNewCommentOpen)
                     }}

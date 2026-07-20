@@ -28,6 +28,7 @@ import { Roles, type User } from '@prisma/client'
 import ImageInput from './image-input'
 import LocationInput from './location-input'
 import usePersonalInfo from './use-personal-info'
+import { IS_READ_ONLY } from '@/lib/read-only'
 
 export type PersonalInfoProps = {
   userProps: User
@@ -400,7 +401,16 @@ export const PersonalInfo = ({ userProps }: PersonalInfoProps) => {
               <Button
                 type="submit"
                 className="w-fit"
-                disabled={!isObjEmpty(form.formState.errors) || isUpdating}
+                disabled={
+                  !isObjEmpty(form.formState.errors) ||
+                  isUpdating ||
+                  IS_READ_ONLY
+                }
+                title={
+                  IS_READ_ONLY
+                    ? 'Somente leitura durante a migração'
+                    : undefined
+                }
               >
                 {isUpdating && (
                   <Icons.loader className="mr-2 h-4 w-4 animate-spin" />

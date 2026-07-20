@@ -7,6 +7,7 @@ import { Suspense, useEffect, useState } from 'react'
 import { ModuleCarousel } from '../module-carousel'
 import { Reorder } from 'framer-motion'
 import { Button } from '@/components/ui/button'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { useAbility } from '@casl/react'
 import { AbilityContext } from '@/hooks/use-ability'
 import { useModuleCarousel } from '../module-carousel/use-module-carousel'
@@ -91,7 +92,10 @@ export const MentorshipSections = ({
                 setIsSaving(false)
                 setShowDragger(false)
               }}
-              disabled={isSaving}
+              disabled={isSaving || IS_READ_ONLY}
+              title={
+                IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+              }
             >
               {isSaving ? (
                 <>

@@ -3,6 +3,7 @@ import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { type Note } from '@prisma/client'
 import { useNoteHeader } from './use-note-header'
 
@@ -49,11 +50,15 @@ export const NoteHeader = ({ note, isPublicView = false }: NoteHeaderProps) => {
               id="note-visibility"
               checked={isPublicNote}
               onCheckedChange={onChangeNoteVisibility}
+              disabled={IS_READ_ONLY}
             />
           </div>
           <Button
             variant="secondary"
-            disabled={isPending}
+            disabled={isPending || IS_READ_ONLY}
+            title={
+              IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+            }
             onClick={handleSaveChanges}
             className="hidden sm:flex"
           >
@@ -64,7 +69,10 @@ export const NoteHeader = ({ note, isPublicView = false }: NoteHeaderProps) => {
           </Button>
           <Button
             variant="secondary"
-            disabled={isPending}
+            disabled={isPending || IS_READ_ONLY}
+            title={
+              IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+            }
             onClick={handleSaveChanges}
             className="sm:hidden"
             size="icon"

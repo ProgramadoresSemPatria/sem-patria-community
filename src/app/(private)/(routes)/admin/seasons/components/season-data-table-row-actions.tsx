@@ -18,6 +18,7 @@ import { AlertModal } from '@/components/modals/alert-modal'
 import { useToast } from '@/components/ui/use-toast'
 import { useMutation } from '@tanstack/react-query'
 import { api } from '@/lib/api'
+import { IS_READ_ONLY } from '@/lib/read-only'
 
 type SeasonDataTableRowActionsProps = {
   data: Season
@@ -133,6 +134,7 @@ export const SeasonDataTableRowActions = ({
         <DropdownMenuContent align="end" className="w-[160px]">
           <DropdownMenuItem
             className="cursor-pointer"
+            disabled={IS_READ_ONLY}
             onClick={() => {
               router.push(`${appRoutes.admin_seasons}/${data.id}`)
             }}
@@ -157,6 +159,7 @@ export const SeasonDataTableRowActions = ({
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer"
+            disabled={IS_READ_ONLY}
             onClick={() => {
               setIsSetCurrentModalOpen(true)
             }}
@@ -169,6 +172,7 @@ export const SeasonDataTableRowActions = ({
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="!text-red-500 cursor-pointer"
+            disabled={IS_READ_ONLY}
             onClick={() => {
               setIsAlertModalOpen(true)
             }}

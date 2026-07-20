@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { type Prisma } from '@prisma/client'
 import { useMutationState } from '@tanstack/react-query'
 import { useEditPostForm } from './use-edit-post-form'
@@ -131,7 +132,11 @@ export const EditPostForm = ({ postId, initialValues }: EditPostFormProps) => {
             !form.formState.isValid ||
             form.formState.isSubmitting ||
             isPending ||
-            isUploadingImage
+            isUploadingImage ||
+            IS_READ_ONLY
+          }
+          title={
+            IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
           }
           className="self-end w-fit dark:bg-slate-800 bg-slate-200 dark:text-white text-black gap-1 dark:hover:bg-slate-900 hover:bg-slate-100"
         >

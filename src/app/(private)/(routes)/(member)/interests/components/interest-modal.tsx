@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation'
 import { useCallback, useMemo, useState, type FC } from 'react'
 import { useUserInterest } from '../../user/[userName]/components/useUserInterests'
 import { type InterestWithUsers } from '../page'
+import { IS_READ_ONLY } from '@/lib/read-only'
 
 interface InterestModalProps {
   interest: InterestWithUsers
@@ -150,7 +151,10 @@ const InterestModal: FC<InterestModalProps> = ({
               type="button"
               variant={hasInterest ? 'destructive' : 'default'}
               onClick={handleInterestAction}
-              disabled={isAddingInterest || isRemovingInterest}
+              disabled={isAddingInterest || isRemovingInterest || IS_READ_ONLY}
+              title={
+                IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+              }
             >
               {isAddingInterest || isRemovingInterest
                 ? 'Processing...'

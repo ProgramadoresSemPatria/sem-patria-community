@@ -15,6 +15,7 @@ import { useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { IS_READ_ONLY } from '@/lib/read-only'
 
 type MembersListProps = {
   userProps: User
@@ -115,7 +116,12 @@ export const MembersList = ({ userProps, allUsers }: MembersListProps) => {
               </Button>
               {user.role.includes('Admin') && !user.role && (
                 <Button
-                  disabled={isDeleting}
+                  disabled={isDeleting || IS_READ_ONLY}
+                  title={
+                    IS_READ_ONLY
+                      ? 'Somente leitura durante a migração'
+                      : undefined
+                  }
                   variant="destructive"
                   size="icon"
                   onClick={() => {

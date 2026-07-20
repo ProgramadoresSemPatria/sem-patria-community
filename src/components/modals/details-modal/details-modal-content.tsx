@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { toast } from '@/components/ui/use-toast'
 import { useNotification } from '@/hooks/notification/use-notification'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { format } from 'date-fns'
 import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
@@ -129,7 +130,10 @@ const DetailsModalContent = ({
       </div>
       <div className="mt-4 flex items-center w-full gap-x-4">
         <Button
-          disabled={isPending}
+          disabled={isPending || IS_READ_ONLY}
+          title={
+            IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+          }
           variant="destructive"
           className="ml-auto"
           onClick={async () => {
@@ -139,7 +143,10 @@ const DetailsModalContent = ({
           Decline
         </Button>
         <Button
-          disabled={isPending}
+          disabled={isPending || IS_READ_ONLY}
+          title={
+            IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+          }
           onClick={async () => {
             await handleApproveOrDecline('approve')
           }}

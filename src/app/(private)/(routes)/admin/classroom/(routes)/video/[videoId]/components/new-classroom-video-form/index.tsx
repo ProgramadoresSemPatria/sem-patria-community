@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { appRoutes } from '@/lib/constants'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { type Attachment, type Video } from '@prisma/client'
 import { type ModulesByClassroomProps } from './types'
 import { useNewClassroomVideoForm } from './use-new-classroom-video-form'
@@ -79,7 +80,7 @@ export const NewClassroomVideoForm = ({
             <Header title={title} />
             {initialData && (
               <Button
-                disabled={isPending}
+                disabled={isPending || IS_READ_ONLY}
                 variant="destructive"
                 size="icon"
                 onClick={() => {
@@ -215,7 +216,14 @@ export const NewClassroomVideoForm = ({
                 </div>
               </div>
             </div>
-            <Button disabled={isPending} className="ml-auto" type="submit">
+            <Button
+              disabled={isPending || IS_READ_ONLY}
+              title={
+                IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+              }
+              className="ml-auto"
+              type="submit"
+            >
               {isPending && (
                 <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
               )}

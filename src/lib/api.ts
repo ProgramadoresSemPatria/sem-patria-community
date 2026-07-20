@@ -9,7 +9,7 @@ export const api = axios.create({})
 // server middleware is the authoritative block; this mirrors its allowlist
 // and gives immediate user feedback.
 if (IS_READ_ONLY) {
-  api.interceptors.request.use(config => {
+  api.interceptors.request.use(async config => {
     const rawUrl = config.url ?? ''
     const pathname = rawUrl.startsWith('http')
       ? new URL(rawUrl).pathname
@@ -24,7 +24,7 @@ if (IS_READ_ONLY) {
           variant: 'destructive'
         })
       }
-      return Promise.reject(new Error('READ_ONLY_MODE'))
+      return await Promise.reject(new Error('READ_ONLY_MODE'))
     }
 
     return config

@@ -26,6 +26,7 @@ import { Separator } from '@/components/ui/separator'
 import BackButton from '@/components/back-button'
 import { Label } from '@/components/ui/label'
 import { appRoutes } from '@/lib/constants'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { type Classroom, type ClassroomModule } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -82,7 +83,7 @@ export const NewClassroomModuleForm = ({
             <Header title={title} />
             {initialData && (
               <Button
-                disabled={isPending}
+                disabled={isPending || IS_READ_ONLY}
                 variant="destructive"
                 size="icon"
                 onClick={() => {
@@ -180,7 +181,13 @@ export const NewClassroomModuleForm = ({
                     isPending ||
                     isDeletingImageModule ||
                     isDeletingModule ||
-                    uploadingImage
+                    uploadingImage ||
+                    IS_READ_ONLY
+                  }
+                  title={
+                    IS_READ_ONLY
+                      ? 'Somente leitura durante a migração'
+                      : undefined
                   }
                   className="mr-auto mt-4"
                   type="submit"
@@ -216,7 +223,12 @@ export const NewClassroomModuleForm = ({
                       variant="link"
                       className="text-rose-600 !p-0 h-auto text-sm"
                       onClick={onRemoveImage}
-                      disabled={isDeletingImageModule}
+                      disabled={isDeletingImageModule || IS_READ_ONLY}
+                      title={
+                        IS_READ_ONLY
+                          ? 'Somente leitura durante a migração'
+                          : undefined
+                      }
                       type="button"
                     >
                       Remove image

@@ -13,6 +13,7 @@ import {
 import { useToast } from '@/components/ui/use-toast'
 import { Can } from '@/hooks/use-ability'
 import { api } from '@/lib/api'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { appRoutes } from '@/lib/constants'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
@@ -102,6 +103,7 @@ export const EventCellAction = ({ data }: EventCellActionProps) => {
             Copy Url
           </DropdownMenuItem>
           <DropdownMenuItem
+            disabled={IS_READ_ONLY}
             onClick={() => {
               router.push(`${appRoutes.admin_events}/${data.id}`)
             }}
@@ -111,6 +113,7 @@ export const EventCellAction = ({ data }: EventCellActionProps) => {
           </DropdownMenuItem>
           <Can I="delete" a="Event">
             <DropdownMenuItem
+              disabled={IS_READ_ONLY}
               onClick={() => {
                 setIsAlertModalOpen(true)
               }}

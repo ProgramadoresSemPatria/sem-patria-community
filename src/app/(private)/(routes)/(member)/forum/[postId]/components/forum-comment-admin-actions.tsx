@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { toast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useCallback, useMemo, useState } from 'react'
@@ -85,6 +86,7 @@ export const ForumAdminActions = ({ commentId }: ForumAdminActionsProps) => {
           {adminActions.map(action => (
             <DropdownMenuItem
               key={action.label}
+              disabled={IS_READ_ONLY}
               onClick={() => {
                 setIsAlertModalOpen(true)
               }}

@@ -13,6 +13,7 @@ import {
 import { useToast } from '@/components/ui/use-toast'
 import { Can } from '@/hooks/use-ability'
 import { api } from '@/lib/api'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { appRoutes } from '@/lib/constants'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
@@ -139,6 +140,7 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
             Copy Url
           </DropdownMenuItem>
           <DropdownMenuItem
+            disabled={IS_READ_ONLY}
             onClick={() => {
               router.push(`${appRoutes.admin_courses}/${data.id}`)
             }}
@@ -148,6 +150,7 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
           </DropdownMenuItem>
           <Can I="delete" a="Course">
             <DropdownMenuItem
+              disabled={IS_READ_ONLY}
               onClick={() => {
                 setIsAlertModalOpen(true)
               }}
@@ -159,6 +162,7 @@ export const CourseCellAction = ({ data }: CourseCellActionProps) => {
           {data.isPending && (
             <Can I="approve" a="Course">
               <DropdownMenuItem
+                disabled={IS_READ_ONLY}
                 onClick={async () => {
                   await onApproveCourse()
                 }}

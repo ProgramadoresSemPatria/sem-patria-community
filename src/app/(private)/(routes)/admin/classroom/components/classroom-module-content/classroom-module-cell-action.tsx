@@ -13,6 +13,7 @@ import {
 import { useToast } from '@/components/ui/use-toast'
 import { Can } from '@/hooks/use-ability'
 import { api } from '@/lib/api'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { appRoutes } from '@/lib/constants'
 import { useModuleService } from '@/services/classroom/module/use-module-service'
 import { useMutation } from '@tanstack/react-query'
@@ -98,6 +99,7 @@ export const ClassroomModuleCellAction = ({
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
           <DropdownMenuItem
+            disabled={IS_READ_ONLY}
             onClick={() => {
               router.push(`${appRoutes.admin_classroom}/module/${data.id}`)
             }}
@@ -107,6 +109,7 @@ export const ClassroomModuleCellAction = ({
           </DropdownMenuItem>
           <Can I="delete" a="Classroom">
             <DropdownMenuItem
+              disabled={IS_READ_ONLY}
               onClick={() => {
                 setIsAlertModalOpen(true)
               }}

@@ -33,6 +33,7 @@ import {
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { appRoutes } from '@/lib/constants'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { Roles } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { type Event } from '@prisma/client'
@@ -91,7 +92,7 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
             <Header title={title} />
             {initialData && (
               <Button
-                disabled={isPending}
+                disabled={isPending || IS_READ_ONLY}
                 variant="destructive"
                 size="icon"
                 onClick={() => {
@@ -397,7 +398,10 @@ export const NewEventForm = ({ initialData }: NewEventFormProps) => {
             </div>
             <Button
               data-testid="submit"
-              disabled={isPending}
+              disabled={isPending || IS_READ_ONLY}
+              title={
+                IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined
+              }
               className="ml-auto"
               type="submit"
             >

@@ -13,6 +13,7 @@ import {
 import { useToast } from '@/components/ui/use-toast'
 import { Can } from '@/hooks/use-ability'
 import { api } from '@/lib/api'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { appRoutes } from '@/lib/constants'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
@@ -130,6 +131,7 @@ export const UserCellAction = ({ data }: UserCellActionProps) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
+            disabled={IS_READ_ONLY}
             onClick={() => {
               router.push(`${appRoutes.admin_users}/${data.id}`)
             }}
@@ -142,7 +144,7 @@ export const UserCellAction = ({ data }: UserCellActionProps) => {
               onClick={() => {
                 setIsAlertModalOpen(true)
               }}
-              disabled={data.isDisabled}
+              disabled={data.isDisabled || IS_READ_ONLY}
             >
               <Icons.trash className="mr-2 h-4 w-4" />
               Delete
@@ -151,7 +153,7 @@ export const UserCellAction = ({ data }: UserCellActionProps) => {
               onClick={() => {
                 setIsAlertModalOpen(true)
               }}
-              disabled={!data.isDisabled}
+              disabled={!data.isDisabled || IS_READ_ONLY}
             >
               <Icons.userCheck className="mr-2 h-4 w-4" />
               Enable

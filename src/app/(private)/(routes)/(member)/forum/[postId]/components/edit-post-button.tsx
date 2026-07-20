@@ -4,6 +4,7 @@ import { Icons } from '@/components/icons'
 import EditPostModal from '@/components/modals/edit-post-modal'
 import { Button } from '@/components/ui/button'
 import useEditPostModalStore from '@/hooks/modal/use-edit-post'
+import { IS_READ_ONLY } from '@/lib/read-only'
 import { type Prisma } from '@prisma/client'
 
 interface EditPostButtonProps {
@@ -24,6 +25,8 @@ const EditPostButton = ({
     <>
       <Button
         onClick={onOpen}
+        disabled={IS_READ_ONLY}
+        title={IS_READ_ONLY ? 'Somente leitura durante a migração' : undefined}
         className="ml-auto gap-1"
         size="sm"
         variant="ghost"

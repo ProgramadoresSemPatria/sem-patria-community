@@ -6,6 +6,8 @@ import { Modal } from '@/components/ui/modal'
 import Link from 'next/link'
 import { useState } from 'react'
 import { format } from 'date-fns'
+import NoteSupports from './note-supports'
+import { type ExtendedNote } from '@/lib/types'
 
 type TextNode = {
   type: 'text'
@@ -27,6 +29,8 @@ type TimelineNotesContentProps = {
   content?: string | null
   noteId: string
   updatedAt?: Date
+  note: ExtendedNote
+  loggedInUserId: string
 }
 
 function getFirstParagraphWithText(content: Content): string | null {
@@ -47,10 +51,11 @@ function getFirstParagraphWithText(content: Content): string | null {
 const TimelineNotesContent = ({
   content,
   noteId,
-  updatedAt
+  updatedAt,
+  note,
+  loggedInUserId
 }: TimelineNotesContentProps) => {
   const [isOpen, setIsOpen] = useState(false)
-
   let parsedContent: Content | null = null
   try {
     parsedContent = content ? JSON.parse(content) : null
@@ -79,17 +84,18 @@ const TimelineNotesContent = ({
         <p className="line-clamp-1 truncate text-left my-2 text-muted-foreground">
           {description}
         </p>
-        <div className="flex flex-col justify-center">
+        <div className="flex justify-between gap-2">
           <Button
             onClick={() => {
               setIsOpen(prev => !prev)
             }}
-            className="gap-1"
+            className="gap-1 w-full"
             variant="ghost"
           >
             Preview note
             <Icons.caretSort className="h-4 w-4" />
           </Button>
+          <NoteSupports note={note} loggedInUserId={loggedInUserId} />
         </div>
       </div>
       <Modal

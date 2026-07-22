@@ -5,7 +5,9 @@ import {
   type Like,
   type Post,
   type User,
-  type Video
+  type Video,
+  type Note,
+  type NoteSupport
 } from '@prisma/client'
 
 export type MenuItemProps = {
@@ -40,6 +42,10 @@ export enum Positions {
   BUILDER = 'Builder',
   AMBASSADOR = 'Ambassador',
   ADMIN = 'Admin'
+}
+
+export type ExtendedNote = Note & {
+  supports: NoteSupport[]
 }
 
 export type ExtendedPost = Post & {

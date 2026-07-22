@@ -1,22 +1,23 @@
 import avatarImg from '@/assets/avatar.png'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import prismadb from '@/lib/prismadb'
-import { type Note } from '@prisma/client'
+import { type ExtendedNote } from '@/lib/types'
 import { format } from 'date-fns'
 import Image from 'next/image'
 import TimelineNotesContent from './timeline-notes-content'
+import { currentUser } from '@clerk/nextjs/server'
 
 type TimelineNotesProps = {
-  note: Note
+  note: ExtendedNote
   lastNote: boolean
 }
 export const TimelineNotes = async ({ note, lastNote }: TimelineNotesProps) => {
+  const user = await currentUser()
   const userProps = await prismadb.user.findUnique({
     where: {
       id: note.userId
     }
   })
-
   return (
     <div className="flex flex-col">
       <div className="flex items-center relative">
@@ -46,6 +47,8 @@ export const TimelineNotes = async ({ note, lastNote }: TimelineNotesProps) => {
         content={note.content}
         noteId={note.id}
         updatedAt={note.updatedAt}
+        note={note}
+        loggedInUserId={user?.id || ''}
       />
     </div>
   )

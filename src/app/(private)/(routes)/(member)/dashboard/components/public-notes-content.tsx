@@ -8,7 +8,10 @@ export const PublicNotesContent = async () => {
   const notes = await prismadb.note.findMany({
     where: { isPublic: true },
     orderBy: { createdAt: 'desc' },
-    take: 10
+    take: 10,
+    include: {
+      supports: true
+    }
   })
 
   return (
